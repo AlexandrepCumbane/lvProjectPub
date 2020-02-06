@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:12-alpine
+  web:
+    build: .
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    hostname: vasco-pc
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
