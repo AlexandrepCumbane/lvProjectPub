@@ -40,8 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Third party Library
+    'drf_auto_endpoint',
     'oauth2_provider',
     'rest_framework',
+
+    # My Apps
+    'location_management',
 ]
 
 MIDDLEWARE = [
