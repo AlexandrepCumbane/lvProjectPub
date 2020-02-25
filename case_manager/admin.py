@@ -5,10 +5,8 @@ from case_manager.models import CasePriority
 from case_manager.models import CaseReferall
 from case_manager.models import CaseTask
 from case_manager.models import Category
-from case_manager.models import Community
 from case_manager.models import Contactor
 from case_manager.models import CustomerSatisfaction
-from case_manager.models import District
 from case_manager.models import Gender
 from case_manager.models import HowDoYouHearAboutUs
 from case_manager.models import HowWouldYouLikeToBeContacted
