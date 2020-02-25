@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     # My Apps
+    'case_manager',
     'location_management',
 ]
 
