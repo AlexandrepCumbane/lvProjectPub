@@ -61,6 +61,7 @@ class ResolutionCategory(models.Model):
 
 class ResolutionSubCategory(models.Model):
     name = models.TextField(max_length=50)
+    resolution_category = models.ForeignKey(ResolutionCategory, on_delete=models.CASCADE, related_name='resolution_subcategory')
 
     def __str__(self):
         return self.name
