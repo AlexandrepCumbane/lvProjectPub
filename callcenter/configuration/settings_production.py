@@ -1,3 +1,4 @@
+from callcenter.settings import *
 import dj_database_url
 
 import sentry_sdk

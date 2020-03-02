@@ -118,16 +118,3 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(PACKAGE_ROOT, "site_media", "static")
-
-try:
-    from .settings_local import *
-except ImportError:
-    print('Import Error')
-    Has_Local_Settings = False
-
-
-if not Has_Local_Settings:
-    try:
-        from .configuration.settings_production import *
-    except ImportError:
-        print('Production settings not found')
