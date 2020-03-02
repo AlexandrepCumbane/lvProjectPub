@@ -127,6 +127,6 @@ except ImportError:
 
 if not Has_Local_Settings:
     try:
-        from .configuration import settings_production
+        from .configuration.settings_production import *
     except ImportError:
         print('Production settings not found')
