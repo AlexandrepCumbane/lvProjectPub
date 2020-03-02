@@ -5,7 +5,10 @@ import sys
 
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'callcenter.settings_local')
+    if os.getenv('DEBUG') is False:
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'callcenter.configuration.settings_production')
+    else:
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'callcenter.settings_local')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
