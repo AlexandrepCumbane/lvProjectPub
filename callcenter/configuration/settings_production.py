@@ -3,12 +3,11 @@ import dj_database_url
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
-DEBUG = os.getenv('DJANGO_DEBUG', False)
-
 INSTALLED_APPS += ("gunicorn",)
 
-ALLOWED_HOSTS = ['linhaverde.s3-website-us-east-1.amazonaws']
+ALLOWED_HOSTS = [
+    'linhaverde.herokuapp.com',
+    'linhaverde.s3-website-us-east-1.amazonaws.com']
 
 # Parse database configuration from $DATABASE_URL
 DATABASES['default'] = dj_database_url.config()
