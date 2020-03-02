@@ -1,14 +1,14 @@
+from callcenter.settings import *
 import dj_database_url
 
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
-# DEBUG = os.getenv('DEBUG', False)
-
 INSTALLED_APPS += ("gunicorn",)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'linhaverde.herokuapp.com',
+    'linhaverde.s3-website-us-east-1.amazonaws.com']
 
 # Parse database configuration from $DATABASE_URL
 DATABASES['default'] = dj_database_url.config()
@@ -40,12 +40,12 @@ AWS_QUERYSTRING_AUTH = False
 # AWS_S3_CUSTOM_DOMAIN = 's3.eu-central-1.amazonaws.com'
 # Tell django-storages the domain to use to refer to static files.
 AWS_S3_CUSTOM_DOMAIN = 's3.%s.amazonaws.com/%s' % (
-    AWS_S3_REGION_NAME, AWS_STORAGE_BUCKET_NAME,)
+AWS_S3_REGION_NAME, AWS_STORAGE_BUCKET_NAME,)
 MEDIA_URL = "https://s3.%s.amazonaws.com/%s/media/" % (
-    AWS_S3_REGION_NAME, AWS_STORAGE_BUCKET_NAME,)
+AWS_S3_REGION_NAME, AWS_STORAGE_BUCKET_NAME,)
 # Use s3 file storage
 STATIC_URL = "https://s3.%s.amazonaws.com/%s/" % (
-    AWS_S3_REGION_NAME, AWS_STORAGE_BUCKET_NAME,)
+AWS_S3_REGION_NAME, AWS_STORAGE_BUCKET_NAME,)
 
 APPEND_SLASH = True  # Fixes cases where heroku does not redirect to angular app
 
@@ -53,9 +53,32 @@ APPEND_SLASH = True  # Fixes cases where heroku does not redirect to angular app
 # Response can be cached by browser and any intermediary caches (i.e. it is "public") for up to 1 day
 # 86400 = (60 seconds x 60 minutes x 24 hours)
 AWS_HEADERS = {
-    'Cache-Control': 'max-age=86400, s-maxage=86400, must-revalidate',
+'Cache-Control': 'max-age=86400, s-maxage=86400, must-revalidate',
 }
 
 # CELERY SETTINGS
 CELERY_BROKER_URL = os.getenv('REDIS_URL')
 CELERY_RESULT_BACKEND = os.getenv('REDIS_URL')
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS':
+    'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+
+    # Auth configs for JWT token
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
+
+REST_USE_JWT = True

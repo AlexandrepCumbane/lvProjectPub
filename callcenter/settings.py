@@ -24,7 +24,8 @@ BASE_DIR = PACKAGE_ROOT
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+DEBUG = os.getenv('DJANGO_DEBUG', False)
 
 ALLOWED_HOSTS = []
 
@@ -117,16 +118,3 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(PACKAGE_ROOT, "site_media", "static")
-
-try:
-    from .settings_local import *
-except ImportError:
-    print('Import Error')
-    Has_Local_Settings = False
-
-
-if not Has_Local_Settings:
-    try:
-        from .configuration import settings_production
-    except ImportError:
-        print('Production settings not found')
