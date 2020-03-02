@@ -12,6 +12,6 @@ import os
 from django.conf import settings
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'callcenter.configuration.production_settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'callcenter.configuration.settings_production')
 
 application = get_wsgi_application()
