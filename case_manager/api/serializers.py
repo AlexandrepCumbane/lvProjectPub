@@ -1,11 +1,13 @@
+from django.contrib.auth.models import User
+
 from drf_auto_endpoint.factories import serializer_factory
 from rest_framework.serializers import ModelSerializer
-
 
 from case_manager.models import Case
 from case_manager.models import CasePriority
 from case_manager.models import CaseReferall
 from case_manager.models import CaseTask
+from case_manager.models import CaseStatus
 from case_manager.models import Category
 from case_manager.models import Contactor
 from case_manager.models import CustomerSatisfaction
@@ -132,6 +134,7 @@ class ContactorSerializerFull(ModelSerializer):
     community = CommunitySerializer()
     location = LocationSerializer()
     district = DistrictSerializer()
+    gender = GenderSerializer()
 
     class Meta:
         model = Contactor
@@ -160,6 +163,9 @@ class CaseSerializerFull(ModelSerializer):
     contactor = ContactorSerializerFull()
     humanitarian_actor = HumanitarionActorSerializer()
     sub_category = SubCategorySerializer(many=True)
+    created_by = serializer_factory(model=User, fields=('id','username',))()
+    how_knows_us = HowDoYouHearAboutUsSerializer()
+    case_status = serializer_factory(model=CaseStatus, fields=('id','name'))()
 
     class Meta:
         model = Case
