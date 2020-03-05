@@ -146,6 +146,7 @@ class Case(models.Model):
     how_knows_us = models.ForeignKey(HowDoYouHearAboutUs, on_delete=models.SET_NULL ,related_name='cases', null=True)
     humanitarian_actor = models.ForeignKey(HumanitarionActor, on_delete=models.SET_NULL, null=True, default=None)
     other_vulnerabilites = models.CharField(max_length=200, null=True, blank=True)
+    programme = models.ForeignKey(Programme, on_delete=models.SET_NULL, null=True, related_name='cases')
     resettlement_name = models.CharField(max_length=200, null=True, blank=True)
     resolution_callback = models.BooleanField(default=False)
     soluction = models.TextField(max_length=1000)
