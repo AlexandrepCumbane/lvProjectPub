@@ -165,6 +165,7 @@ class CaseSerializerFull(ModelSerializer):
     sub_category = SubCategorySerializer(many=True)
     created_by = serializer_factory(model=User, fields=('id','username',))()
     how_knows_us = HowDoYouHearAboutUsSerializer()
+    how_would_you_like_to_be_contacted = HowWouldYouLikeToBeContactedSerializer()
     case_status = serializer_factory(model=CaseStatus, fields=('id','name'))()
     programme = ProgrammeSerializer()
 
