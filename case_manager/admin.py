@@ -4,6 +4,7 @@ from case_manager.models import Case
 from case_manager.models import CasePriority
 from case_manager.models import CaseReferall
 from case_manager.models import CaseTask
+from case_manager.models import CaseStatus
 from case_manager.models import Category
 from case_manager.models import Contactor
 from case_manager.models import CustomerSatisfaction
@@ -24,6 +25,7 @@ admin.site.register(Case)
 admin.site.register(CasePriority)
 admin.site.register(CaseReferall)
 admin.site.register(CaseTask)
+admin.site.register(CaseStatus)
 admin.site.register(Category)
 admin.site.register(Contactor)
 admin.site.register(CustomerSatisfaction)
