@@ -121,6 +121,13 @@ class HumanitarionActor(models.Model):
         return self.name
 
 
+class CaseStatus(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
 class Case(models.Model):
 
     call_note = models.TextField(max_length=1000)
@@ -130,6 +137,7 @@ class Case(models.Model):
     case_id = models.CharField(max_length=20, unique=True)
     case_uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     case_priority = models.ForeignKey(CasePriority, on_delete=models.SET_NULL, related_name='cases', null=True)
+    case_status = models.ForeignKey(CaseStatus, on_delete=models.SET_NULL, null=True, related_name='cases')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, related_name='cases', null=True)
     contactor = models.OneToOneField(Contactor, on_delete=models.CASCADE, related_name='cases')
     created_at = models.DateTimeField(auto_now=True)
