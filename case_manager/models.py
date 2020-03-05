@@ -114,6 +114,12 @@ class ReferallEntity(models.Model):
     email = models.EmailField()
     contact = models.CharField(default='', blank=True, null=True, max_length=25)
 
+class HumanitarionActor(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
 
 class Case(models.Model):
 
@@ -125,14 +131,12 @@ class Case(models.Model):
     case_uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     case_priority = models.ForeignKey(CasePriority, on_delete=models.SET_NULL, related_name='cases', null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, related_name='cases', null=True)
-    community_member = models.TextField(max_length=200)
     contactor = models.OneToOneField(Contactor, on_delete=models.CASCADE, related_name='cases')
     created_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cases')
     closed_at = models.DateTimeField(auto_now=False, null=True, blank=True)
     how_knows_us = models.ForeignKey(HowDoYouHearAboutUs, on_delete=models.SET_NULL ,related_name='cases', null=True)
-    humanitarion_actor = models.TextField(max_length=200)
-    local_leader = models.CharField(max_length=200)
+    humanitarion_actor = models.ForeignKey(HumanitarionActor, on_delete=models.SET_NULL, null=True, default=None)
     other_vulnerabilites = models.CharField(max_length=200, null=True, blank=True)
     resettlement_name = models.CharField(max_length=200, null=True, blank=True)
     resolution_callback = models.BooleanField(default=False)
