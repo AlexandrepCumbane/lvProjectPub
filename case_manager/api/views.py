@@ -1,6 +1,9 @@
+from django.shortcuts import get_object_or_404
+
 from rest_framework.generics import ListAPIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.viewsets import ViewSet
+from rest_framework.response import Response
 
 from case_manager.api.serializers import CaseSerializer
 from case_manager.api.serializers import CaseSerializerFull
@@ -125,6 +128,13 @@ class CaseViewset(ModelViewSet):
         response = CaseSerializerFull(pages, many=True)
 
         return self.get_paginated_response(response.data)
+    
+    def retrieve(self, response, pk=None):
+
+        case = get_object_or_404(self.queryset, pk=pk)
+
+        case_serializer = CaseSerializerFull(case)
+        return Response(case_serializer.data)
 
 class CaseTaskViewset(ModelViewSet):
     serializer_class = CaseTaskSerializer
