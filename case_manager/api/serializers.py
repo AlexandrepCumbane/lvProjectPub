@@ -166,6 +166,7 @@ class CaseSerializerFull(ModelSerializer):
     created_by = serializer_factory(model=User, fields=('id','username',))()
     how_knows_us = HowDoYouHearAboutUsSerializer()
     case_status = serializer_factory(model=CaseStatus, fields=('id','name'))()
+    programme = ProgrammeSerializer()
 
     class Meta:
         model = Case

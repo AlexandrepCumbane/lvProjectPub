@@ -144,6 +144,7 @@ class Case(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cases')
     closed_at = models.DateTimeField(auto_now=False, null=True, blank=True)
     how_knows_us = models.ForeignKey(HowDoYouHearAboutUs, on_delete=models.SET_NULL ,related_name='cases', null=True)
+    how_would_you_like_to_be_contacted = models.ForeignKey(HowWouldYouLikeToBeContacted, on_delete=models.SET_NULL ,related_name='cases', null=True)
     humanitarian_actor = models.ForeignKey(HumanitarionActor, on_delete=models.SET_NULL, null=True, default=None)
     other_vulnerabilites = models.CharField(max_length=200, null=True, blank=True)
     programme = models.ForeignKey(Programme, on_delete=models.SET_NULL, null=True, related_name='cases')
