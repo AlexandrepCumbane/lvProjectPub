@@ -3,6 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.viewsets import ViewSet
 
 from case_manager.api.serializers import CaseSerializer
+from case_manager.api.serializers import CaseSerializerFull
 from case_manager.api.serializers import CasePrioritySerializer
 from case_manager.api.serializers import CaseReferallSerializer
 from case_manager.api.serializers import CaseTaskSerializer
@@ -118,7 +119,12 @@ class CaseViewset(ModelViewSet):
         'created_by',
         'how_knows_us',
         )
+    
+    def list(self, response):
+        pages = self.paginate_queryset(self.queryset)
+        response = CaseSerializerFull(pages, many=True)
 
+        return self.get_paginated_response(response.data)
 
 class CaseTaskViewset(ModelViewSet):
     serializer_class = CaseTaskSerializer

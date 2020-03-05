@@ -1,4 +1,6 @@
+from drf_auto_endpoint.factories import serializer_factory
 from rest_framework.serializers import ModelSerializer
+
 
 from case_manager.models import Case
 from case_manager.models import CasePriority
@@ -10,6 +12,7 @@ from case_manager.models import CustomerSatisfaction
 from case_manager.models import Gender
 from case_manager.models import HowDoYouHearAboutUs
 from case_manager.models import HowWouldYouLikeToBeContacted
+from case_manager.models import HumanitarionActor
 from case_manager.models import Programme
 from case_manager.models import ReferallEntity
 from case_manager.models import ResolutionCategory
@@ -17,6 +20,11 @@ from case_manager.models import ResolutionSubCategory
 from case_manager.models import SubCategory
 from case_manager.models import SubCategoryIssue
 from case_manager.models import TaskStatus
+
+from location_management.api.serializers import CommunitySerializer
+from location_management.api.serializers import DistrictSerializer
+from location_management.api.serializers import LocationSerializer
+from location_management.api.serializers import ProvinceSerializer
 
 
 class CasePrioritySerializer(ModelSerializer):
@@ -89,6 +97,14 @@ class HowWouldYouLikeToBeContactedSerializer(ModelSerializer):
         fields = '__all__'
 
 
+
+class HumanitarionActorSerializer(ModelSerializer):
+
+    class Meta:
+        model = HumanitarionActor
+        fields = '__all__'
+
+
 class CustomerSatisfactionSerializer(ModelSerializer):
 
     class Meta:
@@ -110,6 +126,18 @@ class ContactorSerializer(ModelSerializer):
         fields = '__all__'
 
 
+class ContactorSerializerFull(ModelSerializer):
+
+    province = ProvinceSerializer()
+    community = CommunitySerializer()
+    location = LocationSerializer()
+    district = DistrictSerializer()
+
+    class Meta:
+        model = Contactor
+        fields = '__all__'
+
+
 class ReferallEntitySerializer(ModelSerializer):
 
     class Meta:
@@ -118,7 +146,19 @@ class ReferallEntitySerializer(ModelSerializer):
 
 
 class CaseSerializer(ModelSerializer):
+    
+    class Meta:
+        model = Case
+        fields = '__all__'
 
+
+
+class CaseSerializerFull(ModelSerializer):
+
+    case_priority = CasePrioritySerializer()
+    category = CategorySerializer()
+    contactor = ContactorSerializerFull()
+    humanitarian_actor = HumanitarionActorSerializer()
     sub_category = SubCategorySerializer(many=True)
 
     class Meta:
