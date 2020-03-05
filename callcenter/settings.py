@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'drf_auto_endpoint',
     'oauth2_provider',
     'rest_framework',
+    'django_extensions',
 
     # My Apps
     'case_manager',
