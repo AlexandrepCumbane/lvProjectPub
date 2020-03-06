@@ -1,9 +1,12 @@
 from django.shortcuts import get_object_or_404
 
+from rest_framework.decorators import permission_classes
 from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.viewsets import ViewSet
-from rest_framework.response import Response
+
 
 from case_manager.api.serializers import CaseSerializer
 from case_manager.api.serializers import CaseSerializerFull
@@ -23,6 +26,10 @@ from case_manager.api.serializers import ResolutionSubCategorySerializer
 from case_manager.api.serializers import SubCategorySerializer
 from case_manager.api.serializers import SubCategoryIssueSerializer
 from case_manager.api.serializers import TaskStatusSerializer
+
+from case_manager.api.helpers import DropdownSerializer
+from case_manager.api.helpers import get_dropdowns
+
 
 from case_manager.models import Case
 from case_manager.models import CasePriority
@@ -150,3 +157,14 @@ class CaseReferallViewset(ModelViewSet):
     queryset = CaseReferall.objects.select_related(
         'case',
         'referall_entity')
+
+
+@permission_classes((IsAuthenticated,))
+class DropdownsViewSet(ViewSet):
+
+    serializer_class = DropdownSerializer
+
+    def list(self, request):
+        serializer = DropdownSerializer(
+            instance=get_dropdowns(), many=True)
+        return Response(serializer.data)

@@ -6,6 +6,7 @@ from case_manager.api.views import CaseReferallViewset
 from case_manager.api.views import CaseTaskViewset
 from case_manager.api.views import CategoryViewset
 from case_manager.api.views import ContactorViewset
+from case_manager.api.views import DropdownsViewSet
 from case_manager.api.views import CustomerSatisfactionViewset
 from case_manager.api.views import GenderViewset
 from case_manager.api.views import HowDoYouHearAboutUsViewset
@@ -27,6 +28,7 @@ router.register('case-task', CaseTaskViewset, basename='case-task')
 router.register('categories', CategoryViewset, basename='categories')
 router.register('contactors', ContactorViewset, basename='contactors')
 router.register('customer-satisfaction', CustomerSatisfactionViewset, basename='customer-satisfaction')
+router.register('dropdowns', DropdownsViewSet, basename='dropdowns')
 router.register('genders', GenderViewset, basename='genders')
 router.register('how-know-us', HowDoYouHearAboutUsViewset, basename='how-know-us')
 router.register('means-of-contact', HowWouldYouLikeToBeContactedViewset, basename='means-of-contact')
