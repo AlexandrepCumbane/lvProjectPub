@@ -129,7 +129,7 @@ except ImportError:
     Has_Local_Settings = False
 
 if not Has_Local_Settings:
-    from callcenter.settings.prod import *
+    from callcenter.config.prod import *
 # Cors settings
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = [
