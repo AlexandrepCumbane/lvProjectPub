@@ -166,6 +166,7 @@ class CaseReferall(models.Model):
 class CaseTask(models.Model):
     case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name='tasks')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='tasks')
+    title = models.CharField(max_length=50, default='')
     description = models.TextField(max_length=1000)
     assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks')
     status = models.ForeignKey(TaskStatus, on_delete=models.SET_NULL, related_name='tasks', null=True)
