@@ -126,14 +126,14 @@ STATIC_ROOT = os.path.join(PACKAGE_ROOT, "site_media", "static")
 try:
     from .settings_local import *
 except ImportError:
-    Has_Local_Settings = False
-
-if not Has_Local_Settings:
     from callcenter.config.prod import *
+
 # Cors settings
 CORS_ORIGIN_ALLOW_ALL = True
+
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:8080",
+    "http://linhaverde.herokuapp.com"
 ]
 
 JWT_AUTH = {
