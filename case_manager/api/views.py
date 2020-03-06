@@ -130,6 +130,46 @@ class CaseViewset(ModelViewSet):
         'how_knows_us',
         )
     
+    def create(self, request):
+
+        try:
+            contactor = request.data['contactor']
+
+            contactor_id = self.__save_contactor(contactor)
+
+            if contactor_id == -1:
+                return Response({'error':'Erro ao gravar contactant'}, status=400)
+            
+            case = request.data['case']
+            case['contactor'] = contactor_id
+            case_serializer = CaseSerializer(data=case)
+
+            if case_serializer.is_valid():
+                case = case_serializer.save()
+                return Response({'case': case.id})
+            else:
+                return Response({
+                    'errors': case_serializer.errors
+                })
+        except KeyError:
+            pass
+        return super().create(request)
+        
+
+
+    def __save_contactor(self, contactor):
+        contact_serializer = ContactorSerializer(data=contactor)
+        if contact_serializer.is_valid():
+            contact_saved = contact_serializer.save()
+            return contact_saved.id
+        else:
+            return -1
+    
+    def __save_case(self, data):
+        case = Case.objects.create(**data)
+        case.save()
+        return case.id
+
     def list(self, response):
         pages = self.paginate_queryset(self.queryset)
         response = CaseSerializerFull(pages, many=True)
