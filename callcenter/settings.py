@@ -25,7 +25,7 @@ BASE_DIR = PACKAGE_ROOT
 
 # SECURITY WARNING: don't run with debug turned on in production!
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
-DEBUG = os.getenv('DJANGO_DEBUG', False)
+DEBUG = os.getenv('DEBUG', False)
 
 ALLOWED_HOSTS = []
 
