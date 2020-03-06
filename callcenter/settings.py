@@ -118,3 +118,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(PACKAGE_ROOT, "site_media", "static")
+
+try:
+    from .settings_local import *
+except ImportError:
+    Has_Local_Settings = False
+
+if not Has_Local_Settings:
+    from callcenter.settings.prod import *
