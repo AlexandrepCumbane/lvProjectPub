@@ -4,7 +4,7 @@ import dj_database_url
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
-INSTALLED_APPS += ("gunicorn",)
+INSTALLED_APPS += ("gunicorn",'storages',)
 
 ALLOWED_HOSTS = [
     'linhaverde.herokuapp.com',
