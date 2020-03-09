@@ -88,6 +88,12 @@ class CustomerSatisfaction(models.Model):
         return self.name
 
 
+class MecanismUsed(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
 class TaskStatus(models.Model):
     name = models.CharField(max_length=50)
 
@@ -168,7 +174,7 @@ class Case(models.Model):
     sub_category = models.ManyToManyField(SubCategory, related_name='cases', null=True)
     updated_at = models.DateTimeField(auto_now=False, null=True, blank=True)
     vulnerabilites = models.CharField(max_length=200, null=True, blank=True)
-
+    mecanism_used = models.ForeignKey(MecanismUsed, on_delete=models.SET_NULL, default=None, null=True)
 
 class CaseReferall(models.Model):
     case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name='case_referall')
