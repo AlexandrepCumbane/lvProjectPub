@@ -15,6 +15,7 @@ from case_manager.models import ResolutionCategory
 from case_manager.models import ResolutionSubCategory
 from case_manager.models import SubCategory
 from case_manager.models import SubCategoryIssue
+from case_manager.models import MecanismUsed
 from case_manager.models import TaskStatus
 from case_manager.models import TransfereModality
 
@@ -48,7 +49,7 @@ def get_dropdowns():
     dropdowns.append(DropdownData(key='subcategories', value=SubCategory.objects.values()))
     dropdowns.append(DropdownData(key='task_status', value=TaskStatus.objects.values()))
     dropdowns.append(DropdownData(key='transfere_modalities', value=TransfereModality.objects.values()))
-
+    dropdowns.append(DropdownData(key='mecanism_used', value=MecanismUsed.objects.values()))
     dropdowns.append(DropdownData(key='communities', value=Community.objects.values()))
     dropdowns.append(DropdownData(key='districts', value=District.objects.values()))
     dropdowns.append(DropdownData(key='localities', value=Location.objects.values()))
