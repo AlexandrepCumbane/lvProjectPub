@@ -19,6 +19,7 @@ from case_manager.models import ResolutionSubCategory
 from case_manager.models import SubCategory
 from case_manager.models import SubCategoryIssue
 from case_manager.models import TaskStatus
+from case_manager.models import TransfereModality
 
 # Register your models here.
 admin.site.register(Case)
@@ -40,3 +41,4 @@ admin.site.register(ResolutionSubCategory)
 admin.site.register(SubCategory)
 admin.site.register(SubCategoryIssue)
 admin.site.register(TaskStatus)
+admin.site.register(TransfereModality)
