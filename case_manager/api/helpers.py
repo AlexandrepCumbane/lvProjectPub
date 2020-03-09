@@ -45,6 +45,7 @@ def get_dropdowns():
     dropdowns.append(DropdownData(key='resolution_subcategories', value=ResolutionSubCategory.objects.values()))
     dropdowns.append(DropdownData(key='category_issues', value=Category.objects.values()))
     dropdowns.append(DropdownData(key='subcategories_issues', value=SubCategoryIssue.objects.values()))
+    dropdowns.append(DropdownData(key='subcategories', value=SubCategory.objects.values()))
     dropdowns.append(DropdownData(key='task_status', value=TaskStatus.objects.values()))
     dropdowns.append(DropdownData(key='transfere_modalities', value=TransfereModality.objects.values()))
 
