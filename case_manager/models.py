@@ -141,6 +141,8 @@ class Case(models.Model):
     camp = models.CharField(choices=[('Y','YES'),('N','NO')], max_length=25)
     caller_not_reached_for_feedback = models.BooleanField(default=True, blank=True, null=True)
     case_closed = models.BooleanField(default=False)
+    consent_to_share_third_party = models.BooleanField(default=False)
+    consent_to_collect_personal_info = models.BooleanField(default=False)
     case_id = models.CharField(max_length=20, unique=True)
     case_uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
