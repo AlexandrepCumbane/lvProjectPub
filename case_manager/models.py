@@ -156,7 +156,8 @@ class Case(models.Model):
     how_would_you_like_to_be_contacted = models.ForeignKey(HowWouldYouLikeToBeContacted, on_delete=models.SET_NULL ,related_name='cases', null=True)
     humanitarian_actor = models.ForeignKey(HumanitarionActor, on_delete=models.SET_NULL, null=True, default=None)
     transfere_modality = models.ForeignKey(TransfereModality, on_delete=models.SET_NULL, null=True, default=None)
-    programme = models.ForeignKey(Programme, on_delete=models.SET_NULL, null=True, related_name='cases')    
+    programme = models.ForeignKey(Programme, on_delete=models.SET_NULL, null=True, related_name='cases')
+    customer_satisfaction = models.ForeignKey(CustomerSatisfaction, on_delete=models.SET_NULL, null=True, related_name='cases')    
     how_knows_us = models.ForeignKey(HowDoYouHearAboutUs, on_delete=models.SET_NULL ,related_name='cases', null=True)
     
     other_vulnerabilites = models.CharField(max_length=200, null=True, blank=True)
