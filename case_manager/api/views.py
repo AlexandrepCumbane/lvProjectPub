@@ -152,7 +152,7 @@ class CaseViewset(ModelViewSet):
             else:
                 return Response({
                     'errors': case_serializer.errors
-                })
+                }, status=400)
         except KeyError:
             pass
         return super().create(request)
