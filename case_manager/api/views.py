@@ -12,6 +12,7 @@ from case_manager.api.serializers import CaseSerializer
 from case_manager.api.serializers import CaseSerializerFull
 from case_manager.api.serializers import CasePrioritySerializer
 from case_manager.api.serializers import CaseReferallSerializer
+from case_manager.api.serializers import CaseReferallFullSerializer
 from case_manager.api.serializers import CaseTaskSerializer
 from case_manager.api.serializers import CategorySerializer
 from case_manager.api.serializers import ContactorSerializer
@@ -198,6 +199,12 @@ class CaseReferallViewset(ModelViewSet):
     queryset = CaseReferall.objects.select_related(
         'case',
         'referall_entity')
+    
+    def list(self, response):
+        pages = self.paginate_queryset(self.queryset)
+        response = CaseReferallFullSerializer(pages, many=True)
+
+        return self.get_paginated_response(response.data)
 
 
 @permission_classes((IsAuthenticated,))

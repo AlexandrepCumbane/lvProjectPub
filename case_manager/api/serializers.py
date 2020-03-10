@@ -181,6 +181,15 @@ class CaseReferallSerializer(ModelSerializer):
         fields = '__all__'
 
 
+
+class CaseReferallFullSerializer(ModelSerializer):
+    case = CaseSerializerFull()
+
+    class Meta:
+        model = CaseReferall
+        fields = '__all__'
+
+
 class CaseTaskSerializer(ModelSerializer):
 
     class Meta:
