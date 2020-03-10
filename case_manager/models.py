@@ -52,6 +52,14 @@ class CategoryIssue(models.Model):
         return self.name
 
 
+class CategoryIssueSub(models.Model):
+    name = models.CharField(max_length=200)
+    category_issue = models.ForeignKey(CategoryIssue, on_delete=models.CASCADE, related_name='sub_category_issue')
+
+    def __str__(self):
+        return self.name
+
+
 class ResolutionCategory(models.Model):
     name = models.CharField(max_length=50)
 
@@ -159,6 +167,8 @@ class Case(models.Model):
     case_priority = models.ForeignKey(CasePriority, on_delete=models.SET_NULL, related_name='cases', null=True)
     case_status = models.ForeignKey(CaseStatus, on_delete=models.SET_NULL, null=True, related_name='cases')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, related_name='cases', null=True)
+    category_issue = models.ForeignKey(CategoryIssue, on_delete=models.SET_NULL, related_name='cases', null=True)
+    category_issue_sub = models.ForeignKey(CategoryIssueSub, on_delete=models.SET_NULL, related_name='cases', null=True)
     how_would_you_like_to_be_contacted = models.ForeignKey(HowWouldYouLikeToBeContacted, on_delete=models.SET_NULL ,related_name='cases', null=True)
     humanitarian_actor = models.ForeignKey(HumanitarionActor, on_delete=models.SET_NULL, null=True, default=None)
     transfere_modality = models.ForeignKey(TransfereModality, on_delete=models.SET_NULL, null=True, default=None)
