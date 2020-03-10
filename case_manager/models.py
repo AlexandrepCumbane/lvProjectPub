@@ -168,7 +168,7 @@ class Case(models.Model):
     case_status = models.ForeignKey(CaseStatus, on_delete=models.SET_NULL, null=True, related_name='cases')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, related_name='cases', null=True)
     category_issue = models.ForeignKey(CategoryIssue, on_delete=models.SET_NULL, related_name='cases', null=True)
-    category_issue_sub = models.ForeignKey(CategoryIssueSub, on_delete=models.SET_NULL, related_name='cases', null=True)
+    category_issue_sub = models.ManyToManyField(CategoryIssueSub, related_name='cases', null=True)
     how_would_you_like_to_be_contacted = models.ForeignKey(HowWouldYouLikeToBeContacted, on_delete=models.SET_NULL ,related_name='cases', null=True)
     humanitarian_actor = models.ForeignKey(HumanitarionActor, on_delete=models.SET_NULL, null=True, default=None)
     transfere_modality = models.ForeignKey(TransfereModality, on_delete=models.SET_NULL, null=True, default=None)
