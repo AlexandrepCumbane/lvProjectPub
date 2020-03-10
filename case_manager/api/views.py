@@ -142,6 +142,7 @@ class CaseViewset(ModelViewSet):
             
             case = request.data['case']
             case['contactor'] = contactor_id
+            case['created_by'] = request.user.id
             case_serializer = CaseSerializer(data=case)
 
             if case_serializer.is_valid():
