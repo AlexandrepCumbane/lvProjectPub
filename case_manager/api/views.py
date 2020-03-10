@@ -205,6 +205,12 @@ class CaseReferallViewset(ModelViewSet):
         response = CaseReferallFullSerializer(pages, many=True)
 
         return self.get_paginated_response(response.data)
+    
+    def retrieve(self, response, pk=None):
+        case = get_object_or_404(self.queryset, pk=pk)
+
+        case_serializer = CaseReferallFullSerializer(case)
+        return Response(case_serializer.data)
 
 
 @permission_classes((IsAuthenticated,))
