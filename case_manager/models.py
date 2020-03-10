@@ -152,7 +152,7 @@ class TransfereModality(models.Model):
 class Case(models.Model):
 
     call_note = models.TextField(max_length=1000)
-    camp = models.CharField(choices=[('Y','YES'),('N','NO')], max_length=25)
+    camp = models.CharField(choices=[('Y','YES'),('N','NO')], max_length=25, default='N')
     caller_not_reached_for_feedback = models.BooleanField(default=True, blank=True, null=True)
     case_closed = models.BooleanField(default=False)
     consent_to_share_third_party = models.BooleanField(default=False)
