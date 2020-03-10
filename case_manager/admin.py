@@ -17,7 +17,7 @@ from case_manager.models import ReferallEntity
 from case_manager.models import ResolutionCategory
 from case_manager.models import ResolutionSubCategory
 from case_manager.models import SubCategory
-from case_manager.models import SubCategoryIssue
+from case_manager.models import CategoryIssue
 from case_manager.models import TaskStatus
 from case_manager.models import TransfereModality
 from case_manager.models import MecanismUsed
@@ -41,6 +41,6 @@ admin.site.register(ReferallEntity)
 admin.site.register(ResolutionCategory)
 admin.site.register(ResolutionSubCategory)
 admin.site.register(SubCategory)
-admin.site.register(SubCategoryIssue)
+admin.site.register(CategoryIssue)
 admin.site.register(TaskStatus)
 admin.site.register(TransfereModality)

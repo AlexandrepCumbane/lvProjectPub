@@ -45,7 +45,7 @@ class SubCategory(models.Model):
         return self.name
 
 
-class SubCategoryIssue(models.Model):
+class CategoryIssue(models.Model):
     name = models.CharField(max_length=200)
 
     def __str__(self):

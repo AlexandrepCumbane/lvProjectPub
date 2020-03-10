@@ -14,7 +14,7 @@ from case_manager.models import ReferallEntity
 from case_manager.models import ResolutionCategory
 from case_manager.models import ResolutionSubCategory
 from case_manager.models import SubCategory
-from case_manager.models import SubCategoryIssue
+from case_manager.models import CategoryIssue
 from case_manager.models import MecanismUsed
 from case_manager.models import TaskStatus
 from case_manager.models import TransfereModality
@@ -45,7 +45,7 @@ def get_dropdowns():
     dropdowns.append(DropdownData(key='resolution_categories', value=ResolutionCategory.objects.values()))
     dropdowns.append(DropdownData(key='resolution_subcategories', value=ResolutionSubCategory.objects.values()))
     dropdowns.append(DropdownData(key='category_issues', value=Category.objects.values()))
-    dropdowns.append(DropdownData(key='subcategories_issues', value=SubCategoryIssue.objects.values()))
+    dropdowns.append(DropdownData(key='categories_issues', value=CategoryIssue.objects.values()))
     dropdowns.append(DropdownData(key='subcategories', value=SubCategory.objects.values()))
     dropdowns.append(DropdownData(key='task_status', value=TaskStatus.objects.values()))
     dropdowns.append(DropdownData(key='transfere_modalities', value=TransfereModality.objects.values()))

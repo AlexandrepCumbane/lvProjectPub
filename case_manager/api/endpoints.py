@@ -16,7 +16,7 @@ from case_manager.api.views import ReferallEntityViewset
 from case_manager.api.views import ResolutionCategoryViewset
 from case_manager.api.views import ResolutionSubCategoryViewset
 from case_manager.api.views import SubCategoryViewset
-from case_manager.api.views import SubCategoryIssueViewset
+from case_manager.api.views import CategoryIssueViewset
 from case_manager.api.views import TaskStatusViewset
 
 router = DefaultRouter()
@@ -37,5 +37,5 @@ router.register('referall-entities', ReferallEntityViewset, basename='referall-e
 router.register('resolution-categories', ResolutionCategoryViewset, basename='resolution-categories')
 router.register('resolution-subcategories', ResolutionSubCategoryViewset, basename='resolution-subcategories')
 router.register('sub-category', SubCategoryViewset, basename='sub-categories')
-router.register('sub-category-issues', SubCategoryIssueViewset, basename='sub-category-issues')
+router.register('sub-category-issues', CategoryIssueViewset, basename='sub-category-issues')
 router.register('task-status', TaskStatusViewset, basename='task-status')

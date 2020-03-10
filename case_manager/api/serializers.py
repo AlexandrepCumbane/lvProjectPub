@@ -20,7 +20,7 @@ from case_manager.models import ReferallEntity
 from case_manager.models import ResolutionCategory
 from case_manager.models import ResolutionSubCategory
 from case_manager.models import SubCategory
-from case_manager.models import SubCategoryIssue
+from case_manager.models import CategoryIssue
 from case_manager.models import TaskStatus
 
 from location_management.api.serializers import CommunitySerializer
@@ -64,10 +64,10 @@ class SubCategorySerializer(ModelSerializer):
         fields = '__all__'
 
 
-class SubCategoryIssueSerializer(ModelSerializer):
+class CategoryIssueSerializer(ModelSerializer):
 
     class Meta:
-        model = SubCategoryIssue
+        model = CategoryIssue
         fields = '__all__'
 
 

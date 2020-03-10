@@ -24,7 +24,7 @@ from case_manager.api.serializers import ReferallEntitySerializer
 from case_manager.api.serializers import ResolutionCategorySerializer
 from case_manager.api.serializers import ResolutionSubCategorySerializer
 from case_manager.api.serializers import SubCategorySerializer
-from case_manager.api.serializers import SubCategoryIssueSerializer
+from case_manager.api.serializers import CategoryIssueSerializer
 from case_manager.api.serializers import TaskStatusSerializer
 
 from case_manager.api.helpers import DropdownSerializer
@@ -46,7 +46,7 @@ from case_manager.models import ReferallEntity
 from case_manager.models import ResolutionCategory
 from case_manager.models import ResolutionSubCategory
 from case_manager.models import SubCategory
-from case_manager.models import SubCategoryIssue
+from case_manager.models import CategoryIssue
 from case_manager.models import TaskStatus
 
 
@@ -75,9 +75,9 @@ class SubCategoryViewset(ListAPIView, ViewSet):
     queryset = SubCategory.objects.select_related('category',)
 
 
-class SubCategoryIssueViewset(ListAPIView, ViewSet):
-    serializer_class = SubCategoryIssueSerializer
-    queryset = SubCategoryIssue.objects.all()
+class CategoryIssueViewset(ListAPIView, ViewSet):
+    serializer_class = CategoryIssueSerializer
+    queryset = CategoryIssue.objects.all()
 
 
 class ResolutionCategoryViewset(ListAPIView, ViewSet):
