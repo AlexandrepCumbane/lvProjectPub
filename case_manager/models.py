@@ -196,7 +196,7 @@ class Case(models.Model):
 
 class CaseReferall(models.Model):
     case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name='case_referall')
-    feedback = models.TextField(max_length=1000)
+    feedback = models.TextField(max_length=1000, default='')
     refered_at = models.DateTimeField(auto_now=True)
     referall_entity = models.ForeignKey(ReferallEntity, on_delete=models.CASCADE, related_name='case_referall')
     has_feedback = models.BooleanField(default=False)

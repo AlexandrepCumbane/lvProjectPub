@@ -217,6 +217,37 @@ class CaseReferallViewset(ModelViewSet):
         'case',
         'referall_entity')
     
+
+    def create(self, request):
+        my_case = request.data
+
+        if isinstance(my_case['referall_entity'], dict):
+
+            my_entities = list(my_case['referall_entity'].values())[1:]
+            for item in my_entities:
+
+                data = {
+                    'case': my_case['case'],
+                    'referall_entity': item
+                }
+
+                print('data', data)
+    
+                data_serializer = CaseReferallSerializer(data=data)
+
+                if data_serializer.is_valid():
+                    case = data_serializer.save()
+                else:
+                    return Response({
+                        'Errors': data_serializer.errors,
+                    }, status=400)
+
+            return Response({
+                'Details': 'Case forwarde with success'
+            })
+
+        return super().create(request)
+
     def list(self, response):
         pages = self.paginate_queryset(self.queryset)
         response = CaseReferallFullSerializer(pages, many=True)
