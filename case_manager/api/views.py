@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.viewsets import ViewSet
+from rest_framework.decorators import action
 
 
 from case_manager.api.serializers import CaseSerializer
@@ -178,6 +179,13 @@ class CaseViewset(ModelViewSet):
 
         return self.get_paginated_response(response.data)
     
+    @action(methods=['GET'], detail=False)
+    def list_case_forwarded(self, response):
+        pages = self.paginate_queryset(self.queryset.filter(case_forwarded=True))
+        response = CaseSerializerFull(pages, many=True)
+
+        return self.get_paginated_response(response.data)
+    
     def retrieve(self, response, pk=None):
 
         case = get_object_or_404(self.queryset, pk=pk)
@@ -202,6 +210,13 @@ class CaseReferallViewset(ModelViewSet):
     
     def list(self, response):
         pages = self.paginate_queryset(self.queryset)
+        response = CaseReferallFullSerializer(pages, many=True)
+
+        return self.get_paginated_response(response.data)
+    
+    @action(methods=['GET'], detail=False)
+    def feedbacks(self, response):
+        pages = self.paginate_queryset(self.queryset.filter(has_feedback=True))
         response = CaseReferallFullSerializer(pages, many=True)
 
         return self.get_paginated_response(response.data)
