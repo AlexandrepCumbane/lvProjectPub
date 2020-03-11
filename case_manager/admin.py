@@ -20,6 +20,7 @@ from case_manager.models import SubCategory
 from case_manager.models import CategoryIssue
 from case_manager.models import CategoryIssueSub
 from case_manager.models import TaskStatus
+from case_manager.models import TaskCategory
 from case_manager.models import TransfereModality
 from case_manager.models import MecanismUsed
 
@@ -45,4 +46,5 @@ admin.site.register(SubCategory)
 admin.site.register(CategoryIssue)
 admin.site.register(CategoryIssueSub)
 admin.site.register(TaskStatus)
+admin.site.register(TaskCategory)
 admin.site.register(TransfereModality)
