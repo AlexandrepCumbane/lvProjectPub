@@ -35,6 +35,7 @@ from case_manager.api.helpers import get_dropdowns
 
 
 from case_manager.models import Case
+from case_manager.models import CaseStatus
 from case_manager.models import CasePriority
 from case_manager.models import CaseReferall
 from case_manager.models import CaseTask
@@ -141,6 +142,8 @@ class CaseViewset(ModelViewSet):
 
             case['category_issue_sub'] = list(case['category_issue_sub'].values())
             case['sub_category'] = list(case['sub_category'].values())
+            case['case_status'] = CaseStatus.objects.get(name='Pending')
+            case['case_priority'] = CasePriority.objects.get(name='High')
             
             print('Print case', case)
             
@@ -207,7 +210,7 @@ class CaseTaskViewset(ModelViewSet):
     serializer_class = CaseTaskSerializer
     queryset = CaseTask.objects.select_related(
         'case',
-        'category',
+        'task_category',
         'status',
         'assigned_to')
 
