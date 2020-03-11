@@ -132,6 +132,91 @@
     }
   },
   {
+    "model": "case_manager.SubCategory",
+    "pk": 1,
+    "fields": {
+      "name": "Sub Category 1",
+      "category":1
+    }
+  },
+  {
+    "model": "case_manager.SubCategory",
+    "pk": 2,
+    "fields": {
+      "name": "Sub Category 2",
+      "category":1
+    }
+  },
+  {
+    "model": "case_manager.SubCategory",
+    "pk": 1,
+    "fields": {
+      "name": "Sub Category 3",
+      "category":2
+    }
+  },
+  {
+    "model": "case_manager.SubCategory",
+    "pk": 2,
+    "fields": {
+      "name": "Sub Category 4",
+      "category":2
+    }
+  },
+  {
+    "model": "case_manager.CategoryIssue",
+    "pk": 1,
+    "fields": {
+      "name": "Category 1"
+    }
+  },
+  {
+    "model": "case_manager.CategoryIssue",
+    "pk": 2,
+    "fields": {
+      "name": "Category 2"
+    }
+  },
+  {
+    "model": "case_manager.CategoryIssueSub",
+    "pk": 1,
+    "fields": {
+      "name": "Sub Category 1",
+      "category_issue":1
+    }
+  },
+  {
+    "model": "case_manager.CategoryIssueSub",
+    "pk": 2,
+    "fields": {
+      "name": "Sub Category 2",
+      "category_issue":1
+    }
+  },
+  {
+    "model": "case_manager.CategoryIssueSub",
+    "pk": 1,
+    "fields": {
+      "name": "Sub Category 3",
+      "category_issue":2
+    }
+  },
+  {
+    "model": "case_manager.CategoryIssueSub",
+    "pk": 2,
+    "fields": {
+      "name": "Sub Category 4",
+      "category_issue":2
+    }
+  },
+  {
+    "model": "case_manager.Gender",
+    "pk": 1,
+    "fields": {
+      "name": "Male"
+    }
+  },
+  {
     "model": "case_manager.Gender",
     "pk": 2,
     "fields": {

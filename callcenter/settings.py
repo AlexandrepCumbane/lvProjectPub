@@ -123,6 +123,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(PACKAGE_ROOT, "site_media", "static")
 
+
+# Initial table data
+FIXTURE_DIRS = [
+    os.path.join('fixtures')
+]
+
 try:
     from .settings_local import *
 except ImportError:
