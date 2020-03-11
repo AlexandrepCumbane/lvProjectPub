@@ -1,0 +1,110 @@
+[
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$180000$81lmmODmUe4t$p1lylBA7x3GcXV9F+TUpGjCZ7TvuiamsgOiyZUhbDS0=",
+        "last_login": "2020-03-11T07:49:06.939Z",
+        "is_superuser": true,
+        "username": "operador",
+        "first_name": "",
+        "last_name": "",
+        "email": "operador@wfp.co.mz",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2020-03-03T14:50:25Z",
+        "groups": [
+            1
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$180000$UFlGTthmFDRS$2OmKP8z86Zsg4LDwKteGXZFHtVh+AzIK74+OADEjcE0=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "parceiro",
+        "first_name": "",
+        "last_name": "",
+        "email": "parceiro@wfp.co.mz",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2020-03-11T07:57:56Z",
+        "groups": [
+            3
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$180000$PmAfsQb9KTlx$FnEPfZ2v3l8Yt79WaIs1eBGsFmdgbTqL7slN81KCwo4=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "gestor",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2020-03-11T07:58:25Z",
+        "groups": [
+            2
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "oauth2_provider.application",
+    "pk": 1,
+    "fields": {
+        "client_id": "jtNtmaTty8Fmmkz35mSGDMfqLboDX6amvCQz3tyO",
+        "user": 1,
+        "redirect_uris": "",
+        "client_type": "confidential",
+        "authorization_grant_type": "password",
+        "client_secret": "9L1o04vWDsELqb3oPzwMqF3akdRVrhavYPiNYzeykQ6wrZRCK5kW8TpVlDmdU3W4fj6JEVlbzKaMzhEd2woM8aNkMWx8YxQKrw2a6obSxFvgnBu6HfSeoVx0h1CU0XPV",
+        "name": "vasco xavier",
+        "skip_authorization": false,
+        "created": "2020-03-05T09:42:42.533Z",
+        "updated": "2020-03-05T09:42:42.533Z"
+    }
+},
+{
+    "model": "oauth2_provider.application",
+    "pk": 2,
+    "fields": {
+        "client_id": "lb9fSsobhtA9fauaZFYRiE47S3ztZYBxdj3HfSP4",
+        "user": 3,
+        "redirect_uris": "",
+        "client_type": "confidential",
+        "authorization_grant_type": "password",
+        "client_secret": "om5rnz5Cd3GLEwHLQVsXW4aVJnN9Aem6kNfhftdwTJ2enjsaq3fWMtLIprO5QUz0Ac1KQkrFCPa8MJbFcCqbYaHhi0cVOI13VETiGKatxYS60zf5S371QzTLxxMfOh1L",
+        "name": "Gestor",
+        "skip_authorization": false,
+        "created": "2020-03-11T08:00:11.817Z",
+        "updated": "2020-03-11T08:00:11.817Z"
+    }
+},
+{
+    "model": "oauth2_provider.application",
+    "pk": 3,
+    "fields": {
+        "client_id": "sMcjCAdDy5aDoznUjJ7gqdG5rIXROkdCzIzmzWfG",
+        "user": 2,
+        "redirect_uris": "",
+        "client_type": "confidential",
+        "authorization_grant_type": "password",
+        "client_secret": "1rhxNCg51jRlofMIKdiIp1fjxqH75YeB6Ze7oWMmLvpVFuQKDZq72HKhAQPMmyGSXF0a1ahoZrYFmy7oSWwxL2mVc2WIbYw5SI7LxA2pOU0IWEkQst7t3edGku3LWNmr",
+        "name": "Parceiro",
+        "skip_authorization": false,
+        "created": "2020-03-11T08:00:26.849Z",
+        "updated": "2020-03-11T08:00:26.850Z"
+    }
+}
+]
