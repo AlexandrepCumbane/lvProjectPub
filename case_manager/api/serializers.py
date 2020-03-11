@@ -209,7 +209,7 @@ class CaseTaskSerializer(ModelSerializer):
 
 class CaseTaskFullSerializer(ModelSerializer):
 
-    assigned_to = serializer_factory(model=User, fields=('id','name'))()
+    assigned_to = serializer_factory(model=User, fields=('id','username'))()
     task_category = TaskCategorySerializer()
     status = TaskStatusSerializer()
     
