@@ -47,8 +47,11 @@ na raiz do projecto veremos o ficheiro __settings_local.template__. Faca uma cop
 Apos configurar __settings_local.py__ sera nescessario fazer o __migrate__ das tabelas da projecto,
 de forma que possa prosseguir com os proximos passos da aplicacao, para isso digite os comandos abaixo:
 
-    >python manager.py migrate
-    >python manager.py createcachetable
+    >python manage.py migrate
+
+Apos fazer o migrate das tabelas sera nescessario carregar os dados inicias da aplicacao que estao na
+pasta __fixtures__ atraves do comando:
+    >python manage.py loaddata groups users data
 
 ## Correndo o projecto django
 
