@@ -185,6 +185,7 @@ class Case(models.Model):
     updated_at = models.DateTimeField(auto_now=False, null=True, blank=True)
     vulnerabilites = models.CharField(max_length=200, null=True, blank=True)
     mecanism_used = models.ForeignKey(MecanismUsed, on_delete=models.SET_NULL, default=None, null=True)
+    case_forwarded = models.BooleanField(default=False)
 
 class CaseReferall(models.Model):
     case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name='case_referall')
