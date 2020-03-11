@@ -15,6 +15,7 @@ from case_manager.api.serializers import CasePrioritySerializer
 from case_manager.api.serializers import CaseReferallSerializer
 from case_manager.api.serializers import CaseReferallFullSerializer
 from case_manager.api.serializers import CaseTaskSerializer
+from case_manager.api.serializers import CaseTaskFullSerializer
 from case_manager.api.serializers import CategorySerializer
 from case_manager.api.serializers import ContactorSerializer
 from case_manager.api.serializers import CustomerSatisfactionSerializer
@@ -183,6 +184,14 @@ class CaseViewset(ModelViewSet):
     def list_case_forwarded(self, response):
         pages = self.paginate_queryset(self.queryset.filter(case_forwarded=True))
         response = CaseSerializerFull(pages, many=True)
+
+        return self.get_paginated_response(response.data)
+    
+    @action(methods=['GET'], detail=True)
+    def tasks(self, response, pk=None):
+        case = get_object_or_404(self.queryset, pk=pk)
+        pages = self.paginate_queryset(case.tasks.all())
+        response = CaseTaskFullSerializer(pages, many=True)
 
         return self.get_paginated_response(response.data)
     

@@ -21,6 +21,7 @@ from case_manager.models import ResolutionCategory
 from case_manager.models import ResolutionSubCategory
 from case_manager.models import SubCategory
 from case_manager.models import CategoryIssue
+from case_manager.models import TaskCategory
 from case_manager.models import TaskStatus
 
 from location_management.api.serializers import CommunitySerializer
@@ -121,6 +122,14 @@ class TaskStatusSerializer(ModelSerializer):
         fields = '__all__'
 
 
+class TaskCategorySerializer(ModelSerializer):
+
+    class Meta:
+        model = TaskCategory
+        fields = '__all__'
+
+
+
 class ContactorSerializer(ModelSerializer):
 
     class Meta:
@@ -193,6 +202,17 @@ class CaseReferallFullSerializer(ModelSerializer):
 
 class CaseTaskSerializer(ModelSerializer):
 
+    class Meta:
+        model = CaseTask
+        fields = '__all__'
+
+
+class CaseTaskFullSerializer(ModelSerializer):
+
+    assigned_to = serializer_factory(model=User, fields=('id','name'))()
+    task_category = TaskCategorySerializer()
+    status = TaskStatusSerializer()
+    
     class Meta:
         model = CaseTask
         fields = '__all__'
