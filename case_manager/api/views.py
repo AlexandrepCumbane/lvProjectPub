@@ -137,13 +137,19 @@ class CaseViewset(ModelViewSet):
 
         try:
             contactor = request.data['contactor']
+            case = request.data['case']
 
+            case['category_issue_sub'] = list(case['category_issue_sub'].values())
+            case['sub_category'] = list(case['sub_category'].values())
+            
+            print('Print case', case)
+            
             contactor_id = self.__save_contactor(contactor)
 
             if contactor_id == -1:
                 return Response({'error':'Erro ao gravar contactant'}, status=400)
             
-            case = request.data['case']
+            
             case['contactor'] = contactor_id
             case['created_by'] = request.user.id
             case_serializer = CaseSerializer(data=case)
@@ -168,11 +174,6 @@ class CaseViewset(ModelViewSet):
             return contact_saved.id
         else:
             return -1
-    
-    def __save_case(self, data):
-        case = Case.objects.create(**data)
-        case.save()
-        return case.id
 
     def list(self, response):
         pages = self.paginate_queryset(self.queryset)
