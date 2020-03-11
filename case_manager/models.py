@@ -142,6 +142,13 @@ class CaseStatus(models.Model):
         return self.name
 
 
+class TaskCategory(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
 class TransfereModality(models.Model):
     name = models.CharField(max_length=200)
 
@@ -197,10 +204,10 @@ class CaseReferall(models.Model):
 
 class CaseTask(models.Model):
     case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name='tasks')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='tasks')
     title = models.CharField(max_length=50, default='')
     description = models.TextField(max_length=1000)
     assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks')
     status = models.ForeignKey(TaskStatus, on_delete=models.SET_NULL, related_name='tasks', null=True)
     created_at = models.DateTimeField(auto_now=True)
     deadline = models.DateTimeField(auto_now=False, null=True)
+    task_category = models.ForeignKey(TaskCategory, on_delete=models.SET_NULL, null=True)
