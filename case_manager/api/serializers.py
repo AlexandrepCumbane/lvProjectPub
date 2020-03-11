@@ -184,6 +184,7 @@ class CaseReferallSerializer(ModelSerializer):
 
 class CaseReferallFullSerializer(ModelSerializer):
     case = CaseSerializerFull()
+    referall_entity = ReferallEntitySerializer()
 
     class Meta:
         model = CaseReferall
