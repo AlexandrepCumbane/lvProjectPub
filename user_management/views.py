@@ -50,7 +50,7 @@ def generate_token(request):
                              data=login_data)
     if response.status_code == 200:
         my_response = response.json()
-        user = User.objects.get(username=username)
+        user = User.objects.get(email=username)
         group_name = user.groups.first().name
         return JsonResponse(set_user_pemission(my_response, group_name))
 
