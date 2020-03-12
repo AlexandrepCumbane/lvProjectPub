@@ -142,8 +142,8 @@ class CaseViewset(ModelViewSet):
 
             case['category_issue_sub'] = list(case['category_issue_sub'].values())
             case['sub_category'] = list(case['sub_category'].values())
-            case['case_status'] = CaseStatus.objects.get(name='Pending')
-            case['case_priority'] = CasePriority.objects.get(name='High')
+            case['case_status'] = CaseStatus.objects.get(name='Pending').id
+            case['case_priority'] = CasePriority.objects.get(name='High').id
             
             print('Print case', case)
             
