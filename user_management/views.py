@@ -23,7 +23,7 @@ def generate_token(request):
     username = request.data['username']
     # Filtro da aplicacao do cliente na base de dados
     # de modo a obter o client ID e o cliente secret
-    application = Application.objects.filter(user__username=username).first()
+    application = Application.objects.filter(user__email=username).first()
 
     if application is None:
         # Se nao tem uma app registrada esse utilizador(caso exista)
@@ -37,7 +37,7 @@ def generate_token(request):
     addapter = 'https://' if request.is_secure() else 'http://'
 
     login_data = {
-        'username': request.data['username'],
+        'username': application.user.username,
         'password': request.data['password'],
         'grant_type': application.authorization_grant_type,
         'client_id': application.client_id,
