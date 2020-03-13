@@ -127,6 +127,7 @@ class ReferallEntity(models.Model):
     name = models.CharField(unique=True, max_length=200)
     email = models.EmailField()
     contact = models.CharField(default='', blank=True, null=True, max_length=25)
+    users = models.ManyToManyField(User, related_name='referall_entity')
 
 class HumanitarionActor(models.Model):
     name = models.CharField(max_length=50, unique=True)

@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from django.shortcuts import get_object_or_404
 
 from rest_framework.decorators import permission_classes
@@ -178,8 +179,14 @@ class CaseViewset(ModelViewSet):
         else:
             return -1
 
-    def list(self, response):
-        pages = self.paginate_queryset(self.queryset)
+    def list(self, request):
+
+        my_queryset = self.queryset
+
+        if request.user.groups.filter(name='Gestor') is None:
+            my_queryset = self.queryset.filter(created_by=request.user)
+
+        pages = self.paginate_queryset(my_queryset)
         response = CaseSerializerFull(pages, many=True)
 
         return self.get_paginated_response(response.data)
@@ -252,15 +259,30 @@ class CaseReferallViewset(ModelViewSet):
 
         return super().create(request)
 
-    def list(self, response):
+    def list(self, request):
+        my_queryset = self.queryset
+
+        if request.user.groups.filter(name='Gestor') is None:
+            my_queryset = self.queryset.filter(created_by=request.user)
+
         pages = self.paginate_queryset(self.queryset)
         response = CaseReferallFullSerializer(pages, many=True)
 
         return self.get_paginated_response(response.data)
     
     @action(methods=['GET'], detail=False)
-    def feedbacks(self, response):
-        pages = self.paginate_queryset(self.queryset.filter(has_feedback=True))
+    def feedbacks(self, request):
+        my_queryset = self.queryset
+        my_groups = request.user.groups.all()
+
+        if my_groups.filter(name='Gestor') is None:
+            my_queryset = self.queryset.filter(created_by=request.user)
+        elif my_groups.filter(name='Operador').count() != 0:
+            return Response({
+                'errors': 'Voce nao tem permissao para esta operacao'
+            }, status=403)
+
+        pages = self.paginate_queryset(my_queryset.filter(has_feedback=True))
         response = CaseReferallFullSerializer(pages, many=True)
 
         return self.get_paginated_response(response.data)
