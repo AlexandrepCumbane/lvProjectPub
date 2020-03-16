@@ -34,7 +34,7 @@ class UserViewSet(ModelViewSet):
             user_saved.set_password(user_saved.password)
             user_saved.save()
 
-            application = Application.objects.create(authorization_grant_type='password',name=user_saved.username, client_type='confidential')
+            application = Application.objects.create(user=user_saved, authorization_grant_type='password',name=user_saved.username, client_type='confidential')
             application.save()
 
             return Response({
