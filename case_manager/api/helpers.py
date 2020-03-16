@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from django.contrib.auth.models import User
 
 from case_manager.models import CasePriority
 from case_manager.models import CaseStatus
@@ -31,6 +32,11 @@ class DropdownData(object):
         self.key = kwargs.get('key', None)
         self.value = kwargs.get('value', None)
 
+def filtrar_operadors():
+    operadores = User.objects.filter(groups__name__in=['Operador']).values()
+    return operadores
+
+
 def get_dropdowns():
     dropdowns = []
     
@@ -55,6 +61,7 @@ def get_dropdowns():
     dropdowns.append(DropdownData(key='districts', value=District.objects.values()))
     dropdowns.append(DropdownData(key='localities', value=Location.objects.values()))
     dropdowns.append(DropdownData(key='provinces', value=Province.objects.values()))
+    dropdowns.append(DropdownData(key='operadors', value=filtrar_operadors()))
 
     return dropdowns
 
