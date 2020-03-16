@@ -146,8 +146,6 @@ class CaseViewset(ModelViewSet):
             case['case_status'] = CaseStatus.objects.get(name='Pending').id
             case['case_priority'] = CasePriority.objects.get(name='High').id
             
-            print('Print case', case)
-            
             contactor_id = self.__save_contactor(contactor)
 
             if contactor_id == -1:
