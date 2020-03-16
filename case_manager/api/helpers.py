@@ -63,7 +63,7 @@ def get_dropdowns():
     dropdowns.append(DropdownData(key='localities', value=Location.objects.values()))
     dropdowns.append(DropdownData(key='provinces', value=Province.objects.values()))
     dropdowns.append(DropdownData(key='operators', value=filtrar_operadors()))
-    dropdowns.append(DropdownData(key='task-categories', value=TaskCategory.objects.values()))
+    dropdowns.append(DropdownData(key='task_categories', value=TaskCategory.objects.values()))
 
     return dropdowns
 
