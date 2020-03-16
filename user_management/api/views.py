@@ -63,7 +63,7 @@ class UserViewSet(ModelViewSet):
         
         return Response({
             'errors': user_serializer.errors
-        })
+        }, status=400)
 
     def list(self, request):
         user_page = self.paginate_queryset(self.queryset)
