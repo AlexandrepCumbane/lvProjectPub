@@ -210,5 +210,5 @@ class CaseTask(models.Model):
     assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks')
     status = models.ForeignKey(TaskStatus, on_delete=models.SET_NULL, related_name='tasks', null=True)
     created_at = models.DateTimeField(auto_now=True)
-    deadline = models.DateTimeField(auto_now=False, null=True)
+    deadline = models.DateField(auto_now=False, null=True)
     task_category = models.ForeignKey(TaskCategory, on_delete=models.SET_NULL, null=True)
