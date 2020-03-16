@@ -176,6 +176,18 @@ class CaseViewset(ModelViewSet):
             return contact_saved.id
         else:
             return -1
+    
+    def __update_contactor(self, contactor_data):
+        contactors = Contactor.objects.all()
+        contactor = get_object_or_404(contactors, pk=contactor_data['id'])
+        contact_serializer = ContactorSerializer(contactor, data=contactor_data, partial=True)
+        if contact_serializer.is_valid():
+            contact_saved = contact_serializer.save()
+            return contact_saved.id
+        else:
+            print('errors', contact_serializer.errors)
+
+            return -1
 
     def list(self, request):
 
@@ -210,6 +222,36 @@ class CaseViewset(ModelViewSet):
 
         case_serializer = CaseSerializerFull(case)
         return Response(case_serializer.data)
+
+    def update(self, request, pk=None):
+        case_update = get_object_or_404(self.queryset, pk=pk)
+
+        try:
+            contactor = request.data['contactor']
+            contactor_id =  self.__update_contactor(contactor)
+
+            if contactor_id == -1:
+                return Response({
+                    'errors': 'Houve um erro ao alterar os dados do contactante'
+                }, status=400)
+            
+            case = request.data['case']
+
+            case_serializer = CaseSerializer(case_update, data=case, partial=True)
+
+            if case_serializer.is_valid():
+                case_saved = case_serializer.save()
+                return Response({
+                    'case': case_saved.id
+                })
+            else:
+                return Response({
+                    'errors': case_serializer.errors
+                }, status=400)
+        except KeyError:
+            pass
+
+        return super().update(request, pk)
 
 class CaseTaskViewset(ModelViewSet):
     serializer_class = CaseTaskSerializer
