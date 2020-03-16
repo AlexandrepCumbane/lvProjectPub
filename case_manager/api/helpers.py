@@ -19,6 +19,7 @@ from case_manager.models import CategoryIssue
 from case_manager.models import CategoryIssueSub
 from case_manager.models import MecanismUsed
 from case_manager.models import TaskStatus
+from case_manager.models import TaskCategory
 from case_manager.models import TransfereModality
 
 from location_management.models import Community
@@ -61,7 +62,8 @@ def get_dropdowns():
     dropdowns.append(DropdownData(key='districts', value=District.objects.values()))
     dropdowns.append(DropdownData(key='localities', value=Location.objects.values()))
     dropdowns.append(DropdownData(key='provinces', value=Province.objects.values()))
-    dropdowns.append(DropdownData(key='operadors', value=filtrar_operadors()))
+    dropdowns.append(DropdownData(key='operators', value=filtrar_operadors()))
+    dropdowns.append(DropdownData(key='task-categories', value=TaskCategory.objects.values()))
 
     return dropdowns
 
