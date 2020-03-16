@@ -20,7 +20,8 @@ from case_manager.models import ReferallEntity
 from case_manager.models import ResolutionCategory
 from case_manager.models import ResolutionSubCategory
 from case_manager.models import SubCategory
-from case_manager.models import SubCategoryIssue
+from case_manager.models import CategoryIssue
+from case_manager.models import TaskCategory
 from case_manager.models import TaskStatus
 
 from location_management.api.serializers import CommunitySerializer
@@ -64,10 +65,10 @@ class SubCategorySerializer(ModelSerializer):
         fields = '__all__'
 
 
-class SubCategoryIssueSerializer(ModelSerializer):
+class CategoryIssueSerializer(ModelSerializer):
 
     class Meta:
-        model = SubCategoryIssue
+        model = CategoryIssue
         fields = '__all__'
 
 
@@ -119,6 +120,14 @@ class TaskStatusSerializer(ModelSerializer):
     class Meta:
         model = TaskStatus
         fields = '__all__'
+
+
+class TaskCategorySerializer(ModelSerializer):
+
+    class Meta:
+        model = TaskCategory
+        fields = '__all__'
+
 
 
 class ContactorSerializer(ModelSerializer):
@@ -181,8 +190,29 @@ class CaseReferallSerializer(ModelSerializer):
         fields = '__all__'
 
 
+
+class CaseReferallFullSerializer(ModelSerializer):
+    case = CaseSerializerFull()
+    referall_entity = ReferallEntitySerializer()
+
+    class Meta:
+        model = CaseReferall
+        fields = '__all__'
+
+
 class CaseTaskSerializer(ModelSerializer):
 
+    class Meta:
+        model = CaseTask
+        fields = '__all__'
+
+
+class CaseTaskFullSerializer(ModelSerializer):
+
+    assigned_to = serializer_factory(model=User, fields=('id','username'))()
+    task_category = TaskCategorySerializer()
+    status = TaskStatusSerializer()
+    
     class Meta:
         model = CaseTask
         fields = '__all__'

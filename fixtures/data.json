@@ -1,0 +1,233 @@
+[
+  {
+    "model": "location_management.Province",
+    "pk": 1,
+    "fields": {
+      "name": "Maputo"
+    }
+  },
+  {
+    "model": "location_management.Province",
+    "pk": 2,
+    "fields": {
+      "name": "Gaza"
+    }
+  },
+  {
+    "model": "location_management.District",
+    "pk": 1,
+    "fields": {
+      "name": "Manhica",
+      "province": 1
+    }
+  },
+  {
+    "model": "location_management.District",
+    "pk": 2,
+    "fields": {
+      "name": "Xibuto",
+      "province": 2
+    }
+  },
+  {
+    "model": "location_management.Location",
+    "pk": 1,
+    "fields": {
+      "name": "location 1",
+      "district": 1
+    }
+  },
+  {
+    "model": "location_management.Location",
+    "pk": 2,
+    "fields": {
+      "name": "location 2",
+      "district": 2
+    }
+  },
+  {
+    "model": "location_management.Community",
+    "pk": 1,
+    "fields": {
+      "name": "community 1",
+      "location": 1
+    }
+  },
+  {
+    "model": "location_management.Community",
+    "pk": 2,
+    "fields": {
+      "name": "community 2",
+      "location": 2
+    }
+  },
+  {
+    "model": "case_manager.CaseStatus",
+    "pk": 1,
+    "fields": {
+      "name": "Pending"
+    }
+  },
+  {
+    "model": "case_manager.CaseStatus",
+    "pk": 2,
+    "fields": {
+      "name": "Resolved"
+    }
+  },
+  {
+    "model": "case_manager.CaseStatus",
+    "pk": 3,
+    "fields": {
+      "name": "Progress"
+    }
+  },
+  {
+    "model": "case_manager.CaseStatus",
+    "pk": 4,
+    "fields": {
+      "name": "Closed"
+    }
+  },
+  {
+    "model": "case_manager.CasePriority",
+    "pk": 1,
+    "fields": {
+      "name": "Medium"
+    }
+  },
+  {
+    "model": "case_manager.CasePriority",
+    "pk": 2,
+    "fields": {
+      "name": "High"
+    }
+  },
+  {
+    "model": "case_manager.Programme",
+    "pk": 1,
+    "fields": {
+      "name": "Programe 1"
+    }
+  },
+  {
+    "model": "case_manager.Programme",
+    "pk": 2,
+    "fields": {
+      "name": "Programe 2"
+    }
+  },
+  {
+    "model": "case_manager.Category",
+    "pk": 1,
+    "fields": {
+      "name": "Category 1"
+    }
+  },
+  {
+    "model": "case_manager.Category",
+    "pk": 2,
+    "fields": {
+      "name": "Category 2"
+    }
+  },
+  {
+    "model": "case_manager.SubCategory",
+    "pk": 1,
+    "fields": {
+      "name": "Sub Category 1",
+      "category":1
+    }
+  },
+  {
+    "model": "case_manager.SubCategory",
+    "pk": 2,
+    "fields": {
+      "name": "Sub Category 2",
+      "category":1
+    }
+  },
+  {
+    "model": "case_manager.SubCategory",
+    "pk": 1,
+    "fields": {
+      "name": "Sub Category 3",
+      "category":2
+    }
+  },
+  {
+    "model": "case_manager.SubCategory",
+    "pk": 2,
+    "fields": {
+      "name": "Sub Category 4",
+      "category":2
+    }
+  },
+  {
+    "model": "case_manager.CategoryIssue",
+    "pk": 1,
+    "fields": {
+      "name": "Category 1"
+    }
+  },
+  {
+    "model": "case_manager.CategoryIssue",
+    "pk": 2,
+    "fields": {
+      "name": "Category 2"
+    }
+  },
+  {
+    "model": "case_manager.CategoryIssueSub",
+    "pk": 1,
+    "fields": {
+      "name": "Sub Category 1",
+      "category_issue":1
+    }
+  },
+  {
+    "model": "case_manager.CategoryIssueSub",
+    "pk": 2,
+    "fields": {
+      "name": "Sub Category 2",
+      "category_issue":1
+    }
+  },
+  {
+    "model": "case_manager.CategoryIssueSub",
+    "pk": 1,
+    "fields": {
+      "name": "Sub Category 3",
+      "category_issue":2
+    }
+  },
+  {
+    "model": "case_manager.CategoryIssueSub",
+    "pk": 2,
+    "fields": {
+      "name": "Sub Category 4",
+      "category_issue":2
+    }
+  },
+  {
+    "model": "case_manager.Gender",
+    "pk": 1,
+    "fields": {
+      "name": "Male"
+    }
+  },
+  {
+    "model": "case_manager.Gender",
+    "pk": 2,
+    "fields": {
+      "name": "Female"
+    }
+  },
+  {
+    "model": "case_manager.Gender",
+    "pk": 3,
+    "fields": {
+      "name": "Other"
+    }
+  }
+]

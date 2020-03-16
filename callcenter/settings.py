@@ -25,7 +25,7 @@ BASE_DIR = PACKAGE_ROOT
 
 # SECURITY WARNING: don't run with debug turned on in production!
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
-DEBUG = os.getenv('DJANGO_DEBUG', False)
+DEBUG = os.getenv('DEBUG', False)
 
 ALLOWED_HOSTS = []
 
@@ -123,10 +123,23 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(PACKAGE_ROOT, "site_media", "static")
 
+
+# Initial table data
+FIXTURE_DIRS = [
+    os.path.join('fixtures')
+]
+
+try:
+    from .settings_local import *
+except ImportError:
+    from callcenter.config.prod import *
+
 # Cors settings
 CORS_ORIGIN_ALLOW_ALL = True
+
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:8080",
+    "http://linhaverde.herokuapp.com"
 ]
 
 JWT_AUTH = {

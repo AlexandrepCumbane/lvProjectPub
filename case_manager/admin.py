@@ -17,8 +17,12 @@ from case_manager.models import ReferallEntity
 from case_manager.models import ResolutionCategory
 from case_manager.models import ResolutionSubCategory
 from case_manager.models import SubCategory
-from case_manager.models import SubCategoryIssue
+from case_manager.models import CategoryIssue
+from case_manager.models import CategoryIssueSub
 from case_manager.models import TaskStatus
+from case_manager.models import TaskCategory
+from case_manager.models import TransfereModality
+from case_manager.models import MecanismUsed
 
 # Register your models here.
 admin.site.register(Case)
@@ -33,10 +37,14 @@ admin.site.register(Gender)
 admin.site.register(HowDoYouHearAboutUs)
 admin.site.register(HowWouldYouLikeToBeContacted)
 admin.site.register(HumanitarionActor)
+admin.site.register(MecanismUsed)
 admin.site.register(Programme)
 admin.site.register(ReferallEntity)
 admin.site.register(ResolutionCategory)
 admin.site.register(ResolutionSubCategory)
 admin.site.register(SubCategory)
-admin.site.register(SubCategoryIssue)
+admin.site.register(CategoryIssue)
+admin.site.register(CategoryIssueSub)
 admin.site.register(TaskStatus)
+admin.site.register(TaskCategory)
+admin.site.register(TransfereModality)

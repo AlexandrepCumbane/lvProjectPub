@@ -14,8 +14,11 @@ from case_manager.models import ReferallEntity
 from case_manager.models import ResolutionCategory
 from case_manager.models import ResolutionSubCategory
 from case_manager.models import SubCategory
-from case_manager.models import SubCategoryIssue
+from case_manager.models import CategoryIssue
+from case_manager.models import CategoryIssueSub
+from case_manager.models import MecanismUsed
 from case_manager.models import TaskStatus
+from case_manager.models import TransfereModality
 
 from location_management.models import Community
 from location_management.models import District
@@ -42,10 +45,12 @@ def get_dropdowns():
     dropdowns.append(DropdownData(key='entities', value=ReferallEntity.objects.values()))
     dropdowns.append(DropdownData(key='resolution_categories', value=ResolutionCategory.objects.values()))
     dropdowns.append(DropdownData(key='resolution_subcategories', value=ResolutionSubCategory.objects.values()))
-    dropdowns.append(DropdownData(key='category_issues', value=Category.objects.values()))
-    dropdowns.append(DropdownData(key='subcategories_issues', value=SubCategoryIssue.objects.values()))
+    dropdowns.append(DropdownData(key='categories_issues', value=CategoryIssue.objects.values()))
+    dropdowns.append(DropdownData(key='subcategories_issues', value=CategoryIssueSub.objects.values()))
+    dropdowns.append(DropdownData(key='subcategories', value=SubCategory.objects.values()))
     dropdowns.append(DropdownData(key='task_status', value=TaskStatus.objects.values()))
-
+    dropdowns.append(DropdownData(key='transfere_modalities', value=TransfereModality.objects.values()))
+    dropdowns.append(DropdownData(key='mecanism_used', value=MecanismUsed.objects.values()))
     dropdowns.append(DropdownData(key='communities', value=Community.objects.values()))
     dropdowns.append(DropdownData(key='districts', value=District.objects.values()))
     dropdowns.append(DropdownData(key='localities', value=Location.objects.values()))
