@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 
@@ -7,9 +8,15 @@ from rest_framework.response import Response
 
 from oauth2_provider.models import Application
 
+from user_management.api.serializers import GroupSerializer
 from user_management.api.serializers import UserSerializer
 from user_management.api.serializers import UserInterSerializer
 from user_management.api.serializers import UserFullSerializer
+
+
+class GroupViewSet(ModelViewSet):
+    serializer_class = GroupSerializer
+    queryset = Group.objects.all()
 
 
 class UserViewSet(ModelViewSet):
