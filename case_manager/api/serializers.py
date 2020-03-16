@@ -15,6 +15,7 @@ from case_manager.models import Gender
 from case_manager.models import HowDoYouHearAboutUs
 from case_manager.models import HowWouldYouLikeToBeContacted
 from case_manager.models import HumanitarionActor
+from case_manager.models import MecanismUsed
 from case_manager.models import Programme
 from case_manager.models import ReferallEntity
 from case_manager.models import ResolutionCategory
@@ -23,6 +24,7 @@ from case_manager.models import SubCategory
 from case_manager.models import CategoryIssue
 from case_manager.models import TaskCategory
 from case_manager.models import TaskStatus
+from case_manager.models import TransfereModality
 
 from location_management.api.serializers import CommunitySerializer
 from location_management.api.serializers import DistrictSerializer
@@ -177,6 +179,9 @@ class CaseSerializerFull(ModelSerializer):
     how_would_you_like_to_be_contacted = HowWouldYouLikeToBeContactedSerializer()
     case_status = serializer_factory(model=CaseStatus, fields=('id','name'))()
     programme = ProgrammeSerializer()
+    mecanism_used = serializer_factory(model=MecanismUsed, fields=('id','name'))()
+    transfere_modality = serializer_factory(model=TransfereModality, fields=('id','name'))()
+    customer_satisfaction = serializer_factory(model=CustomerSatisfaction, fields=('id','name'))()
 
     class Meta:
         model = Case
