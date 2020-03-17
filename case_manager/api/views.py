@@ -260,6 +260,23 @@ class CaseTaskViewset(ModelViewSet):
         'task_category',
         'status',
         'assigned_to')
+
+    def create(self, request):
+        my_task = request.data
+        my_task['status'] = TaskStatus.objects.filter(name__icontains='Not Started').first().id
+        print('task', my_task)
+
+        task_serializer = CaseTaskSerializer(data=my_task)
+
+        if task_serializer.is_valid():
+            task_saved = task_serializer.save()
+            return Response({
+                'task': task_saved.id
+            })
+
+        return Response({
+            'errors': task_serializer.errors
+        }, status=400)
     
     def list(self, request):
         my_queryset = self.queryset
@@ -271,6 +288,22 @@ class CaseTaskViewset(ModelViewSet):
         response = CaseTaskFullSerializer(pages, many=True)
 
         return self.get_paginated_response(response.data)
+    
+    def update(self, request, pk=None):
+        my_task = get_object_or_404(self.queryset, pk=pk)
+
+        task_serializer = CaseTaskSerializer(my_task, data=request.data, partial=True)
+
+        if task_serializer.is_valid():
+            task_updated = task_serializer.save()
+
+            return Response({
+                'task': task_updated.id
+            })
+        
+        return Response({
+            'errors': task_serializer.errors
+        })
 
 
 class CaseReferallViewset(ModelViewSet):
