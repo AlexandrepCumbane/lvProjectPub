@@ -260,6 +260,17 @@ class CaseTaskViewset(ModelViewSet):
         'task_category',
         'status',
         'assigned_to')
+    
+    def list(self, request):
+        my_queryset = self.queryset
+
+        if request.user.groups.filter(name='Gestor') is None:
+            my_queryset = self.queryset.filter(assigned_to=request.user)
+
+        pages = self.paginate_queryset(my_queryset)
+        response = CaseTaskFullSerializer(pages, many=True)
+
+        return self.get_paginated_response(response.data)
 
 
 class CaseReferallViewset(ModelViewSet):
@@ -305,7 +316,7 @@ class CaseReferallViewset(ModelViewSet):
         if request.user.groups.filter(name='Gestor') is None:
             my_queryset = self.queryset.filter(created_by=request.user)
 
-        pages = self.paginate_queryset(self.queryset)
+        pages = self.paginate_queryset(my_queryset)
         response = CaseReferallFullSerializer(pages, many=True)
 
         return self.get_paginated_response(response.data)
