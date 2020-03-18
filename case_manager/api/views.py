@@ -1,5 +1,7 @@
 from django.contrib.auth.models import Group
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 
 from rest_framework.decorators import permission_classes
 from rest_framework.generics import ListAPIView
@@ -143,7 +145,7 @@ class CaseViewset(ModelViewSet):
 
             case['category_issue_sub'] = list(case['category_issue_sub'].values())
             case['sub_category'] = list(case['sub_category'].values())
-            case['case_status'] = CaseStatus.objects.get(name='Pending').id
+            case['case_status'] = CaseStatus.objects.get(name='Not Started').id
             case['case_priority'] = CasePriority.objects.get(name='High').id
             
             contactor_id = self.__save_contactor(contactor)
@@ -281,8 +283,14 @@ class CaseTaskViewset(ModelViewSet):
     def list(self, request):
         my_queryset = self.queryset
 
-        if request.user.groups.filter(name='Gestor') is None:
-            my_queryset = self.queryset.filter(assigned_to=request.user)
+        if request.user.groups.filter(name__icontains='Gestor').count() == 0:
+            """
+                This query filters task for today and tasks that are
+                Not completed at all
+            """
+            my_queryset = self.queryset.filter(assigned_to=request.user).exclude(Q(status__name__icontains='completed'))
+            my_queryset = my_queryset | self.queryset.filter(created_at__date=timezone.datetime.now().date())
+            my_queryset = my_queryset.distinct()
 
         pages = self.paginate_queryset(my_queryset)
         response = CaseTaskFullSerializer(pages, many=True)
