@@ -194,6 +194,7 @@ class CaseSerializerFull(ModelSerializer):
     category_issue = CategoryIssueSerializer()
     category_issue_sub = SubCategoryIssueSerializer(many=True)
     number_of_tasks = SerializerMethodField()
+    has_feedback = SerializerMethodField()
 
     class Meta:
         model = Case
@@ -201,6 +202,9 @@ class CaseSerializerFull(ModelSerializer):
     
     def get_number_of_tasks(self, obj):
         return obj.tasks.count()
+    
+    def get_has_feedback(self, obj):
+        return obj.case_referall.filter(has_feedback=True).count() != 0
 
 
 class CaseReferallSerializer(ModelSerializer):
