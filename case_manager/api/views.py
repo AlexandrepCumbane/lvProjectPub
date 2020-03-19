@@ -321,11 +321,15 @@ class CaseReferallViewset(ModelViewSet):
         'referall_entity')
     
 
+    def _update_case(self, caseId):
+        update_case = get_object_or_404(Case.object.all(), pk=caseId)
+        update_case.case_forwarded = True
+        update_case.save()
+
     def create(self, request):
         my_case = request.data
 
         if isinstance(my_case['referall_entity'], dict):
-
             my_entities = list(my_case['referall_entity'].values())[1:]
             for item in my_entities:
 
@@ -339,6 +343,7 @@ class CaseReferallViewset(ModelViewSet):
                 if data_serializer.is_valid():
                     case = data_serializer.save()
                     case_serializer = CaseSerializerFull(case)
+                    self._update_case(my_case['case'])
 
                     return Response(case_serializer.data)
                 else:
