@@ -22,6 +22,7 @@ from case_manager.models import ResolutionCategory
 from case_manager.models import ResolutionSubCategory
 from case_manager.models import SubCategory
 from case_manager.models import CategoryIssue
+from case_manager.models import CategoryIssueSub
 from case_manager.models import TaskCategory
 from case_manager.models import TaskStatus
 from case_manager.models import TransfereModality
@@ -71,6 +72,13 @@ class CategoryIssueSerializer(ModelSerializer):
 
     class Meta:
         model = CategoryIssue
+        fields = '__all__'
+
+
+class SubCategoryIssueSerializer(ModelSerializer):
+    
+    class Meta:
+        model = CategoryIssueSub
         fields = '__all__'
 
 
@@ -182,6 +190,8 @@ class CaseSerializerFull(ModelSerializer):
     mecanism_used = serializer_factory(model=MecanismUsed, fields=('id','name'))()
     transfere_modality = serializer_factory(model=TransfereModality, fields=('id','name'))()
     customer_satisfaction = serializer_factory(model=CustomerSatisfaction, fields=('id','name'))()
+    category_issue = CategoryIssueSerializer()
+    category_issue_sub = SubCategoryIssueSerializer(many=True)
 
     class Meta:
         model = Case
