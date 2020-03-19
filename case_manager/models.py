@@ -188,7 +188,7 @@ class Case(models.Model):
 
     resettlement_name = models.CharField(max_length=200, null=True, blank=True)
     resolution_callback = models.BooleanField(default=False)
-    soluction = models.TextField(max_length=1000)
+    solution = models.TextField(max_length=1000)
     sub_category = models.ManyToManyField(SubCategory, related_name='cases')
     updated_at = models.DateTimeField(auto_now=False, null=True, blank=True)
     vulnerabilites = models.CharField(max_length=200, null=True, blank=True)
