@@ -2,6 +2,7 @@ import uuid
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 
 from location_management.models import Community
 from location_management.models import District
@@ -210,5 +211,6 @@ class CaseTask(models.Model):
     assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks')
     status = models.ForeignKey(TaskStatus, on_delete=models.SET_NULL, related_name='tasks', null=True)
     created_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
     deadline = models.DateField(auto_now=False, null=True)
     task_category = models.ForeignKey(TaskCategory, on_delete=models.SET_NULL, null=True)
