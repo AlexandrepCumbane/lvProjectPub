@@ -243,9 +243,8 @@ class CaseViewset(ModelViewSet):
 
             if case_serializer.is_valid():
                 case_saved = case_serializer.save()
-                return Response({
-                    'case': case_saved.id
-                })
+                case_serializer = CaseSerializerFull(case_saved)
+                return Response(case_serializer.data)
             else:
                 return Response({
                     'errors': case_serializer.errors
