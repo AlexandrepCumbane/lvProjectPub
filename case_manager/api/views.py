@@ -12,6 +12,8 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.decorators import action
 
 
+from case_manager.api.filters import CaseFilter
+
 from case_manager.api.serializers import CaseSerializer
 from case_manager.api.serializers import CaseSerializerFull
 from case_manager.api.serializers import CasePrioritySerializer
@@ -136,7 +138,8 @@ class CaseViewset(ModelViewSet):
         'created_by',
         'how_knows_us',
         )
-    
+    filterset_class = CaseFilter
+
     def create(self, request):
 
         try:
@@ -168,8 +171,6 @@ class CaseViewset(ModelViewSet):
         except KeyError:
             pass
         return super().create(request)
-        
-
 
     def __save_contactor(self, contactor):
         contact_serializer = ContactorSerializer(data=contactor)
