@@ -13,6 +13,7 @@ from rest_framework.decorators import action
 
 
 from case_manager.api.filters import CaseFilter
+from case_manager.api.filters import CaseReferallFilter
 
 from case_manager.api.serializers import CaseSerializer
 from case_manager.api.serializers import CaseSerializerFull
@@ -320,6 +321,7 @@ class CaseReferallViewset(ModelViewSet):
         'case',
         'referall_entity')
     
+    filterset_class = CaseReferallFilter
 
     def _update_case(self, caseId):
         update_case = get_object_or_404(Case.object.all(), pk=caseId)

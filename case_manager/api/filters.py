@@ -8,3 +8,9 @@ class CaseFilter(FilterSet):
     class Meta:
         model = Case
         fields = '__all__'
+
+class CaseReferallFilter(FilterSet):
+    
+    class Meta:
+        model = CaseReferall
+        fields = '__all__'
