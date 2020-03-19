@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 
 from drf_auto_endpoint.factories import serializer_factory
 from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import SerializerMethodField
 
 from case_manager.models import Case
 from case_manager.models import CasePriority
@@ -192,10 +193,14 @@ class CaseSerializerFull(ModelSerializer):
     customer_satisfaction = serializer_factory(model=CustomerSatisfaction, fields=('id','name'))()
     category_issue = CategoryIssueSerializer()
     category_issue_sub = SubCategoryIssueSerializer(many=True)
+    number_of_tasks = SerializerMethodField()
 
     class Meta:
         model = Case
         fields = '__all__'
+    
+    def get_number_of_tasks(self, obj):
+        return obj.tasks.count()
 
 
 class CaseReferallSerializer(ModelSerializer):
