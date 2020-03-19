@@ -229,6 +229,7 @@ class CaseViewset(ModelViewSet):
         case_update = get_object_or_404(self.queryset, pk=pk)
 
         try:
+            case = request.data['case']
             contactor = request.data['contactor']
             contactor_id =  self.__update_contactor(contactor)
 
@@ -236,8 +237,6 @@ class CaseViewset(ModelViewSet):
                 return Response({
                     'errors': 'Houve um erro ao alterar os dados do contactante'
                 }, status=400)
-            
-            case = request.data['case']
 
             case_serializer = CaseSerializer(case_update, data=case, partial=True)
 
