@@ -175,6 +175,13 @@ class CaseSerializer(ModelSerializer):
         fields = '__all__'
 
 
+class CaseFeedbackSerializer(ModelSerializer):
+    
+    referall_entity = ReferallEntitySerializer()
+    class Meta:
+        model = CaseReferall
+        fields = ('referall_entity', 'has_feedback', 'feedback')
+
 
 class CaseSerializerFull(ModelSerializer):
 
@@ -195,6 +202,8 @@ class CaseSerializerFull(ModelSerializer):
     category_issue_sub = SubCategoryIssueSerializer(many=True)
     number_of_tasks = SerializerMethodField()
     has_feedback = SerializerMethodField()
+
+    case_referall = CaseFeedbackSerializer(many=True)
 
     class Meta:
         model = Case
