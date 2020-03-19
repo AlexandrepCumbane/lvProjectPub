@@ -265,16 +265,17 @@ class CaseTaskViewset(ModelViewSet):
 
     def create(self, request):
         my_task = request.data
-        my_task['status'] = TaskStatus.objects.filter(name__icontains='Not Started').first().id
-        print('task', my_task)
+        try:
+            my_task['status'] = TaskStatus.objects.filter(name__icontains='Not Started').first().id
+        except AttributeError:
+            print('Immutable atributte')
 
         task_serializer = CaseTaskSerializer(data=my_task)
 
         if task_serializer.is_valid():
             task_saved = task_serializer.save()
-            return Response({
-                'task': task_saved.id
-            })
+            task_serializer = CaseTaskFullSerializer(task_saved)
+            return Response(task_serializer.data)
 
         return Response({
             'errors': task_serializer.errors
@@ -299,15 +300,15 @@ class CaseTaskViewset(ModelViewSet):
     
     def update(self, request, pk=None):
         my_task = get_object_or_404(self.queryset, pk=pk)
+        my_data = request.data
+        my_data['updated_by'] = request.user.id
 
-        task_serializer = CaseTaskSerializer(my_task, data=request.data, partial=True)
+        task_serializer = CaseTaskSerializer(my_task, data=my_data, partial=True)
 
         if task_serializer.is_valid():
             task_updated = task_serializer.save()
-
-            return Response({
-                'task': task_updated.id
-            })
+            task_serializer = CaseTaskFullSerializer(task_updated)
+            return Response(task_serializer.data)
         
         return Response({
             'errors': task_serializer.errors
@@ -334,20 +335,17 @@ class CaseReferallViewset(ModelViewSet):
                     'referall_entity': item
                 }
 
-                print('data', data)
-    
                 data_serializer = CaseReferallSerializer(data=data)
 
                 if data_serializer.is_valid():
                     case = data_serializer.save()
+                    case_serializer = CaseSerializerFull(case)
+
+                    return Response(case_serializer.data)
                 else:
                     return Response({
                         'Errors': data_serializer.errors,
                     }, status=400)
-
-            return Response({
-                'Details': 'Case forwarde with success'
-            })
 
         return super().create(request)
 
