@@ -209,6 +209,7 @@ class CaseTask(models.Model):
     title = models.CharField(max_length=50, default='')
     description = models.TextField(max_length=1000)
     assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks')
+    updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     status = models.ForeignKey(TaskStatus, on_delete=models.SET_NULL, related_name='tasks', null=True)
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now=True)
