@@ -138,7 +138,7 @@ class CaseViewset(ModelViewSet):
         'contactor',
         'created_by',
         'how_knows_us',
-        )
+        ).filter(is_deleted=False)
     filterset_class = CaseFilter
 
     def create(self, request):
@@ -192,6 +192,12 @@ class CaseViewset(ModelViewSet):
             print('errors', contact_serializer.errors)
 
             return -1
+
+    def destroy(self, request, pk=None):
+        case = get_object_or_404(self.queryset, pk=pk)
+        case.is_deleted = True
+        case_serializer = CaseSerializerFull(case)
+        return Response(case_serializer.data)
 
     def list(self, request):
 
@@ -320,7 +326,7 @@ class CaseReferallViewset(ModelViewSet):
     queryset = CaseReferall.objects.select_related(
         'case',
         'referall_entity')
-    
+
     filterset_class = CaseReferallFilter
 
     def _update_case(self, caseId):
