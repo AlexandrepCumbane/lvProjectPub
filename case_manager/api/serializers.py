@@ -194,6 +194,15 @@ class CaseTaskFull2Serializer(ModelSerializer):
         fields = '__all__'
 
 
+class CaseReferallSimpleSerializer(ModelSerializer):
+
+    referall_entity = ReferallEntitySerializer()
+
+    class Meta:
+        model = CaseReferall
+        fields = ('id', 'referall_entity', 'has_feedback')
+
+
 class CaseSerializerFull(ModelSerializer):
 
     case_priority = CasePrioritySerializer()
@@ -217,6 +226,7 @@ class CaseSerializerFull(ModelSerializer):
     case_referall = CaseFeedbackSerializer(many=True)
 
     tasks = CaseTaskFull2Serializer(many=True)
+    case_referall = CaseReferallSimpleSerializer(many=True)
 
     class Meta:
         model = Case
