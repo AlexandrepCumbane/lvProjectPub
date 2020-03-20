@@ -180,6 +180,7 @@ class Case(models.Model):
     consent_to_share_third_party = models.BooleanField(default=False)
     consent_to_collect_personal_info = models.BooleanField(default=False)
     resolution_callback = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False)
 
 
     
