@@ -183,6 +183,17 @@ class CaseFeedbackSerializer(ModelSerializer):
         fields = ('referall_entity', 'has_feedback', 'feedback')
 
 
+class CaseTaskFull2Serializer(ModelSerializer):
+    
+    assigned_to = serializer_factory(model=User, fields=('id','username'))()
+    task_category = TaskCategorySerializer()
+    status = TaskStatusSerializer()
+    
+    class Meta:
+        model = CaseTask
+        fields = '__all__'
+
+
 class CaseSerializerFull(ModelSerializer):
 
     case_priority = CasePrioritySerializer()
@@ -204,6 +215,8 @@ class CaseSerializerFull(ModelSerializer):
     has_feedback = SerializerMethodField()
 
     case_referall = CaseFeedbackSerializer(many=True)
+
+    tasks = CaseTaskFull2Serializer(many=True)
 
     class Meta:
         model = Case
