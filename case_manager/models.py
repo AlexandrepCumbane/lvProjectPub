@@ -113,7 +113,7 @@ class TaskStatus(models.Model):
 class Contactor(models.Model):
 
     # Text Fields
-    age = models.CharField(blank=True, default='', max_length=50)
+    age = models.IntegerField(blank=True, default=0)
     alternative_number = models.CharField(default='', max_length=25, blank=True, null=True)
     contact = models.CharField(max_length=100)
     fdp = models.CharField(max_length=200, default='', null=True, blank=True)
