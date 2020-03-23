@@ -125,9 +125,9 @@ class ContactorViewset(ModelViewSet):
     queryset = Contactor.objects.select_related('community', 'district', 'gender', 'location', 'province')
 
 
-class ReferallEntityViewset(ListAPIView, ViewSet):
+class ReferallEntityViewset(ModelViewSet):
     serializer_class = ReferallEntitySerializer
-    queryset = ReferallEntity.objects.all()
+    queryset = ReferallEntity.objects.prefetch_related('users')
 
 
 class CaseViewset(ModelViewSet):
