@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     # My Apps
     'case_manager',
     'location_management',
+    'reports_management',
     'user_management'
 ]
 
