@@ -160,6 +160,19 @@ class TransfereModality(models.Model):
     def __str__(self):
         return self.name
 
+class CaseType(models.Model):
+    name = models.CharField(max_length=200, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
+class ResponsePrograme(models.Model):
+    name = models.CharField(max_length=200, unique=True)
+
+    def __str__(self):
+        return self.name
+
 
 class Case(models.Model):
 
