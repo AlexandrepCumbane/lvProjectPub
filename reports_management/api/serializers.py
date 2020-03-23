@@ -1,6 +1,9 @@
 from rest_framework import serializers
 
 from reports_management.api.helpers import generate_reports_big_number
+from reports_management.api.helpers import generate_reports_charts_caller
+from reports_management.api.helpers import generate_case_charts
+
 
 class GeneralReportSerializer(serializers.Serializer):
     key = serializers.CharField(max_length=100)
@@ -15,11 +18,10 @@ class ReportsData(object):
 
 
 def generate_reports_data(data_inicial, data_fim):
-    my_data = generate_reports_big_number(data_inicial, data_fim)
-
-    print('my data', my_data)
     reports_data = {
-        1: ReportsData(key='general_reports', value=my_data)
+        1: ReportsData(key='general_reports', value=generate_reports_big_number(data_inicial, data_fim)),
+        2: ReportsData(key='reports_by_caller', value=generate_reports_charts_caller(data_inicial, data_fim)),
+        3: ReportsData(key='case_reports', value=generate_case_charts(data_inicial, data_fim))
     }
 
     return reports_data.values()
