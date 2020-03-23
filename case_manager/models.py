@@ -208,8 +208,8 @@ class Case(models.Model):
     transfere_modality = models.ForeignKey(TransfereModality, on_delete=models.SET_NULL, null=True, default=None)
 
     # Many to Many Fields
-    category_issue_sub = models.ManyToManyField(CategoryIssueSub, related_name='cases')
-    sub_category = models.ManyToManyField(SubCategory, related_name='cases')
+    category_issue_sub = models.ManyToManyField(CategoryIssueSub, related_name='cases', blank=True)
+    sub_category = models.ManyToManyField(SubCategory, related_name='cases', blank=True)
 
 
 class CaseReferall(models.Model):
