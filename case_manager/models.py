@@ -167,7 +167,7 @@ class CaseType(models.Model):
         return self.name
 
 
-class ResponsePrograme(models.Model):
+class ResponseProgram(models.Model):
     name = models.CharField(max_length=200, unique=True)
 
     def __str__(self):
@@ -214,6 +214,8 @@ class Case(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cases')
     case_priority = models.ForeignKey(CasePriority, on_delete=models.SET_NULL, related_name='cases', null=True)
     case_status = models.ForeignKey(CaseStatus, on_delete=models.SET_NULL, null=True, related_name='cases')
+    case_type = models.ForeignKey(CaseType, on_delete=models.SET_NULL, null=True, related_name='cases')
+    reponse_program = models.ForeignKey(ResponseProgram, on_delete=models.SET_NULL, related_name='cases', null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, related_name='cases', null=True)
     category_issue = models.ForeignKey(CategoryIssue, on_delete=models.SET_NULL, related_name='cases', null=True)
     mecanism_used = models.ForeignKey(MecanismUsed, on_delete=models.SET_NULL, default=None, null=True)
