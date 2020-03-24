@@ -28,7 +28,7 @@ def generate_reports_charts_caller(initial_data, end_data):
     
     reports['customer_satisfaction'] = Case.objects.filter(
         created_at__date__range=(initial_data, end_data)).values(
-            gender=F('customer_satisfaction__name')).annotate(total=Count('customer_satisfaction__name'))
+            satisfaction=F('customer_satisfaction__name')).annotate(total=Count('customer_satisfaction__name'))
 
     reports_age_aux = {
         'bellow_17': Case.objects.filter(created_at__date__range=(initial_data, end_data), contactor__age__lte=17).count(),
@@ -47,12 +47,21 @@ def generate_case_charts(initial_data, end_data):
             province=F('contactor__province__name')).annotate(total=Count('contactor__province__name'))
 
     reports['case_by_category'] = Case.objects.filter(
-        created_at__date__range=(initial_data, end_data)).values('category').annotate(total=Count('category__name'))
+        created_at__date__range=(initial_data, end_data)).values(
+            name=F('category__name')).annotate(total=Count('category__name'))
     
     reports['case_by_sector'] = Case.objects.filter(
         created_at__date__range=(initial_data, end_data)).values(
             sector=F('programme__name')).annotate(total=Count('programme__name'))
     
+    reports['case_by_type'] = Case.objects.filter(
+        created_at__date__range=(initial_data, end_data)).values(
+            tipology=F('case_type__name')).annotate(total=Count('case_type__name'))
+    
+    reports['case_by_response_program'] = Case.objects.filter(
+        created_at__date__range=(initial_data, end_data)).values(
+            program=F('response_program__name')).annotate(total=Count('response_program__name'))
+
     reports['case_by_referall'] = Case.objects.filter(
         created_at__date__range=(initial_data, end_data)).values(
             entity=F('case_referall__referall_entity__name')).annotate(total=Count('case_referall__referall_entity__name'))
