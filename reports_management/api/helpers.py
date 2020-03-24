@@ -30,11 +30,20 @@ def generate_reports_charts_caller(initial_data, end_data):
         created_at__date__range=(initial_data, end_data)).values(
             satisfaction=F('customer_satisfaction__name')).annotate(total=Count('customer_satisfaction__name'))
 
-    reports_age_aux = {
-        'bellow_17': Case.objects.filter(created_at__date__range=(initial_data, end_data), contactor__age__lte=17).count(),
-        'between_18_and_59': Case.objects.filter(created_at__date__range=(initial_data, end_data), contactor__age__range=(18, 59)).count(),
-        'above_60': Case.objects.filter(created_at__date__range=(initial_data, end_data), contactor__age__gte=60).count()
-    }
+    reports_age_aux = [
+        {
+            'name': 'bellow_17',
+            'total': Case.objects.filter(created_at__date__range=(initial_data, end_data), contactor__age__lte=17).count()
+        },
+        {
+            'name': 'between_18_and_59',
+            'total': Case.objects.filter(created_at__date__range=(initial_data, end_data), contactor__age__range=(18, 59)).count()
+        },
+        {
+            'name': 'above_60',
+            'total': Case.objects.filter(created_at__date__range=(initial_data, end_data), contactor__age__gte=60).count()
+        }
+    ]
 
     reports['caller_profile_by_age'] = reports_age_aux
     return reports
