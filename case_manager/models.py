@@ -215,7 +215,7 @@ class Case(models.Model):
     case_priority = models.ForeignKey(CasePriority, on_delete=models.SET_NULL, related_name='cases', null=True)
     case_status = models.ForeignKey(CaseStatus, on_delete=models.SET_NULL, null=True, related_name='cases')
     case_type = models.ForeignKey(CaseType, on_delete=models.SET_NULL, null=True, related_name='cases')
-    reponse_program = models.ForeignKey(ResponseProgram, on_delete=models.SET_NULL, related_name='cases', null=True)
+    response_program = models.ForeignKey(ResponseProgram, on_delete=models.SET_NULL, related_name='cases', null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, related_name='cases', null=True)
     category_issue = models.ForeignKey(CategoryIssue, on_delete=models.SET_NULL, related_name='cases', null=True)
     mecanism_used = models.ForeignKey(MecanismUsed, on_delete=models.SET_NULL, default=None, null=True)
