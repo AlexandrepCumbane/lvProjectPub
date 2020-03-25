@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 
 from drf_auto_endpoint.factories import serializer_factory
 from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import SerializerMethodField
 
 from case_manager.models import Case
 from case_manager.models import CasePriority
@@ -15,14 +16,17 @@ from case_manager.models import Gender
 from case_manager.models import HowDoYouHearAboutUs
 from case_manager.models import HowWouldYouLikeToBeContacted
 from case_manager.models import HumanitarionActor
+from case_manager.models import MecanismUsed
 from case_manager.models import Programme
 from case_manager.models import ReferallEntity
 from case_manager.models import ResolutionCategory
 from case_manager.models import ResolutionSubCategory
 from case_manager.models import SubCategory
 from case_manager.models import CategoryIssue
+from case_manager.models import CategoryIssueSub
 from case_manager.models import TaskCategory
 from case_manager.models import TaskStatus
+from case_manager.models import TransfereModality
 
 from location_management.api.serializers import CommunitySerializer
 from location_management.api.serializers import DistrictSerializer
@@ -69,6 +73,13 @@ class CategoryIssueSerializer(ModelSerializer):
 
     class Meta:
         model = CategoryIssue
+        fields = '__all__'
+
+
+class SubCategoryIssueSerializer(ModelSerializer):
+    
+    class Meta:
+        model = CategoryIssueSub
         fields = '__all__'
 
 
@@ -164,6 +175,33 @@ class CaseSerializer(ModelSerializer):
         fields = '__all__'
 
 
+class CaseFeedbackSerializer(ModelSerializer):
+    
+    referall_entity = ReferallEntitySerializer()
+    class Meta:
+        model = CaseReferall
+        fields = ('referall_entity', 'has_feedback', 'feedback')
+
+
+class CaseTaskFull2Serializer(ModelSerializer):
+    
+    assigned_to = serializer_factory(model=User, fields=('id','username'))()
+    task_category = TaskCategorySerializer()
+    status = TaskStatusSerializer()
+    
+    class Meta:
+        model = CaseTask
+        fields = '__all__'
+
+
+class CaseReferallSimpleSerializer(ModelSerializer):
+
+    referall_entity = ReferallEntitySerializer()
+
+    class Meta:
+        model = CaseReferall
+        fields = ('id', 'referall_entity', 'has_feedback')
+
 
 class CaseSerializerFull(ModelSerializer):
 
@@ -177,10 +215,28 @@ class CaseSerializerFull(ModelSerializer):
     how_would_you_like_to_be_contacted = HowWouldYouLikeToBeContactedSerializer()
     case_status = serializer_factory(model=CaseStatus, fields=('id','name'))()
     programme = ProgrammeSerializer()
+    mecanism_used = serializer_factory(model=MecanismUsed, fields=('id','name'))()
+    transfere_modality = serializer_factory(model=TransfereModality, fields=('id','name'))()
+    customer_satisfaction = serializer_factory(model=CustomerSatisfaction, fields=('id','name'))()
+    category_issue = CategoryIssueSerializer()
+    category_issue_sub = SubCategoryIssueSerializer(many=True)
+    number_of_tasks = SerializerMethodField()
+    has_feedback = SerializerMethodField()
+
+    case_referall = CaseFeedbackSerializer(many=True)
+
+    tasks = CaseTaskFull2Serializer(many=True)
+    case_referall = CaseReferallSimpleSerializer(many=True)
 
     class Meta:
         model = Case
         fields = '__all__'
+    
+    def get_number_of_tasks(self, obj):
+        return obj.tasks.count()
+    
+    def get_has_feedback(self, obj):
+        return obj.case_referall.filter(has_feedback=True).count() != 0
 
 
 class CaseReferallSerializer(ModelSerializer):
@@ -212,6 +268,7 @@ class CaseTaskFullSerializer(ModelSerializer):
     assigned_to = serializer_factory(model=User, fields=('id','username'))()
     task_category = TaskCategorySerializer()
     status = TaskStatusSerializer()
+    case = serializer_factory(model=Case, fields=('case_id',))()
     
     class Meta:
         model = CaseTask

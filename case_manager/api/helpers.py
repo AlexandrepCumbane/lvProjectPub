@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from django.contrib.auth.models import User
 
 from case_manager.models import CasePriority
 from case_manager.models import CaseStatus
@@ -18,6 +19,7 @@ from case_manager.models import CategoryIssue
 from case_manager.models import CategoryIssueSub
 from case_manager.models import MecanismUsed
 from case_manager.models import TaskStatus
+from case_manager.models import TaskCategory
 from case_manager.models import TransfereModality
 
 from location_management.models import Community
@@ -30,6 +32,11 @@ class DropdownData(object):
     def __init__(self, **kwargs):
         self.key = kwargs.get('key', None)
         self.value = kwargs.get('value', None)
+
+def filtrar_operadors():
+    operadores = User.objects.filter(groups__name__in=['Operador']).values()
+    return operadores
+
 
 def get_dropdowns():
     dropdowns = []
@@ -55,6 +62,8 @@ def get_dropdowns():
     dropdowns.append(DropdownData(key='districts', value=District.objects.values()))
     dropdowns.append(DropdownData(key='localities', value=Location.objects.values()))
     dropdowns.append(DropdownData(key='provinces', value=Province.objects.values()))
+    dropdowns.append(DropdownData(key='operators', value=filtrar_operadors()))
+    dropdowns.append(DropdownData(key='task_categories', value=TaskCategory.objects.values()))
 
     return dropdowns
 

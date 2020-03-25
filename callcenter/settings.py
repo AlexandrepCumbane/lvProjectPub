@@ -46,10 +46,12 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'rest_framework',
     'django_extensions',
+    'django_filters',
 
     # My Apps
     'case_manager',
     'location_management',
+    'reports_management',
     'user_management'
 ]
 
