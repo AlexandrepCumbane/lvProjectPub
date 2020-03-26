@@ -119,13 +119,15 @@ def get_gestor_dashboard_data(user_id):
     
     total_cases = Case.objects.filter(created_at__date__year=timezone.now().year).count()
     total_cases_referall = Case.objects.filter(case_forwarded=True, created_at__date__year=timezone.now().year).count()
+    total_cases_not_forwarded = Case.objects.filter(case_forwarded=False, created_at__date__year=timezone.now().year).count()
     total_cases_with_feedback = CaseReferall.objects.filter(refered_at__date__year=timezone.now().year).distinct('case').count()
-    total_cases_open = Case.objects.filter(created_at__date__year=timezone.now().year, case_status__name__icontains='pending').count()
-    total_cases_closed = Case.objects.filter(created_at__date__year=timezone.now().year, case_status__name__icontains='closed').count()
+    total_cases_open = Case.objects.filter(created_at__date__year=timezone.now().year, case_status__name__icontains='In Progress').count()
+    total_cases_closed = Case.objects.filter(created_at__date__year=timezone.now().year, case_status__name__icontains='close').count()
 
     return {
         'total_cases': total_cases,
         'total_cases_referall': total_cases_referall,
+        'total_case_not_forwarded': total_cases_not_forwarded,
         'total_cases_with_feedback': total_cases_with_feedback,
         'total_cases_open': total_cases_open,
         'total_cases_closed': total_cases_closed
