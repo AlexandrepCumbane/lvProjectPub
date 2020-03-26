@@ -203,7 +203,7 @@ class CaseViewset(ModelViewSet):
 
         my_queryset = self.queryset
 
-        if request.user.groups.filter(name='Gestor') is None:
+        if request.user.groups.filter(name='Gestor').count():
             my_queryset = self.queryset.filter(created_by=request.user)
 
         pages = self.paginate_queryset(my_queryset)
