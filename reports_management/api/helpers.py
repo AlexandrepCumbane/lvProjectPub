@@ -1,8 +1,39 @@
+import datetime
+
 from django.db.models import Count
 from django.db.models import F
 
-from case_manager.models import Case
+from django.utils import timezone
 
+from case_manager.models import Case
+from case_manager.models import CaseReferall
+
+#Ano actual
+YEAR = datetime.date.today().year
+# Primeiro mes do ano
+MONTH = 1
+#Primeiro dia do ano
+DAY = 1
+
+#Obtendo a data
+date = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
+
+# Obtendo data inicial de hoje
+data_hoje = date
+
+# Obtendo a data final de hoje
+data_fim_hoje = data_hoje + datetime.timedelta(days=1)
+
+# Obtendo a data inicial da semana
+start_week = date - datetime.timedelta(date.weekday())
+
+start_week = timezone.now().replace(year=start_week.year, month=start_week.month, day=start_week.day, hour=0, minute=0, second=0, microsecond=0)
+
+# Obtendo a data inicial do mes?
+start_month = timezone.now().replace(year=date.year, month=date.month, day=1, hour=0, minute=0, second=0, microsecond=0)
+
+# Obtendo o ano
+start_year = timezone.now().replace(year=YEAR, month=MONTH, day=DAY, hour=0, minute=0, second=0, microsecond=0)
 
 def generate_reports_big_number(initial_data, end_data):
     reports = {}
@@ -76,3 +107,41 @@ def generate_case_charts(initial_data, end_data):
             entity=F('case_referall__referall_entity__name')).annotate(total=Count('case_referall__referall_entity__name'))
 
     return reports
+
+
+def get_gestor_dashboard_data():
+    total_cases = Case.objects.filter(created_at__date__year=timezone.now().year).count()
+    total_cases_referall = Case.objects.filter(case_forwarded=True, created_at__date__year=timezone.now().year).count()
+    total_cases_with_feedback = CaseReferall.objects.filter(refered_at__date__year=timezone.now().year).distinct('case').count()
+    total_cases_open = Case.objects.filter(created_at__date__year=timezone.now().year, case_status__name__icontains='pending').count()
+    total_cases_closed = Case.objects.filter(created_at__date__year=timezone.now().year, case_status__name__icontains='closed').count()
+
+    return {
+        'total_cases': total_cases,
+        'total_cases_referall': total_cases_referall,
+        'total_cases_with_feedback': total_cases_with_feedback,
+        'total_cases_open': total_cases_open,
+        'total_cases_closed': total_cases_closed
+    }
+
+
+def get_operador_dashboard_data(user_id):
+    is_operador = user_id.groups.filter(name__icontains='operador').count()
+
+    if is_operador == 0:
+        return {
+            'data': 'None'
+        }
+
+    total_cases = Case.objects.filter(created_at__date__year=timezone.now().year, created_by=user_id).count()
+    total_cases_month = Case.objects.filter(created_at__gte=start_month, created_by=user_id).count()
+    total_cases_week = Case.objects.filter(created_at__gte=start_week,  created_by=user_id).count()
+    total_cases_day = Case.objects.filter(created_at__date=data_hoje,  created_by=user_id).count()
+   
+
+    return {
+        'total_cases_year': total_cases,
+        'total_cases_month': total_cases_month,
+        'total_cases_week': total_cases_week,
+        'total_cases_day': total_cases_day
+    }
