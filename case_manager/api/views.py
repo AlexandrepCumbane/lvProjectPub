@@ -363,9 +363,10 @@ class CaseReferallViewset(ModelViewSet):
 
     def list(self, request):
         my_queryset = self.queryset
-
-        if request.user.groups.filter(name='Gestor') is None:
-            my_queryset = self.queryset.filter(created_by=request.user)
+        user = request.user
+        if user.groups.filter(name='Gestor') is None:
+            my_entity = user.referall_entity.first()
+            my_queryset = self.queryset.filter(referall_entity=my_entity)
 
         pages = self.paginate_queryset(my_queryset)
         response = CaseReferallFullSerializer(pages, many=True)
@@ -376,9 +377,11 @@ class CaseReferallViewset(ModelViewSet):
     def feedbacks(self, request):
         my_queryset = self.queryset
         my_groups = request.user.groups.all()
+        user = request.user
 
         if my_groups.filter(name='Gestor') is None:
-            my_queryset = self.queryset.filter(created_by=request.user)
+            my_entity = user.referall_entity.first()
+            my_queryset = self.queryset.filter(referall_entity=my_entity)
         elif my_groups.filter(name='Operador').count() != 0:
             return Response({
                 'errors': 'Voce nao tem permissao para esta operacao'

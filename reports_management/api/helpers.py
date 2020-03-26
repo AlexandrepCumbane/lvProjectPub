@@ -109,7 +109,14 @@ def generate_case_charts(initial_data, end_data):
     return reports
 
 
-def get_gestor_dashboard_data():
+def get_gestor_dashboard_data(user_id):
+    is_gestor = user_id.groups.filter(name__icontains='gestor').count()
+
+    if is_gestor == 0:
+        return {
+            'data': 'None'
+        }
+    
     total_cases = Case.objects.filter(created_at__date__year=timezone.now().year).count()
     total_cases_referall = Case.objects.filter(case_forwarded=True, created_at__date__year=timezone.now().year).count()
     total_cases_with_feedback = CaseReferall.objects.filter(refered_at__date__year=timezone.now().year).distinct('case').count()
@@ -144,4 +151,23 @@ def get_operador_dashboard_data(user_id):
         'total_cases_month': total_cases_month,
         'total_cases_week': total_cases_week,
         'total_cases_day': total_cases_day
+    }
+
+
+def get_parceiro_dashboard_data(user_id):
+    is_parceiro = user_id.groups.filter(name__icontains='parceiro').count()
+    entity_name = user_id.referall_entity.first()
+
+    if is_parceiro == 0:
+        return {
+            'data': 'None'
+        }
+
+    total_cases_recevied = CaseReferall.objects.filter(created_at__date__year=timezone.now().year, referall_entity=entity_name).count()
+    total_cases_with_feedback = CaseReferall.objects.filter(created_at__date__year=timezone.now().year, referall_entity=entity_name).count()
+
+
+    return {
+        'total_cases_received': total_cases_recevied,
+        'total_cases_with_feedback': total_cases_with_feedback
     }

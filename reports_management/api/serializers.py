@@ -5,6 +5,8 @@ from reports_management.api.helpers import generate_reports_charts_caller
 from reports_management.api.helpers import generate_case_charts
 from reports_management.api.helpers import get_gestor_dashboard_data
 from reports_management.api.helpers import get_operador_dashboard_data
+from reports_management.api.helpers import get_parceiro_dashboard_data
+
 
 
 class GeneralReportSerializer(serializers.Serializer):
@@ -43,8 +45,9 @@ class DashboardData(object):
 
 def generate_dashboard_data(user):
     reports_data = {
-        1: DashboardData(key='gestor_dashboard', value=get_gestor_dashboard_data()),
+        1: DashboardData(key='gestor_dashboard', value=get_gestor_dashboard_data(user)),
         2: DashboardData(key='operador_dashboard', value=get_operador_dashboard_data(user)),
+        3: DashboardData(key='parceiro_dashboard', value=get_parceiro_dashboard_data(user))
     }
 
     return reports_data.values()
