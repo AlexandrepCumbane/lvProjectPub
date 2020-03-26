@@ -330,7 +330,7 @@ class CaseReferallViewset(ModelViewSet):
     filterset_class = CaseReferallFilter
 
     def _update_case(self, caseId):
-        update_case = get_object_or_404(Case.object.all(), pk=caseId)
+        update_case = get_object_or_404(Case.objects.all(), pk=caseId)
         update_case.case_forwarded = True
         update_case.save()
 
