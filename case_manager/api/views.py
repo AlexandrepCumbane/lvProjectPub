@@ -350,7 +350,7 @@ class CaseReferallViewset(ModelViewSet):
 
                 if data_serializer.is_valid():
                     case = data_serializer.save()
-                    case_serializer = CaseSerializerFull(case)
+                    case_serializer = CaseReferallFullSerializer(case)
                     self._update_case(my_case['case'])
 
                     return Response(case_serializer.data)
