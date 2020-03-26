@@ -27,6 +27,7 @@ class DashboardReportViewSet(viewsets.ViewSet):
 
     def list(self, request):
         serializer = DashboardReportSerializer(
-            instance=generate_dashboard_data(request.user)
+            instance=generate_dashboard_data(request.user),
+            many=True
         )
         return Response(serializer.data)
