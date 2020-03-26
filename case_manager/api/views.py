@@ -364,8 +364,9 @@ class CaseReferallViewset(ModelViewSet):
     def list(self, request):
         my_queryset = self.queryset
         user = request.user
-        if user.groups.filter(name='Gestor') is None:
+        if user.groups.filter(name='Gestor').count() == 0:
             my_entity = user.referall_entity.first()
+            print('my entity', my_entity)
             my_queryset = self.queryset.filter(referall_entity=my_entity)
 
         pages = self.paginate_queryset(my_queryset)
