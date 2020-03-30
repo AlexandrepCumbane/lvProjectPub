@@ -203,7 +203,7 @@ class CaseViewset(ModelViewSet):
 
         my_queryset = self.queryset
 
-        if request.user.groups.filter(name='Gestor').count() == 0:
+        if request.user.groups.filter(name='Gestor').count() == 0 and request.user.is_superuser is False:
             my_queryset = self.queryset.filter(created_by=request.user)
 
         pages = self.paginate_queryset(my_queryset)
@@ -290,7 +290,7 @@ class CaseTaskViewset(ModelViewSet):
     def list(self, request):
         my_queryset = self.queryset
 
-        if request.user.groups.filter(name__icontains='Gestor').count() == 0:
+        if request.user.groups.filter(name__icontains='Gestor').count() == 0 and request.user.is_superuser is False:
             """
                 This query filters task for today and tasks that are
                 Not completed at all
@@ -364,7 +364,7 @@ class CaseReferallViewset(ModelViewSet):
     def list(self, request):
         my_queryset = self.queryset
         user = request.user
-        if user.groups.filter(name='Gestor').count() == 0:
+        if user.groups.filter(name='Gestor').count() == 0 and request.user.is_superuser is False:
             my_entity = user.referall_entity.first()
             print('my entity', my_entity)
             my_queryset = self.queryset.filter(referall_entity=my_entity)
@@ -380,7 +380,7 @@ class CaseReferallViewset(ModelViewSet):
         my_groups = request.user.groups.all()
         user = request.user
 
-        if my_groups.filter(name='Gestor') is None:
+        if my_groups.filter(name='Gestor').count() == 0 and request.user.is_superuser is False:
             my_entity = user.referall_entity.first()
             my_queryset = self.queryset.filter(referall_entity=my_entity)
         elif my_groups.filter(name='Operador').count() != 0:
