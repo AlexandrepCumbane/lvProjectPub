@@ -6,8 +6,6 @@ from rest_framework.viewsets import ModelViewSet
 
 from rest_framework.response import Response
 
-from oauth2_provider.models import Application
-
 from user_management.api.serializers import GroupSerializer
 from user_management.api.serializers import UserSerializer
 from user_management.api.serializers import UserInterSerializer
@@ -33,9 +31,6 @@ class UserViewSet(ModelViewSet):
 
             user_saved.set_password(user_saved.password)
             user_saved.save()
-
-            application = Application.objects.create(user=user_saved, authorization_grant_type='password',name=user_saved.username, client_type='confidential')
-            application.save()
 
             return Response({
                 'user': user_saved.pk

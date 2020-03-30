@@ -5,8 +5,6 @@ from django.contrib.auth.models import User
 
 from django.http.response import JsonResponse
 
-from oauth2_provider.models import Application
-
 from rest_framework.decorators import api_view
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny
@@ -23,9 +21,9 @@ def generate_token(request):
     username = request.data['username']
     # Filtro da aplicacao do cliente na base de dados
     # de modo a obter o client ID e o cliente secret
-    application = Application.objects.filter(user__email=username).first()
+    user = User.objects.filter(email=username).first()
 
-    if application is None:
+    if user is None:
         # Se nao tem uma app registrada esse utilizador(caso exista)
         # nao pode fazer login
         return JsonResponse({
@@ -37,11 +35,8 @@ def generate_token(request):
     addapter = 'https://' if request.is_secure() else 'http://'
 
     login_data = {
-        'username': application.user.username,
+        'username': user.username,
         'password': request.data['password'],
-        'grant_type': application.authorization_grant_type,
-        'client_id': application.client_id,
-        'client_secret': application.client_secret
     }
 
     # Esta linha gera o access key do utilizador
@@ -50,7 +45,6 @@ def generate_token(request):
                              data=login_data)
     if response.status_code == 200:
         my_response = response.json()
-        user = User.objects.get(email=username)
         group_name = user.groups.first().name
         return JsonResponse(set_user_pemission(my_response, group_name))
 
