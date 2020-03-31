@@ -320,7 +320,7 @@ class CaseTaskViewset(ModelViewSet):
         
         return Response({
             'errors': task_serializer.errors
-        })
+        }, status=400)
 
 
 class CaseReferallViewset(ModelViewSet):
