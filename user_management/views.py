@@ -45,7 +45,9 @@ def generate_token(request):
                              data=login_data)
     if response.status_code == 200:
         my_response = response.json()
+        my_response['sessionid'] = user.id
         group_name = user.groups.first().name
+
         return JsonResponse(set_user_pemission(my_response, group_name))
 
 
