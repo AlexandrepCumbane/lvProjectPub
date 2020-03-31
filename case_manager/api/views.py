@@ -14,6 +14,7 @@ from rest_framework.decorators import action
 
 from case_manager.api.filters import CaseFilter
 from case_manager.api.filters import CaseReferallFilter
+from case_manager.api.filters import CaseTaskFilter
 
 from case_manager.api.serializers import CaseSerializer
 from case_manager.api.serializers import CaseSerializerFull
@@ -268,6 +269,7 @@ class CaseTaskViewset(ModelViewSet):
         'task_category',
         'status',
         'assigned_to')
+    filterset_class = CaseTaskFilter
 
     def create(self, request):
         my_task = request.data
