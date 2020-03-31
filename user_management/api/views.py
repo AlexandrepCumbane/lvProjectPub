@@ -11,6 +11,7 @@ from user_management.api.serializers import UserSerializer
 from user_management.api.serializers import UserInterSerializer
 from user_management.api.serializers import UserFullSerializer
 
+from user_management.api.filters import UserFilter
 
 class GroupViewSet(ModelViewSet):
     serializer_class = GroupSerializer
@@ -20,6 +21,7 @@ class GroupViewSet(ModelViewSet):
 class UserViewSet(ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
+    filterset_class = UserFilter
 
     def create(self, request):
         my_user = request.data
