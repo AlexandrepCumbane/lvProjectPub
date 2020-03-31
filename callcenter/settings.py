@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     # Third party Library
     'corsheaders',
     'drf_auto_endpoint',
-    'oauth2_provider',
     'rest_framework',
     'django_extensions',
     'django_filters',
