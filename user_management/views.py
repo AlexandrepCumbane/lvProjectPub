@@ -65,5 +65,7 @@ def set_user_pemission(data, group_name):
         data['is_parceiro'] = True
     elif group_name == 'Operador':
         data['is_operador'] = True
-    
+    elif group_name == 'Ponto Focal':
+        data['is_ponto_focal'] = True
+ 
     return data
