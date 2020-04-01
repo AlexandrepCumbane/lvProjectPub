@@ -202,7 +202,7 @@ class CaseViewset(ModelViewSet):
 
     def list(self, request):
 
-        my_queryset = self.queryset
+        my_queryset = self.get_queryset()
 
         if request.user.groups.filter(name='Gestor').count() == 0 and request.user.is_superuser is False:
             my_queryset = self.queryset.filter(created_by=request.user)
@@ -214,7 +214,7 @@ class CaseViewset(ModelViewSet):
     
     @action(methods=['GET'], detail=False)
     def list_case_forwarded(self, response):
-        pages = self.paginate_queryset(self.queryset.filter(case_forwarded=True))
+        pages = self.paginate_queryset(self.get_queryset().filter(case_forwarded=True))
         response = CaseSerializerFull(pages, many=True)
 
         return self.get_paginated_response(response.data)
@@ -262,6 +262,9 @@ class CaseViewset(ModelViewSet):
 
         return super().update(request, pk)
 
+    def get_queryset(self):
+        return self.filter_queryset(self.queryset)
+
 class CaseTaskViewset(ModelViewSet):
     serializer_class = CaseTaskSerializer
     queryset = CaseTask.objects.select_related(
@@ -290,7 +293,7 @@ class CaseTaskViewset(ModelViewSet):
         }, status=400)
     
     def list(self, request):
-        my_queryset = self.queryset
+        my_queryset = self.get_queryset()
 
         if request.user.groups.filter(name__icontains='Gestor').count() == 0 and request.user.is_superuser is False:
             """
@@ -321,6 +324,9 @@ class CaseTaskViewset(ModelViewSet):
         return Response({
             'errors': task_serializer.errors
         }, status=400)
+    
+    def get_queryset(self):
+        return self.filter_queryset(self.queryset)
 
 
 class CaseReferallViewset(ModelViewSet):
@@ -364,7 +370,7 @@ class CaseReferallViewset(ModelViewSet):
         return super().create(request)
 
     def list(self, request):
-        my_queryset = self.queryset
+        my_queryset = self.get_queryset()
         user = request.user
         if user.groups.filter(name='Gestor').count() == 0 and request.user.is_superuser is False:
             my_entity = user.referall_entity.first()
@@ -378,7 +384,7 @@ class CaseReferallViewset(ModelViewSet):
     
     @action(methods=['GET'], detail=False)
     def feedbacks(self, request):
-        my_queryset = self.queryset
+        my_queryset = self.get_queryset()
         my_groups = request.user.groups.all()
         user = request.user
 
@@ -400,6 +406,9 @@ class CaseReferallViewset(ModelViewSet):
 
         case_serializer = CaseReferallFullSerializer(case)
         return Response(case_serializer.data)
+    
+    def get_queryset(self):
+        return self.filter_queryset(self.queryset)
 
 
 @permission_classes((IsAuthenticated,))

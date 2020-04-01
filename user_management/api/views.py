@@ -63,9 +63,12 @@ class UserViewSet(ModelViewSet):
         }, status=400)
 
     def list(self, request):
-        user_page = self.paginate_queryset(self.queryset)
+        user_page = self.paginate_queryset(self.get_queryset())
         response  = UserFullSerializer(user_page, many=True)
         return self.get_paginated_response(response.data)
+    
+    def get_queryset(self):
+        return self.filter_queryset(self.queryset)
 
 
         
