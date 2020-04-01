@@ -302,7 +302,7 @@ class CaseTaskViewset(ModelViewSet):
             """
             my_queryset = self.queryset.filter(assigned_to=request.user).exclude(Q(status__name__icontains='completed'))
             my_queryset = my_queryset | self.queryset.filter(created_at__date=timezone.datetime.now().date())
-            my_queryset = my_queryset.distinct().order_by('-chancreated_at')
+            my_queryset = my_queryset.distinct().order_by('-created_at')
 
         pages = self.paginate_queryset(my_queryset)
         response = CaseTaskFullSerializer(pages, many=True)
