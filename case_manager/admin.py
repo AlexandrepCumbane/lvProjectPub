@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from case_manager.models import Ages
 from case_manager.models import Case
 from case_manager.models import CasePriority
 from case_manager.models import CaseReferall
@@ -29,6 +30,7 @@ from case_manager.models import MecanismUsed
 admin.autodiscover()
 
 # Register your models here.
+admin.site.register(Ages)
 admin.site.register(Case)
 admin.site.register(CasePriority)
 admin.site.register(CaseReferall)
