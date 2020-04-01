@@ -110,16 +110,21 @@ class TaskStatus(models.Model):
         return self.name
 
 
-class Contactor(models.Model):
+class Ages(models.Model):
+    name = models.CharField(max_length=100, unique=True)
 
-    # Text Fields
-    age = models.IntegerField(blank=True, default=0)
+    def __str__(self):
+        return self.name
+
+
+class Contactor(models.Model):
     alternative_number = models.CharField(default='', max_length=25, blank=True, null=True)
     contact = models.CharField(max_length=100)
     fdp = models.CharField(max_length=200, default='', null=True, blank=True)
     full_name = models.CharField(max_length=300)
 
     # Foreign Keys
+    age = models.ForeignKey(Ages, on_delete=models.SET_NULL, related_name='contactor', null=True, blank=True)
     community = models.ForeignKey(Community, on_delete=models.SET_NULL, related_name='contactor', null=True, blank=True)
     district = models.ForeignKey(District, on_delete=models.SET_NULL, related_name='contactor', null=True, blank=True)
     gender = models.ForeignKey(Gender, on_delete=models.CASCADE, related_name='contactor')
