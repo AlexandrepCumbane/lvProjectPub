@@ -58,6 +58,7 @@ def set_user_pemission(data, group_name):
     data['is_gestor'] = False
     data['is_parceiro'] = False
     data['is_operador'] = False
+    data['is_focal_point'] = False
 
     if group_name == 'Gestor':
         data['is_gestor'] = True
