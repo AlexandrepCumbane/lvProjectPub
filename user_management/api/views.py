@@ -10,8 +10,11 @@ from user_management.api.serializers import GroupSerializer
 from user_management.api.serializers import UserSerializer
 from user_management.api.serializers import UserInterSerializer
 from user_management.api.serializers import UserFullSerializer
+from user_management.api.serializers import FocalPointProfileSerializer
 
 from user_management.api.filters import UserFilter
+
+from user_management.models import FocalPointProfile
 
 class GroupViewSet(ModelViewSet):
     serializer_class = GroupSerializer
@@ -71,4 +74,6 @@ class UserViewSet(ModelViewSet):
         return self.filter_queryset(self.queryset)
 
 
-        
+class FocalPointProfileViewset(ModelViewSet):
+    serializer_class = FocalPointProfileSerializer
+    queryset = FocalPointProfile.objects.all()
