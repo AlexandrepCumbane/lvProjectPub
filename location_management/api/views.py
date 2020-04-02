@@ -1,20 +1,13 @@
 from rest_framework.generics import ListAPIView
 from rest_framework.viewsets import ViewSet
 
-from location_management.models import Community
 from location_management.models import District
 from location_management.models import Location
 from location_management.models import Province
 
-from location_management.api.serializers import CommunitySerializer
 from location_management.api.serializers import DistrictSerializer
 from location_management.api.serializers import LocationSerializer
 from location_management.api.serializers import ProvinceSerializer
-
-
-class CommunityViewset(ListAPIView, ViewSet):
-    serializer_class = CommunitySerializer
-    queryset = Community.objects.select_related('location',)
 
 
 class DistrictViewset(ListAPIView, ViewSet):

@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
-from location_management.models import Community
 from location_management.models import District
 from location_management.models import Location
 from location_management.models import Province
@@ -125,7 +124,7 @@ class Contactor(models.Model):
 
     # Foreign Keys
     age = models.ForeignKey(Ages, on_delete=models.SET_NULL, related_name='contactor', null=True, blank=True)
-    community = models.ForeignKey(Community, on_delete=models.SET_NULL, related_name='contactor', null=True, blank=True)
+    community = models.CharField(max_length=100, default='')
     district = models.ForeignKey(District, on_delete=models.SET_NULL, related_name='contactor', null=True, blank=True)
     gender = models.ForeignKey(Gender, on_delete=models.CASCADE, related_name='contactor')
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, related_name='contactor', null=True, blank=True)

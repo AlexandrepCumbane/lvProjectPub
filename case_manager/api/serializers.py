@@ -30,7 +30,6 @@ from case_manager.models import TaskCategory
 from case_manager.models import TaskStatus
 from case_manager.models import TransfereModality
 
-from location_management.api.serializers import CommunitySerializer
 from location_management.api.serializers import DistrictSerializer
 from location_management.api.serializers import LocationSerializer
 from location_management.api.serializers import ProvinceSerializer
@@ -153,7 +152,6 @@ class ContactorSerializer(ModelSerializer):
 class ContactorSerializerFull(ModelSerializer):
 
     province = ProvinceSerializer()
-    community = CommunitySerializer()
     location = LocationSerializer()
     district = DistrictSerializer()
     gender = GenderSerializer()

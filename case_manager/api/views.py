@@ -123,7 +123,7 @@ class TaskStatusViewset(ListAPIView, ViewSet):
 
 class ContactorViewset(ModelViewSet):
     serializer_class = ContactorSerializer
-    queryset = Contactor.objects.select_related('community', 'district', 'gender', 'location', 'province')
+    queryset = Contactor.objects.select_related('district', 'gender', 'location', 'province')
 
 
 class ReferallEntityViewset(ModelViewSet):
