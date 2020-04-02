@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from django.contrib.auth.models import User
 
+from case_manager.models import Ages
 from case_manager.models import CasePriority
 from case_manager.models import CaseStatus
 from case_manager.models import Category
@@ -64,6 +65,7 @@ def get_dropdowns():
     dropdowns.append(DropdownData(key='provinces', value=Province.objects.values()))
     dropdowns.append(DropdownData(key='operators', value=filtrar_operadors()))
     dropdowns.append(DropdownData(key='task_categories', value=TaskCategory.objects.values()))
+    dropdowns.append(DropdownData(key='ages', value=Ages.objects.values()))
 
     return dropdowns
 
