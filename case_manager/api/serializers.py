@@ -157,6 +157,7 @@ class ContactorSerializerFull(ModelSerializer):
     location = LocationSerializer()
     district = DistrictSerializer()
     gender = GenderSerializer()
+    age = serializer_factory(model=Ages, fields=('id', 'name'))()
 
     class Meta:
         model = Contactor
@@ -225,7 +226,6 @@ class CaseSerializerFull(ModelSerializer):
     number_of_tasks = SerializerMethodField()
     has_feedback = SerializerMethodField()
     case_type = serializer_factory(model=CaseType, fields=('id', 'name'))()
-    age = serializer_factory(model=Ages, fields=('id', 'name'))()
 
     case_referall = CaseFeedbackSerializer(many=True)
 
