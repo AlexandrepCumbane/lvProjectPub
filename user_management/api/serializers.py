@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer
 from rest_framework.serializers import SerializerMethodField
 
+from user_management.models import FocalPointProfile
+
 class GroupSerializer(ModelSerializer):
 
     class Meta:
@@ -36,3 +38,9 @@ class UserInterSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'groups', 'password']
+
+
+class FocalPointProfileSerializer(ModelSerializer):
+    class Meta:
+        model = FocalPointProfile
+        fields = '__all__'
