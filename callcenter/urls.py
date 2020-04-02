@@ -18,6 +18,7 @@ from django.urls import include
 from django.urls import path
 from django.views.generic import TemplateView
 
+from rest_framework.documentation import include_docs_urls
 from rest_framework_jwt.views import obtain_jwt_token
 
 from user_management.views import generate_token
@@ -28,4 +29,5 @@ urlpatterns = [
     path('api/v1/o/login/', generate_token),
     path('api/v1/o/token/', obtain_jwt_token),
     path('admin/', admin.site.urls),
+    path('docs/', include_docs_urls('Recrutamento API')),
 ]

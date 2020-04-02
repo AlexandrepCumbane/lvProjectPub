@@ -8,6 +8,8 @@ CairoSVG==2.2.1
 certifi==2019.11.28
 cffi==1.11.5
 chardet==3.0.4
+coreapi==2.3.3
+coreschema==0.0.4
 cssselect2==0.2.1
 defusedxml==0.5.0
 diff-match-patch==20181111
@@ -26,15 +28,19 @@ djangorestframework-jwt==1.11.0
 djangorestframework-simplejwt==3.3
 docutils==0.15.2
 drf-schema-adapter==2.0.6
+et-xmlfile==1.0.1
 gunicorn==20.0.4
 html5lib==1.0.1
 idna==2.8
 importlib-metadata==1.5.0
 Inflector==3.0.1
+itypes==1.1.0
 jdcal==1.4.1
+Jinja2==2.11.1
 jmespath==0.9.4
 kombu==4.6.7
 MarkupPy==1.14
+MarkupSafe==1.1.1
 oauthlib==3.1.0
 odfpy==1.4.1
 openpyxl==3.0.3
@@ -59,6 +65,7 @@ six==1.14.0
 sqlparse==0.3.0
 tablib==0.14.0
 tinycss2==0.6.1
+uritemplate==3.0.1
 urllib3==1.25.8
 vine==1.3.0
 webencodings==0.5.1
