@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from case_manager.models import Ages
 from case_manager.models import CasePriority
 from case_manager.models import CaseStatus
+from case_manager.models import CaseType
 from case_manager.models import Category
 from case_manager.models import CustomerSatisfaction
 from case_manager.models import Gender
@@ -50,6 +51,8 @@ def get_dropdowns():
     dropdowns = []
     
     dropdowns.append(DropdownData(key='case_status', value=CaseStatus.objects.values()))
+    dropdowns.append(DropdownData(key='case_types', value=CaseType.objects.values()))
+    dropdowns.append(DropdownData(key='case_priorities', value=CasePriority.objects.values()))
     dropdowns.append(DropdownData(key='categories', value=Category.objects.values()))
     dropdowns.append(DropdownData(key='customer_satisfaction', value=CustomerSatisfaction.objects.values()))
     dropdowns.append(DropdownData(key='genders', value=Gender.objects.values()))
