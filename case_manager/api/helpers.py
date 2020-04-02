@@ -25,7 +25,6 @@ from case_manager.models import TaskStatus
 from case_manager.models import TaskCategory
 from case_manager.models import TransfereModality
 
-from location_management.models import District
 from location_management.models import Location
 from location_management.models import Province
 
@@ -67,7 +66,6 @@ def get_dropdowns():
     dropdowns.append(DropdownData(key='task_status', value=TaskStatus.objects.values()))
     dropdowns.append(DropdownData(key='transfere_modalities', value=TransfereModality.objects.values()))
     dropdowns.append(DropdownData(key='mecanism_used', value=MecanismUsed.objects.values()))
-    dropdowns.append(DropdownData(key='districts', value=District.objects.values()))
     dropdowns.append(DropdownData(key='localities', value=Location.objects.values()))
     dropdowns.append(DropdownData(key='provinces', value=Province.objects.values()))
     dropdowns.append(DropdownData(key='operators', value=filtrar_user_by_type(UserType.OPERATOR.value)))
