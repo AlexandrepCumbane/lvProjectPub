@@ -368,6 +368,34 @@ class CaseReferallViewset(ModelViewSet):
                     }, status=400)
 
         return super().create(request)
+    
+    @action(methods=['POST'], detail=False)
+    def send_to_focal_point(self, request):
+        my_case = request.data
+
+        if isinstance(my_case['referall_entity'], dict):
+            my_entities = list(my_case['referall_entity'].values())[1:]
+            for item in my_entities:
+
+                data = {
+                    'case': my_case['case'],
+                    'referall_entity': item
+                }
+
+                data_serializer = CaseReferallSerializer(data=data)
+
+                if data_serializer.is_valid():
+                    case = data_serializer.save()
+                    case_serializer = CaseReferallFullSerializer(case)
+                    self._update_case(my_case['case'])
+
+                    return Response(case_serializer.data)
+                else:
+                    return Response({
+                        'Errors': data_serializer.errors,
+                    }, status=400)
+
+        return super().create(request)
 
     def list(self, request):
         my_queryset = self.get_queryset()
