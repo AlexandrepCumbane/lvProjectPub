@@ -238,6 +238,7 @@ class CaseReferall(models.Model):
     case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name='case_referall')
     referall_entity = models.ForeignKey(ReferallEntity, on_delete=models.CASCADE, related_name='case_referall')
     has_feedback = models.BooleanField(default=False)
+    referred_to_focal_point = models.BooleanField(default=False)
 
 
 class CaseTask(models.Model):
