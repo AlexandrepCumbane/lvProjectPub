@@ -4,6 +4,7 @@ from drf_auto_endpoint.factories import serializer_factory
 from rest_framework.serializers import ModelSerializer
 from rest_framework.serializers import SerializerMethodField
 
+from case_manager.models import Ages
 from case_manager.models import Case
 from case_manager.models import CasePriority
 from case_manager.models import CaseReferall
@@ -224,6 +225,7 @@ class CaseSerializerFull(ModelSerializer):
     number_of_tasks = SerializerMethodField()
     has_feedback = SerializerMethodField()
     case_type = serializer_factory(model=CaseType, fields=('id', 'name'))()
+    age = serializer_factory(model=Ages, fields=('id', 'name'))()
 
     case_referall = CaseFeedbackSerializer(many=True)
 
