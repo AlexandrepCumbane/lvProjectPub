@@ -1,3 +1,5 @@
+from enum import Enum
+
 from rest_framework import serializers
 
 from django.contrib.auth.models import User
@@ -28,14 +30,21 @@ from location_management.models import District
 from location_management.models import Location
 from location_management.models import Province
 
+
+class UserType(Enum):
+    OPERATOR = "Operador"
+    FOCAL_POINT = "Ponto Focal"
+
+
 class DropdownData(object):
 
     def __init__(self, **kwargs):
         self.key = kwargs.get('key', None)
         self.value = kwargs.get('value', None)
 
-def filtrar_operadors():
-    operadores = User.objects.filter(groups__name__in=['Operador']).values()
+def filtrar_user_by_type(type_name):
+    print('type', type_name)
+    operadores = User.objects.filter(groups__name__in=[type_name]).values()
     return operadores
 
 
@@ -63,7 +72,8 @@ def get_dropdowns():
     dropdowns.append(DropdownData(key='districts', value=District.objects.values()))
     dropdowns.append(DropdownData(key='localities', value=Location.objects.values()))
     dropdowns.append(DropdownData(key='provinces', value=Province.objects.values()))
-    dropdowns.append(DropdownData(key='operators', value=filtrar_operadors()))
+    dropdowns.append(DropdownData(key='operators', value=filtrar_user_by_type(UserType.OPERATOR.value)))
+    dropdowns.append(DropdownData(key='focal_points', value=filtrar_user_by_type(UserType.FOCAL_POINT.value)))
     dropdowns.append(DropdownData(key='task_categories', value=TaskCategory.objects.values()))
     dropdowns.append(DropdownData(key='ages', value=Ages.objects.values()))
 
