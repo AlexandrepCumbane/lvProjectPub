@@ -7,6 +7,8 @@ from django.utils import timezone
 from location_management.models import Location
 from location_management.models import Province
 
+from user_management.models import FocalPointProfile
+
 # Create your models here.
 
 class CasePriority(models.Model):
@@ -259,6 +261,10 @@ class Case(models.Model):
         CategoryIssueSub, related_name='cases', blank=True)
     sub_category = models.ManyToManyField(
         SubCategory, related_name='cases', blank=True)
+    
+    focal_points = models.ManyToManyField(
+        FocalPointProfile, related_name='cases', blank=True
+    )
 
 
 class CaseReferall(models.Model):
