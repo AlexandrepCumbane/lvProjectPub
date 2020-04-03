@@ -123,7 +123,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(PACKAGE_ROOT, "site_media", "static")
-
+MEDIA_URL = "/site_media/static/"
+MEDIA_ROOT = os.path.join(PACKAGE_ROOT, "site_media", "media")
 
 # Initial table data
 FIXTURE_DIRS = [
