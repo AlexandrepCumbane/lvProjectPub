@@ -64,15 +64,15 @@ def generate_reports_charts_caller(initial_data, end_data):
     reports_age_aux = [
         {
             'name': 'bellow_17',
-            'total': Case.objects.filter(created_at__date__range=(initial_data, end_data), contactor__age__lte=17).count()
+            'total': Case.objects.filter(created_at__date__range=(initial_data, end_data), contactor__age__name__icontains='17').count()
         },
         {
             'name': 'between_18_and_59',
-            'total': Case.objects.filter(created_at__date__range=(initial_data, end_data), contactor__age__range=(18, 59)).count()
+            'total': Case.objects.filter(created_at__date__range=(initial_data, end_data), contactor__age__name__icontains='18').count()
         },
         {
             'name': 'above_60',
-            'total': Case.objects.filter(created_at__date__range=(initial_data, end_data), contactor__age__gte=60).count()
+            'total': Case.objects.filter(created_at__date__range=(initial_data, end_data), contactor__age__name__icontains='60').count()
         }
     ]
 
