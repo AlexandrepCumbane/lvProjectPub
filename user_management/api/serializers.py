@@ -24,10 +24,15 @@ class UserFullSerializer(ModelSerializer):
 
     groups = GroupSerializer(many=True)
     is_focal_point = SerializerMethodField()
-
+   
     class Meta:
         model = User
-        fields = ['id','first_name', 'last_name', 'username', 'email', 'groups', 'is_active', 'is_focal_point']
+        fields = [
+            'id',
+            'first_name',
+            'last_name',
+            'username',
+            'email', 'groups', 'is_active', 'is_focal_point', 'focal_point_profile']
 
     def get_is_focal_point(self, obj):
         return obj.groups.filter(name__icontains='Ponto Focal').count() != 0
