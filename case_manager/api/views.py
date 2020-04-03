@@ -3,14 +3,13 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 
+from rest_framework.decorators import action
 from rest_framework.decorators import permission_classes
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.viewsets import ViewSet
-from rest_framework.decorators import action
-
 
 from case_manager.api.filters import CaseFilter
 from case_manager.api.filters import CaseReferallFilter
@@ -47,6 +46,7 @@ from case_manager.models import CasePriority
 from case_manager.models import CaseReferall
 from case_manager.models import CaseTask
 from case_manager.models import Category
+from case_manager.models import CategoryIssue
 from case_manager.models import Contactor
 from case_manager.models import CustomerSatisfaction
 from case_manager.models import Gender
@@ -57,7 +57,6 @@ from case_manager.models import ReferallEntity
 from case_manager.models import ResolutionCategory
 from case_manager.models import ResolutionSubCategory
 from case_manager.models import SubCategory
-from case_manager.models import CategoryIssue
 from case_manager.models import TaskStatus
 
 
@@ -214,6 +213,9 @@ class CaseViewset(ModelViewSet):
     
     @action(methods=['GET'], detail=False)
     def list_case_forwarded(self, response):
+        """
+        List cases that a referred to a partner
+        """
         pages = self.paginate_queryset(self.get_queryset().filter(case_forwarded=True))
         response = CaseSerializerFull(pages, many=True)
 
