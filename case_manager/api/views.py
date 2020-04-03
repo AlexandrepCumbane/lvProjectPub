@@ -259,10 +259,25 @@ class CaseViewset(ModelViewSet):
                 return Response({
                     'errors': case_serializer.errors
                 }, status=400)
+
         except KeyError:
             pass
 
         return super().update(request, pk)
+    
+    @action(methods=['PUT'], detail=True)
+    def send_to_focal_point(self, request, pk=None):
+        case_update = get_object_or_404(self.queryset, pk=pk)
+
+        case_serializer = CaseSerializer(case_update, data=request.data, partial=True)
+        if case_serializer.is_valid():
+            case_saved = case_serializer.save()
+            case_serializer = CaseSerializerFull(case_saved)
+            return Response(case_serializer.data)
+        else:
+            return Response({
+                'errors': case_serializer.errors
+            }, status=400)
 
     def get_queryset(self):
         return self.filter_queryset(self.queryset)
@@ -345,34 +360,6 @@ class CaseReferallViewset(ModelViewSet):
         update_case.save()
 
     def create(self, request):
-        my_case = request.data
-
-        if isinstance(my_case['referall_entity'], dict):
-            my_entities = list(my_case['referall_entity'].values())[1:]
-            for item in my_entities:
-
-                data = {
-                    'case': my_case['case'],
-                    'referall_entity': item
-                }
-
-                data_serializer = CaseReferallSerializer(data=data)
-
-                if data_serializer.is_valid():
-                    case = data_serializer.save()
-                    case_serializer = CaseReferallFullSerializer(case)
-                    self._update_case(my_case['case'])
-
-                    return Response(case_serializer.data)
-                else:
-                    return Response({
-                        'Errors': data_serializer.errors,
-                    }, status=400)
-
-        return super().create(request)
-    
-    @action(methods=['POST'], detail=False)
-    def send_to_focal_point(self, request):
         my_case = request.data
 
         if isinstance(my_case['referall_entity'], dict):
