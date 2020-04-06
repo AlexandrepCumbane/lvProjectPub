@@ -226,7 +226,6 @@ class CaseSerializerFull(ModelSerializer):
     case_referall = CaseFeedbackSerializer(many=True)
 
     tasks = CaseTaskFull2Serializer(many=True)
-    case_referall = CaseReferallSimpleSerializer(many=True)
 
     class Meta:
         model = Case
