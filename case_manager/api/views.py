@@ -204,7 +204,7 @@ class CaseViewset(ModelViewSet):
         my_queryset = self.get_queryset()
 
         if request.user.groups.filter(name='Gestor').count() == 0 and request.user.is_superuser is False:
-            my_queryset = self.queryset.filter(Q(created_by=request.user) | Q(focal_points__user__id__in=(request.user,)))
+            my_queryset = self.queryset.filter(Q(created_by=request.user) | Q(focal_points__user__id__in=(request.user.id,)))
 
         pages = self.paginate_queryset(my_queryset)
         response = CaseSerializerFull(pages, many=True)
