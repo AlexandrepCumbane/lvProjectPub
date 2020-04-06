@@ -269,7 +269,12 @@ class CaseTaskFullSerializer(ModelSerializer):
     task_category = TaskCategorySerializer()
     status = TaskStatusSerializer()
     case = serializer_factory(model=Case, fields=('case_id',))()
-    
+    priority = SerializerMethodField()
+
     class Meta:
         model = CaseTask
         fields = '__all__'
+    
+    def get_priority(self, obj):
+        return obj.case.case_priority.name
+
