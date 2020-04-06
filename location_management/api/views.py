@@ -11,7 +11,7 @@ from location_management.api.serializers import ProvinceSerializer
 
 class LocationViewset(ListAPIView, ViewSet):
     serializer_class = LocationSerializer
-    querysey = Location.objects.all()
+    queryset = Location.objects.all()
 
 
 class ProvinceViewset(ListAPIView, ViewSet):
