@@ -25,6 +25,11 @@ class CaseReferallFilter(FilterSet):
 
 class CaseTaskFilter(FilterSet):
 
+    title = CharFilter(lookup_expr='icontains')
+    case__case_id = CharFilter(lookup_expr='icontains')
+    category__name = CharFilter(lookup_expr='icontains')
+    assigned_to__username = CharFilter(lookup_expr='icontains')
+
     class Meta:
         model = CaseTask
-        fields = '__all__'
+        fields = ['title', 'case__case_id', 'category__name', 'assigned_to__username']
