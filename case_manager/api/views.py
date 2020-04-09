@@ -362,9 +362,11 @@ class CaseReferallViewset(ModelViewSet):
     def create(self, request):
         my_case = request.data
 
-        if isinstance(my_case['referall_entity'], dict):
-            my_entities = list(my_case['referall_entity'].values())[1:]
+        if isinstance(my_case['referall_entity'], list):
+            my_entities = my_case['referall_entity']
             for item in my_entities:
+                if isinstance(item, list):
+                    continue
 
                 data = {
                     'case': my_case['case'],
