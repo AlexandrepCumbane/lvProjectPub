@@ -157,6 +157,23 @@ def get_operador_dashboard_data(user_id):
 
 
 def get_parceiro_dashboard_data(user_id):
+    ponto_focal = user_id.groups.filter(name__icontains='ponto focal').count()
+
+    if ponto_focal > 0:
+        total_cases_recevied = Case.objects.filter(
+            created_at__date__year=timezone.now().year,
+            focal_points__id__in=[user_id.id],
+            case_forwarded=False).count()
+        total_cases_with_feedback = CaseReferall.objects.filter(
+            refered_at__date__year=timezone.now().year,
+            referall_entity__users__in=[user_id.id],
+            has_feedback=True).count()
+
+        return {
+            'total_cases_received': total_cases_recevied,
+            'total_cases_with_feedback': total_cases_with_feedback
+        }
+
     is_parceiro = user_id.groups.filter(name__icontains='parceiro').count()
     entity_name = user_id.referall_entity.first()
     if is_parceiro == 0:
