@@ -6,16 +6,11 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0040_remove_contactor_district'),
-        ('location_management', '0003_delete_community'),
+        ("case_manager", "0040_remove_contactor_district"),
+        ("location_management", "0003_delete_community"),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='location',
-            name='district',
-        ),
-        migrations.DeleteModel(
-            name='District',
-        ),
+        migrations.RemoveField(model_name="location", name="district",),
+        migrations.DeleteModel(name="District",),
     ]

@@ -6,14 +6,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('user_management', '0001_initial'),
-        ('case_manager', '0040_remove_contactor_district'),
+        ("user_management", "0001_initial"),
+        ("case_manager", "0040_remove_contactor_district"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='case',
-            name='focal_points',
-            field=models.ManyToManyField(blank=True, related_name='cases', to='user_management.FocalPointProfile'),
+            model_name="case",
+            name="focal_points",
+            field=models.ManyToManyField(
+                blank=True, related_name="cases", to="user_management.FocalPointProfile"
+            ),
         ),
     ]

@@ -5,5 +5,5 @@ from location_management.api.views import ProvinceViewset
 
 router = DefaultRouter()
 
-router.register(prefix='locations', viewset=LocationViewset, basename='location')
-router.register(prefix='provinces', viewset=ProvinceViewset, basename='province')
+router.register(prefix="locations", viewset=LocationViewset, basename="location")
+router.register(prefix="provinces", viewset=ProvinceViewset, basename="province")

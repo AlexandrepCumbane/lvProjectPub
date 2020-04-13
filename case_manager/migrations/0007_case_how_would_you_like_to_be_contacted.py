@@ -7,13 +7,18 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0006_auto_20200305_1517'),
+        ("case_manager", "0006_auto_20200305_1517"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='case',
-            name='how_would_you_like_to_be_contacted',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='cases', to='case_manager.HowWouldYouLikeToBeContacted'),
+            model_name="case",
+            name="how_would_you_like_to_be_contacted",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="cases",
+                to="case_manager.HowWouldYouLikeToBeContacted",
+            ),
         ),
     ]

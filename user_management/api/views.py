@@ -16,6 +16,7 @@ from user_management.api.filters import UserFilter
 
 from user_management.models import FocalPointProfile
 
+
 class GroupViewSet(ModelViewSet):
     serializer_class = GroupSerializer
     queryset = Group.objects.all()
@@ -37,40 +38,32 @@ class UserViewSet(ModelViewSet):
             user_saved.set_password(user_saved.password)
             user_saved.save()
 
-            return Response({
-                'user': user_saved.pk
-            })
-            
-        
-        return  Response({
-            'errors': user_serializer.errors
-        }, status=400)
+            return Response({"user": user_saved.pk})
 
+        return Response({"errors": user_serializer.errors}, status=400)
 
     def update(self, request, pk=None):
         user = get_object_or_404(self.queryset, pk=pk)
 
         my_data = request.data
-        print('data', my_data)
-        my_data = {key: my_data[key] for key in my_data.keys() if not key == "editPassword"}
+        print("data", my_data)
+        my_data = {
+            key: my_data[key] for key in my_data.keys() if not key == "editPassword"
+        }
 
         user_serializer = UserSerializer(user, data=my_data, partial=True)
 
         if user_serializer.is_valid():
             user_saved = user_serializer.save()
-            return Response({
-                'user': user_saved.id
-            })
-        
-        return Response({
-            'errors': user_serializer.errors
-        }, status=400)
+            return Response({"user": user_saved.id})
+
+        return Response({"errors": user_serializer.errors}, status=400)
 
     def list(self, request):
         user_page = self.paginate_queryset(self.get_queryset())
-        response  = UserFullSerializer(user_page, many=True)
+        response = UserFullSerializer(user_page, many=True)
         return self.get_paginated_response(response.data)
-    
+
     def get_queryset(self):
         return self.filter_queryset(self.queryset)
 

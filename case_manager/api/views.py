@@ -82,7 +82,7 @@ class CategoryViewset(ListAPIView, ViewSet):
 
 class SubCategoryViewset(ListAPIView, ViewSet):
     serializer_class = SubCategorySerializer
-    queryset = SubCategory.objects.select_related('category',)
+    queryset = SubCategory.objects.select_related("category",)
 
 
 class CategoryIssueViewset(ListAPIView, ViewSet):
@@ -97,7 +97,7 @@ class ResolutionCategoryViewset(ListAPIView, ViewSet):
 
 class ResolutionSubCategoryViewset(ListAPIView, ViewSet):
     serializer_class = ResolutionSubCategorySerializer
-    queryset = ResolutionSubCategory.objects.select_related('resolution_category',)
+    queryset = ResolutionSubCategory.objects.select_related("resolution_category",)
 
 
 class HowDoYouHearAboutUsViewset(ListAPIView, ViewSet):
@@ -122,53 +122,46 @@ class TaskStatusViewset(ListAPIView, ViewSet):
 
 class ContactorViewset(ModelViewSet):
     serializer_class = ContactorSerializer
-    queryset = Contactor.objects.select_related('gender', 'location', 'province')
+    queryset = Contactor.objects.select_related("gender", "location", "province")
 
 
 class ReferallEntityViewset(ModelViewSet):
     serializer_class = ReferallEntitySerializer
-    queryset = ReferallEntity.objects.prefetch_related('users')
+    queryset = ReferallEntity.objects.prefetch_related("users")
 
 
 class CaseViewset(ModelViewSet):
     serializer_class = CaseSerializer
     queryset = Case.objects.select_related(
-        'case_priority',
-        'category',
-        'contactor',
-        'created_by',
-        'how_knows_us',
-        ).filter(is_deleted=False)
+        "case_priority", "category", "contactor", "created_by", "how_knows_us",
+    ).filter(is_deleted=False)
     filterset_class = CaseFilter
 
     def create(self, request):
 
         try:
-            contactor = request.data['contactor']
-            case = request.data['case']
+            contactor = request.data["contactor"]
+            case = request.data["case"]
 
-            case['category_issue_sub'] = list(case['category_issue_sub'].values())
-            case['sub_category'] = list(case['sub_category'].values())
-            case['case_status'] = CaseStatus.objects.get(name='Not Started').id
-            case['case_priority'] = CasePriority.objects.get(name='High').id
-            
+            case["category_issue_sub"] = list(case["category_issue_sub"].values())
+            case["sub_category"] = list(case["sub_category"].values())
+            case["case_status"] = CaseStatus.objects.get(name="Not Started").id
+            case["case_priority"] = CasePriority.objects.get(name="High").id
+
             contactor_id = self.__save_contactor(contactor)
 
             if contactor_id == -1:
-                return Response({'error':'Erro ao gravar contactant'}, status=400)
-            
-            
-            case['contactor'] = contactor_id
-            case['created_by'] = request.user.id
+                return Response({"error": "Erro ao gravar contactant"}, status=400)
+
+            case["contactor"] = contactor_id
+            case["created_by"] = request.user.id
             case_serializer = CaseSerializer(data=case)
 
             if case_serializer.is_valid():
                 case = case_serializer.save()
-                return Response({'case': case.id})
+                return Response({"case": case.id})
             else:
-                return Response({
-                    'errors': case_serializer.errors
-                }, status=400)
+                return Response({"errors": case_serializer.errors}, status=400)
         except KeyError:
             pass
         return super().create(request)
@@ -180,16 +173,18 @@ class CaseViewset(ModelViewSet):
             return contact_saved.id
         else:
             return -1
-    
+
     def __update_contactor(self, contactor_data):
         contactors = Contactor.objects.all()
-        contactor = get_object_or_404(contactors, pk=contactor_data['id'])
-        contact_serializer = ContactorSerializer(contactor, data=contactor_data, partial=True)
+        contactor = get_object_or_404(contactors, pk=contactor_data["id"])
+        contact_serializer = ContactorSerializer(
+            contactor, data=contactor_data, partial=True
+        )
         if contact_serializer.is_valid():
             contact_saved = contact_serializer.save()
             return contact_saved.id
         else:
-            print('errors', contact_serializer.errors)
+            print("errors", contact_serializer.errors)
 
             return -1
 
@@ -203,15 +198,21 @@ class CaseViewset(ModelViewSet):
 
         my_queryset = self.get_queryset()
 
-        if request.user.groups.filter(name='Gestor').count() == 0 and request.user.is_superuser is False:
-            my_queryset = self.queryset.filter(Q(created_by=request.user) | Q(focal_points__user__id__in=(request.user.id,)))
+        if (
+            request.user.groups.filter(name="Gestor").count() == 0
+            and request.user.is_superuser is False
+        ):
+            my_queryset = self.queryset.filter(
+                Q(created_by=request.user)
+                | Q(focal_points__user__id__in=(request.user.id,))
+            )
 
         pages = self.paginate_queryset(my_queryset)
         response = CaseSerializerFull(pages, many=True)
 
         return self.get_paginated_response(response.data)
-    
-    @action(methods=['GET'], detail=False)
+
+    @action(methods=["GET"], detail=False)
     def list_case_forwarded(self, response):
         """
         List cases that a referred to a partner
@@ -220,15 +221,15 @@ class CaseViewset(ModelViewSet):
         response = CaseSerializerFull(pages, many=True)
 
         return self.get_paginated_response(response.data)
-    
-    @action(methods=['GET'], detail=True)
+
+    @action(methods=["GET"], detail=True)
     def tasks(self, response, pk=None):
         case = get_object_or_404(self.queryset, pk=pk)
         pages = self.paginate_queryset(case.tasks.all())
         response = CaseTaskFullSerializer(pages, many=True)
 
         return self.get_paginated_response(response.data)
-    
+
     def retrieve(self, response, pk=None):
 
         case = get_object_or_404(self.queryset, pk=pk)
@@ -240,14 +241,15 @@ class CaseViewset(ModelViewSet):
         case_update = get_object_or_404(self.queryset, pk=pk)
 
         try:
-            case = request.data['case']
-            contactor = request.data['contactor']
-            contactor_id =  self.__update_contactor(contactor)
+            case = request.data["case"]
+            contactor = request.data["contactor"]
+            contactor_id = self.__update_contactor(contactor)
 
             if contactor_id == -1:
-                return Response({
-                    'errors': 'Houve um erro ao alterar os dados do contactante'
-                }, status=400)
+                return Response(
+                    {"errors": "Houve um erro ao alterar os dados do contactante"},
+                    status=400,
+                )
 
             case_serializer = CaseSerializer(case_update, data=case, partial=True)
 
@@ -256,16 +258,14 @@ class CaseViewset(ModelViewSet):
                 case_serializer = CaseSerializerFull(case_saved)
                 return Response(case_serializer.data)
             else:
-                return Response({
-                    'errors': case_serializer.errors
-                }, status=400)
+                return Response({"errors": case_serializer.errors}, status=400)
 
         except KeyError:
             pass
 
         return super().update(request, pk)
-    
-    @action(methods=['PUT'], detail=True)
+
+    @action(methods=["PUT"], detail=True)
     def send_to_focal_point(self, request, pk=None):
         case_update = get_object_or_404(self.queryset, pk=pk)
 
@@ -275,28 +275,27 @@ class CaseViewset(ModelViewSet):
             case_serializer = CaseSerializerFull(case_saved)
             return Response(case_serializer.data)
         else:
-            return Response({
-                'errors': case_serializer.errors
-            }, status=400)
+            return Response({"errors": case_serializer.errors}, status=400)
 
     def get_queryset(self):
         return self.filter_queryset(self.queryset)
 
+
 class CaseTaskViewset(ModelViewSet):
     serializer_class = CaseTaskSerializer
     queryset = CaseTask.objects.select_related(
-        'case',
-        'task_category',
-        'status',
-        'assigned_to')
+        "case", "task_category", "status", "assigned_to"
+    )
     filterset_class = CaseTaskFilter
 
     def create(self, request):
         my_task = request.data
         try:
-            my_task['status'] = TaskStatus.objects.filter(name__icontains='Not Started').first().id
+            my_task["status"] = (
+                TaskStatus.objects.filter(name__icontains="Not Started").first().id
+            )
         except AttributeError:
-            print('Immutable atributte')
+            print("Immutable atributte")
 
         task_serializer = CaseTaskSerializer(data=my_task)
 
@@ -305,31 +304,36 @@ class CaseTaskViewset(ModelViewSet):
             task_serializer = CaseTaskFullSerializer(task_saved)
             return Response(task_serializer.data)
 
-        return Response({
-            'errors': task_serializer.errors
-        }, status=400)
-    
+        return Response({"errors": task_serializer.errors}, status=400)
+
     def list(self, request):
         my_queryset = self.get_queryset()
 
-        if request.user.groups.filter(name__icontains='Gestor').count() == 0 and request.user.is_superuser is False:
+        if (
+            request.user.groups.filter(name__icontains="Gestor").count() == 0
+            and request.user.is_superuser is False
+        ):
             """
                 This query filters task for today and tasks that are
                 Not completed at all
             """
-            my_queryset = self.queryset.filter(assigned_to=request.user).exclude(Q(status__name__icontains='completed'))
-            my_queryset = my_queryset | self.queryset.filter(created_at__date=timezone.datetime.now().date())
-            my_queryset = my_queryset.distinct().order_by('-created_at')
+            my_queryset = self.queryset.filter(assigned_to=request.user).exclude(
+                Q(status__name__icontains="completed")
+            )
+            my_queryset = my_queryset | self.queryset.filter(
+                created_at__date=timezone.datetime.now().date()
+            )
+            my_queryset = my_queryset.distinct().order_by("-created_at")
 
         pages = self.paginate_queryset(my_queryset)
         response = CaseTaskFullSerializer(pages, many=True)
 
         return self.get_paginated_response(response.data)
-    
+
     def update(self, request, pk=None):
         my_task = get_object_or_404(self.queryset, pk=pk)
         my_data = request.data
-        my_data['updated_by'] = request.user.id
+        my_data["updated_by"] = request.user.id
 
         task_serializer = CaseTaskSerializer(my_task, data=my_data, partial=True)
 
@@ -337,20 +341,16 @@ class CaseTaskViewset(ModelViewSet):
             task_updated = task_serializer.save()
             task_serializer = CaseTaskFullSerializer(task_updated)
             return Response(task_serializer.data)
-        
-        return Response({
-            'errors': task_serializer.errors
-        }, status=400)
-    
+
+        return Response({"errors": task_serializer.errors}, status=400)
+
     def get_queryset(self):
         return self.filter_queryset(self.queryset)
 
 
 class CaseReferallViewset(ModelViewSet):
     serializer_class = CaseReferallSerializer
-    queryset = CaseReferall.objects.select_related(
-        'case',
-        'referall_entity')
+    queryset = CaseReferall.objects.select_related("case", "referall_entity")
 
     filterset_class = CaseReferallFilter
 
@@ -362,70 +362,71 @@ class CaseReferallViewset(ModelViewSet):
     def create(self, request):
         my_case = request.data
 
-        if isinstance(my_case['referall_entity'], list):
-            my_entities = my_case['referall_entity']
+        if isinstance(my_case["referall_entity"], list):
+            my_entities = my_case["referall_entity"]
             for item in my_entities:
                 if isinstance(item, list):
                     continue
 
-                data = {
-                    'case': my_case['case'],
-                    'referall_entity': item
-                }
+                data = {"case": my_case["case"], "referall_entity": item}
 
                 data_serializer = CaseReferallSerializer(data=data)
 
                 if data_serializer.is_valid():
                     case = data_serializer.save()
                     case_serializer = CaseReferallFullSerializer(case)
-                    self._update_case(my_case['case'])
+                    self._update_case(my_case["case"])
 
                     return Response(case_serializer.data)
                 else:
-                    return Response({
-                        'Errors': data_serializer.errors,
-                    }, status=400)
+                    return Response({"Errors": data_serializer.errors,}, status=400)
 
         return super().create(request)
 
     def list(self, request):
         my_queryset = self.get_queryset()
         user = request.user
-        if user.groups.filter(name='Gestor').count() == 0 and request.user.is_superuser is False:
+        if (
+            user.groups.filter(name="Gestor").count() == 0
+            and request.user.is_superuser is False
+        ):
             my_entity = user.referall_entity.first()
-            print('my entity', my_entity)
+            print("my entity", my_entity)
             my_queryset = self.queryset.filter(referall_entity=my_entity)
 
         pages = self.paginate_queryset(my_queryset)
         response = CaseReferallFullSerializer(pages, many=True)
 
         return self.get_paginated_response(response.data)
-    
-    @action(methods=['GET'], detail=False)
+
+    @action(methods=["GET"], detail=False)
     def feedbacks(self, request):
         my_queryset = self.get_queryset()
         my_groups = request.user.groups.all()
         user = request.user
 
-        if my_groups.filter(name='Gestor').count() == 0 and request.user.is_superuser is False:
+        if (
+            my_groups.filter(name="Gestor").count() == 0
+            and request.user.is_superuser is False
+        ):
             my_entity = user.referall_entity.first()
             my_queryset = self.queryset.filter(referall_entity=my_entity)
-        elif my_groups.filter(name='Operador').count() != 0:
-            return Response({
-                'errors': 'Voce nao tem permissao para esta operacao'
-            }, status=403)
+        elif my_groups.filter(name="Operador").count() != 0:
+            return Response(
+                {"errors": "Voce nao tem permissao para esta operacao"}, status=403
+            )
 
         pages = self.paginate_queryset(my_queryset.filter(has_feedback=True))
         response = CaseReferallFullSerializer(pages, many=True)
 
         return self.get_paginated_response(response.data)
-    
+
     def retrieve(self, response, pk=None):
         case = get_object_or_404(self.queryset, pk=pk)
 
         case_serializer = CaseReferallFullSerializer(case)
         return Response(case_serializer.data)
-    
+
     def get_queryset(self):
         return self.filter_queryset(self.queryset)
 
@@ -436,6 +437,5 @@ class DropdownsViewSet(ViewSet):
     serializer_class = DropdownSerializer
 
     def list(self, request):
-        serializer = DropdownSerializer(
-            instance=get_dropdowns(), many=True)
+        serializer = DropdownSerializer(instance=get_dropdowns(), many=True)
         return Response(serializer.data)

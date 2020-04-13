@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0017_casereferall_has_feedback'),
+        ("case_manager", "0017_casereferall_has_feedback"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='case',
-            name='camp',
-            field=models.CharField(choices=[('Y', 'YES'), ('N', 'NO')], default='N', max_length=25),
+            model_name="case",
+            name="camp",
+            field=models.CharField(
+                choices=[("Y", "YES"), ("N", "NO")], default="N", max_length=25
+            ),
         ),
     ]

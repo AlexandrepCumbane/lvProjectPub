@@ -7,42 +7,68 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('location_management', '0004_auto_20200402_0927'),
+        ("location_management", "0004_auto_20200402_0927"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='LocationClassification',
+            name="LocationClassification",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=20, unique=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=20, unique=True)),
             ],
         ),
         migrations.CreateModel(
-            name='LocationType',
+            name="LocationType",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=20, unique=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=20, unique=True)),
             ],
         ),
         migrations.AddField(
-            model_name='location',
-            name='codigo',
-            field=models.CharField(default='', max_length=20),
+            model_name="location",
+            name="codigo",
+            field=models.CharField(default="", max_length=20),
         ),
         migrations.AddField(
-            model_name='location',
-            name='parent_code',
-            field=models.CharField(default='', max_length=20),
+            model_name="location",
+            name="parent_code",
+            field=models.CharField(default="", max_length=20),
         ),
         migrations.AddField(
-            model_name='location',
-            name='province',
-            field=models.ForeignKey(default=None, null=True, on_delete=django.db.models.deletion.SET_NULL, to='location_management.Province'),
+            model_name="location",
+            name="province",
+            field=models.ForeignKey(
+                default=None,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="location_management.Province",
+            ),
         ),
         migrations.AddField(
-            model_name='location',
-            name='classification',
-            field=models.ForeignKey(default=None, null=True, on_delete=django.db.models.deletion.SET_NULL, to='location_management.LocationClassification'),
+            model_name="location",
+            name="classification",
+            field=models.ForeignKey(
+                default=None,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="location_management.LocationClassification",
+            ),
         ),
     ]

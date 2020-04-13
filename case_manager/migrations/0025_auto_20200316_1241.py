@@ -6,13 +6,11 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0024_referallentity_users'),
+        ("case_manager", "0024_referallentity_users"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='casetask',
-            name='deadline',
-            field=models.DateField(null=True),
+            model_name="casetask", name="deadline", field=models.DateField(null=True),
         ),
     ]

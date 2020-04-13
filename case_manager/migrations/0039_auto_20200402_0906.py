@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0038_casereferall_referred_to_focal_point'),
+        ("case_manager", "0038_casereferall_referred_to_focal_point"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='contactor',
-            name='community',
-            field=models.CharField(default='', max_length=100),
+            model_name="contactor",
+            name="community",
+            field=models.CharField(default="", max_length=100),
         ),
     ]

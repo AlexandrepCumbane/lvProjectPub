@@ -6,12 +6,10 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0039_auto_20200402_0906'),
-        ('location_management', '0002_auto_20200227_1422'),
+        ("case_manager", "0039_auto_20200402_0906"),
+        ("location_management", "0002_auto_20200227_1422"),
     ]
 
     operations = [
-        migrations.DeleteModel(
-            name='Community',
-        ),
+        migrations.DeleteModel(name="Community",),
     ]

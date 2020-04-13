@@ -24,10 +24,10 @@ from rest_framework_jwt.views import obtain_jwt_token
 from user_management.views import generate_token
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='index.html')),
-    path('api/v1/', include('callcenter.api_urls')),
-    path('api/v1/o/login/', generate_token),
-    path('api/v1/o/token/', obtain_jwt_token),
-    path('admin/', admin.site.urls),
-    path('docs/', include_docs_urls('Recrutamento API')),
+    path("", TemplateView.as_view(template_name="index.html")),
+    path("api/v1/", include("callcenter.api_urls")),
+    path("api/v1/o/login/", generate_token),
+    path("api/v1/o/token/", obtain_jwt_token),
+    path("admin/", admin.site.urls),
+    path("docs/", include_docs_urls("Recrutamento API")),
 ]

@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0037_auto_20200401_0823'),
+        ("case_manager", "0037_auto_20200401_0823"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='casereferall',
-            name='referred_to_focal_point',
+            model_name="casereferall",
+            name="referred_to_focal_point",
             field=models.BooleanField(default=False),
         ),
     ]

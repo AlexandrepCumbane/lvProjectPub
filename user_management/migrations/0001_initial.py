@@ -11,17 +11,40 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('location_management', '0005_auto_20200402_0940'),
+        ("location_management", "0005_auto_20200402_0940"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='FocalPointProfile',
+            name="FocalPointProfile",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('contact', models.CharField(default='', max_length=20)),
-                ('province', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='location_management.Province')),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='focal_point_profile', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("contact", models.CharField(default="", max_length=20)),
+                (
+                    "province",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="location_management.Province",
+                    ),
+                ),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="focal_point_profile",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

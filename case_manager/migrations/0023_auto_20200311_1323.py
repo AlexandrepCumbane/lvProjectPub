@@ -6,88 +6,88 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0022_auto_20200311_1213'),
+        ("case_manager", "0022_auto_20200311_1213"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='casepriority',
-            name='name',
+            model_name="casepriority",
+            name="name",
             field=models.CharField(max_length=50, unique=True),
         ),
         migrations.AlterField(
-            model_name='casestatus',
-            name='name',
+            model_name="casestatus",
+            name="name",
             field=models.CharField(max_length=50, unique=True),
         ),
         migrations.AlterField(
-            model_name='category',
-            name='name',
+            model_name="category",
+            name="name",
             field=models.CharField(max_length=200, unique=True),
         ),
         migrations.AlterField(
-            model_name='categoryissue',
-            name='name',
+            model_name="categoryissue",
+            name="name",
             field=models.CharField(max_length=200, unique=True),
         ),
         migrations.AlterField(
-            model_name='customersatisfaction',
-            name='name',
+            model_name="customersatisfaction",
+            name="name",
             field=models.CharField(max_length=50, unique=True),
         ),
         migrations.AlterField(
-            model_name='gender',
-            name='name',
+            model_name="gender",
+            name="name",
             field=models.CharField(max_length=25, unique=True),
         ),
         migrations.AlterField(
-            model_name='howdoyouhearaboutus',
-            name='name',
+            model_name="howdoyouhearaboutus",
+            name="name",
             field=models.CharField(max_length=50, unique=True),
         ),
         migrations.AlterField(
-            model_name='howwouldyouliketobecontacted',
-            name='name',
+            model_name="howwouldyouliketobecontacted",
+            name="name",
             field=models.CharField(max_length=100, unique=True),
         ),
         migrations.AlterField(
-            model_name='humanitarionactor',
-            name='name',
+            model_name="humanitarionactor",
+            name="name",
             field=models.CharField(max_length=50, unique=True),
         ),
         migrations.AlterField(
-            model_name='mecanismused',
-            name='name',
+            model_name="mecanismused",
+            name="name",
             field=models.CharField(max_length=100, unique=True),
         ),
         migrations.AlterField(
-            model_name='programme',
-            name='name',
+            model_name="programme",
+            name="name",
             field=models.CharField(max_length=250, unique=True),
         ),
         migrations.AlterField(
-            model_name='resolutioncategory',
-            name='name',
+            model_name="resolutioncategory",
+            name="name",
             field=models.CharField(max_length=50, unique=True),
         ),
         migrations.AlterField(
-            model_name='subcategory',
-            name='name',
+            model_name="subcategory",
+            name="name",
             field=models.CharField(max_length=200, unique=True),
         ),
         migrations.AlterField(
-            model_name='taskcategory',
-            name='name',
+            model_name="taskcategory",
+            name="name",
             field=models.CharField(max_length=50, unique=True),
         ),
         migrations.AlterField(
-            model_name='taskstatus',
-            name='name',
+            model_name="taskstatus",
+            name="name",
             field=models.CharField(max_length=50, unique=True),
         ),
         migrations.AlterField(
-            model_name='transferemodality',
-            name='name',
+            model_name="transferemodality",
+            name="name",
             field=models.CharField(max_length=200, unique=True),
         ),
     ]

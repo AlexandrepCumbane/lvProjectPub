@@ -6,12 +6,9 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0039_auto_20200402_0906'),
+        ("case_manager", "0039_auto_20200402_0906"),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='contactor',
-            name='district',
-        ),
+        migrations.RemoveField(model_name="contactor", name="district",),
     ]
