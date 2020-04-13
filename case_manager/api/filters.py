@@ -1,4 +1,5 @@
 from django_filters import FilterSet
+from django_filters import CharFilter
 
 from case_manager.models import Case
 from case_manager.models import CaseReferall
@@ -6,9 +7,14 @@ from case_manager.models import CaseTask
 
 class CaseFilter(FilterSet):
 
+    case_id = CharFilter(lookup_expr='icontains')
+    category__name = CharFilter(lookup_expr='icontains')
+    programme__name = CharFilter(lookup_expr='icontains')
+    case_type__name = CharFilter(lookup_expr='icontains')
+
     class Meta:
         model = Case
-        fields = '__all__'
+        fields = ['case_id', 'category__name', 'programme__name', 'case_type__name']
 
 class CaseReferallFilter(FilterSet):
     
@@ -19,6 +25,11 @@ class CaseReferallFilter(FilterSet):
 
 class CaseTaskFilter(FilterSet):
 
+    title = CharFilter(lookup_expr='icontains')
+    case__case_id = CharFilter(lookup_expr='icontains')
+    category__name = CharFilter(lookup_expr='icontains')
+    assigned_to__username = CharFilter(lookup_expr='icontains')
+
     class Meta:
         model = CaseTask
-        fields = '__all__'
+        fields = ['title', 'case__case_id', 'category__name', 'assigned_to__username']

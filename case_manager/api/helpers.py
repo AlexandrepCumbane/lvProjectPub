@@ -3,6 +3,7 @@ from enum import Enum
 from rest_framework import serializers
 
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 
 from case_manager.models import Ages
 from case_manager.models import CasePriority
@@ -71,6 +72,7 @@ def get_dropdowns():
     dropdowns.append(DropdownData(key='mecanism_used', value=MecanismUsed.objects.values()))
     dropdowns.append(DropdownData(key='localities', value=Location.objects.values()))
     dropdowns.append(DropdownData(key='provinces', value=Province.objects.values()))
+    dropdowns.append(DropdownData(key='groups', value=Group.objects.values()))
     dropdowns.append(DropdownData(key='operators', value=filtrar_user_by_type(UserType.OPERATOR.value)))
     dropdowns.append(DropdownData(key='focal_points', value=filtrar_user_by_type(UserType.FOCAL_POINT.value)))
     dropdowns.append(DropdownData(key='task_categories', value=TaskCategory.objects.values()))
