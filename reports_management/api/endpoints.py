@@ -5,5 +5,7 @@ from .views import DashboardReportViewSet
 
 router = DefaultRouter()
 
-router.register('general-reports', GeneralReportViewSet, basename='general-reports')
-router.register('dashboard-reports', DashboardReportViewSet, basename='dashboard-reports')
+router.register("general-reports", GeneralReportViewSet, basename="general-reports")
+router.register(
+    "dashboard-reports", DashboardReportViewSet, basename="dashboard-reports"
+)

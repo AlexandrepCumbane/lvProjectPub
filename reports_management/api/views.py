@@ -17,7 +17,8 @@ class GeneralReportViewSet(viewsets.ViewSet):
 
     def list(self, request):
         serializer = GeneralReportSerializer(
-            instance=generate_reports_data('2020-01-01', '2020-04-30'), many=True)
+            instance=generate_reports_data("2020-01-01", "2020-04-30"), many=True
+        )
         return Response(serializer.data)
 
 
@@ -27,7 +28,6 @@ class DashboardReportViewSet(viewsets.ViewSet):
 
     def list(self, request):
         serializer = DashboardReportSerializer(
-            instance=generate_dashboard_data(request.user),
-            many=True
+            instance=generate_dashboard_data(request.user), many=True
         )
         return Response(serializer.data)
