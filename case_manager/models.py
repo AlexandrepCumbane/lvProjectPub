@@ -210,6 +210,7 @@ class Case(models.Model):
     # Text Fields
     call_note = models.TextField(max_length=1000)
     solution = models.TextField(max_length=1000)
+    focal_point_notes = models.TextField(max_length=100, default="")
 
     camp = models.CharField(
         choices=[("Y", "YES"), ("N", "NO")], max_length=25, default="N"
@@ -313,7 +314,7 @@ class CaseTask(models.Model):
     # Text Fields
     title = models.CharField(max_length=50, default="")
     description = models.TextField(max_length=1000)
-
+    task_feedback = models.TextField(max_length=1000, default="")
     # Foreign Fields
     assigned_to = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="tasks"
@@ -331,3 +332,4 @@ class CaseTask(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now=True)
     deadline = models.DateField(auto_now=False, null=True)
+    start_date = models.DateField(auto_now=False, null=True)
