@@ -43,5 +43,4 @@ if socket.gethostname() == 'YOUR HOSTNAME':	#ensure your local machine hostname 
 
     REST_USE_JWT = True
 
-#print 'running local'
 Has_Local_Settings = True

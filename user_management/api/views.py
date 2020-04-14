@@ -46,7 +46,6 @@ class UserViewSet(ModelViewSet):
         user = get_object_or_404(self.queryset, pk=pk)
 
         my_data = request.data
-        print("data", my_data)
         my_data = {
             key: my_data[key] for key in my_data.keys() if not key == "editPassword"
         }

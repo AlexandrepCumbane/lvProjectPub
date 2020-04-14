@@ -43,7 +43,6 @@ class DropdownData(object):
 
 
 def filtrar_user_by_type(type_name):
-    print("type", type_name)
     operadores = User.objects.filter(groups__name__in=[type_name]).values()
     return operadores
 

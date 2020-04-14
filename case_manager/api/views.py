@@ -184,7 +184,6 @@ class CaseViewset(ModelViewSet):
             contact_saved = contact_serializer.save()
             return contact_saved.id
         else:
-            print("errors", contact_serializer.errors)
 
             return -1
 
@@ -391,7 +390,6 @@ class CaseReferallViewset(ModelViewSet):
             and request.user.is_superuser is False
         ):
             my_entity = user.referall_entity.first()
-            print("my entity", my_entity)
             my_queryset = self.queryset.filter(referall_entity=my_entity)
 
         pages = self.paginate_queryset(my_queryset)
