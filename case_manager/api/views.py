@@ -358,31 +358,34 @@ class CaseReferallViewset(ModelViewSet):
         update_case.case_forwarded = True
         update_case.save()
 
-    def _update_case_focal_point_notes(self, notes: dict, case_id: int)->bool:
+    def _update_case_focal_point_notes(self, notes: dict, case_id: int) -> bool:
         case = get_object_or_404(Case.objects.all(), pk=case_id)
 
         case_serializer = CaseSerializer(case, data=notes, partial=True)
 
         if case_serializer.is_valid():
             case_updated = case_serializer.save()
-            
+
             return True
-        
+
         return False
 
     def create(self, request):
         my_case = request.data
         try:
             case = {}
-            case['focal_point_notes'] = my_case.pop('focal_point_notes')
+            case["focal_point_notes"] = my_case.pop("focal_point_notes")
 
-            result = self._update_case_focal_point_notes(case, my_case['case'])
+            result = self._update_case_focal_point_notes(case, my_case["case"])
 
             if result is False:
-                return Response({'error': 'Houve um erro ao encaminhar o caso ao parceiro'}, status=400)
+                return Response(
+                    {"error": "Houve um erro ao encaminhar o caso ao parceiro"},
+                    status=400,
+                )
         except KeyError:
-            print('focal point field not found')
-    
+            print("focal point field not found")
+
         if isinstance(my_case["referall_entity"], list):
             my_entities = my_case["referall_entity"]
             for item in my_entities:
