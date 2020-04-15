@@ -444,11 +444,38 @@ class CaseReferallViewset(ModelViewSet):
 
         return self.get_paginated_response(response.data)
 
-    def retrieve(self, response, pk=None):
+    def retrieve(self, request, pk=None):
         case = get_object_or_404(self.queryset, pk=pk)
 
         case_serializer = CaseReferallFullSerializer(case)
         return Response(case_serializer.data)
+
+    def _feedback_to_focal_point(self, my_data):
+        my_data["referred_to_focal_point"] = True
+        my_data["is_valid_feedback"] = False
+        return my_data
+
+    def update(self, request, pk=None):
+        user = request.user
+        is_to_focal_point = False
+        case = get_object_or_404(self.queryset, pk=pk)
+        my_data = request.data
+
+        if user.groups.filter(name__icontains="Parceiro").count() != 0:
+            try:
+                is_to_focal_point = my_data.pop("is_to_focal_point")
+                my_data = self._feedback_to_focal_point(my_data)
+            except KeyError:
+                pass
+
+        case_serializer = CaseReferallSerializer(case, data=my_data, partial=True)
+
+        if case_serializer.is_valid():
+            case_saved = case_serializer.save()
+            case_serializer = CaseReferallFullSerializer(case_saved)
+            return Response(case_serializer.data)
+
+        return Response({"errors": case_serializer.errors}, status=400)
 
     def get_queryset(self):
         return self.filter_queryset(self.queryset)
