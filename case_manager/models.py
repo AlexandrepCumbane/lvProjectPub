@@ -310,7 +310,7 @@ class CaseReferall(models.Model):
     )
     has_feedback = models.BooleanField(default=False)
     referred_to_focal_point = models.BooleanField(default=False)
-    is_valid_feedback = models.BooleanField(default=False)
+    is_valid_feedback = models.BooleanField(default=True)
     comments = models.TextField(max_length=100, default="")
 
 
