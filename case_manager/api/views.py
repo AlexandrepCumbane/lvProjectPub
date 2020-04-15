@@ -415,6 +415,7 @@ class CaseReferallViewset(ModelViewSet):
             and request.user.is_superuser is False
         ):
             my_entity = user.referall_entity.first()
+            print('entity', my_entity)
             my_queryset = self.queryset.filter(referall_entity=my_entity)
 
         pages = self.paginate_queryset(my_queryset)

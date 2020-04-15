@@ -160,7 +160,7 @@ class CaseFeedbackSerializer(ModelSerializer):
 
     class Meta:
         model = CaseReferall
-        fields = ("referall_entity", "has_feedback", "feedback")
+        fields = ("id", "referall_entity", "has_feedback", "feedback")
 
 
 class CaseTaskFull2Serializer(ModelSerializer):
