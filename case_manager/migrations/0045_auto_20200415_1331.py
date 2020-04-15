@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0044_auto_20200415_1000'),
+        ("case_manager", "0044_auto_20200415_1000"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='casereferall',
-            name='is_valid_feedback',
+            model_name="casereferall",
+            name="is_valid_feedback",
             field=models.BooleanField(default=True),
         ),
     ]

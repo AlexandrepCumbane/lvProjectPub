@@ -415,7 +415,7 @@ class CaseReferallViewset(ModelViewSet):
             and request.user.is_superuser is False
         ):
             my_entity = user.referall_entity.first()
-            print('entity', my_entity)
+            print("entity", my_entity)
             my_queryset = self.queryset.filter(referall_entity=my_entity)
 
         pages = self.paginate_queryset(my_queryset)
@@ -440,7 +440,9 @@ class CaseReferallViewset(ModelViewSet):
                 {"errors": "Voce nao tem permissao para esta operacao"}, status=403
             )
 
-        pages = self.paginate_queryset(my_queryset.filter(has_feedback=True))
+        pages = self.paginate_queryset(
+            my_queryset.filter(has_feedback=True, is_valid_feedback=True)
+        )
         response = CaseReferallFullSerializer(pages, many=True)
 
         return self.get_paginated_response(response.data)
