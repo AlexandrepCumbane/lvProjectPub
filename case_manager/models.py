@@ -226,9 +226,11 @@ class Case(models.Model):
     )
     case_closed = models.BooleanField(default=False)
     case_forwarded = models.BooleanField(default=False)
+    call_require_aditional_information = models.BooleanField(default=False)
+    call_require_callback_for_feedback = models.BooleanField(default=False)
+
     consent_to_share_third_party = models.BooleanField(default=False)
     consent_to_collect_personal_info = models.BooleanField(default=False)
-    resolution_callback = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
     case_uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
