@@ -338,3 +338,9 @@ class CaseTask(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     deadline = models.DateField(auto_now=False, null=True)
     start_date = models.DateField(auto_now=False, null=True)
+
+
+class CaseComments(models.Model):
+    parceiro_feedback = models.TextField(max_length=1000, default="", blank=True)
+    task_feedback = models.TextField(max_length=1000, default="", blank=True)
+    case = models.ForeignKey(Case, on_delete=models.CASCADE)

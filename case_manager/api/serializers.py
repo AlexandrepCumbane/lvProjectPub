@@ -6,6 +6,7 @@ from rest_framework.serializers import SerializerMethodField
 
 from case_manager.models import Ages
 from case_manager.models import Case
+from case_manager.models import CaseComments
 from case_manager.models import CasePriority
 from case_manager.models import CaseReferall
 from case_manager.models import CaseTask
@@ -37,6 +38,12 @@ from location_management.api.serializers import ProvinceSerializer
 class CasePrioritySerializer(ModelSerializer):
     class Meta:
         model = CasePriority
+        fields = "__all__"
+
+
+class CaseCommentsSerializer(ModelSerializer):
+    class Meta:
+        model = CaseComments
         fields = "__all__"
 
 
@@ -249,7 +256,7 @@ class CaseTaskFullSerializer(ModelSerializer):
     assigned_to = serializer_factory(model=User, fields=("id", "username"))()
     task_category = TaskCategorySerializer()
     status = TaskStatusSerializer()
-    case = serializer_factory(model=Case, fields=("case_id",))()
+    case = serializer_factory(model=Case, fields=("case_id","id"))()
     priority = SerializerMethodField()
 
     class Meta:

@@ -1,6 +1,7 @@
 from drf_auto_endpoint.router import DefaultRouter
 
 from case_manager.api.views import CaseViewset
+from case_manager.api.views import CaseCommentsViewset
 from case_manager.api.views import CasePriorityViewset
 from case_manager.api.views import CaseReferallViewset
 from case_manager.api.views import CaseTaskViewset
@@ -22,6 +23,7 @@ from case_manager.api.views import TaskStatusViewset
 router = DefaultRouter()
 
 router.register("cases", CaseViewset, basename="cases")
+router.register("case-comments", CaseCommentsViewset, basename="cases-comments")
 router.register("case-priorities", CasePriorityViewset, basename="case-priorities")
 router.register("case-referall", CaseReferallViewset, basename="case-referall")
 router.register("case-task", CaseTaskViewset, basename="case-task")

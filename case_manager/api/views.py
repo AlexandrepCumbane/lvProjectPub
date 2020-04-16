@@ -16,6 +16,7 @@ from case_manager.api.filters import CaseReferallFilter
 from case_manager.api.filters import CaseTaskFilter
 
 from case_manager.api.serializers import CaseSerializer
+from case_manager.api.serializers import CaseCommentsSerializer
 from case_manager.api.serializers import CaseSerializerFull
 from case_manager.api.serializers import CasePrioritySerializer
 from case_manager.api.serializers import CaseReferallSerializer
@@ -41,6 +42,7 @@ from case_manager.api.helpers import get_dropdowns
 
 
 from case_manager.models import Case
+from case_manager.models import CaseComments
 from case_manager.models import CaseStatus
 from case_manager.models import CasePriority
 from case_manager.models import CaseReferall
@@ -128,6 +130,11 @@ class ContactorViewset(ModelViewSet):
 class ReferallEntityViewset(ModelViewSet):
     serializer_class = ReferallEntitySerializer
     queryset = ReferallEntity.objects.prefetch_related("users")
+
+
+class CaseCommentsViewset(ModelViewSet):
+    serializer_class = CaseCommentsSerializer
+    queryset = CaseComments.objects.prefetch_related("case")
 
 
 class CaseViewset(ModelViewSet):
@@ -304,6 +311,11 @@ class CaseTaskViewset(ModelViewSet):
             return Response(task_serializer.data)
 
         return Response({"errors": task_serializer.errors}, status=400)
+
+    def retrieve(self, request, pk=None):
+        task = get_object_or_404(self.queryset, pk=pk)
+        task_serializer = CaseTaskFullSerializer(task)
+        return Response(task_serializer.data)
 
     def list(self, request):
         my_queryset = self.get_queryset()
