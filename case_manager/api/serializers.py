@@ -218,7 +218,7 @@ class CaseSerializerFull(ModelSerializer):
     case_referall = CaseFeedbackSerializer(many=True)
 
     tasks = CaseTaskFull2Serializer(many=True)
-
+    comments = CaseCommentsSerializer(many=True)
     class Meta:
         model = Case
         fields = "__all__"
