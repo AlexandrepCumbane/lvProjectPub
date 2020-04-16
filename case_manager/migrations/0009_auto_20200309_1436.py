@@ -7,20 +7,33 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0008_casetask_title'),
+        ("case_manager", "0008_casetask_title"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='TransfereModality',
+            name="TransfereModality",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=200)),
             ],
         ),
         migrations.AddField(
-            model_name='case',
-            name='transfere_modality',
-            field=models.ForeignKey(default=None, null=True, on_delete=django.db.models.deletion.SET_NULL, to='case_manager.TransfereModality'),
+            model_name="case",
+            name="transfere_modality",
+            field=models.ForeignKey(
+                default=None,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="case_manager.TransfereModality",
+            ),
         ),
     ]

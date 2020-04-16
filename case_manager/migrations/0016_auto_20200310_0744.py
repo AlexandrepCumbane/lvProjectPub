@@ -6,18 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0015_auto_20200310_0743'),
+        ("case_manager", "0015_auto_20200310_0743"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='case',
-            name='category_issue_sub',
-            field=models.ManyToManyField(related_name='cases', to='case_manager.CategoryIssueSub'),
+            model_name="case",
+            name="category_issue_sub",
+            field=models.ManyToManyField(
+                related_name="cases", to="case_manager.CategoryIssueSub"
+            ),
         ),
         migrations.AlterField(
-            model_name='case',
-            name='sub_category',
-            field=models.ManyToManyField(related_name='cases', to='case_manager.SubCategory'),
+            model_name="case",
+            name="sub_category",
+            field=models.ManyToManyField(
+                related_name="cases", to="case_manager.SubCategory"
+            ),
         ),
     ]

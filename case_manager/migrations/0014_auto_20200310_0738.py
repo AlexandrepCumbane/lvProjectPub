@@ -7,26 +7,51 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0013_auto_20200310_0734'),
+        ("case_manager", "0013_auto_20200310_0734"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='case',
-            name='category_issue',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='cases', to='case_manager.CategoryIssue'),
+            model_name="case",
+            name="category_issue",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="cases",
+                to="case_manager.CategoryIssue",
+            ),
         ),
         migrations.CreateModel(
-            name='CategoryIssueSub',
+            name="CategoryIssueSub",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200)),
-                ('category_issue', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='sub_category_issue', to='case_manager.CategoryIssue')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=200)),
+                (
+                    "category_issue",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="sub_category_issue",
+                        to="case_manager.CategoryIssue",
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='case',
-            name='category_issue_sub',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='cases', to='case_manager.CategoryIssueSub'),
+            model_name="case",
+            name="category_issue_sub",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="cases",
+                to="case_manager.CategoryIssueSub",
+            ),
         ),
     ]

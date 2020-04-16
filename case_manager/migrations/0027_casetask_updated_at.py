@@ -8,13 +8,15 @@ from django.utils.timezone import utc
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0026_auto_20200319_0840'),
+        ("case_manager", "0026_auto_20200319_0840"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='casetask',
-            name='updated_at',
-            field=models.DateTimeField(default=datetime.datetime(2020, 3, 19, 8, 53, 11, 289682, tzinfo=utc)),
+            model_name="casetask",
+            name="updated_at",
+            field=models.DateTimeField(
+                default=datetime.datetime(2020, 3, 19, 8, 53, 11, 289682, tzinfo=utc)
+            ),
         ),
     ]

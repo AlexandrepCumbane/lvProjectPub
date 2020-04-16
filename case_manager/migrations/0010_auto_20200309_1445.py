@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0009_auto_20200309_1436'),
+        ("case_manager", "0009_auto_20200309_1436"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='case',
-            name='consent_to_collect_personal_info',
+            model_name="case",
+            name="consent_to_collect_personal_info",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='case',
-            name='consent_to_share_third_party',
+            model_name="case",
+            name="consent_to_share_third_party",
             field=models.BooleanField(default=False),
         ),
     ]

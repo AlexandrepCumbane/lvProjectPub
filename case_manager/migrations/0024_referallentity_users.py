@@ -8,13 +8,15 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('case_manager', '0023_auto_20200311_1323'),
+        ("case_manager", "0023_auto_20200311_1323"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='referallentity',
-            name='users',
-            field=models.ManyToManyField(related_name='referall_entity', to=settings.AUTH_USER_MODEL),
+            model_name="referallentity",
+            name="users",
+            field=models.ManyToManyField(
+                related_name="referall_entity", to=settings.AUTH_USER_MODEL
+            ),
         ),
     ]

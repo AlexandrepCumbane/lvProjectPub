@@ -6,12 +6,9 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0012_auto_20200309_1525'),
+        ("case_manager", "0012_auto_20200309_1525"),
     ]
 
     operations = [
-        migrations.RenameModel(
-            old_name='SubCategoryIssue',
-            new_name='CategoryIssue',
-        ),
+        migrations.RenameModel(old_name="SubCategoryIssue", new_name="CategoryIssue",),
     ]

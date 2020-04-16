@@ -12,195 +12,483 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('location_management', '0002_auto_20200227_1422'),
+        ("location_management", "0002_auto_20200227_1422"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Case',
+            name="Case",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('call_note', models.TextField(max_length=1000)),
-                ('camp', models.CharField(choices=[('Y', 'YES'), ('N', 'NO')], max_length=25)),
-                ('caller_not_reached_for_feedback', models.BooleanField(blank=True, default=True, null=True)),
-                ('case_closed', models.BooleanField(default=False)),
-                ('case_id', models.CharField(max_length=20, unique=True)),
-                ('case_uuid', models.UUIDField(default=uuid.uuid4, editable=False, unique=True)),
-                ('community_member', models.TextField(max_length=200)),
-                ('created_at', models.DateTimeField(auto_now=True)),
-                ('closed_at', models.DateTimeField(blank=True, null=True)),
-                ('humanitarion_actor', models.TextField(max_length=200)),
-                ('local_leader', models.CharField(max_length=200)),
-                ('other_vulnerabilites', models.CharField(blank=True, max_length=200, null=True)),
-                ('resettlement_name', models.CharField(blank=True, max_length=200, null=True)),
-                ('resolution_callback', models.BooleanField(default=False)),
-                ('soluction', models.TextField(max_length=1000)),
-                ('updated_at', models.DateTimeField(blank=True, null=True)),
-                ('vulnerabilites', models.CharField(blank=True, max_length=200, null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("call_note", models.TextField(max_length=1000)),
+                (
+                    "camp",
+                    models.CharField(
+                        choices=[("Y", "YES"), ("N", "NO")], max_length=25
+                    ),
+                ),
+                (
+                    "caller_not_reached_for_feedback",
+                    models.BooleanField(blank=True, default=True, null=True),
+                ),
+                ("case_closed", models.BooleanField(default=False)),
+                ("case_id", models.CharField(max_length=20, unique=True)),
+                (
+                    "case_uuid",
+                    models.UUIDField(default=uuid.uuid4, editable=False, unique=True),
+                ),
+                ("community_member", models.TextField(max_length=200)),
+                ("created_at", models.DateTimeField(auto_now=True)),
+                ("closed_at", models.DateTimeField(blank=True, null=True)),
+                ("humanitarion_actor", models.TextField(max_length=200)),
+                ("local_leader", models.CharField(max_length=200)),
+                (
+                    "other_vulnerabilites",
+                    models.CharField(blank=True, max_length=200, null=True),
+                ),
+                (
+                    "resettlement_name",
+                    models.CharField(blank=True, max_length=200, null=True),
+                ),
+                ("resolution_callback", models.BooleanField(default=False)),
+                ("soluction", models.TextField(max_length=1000)),
+                ("updated_at", models.DateTimeField(blank=True, null=True)),
+                (
+                    "vulnerabilites",
+                    models.CharField(blank=True, max_length=200, null=True),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='CasePriority',
+            name="CasePriority",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
             ],
         ),
         migrations.CreateModel(
-            name='Category',
+            name="Category",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=200)),
             ],
         ),
         migrations.CreateModel(
-            name='CustomerSatisfaction',
+            name="CustomerSatisfaction",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
             ],
         ),
         migrations.CreateModel(
-            name='Gender',
+            name="Gender",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=25)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=25)),
             ],
         ),
         migrations.CreateModel(
-            name='HowDoYouHearAboutUs',
+            name="HowDoYouHearAboutUs",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
             ],
         ),
         migrations.CreateModel(
-            name='HowWouldYouLikeToBeContacted',
+            name="HowWouldYouLikeToBeContacted",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
             ],
         ),
         migrations.CreateModel(
-            name='Programme',
+            name="Programme",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=250)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=250)),
             ],
         ),
         migrations.CreateModel(
-            name='ReferallEntity',
+            name="ReferallEntity",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200, unique=True)),
-                ('email', models.EmailField(max_length=254)),
-                ('contact', models.CharField(blank=True, default='', max_length=25, null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=200, unique=True)),
+                ("email", models.EmailField(max_length=254)),
+                (
+                    "contact",
+                    models.CharField(blank=True, default="", max_length=25, null=True),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='ResolutionCategory',
+            name="ResolutionCategory",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
             ],
         ),
         migrations.CreateModel(
-            name='SubCategoryIssue',
+            name="SubCategoryIssue",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=200)),
             ],
         ),
         migrations.CreateModel(
-            name='TaskStatus',
+            name="TaskStatus",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
             ],
         ),
         migrations.CreateModel(
-            name='SubCategory',
+            name="SubCategory",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200)),
-                ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='sub_category', to='case_manager.Category')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=200)),
+                (
+                    "category",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="sub_category",
+                        to="case_manager.Category",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='ResolutionSubCategory',
+            name="ResolutionSubCategory",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
-                ('resolution_category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='resolution_subcategory', to='case_manager.ResolutionCategory')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
+                (
+                    "resolution_category",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="resolution_subcategory",
+                        to="case_manager.ResolutionCategory",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Contactor',
+            name="Contactor",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('age', models.CharField(blank=True, default='', max_length=50)),
-                ('alternative_number', models.CharField(blank=True, default='', max_length=25, null=True)),
-                ('contact', models.CharField(max_length=100)),
-                ('fdp', models.CharField(blank=True, default='', max_length=200, null=True)),
-                ('full_name', models.CharField(max_length=300)),
-                ('community', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='contactor', to='location_management.Community')),
-                ('district', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='contactor', to='location_management.District')),
-                ('gender', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='contactor', to='case_manager.Gender')),
-                ('location', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='contactor', to='location_management.Location')),
-                ('province', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='contactor', to='location_management.Province')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("age", models.CharField(blank=True, default="", max_length=50)),
+                (
+                    "alternative_number",
+                    models.CharField(blank=True, default="", max_length=25, null=True),
+                ),
+                ("contact", models.CharField(max_length=100)),
+                (
+                    "fdp",
+                    models.CharField(blank=True, default="", max_length=200, null=True),
+                ),
+                ("full_name", models.CharField(max_length=300)),
+                (
+                    "community",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="contactor",
+                        to="location_management.Community",
+                    ),
+                ),
+                (
+                    "district",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="contactor",
+                        to="location_management.District",
+                    ),
+                ),
+                (
+                    "gender",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="contactor",
+                        to="case_manager.Gender",
+                    ),
+                ),
+                (
+                    "location",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="contactor",
+                        to="location_management.Location",
+                    ),
+                ),
+                (
+                    "province",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="contactor",
+                        to="location_management.Province",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='CaseTask',
+            name="CaseTask",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('description', models.TextField(max_length=1000)),
-                ('created_at', models.DateTimeField(auto_now=True)),
-                ('deadline', models.DateTimeField(null=True)),
-                ('assigned_to', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='tasks', to=settings.AUTH_USER_MODEL)),
-                ('case', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='tasks', to='case_manager.Case')),
-                ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='tasks', to='case_manager.Category')),
-                ('status', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='tasks', to='case_manager.TaskStatus')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("description", models.TextField(max_length=1000)),
+                ("created_at", models.DateTimeField(auto_now=True)),
+                ("deadline", models.DateTimeField(null=True)),
+                (
+                    "assigned_to",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="tasks",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "case",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="tasks",
+                        to="case_manager.Case",
+                    ),
+                ),
+                (
+                    "category",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="tasks",
+                        to="case_manager.Category",
+                    ),
+                ),
+                (
+                    "status",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="tasks",
+                        to="case_manager.TaskStatus",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='CaseReferall',
+            name="CaseReferall",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('feedback', models.TextField(max_length=1000)),
-                ('refered_at', models.DateTimeField(auto_now=True)),
-                ('case', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='case_referall', to='case_manager.Case')),
-                ('referall_entity', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='case_referall', to='case_manager.ReferallEntity')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("feedback", models.TextField(max_length=1000)),
+                ("refered_at", models.DateTimeField(auto_now=True)),
+                (
+                    "case",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="case_referall",
+                        to="case_manager.Case",
+                    ),
+                ),
+                (
+                    "referall_entity",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="case_referall",
+                        to="case_manager.ReferallEntity",
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='case',
-            name='case_priority',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='cases', to='case_manager.CasePriority'),
+            model_name="case",
+            name="case_priority",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="cases",
+                to="case_manager.CasePriority",
+            ),
         ),
         migrations.AddField(
-            model_name='case',
-            name='category',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='cases', to='case_manager.Category'),
+            model_name="case",
+            name="category",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="cases",
+                to="case_manager.Category",
+            ),
         ),
         migrations.AddField(
-            model_name='case',
-            name='contactor',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='cases', to='case_manager.Contactor'),
+            model_name="case",
+            name="contactor",
+            field=models.OneToOneField(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="cases",
+                to="case_manager.Contactor",
+            ),
         ),
         migrations.AddField(
-            model_name='case',
-            name='created_by',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='cases', to=settings.AUTH_USER_MODEL),
+            model_name="case",
+            name="created_by",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="cases",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
-            model_name='case',
-            name='how_knows_us',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='cases', to='case_manager.HowDoYouHearAboutUs'),
+            model_name="case",
+            name="how_knows_us",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="cases",
+                to="case_manager.HowDoYouHearAboutUs",
+            ),
         ),
         migrations.AddField(
-            model_name='case',
-            name='sub_category',
-            field=models.ManyToManyField(null=True, related_name='cases', to='case_manager.SubCategory'),
+            model_name="case",
+            name="sub_category",
+            field=models.ManyToManyField(
+                null=True, related_name="cases", to="case_manager.SubCategory"
+            ),
         ),
     ]

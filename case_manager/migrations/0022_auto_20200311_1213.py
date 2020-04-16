@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0021_casetask_task_category'),
+        ("case_manager", "0021_casetask_task_category"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='casereferall',
-            name='feedback',
-            field=models.TextField(default='', max_length=1000),
+            model_name="casereferall",
+            name="feedback",
+            field=models.TextField(default="", max_length=1000),
         ),
     ]

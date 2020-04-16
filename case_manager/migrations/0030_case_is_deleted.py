@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0029_casetask_updated_by'),
+        ("case_manager", "0029_casetask_updated_by"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='case',
-            name='is_deleted',
+            model_name="case",
+            name="is_deleted",
             field=models.BooleanField(default=False),
         ),
     ]
