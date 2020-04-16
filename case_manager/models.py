@@ -344,3 +344,4 @@ class CaseComments(models.Model):
     parceiro_feedback = models.TextField(max_length=1000, default="", blank=True)
     task_feedback = models.TextField(max_length=1000, default="", blank=True)
     case = models.ForeignKey(Case, on_delete=models.CASCADE)
+    referall_entity = models.ForeignKey(ReferallEntity, on_delete=models.CASCADE, default=None)

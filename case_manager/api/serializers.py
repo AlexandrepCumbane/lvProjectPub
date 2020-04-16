@@ -251,6 +251,12 @@ class CaseTaskSerializer(ModelSerializer):
         fields = "__all__"
 
 
+class CaseSerializerTask(ModelSerializer):
+    class Meta:
+        model = Case
+        fields = ("case_id", "id", "case_referall")
+
+
 class CaseTaskFullSerializer(ModelSerializer):
 
     assigned_to = serializer_factory(model=User, fields=("id", "username"))()
@@ -258,6 +264,7 @@ class CaseTaskFullSerializer(ModelSerializer):
     status = TaskStatusSerializer()
     case = serializer_factory(model=Case, fields=("case_id","id"))()
     priority = SerializerMethodField()
+    entities = SerializerMethodField()
 
     class Meta:
         model = CaseTask
@@ -265,3 +272,6 @@ class CaseTaskFullSerializer(ModelSerializer):
 
     def get_priority(self, obj):
         return obj.case.case_priority.name
+    
+    def get_entities(self, obj):
+        return obj.case.case_referall.values('referall_entity')
