@@ -316,9 +316,10 @@ class CaseReferall(models.Model):
 
 class CaseTask(models.Model):
     # Text Fields
-    title = models.CharField(max_length=50, default="")
+    title = models.CharField(max_length=50, default="", blank=True)
     description = models.TextField(max_length=1000)
-    task_feedback = models.TextField(max_length=1000, default="")
+    task_feedback = models.TextField(max_length=1000, default="", blank=True)
+    gestor_comments = models.TextField(max_length=1000, default="", blank=True)
     # Foreign Fields
     assigned_to = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="tasks"
