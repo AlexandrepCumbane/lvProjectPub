@@ -225,9 +225,10 @@ def get_parceiro_dashboard_data(user_id):
     if ponto_focal > 0:
         total_cases_recevied = Case.objects.filter(
             created_at__date__year=timezone.now().year,
-            focal_points__id__in=[user_id.id],
+            focal_points__user__id__in=[user_id.id],
             case_forwarded=False,
         ).count()
+        print('total', total_cases_recevied )
         total_cases_with_feedback = CaseReferall.objects.filter(
             refered_at__date__year=timezone.now().year,
             referall_entity__users__in=[user_id.id],
