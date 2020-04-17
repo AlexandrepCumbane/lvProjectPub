@@ -168,6 +168,53 @@ class CaseViewset(ModelViewSet):
     ).filter(is_deleted=False)
     filterset_class = CaseFilter
 
+    @action(methods=["POST"], detail=False)
+    def saveexcel(self, request):
+        try:
+            cases = request.data["cases"]
+            if isinstance(cases, list):
+                operation_stats = {"success": 0, "failed": 0}
+                for item in cases:
+                    case_id = item["Number"]
+                    data = {
+                        "fdp": item["FDP"],
+                        "call_note": item["Call note"],
+                        "solution": item["Solution"],
+                        "resettlement_name": item["Resettlement name"],
+                    }
+                    result = self._update_case(case_id, data)
+
+                    if result:
+                        operation_stats["success"] += operation_stats["success"]
+                    else:
+                        operation_stats["failed"] += operation_stats["failed"]
+
+            return Response({"success": operation_stats})
+        except KeyError:
+            pass
+
+        return Response({"errors": "Invalid request data"}, status=400)
+
+    def _update_case(self, case_id: str, case)->bool:
+        case_to_update = Case.objects.get(case_id=case_id)
+        contactor = case_to_update.contactor
+
+        contactor_serializer = ContactorSerializer(contactor, data=case, partial=True)
+
+        if contactor_serializer.is_valid():
+            contactor_save = contactor_serializer.save()
+        else:
+            print('errors', contactor_serializer.errors)
+
+        case_serializer = CaseSerializer(case_to_update, data=case, partial=True)
+
+        if case_serializer.is_valid():
+            case_saved = case_serializer.save()
+            return True
+        
+        print('erros', case_serializer.errors)
+        return False
+
     def create(self, request):
 
         try:
