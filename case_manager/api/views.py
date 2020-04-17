@@ -358,7 +358,6 @@ class CaseTaskViewset(ModelViewSet):
             my_queryset = my_queryset | self.queryset.filter(
                 created_at__date=timezone.datetime.now().date()
             )
-            # my_queryset = my_queryset.distinct().order_by("-created_at")
 
         pages = self.paginate_queryset(my_queryset)
         response = CaseTaskFullSerializer(pages, many=True)
@@ -380,7 +379,7 @@ class CaseTaskViewset(ModelViewSet):
         return Response({"errors": task_serializer.errors}, status=400)
 
     def get_queryset(self):
-        return self.filter_queryset(self.queryset)
+        return self.filter_queryset(self.queryset).order_by("created_at")
 
 
 class CaseReferallViewset(ModelViewSet):
@@ -517,7 +516,7 @@ class CaseReferallViewset(ModelViewSet):
         return Response({"errors": case_serializer.errors}, status=400)
 
     def get_queryset(self):
-        return self.filter_queryset(self.queryset)
+        return self.filter_queryset(self.queryset).order_by("case__created_at")
 
 
 @permission_classes((IsAuthenticated,))
