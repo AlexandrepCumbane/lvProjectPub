@@ -7,17 +7,37 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0046_auto_20200416_0855'),
+        ("case_manager", "0046_auto_20200416_0855"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='CaseComments',
+            name="CaseComments",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('parceiro_feedback', models.TextField(blank=True, default='', max_length=1000)),
-                ('task_feedback', models.TextField(blank=True, default='', max_length=1000)),
-                ('case', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='case_manager.Case')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "parceiro_feedback",
+                    models.TextField(blank=True, default="", max_length=1000),
+                ),
+                (
+                    "task_feedback",
+                    models.TextField(blank=True, default="", max_length=1000),
+                ),
+                (
+                    "case",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="case_manager.Case",
+                    ),
+                ),
             ],
         ),
     ]

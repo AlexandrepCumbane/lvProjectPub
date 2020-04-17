@@ -7,13 +7,17 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0047_casecomments'),
+        ("case_manager", "0047_casecomments"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='casecomments',
-            name='referall_entity',
-            field=models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to='case_manager.ReferallEntity'),
+            model_name="casecomments",
+            name="referall_entity",
+            field=models.ForeignKey(
+                default=None,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="case_manager.ReferallEntity",
+            ),
         ),
     ]

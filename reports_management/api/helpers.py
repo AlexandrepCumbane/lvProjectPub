@@ -228,16 +228,27 @@ def get_parceiro_dashboard_data(user_id):
             focal_points__user__id__in=[user_id.id],
             case_forwarded=False,
         ).count()
-        print('total', total_cases_recevied )
+        total_cases_send = Case.objects.filter(
+            created_at__date__year=timezone.now().year,
+            case_referall__referall_entity__users__in=[user_id.id],
+            case_forwarded=True,
+        ).count()
         total_cases_with_feedback = CaseReferall.objects.filter(
             refered_at__date__year=timezone.now().year,
             referall_entity__users__in=[user_id.id],
             has_feedback=True,
         ).count()
 
+        total_cases = Case.objects.filter(
+            created_at__date__year=timezone.now().year,
+            focal_points__user__id__in=[user_id.id],
+        ).count()
+
         return {
             "total_cases_received": total_cases_recevied,
+            "total_cases_send": total_cases_send,
             "total_cases_with_feedback": total_cases_with_feedback,
+            "total_cases": total_cases,
         }
 
     is_parceiro = user_id.groups.filter(name__icontains="parceiro").count()
@@ -250,6 +261,11 @@ def get_parceiro_dashboard_data(user_id):
         referall_entity=entity_name,
         has_feedback=False,
     ).count()
+
+    total_cases = CaseReferall.objects.filter(
+        refered_at__date__year=timezone.now().year, referall_entity=entity_name,
+    ).count()
+
     total_cases_with_feedback = CaseReferall.objects.filter(
         refered_at__date__year=timezone.now().year,
         referall_entity=entity_name,
@@ -259,4 +275,5 @@ def get_parceiro_dashboard_data(user_id):
     return {
         "total_cases_received": total_cases_recevied,
         "total_cases_with_feedback": total_cases_with_feedback,
+        "total_cases": total_cases,
     }

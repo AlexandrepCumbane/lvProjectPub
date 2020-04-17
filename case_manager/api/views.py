@@ -136,17 +136,16 @@ class CaseCommentsViewset(ModelViewSet):
     serializer_class = CaseCommentsSerializer
     queryset = CaseComments.objects.prefetch_related("case")
 
-
     def create(self, request):
         case_referall = None
-        print('dados', request.data)
+        print("dados", request.data)
         try:
-            case_referall = request.data.pop('case_referall')
+            case_referall = request.data.pop("case_referall")
 
             if isinstance(case_referall, list):
                 for item in case_referall:
                     case_comment = request.data
-                    case_comment['referall_entity'] = item['referall_entity']
+                    case_comment["referall_entity"] = item["referall_entity"]
 
                     comment_serializer = CaseCommentsSerializer(data=case_comment)
 
@@ -154,12 +153,13 @@ class CaseCommentsViewset(ModelViewSet):
                         comment_saved = comment_serializer.save()
                     else:
                         return Response(comment_serializer.errors, status=400)
-                
-                return Response({'success': 'Success'})
+
+                return Response({"success": "Success"})
 
         except KeyError:
             pass
         return super().create(request)
+
 
 class CaseViewset(ModelViewSet):
     serializer_class = CaseSerializer
