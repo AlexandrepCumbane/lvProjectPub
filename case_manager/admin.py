@@ -26,12 +26,14 @@ from case_manager.models import TaskStatus
 from case_manager.models import TaskCategory
 from case_manager.models import TransfereModality
 from case_manager.models import MecanismUsed
+from case_manager.models import CaseComments
 
 admin.autodiscover()
 
 # Register your models here.
 admin.site.register(Ages)
 admin.site.register(Case)
+admin.site.register(CaseComments)
 admin.site.register(CasePriority)
 admin.site.register(CaseReferall)
 admin.site.register(CaseType)

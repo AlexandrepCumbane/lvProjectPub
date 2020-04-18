@@ -6,6 +6,7 @@ from rest_framework.serializers import SerializerMethodField
 
 from case_manager.models import Ages
 from case_manager.models import Case
+from case_manager.models import CaseComments
 from case_manager.models import CasePriority
 from case_manager.models import CaseReferall
 from case_manager.models import CaseTask
@@ -37,6 +38,12 @@ from location_management.api.serializers import ProvinceSerializer
 class CasePrioritySerializer(ModelSerializer):
     class Meta:
         model = CasePriority
+        fields = "__all__"
+
+
+class CaseCommentsSerializer(ModelSerializer):
+    class Meta:
+        model = CaseComments
         fields = "__all__"
 
 
@@ -160,7 +167,7 @@ class CaseFeedbackSerializer(ModelSerializer):
 
     class Meta:
         model = CaseReferall
-        fields = ("id", "referall_entity", "has_feedback", "feedback")
+        fields = ("id", "referall_entity", "has_feedback", "feedback", "comments")
 
 
 class CaseTaskFull2Serializer(ModelSerializer):
@@ -211,6 +218,7 @@ class CaseSerializerFull(ModelSerializer):
     case_referall = CaseFeedbackSerializer(many=True)
 
     tasks = CaseTaskFull2Serializer(many=True)
+    comments = CaseCommentsSerializer(many=True)
 
     class Meta:
         model = Case
@@ -244,13 +252,20 @@ class CaseTaskSerializer(ModelSerializer):
         fields = "__all__"
 
 
+class CaseSerializerTask(ModelSerializer):
+    class Meta:
+        model = Case
+        fields = ("case_id", "id", "case_referall")
+
+
 class CaseTaskFullSerializer(ModelSerializer):
 
     assigned_to = serializer_factory(model=User, fields=("id", "username"))()
     task_category = TaskCategorySerializer()
     status = TaskStatusSerializer()
-    case = serializer_factory(model=Case, fields=("case_id",))()
+    case = serializer_factory(model=Case, fields=("case_id", "id"))()
     priority = SerializerMethodField()
+    entities = SerializerMethodField()
 
     class Meta:
         model = CaseTask
@@ -258,3 +273,6 @@ class CaseTaskFullSerializer(ModelSerializer):
 
     def get_priority(self, obj):
         return obj.case.case_priority.name
+
+    def get_entities(self, obj):
+        return obj.case.case_referall.values("referall_entity")
