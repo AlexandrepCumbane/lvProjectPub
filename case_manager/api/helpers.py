@@ -31,6 +31,9 @@ from location_management.models import Location
 from location_management.models import Province
 
 
+from posts_management.models import PostCategory
+
+
 class UserType(Enum):
     OPERATOR = "Operador"
     FOCAL_POINT = "Ponto Focal"
@@ -131,7 +134,9 @@ def get_dropdowns():
         DropdownData(key="task_categories", value=TaskCategory.objects.values())
     )
     dropdowns.append(DropdownData(key="ages", value=Ages.objects.values()))
-
+    dropdowns.append(
+        DropdownData(key="post_categories", value=PostCategory.objects.values())
+    )
     return dropdowns
 
 
