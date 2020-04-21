@@ -195,7 +195,7 @@ class CaseViewset(ModelViewSet):
 
         return Response({"errors": "Invalid request data"}, status=400)
 
-    def _update_case(self, case_id: str, case)->bool:
+    def _update_case(self, case_id: str, case) -> bool:
         case_to_update = Case.objects.get(case_id=case_id)
         contactor = case_to_update.contactor
 
@@ -204,15 +204,15 @@ class CaseViewset(ModelViewSet):
         if contactor_serializer.is_valid():
             contactor_save = contactor_serializer.save()
         else:
-            print('errors', contactor_serializer.errors)
+            print("errors", contactor_serializer.errors)
 
         case_serializer = CaseSerializer(case_to_update, data=case, partial=True)
 
         if case_serializer.is_valid():
             case_saved = case_serializer.save()
             return True
-        
-        print('erros', case_serializer.errors)
+
+        print("erros", case_serializer.errors)
         return False
 
     def create(self, request):
@@ -355,7 +355,7 @@ class CaseViewset(ModelViewSet):
             return Response({"errors": case_serializer.errors}, status=400)
 
     def get_queryset(self):
-        return self.filter_queryset(self.queryset)
+        return self.filter_queryset(self.queryset).order_by("-id")
 
 
 class CaseTaskViewset(ModelViewSet):
@@ -426,7 +426,7 @@ class CaseTaskViewset(ModelViewSet):
         return Response({"errors": task_serializer.errors}, status=400)
 
     def get_queryset(self):
-        return self.filter_queryset(self.queryset).order_by("created_at")
+        return self.filter_queryset(self.queryset).order_by("-id")
 
 
 class CaseReferallViewset(ModelViewSet):
@@ -498,7 +498,9 @@ class CaseReferallViewset(ModelViewSet):
         ):
             my_entity = user.referall_entity.first()
             print("entity", my_entity)
-            my_queryset = self.queryset.filter(referall_entity=my_entity)
+            my_queryset = self.queryset.filter(referall_entity=my_entity).distinct(
+                "case__id"
+            )
 
         pages = self.paginate_queryset(my_queryset)
         response = CaseReferallFullSerializer(pages, many=True)
@@ -563,7 +565,7 @@ class CaseReferallViewset(ModelViewSet):
         return Response({"errors": case_serializer.errors}, status=400)
 
     def get_queryset(self):
-        return self.filter_queryset(self.queryset).order_by("case__created_at")
+        return self.filter_queryset(self.queryset).order_by("-id")
 
 
 @permission_classes((IsAuthenticated,))
