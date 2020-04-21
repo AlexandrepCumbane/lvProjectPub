@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "location_management",
     "reports_management",
     "user_management",
+    "posts_management",
 ]
 
 MIDDLEWARE = [
