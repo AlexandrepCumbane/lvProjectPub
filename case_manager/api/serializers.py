@@ -13,7 +13,6 @@ from case_manager.models import (
     CaseType,
     Category,
     CategoryIssue,
-    CategoryIssueSub,
     Contactor,
     CustomerSatisfaction,
     Gender,
@@ -72,12 +71,6 @@ class SubCategorySerializer(ModelSerializer):
 class CategoryIssueSerializer(ModelSerializer):
     class Meta:
         model = CategoryIssue
-        fields = "__all__"
-
-
-class SubCategoryIssueSerializer(ModelSerializer):
-    class Meta:
-        model = CategoryIssueSub
         fields = "__all__"
 
 
@@ -208,7 +201,6 @@ class CaseSerializerFull(ModelSerializer):
         model=CustomerSatisfaction, fields=("id", "name")
     )()
     category_issue = CategoryIssueSerializer()
-    category_issue_sub = SubCategoryIssueSerializer(many=True)
     number_of_tasks = SerializerMethodField()
     has_feedback = SerializerMethodField()
     case_type = serializer_factory(model=CaseType, fields=("id", "name"))()

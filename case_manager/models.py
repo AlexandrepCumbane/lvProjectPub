@@ -55,16 +55,6 @@ class CategoryIssue(models.Model):
         return self.name
 
 
-class CategoryIssueSub(models.Model):
-    name = models.CharField(max_length=200)
-    category_issue = models.ForeignKey(
-        CategoryIssue, on_delete=models.CASCADE, related_name="sub_category_issue"
-    )
-
-    def __str__(self):
-        return self.name
-
-
 class ResolutionCategory(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
@@ -226,10 +216,10 @@ class Case(models.Model):
     case_forwarded = models.BooleanField(default=False)
     call_require_aditional_information = models.BooleanField(default=False)
     call_require_callback_for_feedback = models.BooleanField(default=False)
-
     consent_to_share_third_party = models.BooleanField(default=False)
     consent_to_collect_personal_info = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
+    received_assistence = models.BooleanField(default=False)
     case_uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     contactor = models.OneToOneField(
@@ -251,6 +241,7 @@ class Case(models.Model):
         related_name="cases",
         null=True,
     )
+    # How do You hear about us field on form
     how_knows_us = models.ForeignKey(
         HowDoYouHearAboutUs, on_delete=models.SET_NULL, related_name="cases", null=True
     )
@@ -287,9 +278,6 @@ class Case(models.Model):
     )
 
     # Many to Many Fields
-    category_issue_sub = models.ManyToManyField(
-        CategoryIssueSub, related_name="cases", blank=True
-    )
     sub_category = models.ManyToManyField(SubCategory, related_name="cases", blank=True)
 
     focal_points = models.ManyToManyField(

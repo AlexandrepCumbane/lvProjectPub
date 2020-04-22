@@ -10,7 +10,6 @@ from case_manager.models import (
     CaseType,
     Category,
     CategoryIssue,
-    CategoryIssueSub,
     CustomerSatisfaction,
     Gender,
     HowDoYouHearAboutUs,
@@ -96,11 +95,6 @@ def get_dropdowns():
     )
     dropdowns.append(
         DropdownData(key="categories_issues", value=CategoryIssue.objects.values())
-    )
-    dropdowns.append(
-        DropdownData(
-            key="subcategories_issues", value=CategoryIssueSub.objects.values()
-        )
     )
     dropdowns.append(
         DropdownData(key="subcategories", value=SubCategory.objects.values())

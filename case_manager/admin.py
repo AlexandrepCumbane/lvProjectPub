@@ -11,7 +11,6 @@ from case_manager.models import (
     CaseType,
     Category,
     CategoryIssue,
-    CategoryIssueSub,
     Contactor,
     CustomerSatisfaction,
     Gender,
@@ -54,7 +53,6 @@ admin.site.register(ResolutionCategory)
 admin.site.register(ResolutionSubCategory)
 admin.site.register(SubCategory)
 admin.site.register(CategoryIssue)
-admin.site.register(CategoryIssueSub)
 admin.site.register(TaskStatus)
 admin.site.register(TaskCategory)
 admin.site.register(TransfereModality)
