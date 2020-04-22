@@ -197,11 +197,14 @@ class Case(models.Model):
         choices=[("Y", "YES"), ("N", "NO")], max_length=25, default="N"
     )
     case_id = models.CharField(max_length=20, unique=True)
+    other_category = models.CharField(max_length=200, null=True, blank=True)
     other_vulnerabilites = models.CharField(max_length=200, null=True, blank=True)
     resettlement_name = models.CharField(max_length=200, null=True, blank=True)
     vulnerabilites = models.CharField(max_length=200, null=True, blank=True)
 
     # Boolean fields
+
+    # Reference field feedback provided
     caller_not_reached_for_feedback = models.BooleanField(
         default=True, blank=True, null=True
     )

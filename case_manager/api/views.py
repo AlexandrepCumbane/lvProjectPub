@@ -215,9 +215,6 @@ class CaseViewset(ModelViewSet):
             contactor = request.data["contactor"]
             case = request.data["case"]
 
-            if len(case["sub_category"]):
-                case["sub_category"] = list(case["sub_category"].values())
-
             case["case_status"] = CaseStatus.objects.get(name="Not Started").id
             case["case_priority"] = CasePriority.objects.get(name="High").id
 
