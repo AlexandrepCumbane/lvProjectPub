@@ -15,7 +15,7 @@ from case_manager.models import (
     Gender,
     HowDoYouHearAboutUs,
     HowWouldYouLikeToBeContacted,
-    HumanitarionActor,
+    SourceOfInformation,
     MecanismUsed,
     Programme,
     ReferallEntity,
@@ -43,7 +43,7 @@ admin.site.register(CustomerSatisfaction)
 admin.site.register(Gender)
 admin.site.register(HowDoYouHearAboutUs)
 admin.site.register(HowWouldYouLikeToBeContacted)
-admin.site.register(HumanitarionActor)
+admin.site.register(SourceOfInformation)
 admin.site.register(MecanismUsed)
 admin.site.register(Programme)
 admin.site.register(ReferallEntity)

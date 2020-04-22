@@ -151,7 +151,7 @@ class ReferallEntity(models.Model):
     users = models.ManyToManyField(User, related_name="referall_entity", blank=True)
 
 
-class HumanitarionActor(models.Model):
+class SourceOfInformation(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
@@ -263,8 +263,8 @@ class Case(models.Model):
     mecanism_used = models.ForeignKey(
         MecanismUsed, on_delete=models.SET_NULL, default=None, null=True
     )
-    humanitarian_actor = models.ForeignKey(
-        HumanitarionActor, on_delete=models.SET_NULL, null=True, default=None
+    source_of_information = models.ForeignKey(
+        SourceOfInformation, on_delete=models.SET_NULL, null=True, default=None
     )
     transfere_modality = models.ForeignKey(
         TransfereModality, on_delete=models.SET_NULL, null=True, default=None

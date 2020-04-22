@@ -13,7 +13,7 @@ from case_manager.models import (
     Gender,
     HowDoYouHearAboutUs,
     HowWouldYouLikeToBeContacted,
-    HumanitarionActor,
+    SourceOfInformation,
     MecanismUsed,
     Programme,
     ReferallEntity,
@@ -74,7 +74,7 @@ def get_dropdowns():
     )
     dropdowns.append(
         DropdownData(
-            key="humanitarian_actors", value=HumanitarionActor.objects.values()
+            key="source_of_informations", value=SourceOfInformation.objects.values()
         )
     )
     dropdowns.append(DropdownData(key="programmes", value=Programme.objects.values()))

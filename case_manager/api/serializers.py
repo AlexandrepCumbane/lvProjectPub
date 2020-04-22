@@ -17,7 +17,7 @@ from case_manager.models import (
     Gender,
     HowDoYouHearAboutUs,
     HowWouldYouLikeToBeContacted,
-    HumanitarionActor,
+    SourceOfInformation,
     MecanismUsed,
     Programme,
     ReferallEntity,
@@ -97,9 +97,9 @@ class HowWouldYouLikeToBeContactedSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class HumanitarionActorSerializer(ModelSerializer):
+class SourceOfInformationSerializer(ModelSerializer):
     class Meta:
-        model = HumanitarionActor
+        model = SourceOfInformation
         fields = "__all__"
 
 
@@ -185,7 +185,7 @@ class CaseSerializerFull(ModelSerializer):
     case_priority = CasePrioritySerializer()
     category = CategorySerializer()
     contactor = ContactorSerializerFull()
-    humanitarian_actor = HumanitarionActorSerializer()
+    source_of_information = SourceOfInformationSerializer()
     sub_category = SubCategorySerializer(many=True)
     created_by = serializer_factory(model=User, fields=("id", "username",))()
     how_knows_us = HowDoYouHearAboutUsSerializer()
