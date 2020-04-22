@@ -164,7 +164,6 @@ class CaseFeedbackSerializer(ModelSerializer):
 class CaseTaskFull2Serializer(ModelSerializer):
 
     assigned_to = serializer_factory(model=User, fields=("id", "username"))()
-    task_category = TaskCategorySerializer()
     status = TaskStatusSerializer()
 
     class Meta:
@@ -251,7 +250,6 @@ class CaseSerializerTask(ModelSerializer):
 class CaseTaskFullSerializer(ModelSerializer):
 
     assigned_to = serializer_factory(model=User, fields=("id", "username"))()
-    task_category = TaskCategorySerializer()
     status = TaskStatusSerializer()
     case = serializer_factory(model=Case, fields=("case_id", "id"))()
     priority = SerializerMethodField()

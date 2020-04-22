@@ -335,6 +335,7 @@ class CaseReferall(models.Model):
     has_feedback = models.BooleanField(default=False)
     referred_to_focal_point = models.BooleanField(default=False)
     is_valid_feedback = models.BooleanField(default=True)
+    have_focal_point_feedback = models.BooleanField(default=False)
     comments = models.TextField(max_length=100, default="")
 
 
@@ -353,9 +354,6 @@ class CaseTask(models.Model):
         TaskStatus, on_delete=models.SET_NULL, related_name="tasks", null=True
     )
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    task_category = models.ForeignKey(
-        TaskCategory, on_delete=models.SET_NULL, null=True
-    )
 
     attemptes_to_call_without_success = models.IntegerField(default=0)
 
