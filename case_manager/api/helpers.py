@@ -14,6 +14,7 @@ from case_manager.models import (
     HowDoYouHearAboutUs,
     HowWouldYouLikeToBeContacted,
     SourceOfInformation,
+    IndividualCommitedFraud,
     MecanismUsed,
     Programme,
     ReferallEntity,
@@ -75,6 +76,11 @@ def get_dropdowns():
     dropdowns.append(
         DropdownData(
             key="source_of_informations", value=SourceOfInformation.objects.values()
+        )
+    )
+    dropdowns.append(
+        DropdownData(
+            key="individual_commited_fraud", value=IndividualCommitedFraud.objects.values()
         )
     )
     dropdowns.append(DropdownData(key="programmes", value=Programme.objects.values()))

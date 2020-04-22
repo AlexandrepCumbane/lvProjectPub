@@ -187,6 +187,14 @@ class ResponseProgram(models.Model):
         return self.name
 
 
+class IndividualCommitedFraud(models.Model):
+    name = models.CharField(max_length=25, unique=True)
+    sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
 class Case(models.Model):
 
     # Text Fields
@@ -253,6 +261,7 @@ class Case(models.Model):
     case_status = models.ForeignKey(
         CaseStatus, on_delete=models.SET_NULL, null=True, related_name="cases"
     )
+    individual_commited_fraud = models.ForeignKey(IndividualCommitedFraud, on_delete=models.SET_NULL, null=True, related_name='cases')
     response_program = models.ForeignKey(
         ResponseProgram, on_delete=models.SET_NULL, related_name="cases", null=True
     )

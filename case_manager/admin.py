@@ -13,6 +13,7 @@ from case_manager.models import (
     Contactor,
     CustomerSatisfaction,
     Gender,
+    IndividualCommitedFraud,
     HowDoYouHearAboutUs,
     HowWouldYouLikeToBeContacted,
     SourceOfInformation,
@@ -56,3 +57,4 @@ admin.site.register(TaskCategory)
 admin.site.register(TransfereModality)
 admin.site.register(ResponseProgram)
 admin.site.register(CaseTask)
+admin.site.register(IndividualCommitedFraud)
