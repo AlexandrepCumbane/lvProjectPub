@@ -2,8 +2,12 @@ from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
-from location_management.models import (Location, LocationClassification,
-                                        LocationType, Province)
+from location_management.models import (
+    Location,
+    LocationClassification,
+    LocationType,
+    Province,
+)
 
 
 @admin.register(Location)

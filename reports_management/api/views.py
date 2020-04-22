@@ -2,8 +2,12 @@ from rest_framework import permissions, viewsets
 from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
 
-from .serializers import (DashboardReportSerializer, GeneralReportSerializer,
-                          generate_dashboard_data, generate_reports_data)
+from .serializers import (
+    DashboardReportSerializer,
+    GeneralReportSerializer,
+    generate_dashboard_data,
+    generate_reports_data,
+)
 
 
 # Create your views here.

@@ -3,15 +3,29 @@ from enum import Enum
 from django.contrib.auth.models import Group, User
 from rest_framework import serializers
 
-from case_manager.models import (Ages, CasePriority, CaseStatus, CaseType,
-                                 Category, CategoryIssue, CategoryIssueSub,
-                                 CustomerSatisfaction, Gender,
-                                 HowDoYouHearAboutUs,
-                                 HowWouldYouLikeToBeContacted,
-                                 HumanitarionActor, MecanismUsed, Programme,
-                                 ReferallEntity, ResolutionCategory,
-                                 ResolutionSubCategory, SubCategory,
-                                 TaskCategory, TaskStatus, TransfereModality)
+from case_manager.models import (
+    Ages,
+    CasePriority,
+    CaseStatus,
+    CaseType,
+    Category,
+    CategoryIssue,
+    CategoryIssueSub,
+    CustomerSatisfaction,
+    Gender,
+    HowDoYouHearAboutUs,
+    HowWouldYouLikeToBeContacted,
+    HumanitarionActor,
+    MecanismUsed,
+    Programme,
+    ReferallEntity,
+    ResolutionCategory,
+    ResolutionSubCategory,
+    SubCategory,
+    TaskCategory,
+    TaskStatus,
+    TransfereModality,
+)
 from location_management.models import Location, Province
 from posts_management.models import PostCategory
 

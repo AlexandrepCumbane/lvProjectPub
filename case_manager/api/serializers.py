@@ -2,18 +2,35 @@ from django.contrib.auth.models import User
 from drf_auto_endpoint.factories import serializer_factory
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from case_manager.models import (Ages, Case, CaseComments, CasePriority,
-                                 CaseReferall, CaseStatus, CaseTask, CaseType,
-                                 Category, CategoryIssue, CategoryIssueSub,
-                                 Contactor, CustomerSatisfaction, Gender,
-                                 HowDoYouHearAboutUs,
-                                 HowWouldYouLikeToBeContacted,
-                                 HumanitarionActor, MecanismUsed, Programme,
-                                 ReferallEntity, ResolutionCategory,
-                                 ResolutionSubCategory, SubCategory,
-                                 TaskCategory, TaskStatus, TransfereModality)
-from location_management.api.serializers import (LocationSerializer,
-                                                 ProvinceSerializer)
+from case_manager.models import (
+    Ages,
+    Case,
+    CaseComments,
+    CasePriority,
+    CaseReferall,
+    CaseStatus,
+    CaseTask,
+    CaseType,
+    Category,
+    CategoryIssue,
+    CategoryIssueSub,
+    Contactor,
+    CustomerSatisfaction,
+    Gender,
+    HowDoYouHearAboutUs,
+    HowWouldYouLikeToBeContacted,
+    HumanitarionActor,
+    MecanismUsed,
+    Programme,
+    ReferallEntity,
+    ResolutionCategory,
+    ResolutionSubCategory,
+    SubCategory,
+    TaskCategory,
+    TaskStatus,
+    TransfereModality,
+)
+from location_management.api.serializers import LocationSerializer, ProvinceSerializer
 
 
 class CasePrioritySerializer(ModelSerializer):

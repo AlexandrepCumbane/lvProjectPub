@@ -8,28 +8,52 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
-from case_manager.api.filters import (CaseFilter, CaseReferallFilter,
-                                      CaseTaskFilter)
+from case_manager.api.filters import CaseFilter, CaseReferallFilter, CaseTaskFilter
 from case_manager.api.helpers import DropdownSerializer, get_dropdowns
 from case_manager.api.serializers import (
-    CaseCommentsSerializer, CasePrioritySerializer, CaseReferallFullSerializer,
-    CaseReferallSerializer, CaseSerializer, CaseSerializerFull,
-    CaseTaskFullSerializer, CaseTaskSerializer, CategoryIssueSerializer,
-    CategorySerializer, ContactorSerializer, CustomerSatisfactionSerializer,
-    GenderSerializer, HowDoYouHearAboutUsSerializer,
-    HowWouldYouLikeToBeContactedSerializer, ProgrammeSerializer,
-    ReferallEntitySerializer, ResolutionCategorySerializer,
-    ResolutionSubCategorySerializer, SubCategorySerializer,
-    TaskStatusSerializer)
-from case_manager.models import (Case, CaseComments, CasePriority,
-                                 CaseReferall, CaseStatus, CaseTask, Category,
-                                 CategoryIssue, Contactor,
-                                 CustomerSatisfaction, Gender,
-                                 HowDoYouHearAboutUs,
-                                 HowWouldYouLikeToBeContacted, Programme,
-                                 ReferallEntity, ResolutionCategory,
-                                 ResolutionSubCategory, SubCategory,
-                                 TaskStatus)
+    CaseCommentsSerializer,
+    CasePrioritySerializer,
+    CaseReferallFullSerializer,
+    CaseReferallSerializer,
+    CaseSerializer,
+    CaseSerializerFull,
+    CaseTaskFullSerializer,
+    CaseTaskSerializer,
+    CategoryIssueSerializer,
+    CategorySerializer,
+    ContactorSerializer,
+    CustomerSatisfactionSerializer,
+    GenderSerializer,
+    HowDoYouHearAboutUsSerializer,
+    HowWouldYouLikeToBeContactedSerializer,
+    ProgrammeSerializer,
+    ReferallEntitySerializer,
+    ResolutionCategorySerializer,
+    ResolutionSubCategorySerializer,
+    SubCategorySerializer,
+    TaskStatusSerializer,
+)
+from case_manager.models import (
+    Case,
+    CaseComments,
+    CasePriority,
+    CaseReferall,
+    CaseStatus,
+    CaseTask,
+    Category,
+    CategoryIssue,
+    Contactor,
+    CustomerSatisfaction,
+    Gender,
+    HowDoYouHearAboutUs,
+    HowWouldYouLikeToBeContacted,
+    Programme,
+    ReferallEntity,
+    ResolutionCategory,
+    ResolutionSubCategory,
+    SubCategory,
+    TaskStatus,
+)
 
 
 class CasePriorityViewset(ListAPIView, ViewSet):
@@ -120,7 +144,7 @@ class CaseCommentsViewset(ModelViewSet):
                     comment_serializer = CaseCommentsSerializer(data=case_comment)
 
                     if comment_serializer.is_valid():
-                        comment_saved = comment_serializer.save()
+                        comment_serializer.save()
                     else:
                         return Response(comment_serializer.errors, status=400)
 
@@ -172,14 +196,14 @@ class CaseViewset(ModelViewSet):
         contactor_serializer = ContactorSerializer(contactor, data=case, partial=True)
 
         if contactor_serializer.is_valid():
-            contactor_save = contactor_serializer.save()
+            contactor_serializer.save()
         else:
             print("errors", contactor_serializer.errors)
 
         case_serializer = CaseSerializer(case_to_update, data=case, partial=True)
 
         if case_serializer.is_valid():
-            case_saved = case_serializer.save()
+            case_serializer.save()
             return True
 
         print("erros", case_serializer.errors)
@@ -416,7 +440,7 @@ class CaseReferallViewset(ModelViewSet):
         case_serializer = CaseSerializer(case, data=notes, partial=True)
 
         if case_serializer.is_valid():
-            case_updated = case_serializer.save()
+            case_serializer.save()
 
             return True
 
@@ -514,13 +538,12 @@ class CaseReferallViewset(ModelViewSet):
 
     def update(self, request, pk=None):
         user = request.user
-        is_to_focal_point = False
         case = get_object_or_404(self.queryset, pk=pk)
         my_data = request.data
 
         if user.groups.filter(name__icontains="Parceiro").count() != 0:
             try:
-                is_to_focal_point = my_data.pop("is_to_focal_point")
+                my_data.pop("is_to_focal_point")
                 my_data = self._feedback_to_focal_point(my_data)
             except KeyError:
                 pass

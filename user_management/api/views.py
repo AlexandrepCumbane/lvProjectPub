@@ -4,11 +4,13 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from user_management.api.filters import UserFilter
-from user_management.api.serializers import (FocalPointProfileSerializer,
-                                             GroupSerializer,
-                                             UserFullSerializer,
-                                             UserInterSerializer,
-                                             UserSerializer)
+from user_management.api.serializers import (
+    FocalPointProfileSerializer,
+    GroupSerializer,
+    UserFullSerializer,
+    UserInterSerializer,
+    UserSerializer,
+)
 from user_management.models import FocalPointProfile
 
 

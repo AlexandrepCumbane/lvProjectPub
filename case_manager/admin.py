@@ -1,16 +1,34 @@
 from django.contrib import admin
 
-from case_manager.models import (Ages, Case, CaseComments, CasePriority,
-                                 CaseReferall, CaseStatus, CaseTask, CaseType,
-                                 Category, CategoryIssue, CategoryIssueSub,
-                                 Contactor, CustomerSatisfaction, Gender,
-                                 HowDoYouHearAboutUs,
-                                 HowWouldYouLikeToBeContacted,
-                                 HumanitarionActor, MecanismUsed, Programme,
-                                 ReferallEntity, ResolutionCategory,
-                                 ResolutionSubCategory, ResponseProgram,
-                                 SubCategory, TaskCategory, TaskStatus,
-                                 TransfereModality)
+from case_manager.models import (
+    Ages,
+    Case,
+    CaseComments,
+    CasePriority,
+    CaseReferall,
+    CaseStatus,
+    CaseTask,
+    CaseType,
+    Category,
+    CategoryIssue,
+    CategoryIssueSub,
+    Contactor,
+    CustomerSatisfaction,
+    Gender,
+    HowDoYouHearAboutUs,
+    HowWouldYouLikeToBeContacted,
+    HumanitarionActor,
+    MecanismUsed,
+    Programme,
+    ReferallEntity,
+    ResolutionCategory,
+    ResolutionSubCategory,
+    ResponseProgram,
+    SubCategory,
+    TaskCategory,
+    TaskStatus,
+    TransfereModality,
+)
 
 admin.autodiscover()
 
