@@ -5,5 +5,9 @@ site_media/
 *.pyc
 db.sqlite3
 .env
+.linhaverde/
 settings_local.py
 callcenter/settings_local.py
+bin/
+lib/
+lib64
