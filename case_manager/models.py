@@ -197,11 +197,12 @@ class IndividualCommitedFraud(models.Model):
 
 class WhoIsNotReceivingAssistence(models.Model):
     name = models.CharField(max_length=25, unique=True)
-    
+
     sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
+
 
 class Case(models.Model):
 
@@ -256,7 +257,12 @@ class Case(models.Model):
         null=True,
     )
 
-    who_is_never_received_assistance = models.ForeignKey(WhoIsNotReceivingAssistence, on_delete=models.SET_NULL, null=True, related_name="cases")
+    who_is_never_received_assistance = models.ForeignKey(
+        WhoIsNotReceivingAssistence,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="cases",
+    )
     # How do You hear about us field on form
     how_knows_us = models.ForeignKey(
         HowDoYouHearAboutUs, on_delete=models.SET_NULL, related_name="cases", null=True
@@ -297,7 +303,13 @@ class Case(models.Model):
     )
 
     # Many to Many Fields
-    sub_category = models.ForeignKey(SubCategory, on_delete=models.SET_NULL, null=True, related_name="cases", blank=True)
+    sub_category = models.ForeignKey(
+        SubCategory,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="cases",
+        blank=True,
+    )
 
     focal_points = models.ManyToManyField(
         FocalPointProfile, related_name="cases", blank=True

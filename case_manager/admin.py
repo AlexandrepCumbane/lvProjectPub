@@ -27,7 +27,7 @@ from case_manager.models import (
     TaskCategory,
     TaskStatus,
     TransfereModality,
-    WhoIsNotReceivingAssistence
+    WhoIsNotReceivingAssistence,
 )
 
 admin.autodiscover()
