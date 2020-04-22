@@ -33,6 +33,7 @@ from posts_management.models import PostCategory
 class UserType(Enum):
     OPERATOR = "Operador"
     FOCAL_POINT = "Ponto Focal"
+    GESTOR = "Gestor"
 
 
 class DropdownData(object):
@@ -119,6 +120,11 @@ def get_dropdowns():
     dropdowns.append(
         DropdownData(
             key="operators", value=filtrar_user_by_type(UserType.OPERATOR.value)
+        )
+    )
+    dropdowns.append(
+        DropdownData(
+            key="gestores", value=filtrar_user_by_type(UserType.GESTOR.value)
         )
     )
     dropdowns.append(
