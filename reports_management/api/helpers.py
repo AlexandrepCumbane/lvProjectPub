@@ -273,7 +273,7 @@ def get_parceiro_dashboard_data(user_id):
         refered_at__date__year=timezone.now().year,
         referall_entity=entity_name,
         has_feedback=True,
-        is_valid_feedback=False
+        is_valid_feedback=False,
     ).count()
 
     return {

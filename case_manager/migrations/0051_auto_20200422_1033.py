@@ -6,20 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0050_casecomments_has_feedback'),
+        ("case_manager", "0050_casecomments_has_feedback"),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='case',
-            name='category_issue_sub',
-        ),
+        migrations.RemoveField(model_name="case", name="category_issue_sub",),
         migrations.AddField(
-            model_name='case',
-            name='received_assistence',
+            model_name="case",
+            name="received_assistence",
             field=models.BooleanField(default=False),
         ),
-        migrations.DeleteModel(
-            name='CategoryIssueSub',
-        ),
+        migrations.DeleteModel(name="CategoryIssueSub",),
     ]

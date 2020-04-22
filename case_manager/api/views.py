@@ -210,7 +210,7 @@ class CaseViewset(ModelViewSet):
         return False
 
     def create(self, request):
-        print('request', request.data)
+        print("request", request.data)
         try:
             contactor = request.data["contactor"]
             case = request.data["case"]

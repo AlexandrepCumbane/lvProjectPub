@@ -6,20 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0051_auto_20200422_1033'),
+        ("case_manager", "0051_auto_20200422_1033"),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='case',
-            name='case_type',
-        ),
+        migrations.RemoveField(model_name="case", name="case_type",),
         migrations.AddField(
-            model_name='case',
-            name='other_category',
+            model_name="case",
+            name="other_category",
             field=models.CharField(blank=True, max_length=200, null=True),
         ),
-        migrations.DeleteModel(
-            name='CaseType',
-        ),
+        migrations.DeleteModel(name="CaseType",),
     ]

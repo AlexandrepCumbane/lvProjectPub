@@ -13,13 +13,13 @@ from case_manager.models import (
     Gender,
     HowDoYouHearAboutUs,
     HowWouldYouLikeToBeContacted,
-    SourceOfInformation,
     IndividualCommitedFraud,
     MecanismUsed,
     Programme,
     ReferallEntity,
     ResolutionCategory,
     ResolutionSubCategory,
+    SourceOfInformation,
     SubCategory,
     TaskCategory,
     TaskStatus,
@@ -80,7 +80,8 @@ def get_dropdowns():
     )
     dropdowns.append(
         DropdownData(
-            key="individual_commited_fraud", value=IndividualCommitedFraud.objects.values()
+            key="individual_commited_fraud",
+            value=IndividualCommitedFraud.objects.values(),
         )
     )
     dropdowns.append(DropdownData(key="programmes", value=Programme.objects.values()))
@@ -121,9 +122,7 @@ def get_dropdowns():
         )
     )
     dropdowns.append(
-        DropdownData(
-            key="gestores", value=filtrar_user_by_type(UserType.GESTOR.value)
-        )
+        DropdownData(key="gestores", value=filtrar_user_by_type(UserType.GESTOR.value))
     )
     dropdowns.append(
         DropdownData(

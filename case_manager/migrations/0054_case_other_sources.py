@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0053_auto_20200422_1115'),
+        ("case_manager", "0053_auto_20200422_1115"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='case',
-            name='other_sources',
-            field=models.CharField(blank=True, default='', max_length=200),
+            model_name="case",
+            name="other_sources",
+            field=models.CharField(blank=True, default="", max_length=200),
         ),
     ]
