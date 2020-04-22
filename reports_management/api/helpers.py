@@ -269,8 +269,16 @@ def get_parceiro_dashboard_data(user_id):
         has_feedback=True,
     ).count()
 
+    total_cases_rejected = CaseReferall.objects.filter(
+        refered_at__date__year=timezone.now().year,
+        referall_entity=entity_name,
+        has_feedback=True,
+        is_valid_feedback=False
+    ).count()
+
     return {
         "total_cases_received": total_cases_recevied,
         "total_cases_with_feedback": total_cases_with_feedback,
+        "total_cases_rejected": total_cases_rejected,
         "total_cases": total_cases,
     }
