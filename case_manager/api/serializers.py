@@ -10,7 +10,6 @@ from case_manager.models import (
     CaseReferall,
     CaseStatus,
     CaseTask,
-    CaseType,
     Category,
     CategoryIssue,
     Contactor,
@@ -203,7 +202,6 @@ class CaseSerializerFull(ModelSerializer):
     category_issue = CategoryIssueSerializer()
     number_of_tasks = SerializerMethodField()
     has_feedback = SerializerMethodField()
-    case_type = serializer_factory(model=CaseType, fields=("id", "name"))()
 
     case_referall = CaseFeedbackSerializer(many=True)
 

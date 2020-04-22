@@ -179,13 +179,6 @@ class TransfereModality(models.Model):
         return self.name
 
 
-class CaseType(models.Model):
-    name = models.CharField(max_length=200, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
 class ResponseProgram(models.Model):
     name = models.CharField(max_length=200, unique=True)
 
@@ -254,9 +247,6 @@ class Case(models.Model):
     )
     case_status = models.ForeignKey(
         CaseStatus, on_delete=models.SET_NULL, null=True, related_name="cases"
-    )
-    case_type = models.ForeignKey(
-        CaseType, on_delete=models.SET_NULL, null=True, related_name="cases"
     )
     response_program = models.ForeignKey(
         ResponseProgram, on_delete=models.SET_NULL, related_name="cases", null=True

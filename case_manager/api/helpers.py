@@ -7,7 +7,6 @@ from case_manager.models import (
     Ages,
     CasePriority,
     CaseStatus,
-    CaseType,
     Category,
     CategoryIssue,
     CustomerSatisfaction,
@@ -52,7 +51,6 @@ def get_dropdowns():
     dropdowns = []
 
     dropdowns.append(DropdownData(key="case_status", value=CaseStatus.objects.values()))
-    dropdowns.append(DropdownData(key="case_types", value=CaseType.objects.values()))
     dropdowns.append(
         DropdownData(key="case_priorities", value=CasePriority.objects.values())
     )

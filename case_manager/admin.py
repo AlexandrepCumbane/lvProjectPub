@@ -8,7 +8,6 @@ from case_manager.models import (
     CaseReferall,
     CaseStatus,
     CaseTask,
-    CaseType,
     Category,
     CategoryIssue,
     Contactor,
@@ -37,7 +36,6 @@ admin.site.register(Case)
 admin.site.register(CaseComments)
 admin.site.register(CasePriority)
 admin.site.register(CaseReferall)
-admin.site.register(CaseType)
 admin.site.register(CaseStatus)
 admin.site.register(Category)
 admin.site.register(Contactor)
