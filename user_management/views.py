@@ -1,12 +1,7 @@
 import requests
-
-from django.contrib.auth.models import Group
-from django.contrib.auth.models import User
-
+from django.contrib.auth.models import Group, User
 from django.http.response import JsonResponse
-
-from rest_framework.decorators import api_view
-from rest_framework.decorators import permission_classes
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 
 

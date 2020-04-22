@@ -1,9 +1,9 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-
 from rest_framework.test import APIClient
 
 from oauth2_provider.models import Application
+
 
 # Create your tests here.
 class UserTestCase(TestCase):

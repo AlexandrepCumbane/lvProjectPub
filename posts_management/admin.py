@@ -1,8 +1,6 @@
 from django.contrib import admin
 
-from posts_management.models import Post
-from posts_management.models import PostFile
-from posts_management.models import PostCategory
+from posts_management.models import Post, PostCategory, PostFile
 
 admin.site.register(Post)
 admin.site.register(PostFile)

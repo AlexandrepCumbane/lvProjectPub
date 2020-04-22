@@ -1,7 +1,6 @@
 from drf_auto_endpoint.router import DefaultRouter
 
-from location_management.api.views import LocationViewset
-from location_management.api.views import ProvinceViewset
+from location_management.api.views import LocationViewset, ProvinceViewset
 
 router = DefaultRouter()
 

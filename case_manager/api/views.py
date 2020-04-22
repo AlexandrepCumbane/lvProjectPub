@@ -2,64 +2,34 @@ from django.contrib.auth.models import Group
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
-
-from rest_framework.decorators import action
-from rest_framework.decorators import permission_classes
+from rest_framework.decorators import action, permission_classes
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.viewsets import ViewSet
+from rest_framework.viewsets import ModelViewSet, ViewSet
 
-from case_manager.api.filters import CaseFilter
-from case_manager.api.filters import CaseReferallFilter
-from case_manager.api.filters import CaseTaskFilter
-
-from case_manager.api.serializers import CaseSerializer
-from case_manager.api.serializers import CaseCommentsSerializer
-from case_manager.api.serializers import CaseSerializerFull
-from case_manager.api.serializers import CasePrioritySerializer
-from case_manager.api.serializers import CaseReferallSerializer
-from case_manager.api.serializers import CaseReferallFullSerializer
-from case_manager.api.serializers import CaseTaskSerializer
-from case_manager.api.serializers import CaseTaskFullSerializer
-from case_manager.api.serializers import CategorySerializer
-from case_manager.api.serializers import ContactorSerializer
-from case_manager.api.serializers import CustomerSatisfactionSerializer
-from case_manager.api.serializers import GenderSerializer
-from case_manager.api.serializers import HowDoYouHearAboutUsSerializer
-from case_manager.api.serializers import HowWouldYouLikeToBeContactedSerializer
-from case_manager.api.serializers import ProgrammeSerializer
-from case_manager.api.serializers import ReferallEntitySerializer
-from case_manager.api.serializers import ResolutionCategorySerializer
-from case_manager.api.serializers import ResolutionSubCategorySerializer
-from case_manager.api.serializers import SubCategorySerializer
-from case_manager.api.serializers import CategoryIssueSerializer
-from case_manager.api.serializers import TaskStatusSerializer
-
-from case_manager.api.helpers import DropdownSerializer
-from case_manager.api.helpers import get_dropdowns
-
-
-from case_manager.models import Case
-from case_manager.models import CaseComments
-from case_manager.models import CaseStatus
-from case_manager.models import CasePriority
-from case_manager.models import CaseReferall
-from case_manager.models import CaseTask
-from case_manager.models import Category
-from case_manager.models import CategoryIssue
-from case_manager.models import Contactor
-from case_manager.models import CustomerSatisfaction
-from case_manager.models import Gender
-from case_manager.models import HowDoYouHearAboutUs
-from case_manager.models import HowWouldYouLikeToBeContacted
-from case_manager.models import Programme
-from case_manager.models import ReferallEntity
-from case_manager.models import ResolutionCategory
-from case_manager.models import ResolutionSubCategory
-from case_manager.models import SubCategory
-from case_manager.models import TaskStatus
+from case_manager.api.filters import (CaseFilter, CaseReferallFilter,
+                                      CaseTaskFilter)
+from case_manager.api.helpers import DropdownSerializer, get_dropdowns
+from case_manager.api.serializers import (
+    CaseCommentsSerializer, CasePrioritySerializer, CaseReferallFullSerializer,
+    CaseReferallSerializer, CaseSerializer, CaseSerializerFull,
+    CaseTaskFullSerializer, CaseTaskSerializer, CategoryIssueSerializer,
+    CategorySerializer, ContactorSerializer, CustomerSatisfactionSerializer,
+    GenderSerializer, HowDoYouHearAboutUsSerializer,
+    HowWouldYouLikeToBeContactedSerializer, ProgrammeSerializer,
+    ReferallEntitySerializer, ResolutionCategorySerializer,
+    ResolutionSubCategorySerializer, SubCategorySerializer,
+    TaskStatusSerializer)
+from case_manager.models import (Case, CaseComments, CasePriority,
+                                 CaseReferall, CaseStatus, CaseTask, Category,
+                                 CategoryIssue, Contactor,
+                                 CustomerSatisfaction, Gender,
+                                 HowDoYouHearAboutUs,
+                                 HowWouldYouLikeToBeContacted, Programme,
+                                 ReferallEntity, ResolutionCategory,
+                                 ResolutionSubCategory, SubCategory,
+                                 TaskStatus)
 
 
 class CasePriorityViewset(ListAPIView, ViewSet):

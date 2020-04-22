@@ -1,12 +1,9 @@
 import datetime
 
-from django.db.models import Count
-from django.db.models import F
-
+from django.db.models import Count, F
 from django.utils import timezone
 
-from case_manager.models import Case
-from case_manager.models import CaseReferall
+from case_manager.models import Case, CaseReferall
 
 # Ano actual
 YEAR = datetime.date.today().year

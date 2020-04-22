@@ -1,19 +1,14 @@
-from django.contrib.auth.models import Group
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from django.shortcuts import get_object_or_404
-
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from rest_framework.response import Response
-
-from user_management.api.serializers import GroupSerializer
-from user_management.api.serializers import UserSerializer
-from user_management.api.serializers import UserInterSerializer
-from user_management.api.serializers import UserFullSerializer
-from user_management.api.serializers import FocalPointProfileSerializer
-
 from user_management.api.filters import UserFilter
-
+from user_management.api.serializers import (FocalPointProfileSerializer,
+                                             GroupSerializer,
+                                             UserFullSerializer,
+                                             UserInterSerializer,
+                                             UserSerializer)
 from user_management.models import FocalPointProfile
 
 

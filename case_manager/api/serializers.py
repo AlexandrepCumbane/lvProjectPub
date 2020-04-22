@@ -1,38 +1,19 @@
 from django.contrib.auth.models import User
-
 from drf_auto_endpoint.factories import serializer_factory
-from rest_framework.serializers import ModelSerializer
-from rest_framework.serializers import SerializerMethodField
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from case_manager.models import Ages
-from case_manager.models import Case
-from case_manager.models import CaseComments
-from case_manager.models import CasePriority
-from case_manager.models import CaseReferall
-from case_manager.models import CaseTask
-from case_manager.models import CaseType
-from case_manager.models import CaseStatus
-from case_manager.models import Category
-from case_manager.models import Contactor
-from case_manager.models import CustomerSatisfaction
-from case_manager.models import Gender
-from case_manager.models import HowDoYouHearAboutUs
-from case_manager.models import HowWouldYouLikeToBeContacted
-from case_manager.models import HumanitarionActor
-from case_manager.models import MecanismUsed
-from case_manager.models import Programme
-from case_manager.models import ReferallEntity
-from case_manager.models import ResolutionCategory
-from case_manager.models import ResolutionSubCategory
-from case_manager.models import SubCategory
-from case_manager.models import CategoryIssue
-from case_manager.models import CategoryIssueSub
-from case_manager.models import TaskCategory
-from case_manager.models import TaskStatus
-from case_manager.models import TransfereModality
-
-from location_management.api.serializers import LocationSerializer
-from location_management.api.serializers import ProvinceSerializer
+from case_manager.models import (Ages, Case, CaseComments, CasePriority,
+                                 CaseReferall, CaseStatus, CaseTask, CaseType,
+                                 Category, CategoryIssue, CategoryIssueSub,
+                                 Contactor, CustomerSatisfaction, Gender,
+                                 HowDoYouHearAboutUs,
+                                 HowWouldYouLikeToBeContacted,
+                                 HumanitarionActor, MecanismUsed, Programme,
+                                 ReferallEntity, ResolutionCategory,
+                                 ResolutionSubCategory, SubCategory,
+                                 TaskCategory, TaskStatus, TransfereModality)
+from location_management.api.serializers import (LocationSerializer,
+                                                 ProvinceSerializer)
 
 
 class CasePrioritySerializer(ModelSerializer):

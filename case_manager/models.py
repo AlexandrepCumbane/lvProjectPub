@@ -4,9 +4,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
-from location_management.models import Location
-from location_management.models import Province
-
+from location_management.models import Location, Province
 from user_management.models import FocalPointProfile
 
 # Create your models here.

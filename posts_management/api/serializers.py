@@ -1,8 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 
-from posts_management.models import Post
-from posts_management.models import PostFile
-from posts_management.models import PostCategory
+from posts_management.models import Post, PostCategory, PostFile
 
 
 class PostSerializer(ModelSerializer):

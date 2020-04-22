@@ -1,36 +1,18 @@
 from enum import Enum
 
+from django.contrib.auth.models import Group, User
 from rest_framework import serializers
 
-from django.contrib.auth.models import User
-from django.contrib.auth.models import Group
-
-from case_manager.models import Ages
-from case_manager.models import CasePriority
-from case_manager.models import CaseStatus
-from case_manager.models import CaseType
-from case_manager.models import Category
-from case_manager.models import CustomerSatisfaction
-from case_manager.models import Gender
-from case_manager.models import HowDoYouHearAboutUs
-from case_manager.models import HowWouldYouLikeToBeContacted
-from case_manager.models import HumanitarionActor
-from case_manager.models import Programme
-from case_manager.models import ReferallEntity
-from case_manager.models import ResolutionCategory
-from case_manager.models import ResolutionSubCategory
-from case_manager.models import SubCategory
-from case_manager.models import CategoryIssue
-from case_manager.models import CategoryIssueSub
-from case_manager.models import MecanismUsed
-from case_manager.models import TaskStatus
-from case_manager.models import TaskCategory
-from case_manager.models import TransfereModality
-
-from location_management.models import Location
-from location_management.models import Province
-
-
+from case_manager.models import (Ages, CasePriority, CaseStatus, CaseType,
+                                 Category, CategoryIssue, CategoryIssueSub,
+                                 CustomerSatisfaction, Gender,
+                                 HowDoYouHearAboutUs,
+                                 HowWouldYouLikeToBeContacted,
+                                 HumanitarionActor, MecanismUsed, Programme,
+                                 ReferallEntity, ResolutionCategory,
+                                 ResolutionSubCategory, SubCategory,
+                                 TaskCategory, TaskStatus, TransfereModality)
+from location_management.models import Location, Province
 from posts_management.models import PostCategory
 
 

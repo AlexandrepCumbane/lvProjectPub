@@ -1,32 +1,16 @@
 from django.contrib import admin
 
-from case_manager.models import Ages
-from case_manager.models import Case
-from case_manager.models import CasePriority
-from case_manager.models import CaseReferall
-from case_manager.models import CaseTask
-from case_manager.models import CaseType
-from case_manager.models import CaseStatus
-from case_manager.models import Category
-from case_manager.models import Contactor
-from case_manager.models import CustomerSatisfaction
-from case_manager.models import Gender
-from case_manager.models import HowDoYouHearAboutUs
-from case_manager.models import HowWouldYouLikeToBeContacted
-from case_manager.models import HumanitarionActor
-from case_manager.models import Programme
-from case_manager.models import ReferallEntity
-from case_manager.models import ResolutionCategory
-from case_manager.models import ResolutionSubCategory
-from case_manager.models import ResponseProgram
-from case_manager.models import SubCategory
-from case_manager.models import CategoryIssue
-from case_manager.models import CategoryIssueSub
-from case_manager.models import TaskStatus
-from case_manager.models import TaskCategory
-from case_manager.models import TransfereModality
-from case_manager.models import MecanismUsed
-from case_manager.models import CaseComments
+from case_manager.models import (Ages, Case, CaseComments, CasePriority,
+                                 CaseReferall, CaseStatus, CaseTask, CaseType,
+                                 Category, CategoryIssue, CategoryIssueSub,
+                                 Contactor, CustomerSatisfaction, Gender,
+                                 HowDoYouHearAboutUs,
+                                 HowWouldYouLikeToBeContacted,
+                                 HumanitarionActor, MecanismUsed, Programme,
+                                 ReferallEntity, ResolutionCategory,
+                                 ResolutionSubCategory, ResponseProgram,
+                                 SubCategory, TaskCategory, TaskStatus,
+                                 TransfereModality)
 
 admin.autodiscover()
 
