@@ -198,6 +198,7 @@ class Case(models.Model):
     )
     case_id = models.CharField(max_length=20, unique=True)
     other_category = models.CharField(max_length=200, null=True, blank=True)
+    other_sources = models.CharField(max_length=200, default="", blank=True)
     other_vulnerabilites = models.CharField(max_length=200, null=True, blank=True)
     resettlement_name = models.CharField(max_length=200, null=True, blank=True)
     vulnerabilites = models.CharField(max_length=200, null=True, blank=True)
