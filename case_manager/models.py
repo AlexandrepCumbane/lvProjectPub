@@ -204,6 +204,13 @@ class WhoIsNotReceivingAssistence(models.Model):
         return self.name
 
 
+class Vulnerability(models.Model):
+    name = models.CharField(max_length=200, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Case(models.Model):
 
     # Text Fields
@@ -219,8 +226,6 @@ class Case(models.Model):
     other_sources = models.CharField(max_length=200, default="", blank=True)
     other_vulnerabilites = models.CharField(max_length=200, null=True, blank=True)
     resettlement_name = models.CharField(max_length=200, null=True, blank=True)
-    vulnerabilites = models.CharField(max_length=200, null=True, blank=True)
-
     # Boolean fields
 
     # Reference field feedback provided
@@ -301,6 +306,8 @@ class Case(models.Model):
     transfere_modality = models.ForeignKey(
         TransfereModality, on_delete=models.SET_NULL, null=True, default=None
     )
+    vulnerability = models.ForeignKey(Vulnerability, on_delete=models.SET_NULL, null=True, blank=True)
+    
 
     # Many to Many Fields
     sub_category = models.ForeignKey(

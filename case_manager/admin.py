@@ -27,6 +27,7 @@ from case_manager.models import (
     TaskCategory,
     TaskStatus,
     TransfereModality,
+    Vulnerability,
     WhoIsNotReceivingAssistence,
 )
 
@@ -59,4 +60,5 @@ admin.site.register(TransfereModality)
 admin.site.register(ResponseProgram)
 admin.site.register(CaseTask)
 admin.site.register(IndividualCommitedFraud)
+admin.site.register(Vulnerability)
 admin.site.register(WhoIsNotReceivingAssistence)

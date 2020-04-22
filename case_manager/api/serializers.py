@@ -27,6 +27,7 @@ from case_manager.models import (
     TaskCategory,
     TaskStatus,
     TransfereModality,
+    Vulnerability
 )
 from location_management.api.serializers import LocationSerializer, ProvinceSerializer
 
@@ -193,6 +194,7 @@ class CaseSerializerFull(ModelSerializer):
     case_status = serializer_factory(model=CaseStatus, fields=("id", "name"))()
     programme = ProgrammeSerializer()
     mecanism_used = serializer_factory(model=MecanismUsed, fields=("id", "name"))()
+    vulnerability = serializer_factory(model=Vulnerability, fields=("id", "name"))()
     transfere_modality = serializer_factory(
         model=TransfereModality, fields=("id", "name")
     )()
