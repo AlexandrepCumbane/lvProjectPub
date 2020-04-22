@@ -297,7 +297,7 @@ class Case(models.Model):
     )
 
     # Many to Many Fields
-    sub_category = models.ManyToManyField(SubCategory, related_name="cases", blank=True)
+    sub_category = models.ForeignKey(SubCategory, on_delete=models.SET_NULL, null=True, related_name="cases", blank=True)
 
     focal_points = models.ManyToManyField(
         FocalPointProfile, related_name="cases", blank=True

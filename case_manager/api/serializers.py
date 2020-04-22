@@ -186,7 +186,7 @@ class CaseSerializerFull(ModelSerializer):
     category = CategorySerializer()
     contactor = ContactorSerializerFull()
     source_of_information = SourceOfInformationSerializer()
-    sub_category = SubCategorySerializer(many=True)
+    sub_category = SubCategorySerializer()
     created_by = serializer_factory(model=User, fields=("id", "username",))()
     how_knows_us = HowDoYouHearAboutUsSerializer()
     how_would_you_like_to_be_contacted = HowWouldYouLikeToBeContactedSerializer()
