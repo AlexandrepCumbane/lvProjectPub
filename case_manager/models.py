@@ -357,6 +357,8 @@ class CaseTask(models.Model):
         TaskCategory, on_delete=models.SET_NULL, null=True
     )
 
+    attemptes_to_call_without_success = models.IntegerField(default=0)
+
     # Date fields
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now=True)
