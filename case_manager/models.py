@@ -50,6 +50,7 @@ class SubCategory(models.Model):
 
 class CategoryIssue(models.Model):
     name = models.CharField(max_length=200, unique=True)
+    category = models.ForeignKey(SubCategory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name
