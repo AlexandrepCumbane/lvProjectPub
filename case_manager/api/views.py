@@ -353,7 +353,7 @@ class CaseViewset(ModelViewSet):
 class CaseTaskViewset(ModelViewSet):
     serializer_class = CaseTaskSerializer
     queryset = CaseTask.objects.select_related(
-        "case", "task_category", "status", "assigned_to"
+        "case", "status", "assigned_to"
     )
     filterset_class = CaseTaskFilter
 
@@ -489,8 +489,7 @@ class CaseReferallViewset(ModelViewSet):
             and request.user.is_superuser is False
         ):
             my_entity = user.referall_entity.first()
-            print("entity", my_entity)
-            my_queryset = self.queryset.filter(referall_entity=my_entity).distinct(
+            my_queryset = my_queryset.filter(referall_entity=my_entity).distinct(
                 "case__id"
             )
 
@@ -556,7 +555,8 @@ class CaseReferallViewset(ModelViewSet):
         return Response({"errors": case_serializer.errors}, status=400)
 
     def get_queryset(self):
-        return self.filter_queryset(self.queryset).order_by("-id")
+        dados = self.filter_queryset(self.queryset)
+        return dados
 
 
 @permission_classes((IsAuthenticated,))
