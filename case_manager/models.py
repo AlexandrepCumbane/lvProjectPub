@@ -195,6 +195,14 @@ class IndividualCommitedFraud(models.Model):
         return self.name
 
 
+class WhoIsNotReceivingAssistence(models.Model):
+    name = models.CharField(max_length=25, unique=True)
+    
+    sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
 class Case(models.Model):
 
     # Text Fields
@@ -247,6 +255,8 @@ class Case(models.Model):
         related_name="cases",
         null=True,
     )
+
+    who_is_never_received_assistance = models.ForeignKey(WhoIsNotReceivingAssistence, on_delete=models.SET_NULL, null=True, related_name="cases")
     # How do You hear about us field on form
     how_knows_us = models.ForeignKey(
         HowDoYouHearAboutUs, on_delete=models.SET_NULL, related_name="cases", null=True

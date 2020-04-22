@@ -24,6 +24,7 @@ from case_manager.models import (
     TaskCategory,
     TaskStatus,
     TransfereModality,
+    WhoIsNotReceivingAssistence
 )
 from location_management.models import Location, Province
 from posts_management.models import PostCategory
@@ -135,6 +136,9 @@ def get_dropdowns():
     dropdowns.append(DropdownData(key="ages", value=Ages.objects.values()))
     dropdowns.append(
         DropdownData(key="post_categories", value=PostCategory.objects.values())
+    )
+    dropdowns.append(
+        DropdownData(key="who_is_never_received_assistence", value=WhoIsNotReceivingAssistence.objects.values())
     )
     return dropdowns
 

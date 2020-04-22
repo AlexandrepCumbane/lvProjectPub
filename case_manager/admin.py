@@ -27,6 +27,7 @@ from case_manager.models import (
     TaskCategory,
     TaskStatus,
     TransfereModality,
+    WhoIsNotReceivingAssistence
 )
 
 admin.autodiscover()
@@ -58,3 +59,4 @@ admin.site.register(TransfereModality)
 admin.site.register(ResponseProgram)
 admin.site.register(CaseTask)
 admin.site.register(IndividualCommitedFraud)
+admin.site.register(WhoIsNotReceivingAssistence)
