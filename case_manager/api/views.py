@@ -314,6 +314,17 @@ class CaseViewset(ModelViewSet):
             contactor = request.data["contactor"]
             contactor_id = self.__update_contactor(contactor)
 
+            try:
+                is_closed = case["case_closed"]
+                print("fechou", is_closed)
+                if is_closed:
+                    case["case_status"] = CaseStatus.objects.filter(
+                        name__icontains="closed"
+                    ).first().id
+                    print("status", case["case_status"])
+            except KeyError:
+                print("chave nao encontrada")
+
             if contactor_id == -1:
                 return Response(
                     {"errors": "Houve um erro ao alterar os dados do contactante"},
@@ -352,9 +363,7 @@ class CaseViewset(ModelViewSet):
 
 class CaseTaskViewset(ModelViewSet):
     serializer_class = CaseTaskSerializer
-    queryset = CaseTask.objects.select_related(
-        "case", "status", "assigned_to"
-    )
+    queryset = CaseTask.objects.select_related("case", "status", "assigned_to")
     filterset_class = CaseTaskFilter
 
     def create(self, request):

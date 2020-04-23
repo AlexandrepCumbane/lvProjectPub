@@ -6,19 +6,24 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0058_auto_20200422_2159'),
+        ("case_manager", "0058_auto_20200422_2159"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Vulnerability',
+            name="Vulnerability",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200, unique=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=200, unique=True)),
             ],
         ),
-        migrations.RemoveField(
-            model_name='case',
-            name='vulnerabilites',
-        ),
+        migrations.RemoveField(model_name="case", name="vulnerabilites",),
     ]

@@ -138,7 +138,9 @@ def get_dropdowns():
     dropdowns.append(
         DropdownData(key="post_categories", value=PostCategory.objects.values())
     )
-    dropdowns.append(DropdownData(key="vulnerabilities", value=Vulnerability.objects.values()))
+    dropdowns.append(
+        DropdownData(key="vulnerabilities", value=Vulnerability.objects.values())
+    )
     dropdowns.append(
         DropdownData(
             key="who_is_never_received_assistence",

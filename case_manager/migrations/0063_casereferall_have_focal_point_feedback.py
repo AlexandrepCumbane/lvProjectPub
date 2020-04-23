@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0062_remove_casetask_task_category'),
+        ("case_manager", "0062_remove_casetask_task_category"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='casereferall',
-            name='have_focal_point_feedback',
+            model_name="casereferall",
+            name="have_focal_point_feedback",
             field=models.BooleanField(default=False),
         ),
     ]

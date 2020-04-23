@@ -27,7 +27,7 @@ from case_manager.models import (
     TaskCategory,
     TaskStatus,
     TransfereModality,
-    Vulnerability
+    Vulnerability,
 )
 from location_management.api.serializers import LocationSerializer, ProvinceSerializer
 

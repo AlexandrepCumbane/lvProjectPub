@@ -306,8 +306,9 @@ class Case(models.Model):
     transfere_modality = models.ForeignKey(
         TransfereModality, on_delete=models.SET_NULL, null=True, default=None
     )
-    vulnerability = models.ForeignKey(Vulnerability, on_delete=models.SET_NULL, null=True, blank=True)
-    
+    vulnerability = models.ForeignKey(
+        Vulnerability, on_delete=models.SET_NULL, null=True, blank=True
+    )
 
     # Many to Many Fields
     sub_category = models.ForeignKey(

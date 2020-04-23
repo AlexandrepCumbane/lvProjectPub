@@ -6,12 +6,9 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0061_casetask_attemptes_to_call_without_success'),
+        ("case_manager", "0061_casetask_attemptes_to_call_without_success"),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='casetask',
-            name='task_category',
-        ),
+        migrations.RemoveField(model_name="casetask", name="task_category",),
     ]

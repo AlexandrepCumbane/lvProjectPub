@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0060_case_vulnerability'),
+        ("case_manager", "0060_case_vulnerability"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='casetask',
-            name='attemptes_to_call_without_success',
+            model_name="casetask",
+            name="attemptes_to_call_without_success",
             field=models.IntegerField(default=0),
         ),
     ]
