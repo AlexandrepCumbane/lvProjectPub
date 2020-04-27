@@ -1,9 +1,6 @@
-from django_filters import FilterSet
-from django_filters import CharFilter
+from django_filters import BooleanFilter, CharFilter, FilterSet
 
-from case_manager.models import Case
-from case_manager.models import CaseReferall
-from case_manager.models import CaseTask
+from case_manager.models import Case, CaseReferall, CaseTask
 
 
 class CaseFilter(FilterSet):
@@ -19,6 +16,9 @@ class CaseFilter(FilterSet):
 
 
 class CaseReferallFilter(FilterSet):
+
+    is_valid_feedback = BooleanFilter(lookup_expr="exact")
+
     class Meta:
         model = CaseReferall
         fields = "__all__"

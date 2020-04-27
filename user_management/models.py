@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
-
 from django.db import models
 
 from location_management.models import Province
+
 
 # Create your models here.
 class FocalPointProfile(models.Model):

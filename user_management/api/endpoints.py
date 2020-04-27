@@ -1,8 +1,10 @@
 from drf_auto_endpoint.router import DefaultRouter
 
-from user_management.api.views import GroupViewSet
-from user_management.api.views import UserViewSet
-from user_management.api.views import FocalPointProfileViewset
+from user_management.api.views import (
+    FocalPointProfileViewset,
+    GroupViewSet,
+    UserViewSet,
+)
 
 router = DefaultRouter()
 

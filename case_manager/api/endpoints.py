@@ -1,24 +1,26 @@
 from drf_auto_endpoint.router import DefaultRouter
 
-from case_manager.api.views import CaseViewset
-from case_manager.api.views import CaseCommentsViewset
-from case_manager.api.views import CasePriorityViewset
-from case_manager.api.views import CaseReferallViewset
-from case_manager.api.views import CaseTaskViewset
-from case_manager.api.views import CategoryViewset
-from case_manager.api.views import ContactorViewset
-from case_manager.api.views import DropdownsViewSet
-from case_manager.api.views import CustomerSatisfactionViewset
-from case_manager.api.views import GenderViewset
-from case_manager.api.views import HowDoYouHearAboutUsViewset
-from case_manager.api.views import HowWouldYouLikeToBeContactedViewset
-from case_manager.api.views import ProgrammeViewset
-from case_manager.api.views import ReferallEntityViewset
-from case_manager.api.views import ResolutionCategoryViewset
-from case_manager.api.views import ResolutionSubCategoryViewset
-from case_manager.api.views import SubCategoryViewset
-from case_manager.api.views import CategoryIssueViewset
-from case_manager.api.views import TaskStatusViewset
+from case_manager.api.views import (
+    CaseCommentsViewset,
+    CasePriorityViewset,
+    CaseReferallViewset,
+    CaseTaskViewset,
+    CaseViewset,
+    CategoryIssueViewset,
+    CategoryViewset,
+    ContactorViewset,
+    CustomerSatisfactionViewset,
+    DropdownsViewSet,
+    GenderViewset,
+    HowDoYouHearAboutUsViewset,
+    HowWouldYouLikeToBeContactedViewset,
+    ProgrammeViewset,
+    ReferallEntityViewset,
+    ResolutionCategoryViewset,
+    ResolutionSubCategoryViewset,
+    SubCategoryViewset,
+    TaskStatusViewset,
+)
 
 router = DefaultRouter()
 

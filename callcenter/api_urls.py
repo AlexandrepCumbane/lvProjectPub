@@ -4,7 +4,6 @@ from posts_management.urls import urlpatterns as post_management_urls
 from reports_management.urls import urlpatterns as reports_management_urls
 from user_management.urls import urlpatterns as user_management_urls
 
-
 urlpatterns = (
     case_manager_urls
     + location_management_urls

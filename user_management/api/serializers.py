@@ -1,8 +1,5 @@
-from django.contrib.auth.models import Group
-from django.contrib.auth.models import User
-
-from rest_framework.serializers import ModelSerializer
-from rest_framework.serializers import SerializerMethodField
+from django.contrib.auth.models import Group, User
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 from user_management.models import FocalPointProfile
 

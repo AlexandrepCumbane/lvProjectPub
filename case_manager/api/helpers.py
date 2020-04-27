@@ -1,39 +1,40 @@
 from enum import Enum
 
+from django.contrib.auth.models import Group, User
 from rest_framework import serializers
 
-from django.contrib.auth.models import User
-from django.contrib.auth.models import Group
-
-from case_manager.models import Ages
-from case_manager.models import CasePriority
-from case_manager.models import CaseStatus
-from case_manager.models import CaseType
-from case_manager.models import Category
-from case_manager.models import CustomerSatisfaction
-from case_manager.models import Gender
-from case_manager.models import HowDoYouHearAboutUs
-from case_manager.models import HowWouldYouLikeToBeContacted
-from case_manager.models import HumanitarionActor
-from case_manager.models import Programme
-from case_manager.models import ReferallEntity
-from case_manager.models import ResolutionCategory
-from case_manager.models import ResolutionSubCategory
-from case_manager.models import SubCategory
-from case_manager.models import CategoryIssue
-from case_manager.models import CategoryIssueSub
-from case_manager.models import MecanismUsed
-from case_manager.models import TaskStatus
-from case_manager.models import TaskCategory
-from case_manager.models import TransfereModality
-
-from location_management.models import Location
-from location_management.models import Province
+from case_manager.models import (
+    Ages,
+    CasePriority,
+    CaseStatus,
+    Category,
+    CategoryIssue,
+    CustomerSatisfaction,
+    Gender,
+    HowDoYouHearAboutUs,
+    HowWouldYouLikeToBeContacted,
+    IndividualCommitedFraud,
+    MecanismUsed,
+    Programme,
+    ReferallEntity,
+    ResolutionCategory,
+    ResolutionSubCategory,
+    SourceOfInformation,
+    SubCategory,
+    TaskCategory,
+    TaskStatus,
+    TransfereModality,
+    Vulnerability,
+    WhoIsNotReceivingAssistence,
+)
+from location_management.models import Location, Province
+from posts_management.models import PostCategory
 
 
 class UserType(Enum):
     OPERATOR = "Operador"
     FOCAL_POINT = "Ponto Focal"
+    GESTOR = "Gestor"
 
 
 class DropdownData(object):
@@ -53,7 +54,6 @@ def get_dropdowns():
     dropdowns = []
 
     dropdowns.append(DropdownData(key="case_status", value=CaseStatus.objects.values()))
-    dropdowns.append(DropdownData(key="case_types", value=CaseType.objects.values()))
     dropdowns.append(
         DropdownData(key="case_priorities", value=CasePriority.objects.values())
     )
@@ -77,7 +77,13 @@ def get_dropdowns():
     )
     dropdowns.append(
         DropdownData(
-            key="humanitarian_actors", value=HumanitarionActor.objects.values()
+            key="source_of_informations", value=SourceOfInformation.objects.values()
+        )
+    )
+    dropdowns.append(
+        DropdownData(
+            key="individual_commited_fraud",
+            value=IndividualCommitedFraud.objects.values(),
         )
     )
     dropdowns.append(DropdownData(key="programmes", value=Programme.objects.values()))
@@ -96,11 +102,6 @@ def get_dropdowns():
     )
     dropdowns.append(
         DropdownData(key="categories_issues", value=CategoryIssue.objects.values())
-    )
-    dropdowns.append(
-        DropdownData(
-            key="subcategories_issues", value=CategoryIssueSub.objects.values()
-        )
     )
     dropdowns.append(
         DropdownData(key="subcategories", value=SubCategory.objects.values())
@@ -123,6 +124,9 @@ def get_dropdowns():
         )
     )
     dropdowns.append(
+        DropdownData(key="gestores", value=filtrar_user_by_type(UserType.GESTOR.value))
+    )
+    dropdowns.append(
         DropdownData(
             key="focal_points", value=filtrar_user_by_type(UserType.FOCAL_POINT.value)
         )
@@ -131,7 +135,18 @@ def get_dropdowns():
         DropdownData(key="task_categories", value=TaskCategory.objects.values())
     )
     dropdowns.append(DropdownData(key="ages", value=Ages.objects.values()))
-
+    dropdowns.append(
+        DropdownData(key="post_categories", value=PostCategory.objects.values())
+    )
+    dropdowns.append(
+        DropdownData(key="vulnerabilities", value=Vulnerability.objects.values())
+    )
+    dropdowns.append(
+        DropdownData(
+            key="who_is_never_received_assistence",
+            value=WhoIsNotReceivingAssistence.objects.values(),
+        )
+    )
     return dropdowns
 
 

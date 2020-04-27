@@ -1,8 +1,8 @@
-from callcenter.settings import *
 import dj_database_url
-
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
+
+from callcenter.settings import *
 
 INSTALLED_APPS += (
     "gunicorn",

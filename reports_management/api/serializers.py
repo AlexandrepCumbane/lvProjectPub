@@ -1,11 +1,13 @@
 from rest_framework import serializers
 
-from reports_management.api.helpers import generate_reports_big_number
-from reports_management.api.helpers import generate_reports_charts_caller
-from reports_management.api.helpers import generate_case_charts
-from reports_management.api.helpers import get_gestor_dashboard_data
-from reports_management.api.helpers import get_operador_dashboard_data
-from reports_management.api.helpers import get_parceiro_dashboard_data
+from reports_management.api.helpers import (
+    generate_case_charts,
+    generate_reports_big_number,
+    generate_reports_charts_caller,
+    get_gestor_dashboard_data,
+    get_operador_dashboard_data,
+    get_parceiro_dashboard_data,
+)
 
 
 class GeneralReportSerializer(serializers.Serializer):

@@ -1,38 +1,35 @@
 from django.contrib.auth.models import User
-
 from drf_auto_endpoint.factories import serializer_factory
-from rest_framework.serializers import ModelSerializer
-from rest_framework.serializers import SerializerMethodField
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from case_manager.models import Ages
-from case_manager.models import Case
-from case_manager.models import CaseComments
-from case_manager.models import CasePriority
-from case_manager.models import CaseReferall
-from case_manager.models import CaseTask
-from case_manager.models import CaseType
-from case_manager.models import CaseStatus
-from case_manager.models import Category
-from case_manager.models import Contactor
-from case_manager.models import CustomerSatisfaction
-from case_manager.models import Gender
-from case_manager.models import HowDoYouHearAboutUs
-from case_manager.models import HowWouldYouLikeToBeContacted
-from case_manager.models import HumanitarionActor
-from case_manager.models import MecanismUsed
-from case_manager.models import Programme
-from case_manager.models import ReferallEntity
-from case_manager.models import ResolutionCategory
-from case_manager.models import ResolutionSubCategory
-from case_manager.models import SubCategory
-from case_manager.models import CategoryIssue
-from case_manager.models import CategoryIssueSub
-from case_manager.models import TaskCategory
-from case_manager.models import TaskStatus
-from case_manager.models import TransfereModality
-
-from location_management.api.serializers import LocationSerializer
-from location_management.api.serializers import ProvinceSerializer
+from case_manager.models import (
+    Ages,
+    Case,
+    CaseComments,
+    CasePriority,
+    CaseReferall,
+    CaseStatus,
+    CaseTask,
+    Category,
+    CategoryIssue,
+    Contactor,
+    CustomerSatisfaction,
+    Gender,
+    HowDoYouHearAboutUs,
+    HowWouldYouLikeToBeContacted,
+    MecanismUsed,
+    Programme,
+    ReferallEntity,
+    ResolutionCategory,
+    ResolutionSubCategory,
+    SourceOfInformation,
+    SubCategory,
+    TaskCategory,
+    TaskStatus,
+    TransfereModality,
+    Vulnerability,
+)
+from location_management.api.serializers import LocationSerializer, ProvinceSerializer
 
 
 class CasePrioritySerializer(ModelSerializer):
@@ -77,12 +74,6 @@ class CategoryIssueSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class SubCategoryIssueSerializer(ModelSerializer):
-    class Meta:
-        model = CategoryIssueSub
-        fields = "__all__"
-
-
 class ResolutionCategorySerializer(ModelSerializer):
     class Meta:
         model = ResolutionCategory
@@ -107,9 +98,9 @@ class HowWouldYouLikeToBeContactedSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class HumanitarionActorSerializer(ModelSerializer):
+class SourceOfInformationSerializer(ModelSerializer):
     class Meta:
-        model = HumanitarionActor
+        model = SourceOfInformation
         fields = "__all__"
 
 
@@ -173,7 +164,6 @@ class CaseFeedbackSerializer(ModelSerializer):
 class CaseTaskFull2Serializer(ModelSerializer):
 
     assigned_to = serializer_factory(model=User, fields=("id", "username"))()
-    task_category = TaskCategorySerializer()
     status = TaskStatusSerializer()
 
     class Meta:
@@ -195,14 +185,15 @@ class CaseSerializerFull(ModelSerializer):
     case_priority = CasePrioritySerializer()
     category = CategorySerializer()
     contactor = ContactorSerializerFull()
-    humanitarian_actor = HumanitarionActorSerializer()
-    sub_category = SubCategorySerializer(many=True)
+    source_of_information = SourceOfInformationSerializer()
+    sub_category = SubCategorySerializer()
     created_by = serializer_factory(model=User, fields=("id", "username",))()
     how_knows_us = HowDoYouHearAboutUsSerializer()
     how_would_you_like_to_be_contacted = HowWouldYouLikeToBeContactedSerializer()
     case_status = serializer_factory(model=CaseStatus, fields=("id", "name"))()
     programme = ProgrammeSerializer()
     mecanism_used = serializer_factory(model=MecanismUsed, fields=("id", "name"))()
+    vulnerability = serializer_factory(model=Vulnerability, fields=("id", "name"))()
     transfere_modality = serializer_factory(
         model=TransfereModality, fields=("id", "name")
     )()
@@ -210,10 +201,8 @@ class CaseSerializerFull(ModelSerializer):
         model=CustomerSatisfaction, fields=("id", "name")
     )()
     category_issue = CategoryIssueSerializer()
-    category_issue_sub = SubCategoryIssueSerializer(many=True)
     number_of_tasks = SerializerMethodField()
     has_feedback = SerializerMethodField()
-    case_type = serializer_factory(model=CaseType, fields=("id", "name"))()
 
     case_referall = CaseFeedbackSerializer(many=True)
 
@@ -261,7 +250,6 @@ class CaseSerializerTask(ModelSerializer):
 class CaseTaskFullSerializer(ModelSerializer):
 
     assigned_to = serializer_factory(model=User, fields=("id", "username"))()
-    task_category = TaskCategorySerializer()
     status = TaskStatusSerializer()
     case = serializer_factory(model=Case, fields=("case_id", "id"))()
     priority = SerializerMethodField()

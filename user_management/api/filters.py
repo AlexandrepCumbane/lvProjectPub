@@ -1,7 +1,5 @@
 from django.contrib.auth.models import User
-
-from django_filters import CharFilter
-from django_filters import FilterSet
+from django_filters import CharFilter, FilterSet
 
 
 class UserFilter(FilterSet):

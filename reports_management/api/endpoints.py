@@ -1,7 +1,6 @@
 from drf_auto_endpoint.router import DefaultRouter
 
-from .views import GeneralReportViewSet
-from .views import DashboardReportViewSet
+from .views import DashboardReportViewSet, GeneralReportViewSet
 
 router = DefaultRouter()
 

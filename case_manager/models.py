@@ -4,9 +4,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
-from location_management.models import Location
-from location_management.models import Province
-
+from location_management.models import Location, Province
 from user_management.models import FocalPointProfile
 
 # Create your models here.
@@ -52,16 +50,7 @@ class SubCategory(models.Model):
 
 class CategoryIssue(models.Model):
     name = models.CharField(max_length=200, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-class CategoryIssueSub(models.Model):
-    name = models.CharField(max_length=200)
-    category_issue = models.ForeignKey(
-        CategoryIssue, on_delete=models.CASCADE, related_name="sub_category_issue"
-    )
+    category = models.ForeignKey(SubCategory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name
@@ -163,7 +152,7 @@ class ReferallEntity(models.Model):
     users = models.ManyToManyField(User, related_name="referall_entity", blank=True)
 
 
-class HumanitarionActor(models.Model):
+class SourceOfInformation(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
@@ -191,14 +180,31 @@ class TransfereModality(models.Model):
         return self.name
 
 
-class CaseType(models.Model):
+class ResponseProgram(models.Model):
     name = models.CharField(max_length=200, unique=True)
 
     def __str__(self):
         return self.name
 
 
-class ResponseProgram(models.Model):
+class IndividualCommitedFraud(models.Model):
+    name = models.CharField(max_length=25, unique=True)
+    sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
+class WhoIsNotReceivingAssistence(models.Model):
+    name = models.CharField(max_length=25, unique=True)
+
+    sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
+class Vulnerability(models.Model):
     name = models.CharField(max_length=200, unique=True)
 
     def __str__(self):
@@ -216,11 +222,13 @@ class Case(models.Model):
         choices=[("Y", "YES"), ("N", "NO")], max_length=25, default="N"
     )
     case_id = models.CharField(max_length=20, unique=True)
+    other_category = models.CharField(max_length=200, null=True, blank=True)
+    other_sources = models.CharField(max_length=200, default="", blank=True)
     other_vulnerabilites = models.CharField(max_length=200, null=True, blank=True)
     resettlement_name = models.CharField(max_length=200, null=True, blank=True)
-    vulnerabilites = models.CharField(max_length=200, null=True, blank=True)
-
     # Boolean fields
+
+    # Reference field feedback provided
     caller_not_reached_for_feedback = models.BooleanField(
         default=True, blank=True, null=True
     )
@@ -228,10 +236,10 @@ class Case(models.Model):
     case_forwarded = models.BooleanField(default=False)
     call_require_aditional_information = models.BooleanField(default=False)
     call_require_callback_for_feedback = models.BooleanField(default=False)
-
     consent_to_share_third_party = models.BooleanField(default=False)
     consent_to_collect_personal_info = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
+    received_assistence = models.BooleanField(default=False)
     case_uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     contactor = models.OneToOneField(
@@ -253,6 +261,14 @@ class Case(models.Model):
         related_name="cases",
         null=True,
     )
+
+    who_is_never_received_assistance = models.ForeignKey(
+        WhoIsNotReceivingAssistence,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="cases",
+    )
+    # How do You hear about us field on form
     how_knows_us = models.ForeignKey(
         HowDoYouHearAboutUs, on_delete=models.SET_NULL, related_name="cases", null=True
     )
@@ -266,8 +282,11 @@ class Case(models.Model):
     case_status = models.ForeignKey(
         CaseStatus, on_delete=models.SET_NULL, null=True, related_name="cases"
     )
-    case_type = models.ForeignKey(
-        CaseType, on_delete=models.SET_NULL, null=True, related_name="cases"
+    individual_commited_fraud = models.ForeignKey(
+        IndividualCommitedFraud,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="cases",
     )
     response_program = models.ForeignKey(
         ResponseProgram, on_delete=models.SET_NULL, related_name="cases", null=True
@@ -281,18 +300,24 @@ class Case(models.Model):
     mecanism_used = models.ForeignKey(
         MecanismUsed, on_delete=models.SET_NULL, default=None, null=True
     )
-    humanitarian_actor = models.ForeignKey(
-        HumanitarionActor, on_delete=models.SET_NULL, null=True, default=None
+    source_of_information = models.ForeignKey(
+        SourceOfInformation, on_delete=models.SET_NULL, null=True, default=None
     )
     transfere_modality = models.ForeignKey(
         TransfereModality, on_delete=models.SET_NULL, null=True, default=None
     )
+    vulnerability = models.ForeignKey(
+        Vulnerability, on_delete=models.SET_NULL, null=True, blank=True
+    )
 
     # Many to Many Fields
-    category_issue_sub = models.ManyToManyField(
-        CategoryIssueSub, related_name="cases", blank=True
+    sub_category = models.ForeignKey(
+        SubCategory,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="cases",
+        blank=True,
     )
-    sub_category = models.ManyToManyField(SubCategory, related_name="cases", blank=True)
 
     focal_points = models.ManyToManyField(
         FocalPointProfile, related_name="cases", blank=True
@@ -311,6 +336,7 @@ class CaseReferall(models.Model):
     has_feedback = models.BooleanField(default=False)
     referred_to_focal_point = models.BooleanField(default=False)
     is_valid_feedback = models.BooleanField(default=True)
+    have_focal_point_feedback = models.BooleanField(default=False)
     comments = models.TextField(max_length=100, default="")
 
 
@@ -329,9 +355,8 @@ class CaseTask(models.Model):
         TaskStatus, on_delete=models.SET_NULL, related_name="tasks", null=True
     )
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    task_category = models.ForeignKey(
-        TaskCategory, on_delete=models.SET_NULL, null=True
-    )
+
+    attemptes_to_call_without_success = models.IntegerField(default=0)
 
     # Date fields
     created_at = models.DateTimeField(auto_now=True)

@@ -51,6 +51,9 @@ INSTALLED_APPS = [
     "reports_management",
     "user_management",
     "posts_management",
+    # Checkeditor
+    "ckeditor",
+    "ckeditor_uploader",
 ]
 
 MIDDLEWARE = [
@@ -118,6 +121,9 @@ STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(PACKAGE_ROOT, "site_media", "static")
 MEDIA_URL = "/site_media/static/"
 MEDIA_ROOT = os.path.join(PACKAGE_ROOT, "site_media", "media")
+
+CKEDITOR_BASEPATH = "/my_static/ckeditor/ckeditor/"
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 # Initial table data
 FIXTURE_DIRS = [os.path.join("fixtures")]
