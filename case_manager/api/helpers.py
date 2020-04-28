@@ -28,7 +28,7 @@ from case_manager.models import (
     WhoIsNotReceivingAssistence,
 )
 from location_management.models import Location, Province
-from posts_management.models import PostCategory
+from posts_management.models import PostCategory, PostLanguage
 
 
 class UserType(Enum):
@@ -137,6 +137,9 @@ def get_dropdowns():
     dropdowns.append(DropdownData(key="ages", value=Ages.objects.values()))
     dropdowns.append(
         DropdownData(key="post_categories", value=PostCategory.objects.values())
+    )
+    dropdowns.append(
+        DropdownData(key="post_languages", value=PostLanguage.objects.values())
     )
     dropdowns.append(
         DropdownData(key="vulnerabilities", value=Vulnerability.objects.values())
