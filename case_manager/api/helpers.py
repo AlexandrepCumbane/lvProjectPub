@@ -5,6 +5,7 @@ from rest_framework import serializers
 
 from case_manager.models import (
     Ages,
+    Case,
     CasePriority,
     CaseStatus,
     Category,
@@ -53,6 +54,7 @@ def filtrar_user_by_type(type_name):
 def get_dropdowns():
     dropdowns = []
 
+    dropdowns.append(DropdownData(key="cases", value=Case.objects.values()))
     dropdowns.append(DropdownData(key="case_status", value=CaseStatus.objects.values()))
     dropdowns.append(
         DropdownData(key="case_priorities", value=CasePriority.objects.values())
