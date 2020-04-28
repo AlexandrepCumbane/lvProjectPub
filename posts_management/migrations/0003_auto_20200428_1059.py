@@ -16,11 +16,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='post',
             name='aproved_by',
-            field=models.ForeignKey(default='', on_delete=django.db.models.deletion.CASCADE, related_name='posts_aprovers', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(default='1', on_delete=django.db.models.deletion.CASCADE, related_name='posts_aprovers', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='post',
             name='assigned_to',
-            field=models.ForeignKey(default='', on_delete=django.db.models.deletion.CASCADE, related_name='posts_assignment', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(default='1', on_delete=django.db.models.deletion.CASCADE, related_name='posts_assignment', to=settings.AUTH_USER_MODEL),
         ),
     ]
