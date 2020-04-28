@@ -4,6 +4,7 @@ from django.db import models
 
 from case_manager.models import Case
 
+DEFAULT_PK = 1
 
 class PostLanguage(models.Model):
     name = models.CharField(max_length=35, unique=True)
@@ -33,8 +34,8 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
 
-    aproved_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts_aprovers",default=1)
-    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts_assignment",default=1)
+    aproved_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="posts_aprovers",default=DEFAULT_PK)
+    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE,null=True, related_name="posts_assignment",default=DEFAULT_PK)
 
     updated_at = models.DateTimeField(auto_now=True)
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
