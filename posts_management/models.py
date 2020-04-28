@@ -4,7 +4,6 @@ from django.db import models
 
 from case_manager.models import Case
 
-DEFAULT_PK = 1
 
 class PostLanguage(models.Model):
     name = models.CharField(max_length=35, unique=True)
@@ -31,17 +30,17 @@ class Post(models.Model):
     language = models.ForeignKey(
         PostLanguage, on_delete=models.SET_NULL, null=True, related_name="posts"
     )
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateField(auto_now=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
 
-    aproved_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="posts_aprovers",default=DEFAULT_PK)
-    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE,null=True, related_name="posts_assignment",default=DEFAULT_PK)
+    aproved_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts_aprovers",default=1)
+    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts_assignment",default=1)
 
     updated_at = models.DateTimeField(auto_now=True)
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
-    published_date = models.DateTimeField(auto_now=False, null=True)
-    expiration_date = models.DateTimeField(auto_now=False, null=True)
+    published_date = models.DateField(auto_now=False, null=True)
+    expiration_date = models.DateField(auto_now=False, null=True)
     
     published = models.BooleanField(default=False)
     active_revision = models.BooleanField(default=False)
