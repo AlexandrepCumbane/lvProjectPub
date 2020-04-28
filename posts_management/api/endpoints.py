@@ -6,4 +6,4 @@ router = DefaultRouter()
 
 router.register("posts", PostViewSet, basename="posts")
 router.register("post-categories", PostCategoriesViewSet, basename="post-categories")
-router.register("post-languages", PostCategoriesViewSet, basename="post-languages")
+router.register("post-languages", PostLanguageSerializer, basename="post-languages")
