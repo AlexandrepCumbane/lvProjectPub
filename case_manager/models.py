@@ -357,13 +357,13 @@ class CaseTask(models.Model):
     gestor_comments = models.TextField(max_length=1000, default="", blank=True)
     # Foreign Fields
     assigned_to = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="tasks", null=True, default=None
+        User, on_delete=models.CASCADE, related_name="tasks"
     )
     case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name="tasks")
     status = models.ForeignKey(
         TaskStatus, on_delete=models.SET_NULL, related_name="tasks", null=True
     )
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None)
     updated_by = models.CharField(max_length=200, default="")
 
     attemptes_to_call_without_success = models.IntegerField(default=0)
