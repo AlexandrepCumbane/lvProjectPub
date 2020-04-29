@@ -13,19 +13,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name="casetask",
-            name="created_by",
-            field=models.ForeignKey(
-                default=None,
-                null=True,
-                on_delete=django.db.models.deletion.SET_NULL,
-                to=settings.AUTH_USER_MODEL,
-            ),
-        ),
-        migrations.AlterField(
-            model_name="casetask",
-            name="updated_by",
-            field=models.CharField(default="", max_length=200),
-        ),
+        migrations.DeleteModel(name="TaskCategory",),
     ]
+

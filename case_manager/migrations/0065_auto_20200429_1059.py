@@ -7,8 +7,9 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("case_manager", "0065_delete_taskcategory"),
+        ("case_manager", "0064_auto_20200429_0555"),
     ]
+
 
     operations = [
         migrations.AlterField(
