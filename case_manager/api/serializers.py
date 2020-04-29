@@ -243,6 +243,7 @@ class CaseSerializerTask(ModelSerializer):
 class CaseTaskFullSerializer(ModelSerializer):
 
     assigned_to = serializer_factory(model=User, fields=("id", "username"))()
+    created_by = serializer_factory(model=User, fields=("id", "username"))()
     status = TaskStatusSerializer()
     case = serializer_factory(model=Case, fields=("case_id", "id"))()
     priority = SerializerMethodField()
