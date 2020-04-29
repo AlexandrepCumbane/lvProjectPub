@@ -6,11 +6,9 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0064_auto_20200429_0555'),
+        ("case_manager", "0064_auto_20200429_0555"),
     ]
 
     operations = [
-        migrations.DeleteModel(
-            name='TaskCategory',
-        ),
+        migrations.DeleteModel(name="TaskCategory",),
     ]

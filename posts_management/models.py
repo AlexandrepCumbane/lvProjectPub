@@ -33,15 +33,19 @@ class Post(models.Model):
     created_at = models.DateField(auto_now=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
 
-    aproved_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts_aprovers",default=1)
-    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts_assignment",default=1)
+    aproved_by = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="posts_aprovers", default=1
+    )
+    assigned_to = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="posts_assignment", default=1
+    )
 
     updated_at = models.DateTimeField(auto_now=True)
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     published_date = models.DateField(auto_now=False, null=True)
     expiration_date = models.DateField(auto_now=False, null=True)
-    
+
     published = models.BooleanField(default=False)
     active_revision = models.BooleanField(default=False)
     external_link = models.BooleanField(default=False)

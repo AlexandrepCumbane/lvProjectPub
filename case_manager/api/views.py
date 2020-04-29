@@ -318,9 +318,9 @@ class CaseViewset(ModelViewSet):
                 is_closed = case["case_closed"]
                 print("fechou", is_closed)
                 if is_closed:
-                    case["case_status"] = CaseStatus.objects.filter(
-                        name__icontains="closed"
-                    ).first().id
+                    case["case_status"] = (
+                        CaseStatus.objects.filter(name__icontains="closed").first().id
+                    )
                     print("status", case["case_status"])
             except KeyError:
                 print("chave nao encontrada")

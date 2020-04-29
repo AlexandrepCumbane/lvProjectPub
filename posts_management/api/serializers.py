@@ -20,6 +20,7 @@ class PostCategorySerializer(ModelSerializer):
         model = PostCategory
         fields = "__all__"
 
+
 class PostLanguageSerializer(ModelSerializer):
     class Meta:
         model = PostLanguage
