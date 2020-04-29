@@ -363,7 +363,7 @@ class CaseTask(models.Model):
     status = models.ForeignKey(
         TaskStatus, on_delete=models.SET_NULL, related_name="tasks", null=True
     )
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     updated_by = models.CharField(max_length=200, default="")
 
     attemptes_to_call_without_success = models.IntegerField(default=0)
