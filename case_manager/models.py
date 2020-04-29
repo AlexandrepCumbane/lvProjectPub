@@ -341,7 +341,7 @@ class CaseTask(models.Model):
     gestor_comments = models.TextField(max_length=1000, default="", blank=True)
     # Foreign Fields
     assigned_to = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="tasks"
+        User, on_delete=models.CASCADE, related_name="tasks", default=None
     )
     case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name="tasks")
     status = models.ForeignKey(
