@@ -5,7 +5,6 @@ from posts_management.api.serializers import (
     PostFileSerializer,
     PostLanguageSerializer,
     PostSerializer,
-    PostLanguageSerializer
 )
 from posts_management.models import Post, PostCategory, PostFile, PostLanguage
 
@@ -13,6 +12,7 @@ from posts_management.models import Post, PostCategory, PostFile, PostLanguage
 class PostCategoriesViewSet(ModelViewSet):
     serializer_class = PostCategorySerializer
     queryset = PostCategory.objects.all()
+
 
 class PostLanguageViewSet(ModelViewSet):
     serializer_class = PostLanguageSerializer
