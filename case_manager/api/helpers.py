@@ -5,6 +5,7 @@ from rest_framework import serializers
 
 from case_manager.models import (
     Ages,
+    Case,
     CasePriority,
     CaseStatus,
     Category,
@@ -27,7 +28,7 @@ from case_manager.models import (
     WhoIsNotReceivingAssistence,
 )
 from location_management.models import Location, Province
-from posts_management.models import PostCategory
+from posts_management.models import PostCategory, PostLanguage
 
 
 class UserType(Enum):
@@ -52,6 +53,7 @@ def filtrar_user_by_type(type_name):
 def get_dropdowns():
     dropdowns = []
 
+    dropdowns.append(DropdownData(key="cases", value=Case.objects.values()))
     dropdowns.append(DropdownData(key="case_status", value=CaseStatus.objects.values()))
     dropdowns.append(
         DropdownData(key="case_priorities", value=CasePriority.objects.values())
@@ -133,6 +135,9 @@ def get_dropdowns():
     dropdowns.append(DropdownData(key="ages", value=Ages.objects.values()))
     dropdowns.append(
         DropdownData(key="post_categories", value=PostCategory.objects.values())
+    )
+    dropdowns.append(
+        DropdownData(key="post_languages", value=PostLanguage.objects.values())
     )
     dropdowns.append(
         DropdownData(key="vulnerabilities", value=Vulnerability.objects.values())
