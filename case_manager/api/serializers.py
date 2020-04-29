@@ -24,7 +24,6 @@ from case_manager.models import (
     ResolutionSubCategory,
     SourceOfInformation,
     SubCategory,
-    TaskCategory,
     TaskStatus,
     TransfereModality,
     Vulnerability,
@@ -113,12 +112,6 @@ class CustomerSatisfactionSerializer(ModelSerializer):
 class TaskStatusSerializer(ModelSerializer):
     class Meta:
         model = TaskStatus
-        fields = "__all__"
-
-
-class TaskCategorySerializer(ModelSerializer):
-    class Meta:
-        model = TaskCategory
         fields = "__all__"
 
 
