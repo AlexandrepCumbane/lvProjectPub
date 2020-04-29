@@ -363,9 +363,9 @@ class CaseTask(models.Model):
     status = models.ForeignKey(
         TaskStatus, on_delete=models.SET_NULL, related_name="tasks", null=True
     )
-    updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='updated_tasks')
     attemptes_to_call_without_success = models.IntegerField(default=0)
-
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='%(class)s_created')
     # Date fields
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now=True)
