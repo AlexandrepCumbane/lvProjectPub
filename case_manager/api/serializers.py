@@ -24,7 +24,6 @@ from case_manager.models import (
     ResolutionSubCategory,
     SourceOfInformation,
     SubCategory,
-    TaskCategory,
     TaskStatus,
     TransfereModality,
     Vulnerability,
@@ -113,12 +112,6 @@ class CustomerSatisfactionSerializer(ModelSerializer):
 class TaskStatusSerializer(ModelSerializer):
     class Meta:
         model = TaskStatus
-        fields = "__all__"
-
-
-class TaskCategorySerializer(ModelSerializer):
-    class Meta:
-        model = TaskCategory
         fields = "__all__"
 
 
@@ -250,6 +243,7 @@ class CaseSerializerTask(ModelSerializer):
 class CaseTaskFullSerializer(ModelSerializer):
 
     assigned_to = serializer_factory(model=User, fields=("id", "username"))()
+    created_by = serializer_factory(model=User, fields=("id", "username"))()
     status = TaskStatusSerializer()
     case = serializer_factory(model=Case, fields=("case_id", "id"))()
     priority = SerializerMethodField()
