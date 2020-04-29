@@ -7,33 +7,57 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0065_delete_taskcategory'),
+        ("case_manager", "0065_delete_taskcategory"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='case',
-            name='case_priority',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='cases', to='case_manager.CasePriority'),
+            model_name="case",
+            name="case_priority",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="cases",
+                to="case_manager.CasePriority",
+            ),
         ),
         migrations.AlterField(
-            model_name='case',
-            name='case_status',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='cases', to='case_manager.CaseStatus'),
+            model_name="case",
+            name="case_status",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="cases",
+                to="case_manager.CaseStatus",
+            ),
         ),
         migrations.AlterField(
-            model_name='case',
-            name='how_knows_us',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='cases', to='case_manager.HowDoYouHearAboutUs'),
+            model_name="case",
+            name="how_knows_us",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="cases",
+                to="case_manager.HowDoYouHearAboutUs",
+            ),
         ),
         migrations.AlterField(
-            model_name='case',
-            name='programme',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='cases', to='case_manager.Programme'),
+            model_name="case",
+            name="programme",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="cases",
+                to="case_manager.Programme",
+            ),
         ),
         migrations.AlterField(
-            model_name='contactor',
-            name='community',
-            field=models.CharField(blank=True, default='', max_length=100),
+            model_name="contactor",
+            name="community",
+            field=models.CharField(blank=True, default="", max_length=100),
         ),
     ]

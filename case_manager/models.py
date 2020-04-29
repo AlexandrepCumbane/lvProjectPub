@@ -263,17 +263,33 @@ class Case(models.Model):
     )
     # How do You hear about us field on form
     how_knows_us = models.ForeignKey(
-        HowDoYouHearAboutUs, on_delete=models.SET_NULL, related_name="cases", null=True, blank=True
+        HowDoYouHearAboutUs,
+        on_delete=models.SET_NULL,
+        related_name="cases",
+        null=True,
+        blank=True,
     )
     programme = models.ForeignKey(
-        Programme, on_delete=models.SET_NULL, null=True, related_name="cases", blank=True
+        Programme,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="cases",
+        blank=True,
     )
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cases")
     case_priority = models.ForeignKey(
-        CasePriority, on_delete=models.SET_NULL, related_name="cases", null=True, blank=True
+        CasePriority,
+        on_delete=models.SET_NULL,
+        related_name="cases",
+        null=True,
+        blank=True,
     )
     case_status = models.ForeignKey(
-        CaseStatus, on_delete=models.SET_NULL, null=True, related_name="cases", blank=True
+        CaseStatus,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="cases",
+        blank=True,
     )
     individual_commited_fraud = models.ForeignKey(
         IndividualCommitedFraud,
@@ -341,7 +357,7 @@ class CaseTask(models.Model):
     gestor_comments = models.TextField(max_length=1000, default="", blank=True)
     # Foreign Fields
     assigned_to = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="tasks", default=None
+        User, on_delete=models.CASCADE, related_name="tasks", null=True
     )
     case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name="tasks")
     status = models.ForeignKey(
