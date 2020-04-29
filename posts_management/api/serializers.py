@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 
-from posts_management.models import Post, PostCategory, PostFile
+from posts_management.models import Post, PostCategory, PostFile, PostLanguage
 
 
 class PostSerializer(ModelSerializer):
@@ -18,4 +18,10 @@ class PostFileSerializer(ModelSerializer):
 class PostCategorySerializer(ModelSerializer):
     class Meta:
         model = PostCategory
+        fields = "__all__"
+
+
+class PostLanguageSerializer(ModelSerializer):
+    class Meta:
+        model = PostLanguage
         fields = "__all__"
