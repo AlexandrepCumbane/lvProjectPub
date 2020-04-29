@@ -348,8 +348,9 @@ class CaseViewset(ModelViewSet):
     @action(methods=["PUT"], detail=True)
     def send_to_focal_point(self, request, pk=None):
         case_update = get_object_or_404(self.queryset, pk=pk)
-
-        case_serializer = CaseSerializer(case_update, data=request.data, partial=True)
+        my_data = request.data
+        my_data['case_status'] = CaseStatus.objects.filter(name__icontains="progress").first().id
+        case_serializer = CaseSerializer(case_update, data=my_data, partial=True)
         if case_serializer.is_valid():
             case_saved = case_serializer.save()
             case_serializer = CaseSerializerFull(case_saved)
