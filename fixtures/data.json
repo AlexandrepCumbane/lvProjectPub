@@ -14,27 +14,11 @@
     }
   },
   {
-    "model": "location_management.District",
-    "pk": 1,
-    "fields": {
-      "name": "Manhica",
-      "province": 1
-    }
-  },
-  {
-    "model": "location_management.District",
-    "pk": 2,
-    "fields": {
-      "name": "Xibuto",
-      "province": 2
-    }
-  },
-  {
     "model": "location_management.Location",
     "pk": 1,
     "fields": {
       "name": "location 1",
-      "district": 1
+      "province": 1
     }
   },
   {
@@ -42,23 +26,7 @@
     "pk": 2,
     "fields": {
       "name": "location 2",
-      "district": 2
-    }
-  },
-  {
-    "model": "location_management.Community",
-    "pk": 1,
-    "fields": {
-      "name": "community 1",
-      "location": 1
-    }
-  },
-  {
-    "model": "location_management.Community",
-    "pk": 2,
-    "fields": {
-      "name": "community 2",
-      "location": 2
+      "province": 2
     }
   },
   {
@@ -175,38 +143,6 @@
     "pk": 2,
     "fields": {
       "name": "Category 2"
-    }
-  },
-  {
-    "model": "case_manager.CategoryIssueSub",
-    "pk": 1,
-    "fields": {
-      "name": "Sub Category 1",
-      "category_issue":1
-    }
-  },
-  {
-    "model": "case_manager.CategoryIssueSub",
-    "pk": 2,
-    "fields": {
-      "name": "Sub Category 2",
-      "category_issue":1
-    }
-  },
-  {
-    "model": "case_manager.CategoryIssueSub",
-    "pk": 1,
-    "fields": {
-      "name": "Sub Category 3",
-      "category_issue":2
-    }
-  },
-  {
-    "model": "case_manager.CategoryIssueSub",
-    "pk": 2,
-    "fields": {
-      "name": "Sub Category 4",
-      "category_issue":2
     }
   },
   {
