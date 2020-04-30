@@ -10,7 +10,6 @@ class Migration(migrations.Migration):
         ("case_manager", "0064_auto_20200429_0555"),
     ]
 
-
     operations = [
         migrations.AlterField(
             model_name="case",

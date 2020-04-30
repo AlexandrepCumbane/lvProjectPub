@@ -9,18 +9,28 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('case_manager', '0065_auto_20200429_1059'),
+        ("case_manager", "0065_auto_20200429_1059"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='casetask',
-            name='created_by',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='casetask_created', to=settings.AUTH_USER_MODEL),
+            model_name="casetask",
+            name="created_by",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="casetask_created",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AlterField(
-            model_name='casetask',
-            name='updated_by',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='updated_tasks', to=settings.AUTH_USER_MODEL),
+            model_name="casetask",
+            name="updated_by",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="updated_tasks",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]
