@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0067_auto_20200430_0834'),
+        ("case_manager", "0067_auto_20200430_0834"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='case',
-            name='call_note',
-            field=models.TextField(blank=True, default='', max_length=1000),
+            model_name="case",
+            name="call_note",
+            field=models.TextField(blank=True, default="", max_length=1000),
         ),
         migrations.AlterField(
-            model_name='case',
-            name='solution',
-            field=models.TextField(blank=True, default='', max_length=1000),
+            model_name="case",
+            name="solution",
+            field=models.TextField(blank=True, default="", max_length=1000),
         ),
     ]
