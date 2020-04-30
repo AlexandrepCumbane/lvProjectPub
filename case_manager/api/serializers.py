@@ -17,6 +17,7 @@ from case_manager.models import (
     Gender,
     HowDoYouHearAboutUs,
     HowWouldYouLikeToBeContacted,
+    IndividualCommitedFraud,
     MecanismUsed,
     Programme,
     ReferallEntity,
@@ -27,6 +28,7 @@ from case_manager.models import (
     TaskStatus,
     TransfereModality,
     Vulnerability,
+    WhoIsNotReceivingAssistence,
 )
 from location_management.api.serializers import LocationSerializer, ProvinceSerializer
 
@@ -192,6 +194,12 @@ class CaseSerializerFull(ModelSerializer):
     )()
     customer_satisfaction = serializer_factory(
         model=CustomerSatisfaction, fields=("id", "name")
+    )()
+    who_is_never_received_assistance = serializer_factory(
+        model=WhoIsNotReceivingAssistence, fields=("id", "name")
+    )()
+    individual_commited_fraud = serializer_factory(
+        model=IndividualCommitedFraud, fields=("id", "name")
     )()
     category_issue = CategoryIssueSerializer()
     number_of_tasks = SerializerMethodField()
