@@ -207,8 +207,8 @@ class Vulnerability(models.Model):
 class Case(models.Model):
 
     # Text Fields
-    call_note = models.TextField(max_length=1000, default="", blank="")
-    solution = models.TextField(max_length=1000, default="", blank="")
+    call_note = models.TextField(max_length=1000, default="", blank=True)
+    solution = models.TextField(max_length=1000, default="", blank=True)
     focal_point_notes = models.TextField(max_length=100, default="")
 
     camp = models.CharField(
