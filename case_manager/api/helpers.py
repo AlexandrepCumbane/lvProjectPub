@@ -32,25 +32,46 @@ from posts_management.models import PostCategory, PostLanguage
 
 
 class UserType(Enum):
+    """The UserType instance contains constants of user type groups"""
+
     OPERATOR = "Operador"
     FOCAL_POINT = "Ponto Focal"
     GESTOR = "Gestor"
 
 
 class DropdownData(object):
+    """Dropdown instance holds data in the key, value format about something"""
     def __init__(self, **kwargs):
+        """Initialize the Dropdown instance object
+
+            Parameters:
+                key (str):Represents the key of the data do be hold
+                value (list): represents the list of value holded
+        """
         self.key = kwargs.get("key", None)
         self.value = kwargs.get("value", None)
 
 
-def filtrar_user_by_type(type_name):
-    operadores = User.objects.filter(groups__name__in=[type_name]).values(
+def filtrar_user_by_type(name:str)->list:
+    """Filter a user group of user based on the groups name.
+
+        Parameters:
+            name (str): The name of the group to filter the users.
+
+        Returns:
+            returns a list of users the belongs to a certain group.
+    """
+    users = User.objects.filter(groups__name__in=[name]).values(
         "username", "id"
     )
-    return operadores
+    return users
 
 
-def get_dropdowns():
+def get_dropdowns()->list:
+    """
+        Return a list of data containing varios type of list object
+        present on the database.
+    """
     dropdowns = []
 
     dropdowns.append(DropdownData(key="cases", value=Case.objects.values()))

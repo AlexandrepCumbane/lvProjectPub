@@ -12,7 +12,7 @@ def generate_token(request):
         Esta funcao serve para gerar a o access token para o utilizador
         se autenticar na app utilizando API, fez-se ela em detrimento
         dos metodos padroes de modo a asseguar que o client_secret e
-        o client_id nao fossem diretamente escritos na app front-end
+        o client_id nao fossem diretamente escritos na app front-end.
     """
     username = request.data["username"]
     # Filtro da aplicacao do cliente na base de dados
@@ -47,7 +47,16 @@ def generate_token(request):
     return JsonResponse(response.json(), status=response.status_code)
 
 
-def set_user_pemission(data, group_name):
+def set_user_pemission(data: dict, group_name: str) -> dict:
+    """This function returns the permission type for the user based on the group name.
+    
+        Parameters:
+            data (dict):Initial data of the user
+            group_name (str):The group name of the user to set is permission
+
+        Returns:
+            data (dict):The new user data dict with is permission sets
+    """
     data["is_gestor"] = False
     data["is_parceiro"] = False
     data["is_operador"] = False
