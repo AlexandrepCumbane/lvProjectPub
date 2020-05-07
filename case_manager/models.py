@@ -129,7 +129,7 @@ class Contactor(models.Model):
     age = models.ForeignKey(
         Ages, on_delete=models.SET_NULL, related_name="contactor", null=True, blank=True
     )
-    community = models.CharField(max_length=100, default="")
+    community = models.CharField(max_length=100, default="", blank=True)
     gender = models.ForeignKey(
         Gender, on_delete=models.CASCADE, related_name="contactor"
     )
@@ -160,13 +160,6 @@ class SourceOfInformation(models.Model):
 
 
 class CaseStatus(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-class TaskCategory(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
@@ -214,8 +207,8 @@ class Vulnerability(models.Model):
 class Case(models.Model):
 
     # Text Fields
-    call_note = models.TextField(max_length=1000)
-    solution = models.TextField(max_length=1000)
+    call_note = models.TextField(max_length=1000, default="", blank=True)
+    solution = models.TextField(max_length=1000, default="", blank=True)
     focal_point_notes = models.TextField(max_length=100, default="")
 
     camp = models.CharField(
@@ -270,17 +263,33 @@ class Case(models.Model):
     )
     # How do You hear about us field on form
     how_knows_us = models.ForeignKey(
-        HowDoYouHearAboutUs, on_delete=models.SET_NULL, related_name="cases", null=True
+        HowDoYouHearAboutUs,
+        on_delete=models.SET_NULL,
+        related_name="cases",
+        null=True,
+        blank=True,
     )
     programme = models.ForeignKey(
-        Programme, on_delete=models.SET_NULL, null=True, related_name="cases"
+        Programme,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="cases",
+        blank=True,
     )
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cases")
     case_priority = models.ForeignKey(
-        CasePriority, on_delete=models.SET_NULL, related_name="cases", null=True
+        CasePriority,
+        on_delete=models.SET_NULL,
+        related_name="cases",
+        null=True,
+        blank=True,
     )
     case_status = models.ForeignKey(
-        CaseStatus, on_delete=models.SET_NULL, null=True, related_name="cases"
+        CaseStatus,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="cases",
+        blank=True,
     )
     individual_commited_fraud = models.ForeignKey(
         IndividualCommitedFraud,
@@ -354,10 +363,13 @@ class CaseTask(models.Model):
     status = models.ForeignKey(
         TaskStatus, on_delete=models.SET_NULL, related_name="tasks", null=True
     )
-    updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-
+    updated_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, related_name="updated_tasks"
+    )
     attemptes_to_call_without_success = models.IntegerField(default=0)
-
+    created_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, related_name="%(class)s_created"
+    )
     # Date fields
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now=True)

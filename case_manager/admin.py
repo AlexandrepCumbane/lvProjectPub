@@ -24,7 +24,6 @@ from case_manager.models import (
     ResponseProgram,
     SourceOfInformation,
     SubCategory,
-    TaskCategory,
     TaskStatus,
     TransfereModality,
     Vulnerability,
@@ -55,7 +54,6 @@ admin.site.register(ResolutionSubCategory)
 admin.site.register(SubCategory)
 admin.site.register(CategoryIssue)
 admin.site.register(TaskStatus)
-admin.site.register(TaskCategory)
 admin.site.register(TransfereModality)
 admin.site.register(ResponseProgram)
 admin.site.register(CaseTask)

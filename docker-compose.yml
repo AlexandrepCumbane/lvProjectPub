@@ -1,21 +1,12 @@
 version: '3'
 
 services:
-  db:
-    image: postgres:12-alpine
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
   web:
     build: .
     command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    container_name: lvbackend
     hostname: ${HOSTNAME}
     volumes:
       - .:/code
     ports:
       - "8000:8000"
-    environment:
-      - HOS
-    depends_on:
-      - db

@@ -22,7 +22,6 @@ from case_manager.models import (
     ResolutionSubCategory,
     SourceOfInformation,
     SubCategory,
-    TaskCategory,
     TaskStatus,
     TransfereModality,
     Vulnerability,
@@ -137,9 +136,6 @@ def get_dropdowns():
         DropdownData(
             key="focal_points", value=filtrar_user_by_type(UserType.FOCAL_POINT.value)
         )
-    )
-    dropdowns.append(
-        DropdownData(key="task_categories", value=TaskCategory.objects.values())
     )
     dropdowns.append(DropdownData(key="ages", value=Ages.objects.values()))
     dropdowns.append(

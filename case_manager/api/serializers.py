@@ -17,6 +17,7 @@ from case_manager.models import (
     Gender,
     HowDoYouHearAboutUs,
     HowWouldYouLikeToBeContacted,
+    IndividualCommitedFraud,
     MecanismUsed,
     Programme,
     ReferallEntity,
@@ -24,10 +25,10 @@ from case_manager.models import (
     ResolutionSubCategory,
     SourceOfInformation,
     SubCategory,
-    TaskCategory,
     TaskStatus,
     TransfereModality,
     Vulnerability,
+    WhoIsNotReceivingAssistence,
 )
 from location_management.api.serializers import LocationSerializer, ProvinceSerializer
 
@@ -116,12 +117,6 @@ class TaskStatusSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class TaskCategorySerializer(ModelSerializer):
-    class Meta:
-        model = TaskCategory
-        fields = "__all__"
-
-
 class ContactorSerializer(ModelSerializer):
     class Meta:
         model = Contactor
@@ -200,6 +195,12 @@ class CaseSerializerFull(ModelSerializer):
     customer_satisfaction = serializer_factory(
         model=CustomerSatisfaction, fields=("id", "name")
     )()
+    who_is_never_received_assistance = serializer_factory(
+        model=WhoIsNotReceivingAssistence, fields=("id", "name")
+    )()
+    individual_commited_fraud = serializer_factory(
+        model=IndividualCommitedFraud, fields=("id", "name")
+    )()
     category_issue = CategoryIssueSerializer()
     number_of_tasks = SerializerMethodField()
     has_feedback = SerializerMethodField()
@@ -250,6 +251,8 @@ class CaseSerializerTask(ModelSerializer):
 class CaseTaskFullSerializer(ModelSerializer):
 
     assigned_to = serializer_factory(model=User, fields=("id", "username"))()
+    updated_by = serializer_factory(model=User, fields=("id", "username"))()
+    created_by = serializer_factory(model=User, fields=("id", "username"))()
     status = TaskStatusSerializer()
     case = serializer_factory(model=Case, fields=("case_id", "id"))()
     priority = SerializerMethodField()

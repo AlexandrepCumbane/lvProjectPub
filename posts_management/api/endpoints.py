@@ -1,6 +1,10 @@
 from drf_auto_endpoint.router import DefaultRouter
 
-from posts_management.api.views import PostCategoriesViewSet, PostLanguageViewSet,PostViewSet
+from posts_management.api.views import (
+    PostCategoriesViewSet,
+    PostLanguageViewSet,
+    PostViewSet,
+)
 
 router = DefaultRouter()
 
