@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
-from location_management.models import Location, Province
+from location_management.models import Location, District, Province
 from user_management.models import FocalPointProfile
 
 # Create your models here.
@@ -132,6 +132,13 @@ class Contactor(models.Model):
     community = models.CharField(max_length=100, default="")
     gender = models.ForeignKey(
         Gender, on_delete=models.CASCADE, related_name="contactor"
+    )
+    district = models.ForeignKey(
+        District,
+        on_delete=models.SET_NULL,
+        related_name="contactor",
+        null=True,
+        blank=True,
     )
     location = models.ForeignKey(
         Location,
