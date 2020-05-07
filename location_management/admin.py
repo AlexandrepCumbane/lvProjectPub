@@ -6,6 +6,7 @@ from location_management.models import (
     Location,
     LocationClassification,
     LocationType,
+    District,
     Province,
 )
 
@@ -16,5 +17,6 @@ class LocationAdmin(ImportExportModelAdmin):
 
 
 admin.site.register(Province, list_display=("name",))
+admin.site.register(District)
 admin.site.register(LocationClassification)
 admin.site.register(LocationType)
