@@ -67,7 +67,7 @@ def get_dropdowns():
 
     dropdowns.append(
         DropdownData(
-            key="districts", value=District.objects.values()..order_by('name')
+            key="districts", value=District.objects.values().order_by('name')
         )
     )
 
