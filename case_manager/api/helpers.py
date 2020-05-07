@@ -27,7 +27,7 @@ from case_manager.models import (
     Vulnerability,
     WhoIsNotReceivingAssistence,
 )
-from location_management.models import Location, Province, District
+from location_management.models import Location, Province, District, PostoAdministrativo
 from posts_management.models import PostCategory, PostLanguage
 
 
@@ -64,11 +64,20 @@ def get_dropdowns():
             key="customer_satisfaction", value=CustomerSatisfaction.objects.values()
         )
     )
+
     dropdowns.append(
         DropdownData(
             key="districts", value=District.objects.values()
         )
     )
+
+    dropdowns.append(
+        DropdownData(
+            key="postos_administativos", value=PostoAdministrativo.objects.values()
+        )
+    )
+
+
     dropdowns.append(DropdownData(key="genders", value=Gender.objects.values()))
     dropdowns.append(
         DropdownData(
