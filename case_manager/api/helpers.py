@@ -67,13 +67,13 @@ def get_dropdowns():
 
     dropdowns.append(
         DropdownData(
-            key="districts", value=District.objects.values()
+            key="districts", value=District.objects.values()..order_by('name')
         )
     )
 
     dropdowns.append(
         DropdownData(
-            key="postos_administativos", value=PostoAdministrativo.objects.values()
+            key="postos_administativos", value=PostoAdministrativo.objects.values().order_by('name')
         )
     )
 
@@ -130,8 +130,13 @@ def get_dropdowns():
     dropdowns.append(
         DropdownData(key="mecanism_used", value=MecanismUsed.objects.values())
     )
-    dropdowns.append(DropdownData(key="localities", value=Location.objects.values()))
-    dropdowns.append(DropdownData(key="provinces", value=Province.objects.values()))
+    dropdowns.append(DropdownData(key="localities", value=Location.objects.values().order_by('name')))
+    dropdowns.append(
+        DropdownData(
+            key="provinces", 
+            value=Province.objects.values().order_by('name')
+            )
+            )
     dropdowns.append(DropdownData(key="groups", value=Group.objects.values()))
     dropdowns.append(
         DropdownData(
