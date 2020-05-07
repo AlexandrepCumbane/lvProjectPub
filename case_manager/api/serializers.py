@@ -30,7 +30,7 @@ from case_manager.models import (
     Vulnerability,
     WhoIsNotReceivingAssistence,
 )
-from location_management.api.serializers import LocationSerializer, ProvinceSerializer
+from location_management.api.serializers import DistrictSerializer, LocationSerializer, ProvinceSerializer
 
 
 class CasePrioritySerializer(ModelSerializer):
@@ -128,6 +128,7 @@ class ContactorSerializerFull(ModelSerializer):
     province = ProvinceSerializer()
     location = LocationSerializer()
     gender = GenderSerializer()
+    district = DistrictSerializer()
     age = serializer_factory(model=Ages, fields=("id", "name"))()
 
     class Meta:

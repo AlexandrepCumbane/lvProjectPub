@@ -53,7 +53,7 @@ def filtrar_user_by_type(type_name):
 def get_dropdowns():
     dropdowns = []
 
-    dropdowns.append(DropdownData(key="cases", value=Case.objects.values()))
+    dropdowns.append(DropdownData(key="cases", value=Case.objects.values().order_by('-created_at')))
     dropdowns.append(DropdownData(key="case_status", value=CaseStatus.objects.values()))
     dropdowns.append(
         DropdownData(key="case_priorities", value=CasePriority.objects.values())
