@@ -132,8 +132,8 @@ def generate_case_charts(initial_data, end_data):
 
     reports["case_by_type"] = (
         Case.objects.filter(created_at__date__range=(initial_data, end_data))
-        .values(tipology=F("case_type__name"))
-        .annotate(total=Count("case_type__name"))
+        .values(tipology=F("category__name"))
+        .annotate(total=Count("category__name"))
     )
 
     reports["case_by_response_program"] = (
