@@ -286,7 +286,7 @@ class CaseViewset(ModelViewSet):
         """
         List cases that a referred to a partner
         """
-        pages = self.paginate_queryset(self.get_queryset().filter(case_forwarded=True))
+        pages = self.paginate_queryset(self.get_queryset().filter(case_forwarded=True).order_by("-id"))
         response = CaseSerializerFull(pages, many=True)
 
         return self.get_paginated_response(response.data)
@@ -294,7 +294,7 @@ class CaseViewset(ModelViewSet):
     @action(methods=["GET"], detail=True)
     def tasks(self, response, pk=None):
         case = get_object_or_404(self.queryset, pk=pk)
-        pages = self.paginate_queryset(case.tasks.all())
+        pages = self.paginate_queryset(case.tasks.all().order_by("-id"))
         response = CaseTaskFullSerializer(pages, many=True)
 
         return self.get_paginated_response(response.data)
@@ -405,7 +405,7 @@ class CaseTaskViewset(ModelViewSet):
             """
             my_queryset = self.queryset.filter(assigned_to=request.user).exclude(
                 Q(status__name__icontains="completed")
-            )
+            ).order_by("-id")
             my_queryset = my_queryset | self.queryset.filter(
                 created_at__date=timezone.datetime.now().date()
             )
@@ -440,12 +440,12 @@ class CaseReferallViewset(ModelViewSet):
     filterset_class = CaseReferallFilter
 
     def _update_case(self, caseId):
-        update_case = get_object_or_404(Case.objects.all(), pk=caseId)
+        update_case = get_object_or_404(Case.objects.all().order_by("-id"), pk=caseId)
         update_case.case_forwarded = True
         update_case.save()
 
     def _update_case_focal_point_notes(self, notes: dict, case_id: int) -> bool:
-        case = get_object_or_404(Case.objects.all(), pk=case_id)
+        case = get_object_or_404(Case.objects.all().order_by("-id"), pk=case_id)
 
         case_serializer = CaseSerializer(case, data=notes, partial=True)
 
