@@ -273,7 +273,7 @@ class CaseViewset(ModelViewSet):
         ):
             my_queryset = self.queryset.filter(
                 Q(created_by=request.user)
-                | Q(focal_points__user__id__in=(request.user.id,))
+                | Q(focal_points__user__id__in=(request.user.id,)).order_by("-id")
             )
 
         pages = self.paginate_queryset(my_queryset)
