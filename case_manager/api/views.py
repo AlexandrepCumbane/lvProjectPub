@@ -159,7 +159,7 @@ class CaseViewset(ModelViewSet):
     serializer_class = CaseSerializer
     queryset = Case.objects.select_related(
         "case_priority", "category", "contactor", "created_by", "how_knows_us",
-    ).filter(is_deleted=False).order_by('-created_at')
+    ).filter(is_deleted=False).order_by("-id")
     filterset_class = CaseFilter
 
     @action(methods=["POST"], detail=False)
@@ -366,7 +366,7 @@ class CaseViewset(ModelViewSet):
 
 class CaseTaskViewset(ModelViewSet):
     serializer_class = CaseTaskSerializer
-    queryset = CaseTask.objects.select_related("case", "status", "assigned_to").order_by('-created_at')
+    queryset = CaseTask.objects.select_related("case", "status", "assigned_to").order_by("-id")
     filterset_class = CaseTaskFilter
 
     def create(self, request):
