@@ -13,6 +13,7 @@ from case_manager.models import (
     Contactor,
     CustomerSatisfaction,
     Gender,
+    HowCaseClose,
     HowDoYouHearAboutUs,
     HowWouldYouLikeToBeContacted,
     IndividualCommitedFraud,
@@ -43,6 +44,7 @@ admin.site.register(Category)
 admin.site.register(Contactor)
 admin.site.register(CustomerSatisfaction)
 admin.site.register(Gender)
+admin.site.register(HowCaseClose)
 admin.site.register(HowDoYouHearAboutUs)
 admin.site.register(HowWouldYouLikeToBeContacted)
 admin.site.register(SourceOfInformation)
