@@ -222,6 +222,7 @@ class Case(models.Model):
     call_note = models.TextField(max_length=1000, default="", blank=True)
     solution = models.TextField(max_length=1000, default="", blank=True)
     focal_point_notes = models.TextField(max_length=100, default="")
+    how_case_close = models.TextField(max_length=1000, default="", null=True,blank=True)
 
     camp = models.CharField(
         choices=[("Y", "YES"), ("N", "NO")], max_length=25, default="N"
