@@ -12,6 +12,7 @@ from case_manager.models import (
     CategoryIssue,
     CustomerSatisfaction,
     Gender,
+    HowCaseClose,
     HowDoYouHearAboutUs,
     HowWouldYouLikeToBeContacted,
     IndividualCommitedFraud,
@@ -77,8 +78,12 @@ def get_dropdowns():
         )
     )
 
-
     dropdowns.append(DropdownData(key="genders", value=Gender.objects.values()))
+    dropdowns.append(
+        DropdownData(
+            key="how_case_closed", value=HowCaseClose.objects.values()
+        )
+    )
     dropdowns.append(
         DropdownData(
             key="how_do_hear_about_us", value=HowDoYouHearAboutUs.objects.values()

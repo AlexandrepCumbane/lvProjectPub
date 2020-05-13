@@ -55,6 +55,11 @@ class CategoryIssue(models.Model):
     def __str__(self):
         return self.name
 
+class HowCaseClose(models.Model):
+    name = models.CharField(max_length=200, unique=True)
+    
+    def __str__(self):
+        return self.name
 
 class ResolutionCategory(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -255,6 +260,14 @@ class Case(models.Model):
     customer_satisfaction = models.ForeignKey(
         CustomerSatisfaction, on_delete=models.SET_NULL, null=True, related_name="cases"
     )
+    
+    how_case_was_closed = models.ForeignKey(
+        HowCaseClose,
+        on_delete=models.SET_NULL,
+        related_name="cases",
+        null=True,
+    )
+
     how_would_you_like_to_be_contacted = models.ForeignKey(
         HowWouldYouLikeToBeContacted,
         on_delete=models.SET_NULL,
