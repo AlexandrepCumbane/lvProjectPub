@@ -253,9 +253,9 @@ class Case(models.Model):
     )
 
     # Date Filds
-    created_at = models.DateTimeField(auto_now=True)
     closed_at = models.DateTimeField(auto_now=False, null=True, blank=True)
-    updated_at = models.DateTimeField(auto_now=False, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     # FOREIGN FIELDS
     customer_satisfaction = models.ForeignKey(
