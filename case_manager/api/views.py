@@ -435,7 +435,7 @@ class CaseTaskViewset(ModelViewSet):
 
 class CaseReferallViewset(ModelViewSet):
     serializer_class = CaseReferallSerializer
-    queryset = CaseReferall.objects.select_related("case", "referall_entity").order_by("-id")
+    queryset = CaseReferall.objects.select_related("case", "referall_entity")
 
     filterset_class = CaseReferallFilter
 
