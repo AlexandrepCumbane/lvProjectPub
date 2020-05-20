@@ -65,7 +65,7 @@ def get_formatted_provinces():
             postos = PostoAdministrativo.objects.filter(district=district['id']).values()
             
             for posto in postos:
-                locations = Location.objects.filter(parent_code=posto['code']).values()
+                locations = Location.objects.filter(parent_code=posto['codigo']).values()
                 lista3.append(locations)
                 
             result = {
