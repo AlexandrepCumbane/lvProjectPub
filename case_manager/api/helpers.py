@@ -57,18 +57,18 @@ def get_formatted_provinces():
     
     for province in provinces:
 	    lista2=[]
-        districts = models.District.objects.filter(
+        districts = District.objects.filter(
             province=province['id']
         ).values()
 	     
         for district in districts:
 		    lista3 = []
-		    postos = models.PostoAdministrativo.objects.filter(
+		    postos = PostoAdministrativo.objects.filter(
 		        district=district['id']
 		    ).values()	 
 		
             for posto in postos:
-			    locations = models.Location.objects.filter(
+			    locations = Location.objects.filter(
 				    parent_code=posto['code']
 				).values()
 
