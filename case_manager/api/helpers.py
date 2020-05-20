@@ -66,7 +66,7 @@ def get_formatted_provinces():
             
             for posto in postos:
                 locations = Location.objects.filter(parent_code=posto['codigo']).values()
-                lista3.append(locations)
+                #lista3.append(locations)
 
                 if(lista3==''):
                     lista3 = locations
