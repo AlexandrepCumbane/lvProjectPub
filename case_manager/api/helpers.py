@@ -51,34 +51,35 @@ def filtrar_user_by_type(type_name):
     return operadores
 
 def get_formatted_provinces():
-
     provinces = Province.objects.all().values()
     lista = []
     
     for province in provinces:
-	    lista2=[]
-        districts = District.objects.filter(province=province['id']).values()
+        lista2=[]   
+        districts = District.objects.filter(
+            province=province['id']
+        ).values()
 	     
         for district in districts:
-		    lista3 = []
-		    postos = PostoAdministrativo.objects.filter(district=district['id']).values()	 
-		
+            lista3=[]
+            postos = PostoAdministrativo.objects.filter(district=district['id']).values()
+            
             for posto in postos:
-			    locations = Location.objects.filter(parent_code=posto['code']).values()
-			    lista3.append(locations)
-		
+                locations = Location.objects.filter(parent_code=posto['code']).values()
+                lista3.append(locations)
+                
             result = {
-                'district':district
+                'district':district,
                 'location':lista3
-            }
-		
-		    lista2.append(result)
-	
+                }
+            
+            lista2.append(result)
+            
         result = {
             'province':province,
             'district':lista2
-        }
-	
+            }
+        
         lista.append(result)
     
     return lista
