@@ -215,7 +215,7 @@ class CaseViewset(ModelViewSet):
             contactor = request.data["contactor"]
             case = request.data["case"]
 
-            case["case_status"] = CaseStatus.objects.get(name="Not Started").id
+            #case["case_status"] = CaseStatus.objects.get(name="Not Started").id
             case["case_priority"] = CasePriority.objects.get(name="High").id
 
             contactor_id = self.__save_contactor(contactor)
@@ -440,12 +440,12 @@ class CaseReferallViewset(ModelViewSet):
     filterset_class = CaseReferallFilter
 
     def _update_case(self, caseId):
-        update_case = get_object_or_404(Case.objects.all().order_by("-id"), pk=caseId)
+        update_case = get_object_or_404(Case.objects.all(), pk=caseId)
         update_case.case_forwarded = True
         update_case.save()
 
     def _update_case_focal_point_notes(self, notes: dict, case_id: int) -> bool:
-        case = get_object_or_404(Case.objects.all().order_by("-id"), pk=case_id)
+        case = get_object_or_404(Case.objects.all(), pk=case_id)
 
         case_serializer = CaseSerializer(case, data=notes, partial=True)
 
