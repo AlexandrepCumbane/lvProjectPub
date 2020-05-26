@@ -291,6 +291,16 @@ class CaseViewset(ModelViewSet):
 
         return self.get_paginated_response(response.data)
 
+    @action(methods=["GET"], detail=False)
+    def list_opened_case(self, response):
+        """
+        List cases that are openned
+        """
+        pages = self.paginate_queryset(self.get_queryset().filter(case_closed=False).order_by("-id"))
+        response = CaseSerializerFull(pages, many=True)
+
+        return self.get_paginated_response(response.data)
+
     @action(methods=["GET"], detail=True)
     def tasks(self, response, pk=None):
         case = get_object_or_404(self.queryset, pk=pk)
