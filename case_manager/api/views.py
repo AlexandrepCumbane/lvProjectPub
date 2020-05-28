@@ -56,6 +56,8 @@ from case_manager.models import (
 )
 
 
+from case_manager import utils
+
 class CasePriorityViewset(ListAPIView, ViewSet):
     serializer_class = CasePrioritySerializer
     queryset = CasePriority.objects.all()
@@ -131,11 +133,15 @@ class CaseCommentsViewset(ModelViewSet):
     queryset = CaseComments.objects.prefetch_related("case")
 
     def create(self, request):
+        """Creates a CaseComment record on the database.
+        """
         case_referall = None
-        print("dados", request.data)
+        
+        # Raise an exception if doesn't find a case referall key,value
         try:
             case_referall = request.data.pop("case_referall")
 
+            # iterate in the variable data if the data is instance of list
             if isinstance(case_referall, list):
                 for item in case_referall:
                     case_comment = request.data
@@ -164,17 +170,27 @@ class CaseViewset(ModelViewSet):
 
     @action(methods=["POST"], detail=False)
     def saveexcel(self, request):
+        """Update the data on the database submited in the xls format
+
+            Contraints:
+                returns 400 Response if the data submited doesn't
+                contains the list of cases to be updated
+        """
+
+        # Verify if the key cases in the request post body
         try:
             cases = request.data["cases"]
+
+            # verify if the cases variable data is instance of list
             if isinstance(cases, list):
                 operation_stats = {"success": 0, "failed": 0}
                 for item in cases:
-                    case_id = item["Number"]
+                    case_id = item["Number"] # retrive value from excel column
                     data = {
-                        "fdp": item["FDP"],
-                        "call_note": item["Call note"],
-                        "solution": item["Solution"],
-                        "resettlement_name": item["Resettlement name"],
+                        "fdp": item["FDP"], # retrive value from excel column
+                        "call_note": item["Call note"], # retrive value from excel column
+                        "solution": item["Solution"], # retrive value from excel column
+                        "resettlement_name": item["Resettlement name"], # retrive value from excel column
                     }
                     result = self._update_case(case_id, data)
 
@@ -182,6 +198,8 @@ class CaseViewset(ModelViewSet):
                         operation_stats["success"] += operation_stats["success"]
                     else:
                         operation_stats["failed"] += operation_stats["failed"]
+            else:
+                return Response({"errors": "Invalid request data"}, status=400)
 
             return Response({"success": operation_stats})
         except KeyError:
@@ -190,6 +208,15 @@ class CaseViewset(ModelViewSet):
         return Response({"errors": "Invalid request data"}, status=400)
 
     def _update_case(self, case_id: str, case) -> bool:
+        """Update a case on the database.
+        
+            Parameters:
+                case_id (str):The case_id of the case to be updated
+                case (dict): the case data to be updated on the database
+            
+            Returns:
+                Return True or false if the system was able to update the database.
+        """
         case_to_update = Case.objects.get(case_id=case_id)
         contactor = case_to_update.contactor
 
@@ -210,7 +237,6 @@ class CaseViewset(ModelViewSet):
         return False
 
     def create(self, request):
-        print("request", request.data)
         try:
             contactor = request.data["contactor"]
             case = request.data["case"]
@@ -218,12 +244,12 @@ class CaseViewset(ModelViewSet):
             case["case_status"] = CaseStatus.objects.get(name="Not Started").id
             case["case_priority"] = CasePriority.objects.get(name="High").id
 
-            contactor_id = self.__save_contactor(contactor)
+            contactor = self._save_contactor(contactor)
 
-            if contactor_id == -1:
+            if not contactor.is_saved:
                 return Response({"error": "Erro ao gravar contactant"}, status=400)
 
-            case["contactor"] = contactor_id
+            case["contactor"] = contactor.contactor_id
             case["created_by"] = request.user.id
             case_serializer = CaseSerializer(data=case)
 
@@ -236,28 +262,54 @@ class CaseViewset(ModelViewSet):
             pass
         return super().create(request)
 
-    def __save_contactor(self, contactor):
+    def _save_contactor(self, contactor:dict)->dict:
+        """Save a new Contactor on the database.
+
+            Parameters:
+                contactor (dict): The data of the contactor to be saved on the database.
+
+            Returns:
+                Returns true or false if the contactor is saved.
+        """
         contact_serializer = ContactorSerializer(data=contactor)
+
+        contactor_is_saved = False
+
         if contact_serializer.is_valid():
             contact_saved = contact_serializer.save()
-            return contact_saved.id
-        else:
-            return -1
+            contactor_is_saved = True
+            return {"is_saved":contactor_is_saved, "contactor_id": contact_saved.id}
 
-    def __update_contactor(self, contactor_data):
+        return {"is_saved":contactor_is_saved, "contactor_id": 0}
+
+    def _update_contactor(self, contactor_data:dict)->dict:
+        """Update the contactor data saved on the database.
+
+            Parameters:
+                contactor_data (dict): contains the new data of the contactor to be updated.
+            
+            Returns:
+                contactor_is_saved (bool):Return true or false if the contactor was updated.
+        """
         contactors = Contactor.objects.all()
         contactor = get_object_or_404(contactors, pk=contactor_data["id"])
         contact_serializer = ContactorSerializer(
             contactor, data=contactor_data, partial=True
         )
-        if contact_serializer.is_valid():
-            contact_saved = contact_serializer.save()
-            return contact_saved.id
-        else:
 
-            return -1
+        contactor_is_saved = False
+
+        if contact_serializer.is_valid():
+            contact_serializer.save()
+            contactor_is_saved = True
+            return contactor_is_saved
+
+        return contactor_is_saved
 
     def destroy(self, request, pk=None):
+        """Disable user to see case of delete request method on the API.
+        """
+
         case = get_object_or_404(self.queryset, pk=pk)
         case.is_deleted = True
         case_serializer = CaseSerializerFull(case)
@@ -267,8 +319,9 @@ class CaseViewset(ModelViewSet):
 
         my_queryset = self.get_queryset()
 
+        is_gestor = utils.is_user_type_gestor(request)
         if (
-            request.user.groups.filter(name="Gestor").count() == 0
+            is_gestor
             and request.user.is_superuser is False
         ):
             my_queryset = self.queryset.filter(
@@ -312,20 +365,23 @@ class CaseViewset(ModelViewSet):
         try:
             case = request.data["case"]
             contactor = request.data["contactor"]
-            contactor_id = self.__update_contactor(contactor)
+            contactor_is_updated = self._update_contactor(contactor)
 
             try:
                 is_closed = case["case_closed"]
-                print("fechou", is_closed)
+                
+                """
+                    Verify the case_closed key value of the data
+                    and if is true update the case status to closed
+                """
                 if is_closed:
                     case["case_status"] = (
                         CaseStatus.objects.filter(name__icontains="closed").first().id
                     )
-                    print("status", case["case_status"])
             except KeyError:
                 print("chave nao encontrada")
 
-            if contactor_id == -1:
+            if not contactor_is_updated:
                 return Response(
                     {"errors": "Houve um erro ao alterar os dados do contactante"},
                     status=400,
@@ -395,10 +451,8 @@ class CaseTaskViewset(ModelViewSet):
     def list(self, request):
         my_queryset = self.get_queryset()
 
-        if (
-            request.user.groups.filter(name__icontains="Gestor").count() == 0
-            and request.user.is_superuser is False
-        ):
+        is_gestor = utils.is_user_type_gestor(request)
+        if is_gestor:
             """
                 This query filters task for today and tasks that are
                 Not completed at all
@@ -496,10 +550,9 @@ class CaseReferallViewset(ModelViewSet):
     def list(self, request):
         my_queryset = self.get_queryset()
         user = request.user
-        if (
-            user.groups.filter(name="Gestor").count() == 0
-            and request.user.is_superuser is False
-        ):
+        is_gestor = utils.is_user_type_gestor(request)
+        
+        if is_gestor:
             my_entity = user.referall_entity.first()
             my_queryset = my_queryset.filter(referall_entity=my_entity).distinct(
                 "case__id"
@@ -516,10 +569,9 @@ class CaseReferallViewset(ModelViewSet):
         my_groups = request.user.groups.all()
         user = request.user
 
-        if (
-            my_groups.filter(name="Gestor").count() == 0
-            and request.user.is_superuser is False
-        ):
+        is_gestor = utils.is_user_type_gestor(request)
+
+        if is_gestor:
             my_entity = user.referall_entity.first()
             my_queryset = self.queryset.filter(referall_entity=my_entity)
         elif my_groups.filter(name="Operador").count() != 0:
