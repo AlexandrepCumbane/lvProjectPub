@@ -166,6 +166,12 @@ def generate_case_charts(initial_data, end_data):
         .annotate(total=Count("programme__name"))
     )
 
+    reports["case_by_type"] = (
+        Case.objects.filter(created_at__date__range=(initial_data, end_data))
+        .values(tipology=F("category__name"))
+        .annotate(total=Count("category__name"))
+    )
+
     reports["case_by_response_program"] = (
         Case.objects.filter(created_at__date__range=(initial_data, end_data))
         .values(program=F("response_program__name"))

@@ -18,7 +18,7 @@ class GeneralReportViewSet(viewsets.ViewSet):
 
     def list(self, request):
         serializer = GeneralReportSerializer(
-            instance=generate_reports_data("2020-01-01", "2020-04-30"), many=True
+            instance=generate_reports_data("2020-01-01", "2025-04-30"), many=True
         )
         return Response(serializer.data)
 

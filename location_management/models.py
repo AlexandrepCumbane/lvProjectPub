@@ -8,6 +8,28 @@ class Province(models.Model):
     def __str__(self):
         return self.name
 
+class District(models.Model):
+    name = models.CharField(max_length=25)
+    province = models.ForeignKey(
+        Province, on_delete=models.SET_NULL, null=True, default=None
+    )
+    codigo = models.CharField(max_length=25)
+    parent_code = models.CharField(max_length=25)
+
+    def __str__(self):
+        return self.name
+
+class PostoAdministrativo(models.Model):
+    name = models.CharField(max_length=25)
+    district = models.ForeignKey(
+        District, on_delete=models.SET_NULL, null=True, default=None
+    )
+    codigo = models.CharField(max_length=25)
+    parent_code = models.CharField(max_length=25)
+
+    def __str__(self):
+        return self.name
+
 
 class LocationType(models.Model):
     name = models.CharField(max_length=20, unique=True)

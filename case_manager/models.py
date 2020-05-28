@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
-from location_management.models import Location, Province
+from location_management.models import Location, District, Province
 from user_management.models import FocalPointProfile
 
 # Create your models here.
@@ -49,12 +49,17 @@ class SubCategory(models.Model):
 
 
 class CategoryIssue(models.Model):
-    name = models.CharField(max_length=200, unique=True)
+    name = models.CharField(max_length=200 ) #, unique=True)
     category = models.ForeignKey(SubCategory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name
 
+class HowCaseClose(models.Model):
+    name = models.CharField(max_length=200, unique=True)
+    
+    def __str__(self):
+        return self.name
 
 class ResolutionCategory(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -133,6 +138,13 @@ class Contactor(models.Model):
     gender = models.ForeignKey(
         Gender, on_delete=models.CASCADE, related_name="contactor"
     )
+    district = models.ForeignKey(
+        District,
+        on_delete=models.SET_NULL,
+        related_name="contactor",
+        null=True,
+        blank=True,
+    )
     location = models.ForeignKey(
         Location,
         on_delete=models.SET_NULL,
@@ -210,6 +222,7 @@ class Case(models.Model):
     call_note = models.TextField(max_length=1000, default="", blank=True)
     solution = models.TextField(max_length=1000, default="", blank=True)
     focal_point_notes = models.TextField(max_length=100, default="")
+    how_case_close = models.TextField(max_length=1000, default="", null=True,blank=True)
 
     camp = models.CharField(
         choices=[("Y", "YES"), ("N", "NO")], max_length=25, default="N"
@@ -240,14 +253,22 @@ class Case(models.Model):
     )
 
     # Date Filds
-    created_at = models.DateTimeField(auto_now=True)
     closed_at = models.DateTimeField(auto_now=False, null=True, blank=True)
-    updated_at = models.DateTimeField(auto_now=False, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     # FOREIGN FIELDS
     customer_satisfaction = models.ForeignKey(
         CustomerSatisfaction, on_delete=models.SET_NULL, null=True, related_name="cases"
     )
+    
+    how_case_was_closed = models.ForeignKey(
+        HowCaseClose,
+        on_delete=models.SET_NULL,
+        related_name="cases",
+        null=True,
+    )
+
     how_would_you_like_to_be_contacted = models.ForeignKey(
         HowWouldYouLikeToBeContacted,
         on_delete=models.SET_NULL,

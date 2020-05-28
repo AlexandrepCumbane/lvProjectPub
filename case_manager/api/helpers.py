@@ -12,6 +12,7 @@ from case_manager.models import (
     CategoryIssue,
     CustomerSatisfaction,
     Gender,
+    HowCaseClose,
     HowDoYouHearAboutUs,
     HowWouldYouLikeToBeContacted,
     IndividualCommitedFraud,
@@ -27,7 +28,7 @@ from case_manager.models import (
     Vulnerability,
     WhoIsNotReceivingAssistence,
 )
-from location_management.models import Location, Province
+from location_management.models import Location, Province, District, PostoAdministrativo
 from posts_management.models import PostCategory, PostLanguage
 
 
@@ -66,6 +67,44 @@ def filtrar_user_by_type(name:str)->list:
     )
     return users
 
+def get_formatted_provinces():
+    provinces = Province.objects.all().values()
+    lista = []
+    
+    for province in provinces:
+        lista2=[]   
+        districts = District.objects.filter(
+            province=province['id']
+        ).values()
+	     
+        for district in districts:
+            lista3=""
+            postos = PostoAdministrativo.objects.filter(district=district['id']).values()
+            
+            for posto in postos:
+                locations = Location.objects.filter(parent_code=posto['codigo']).values()
+                #lista3.append(locations)
+
+                if(lista3==''):
+                    lista3 = locations
+                else:
+                    lista3 = lista3 | locations
+                
+            result = {
+                'district':district,
+                'location':lista3
+                }
+            
+            lista2.append(result)
+            
+        result = {
+            'province':province,
+            'district':lista2
+            }
+        
+        lista.append(result)
+    
+    return lista
 
 def get_dropdowns()->list:
     """
@@ -74,7 +113,7 @@ def get_dropdowns()->list:
     """
     dropdowns = []
 
-    dropdowns.append(DropdownData(key="cases", value=Case.objects.values()))
+    dropdowns.append(DropdownData(key="cases", value=Case.objects.values().order_by('-created_at')))
     dropdowns.append(DropdownData(key="case_status", value=CaseStatus.objects.values()))
     dropdowns.append(
         DropdownData(key="case_priorities", value=CasePriority.objects.values())
@@ -85,7 +124,31 @@ def get_dropdowns()->list:
             key="customer_satisfaction", value=CustomerSatisfaction.objects.values()
         )
     )
+
+    dropdowns.append(
+        DropdownData(
+            key="districts", value=District.objects.values().order_by('name')
+        )
+    )
+
+    dropdowns.append(
+        DropdownData(
+            key="province_alternative", value=get_formatted_provinces()
+        )
+    )
+
+    dropdowns.append(
+        DropdownData(
+            key="postos_administativos", value=PostoAdministrativo.objects.values().order_by('name')
+        )
+    )
+
     dropdowns.append(DropdownData(key="genders", value=Gender.objects.values()))
+    dropdowns.append(
+        DropdownData(
+            key="how_case_closed", value=HowCaseClose.objects.values()
+        )
+    )
     dropdowns.append(
         DropdownData(
             key="how_do_hear_about_us", value=HowDoYouHearAboutUs.objects.values()
@@ -137,8 +200,13 @@ def get_dropdowns()->list:
     dropdowns.append(
         DropdownData(key="mecanism_used", value=MecanismUsed.objects.values())
     )
-    dropdowns.append(DropdownData(key="localities", value=Location.objects.values()))
-    dropdowns.append(DropdownData(key="provinces", value=Province.objects.values()))
+    dropdowns.append(DropdownData(key="localities", value=Location.objects.values().order_by('name')))
+    dropdowns.append(
+        DropdownData(
+            key="provinces", 
+            value=Province.objects.values().order_by('name')
+            )
+            )
     dropdowns.append(DropdownData(key="groups", value=Group.objects.values()))
     dropdowns.append(
         DropdownData(

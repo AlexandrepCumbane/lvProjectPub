@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_extensions",
     "django_filters",
+    "import_export",
+    #"oauth2_provider",
     # My Apps
     "case_manager",
     "location_management",

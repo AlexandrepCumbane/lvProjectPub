@@ -165,7 +165,7 @@ class CaseViewset(ModelViewSet):
     serializer_class = CaseSerializer
     queryset = Case.objects.select_related(
         "case_priority", "category", "contactor", "created_by", "how_knows_us",
-    ).filter(is_deleted=False)
+    ).filter(is_deleted=False).order_by("-id")
     filterset_class = CaseFilter
 
     @action(methods=["POST"], detail=False)
@@ -241,7 +241,7 @@ class CaseViewset(ModelViewSet):
             contactor = request.data["contactor"]
             case = request.data["case"]
 
-            case["case_status"] = CaseStatus.objects.get(name="Not Started").id
+            #case["case_status"] = CaseStatus.objects.get(name="Not Started").id
             case["case_priority"] = CasePriority.objects.get(name="High").id
 
             contactor = self._save_contactor(contactor)
@@ -328,7 +328,7 @@ class CaseViewset(ModelViewSet):
                 Q(created_by=request.user)
                 | Q(focal_points__user__id__in=(request.user.id,))
             )
-
+        print(my_queryset)
         pages = self.paginate_queryset(my_queryset)
         response = CaseSerializerFull(pages, many=True)
 
@@ -339,7 +339,17 @@ class CaseViewset(ModelViewSet):
         """
         List cases that a referred to a partner
         """
-        pages = self.paginate_queryset(self.get_queryset().filter(case_forwarded=True))
+        pages = self.paginate_queryset(self.get_queryset().filter(case_forwarded=True).order_by("-id"))
+        response = CaseSerializerFull(pages, many=True)
+
+        return self.get_paginated_response(response.data)
+
+    @action(methods=["GET"], detail=False)
+    def list_opened_case(self, response):
+        """
+        List cases that are openned
+        """
+        pages = self.paginate_queryset(self.get_queryset().filter(case_closed=False).order_by("-id"))
         response = CaseSerializerFull(pages, many=True)
 
         return self.get_paginated_response(response.data)
@@ -347,7 +357,7 @@ class CaseViewset(ModelViewSet):
     @action(methods=["GET"], detail=True)
     def tasks(self, response, pk=None):
         case = get_object_or_404(self.queryset, pk=pk)
-        pages = self.paginate_queryset(case.tasks.all())
+        pages = self.paginate_queryset(case.tasks.all().order_by("-id"))
         response = CaseTaskFullSerializer(pages, many=True)
 
         return self.get_paginated_response(response.data)
@@ -422,7 +432,7 @@ class CaseViewset(ModelViewSet):
 
 class CaseTaskViewset(ModelViewSet):
     serializer_class = CaseTaskSerializer
-    queryset = CaseTask.objects.select_related("case", "status", "assigned_to")
+    queryset = CaseTask.objects.select_related("case", "status", "assigned_to").order_by("-id")
     filterset_class = CaseTaskFilter
 
     def create(self, request):
@@ -459,7 +469,7 @@ class CaseTaskViewset(ModelViewSet):
             """
             my_queryset = self.queryset.filter(assigned_to=request.user).exclude(
                 Q(status__name__icontains="completed")
-            )
+            ).order_by("-id")
             my_queryset = my_queryset | self.queryset.filter(
                 created_at__date=timezone.datetime.now().date()
             )
