@@ -25,3 +25,7 @@ class PostLanguageSerializer(ModelSerializer):
     class Meta:
         model = PostLanguage
         fields = "__all__"
+
+class CategorySerializer(serializers.Serializer):
+    category = serializers.CharField(max_length=256)
+    posts = serializers.ListField()
