@@ -220,6 +220,7 @@ class Case(models.Model):
 
     # Text Fields
     call_note = models.TextField(max_length=1000, default="", blank=True)
+    case_call = models.TextField(max_length=20, default="", blank=True)
     solution = models.TextField(max_length=1000, default="", blank=True)
     focal_point_notes = models.TextField(max_length=100, default="")
     how_case_close = models.TextField(max_length=1000, default="", null=True,blank=True)
