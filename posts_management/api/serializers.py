@@ -1,5 +1,4 @@
-from rest_framework.serializers import ModelSerializer, Serializer
-
+from rest_framework.serializers import ModelSerializer, Serializer, CharField, ListField
 from posts_management.models import Post, PostCategory, PostFile, PostLanguage
 
 
@@ -27,5 +26,5 @@ class PostLanguageSerializer(ModelSerializer):
         fields = "__all__"
 
 class CategorySerializer(Serializer):
-    category = serializers.CharField(max_length=256)
-    posts = serializers.ListField()
+    category = CharField(max_length=256)
+    posts = ListField()
