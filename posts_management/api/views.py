@@ -18,7 +18,7 @@ class PostCategoriesViewSet(ModelViewSet):
 
         categories = PostCategory.objects.all().values()
         list = []
-        for(category in categories):
+        for category in categories:
                 list.append({
                     'category': category,
                     'posts': Post.objects.filter(category=category['id']).count()
