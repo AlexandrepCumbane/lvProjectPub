@@ -14,6 +14,7 @@ class PostCategoriesViewSet(ModelViewSet):
     serializer_class = PostCategorySerializer
     queryset = PostCategory.objects.all()
 
+    """
     def list(self, request):
 
         categories = PostCategory.objects.all().values()
@@ -23,10 +24,15 @@ class PostCategoriesViewSet(ModelViewSet):
                     'category': category,
                     'posts': Post.objects.filter(category=category['id']).count()
                 })
-        categorySer = CategorySerializer(instance=list,many=True)
 
-        return return(list)
+        data =  {
+            'postCategory': list
+        }
 
+        #categorySer = CategorySerializer(instance=data,many=True)
+
+        return Response()
+    """
 
 class PostLanguageViewSet(ModelViewSet):
     serializer_class = PostLanguageSerializer

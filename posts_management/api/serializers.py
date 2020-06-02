@@ -3,7 +3,7 @@ from rest_framework.serializers import (
     Serializer, 
     CharField, 
     ListField, )
-    
+
 from posts_management.models import Post, PostCategory, PostFile, PostLanguage
 
 
@@ -31,5 +31,6 @@ class PostLanguageSerializer(ModelSerializer):
         fields = "__all__"
 
 class CategorySerializer(Serializer):
-    category = PostCategorySerializer(source='*')
-    posts = CharField(max_length=50)
+    #category = PostCategorySerializer(source='*')
+    #posts = CharField(max_length=50)
+    postCategory = ListField()
