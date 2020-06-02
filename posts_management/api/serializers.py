@@ -1,4 +1,9 @@
-from rest_framework.serializers import ModelSerializer, Serializer, CharField, ListField, 
+from rest_framework.serializers import (
+    ModelSerializer, 
+    Serializer, 
+    CharField, 
+    ListField, )
+    
 from posts_management.models import Post, PostCategory, PostFile, PostLanguage
 
 
