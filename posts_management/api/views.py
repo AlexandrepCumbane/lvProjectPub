@@ -25,7 +25,7 @@ class PostCategoriesViewSet(ModelViewSet):
                 })
         categorySer = CategorySerializer(instance=list,many=True)
 
-        return Response(categorySer.data)
+        return return(list)
 
 
 class PostLanguageViewSet(ModelViewSet):
