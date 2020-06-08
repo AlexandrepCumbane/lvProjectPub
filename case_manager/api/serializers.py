@@ -16,6 +16,7 @@ from case_manager.models import (
     CustomerSatisfaction,
     Gender,
     HowDoYouHearAboutUs,
+    HowCaseClose,
     HowWouldYouLikeToBeContacted,
     IndividualCommitedFraud,
     MecanismUsed,
@@ -84,6 +85,12 @@ class ResolutionCategorySerializer(ModelSerializer):
 class ResolutionSubCategorySerializer(ModelSerializer):
     class Meta:
         model = ResolutionSubCategory
+        fields = "__all__"
+
+
+class HowCaseCloseSerializer(ModelSerializer):
+    class Meta:
+        model = HowCaseClose
         fields = "__all__"
 
 
@@ -202,6 +209,7 @@ class CaseSerializerFull(ModelSerializer):
     individual_commited_fraud = serializer_factory(
         model=IndividualCommitedFraud, fields=("id", "name")
     )()
+    how_case_was_closed = HowCaseCloseSerializer()
     category_issue = CategoryIssueSerializer()
     number_of_tasks = SerializerMethodField()
     has_feedback = SerializerMethodField()
