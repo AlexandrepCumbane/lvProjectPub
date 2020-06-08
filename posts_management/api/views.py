@@ -1,6 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
-
+from rest_framework.response import Response
 from posts_management.api.serializers import (
+    CategorySerializer,
     PostCategorySerializer,
     PostFileSerializer,
     PostLanguageSerializer,
@@ -13,6 +14,25 @@ class PostCategoriesViewSet(ModelViewSet):
     serializer_class = PostCategorySerializer
     queryset = PostCategory.objects.all()
 
+    """
+    def list(self, request):
+
+        categories = PostCategory.objects.all().values()
+        list = []
+        for category in categories:
+                list.append({
+                    'category': category,
+                    'posts': Post.objects.filter(category=category['id']).count()
+                })
+
+        data =  {
+            'postCategory': list
+        }
+
+        #categorySer = CategorySerializer(instance=data,many=True)
+
+        return Response()
+    """
 
 class PostLanguageViewSet(ModelViewSet):
     serializer_class = PostLanguageSerializer
