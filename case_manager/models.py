@@ -226,7 +226,7 @@ class Case(models.Model):
     how_case_close = models.TextField(max_length=1000, default="", null=True,blank=True)
 
     camp = models.CharField(
-        choices=[("Y", "YES"), ("N", "NO")], max_length=25, default="N"
+        choices=[("Y", "YES"), ("N", "NO"),  ("NR", "NOT RELEVANT")], max_length=25, default="N"
     )
     case_id = models.CharField(max_length=20, unique=True)
     other_category = models.CharField(max_length=200, null=True, blank=True)
