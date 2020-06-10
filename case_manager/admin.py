@@ -1,5 +1,8 @@
 from django.contrib import admin
 
+from import_export import resources
+from import_export.admin import ImportExportActionModelAdmin
+
 from case_manager.models import (
     Ages,
     Case,
@@ -31,16 +34,63 @@ from case_manager.models import (
     WhoIsNotReceivingAssistence,
 )
 
+"""
+@ Model Resources 
+"""
+class AgeResource(resources.ModelResource):
+    class Meta:
+        model = Ages
+
+class CaseResource(resources.ModelResource):
+    class Meta:
+        model = Case
+
+class CasePriorityResource(resources.ModelResource):
+    class Meta:
+        model = CasePriority
+
+class CaseStatusResource(resources.ModelResource):
+    class Meta:
+        model = CaseStatus
+
+class CategoryResource(resources.ModelResource):
+    class Meta:
+        model = Category
+
+
+# Action Model Admin
+class AgeAdmin(ImportExportActionModelAdmin):
+    resource_class = AgeResource
+    pass
+
+class CaseAdmin(ImportExportActionModelAdmin):
+    resource_class = CaseResource
+    pass
+
+class CasePriorityAdmin(ImportExportActionModelAdmin):
+    resource_class = CasePriorityResource
+    pass
+
+class CaseStatusAdmin(ImportExportActionModelAdmin):
+    resource_class = CaseStatusResource
+    pass
+
+class CategoryAdmin(ImportExportActionModelAdmin):
+    resource_class = CategoryResource
+    pass
+
+
+
 admin.autodiscover()
 
 # Register your models here.
 admin.site.register(Ages)
-admin.site.register(Case)
+admin.site.register(Case, CaseAdmin)
 admin.site.register(CaseComments)
-admin.site.register(CasePriority)
+admin.site.register(CasePriority, CasePriorityAdmin)
 admin.site.register(CaseReferall)
-admin.site.register(CaseStatus)
-admin.site.register(Category)
+admin.site.register(CaseStatus, CaseStatusAdmin)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(Contactor)
 admin.site.register(CustomerSatisfaction)
 admin.site.register(Gender)

@@ -1,4 +1,7 @@
-from django.contrib.auth.models import Group
+
+import pprint
+from datetime import datetime
+from django.contrib.auth.models import Group, User
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -34,6 +37,7 @@ from case_manager.api.serializers import (
     TaskStatusSerializer,
 )
 from case_manager.models import (
+    Ages,
     Case,
     CaseComments,
     CasePriority,
@@ -52,7 +56,15 @@ from case_manager.models import (
     ResolutionCategory,
     ResolutionSubCategory,
     SubCategory,
+    Vulnerability,
     TaskStatus,
+    TransfereModality,
+    SourceOfInformation
+)
+
+from location_management.models import (
+    Province,
+    District
 )
 
 
@@ -164,29 +176,98 @@ class CaseViewset(ModelViewSet):
 
     @action(methods=["POST"], detail=False)
     def saveexcel(self, request):
+        
+        not_saved = []
         try:
             cases = request.data["cases"]
+             
             if isinstance(cases, list):
                 operation_stats = {"success": 0, "failed": 0}
+                print('List: ', len(cases))
                 for item in cases:
-                    case_id = item["Number"]
+                    case_id = item["case_id"]
+                    province = get_field(Province, verify_mull(item, 'province'))                    
+                    try:
+                        contactor = Contactor.objects.create(
+                            full_name=verify_mull_bool(item, 'full_name'),
+                            gender=Gender.objects.get(name__iexact=item['gender']),
+                            province= province if province != None else Province.objects.get(name='Sofala'),
+                            district=get_field(District, verify_mull(item, 'district')),
+                            age=get_age(verify_mull_boolean(item, 'age')),
+                            alternative_number=verify_mull(item, 'alternative_number'),
+                            contact=verify_mull(item, 'contact'),
+                            community=verify_mull(item, 'community'),
+                            fdp=verify_mull(item, 'fdp'),
+                        )
+                        contactor.save()
+                        username = verify_mull_bool(item, 'created_by')
+                        username = username if username != 'CFM Operator3' else 'CFM_Operator3'
+                        case = Case.objects.create(
+                            case_id=item['case_id'],
+                            case_uuid=item['case_uuid'],
+                            contactor=contactor,
+                            created_by=User.objects.get(username=username),
+                            case_closed=bool_values(verify_mull_bool(item, 'case_closed')),
+                            call_require_callback_for_feedback=bool_values(verify_mull_bool(item, 'call_require_callback_for_feedback')),
+                            caller_not_reached_for_feedback=bool_values(verify_mull_bool(item, 'caller_not_reached_for_feedback')),
+                            received_assistence=bool_values(verify_mull_bool(item, 'received_assistence')),
+                            #created_at=datetime.fromtimestamp(item['created_at']),
+                            #closed_at=datetime.fromtimestamp(item['closed_at']),
+                            resettlement_name=verify_mull(item, 'resettlement_name'), 
+                            call_note=verify_mull(item, 'call_note'),   
+                            solution=verify_mull(item, 'call_solution'),
+                            camp=verify_mull(item, 'camp'),
+                            programme=get_programme(item),
+                            category=get_category(item),
+                            sub_category=get_sub_category(item),
+                            vulnerability=get_field(Vulnerability, verify_mull(item, 'vulnerability')),
+                            category_issue=get_field(CategoryIssue, verify_mull(item, 'category_issue')),
+                            transfere_modality=get_field(TransfereModality, verify_mull(item, 'transfer_modality')),
+                            case_status=get_status(bool_values(verify_mull_bool(item, 'case_closed'))),
+                            source_of_information=get_field(SourceOfInformation, verify_mull(item, 'source_of_information')),
+                        )
+
+                        case.save()
+                        #print('Saved_: ', case_id)
+                    except Exception as error:
+                        print('Erro: ', error)
+                        pprint.pprint(item)
+
+                        """
+
+                        #case.save()
+                    
+
+                    #print('case: ', case)
+                    
+                    
+                     province, alternative_number, community, category_issue, vulnerability, fdp,
+                     who_is_never_received_assistance, district, source_of_information, full_name, 
+                     gender, age, contact, program, category, sub_category, transfer_modality,
+                     how_knows_us, created_by
+                    """
+                    
                     data = {
-                        "fdp": item["FDP"],
-                        "call_note": item["Call note"],
-                        "solution": item["Solution"],
-                        "resettlement_name": item["Resettlement name"],
+                        #"fdp": item["fdp"],
+                        "call_note": item["call_note"],
+                        #"solution": item["call_solution"],
+                        #"resettlement_name": item["resettlement_name"],
                     }
-                    result = self._update_case(case_id, data)
+                    
+                    # result = self._update_case(case_id, data)
 
-                    if result:
-                        operation_stats["success"] += operation_stats["success"]
-                    else:
-                        operation_stats["failed"] += operation_stats["failed"]
-
+                    #if result:
+                    #    operation_stats["success"] += operation_stats["success"]
+                    #else:
+                    #    operation_stats["failed"] += operation_stats["failed"]
+                 
+            print('Not_saved: ', not_saved)
             return Response({"success": operation_stats})
-        except KeyError:
+        except KeyError as error:
             pass
+            #print('Error: ', error)
 
+        print('Not_saved: ', not_saved)
         return Response({"errors": "Invalid request data"}, status=400)
 
     def _update_case(self, case_id: str, case) -> bool:
@@ -589,3 +670,135 @@ class DropdownsViewSet(ViewSet):
     def list(self, request):
         serializer = DropdownSerializer(instance=get_dropdowns(), many=True)
         return Response(serializer.data)
+
+
+def format_date(date):
+    date_object = ''
+    try: 
+        date_object = datetime.strptime(date, "%d/%m/%Y %I:%M:%S")
+    except ValueError as error:
+        date_object = datetime.strptime(date, "%d/%m/%Y %I:%M %p")
+    return date_object
+
+def bool_values(val):
+    if val == 'no' or val == 0:
+        return False
+    elif val == 'yes' or val == 1:
+        return True
+    else:
+        return False
+
+def verify_mull(item, field):
+    try:
+        if field == 'alternative_number' or field == 'contact' or field == 'community':
+            return item[field]
+        else:
+            return item[field].replace('IDAI_', "").replace('_', " ")
+    except KeyError as error:
+        if field == 'alternative_number':
+            print('Error: ', error)
+        return '***'
+
+def verify_mull_boolean(item, field):
+    try:
+        return item[field]
+    except KeyError:
+        return 0
+
+def verify_mull_bool(item, field):
+    try:
+        return item[field]
+    except KeyError:
+        return 'no'
+
+def get_age(age):
+
+    if age == '_17':
+        return Ages.objects.get(name='17 and below')
+    elif age == '60_':
+        return Ages.objects.get(name='60 and above')
+    else: 
+        return Ages.objects.get(name='18 - 59')
+
+def get_camp(age):
+
+    if age == 'no':
+        return 'N'
+    elif age == 'yes':
+        return 'Y'
+    else: 
+        return 'NR'
+
+def get_programme(item):
+    programme = verify_mull(item, 'program')
+    try:
+        return Programme.objects.get(name__iexact=programme)
+    except Exception as error:
+        try:
+            return Programme.objects.get(name=programme)
+        except Exception as error:
+            return Programme.objects.filter(name='Other').first()
+
+def get_category(item):
+
+    category = verify_mull(item, 'category')
+    category = 'Request for information' if category == 'CoronaVirus' else category
+    category = 'Request for information' if category == 'information request' else category
+    category = 'Request for assistence' if category == 'assistance request' else category    
+    
+    try:
+        return Category.objects.get(name__iexact=category)
+    except Exception as error:
+        try:
+            return Category.objects.get(name__icontains=category)
+        except Exception as error:
+            try:
+                return Category.objects.get(name=category)
+            except Exception:
+                return SubCategory.objects.filter(name='Other').first()
+
+
+def get_sub_category(item):
+    """
+    Impact of Covid-19 on program
+    """
+    category = verify_mull(item, 'sub_category')
+    category = 'Impact of Covid-19 on program' if category == 'Corona virus Prevencao' or category == 'Corona virus Tratamento' or category == 'Covid 19 Propagacao no pais' or category =='Corona virus Sintomas' else category
+    category = 'Myths' if category == 'coronna virus mitos' else category
+    category = 'Exclusion Error' if category == 'inclusion error' else category
+    category = 'Abuse of power' if category == 'fraud diversion misuse' else category
+
+    try:
+        return SubCategory.objects.get(name__iexact=category)
+    except Exception as error:
+        try:
+            return SubCategory.objects.get(name__icontains=category)
+        except Exception as error:
+            try:
+                return SubCategory.objects.get(name=category)
+            except Exception:
+                return SubCategory.objects.get(name='Other')
+
+
+def get_status(val):
+
+    if val:
+        return CaseStatus.objects.get(name__iexact='Closed')
+    else:
+        return CaseStatus.objects.get(name__iexact='In Progress')
+
+def get_field(Model, item):
+
+    category = 'NFI' if item == 'Non food items' else item
+    category = 'Benificiary' if item == 'beneficiary directly' else item
+    try:
+        return Model.objects.get(name__iexact=category)
+    except Exception as error:
+        try:
+            return Model.objects.get(name__icontains=category)
+        except Exception as error:
+            try:
+                return Model.objects.get(name=category)
+            except Exception:
+                return Model.objects.filter(name='Other').first()
+
