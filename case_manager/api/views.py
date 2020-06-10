@@ -58,6 +58,7 @@ from case_manager.models import (
 
 from case_manager import utils
 
+
 class CasePriorityViewset(ListAPIView, ViewSet):
     serializer_class = CasePrioritySerializer
     queryset = CasePriority.objects.all()
@@ -136,7 +137,7 @@ class CaseCommentsViewset(ModelViewSet):
         """Creates a CaseComment record on the database.
         """
         case_referall = None
-        
+
         # Raise an exception if doesn't find a case referall key,value
         try:
             case_referall = request.data.pop("case_referall")
@@ -163,9 +164,13 @@ class CaseCommentsViewset(ModelViewSet):
 
 class CaseViewset(ModelViewSet):
     serializer_class = CaseSerializer
-    queryset = Case.objects.select_related(
-        "case_priority", "category", "contactor", "created_by", "how_knows_us",
-    ).filter(is_deleted=False).order_by("-id")
+    queryset = (
+        Case.objects.select_related(
+            "case_priority", "category", "contactor", "created_by", "how_knows_us",
+        )
+        .filter(is_deleted=False)
+        .order_by("-id")
+    )
     filterset_class = CaseFilter
 
     @action(methods=["POST"], detail=False)
@@ -185,12 +190,16 @@ class CaseViewset(ModelViewSet):
             if isinstance(cases, list):
                 operation_stats = {"success": 0, "failed": 0}
                 for item in cases:
-                    case_id = item["Number"] # retrive value from excel column
+                    case_id = item["Number"]  # retrive value from excel column
                     data = {
-                        "fdp": item["FDP"], # retrive value from excel column
-                        "call_note": item["Call note"], # retrive value from excel column
-                        "solution": item["Solution"], # retrive value from excel column
-                        "resettlement_name": item["Resettlement name"], # retrive value from excel column
+                        "fdp": item["FDP"],  # retrive value from excel column
+                        "call_note": item[
+                            "Call note"
+                        ],  # retrive value from excel column
+                        "solution": item["Solution"],  # retrive value from excel column
+                        "resettlement_name": item[
+                            "Resettlement name"
+                        ],  # retrive value from excel column
                     }
                     result = self._update_case(case_id, data)
 
@@ -241,15 +250,15 @@ class CaseViewset(ModelViewSet):
             contactor = request.data["contactor"]
             case = request.data["case"]
 
-            #case["case_status"] = CaseStatus.objects.get(name="Not Started").id
+            # case["case_status"] = CaseStatus.objects.get(name="Not Started").id
             case["case_priority"] = CasePriority.objects.get(name="High").id
 
             contactor = self._save_contactor(contactor)
 
-            if not contactor.is_saved:
+            if not contactor["is_saved"]:
                 return Response({"error": "Erro ao gravar contactant"}, status=400)
 
-            case["contactor"] = contactor.contactor_id
+            case["contactor"] = contactor['contactor_id']
             case["created_by"] = request.user.id
             case_serializer = CaseSerializer(data=case)
 
@@ -262,7 +271,7 @@ class CaseViewset(ModelViewSet):
             pass
         return super().create(request)
 
-    def _save_contactor(self, contactor:dict)->dict:
+    def _save_contactor(self, contactor: dict) -> dict:
         """Save a new Contactor on the database.
 
             Parameters:
@@ -278,11 +287,12 @@ class CaseViewset(ModelViewSet):
         if contact_serializer.is_valid():
             contact_saved = contact_serializer.save()
             contactor_is_saved = True
-            return {"is_saved":contactor_is_saved, "contactor_id": contact_saved.id}
+            return {"is_saved": contactor_is_saved, "contactor_id": contact_saved.id}
 
-        return {"is_saved":contactor_is_saved, "contactor_id": 0}
+        print(contact_serializer.errors)
+        return {"is_saved": contactor_is_saved, "contactor_id": 0}
 
-    def _update_contactor(self, contactor_data:dict)->dict:
+    def _update_contactor(self, contactor_data: dict) -> dict:
         """Update the contactor data saved on the database.
 
             Parameters:
@@ -320,10 +330,7 @@ class CaseViewset(ModelViewSet):
         my_queryset = self.get_queryset()
 
         is_gestor = utils.is_user_type_gestor(request)
-        if (
-            is_gestor
-            and request.user.is_superuser is False
-        ):
+        if is_gestor and request.user.is_superuser is False:
             my_queryset = self.queryset.filter(
                 Q(created_by=request.user)
                 | Q(focal_points__user__id__in=(request.user.id,))
@@ -339,7 +346,9 @@ class CaseViewset(ModelViewSet):
         """
         List cases that a referred to a partner
         """
-        pages = self.paginate_queryset(self.get_queryset().filter(case_forwarded=True).order_by("-id"))
+        pages = self.paginate_queryset(
+            self.get_queryset().filter(case_forwarded=True).order_by("-id")
+        )
         response = CaseSerializerFull(pages, many=True)
 
         return self.get_paginated_response(response.data)
@@ -349,7 +358,9 @@ class CaseViewset(ModelViewSet):
         """
         List cases that are openned
         """
-        pages = self.paginate_queryset(self.get_queryset().filter(case_closed=False).order_by("-id"))
+        pages = self.paginate_queryset(
+            self.get_queryset().filter(case_closed=False).order_by("-id")
+        )
         response = CaseSerializerFull(pages, many=True)
 
         return self.get_paginated_response(response.data)
@@ -379,7 +390,7 @@ class CaseViewset(ModelViewSet):
 
             try:
                 is_closed = case["case_closed"]
-                
+
                 """
                     Verify the case_closed key value of the data
                     and if is true update the case status to closed
@@ -432,7 +443,9 @@ class CaseViewset(ModelViewSet):
 
 class CaseTaskViewset(ModelViewSet):
     serializer_class = CaseTaskSerializer
-    queryset = CaseTask.objects.select_related("case", "status", "assigned_to").order_by("-id")
+    queryset = CaseTask.objects.select_related(
+        "case", "status", "assigned_to"
+    ).order_by("-id")
     filterset_class = CaseTaskFilter
 
     def create(self, request):
@@ -467,9 +480,11 @@ class CaseTaskViewset(ModelViewSet):
                 This query filters task for today and tasks that are
                 Not completed at all
             """
-            my_queryset = self.queryset.filter(assigned_to=request.user).exclude(
-                Q(status__name__icontains="completed")
-            ).order_by("-id")
+            my_queryset = (
+                self.queryset.filter(assigned_to=request.user)
+                .exclude(Q(status__name__icontains="completed"))
+                .order_by("-id")
+            )
             my_queryset = my_queryset | self.queryset.filter(
                 created_at__date=timezone.datetime.now().date()
             )
@@ -561,7 +576,7 @@ class CaseReferallViewset(ModelViewSet):
         my_queryset = self.get_queryset()
         user = request.user
         is_gestor = utils.is_user_type_gestor(request)
-        
+
         if is_gestor:
             my_entity = user.referall_entity.first()
             my_queryset = my_queryset.filter(referall_entity=my_entity).distinct(
