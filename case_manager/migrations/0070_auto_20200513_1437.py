@@ -7,20 +7,33 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0069_contactor_district'),
+        ("case_manager", "0069_contactor_district"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='HowCaseClose',
+            name="HowCaseClose",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200, unique=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=200, unique=True)),
             ],
         ),
         migrations.AddField(
-            model_name='case',
-            name='how_case_was_closed',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='cases', to='case_manager.HowCaseClose'),
+            model_name="case",
+            name="how_case_was_closed",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="cases",
+                to="case_manager.HowCaseClose",
+            ),
         ),
     ]

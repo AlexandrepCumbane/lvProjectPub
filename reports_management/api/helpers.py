@@ -45,7 +45,7 @@ start_year = timezone.now().replace(
 )
 
 
-def generate_reports_big_number(initial_data, end_data)->dict:
+def generate_reports_big_number(initial_data, end_data) -> dict:
     """
         Generate the total cases sumary, with feedback and closed reports number
         in the period of time.
@@ -73,7 +73,7 @@ def generate_reports_big_number(initial_data, end_data)->dict:
     return reports
 
 
-def generate_reports_charts_caller(initial_data, end_data)->dict:
+def generate_reports_charts_caller(initial_data, end_data) -> dict:
     """
         Generate the total cases caller reports according to some criterias.
         
@@ -187,7 +187,7 @@ def generate_case_charts(initial_data, end_data):
     return reports
 
 
-def get_gestor_dashboard_data(user_id:int)->dict:
+def get_gestor_dashboard_data(user_id: int) -> dict:
     """
         Generate the dashboard initial data for the user of type gestor.
 
@@ -202,7 +202,6 @@ def get_gestor_dashboard_data(user_id:int)->dict:
             reports (dict):Dictionary containing the total number of the criteria report.
     """
     is_gestor = user_id.groups.filter(name__icontains="gestor").count()
-
 
     # Verify if the user id provided belongs to a gestor
     if is_gestor == 0:

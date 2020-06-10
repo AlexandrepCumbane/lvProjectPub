@@ -8,6 +8,7 @@ class LocationSerializer(ModelSerializer):
         model = Location
         fields = "__all__"
 
+
 class DistrictSerializer(ModelSerializer):
     class Meta:
         model = District
