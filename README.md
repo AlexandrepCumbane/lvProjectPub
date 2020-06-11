@@ -51,7 +51,7 @@ de forma que possa prosseguir com os proximos passos da aplicacao, para isso dig
 
 Apos fazer o migrate das tabelas sera nescessario carregar os dados inicias da aplicacao que estao na
 pasta __fixtures__ atraves do comando:
-    >python manage.py loaddata groups users data
+    >python manage.py loaddata groups data
 
 ## Correndo o projecto django
 
