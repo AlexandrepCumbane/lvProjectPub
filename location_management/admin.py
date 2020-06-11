@@ -11,13 +11,13 @@ from location_management.models import (
     District,
     PostoAdministrativo,
     Province,
-
 )
 
 # Models Resources
 class ProvinceResource(resources.ModelResource):
     class Meta:
         model = Province
+
 
 class DistrictResource(resources.ModelResource):
     class Meta:
@@ -28,22 +28,27 @@ class PostoAdministrativoResource(resources.ModelResource):
     class Meta:
         model = PostoAdministrativo
 
+
 class LocationResource(resources.ModelResource):
     class Meta:
         model = Location
+
 
 # Action Model Admin
 class ProvinceAdmin(ImportExportActionModelAdmin):
     resource_class = ProvinceResource
     pass
 
+
 class DistrictAdmin(ImportExportActionModelAdmin):
     resource_class = DistrictResource
     pass
 
+
 class PostoAdministrativoAdmin(ImportExportActionModelAdmin):
     resource_class = PostoAdministrativoResource
     pass
+
 
 class LocationAdmin(ImportExportActionModelAdmin):
     resource_class = LocationResource
@@ -51,25 +56,14 @@ class LocationAdmin(ImportExportActionModelAdmin):
 
 
 admin.site.register(
-    Province, 
-    ProvinceAdmin,
-    list_display=("name",),
-    )
+    Province, ProvinceAdmin, list_display=("name",),
+)
 
-admin.site.register(
-    PostoAdministrativo,
-    PostoAdministrativoAdmin
-    )
+admin.site.register(PostoAdministrativo, PostoAdministrativoAdmin)
 
-admin.site.register(
-    District,
-    DistrictAdmin
-    )
+admin.site.register(District, DistrictAdmin)
 
 admin.site.register(LocationClassification)
 admin.site.register(LocationType)
 
-admin.site.register(
-    Location,
-    LocationAdmin
-    )
+admin.site.register(Location, LocationAdmin)

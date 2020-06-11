@@ -35,8 +35,17 @@ class UserFullSerializer(ModelSerializer):
             "focal_point_profile",
         ]
 
-    def get_is_focal_point(self, obj):
-        return obj.groups.filter(name__icontains="Ponto Focal").count() != 0
+    def get_is_focal_point(self, obj: User) -> bool:
+        """Verify is the instance of the user belongs to the group of focal points.
+        
+            Paramenters:
+                obj (User): the user instance to be verified
+            
+            Returns:
+                is_a_focal_point (bool): Return true or false if the user is a focal point
+        """
+        is_a_focal_point = obj.groups.filter(name__icontains="Ponto Focal").count() != 0
+        return is_a_focal_point
 
 
 class UserInterSerializer(ModelSerializer):

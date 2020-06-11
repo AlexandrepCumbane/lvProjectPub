@@ -45,7 +45,18 @@ start_year = timezone.now().replace(
 )
 
 
-def generate_reports_big_number(initial_data, end_data):
+def generate_reports_big_number(initial_data, end_data) -> dict:
+    """
+        Generate the total cases sumary, with feedback and closed reports number
+        in the period of time.
+
+        Parameters:
+            initial_data (django.timezone.datetime):Initial date of the data to be filtered.
+            end_data (django.timezone.datetime):End date of the data to be filtered.
+        
+        Returns:
+            reports (dict):Dictionary containing the total number of the criteria report.
+    """
     reports = {}
     reports["total_cases"] = Case.objects.filter(
         created_at__date__range=(initial_data, end_data)
@@ -62,7 +73,21 @@ def generate_reports_big_number(initial_data, end_data):
     return reports
 
 
-def generate_reports_charts_caller(initial_data, end_data):
+def generate_reports_charts_caller(initial_data, end_data) -> dict:
+    """
+        Generate the total cases caller reports according to some criterias.
+        
+        Description:
+            The generated reports contains data about total callers by gender,
+            how knows us, customer satisfaction and age range
+
+        Parameters:
+            initial_data (django.timezone.datetime):Initial date of the data to be filtered.
+            end_data (django.timezone.datetime):End date of the data to be filtered.
+        
+        Returns:
+            reports (dict):Dictionary containing the total number of the criteria report.
+    """
     reports = {}
     reports["caller_profile"] = (
         Case.objects.filter(created_at__date__range=(initial_data, end_data))
@@ -111,6 +136,17 @@ def generate_reports_charts_caller(initial_data, end_data):
 
 
 def generate_case_charts(initial_data, end_data):
+    """
+        Generate the total cases sumary, with feedback and closed reports number
+        in the period of time.
+
+        Parameters:
+            initial_data (django.timezone.datetime):Initial date of the data to be filtered.
+            end_data (django.timezone.datetime):End date of the data to be filtered.
+        
+        Returns:
+            reports (dict):Dictionary containing the total number of the criteria report.
+    """
     reports = {}
     reports["case_by_province"] = (
         Case.objects.filter(created_at__date__range=(initial_data, end_data))
@@ -151,9 +187,23 @@ def generate_case_charts(initial_data, end_data):
     return reports
 
 
-def get_gestor_dashboard_data(user_id):
+def get_gestor_dashboard_data(user_id: int) -> dict:
+    """
+        Generate the dashboard initial data for the user of type gestor.
+
+        Parameters:
+            user_id (int):The ID of the user to generate the report
+        
+        Constraints:
+            If the user doesn't belongs to the gestor group the reports
+            will not be generated
+
+        Returns:
+            reports (dict):Dictionary containing the total number of the criteria report.
+    """
     is_gestor = user_id.groups.filter(name__icontains="gestor").count()
 
+    # Verify if the user id provided belongs to a gestor
     if is_gestor == 0:
         return {"data": "None"}
 
@@ -190,6 +240,19 @@ def get_gestor_dashboard_data(user_id):
 
 
 def get_operador_dashboard_data(user_id):
+    """
+        Generate the dashboard initial data for the user of type operator.
+
+        Parameters:
+            user_id (int):The ID of the user to generate the report
+
+        Constraints:
+            If the user doesn't belongs to the operators group the reports
+            will not be generated
+
+        Returns:
+            reports (dict):Dictionary containing the total number of the criteria report.
+    """
     is_operador = user_id.groups.filter(name__icontains="operador").count()
 
     if is_operador == 0:
@@ -217,6 +280,19 @@ def get_operador_dashboard_data(user_id):
 
 
 def get_parceiro_dashboard_data(user_id):
+    """
+        Generate the dashboard initial data for the user of type parceiro or focal point.
+
+        Parameters:
+            user_id (int):The ID of the user to generate the report
+        
+        Constraints:
+            If the user doesn't belongs to the Parceiro group or Ponto Focal Group the reports
+            will not be generated
+
+        Returns:
+            reports (dict):Dictionary containing the total number of the criteria report.
+    """
     ponto_focal = user_id.groups.filter(name__icontains="ponto focal").count()
 
     if ponto_focal > 0:

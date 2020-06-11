@@ -34,6 +34,7 @@ class PostCategoriesViewSet(ModelViewSet):
         return Response()
     """
 
+
 class PostLanguageViewSet(ModelViewSet):
     serializer_class = PostLanguageSerializer
     queryset = PostLanguage.objects.all()

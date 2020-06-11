@@ -6,6 +6,8 @@ from location_management.models import Province
 
 # Create your models here.
 class FocalPointProfile(models.Model):
+    """Focal Point Profiles in the system are represented by this model."""
+
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name="focal_point_profile"
     )
@@ -15,4 +17,5 @@ class FocalPointProfile(models.Model):
     )
 
     def __str__(self):
+        """Return the string representation of FocalPointFrofile instance."""
         return "{0} {1}".format(self.user.first_name, self.user.last_name)

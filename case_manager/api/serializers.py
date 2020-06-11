@@ -31,7 +31,11 @@ from case_manager.models import (
     Vulnerability,
     WhoIsNotReceivingAssistence,
 )
-from location_management.api.serializers import DistrictSerializer, LocationSerializer, ProvinceSerializer
+from location_management.api.serializers import (
+    DistrictSerializer,
+    LocationSerializer,
+    ProvinceSerializer,
+)
 
 
 class CasePrioritySerializer(ModelSerializer):
