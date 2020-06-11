@@ -12,6 +12,7 @@ INSTALLED_APPS += (
 ALLOWED_HOSTS = [
     "linhaverde.herokuapp.com",
     "linhaverde.s3-website-us-east-1.amazonaws.com",
+    "linhaverde-staging.herokuapp.com"
 ]
 
 
