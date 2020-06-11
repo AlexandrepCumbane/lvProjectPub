@@ -14,49 +14,59 @@ def generate_token(request):
         dos metodos padroes de modo a asseguar que o client_secret e
         o client_id nao fossem diretamente escritos na app front-end.
     """
-    username = request.data["username"]
-    # Filtro da aplicacao do cliente na base de dados
-    # de modo a obter o client ID e o cliente secret
-    user = User.objects.filter(email=username).first()
+
+    user = check_user_exists(request.data["username"])
 
     if user is None:
         # Se nao tem uma app registrada esse utilizador(caso exista)
         # nao pode fazer login
         return JsonResponse({"errors": "Invalid Credentials"}, status=401)
 
-    # O adapter e necessario para ele entender que tipo de conexao
-    # Ira fazer para o post (http ou https)
-    addapter = "https://" if request.is_secure() else "http://"
-
     login_data = {
         "username": user.username,
-        "password": request.data["password"],
+        "password": request.data['password']
     }
+
+    adapter = "https://" if request.is_secure() else "http://"
 
     # Esta linha gera o access key do utilizador
     response = requests.post(
-        addapter + request.get_host() + "/api/v1/o/token/", data=login_data
+        adapter + request.get_host() + "/api/v1/o/token/", data=login_data
     )
+
+    
     if response.status_code == 200:
         my_response = response.json()
         my_response["sessionid"] = user.id
-        group_name = user.groups.first().name
 
-        return JsonResponse(set_user_pemission(my_response, group_name))
+        my_response.update(get_user_pemission(user))
+        return JsonResponse(my_response)
 
     return JsonResponse(response.json(), status=response.status_code)
 
 
-def set_user_pemission(data: dict, group_name: str) -> dict:
+def check_user_exists(my_email: str):
+    """
+    Return the user object data based on the email.
+    """
+    # Filtro da aplicacao do cliente na base de dados
+    # de modo a obter o client ID e o cliente secret
+    user = User.objects.filter(email=my_email).first()
+
+    return user
+
+
+def get_user_pemission(user: object) -> dict:
     """This function returns the permission type for the user based on the group name.
     
         Parameters:
-            data (dict):Initial data of the user
             group_name (str):The group name of the user to set is permission
 
         Returns:
             data (dict):The new user data dict with is permission sets
     """
+    group_name = user.groups.first().name
+    data = {}
     data["is_gestor"] = False
     data["is_parceiro"] = False
     data["is_operador"] = False
