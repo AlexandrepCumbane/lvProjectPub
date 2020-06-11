@@ -89,7 +89,6 @@ class UserLoginTestCase(TestCase):
 
 
 class UserAPITestCase(TestCase):
-
     def setUp(self):
         self.client = APIClient()
         user = User.objects.create(
@@ -100,13 +99,11 @@ class UserAPITestCase(TestCase):
         user.set_password(user.password)
         user.save()
 
-        gestor = Group.objects.get(name='Gestor')
+        gestor = Group.objects.get(name="Gestor")
         gestor.user_set.add(user)
 
-        user_me = User.objects.get(username='vasco')
+        user_me = User.objects.get(username="vasco")
         self.client.force_authenticate(user=user_me)
-
-
 
     def test_create_user_from_api(self):
         user = {
@@ -114,20 +111,20 @@ class UserAPITestCase(TestCase):
             "password": "Test123.",
             "first_name": "vasco",
             "last_name": "xavier",
-            "email": "vasco@gmail.com"
+            "email": "vasco@gmail.com",
         }
 
         response = self.client.post("/api/v1/users/", user)
 
         self.assertEquals(response.status_code, 200)
-    
+
     def test_cant_create_user_without_username(self):
 
         user = {
             "password": "Test123.",
             "first_name": "vasco",
             "last_name": "xavier",
-            "email": "vasco@gmail.com"
+            "email": "vasco@gmail.com",
         }
 
         client = APIClient()
@@ -135,7 +132,7 @@ class UserAPITestCase(TestCase):
         response = self.client.post("/api/v1/users/", user)
 
         self.assertEquals(response.status_code, 400)
-    
+
     def test_edit_user_email(self):
 
         user = {
@@ -143,17 +140,19 @@ class UserAPITestCase(TestCase):
             "password": "Test123.",
             "first_name": "vasco",
             "last_name": "xavier",
-            "email": "vasco@gmail.com"
+            "email": "vasco@gmail.com",
         }
 
         user_created = User(**user)
         user_created.set_password(user_created.password)
         user_created.save()
 
-        response = self.client.put("/api/v1/users/{0}/".format(user_created.id), {"email": "bonus@mail.com"})
+        response = self.client.put(
+            "/api/v1/users/{0}/".format(user_created.id), {"email": "bonus@mail.com"}
+        )
 
         self.assertEquals(response.status_code, 200)
-    
+
     def test_list_users(self):
         response = self.client.get("/api/v1/users/")
         self.assertEquals(response.status_code, 200)
