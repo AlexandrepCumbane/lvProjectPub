@@ -9,6 +9,10 @@ if socket.gethostname() == 'YOUR HOSTNAME':	#ensure your local machine hostname 
     ALLOWED_HOSTS = ['*']
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+    """
+    Database configuration for postgresql and django
+    NOTE: The credentials bellow only apply if you are using docker containers change, if nescessary
+    """
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
