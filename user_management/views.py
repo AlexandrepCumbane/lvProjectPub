@@ -22,10 +22,7 @@ def generate_token(request):
         # nao pode fazer login
         return JsonResponse({"errors": "Invalid Credentials"}, status=401)
 
-    login_data = {
-        "username": user.username,
-        "password": request.data['password']
-    }
+    login_data = {"username": user.username, "password": request.data["password"]}
 
     adapter = "https://" if request.is_secure() else "http://"
 
@@ -34,7 +31,6 @@ def generate_token(request):
         adapter + request.get_host() + "/api/v1/o/token/", data=login_data
     )
 
-    
     if response.status_code == 200:
         my_response = response.json()
         my_response["sessionid"] = user.id

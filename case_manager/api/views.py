@@ -1,4 +1,3 @@
-
 import pprint
 from datetime import datetime
 from django.contrib.auth.models import Group, User
@@ -59,13 +58,10 @@ from case_manager.models import (
     Vulnerability,
     TaskStatus,
     TransfereModality,
-    SourceOfInformation
+    SourceOfInformation,
 )
 
-from location_management.models import (
-    Province,
-    District
-)
+from location_management.models import Province, District
 
 
 from case_manager import utils
@@ -201,7 +197,7 @@ class CaseViewset(ModelViewSet):
             # verify if the cases variable data is instance of list
             if isinstance(cases, list):
                 operation_stats = {"success": 0, "failed": 0}
-                print('List: ', len(cases))
+                print("List: ", len(cases))
                 for item in cases:
                     case_id = item["Number"]  # retrive value from excel column
                     data = {
@@ -226,9 +222,9 @@ class CaseViewset(ModelViewSet):
             return Response({"success": operation_stats})
         except KeyError as error:
             pass
-            #print('Error: ', error)
+            # print('Error: ', error)
 
-        print('Not_saved: ', not_saved)
+        print("Not_saved: ", not_saved)
         return Response({"errors": "Invalid request data"}, status=400)
 
     def _update_case(self, case_id: str, case) -> bool:
@@ -273,7 +269,7 @@ class CaseViewset(ModelViewSet):
             if not contactor["is_saved"]:
                 return Response({"error": "Erro ao gravar contactant"}, status=400)
 
-            case["contactor"] = contactor['contactor_id']
+            case["contactor"] = contactor["contactor_id"]
             case["created_by"] = request.user.id
             case_serializer = CaseSerializer(data=case)
 
@@ -674,31 +670,34 @@ class DropdownsViewSet(ViewSet):
 
 
 def format_date(date):
-    date_object = ''
-    try: 
+    date_object = ""
+    try:
         date_object = datetime.strptime(date, "%d/%m/%Y %I:%M:%S")
     except ValueError as error:
         date_object = datetime.strptime(date, "%d/%m/%Y %I:%M %p")
     return date_object
 
+
 def bool_values(val):
-    if val == 'no' or val == 0:
+    if val == "no" or val == 0:
         return False
-    elif val == 'yes' or val == 1:
+    elif val == "yes" or val == 1:
         return True
     else:
         return False
 
+
 def verify_mull(item, field):
     try:
-        if field == 'alternative_number' or field == 'contact' or field == 'community':
+        if field == "alternative_number" or field == "contact" or field == "community":
             return item[field]
         else:
-            return item[field].replace('IDAI_', "").replace('_', " ")
+            return item[field].replace("IDAI_", "").replace("_", " ")
     except KeyError as error:
-        if field == 'alternative_number':
-            print('Error: ', error)
-        return '***'
+        if field == "alternative_number":
+            print("Error: ", error)
+        return "***"
+
 
 def verify_mull_boolean(item, field):
     try:
@@ -706,47 +705,56 @@ def verify_mull_boolean(item, field):
     except KeyError:
         return 0
 
+
 def verify_mull_bool(item, field):
     try:
         return item[field]
     except KeyError:
-        return 'no'
+        return "no"
+
 
 def get_age(age):
 
-    if age == '_17':
-        return Ages.objects.get(name='17 and below')
-    elif age == '60_':
-        return Ages.objects.get(name='60 and above')
-    else: 
-        return Ages.objects.get(name='18 - 59')
+    if age == "_17":
+        return Ages.objects.get(name="17 and below")
+    elif age == "60_":
+        return Ages.objects.get(name="60 and above")
+    else:
+        return Ages.objects.get(name="18 - 59")
+
 
 def get_camp(age):
 
-    if age == 'no':
-        return 'N'
-    elif age == 'yes':
-        return 'Y'
-    else: 
-        return 'NR'
+    if age == "no":
+        return "N"
+    elif age == "yes":
+        return "Y"
+    else:
+        return "NR"
+
 
 def get_programme(item):
-    programme = verify_mull(item, 'program')
+    programme = verify_mull(item, "program")
     try:
         return Programme.objects.get(name__iexact=programme)
     except Exception as error:
         try:
             return Programme.objects.get(name=programme)
         except Exception as error:
-            return Programme.objects.filter(name='Other').first()
+            return Programme.objects.filter(name="Other").first()
+
 
 def get_category(item):
 
-    category = verify_mull(item, 'category')
-    category = 'Request for information' if category == 'CoronaVirus' else category
-    category = 'Request for information' if category == 'information request' else category
-    category = 'Request for assistence' if category == 'assistance request' else category    
-    
+    category = verify_mull(item, "category")
+    category = "Request for information" if category == "CoronaVirus" else category
+    category = (
+        "Request for information" if category == "information request" else category
+    )
+    category = (
+        "Request for assistence" if category == "assistance request" else category
+    )
+
     try:
         return Category.objects.get(name__iexact=category)
     except Exception as error:
@@ -756,18 +764,25 @@ def get_category(item):
             try:
                 return Category.objects.get(name=category)
             except Exception:
-                return SubCategory.objects.filter(name='Other').first()
+                return SubCategory.objects.filter(name="Other").first()
 
 
 def get_sub_category(item):
     """
     Impact of Covid-19 on program
     """
-    category = verify_mull(item, 'sub_category')
-    category = 'Impact of Covid-19 on program' if category == 'Corona virus Prevencao' or category == 'Corona virus Tratamento' or category == 'Covid 19 Propagacao no pais' or category =='Corona virus Sintomas' else category
-    category = 'Myths' if category == 'coronna virus mitos' else category
-    category = 'Exclusion Error' if category == 'inclusion error' else category
-    category = 'Abuse of power' if category == 'fraud diversion misuse' else category
+    category = verify_mull(item, "sub_category")
+    category = (
+        "Impact of Covid-19 on program"
+        if category == "Corona virus Prevencao"
+        or category == "Corona virus Tratamento"
+        or category == "Covid 19 Propagacao no pais"
+        or category == "Corona virus Sintomas"
+        else category
+    )
+    category = "Myths" if category == "coronna virus mitos" else category
+    category = "Exclusion Error" if category == "inclusion error" else category
+    category = "Abuse of power" if category == "fraud diversion misuse" else category
 
     try:
         return SubCategory.objects.get(name__iexact=category)
@@ -778,20 +793,21 @@ def get_sub_category(item):
             try:
                 return SubCategory.objects.get(name=category)
             except Exception:
-                return SubCategory.objects.get(name='Other')
+                return SubCategory.objects.get(name="Other")
 
 
 def get_status(val):
 
     if val:
-        return CaseStatus.objects.get(name__iexact='Closed')
+        return CaseStatus.objects.get(name__iexact="Closed")
     else:
-        return CaseStatus.objects.get(name__iexact='In Progress')
+        return CaseStatus.objects.get(name__iexact="In Progress")
+
 
 def get_field(Model, item):
 
-    category = 'NFI' if item == 'Non food items' else item
-    category = 'Benificiary' if item == 'beneficiary directly' else item
+    category = "NFI" if item == "Non food items" else item
+    category = "Benificiary" if item == "beneficiary directly" else item
     try:
         return Model.objects.get(name__iexact=category)
     except Exception as error:
@@ -801,5 +817,4 @@ def get_field(Model, item):
             try:
                 return Model.objects.get(name=category)
             except Exception:
-                return Model.objects.filter(name='Other').first()
-
+                return Model.objects.filter(name="Other").first()

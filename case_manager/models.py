@@ -230,7 +230,9 @@ class Case(models.Model):
     )
 
     camp = models.CharField(
-        choices=[("Y", "YES"), ("N", "NO"),  ("NR", "NOT RELEVANT")], max_length=25, default="N"
+        choices=[("Y", "YES"), ("N", "NO"), ("NR", "NOT RELEVANT")],
+        max_length=25,
+        default="N",
     )
     case_id = models.CharField(max_length=20, unique=True)
     other_category = models.CharField(max_length=200, null=True, blank=True)
