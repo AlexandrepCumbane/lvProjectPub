@@ -17,9 +17,17 @@ class UserReportTestCase(TestCase):
         self.client.force_authenticate(user=user)
 
     def test_can_list_user_general_reports(self):
+        """
+        Test if its possible to read the general-reports
+        data from the general reports endpoints in API.
+        """
         response = self.client.get("/api/v1/general-reports/")
         self.assertEqual(response.status_code, 200)
 
     def test_can_list_user_dashboard_reports(self):
+        """
+        Test if its possible to read the dashboard data from
+        a user with credentails.
+        """
         response = self.client.get("/api/v1/dashboard-reports/")
         self.assertEqual(response.status_code, 200)
