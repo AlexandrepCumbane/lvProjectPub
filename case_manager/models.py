@@ -49,17 +49,19 @@ class SubCategory(models.Model):
 
 
 class CategoryIssue(models.Model):
-    name = models.CharField(max_length=200 ) #, unique=True)
+    name = models.CharField(max_length=200)  # , unique=True)
     category = models.ForeignKey(SubCategory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name
 
+
 class HowCaseClose(models.Model):
     name = models.CharField(max_length=200, unique=True)
-    
+
     def __str__(self):
         return self.name
+
 
 class ResolutionCategory(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -126,9 +128,9 @@ class Contactor(models.Model):
     alternative_number = models.CharField(
         default="", max_length=25, blank=True, null=True
     )
-    contact = models.CharField(max_length=100)
+    contact = models.CharField(max_length=100, default="", null=True, blank=True)
     fdp = models.CharField(max_length=200, default="", null=True, blank=True)
-    full_name = models.CharField(max_length=300)
+    full_name = models.CharField(max_length=300, default="", null=True, blank=True)
 
     # Foreign Keys
     age = models.ForeignKey(
@@ -153,7 +155,7 @@ class Contactor(models.Model):
         blank=True,
     )
     province = models.ForeignKey(
-        Province, on_delete=models.CASCADE, related_name="contactor"
+        Province, on_delete=models.SET_NULL, related_name="contactor", null=True
     )
 
 
@@ -223,10 +225,14 @@ class Case(models.Model):
     case_call = models.TextField(max_length=20, default="", blank=True)
     solution = models.TextField(max_length=1000, default="", blank=True)
     focal_point_notes = models.TextField(max_length=100, default="")
-    how_case_close = models.TextField(max_length=1000, default="", null=True,blank=True)
+    how_case_close = models.TextField(
+        max_length=1000, default="", null=True, blank=True
+    )
 
     camp = models.CharField(
-        choices=[("Y", "YES"), ("N", "NO"),  ("NR", "NOT RELEVANT")], max_length=25, default="N"
+        choices=[("Y", "YES"), ("N", "NO"), ("NR", "NOT RELEVANT")],
+        max_length=25,
+        default="N",
     )
     case_id = models.CharField(max_length=20, unique=True)
     other_category = models.CharField(max_length=200, null=True, blank=True)
@@ -262,12 +268,9 @@ class Case(models.Model):
     customer_satisfaction = models.ForeignKey(
         CustomerSatisfaction, on_delete=models.SET_NULL, null=True, related_name="cases"
     )
-    
+
     how_case_was_closed = models.ForeignKey(
-        HowCaseClose,
-        on_delete=models.SET_NULL,
-        related_name="cases",
-        null=True,
+        HowCaseClose, on_delete=models.SET_NULL, related_name="cases", null=True,
     )
 
     how_would_you_like_to_be_contacted = models.ForeignKey(

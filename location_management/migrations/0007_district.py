@@ -7,18 +7,34 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('location_management', '0006_location_location_type'),
+        ("location_management", "0006_location_location_type"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='District',
+            name="District",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=25)),
-                ('codigo', models.CharField(max_length=25)),
-                ('parent_code', models.CharField(max_length=25)),
-                ('province', models.ForeignKey(default=None, null=True, on_delete=django.db.models.deletion.SET_NULL, to='location_management.Province')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=25)),
+                ("codigo", models.CharField(max_length=25)),
+                ("parent_code", models.CharField(max_length=25)),
+                (
+                    "province",
+                    models.ForeignKey(
+                        default=None,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="location_management.Province",
+                    ),
+                ),
             ],
         ),
     ]

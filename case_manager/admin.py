@@ -37,21 +37,27 @@ from case_manager.models import (
 """
 @ Model Resources 
 """
+
+
 class AgeResource(resources.ModelResource):
     class Meta:
         model = Ages
+
 
 class CaseResource(resources.ModelResource):
     class Meta:
         model = Case
 
+
 class CasePriorityResource(resources.ModelResource):
     class Meta:
         model = CasePriority
 
+
 class CaseStatusResource(resources.ModelResource):
     class Meta:
         model = CaseStatus
+
 
 class CategoryResource(resources.ModelResource):
     class Meta:
@@ -63,22 +69,25 @@ class AgeAdmin(ImportExportActionModelAdmin):
     resource_class = AgeResource
     pass
 
+
 class CaseAdmin(ImportExportActionModelAdmin):
     resource_class = CaseResource
     pass
+
 
 class CasePriorityAdmin(ImportExportActionModelAdmin):
     resource_class = CasePriorityResource
     pass
 
+
 class CaseStatusAdmin(ImportExportActionModelAdmin):
     resource_class = CaseStatusResource
     pass
 
+
 class CategoryAdmin(ImportExportActionModelAdmin):
     resource_class = CategoryResource
     pass
-
 
 
 admin.autodiscover()

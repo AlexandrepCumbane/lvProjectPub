@@ -15,6 +15,50 @@ ALLOWED_HOSTS = [
     "linhaverde-staging.herokuapp.com"
 ]
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
+        "simple": {"format": "{levelname} {message}", "style": "{",},
+    },
+    "filters": {"require_debug_true": {"()": "django.utils.log.RequireDebugTrue",},},
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "filters": ["require_debug_true"],
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        "mail_admins": {
+            "level": "ERROR",
+            "class": "django.utils.log.AdminEmailHandler",
+            "email_backend": "django.core.mail.backends.smtp.EmailBackend",
+            "include_html": True,
+        },
+        # Add Handler for Sentry for `warning` and above
+        "sentry": {
+            "level": "WARNING",
+            "class": "raven.contrib.django.raven_compat.handlers.SentryHandler",
+        },
+    },
+    "loggers": {
+        # root logger
+        "": {"level": "WARNING", "handlers": ["console", "sentry"],},
+        "django": {
+            "handlers": ["console"],
+            "propagate": os.environ.get("DEBUG", True),
+        },
+        "django.request": {
+            "handlers": ["mail_admins", "sentry"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+    },
+}
 
 # Parse database configuration from $DATABASE_URL
 DATABASES = {}

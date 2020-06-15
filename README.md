@@ -8,50 +8,68 @@ Para correr o projecto django primeiro e nescessario criar o ambiente virtual
 
 ### Criando ambiente virtual em linux
 
-`python3 -m venv venv`
+    python3 -m venv venv
 
 ### Criando ambiente virtual no windows
 
-`py -3 -m venv venv`
+    py -3 -m venv venv
 
 Se você precisou instalar o virtualenv porque está em uma versão mais antiga do Python, use o seguinte comando:
 
-`virtualenv venv`
+    virtualenv venv
 No Windows:
 
-`\Python27\Scripts\virtualenv.exe venv`
+    \Python27\Scripts\virtualenv.exe venv
 
 ## Activar o ambiente virtual
 
 Antes de trabalhar em seu projeto, ative o ambiente correspondente:
 
-    >source venv/bin/activate
+    source venv/bin/activate
 No Windows:
 
-    >./venv/Scripts/activate.bat
+    ./venv/Scripts/activate.bat
 
 ## Instalando dependencias do projecto
 
 Uma vez dentro do ambiente virtual do projecto django na raiz
 do projecto corra o comando para install as dependecias django:
 
-    >pip install  -r requirements.txt
+    pip install  -r requirements.txt
 
 ## Configuracao do settings_local.py
 
 Apos instalar todas as dependecias devemos configurar o nosso settings local para conseguirmos correr o projecto com sucesso,
 na raiz do projecto veremos o ficheiro __settings_local.template__. Faca uma copia deste ficheiro para a pasta __callcenter__ e renomei a extensao para __.py__ preencha os campos nescessarios de variaveis do ambiente de forma a finalizar as configuracoes e o projecto estara pronto para correr o mesmo.
 
+## Configuracao do projecto com Docker
+
+Caso nao queira fazer as configuracoes nescessarias no seu computador tambem podera correr a aplicacao utilizando o __Docker__.
+
+### Requisitos para correr a aplicacao com o Docker
+ - [Docker](https://docs.docker.com/get-docker/)
+ - [Docker Compose](https://docs.docker.com/compose/install/)
+
+Apos ter o __docker__ e o __docker-compose__ instalado e a correr no seu
+sistema operativo, na raiz do projecto atraves do terminal digite o seguinte comando:
+
+    docker-compose up
+
+Ou
+
+    sudo docker-compose up
+
+
 ## Criando as tabelas nescessarias para o projecto
 
 Apos configurar __settings_local.py__ sera nescessario fazer o __migrate__ das tabelas da projecto,
 de forma que possa prosseguir com os proximos passos da aplicacao, para isso digite os comandos abaixo:
 
-    >python manage.py migrate
+    ./manage.py migrate
 
 Apos fazer o migrate das tabelas sera nescessario carregar os dados inicias da aplicacao que estao na
 pasta __fixtures__ atraves do comando:
-    >python manage.py loaddata groups users data
+    >python manage.py loaddata groups data
 
 ## Correndo o projecto django
 

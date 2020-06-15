@@ -8,6 +8,7 @@ class Province(models.Model):
     def __str__(self):
         return self.name
 
+
 class District(models.Model):
     name = models.CharField(max_length=25)
     province = models.ForeignKey(
@@ -18,6 +19,7 @@ class District(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class PostoAdministrativo(models.Model):
     name = models.CharField(max_length=25)
