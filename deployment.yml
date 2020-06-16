@@ -46,9 +46,9 @@ spec:
             - name: http
               containerPort: 8000
               protocol: TCP
-              volumeMounts:
-        - name: linhaverde-volume
-          mountPath: /etc/linhaverdestore
+          volumeMounts:
+            - name: linhaverde-volume
+              mountPath: /etc/linhaverdestore
       volumes:
         - name: linhaverde-volume
           secret:
