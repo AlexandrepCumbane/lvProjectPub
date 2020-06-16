@@ -206,6 +206,7 @@ class CaseViewset(ModelViewSet):
                             case_id=item['case_id'],
                             case_uuid=item['case_uuid'],
                             contactor=contactor,
+                            case_priority=CasePriority.objects.get(name="High"),
                             created_by=get_user(username, item['case_uuid']),
                             case_closed=bool_values(verify_mull_bool(item, 'case_closed')),
                             call_require_callback_for_feedback=bool_values(verify_mull_bool(item, 'call_require_callback_for_feedback')),
