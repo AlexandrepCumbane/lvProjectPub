@@ -206,7 +206,7 @@ class CaseViewset(ModelViewSet):
                             case_id=item['case_id'],
                             case_uuid=item['case_uuid'],
                             contactor=contactor,
-                            created_by=User.objects.get(username=username),
+                            created_by=get_user(username, item['case_uuid']),
                             case_closed=bool_values(verify_mull_bool(item, 'case_closed')),
                             call_require_callback_for_feedback=bool_values(verify_mull_bool(item, 'call_require_callback_for_feedback')),
                             caller_not_reached_for_feedback=bool_values(verify_mull_bool(item, 'caller_not_reached_for_feedback')),
@@ -786,6 +786,19 @@ def get_status(val):
         return CaseStatus.objects.get(name__iexact='Closed')
     else:
         return CaseStatus.objects.get(name__iexact='In Progress')
+
+def get_user(username, password):
+
+    try:
+        return User.objects.get(username=username)
+    except Exception as error:
+        user = User.objects.create(
+                        username=username,
+                        password=password
+        )
+        user.save()
+        print('User: ', user)
+        return User.objects.get(username=username)
 
 def get_field(Model, item):
 
