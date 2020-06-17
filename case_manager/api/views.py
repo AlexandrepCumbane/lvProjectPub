@@ -1,4 +1,4 @@
-
+import dateutil.parser
 import pprint
 from datetime import datetime
 from django.contrib.auth.models import Group, User
@@ -199,6 +199,11 @@ class CaseViewset(ModelViewSet):
                             community=verify_mull(item, 'community'),
                             fdp=verify_mull(item, 'fdp'),
                         )
+                        print('Date: ', (item['created_at']))
+                        #print('Date: ', datetime.fromtimestamp(item['created_at']))
+
+                        #date_time_str = item['created_at']
+                        #date_time_obj = datetime.strptime(date_time_str, '%Y/%m/%d %H:%M:%S')
                         contactor.save()
                         username = verify_mull_bool(item, 'created_by')
                         username = username if username != 'CFM Operator3' else 'CFM_Operator3'
@@ -212,8 +217,9 @@ class CaseViewset(ModelViewSet):
                             call_require_callback_for_feedback=bool_values(verify_mull_bool(item, 'call_require_callback_for_feedback')),
                             caller_not_reached_for_feedback=bool_values(verify_mull_bool(item, 'caller_not_reached_for_feedback')),
                             received_assistence=bool_values(verify_mull_bool(item, 'received_assistence')),
-                            #created_at=datetime.fromtimestamp(item['created_at']),
+                            created_at=dateutil.parser.parse(item['created_at']),
                             #closed_at=datetime.fromtimestamp(item['closed_at']),
+                            how_knows_us=get_field(HowDoYouHearAboutUs, verify_mull(item, 'how_knows_us')),
                             resettlement_name=verify_mull(item, 'resettlement_name'), 
                             call_note=verify_mull(item, 'call_note'),   
                             solution=verify_mull(item, 'call_solution'),
@@ -296,7 +302,8 @@ class CaseViewset(ModelViewSet):
         try:
             contactor = request.data["contactor"]
             case = request.data["case"]
-
+            case['created_at'] = timezone.datetime.now().date()
+            print(case['created_at'])
             #case["case_status"] = CaseStatus.objects.get(name="Not Started").id
             case["case_priority"] = CasePriority.objects.get(name="High").id
 
