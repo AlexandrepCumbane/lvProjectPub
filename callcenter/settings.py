@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "django_filters",
     "import_export",
-    #"oauth2_provider",
+    # "oauth2_provider",
     # My Apps
     "case_manager",
     "location_management",

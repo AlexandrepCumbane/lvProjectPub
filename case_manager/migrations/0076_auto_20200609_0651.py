@@ -6,13 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0075_case_case_call'),
+        ("case_manager", "0075_case_case_call"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='case',
-            name='camp',
-            field=models.CharField(choices=[('Y', 'YES'), ('N', 'NO'), ('NR', 'NOT RELEVANT')], default='N', max_length=25),
+            model_name="case",
+            name="camp",
+            field=models.CharField(
+                choices=[("Y", "YES"), ("N", "NO"), ("NR", "NOT RELEVANT")],
+                default="N",
+                max_length=25,
+            ),
         ),
     ]

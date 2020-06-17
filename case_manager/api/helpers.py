@@ -33,66 +33,86 @@ from posts_management.models import PostCategory, PostLanguage
 
 
 class UserType(Enum):
+    """The UserType instance contains constants of user type groups"""
+
     OPERATOR = "Operador"
     FOCAL_POINT = "Ponto Focal"
     GESTOR = "Gestor"
 
 
 class DropdownData(object):
+    """Dropdown instance holds data in the key, value format about something"""
+
     def __init__(self, **kwargs):
+        """Initialize the Dropdown instance object
+
+            Parameters:
+                key (str):Represents the key of the data do be hold
+                value (list): represents the list of value holded
+        """
         self.key = kwargs.get("key", None)
         self.value = kwargs.get("value", None)
 
 
-def filtrar_user_by_type(type_name):
-    operadores = User.objects.filter(groups__name__in=[type_name]).values(
-        "username", "id"
-    )
-    return operadores
+def filtrar_user_by_type(name: str) -> list:
+    """Filter a user group of user based on the groups name.
+
+        Parameters:
+            name (str): The name of the group to filter the users.
+
+        Returns:
+            returns a list of users the belongs to a certain group.
+    """
+    users = User.objects.filter(groups__name__in=[name]).values("username", "id")
+    return users
+
 
 def get_formatted_provinces():
     provinces = Province.objects.all().values()
     lista = []
-    
-    for province in provinces:
-        lista2=[]   
-        districts = District.objects.filter(
-            province=province['id']
-        ).values()
-	     
-        for district in districts:
-            lista3=""
-            postos = PostoAdministrativo.objects.filter(district=district['id']).values()
-            
-            for posto in postos:
-                locations = Location.objects.filter(parent_code=posto['codigo']).values()
-                #lista3.append(locations)
 
-                if(lista3==''):
+    for province in provinces:
+        lista2 = []
+        districts = District.objects.filter(province=province["id"]).values()
+
+        for district in districts:
+            lista3 = ""
+            postos = PostoAdministrativo.objects.filter(
+                district=district["id"]
+            ).values()
+
+            for posto in postos:
+                locations = Location.objects.filter(
+                    parent_code=posto["codigo"]
+                ).values()
+                # lista3.append(locations)
+
+                if lista3 == "":
                     lista3 = locations
                 else:
                     lista3 = lista3 | locations
-                
-            result = {
-                'district':district,
-                'location':lista3
-                }
-            
+
+            result = {"district": district, "location": lista3}
+
             lista2.append(result)
-            
-        result = {
-            'province':province,
-            'district':lista2
-            }
-        
+
+        result = {"province": province, "district": lista2}
+
         lista.append(result)
-    
+
     return lista
 
-def get_dropdowns():
+
+def get_dropdowns() -> list:
+    """
+        Return a list of data containing varios type of list object
+        present on the database.
+    """
     dropdowns = []
 
-    dropdowns.append(DropdownData(key="cases", value=Case.objects.values().order_by('-created_at')))
+    dropdowns.append(
+        DropdownData(key="cases", value=Case.objects.values().order_by("-created_at"))
+    )
     dropdowns.append(DropdownData(key="case_status", value=CaseStatus.objects.values()))
     dropdowns.append(
         DropdownData(key="case_priorities", value=CasePriority.objects.values())
@@ -105,28 +125,23 @@ def get_dropdowns():
     )
 
     dropdowns.append(
-        DropdownData(
-            key="districts", value=District.objects.values().order_by('name')
-        )
+        DropdownData(key="districts", value=District.objects.values().order_by("name"))
+    )
+
+    dropdowns.append(
+        DropdownData(key="province_alternative", value=get_formatted_provinces())
     )
 
     dropdowns.append(
         DropdownData(
-            key="province_alternative", value=get_formatted_provinces()
-        )
-    )
-
-    dropdowns.append(
-        DropdownData(
-            key="postos_administativos", value=PostoAdministrativo.objects.values().order_by('name')
+            key="postos_administativos",
+            value=PostoAdministrativo.objects.values().order_by("name"),
         )
     )
 
     dropdowns.append(DropdownData(key="genders", value=Gender.objects.values()))
     dropdowns.append(
-        DropdownData(
-            key="how_case_closed", value=HowCaseClose.objects.values()
-        )
+        DropdownData(key="how_case_closed", value=HowCaseClose.objects.values())
     )
     dropdowns.append(
         DropdownData(
@@ -179,13 +194,12 @@ def get_dropdowns():
     dropdowns.append(
         DropdownData(key="mecanism_used", value=MecanismUsed.objects.values())
     )
-    dropdowns.append(DropdownData(key="localities", value=Location.objects.values().order_by('name')))
     dropdowns.append(
-        DropdownData(
-            key="provinces", 
-            value=Province.objects.values().order_by('name')
-            )
-            )
+        DropdownData(key="localities", value=Location.objects.values().order_by("name"))
+    )
+    dropdowns.append(
+        DropdownData(key="provinces", value=Province.objects.values().order_by("name"))
+    )
     dropdowns.append(DropdownData(key="groups", value=Group.objects.values()))
     dropdowns.append(
         DropdownData(

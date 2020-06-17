@@ -59,13 +59,13 @@ from case_manager.models import (
     Vulnerability,
     TaskStatus,
     TransfereModality,
-    SourceOfInformation
+    SourceOfInformation,
 )
 
-from location_management.models import (
-    Province,
-    District
-)
+from location_management.models import Province, District
+
+
+from case_manager import utils
 
 
 class CasePriorityViewset(ListAPIView, ViewSet):
@@ -143,11 +143,15 @@ class CaseCommentsViewset(ModelViewSet):
     queryset = CaseComments.objects.prefetch_related("case")
 
     def create(self, request):
+        """Creates a CaseComment record on the database.
+        """
         case_referall = None
-        print("dados", request.data)
+
+        # Raise an exception if doesn't find a case referall key,value
         try:
             case_referall = request.data.pop("case_referall")
 
+            # iterate in the variable data if the data is instance of list
             if isinstance(case_referall, list):
                 for item in case_referall:
                     case_comment = request.data
@@ -169,21 +173,32 @@ class CaseCommentsViewset(ModelViewSet):
 
 class CaseViewset(ModelViewSet):
     serializer_class = CaseSerializer
-    queryset = Case.objects.select_related(
-        "case_priority", "category", "contactor", "created_by", "how_knows_us",
-    ).filter(is_deleted=False).order_by("-id")
+    queryset = (
+        Case.objects.select_related(
+            "case_priority", "category", "contactor", "created_by", "how_knows_us",
+        )
+        .filter(is_deleted=False)
+        .order_by("-id")
+    )
     filterset_class = CaseFilter
 
     @action(methods=["POST"], detail=False)
     def saveexcel(self, request):
-        
-        not_saved = []
+        """Update the data on the database submited in the xls format
+
+            Contraints:
+                returns 400 Response if the data submited doesn't
+                contains the list of cases to be updated
+        """
+
+        # Verify if the key cases in the request post body
         try:
             cases = request.data["cases"]
-             
+
+            # verify if the cases variable data is instance of list
             if isinstance(cases, list):
                 operation_stats = {"success": 0, "failed": 0}
-                print('List: ', len(cases))
+                print("List: ", len(cases))
                 for item in cases:
                     case_id = item["case_id"]
                     province = get_field(Province, verify_mull(item, 'province'))                    
@@ -255,29 +270,42 @@ class CaseViewset(ModelViewSet):
                     """
                     
                     data = {
-                        #"fdp": item["fdp"],
-                        "call_note": item["call_note"],
-                        #"solution": item["call_solution"],
-                        #"resettlement_name": item["resettlement_name"],
+                        "fdp": item["FDP"],  # retrive value from excel column
+                        "call_note": item[
+                            "Call note"
+                        ],  # retrive value from excel column
+                        "solution": item["Solution"],  # retrive value from excel column
+                        "resettlement_name": item[
+                            "Resettlement name"
+                        ],  # retrive value from excel column
                     }
-                    
-                    # result = self._update_case(case_id, data)
+                    result = self._update_case(case_id, data)
 
-                    #if result:
-                    #    operation_stats["success"] += operation_stats["success"]
-                    #else:
-                    #    operation_stats["failed"] += operation_stats["failed"]
-                 
-            print('Not_saved: ', not_saved)
+                    if result:
+                        operation_stats["success"] += operation_stats["success"]
+                    else:
+                        operation_stats["failed"] += operation_stats["failed"]
+            else:
+                return Response({"errors": "Invalid request data"}, status=400)
+
             return Response({"success": operation_stats})
         except KeyError as error:
             pass
-            #print('Error: ', error)
+            # print('Error: ', error)
 
-        print('Not_saved: ', not_saved)
+        print("Not_saved: ", not_saved)
         return Response({"errors": "Invalid request data"}, status=400)
 
     def _update_case(self, case_id: str, case) -> bool:
+        """Update a case on the database.
+        
+            Parameters:
+                case_id (str):The case_id of the case to be updated
+                case (dict): the case data to be updated on the database
+            
+            Returns:
+                Return True or false if the system was able to update the database.
+        """
         case_to_update = Case.objects.get(case_id=case_id)
         contactor = case_to_update.contactor
 
@@ -298,7 +326,6 @@ class CaseViewset(ModelViewSet):
         return False
 
     def create(self, request):
-        print("request", request.data)
         try:
             contactor = request.data["contactor"]
             case = request.data["case"]
@@ -307,12 +334,12 @@ class CaseViewset(ModelViewSet):
             #case["case_status"] = CaseStatus.objects.get(name="Not Started").id
             case["case_priority"] = CasePriority.objects.get(name="High").id
 
-            contactor_id = self.__save_contactor(contactor)
+            contactor = self._save_contactor(contactor)
 
-            if contactor_id == -1:
+            if not contactor["is_saved"]:
                 return Response({"error": "Erro ao gravar contactant"}, status=400)
 
-            case["contactor"] = contactor_id
+            case["contactor"] = contactor["contactor_id"]
             case["created_by"] = request.user.id
             case_serializer = CaseSerializer(data=case)
 
@@ -325,28 +352,55 @@ class CaseViewset(ModelViewSet):
             pass
         return super().create(request)
 
-    def __save_contactor(self, contactor):
+    def _save_contactor(self, contactor: dict) -> dict:
+        """Save a new Contactor on the database.
+
+            Parameters:
+                contactor (dict): The data of the contactor to be saved on the database.
+
+            Returns:
+                Returns true or false if the contactor is saved.
+        """
         contact_serializer = ContactorSerializer(data=contactor)
+
+        contactor_is_saved = False
+
         if contact_serializer.is_valid():
             contact_saved = contact_serializer.save()
-            return contact_saved.id
-        else:
-            return -1
+            contactor_is_saved = True
+            return {"is_saved": contactor_is_saved, "contactor_id": contact_saved.id}
 
-    def __update_contactor(self, contactor_data):
+        print(contact_serializer.errors)
+        return {"is_saved": contactor_is_saved, "contactor_id": 0}
+
+    def _update_contactor(self, contactor_data: dict) -> dict:
+        """Update the contactor data saved on the database.
+
+            Parameters:
+                contactor_data (dict): contains the new data of the contactor to be updated.
+            
+            Returns:
+                contactor_is_saved (bool):Return true or false if the contactor was updated.
+        """
         contactors = Contactor.objects.all()
         contactor = get_object_or_404(contactors, pk=contactor_data["id"])
         contact_serializer = ContactorSerializer(
             contactor, data=contactor_data, partial=True
         )
-        if contact_serializer.is_valid():
-            contact_saved = contact_serializer.save()
-            return contact_saved.id
-        else:
 
-            return -1
+        contactor_is_saved = False
+
+        if contact_serializer.is_valid():
+            contact_serializer.save()
+            contactor_is_saved = True
+            return contactor_is_saved
+
+        return contactor_is_saved
 
     def destroy(self, request, pk=None):
+        """Disable user to see case of delete request method on the API.
+        """
+
         case = get_object_or_404(self.queryset, pk=pk)
         case.is_deleted = True
         case_serializer = CaseSerializerFull(case)
@@ -356,10 +410,8 @@ class CaseViewset(ModelViewSet):
 
         my_queryset = self.get_queryset()
 
-        if (
-            request.user.groups.filter(name="Gestor").count() == 0
-            and request.user.is_superuser is False
-        ):
+        is_gestor = utils.is_user_type_gestor(request)
+        if is_gestor and request.user.is_superuser is False:
             my_queryset = self.queryset.filter(
                 Q(created_by=request.user)
                 | Q(focal_points__user__id__in=(request.user.id,))
@@ -375,7 +427,9 @@ class CaseViewset(ModelViewSet):
         """
         List cases that a referred to a partner
         """
-        pages = self.paginate_queryset(self.get_queryset().filter(case_forwarded=True).order_by("-id"))
+        pages = self.paginate_queryset(
+            self.get_queryset().filter(case_forwarded=True).order_by("-id")
+        )
         response = CaseSerializerFull(pages, many=True)
 
         return self.get_paginated_response(response.data)
@@ -385,7 +439,9 @@ class CaseViewset(ModelViewSet):
         """
         List cases that are openned
         """
-        pages = self.paginate_queryset(self.get_queryset().filter(case_closed=False).order_by("-id"))
+        pages = self.paginate_queryset(
+            self.get_queryset().filter(case_closed=False).order_by("-id")
+        )
         response = CaseSerializerFull(pages, many=True)
 
         return self.get_paginated_response(response.data)
@@ -411,20 +467,23 @@ class CaseViewset(ModelViewSet):
         try:
             case = request.data["case"]
             contactor = request.data["contactor"]
-            contactor_id = self.__update_contactor(contactor)
+            contactor_is_updated = self._update_contactor(contactor)
 
             try:
                 is_closed = case["case_closed"]
-                print("fechou", is_closed)
+
+                """
+                    Verify the case_closed key value of the data
+                    and if is true update the case status to closed
+                """
                 if is_closed:
                     case["case_status"] = (
                         CaseStatus.objects.filter(name__icontains="closed").first().id
                     )
-                    print("status", case["case_status"])
             except KeyError:
                 print("chave nao encontrada")
 
-            if contactor_id == -1:
+            if not contactor_is_updated:
                 return Response(
                     {"errors": "Houve um erro ao alterar os dados do contactante"},
                     status=400,
@@ -465,7 +524,9 @@ class CaseViewset(ModelViewSet):
 
 class CaseTaskViewset(ModelViewSet):
     serializer_class = CaseTaskSerializer
-    queryset = CaseTask.objects.select_related("case", "status", "assigned_to").order_by("-id")
+    queryset = CaseTask.objects.select_related(
+        "case", "status", "assigned_to"
+    ).order_by("-id")
     filterset_class = CaseTaskFilter
 
     def create(self, request):
@@ -494,17 +555,17 @@ class CaseTaskViewset(ModelViewSet):
     def list(self, request):
         my_queryset = self.get_queryset()
 
-        if (
-            request.user.groups.filter(name__icontains="Gestor").count() == 0
-            and request.user.is_superuser is False
-        ):
+        is_gestor = utils.is_user_type_gestor(request)
+        if is_gestor:
             """
                 This query filters task for today and tasks that are
                 Not completed at all
             """
-            my_queryset = self.queryset.filter(assigned_to=request.user).exclude(
-                Q(status__name__icontains="completed")
-            ).order_by("-id")
+            my_queryset = (
+                self.queryset.filter(assigned_to=request.user)
+                .exclude(Q(status__name__icontains="completed"))
+                .order_by("-id")
+            )
             my_queryset = my_queryset | self.queryset.filter(
                 created_at__date=timezone.datetime.now().date()
             )
@@ -595,10 +656,9 @@ class CaseReferallViewset(ModelViewSet):
     def list(self, request):
         my_queryset = self.get_queryset()
         user = request.user
-        if (
-            user.groups.filter(name="Gestor").count() == 0
-            and request.user.is_superuser is False
-        ):
+        is_gestor = utils.is_user_type_gestor(request)
+
+        if is_gestor:
             my_entity = user.referall_entity.first()
             my_queryset = my_queryset.filter(referall_entity=my_entity).distinct(
                 "case__id"
@@ -615,10 +675,9 @@ class CaseReferallViewset(ModelViewSet):
         my_groups = request.user.groups.all()
         user = request.user
 
-        if (
-            my_groups.filter(name="Gestor").count() == 0
-            and request.user.is_superuser is False
-        ):
+        is_gestor = utils.is_user_type_gestor(request)
+
+        if is_gestor:
             my_entity = user.referall_entity.first()
             my_queryset = self.queryset.filter(referall_entity=my_entity)
         elif my_groups.filter(name="Operador").count() != 0:
@@ -681,31 +740,34 @@ class DropdownsViewSet(ViewSet):
 
 
 def format_date(date):
-    date_object = ''
-    try: 
+    date_object = ""
+    try:
         date_object = datetime.strptime(date, "%d/%m/%Y %I:%M:%S")
     except ValueError as error:
         date_object = datetime.strptime(date, "%d/%m/%Y %I:%M %p")
     return date_object
 
+
 def bool_values(val):
-    if val == 'no' or val == 0:
+    if val == "no" or val == 0:
         return False
-    elif val == 'yes' or val == 1:
+    elif val == "yes" or val == 1:
         return True
     else:
         return False
 
+
 def verify_mull(item, field):
     try:
-        if field == 'alternative_number' or field == 'contact' or field == 'community':
+        if field == "alternative_number" or field == "contact" or field == "community":
             return item[field]
         else:
-            return item[field].replace('IDAI_', "").replace('_', " ")
+            return item[field].replace("IDAI_", "").replace("_", " ")
     except KeyError as error:
-        if field == 'alternative_number':
-            print('Error: ', error)
-        return '***'
+        if field == "alternative_number":
+            print("Error: ", error)
+        return "***"
+
 
 def verify_mull_boolean(item, field):
     try:
@@ -713,47 +775,56 @@ def verify_mull_boolean(item, field):
     except KeyError:
         return 0
 
+
 def verify_mull_bool(item, field):
     try:
         return item[field]
     except KeyError:
-        return 'no'
+        return "no"
+
 
 def get_age(age):
 
-    if age == '_17':
-        return Ages.objects.get(name='17 and below')
-    elif age == '60_':
-        return Ages.objects.get(name='60 and above')
-    else: 
-        return Ages.objects.get(name='18 - 59')
+    if age == "_17":
+        return Ages.objects.get(name="17 and below")
+    elif age == "60_":
+        return Ages.objects.get(name="60 and above")
+    else:
+        return Ages.objects.get(name="18 - 59")
+
 
 def get_camp(age):
 
-    if age == 'no':
-        return 'N'
-    elif age == 'yes':
-        return 'Y'
-    else: 
-        return 'NR'
+    if age == "no":
+        return "N"
+    elif age == "yes":
+        return "Y"
+    else:
+        return "NR"
+
 
 def get_programme(item):
-    programme = verify_mull(item, 'program')
+    programme = verify_mull(item, "program")
     try:
         return Programme.objects.get(name__iexact=programme)
     except Exception as error:
         try:
             return Programme.objects.get(name=programme)
         except Exception as error:
-            return Programme.objects.filter(name='Other').first()
+            return Programme.objects.filter(name="Other").first()
+
 
 def get_category(item):
 
-    category = verify_mull(item, 'category')
-    category = 'Request for information' if category == 'CoronaVirus' else category
-    category = 'Request for information' if category == 'information request' else category
-    category = 'Request for assistence' if category == 'assistance request' else category    
-    
+    category = verify_mull(item, "category")
+    category = "Request for information" if category == "CoronaVirus" else category
+    category = (
+        "Request for information" if category == "information request" else category
+    )
+    category = (
+        "Request for assistence" if category == "assistance request" else category
+    )
+
     try:
         return Category.objects.get(name__iexact=category)
     except Exception as error:
@@ -763,18 +834,25 @@ def get_category(item):
             try:
                 return Category.objects.get(name=category)
             except Exception:
-                return SubCategory.objects.filter(name='Other').first()
+                return SubCategory.objects.filter(name="Other").first()
 
 
 def get_sub_category(item):
     """
     Impact of Covid-19 on program
     """
-    category = verify_mull(item, 'sub_category')
-    category = 'Impact of Covid-19 on program' if category == 'Corona virus Prevencao' or category == 'Corona virus Tratamento' or category == 'Covid 19 Propagacao no pais' or category =='Corona virus Sintomas' else category
-    category = 'Myths' if category == 'coronna virus mitos' else category
-    category = 'Exclusion Error' if category == 'inclusion error' else category
-    category = 'Abuse of power' if category == 'fraud diversion misuse' else category
+    category = verify_mull(item, "sub_category")
+    category = (
+        "Impact of Covid-19 on program"
+        if category == "Corona virus Prevencao"
+        or category == "Corona virus Tratamento"
+        or category == "Covid 19 Propagacao no pais"
+        or category == "Corona virus Sintomas"
+        else category
+    )
+    category = "Myths" if category == "coronna virus mitos" else category
+    category = "Exclusion Error" if category == "inclusion error" else category
+    category = "Abuse of power" if category == "fraud diversion misuse" else category
 
     try:
         return SubCategory.objects.get(name__iexact=category)
@@ -785,15 +863,16 @@ def get_sub_category(item):
             try:
                 return SubCategory.objects.get(name=category)
             except Exception:
-                return SubCategory.objects.get(name='Other')
+                return SubCategory.objects.get(name="Other")
 
 
 def get_status(val):
 
     if val:
-        return CaseStatus.objects.get(name__iexact='Closed')
+        return CaseStatus.objects.get(name__iexact="Closed")
     else:
-        return CaseStatus.objects.get(name__iexact='In Progress')
+        return CaseStatus.objects.get(name__iexact="In Progress")
+
 
 def get_user(username, password):
 
@@ -810,8 +889,8 @@ def get_user(username, password):
 
 def get_field(Model, item):
 
-    category = 'NFI' if item == 'Non food items' else item
-    category = 'Benificiary' if item == 'beneficiary directly' else item
+    category = "NFI" if item == "Non food items" else item
+    category = "Benificiary" if item == "beneficiary directly" else item
     try:
         return Model.objects.get(name__iexact=category)
     except Exception as error:
@@ -821,5 +900,4 @@ def get_field(Model, item):
             try:
                 return Model.objects.get(name=category)
             except Exception:
-                return Model.objects.filter(name='Other').first()
-
+                return Model.objects.filter(name="Other").first()
