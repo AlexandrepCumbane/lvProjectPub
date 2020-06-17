@@ -302,7 +302,7 @@ class CaseViewset(ModelViewSet):
         try:
             contactor = request.data["contactor"]
             case = request.data["case"]
-            case['created_at'] = timezone.datetime.now().date()
+            case['created_at'] = timezone.datetime.now()
             print(case['created_at'])
             #case["case_status"] = CaseStatus.objects.get(name="Not Started").id
             case["case_priority"] = CasePriority.objects.get(name="High").id
