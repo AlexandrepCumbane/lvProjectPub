@@ -199,7 +199,10 @@ class CaseViewset(ModelViewSet):
             if isinstance(cases, list):
                 operation_stats = {"success": 0, "failed": 0}
                 print("List: ", len(cases))
+                
                 for item in cases:
+                    pprint.pprint(item)
+
                     case_id = item["case_id"]
                     province = get_field(Province, verify_mull(item, 'province'))                    
                     try:
@@ -232,7 +235,7 @@ class CaseViewset(ModelViewSet):
                             call_require_callback_for_feedback=bool_values(verify_mull_bool(item, 'call_require_callback_for_feedback')),
                             caller_not_reached_for_feedback=bool_values(verify_mull_bool(item, 'caller_not_reached_for_feedback')),
                             received_assistence=bool_values(verify_mull_bool(item, 'received_assistence')),
-                            created_at=dateutil.parser.parse(item['created_at']),
+                            #created_at=dateutil.parser.parse(item['created_at']),
                             #closed_at=datetime.fromtimestamp(item['closed_at']),
                             how_knows_us=get_field(HowDoYouHearAboutUs, verify_mull(item, 'how_knows_us')),
                             resettlement_name=verify_mull(item, 'resettlement_name'), 
@@ -253,7 +256,6 @@ class CaseViewset(ModelViewSet):
                         #print('Saved_: ', case_id)
                     except Exception as error:
                         print('Erro: ', error)
-                        pprint.pprint(item)
 
                         """
 
@@ -293,7 +295,7 @@ class CaseViewset(ModelViewSet):
             pass
             # print('Error: ', error)
 
-        print("Not_saved: ", not_saved)
+        #print("Not_saved: ", not_saved)
         return Response({"errors": "Invalid request data"}, status=400)
 
     def _update_case(self, case_id: str, case) -> bool:
