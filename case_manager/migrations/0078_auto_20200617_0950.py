@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
+        migrations.AlterField(
             model_name='case',
             name='created_at_db',
             field=models.DateTimeField(auto_now_add=True, null=True),
