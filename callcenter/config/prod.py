@@ -13,7 +13,8 @@ ALLOWED_HOSTS = [
     "linhaverde.herokuapp.com",
     "linhaverde.s3-website-us-east-1.amazonaws.com",
     # For test production container only
-    os.getenv("HOSTNAME", "127.0.0.1")
+    os.getenv("HOSTNAME", "127.0.0.1"),
+    "linhaverde-staging.herokuapp.com"
 ]
 
 LOGGING = {
