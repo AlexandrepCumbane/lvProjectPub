@@ -201,8 +201,7 @@ class CaseViewset(ModelViewSet):
                 print("List: ", len(cases))
                 
                 for item in cases:
-                    pprint.pprint(item)
-
+                   
                     case_id = item["case_id"]
                     province = get_field(Province, verify_mull(item, 'province'))                    
                     try:
@@ -256,6 +255,8 @@ class CaseViewset(ModelViewSet):
                         #print('Saved_: ', case_id)
                     except Exception as error:
                         print('Erro: ', error)
+                        pprint.pprint(item)
+
 
                         """
 
