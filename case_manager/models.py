@@ -264,7 +264,7 @@ class Case(models.Model):
     # Date Filds
     closed_at = models.DateTimeField(auto_now=False, null=True, blank=True)
     created_at = models.DateTimeField(auto_now=False, null=True, blank=True, editable=True)
-    created_at_db = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    #created_at_db = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     # FOREIGN FIELDS

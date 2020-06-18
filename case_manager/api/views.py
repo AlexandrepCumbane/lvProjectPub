@@ -217,7 +217,7 @@ class CaseViewset(ModelViewSet):
                             community=verify_mull(item, 'community'),
                             fdp=verify_mull(item, 'fdp'),
                         )
-                        print('Date: ', (item['created_at']))
+                        #print('Date: ', (item['created_at']))
                         #print('Date: ', datetime.fromtimestamp(item['created_at']))
 
                         #date_time_str = item['created_at']
@@ -269,7 +269,7 @@ class CaseViewset(ModelViewSet):
                      who_is_never_received_assistance, district, source_of_information, full_name, 
                      gender, age, contact, program, category, sub_category, transfer_modality,
                      how_knows_us, created_by
-                    """
+                   
                     
                     data = {
                         "fdp": item["FDP"],  # retrive value from excel column
@@ -287,13 +287,13 @@ class CaseViewset(ModelViewSet):
                         operation_stats["success"] += operation_stats["success"]
                     else:
                         operation_stats["failed"] += operation_stats["failed"]
+                    """
             else:
                 return Response({"errors": "Invalid request data"}, status=400)
 
-            return Response({"success": operation_stats})
+            return Response({"success": ''},status=200)
         except KeyError as error:
-            pass
-            # print('Error: ', error)
+            print('Error: ', error)
 
         #print("Not_saved: ", not_saved)
         return Response({"errors": "Invalid request data"}, status=400)

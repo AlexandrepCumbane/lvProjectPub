@@ -12,11 +12,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterField(
             model_name='case',
-            name='created_at_db',
-            field=models.DateTimeField(auto_now_add=True, null=True),
-        ),
-        migrations.AlterField(
-            model_name='case',
             name='camp',
             field=models.CharField(choices=[('Y', 'YES'), ('N', 'NO'), ('NR', 'NOT RELEVANT')], default='N', max_length=25),
         ),
