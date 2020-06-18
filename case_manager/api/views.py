@@ -216,7 +216,7 @@ class CaseViewset(ModelViewSet):
                             community=verify_mull(item, 'community'),
                             fdp=verify_mull(item, 'fdp'),
                         )
-                        #print('Date: ', (item['created_at']))
+                        print('Date: ', (item['created_at']))
                         #print('Date: ', datetime.fromtimestamp(item['created_at']))
 
                         #date_time_str = item['created_at']
@@ -234,7 +234,7 @@ class CaseViewset(ModelViewSet):
                             call_require_callback_for_feedback=bool_values(verify_mull_bool(item, 'call_require_callback_for_feedback')),
                             caller_not_reached_for_feedback=bool_values(verify_mull_bool(item, 'caller_not_reached_for_feedback')),
                             received_assistence=bool_values(verify_mull_bool(item, 'received_assistence')),
-                            #created_at=dateutil.parser.parse(item['created_at']),
+                            created_at=get_time(item['created_at']),
                             #closed_at=datetime.fromtimestamp(item['closed_at']),
                             how_knows_us=get_field(HowDoYouHearAboutUs, verify_mull(item, 'how_knows_us')),
                             resettlement_name=verify_mull(item, 'resettlement_name'), 
@@ -904,3 +904,10 @@ def get_field(Model, item):
                 return Model.objects.get(name=category)
             except Exception:
                 return Model.objects.filter(name="Other").first()
+def get_time(time):
+
+    try:
+        return datetime.strptime(time, '%d/%m/%Y %H:%M:%S')
+    except Exception as error:
+        print('Datetime Exception: ', error)
+        return datetime.now()
