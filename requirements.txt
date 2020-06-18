@@ -2,9 +2,7 @@ amqp==2.5.2
 appdirs==1.4.3
 asgiref==3.2.3
 attrs==19.3.0
-autopep8==1.5
 billiard==3.6.2.0
-black==19.10b0
 boto3==1.11.10
 botocore==1.14.10
 cairocffi==0.9.0
