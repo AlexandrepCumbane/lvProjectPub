@@ -513,6 +513,14 @@ class CaseViewset(ModelViewSet):
         my_data["case_status"] = (
             CaseStatus.objects.filter(name__icontains="progress").first().id
         )
+
+        my_data["case_forwarded"] = True
+
+        
+        case_ = Case.objects.get(id=pk)
+        print('my_data: ', my_data)
+        print('case_update: ', case_update.case_forwarded)
+        case_update.case_forwarded = True
         case_serializer = CaseSerializer(case_update, data=my_data, partial=True)
         if case_serializer.is_valid():
             case_saved = case_serializer.save()
