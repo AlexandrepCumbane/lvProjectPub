@@ -3,7 +3,7 @@ import datetime
 from django.db.models import Count, F
 from django.utils import timezone
 
-from case_manager.models import Case, CaseReferall
+from case_manager.models import Case, CaseReferall, CaseTask, TaskStatus
 
 # Ano actual
 YEAR = datetime.date.today().year
@@ -225,6 +225,7 @@ def get_gestor_dashboard_data(user_id: int) -> dict:
         created_at__date__year=timezone.now().year,
         case_status__name__icontains="In Progress",
     ).count()
+
     total_cases_closed = Case.objects.filter(
         created_at__date__year=timezone.now().year, case_status__name__icontains="close"
     ).count()
@@ -271,7 +272,16 @@ def get_operador_dashboard_data(user_id):
         created_at__date=data_hoje, created_by=user_id
     ).count()
 
+    status_completed = TaskStatus.objects.get(name='Completed')
+
+    total_open_tasks = CaseTask.objects.filter(
+        status=status_completed.id , assigned_to=user_id
+    ).count()
+
+    print('Open tasks', total_open_tasks)
+
     return {
+        "total_open_tasks": total_open_tasks,
         "total_cases_year": total_cases,
         "total_cases_month": total_cases_month,
         "total_cases_week": total_cases_week,
