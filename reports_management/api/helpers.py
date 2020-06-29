@@ -1,6 +1,6 @@
 import datetime
 
-from django.db.models import Count, F
+from django.db.models import Count, F, Q
 from django.utils import timezone
 
 from case_manager.models import Case, CaseReferall, CaseTask, TaskStatus
@@ -275,8 +275,8 @@ def get_operador_dashboard_data(user_id):
     status_completed = TaskStatus.objects.get(name='Completed')
 
     total_open_tasks = CaseTask.objects.filter(
-        status=status_completed.id , assigned_to=user_id
-    ).count()
+        assigned_to=user_id
+    ).exclude(status=status_completed.id).count()
 
     print('Open tasks', total_open_tasks)
 
