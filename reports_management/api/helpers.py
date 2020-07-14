@@ -187,12 +187,12 @@ def generate_case_charts(initial_data, end_data):
     return reports
 
 
-def get_gestor_dashboard_data(user_id: int) -> dict:
+def get_gestor_dashboard_data(user: object) -> dict:
     """
         Generate the dashboard initial data for the user of type gestor.
 
         Parameters:
-            user_id (int):The ID of the user to generate the report
+            user (object):The user instance to generate the report
         
         Constraints:
             If the user doesn't belongs to the gestor group the reports
@@ -201,7 +201,7 @@ def get_gestor_dashboard_data(user_id: int) -> dict:
         Returns:
             reports (dict):Dictionary containing the total number of the criteria report.
     """
-    is_gestor = user_id.groups.filter(name__icontains="gestor").count()
+    is_gestor = user.groups.filter(name__icontains="gestor").count()
 
     # Verify if the user id provided belongs to a gestor
     if is_gestor == 0:
@@ -239,12 +239,12 @@ def get_gestor_dashboard_data(user_id: int) -> dict:
     }
 
 
-def get_operador_dashboard_data(user_id):
+def get_operador_dashboard_data(user:object)->dict:
     """
         Generate the dashboard initial data for the user of type operator.
 
         Parameters:
-            user_id (int):The ID of the user to generate the report
+            user (object):The user instance to generate the report
 
         Constraints:
             If the user doesn't belongs to the operators group the reports
@@ -253,22 +253,22 @@ def get_operador_dashboard_data(user_id):
         Returns:
             reports (dict):Dictionary containing the total number of the criteria report.
     """
-    is_operador = user_id.groups.filter(name__icontains="operador").count()
+    is_operador = user.groups.filter(name__icontains="operador").count()
 
     if is_operador == 0:
         return {"data": "None"}
 
     total_cases = Case.objects.filter(
-        created_at__date__year=timezone.now().year, created_by=user_id
+        created_at__date__year=timezone.now().year, created_by=user
     ).count()
     total_cases_month = Case.objects.filter(
-        created_at__gte=start_month, created_by=user_id
+        created_at__gte=start_month, created_by=user
     ).count()
     total_cases_week = Case.objects.filter(
-        created_at__gte=start_week, created_by=user_id
+        created_at__gte=start_week, created_by=user
     ).count()
     total_cases_day = Case.objects.filter(
-        created_at__date=data_hoje, created_by=user_id
+        created_at__date=data_hoje, created_by=user
     ).count()
 
     return {
@@ -279,12 +279,12 @@ def get_operador_dashboard_data(user_id):
     }
 
 
-def get_parceiro_dashboard_data(user_id):
+def get_parceiro_dashboard_data(user: object)->dict:
     """
         Generate the dashboard initial data for the user of type parceiro or focal point.
 
         Parameters:
-            user_id (int):The ID of the user to generate the report
+            user (objeect):The user instance to generate the report
         
         Constraints:
             If the user doesn't belongs to the Parceiro group or Ponto Focal Group the reports
@@ -293,39 +293,14 @@ def get_parceiro_dashboard_data(user_id):
         Returns:
             reports (dict):Dictionary containing the total number of the criteria report.
     """
-    ponto_focal = user_id.groups.filter(name__icontains="ponto focal").count()
+    ponto_focal = user.groups.filter(name__icontains="ponto focal").count()
 
     if ponto_focal > 0:
-        total_cases_recevied = Case.objects.filter(
-            created_at__date__year=timezone.now().year,
-            focal_points__user__id__in=[user_id.id],
-            case_forwarded=False,
-        ).count()
-        total_cases_send = Case.objects.filter(
-            created_at__date__year=timezone.now().year,
-            case_referall__referall_entity__users__in=[user_id.id],
-            case_forwarded=True,
-        ).count()
-        total_cases_with_feedback = CaseReferall.objects.filter(
-            refered_at__date__year=timezone.now().year,
-            referall_entity__users__in=[user_id.id],
-            has_feedback=True,
-        ).count()
 
-        total_cases = Case.objects.filter(
-            created_at__date__year=timezone.now().year,
-            focal_points__user__id__in=[user_id.id],
-        ).count()
+        return generate_focal_point_dashboard_data(user)
 
-        return {
-            "total_cases_received": total_cases_recevied,
-            "total_cases_send": total_cases_send,
-            "total_cases_with_feedback": total_cases_with_feedback,
-            "total_cases": total_cases,
-        }
-
-    is_parceiro = user_id.groups.filter(name__icontains="parceiro").count()
-    entity_name = user_id.referall_entity.first()
+    is_parceiro = user.groups.filter(name__icontains="parceiro").count()
+    entity_name = user.referall_entity.first()
     if is_parceiro == 0:
         return {"data": "None"}
 
@@ -357,5 +332,48 @@ def get_parceiro_dashboard_data(user_id):
         "total_cases_received": total_cases_recevied,
         "total_cases_with_feedback": total_cases_with_feedback,
         "total_cases_rejected": total_cases_rejected,
+        "total_cases": total_cases,
+    }
+
+
+def generate_focal_point_dashboard_data(user: object)->dict:
+    """
+        Generate the dashboard initial data for the user of focal point.
+
+        Parameters:
+            user (object):The user instance to generate the report
+        
+        Constraints:
+            If the user doesn't belongs to the Parceiro group or Ponto Focal Group the reports
+            will not be generated
+
+        Returns:
+            reports (dict):Dictionary containing the total number of the criteria report.
+    """
+    total_cases_recevied = Case.objects.filter(
+        created_at__date__year=timezone.now().year,
+        focal_points__user__id__in=[user.id],
+        case_forwarded=False,
+    ).count()
+    total_cases_send = Case.objects.filter(
+        created_at__date__year=timezone.now().year,
+        case_referall__referall_entity__users__in=[user.id],
+        case_forwarded=True,
+    ).count()
+    total_cases_with_feedback = CaseReferall.objects.filter(
+        refered_at__date__year=timezone.now().year,
+        referall_entity__users__in=[user.id],
+        has_feedback=True,
+    ).count()
+
+    total_cases = Case.objects.filter(
+        created_at__date__year=timezone.now().year,
+        focal_points__user__id__in=[user.id],
+    ).count()
+
+    return {
+        "total_cases_received": total_cases_recevied,
+        "total_cases_send": total_cases_send,
+        "total_cases_with_feedback": total_cases_with_feedback,
         "total_cases": total_cases,
     }
