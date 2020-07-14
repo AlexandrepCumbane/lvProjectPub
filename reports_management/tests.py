@@ -3,7 +3,7 @@ from django.test import TestCase
 
 from rest_framework.test import APIClient
 
-from reports_management.api.helpers import get_parceiro_dashboard_data, generate_focal_point_dashboard_data
+from reports_management.api.helpers import get_parceiro_dashboard_data, generate_focal_point_dashboard_data, get_gestor_dashboard_data, get_operador_dashboard_data
 
 class UserReportTestCase(TestCase):
     def setUp(self):
@@ -43,7 +43,47 @@ class UserReportTestCase(TestCase):
         """
         response = self.client.get("/api/v1/dashboard-reports/")
         self.assertEqual(response.status_code, 200)
-    
+
+    def test_can_generate_gestor_dashboard_data(self):
+        """
+        Test if its possible to generate gestor dashboard
+        data.
+        """
+        gestor_group = Group.objects.get(name='Gestor')
+        user = User.objects.first()
+
+        gestor_group.user_set.add(user)
+        result = get_gestor_dashboard_data(user)
+
+        gestor_data = {
+            "total_cases": 0,
+            "total_cases_referall": 0,
+            "total_case_not_forwarded": 0,
+            "total_cases_with_feedback": 0,
+            "total_cases_open": 0,
+            "total_cases_closed": 0,
+        }
+        self.assertDictEqual(result, gestor_data)
+
+    def test_can_generate_operador_dashboard_data(self):
+        """
+        Test if its possible to generate operador dashboard
+        data.
+        """
+        operador_group = Group.objects.get(name='Operador')
+        user = User.objects.first()
+
+        operador_group.user_set.add(user)
+        result = get_operador_dashboard_data(user)
+
+        operador_data = {
+            "total_cases_year": 0,
+            "total_cases_month": 0,
+            "total_cases_week": 0,
+            "total_cases_day": 0,
+        }
+        self.assertDictEqual(result, operador_data)
+
     def test_can_generate_parceiro_dashboard_data(self):
         """
         Test if its possible to generate parceiro dashboard
@@ -99,4 +139,5 @@ class UserReportTestCase(TestCase):
             "total_cases_with_feedback": 0,
             "total_cases": 0,
         }
+
         self.assertDictEqual(result, ponto_focal_data)
