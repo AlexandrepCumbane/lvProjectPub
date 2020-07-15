@@ -26,4 +26,4 @@ COPY . .
 EXPOSE 8000
 
 # Run container code
-CMD ["gunicorn", "-w 4", "-b 0.0.0.0:8000", "callcenter.wsgi:application"]
+# CMD ["gunicorn", "-w 4", "-b 0.0.0.0:8000", "callcenter.wsgi:application"]
