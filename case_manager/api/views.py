@@ -1,6 +1,7 @@
 import dateutil.parser
 import pprint
 from datetime import datetime
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import Group, User
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
@@ -199,64 +200,93 @@ class CaseViewset(ModelViewSet):
             if isinstance(cases, list):
                 operation_stats = {"success": 0, "failed": 0}
                 print("List: ", len(cases))
-                
+
                 for item in cases:
-                   
+
                     case_id = item["case_id"]
-                    province = get_field(Province, verify_mull(item, 'province'))                    
+                    province = get_field(Province, verify_mull(item, "province"))
                     try:
                         contactor = Contactor.objects.create(
-                            full_name=verify_mull_bool(item, 'full_name'),
-                            gender=Gender.objects.get(name__iexact=item['gender']),
-                            province= province if province != None else Province.objects.get(name='Sofala'),
-                            district=get_field(District, verify_mull(item, 'district')),
-                            age=get_age(verify_mull_boolean(item, 'age')),
-                            alternative_number=verify_mull(item, 'alternative_number'),
-                            contact=verify_mull(item, 'contact'),
-                            community=verify_mull(item, 'community'),
-                            fdp=verify_mull(item, 'fdp'),
+                            full_name=verify_mull_bool(item, "full_name"),
+                            gender=Gender.objects.get(name__iexact=item["gender"]),
+                            province=province
+                            if province != None
+                            else Province.objects.get(name="Sofala"),
+                            district=get_field(District, verify_mull(item, "district")),
+                            age=get_age(verify_mull_boolean(item, "age")),
+                            alternative_number=verify_mull(item, "alternative_number"),
+                            contact=verify_mull(item, "contact"),
+                            community=verify_mull(item, "community"),
+                            fdp=verify_mull(item, "fdp"),
                         )
-                        print('Date: ', (item['created_at']))
-                        #print('Date: ', datetime.fromtimestamp(item['created_at']))
+                        print("Date: ", (item["created_at"]))
+                        # print('Date: ', datetime.fromtimestamp(item['created_at']))
 
-                        #date_time_str = item['created_at']
-                        #date_time_obj = datetime.strptime(date_time_str, '%Y/%m/%d %H:%M:%S')
+                        # date_time_str = item['created_at']
+                        # date_time_obj = datetime.strptime(date_time_str, '%Y/%m/%d %H:%M:%S')
                         contactor.save()
-                        username = verify_mull_bool(item, 'created_by')
-                        username = username if username != 'CFM Operator3' else 'CFM_Operator3'
+                        username = verify_mull_bool(item, "created_by")
+                        username = (
+                            username if username != "CFM Operator3" else "CFM_Operator3"
+                        )
                         case = Case.objects.create(
-                            case_id=item['case_id'],
-                            case_uuid=item['case_uuid'],
+                            case_id=item["case_id"],
+                            case_uuid=item["case_uuid"],
                             contactor=contactor,
                             case_priority=CasePriority.objects.get(name="High"),
-                            created_by=get_user(username, item['case_uuid']),
-                            case_closed=bool_values(verify_mull_bool(item, 'case_closed')),
-                            call_require_callback_for_feedback=bool_values(verify_mull_bool(item, 'call_require_callback_for_feedback')),
-                            caller_not_reached_for_feedback=bool_values(verify_mull_bool(item, 'caller_not_reached_for_feedback')),
-                            received_assistence=bool_values(verify_mull_bool(item, 'received_assistence')),
-                            created_at=get_time(item['created_at']),
-                            #closed_at=datetime.fromtimestamp(item['closed_at']),
-                            how_knows_us=get_field(HowDoYouHearAboutUs, verify_mull(item, 'how_knows_us')),
-                            resettlement_name=verify_mull(item, 'resettlement_name'), 
-                            call_note=verify_mull(item, 'call_note'),   
-                            solution=verify_mull(item, 'call_solution'),
-                            camp=verify_mull(item, 'camp'),
+                            created_by=get_user(username, item["case_uuid"]),
+                            case_closed=bool_values(
+                                verify_mull_bool(item, "case_closed")
+                            ),
+                            call_require_callback_for_feedback=bool_values(
+                                verify_mull_bool(
+                                    item, "call_require_callback_for_feedback"
+                                )
+                            ),
+                            caller_not_reached_for_feedback=bool_values(
+                                verify_mull_bool(
+                                    item, "caller_not_reached_for_feedback"
+                                )
+                            ),
+                            received_assistence=bool_values(
+                                verify_mull_bool(item, "received_assistence")
+                            ),
+                            created_at=get_time(item["created_at"]),
+                            # closed_at=datetime.fromtimestamp(item['closed_at']),
+                            how_knows_us=get_field(
+                                HowDoYouHearAboutUs, verify_mull(item, "how_knows_us")
+                            ),
+                            resettlement_name=verify_mull(item, "resettlement_name"),
+                            call_note=verify_mull(item, "call_note"),
+                            solution=verify_mull(item, "call_solution"),
+                            camp=verify_mull(item, "camp"),
                             programme=get_programme(item),
                             category=get_category(item),
                             sub_category=get_sub_category(item),
-                            vulnerability=get_field(Vulnerability, verify_mull(item, 'vulnerability')),
-                            category_issue=get_field(CategoryIssue, verify_mull(item, 'category_issue')),
-                            transfere_modality=get_field(TransfereModality, verify_mull(item, 'transfer_modality')),
-                            case_status=get_status(bool_values(verify_mull_bool(item, 'case_closed'))),
-                            source_of_information=get_field(SourceOfInformation, verify_mull(item, 'source_of_information')),
+                            vulnerability=get_field(
+                                Vulnerability, verify_mull(item, "vulnerability")
+                            ),
+                            category_issue=get_field(
+                                CategoryIssue, verify_mull(item, "category_issue")
+                            ),
+                            transfere_modality=get_field(
+                                TransfereModality,
+                                verify_mull(item, "transfer_modality"),
+                            ),
+                            case_status=get_status(
+                                bool_values(verify_mull_bool(item, "case_closed"))
+                            ),
+                            source_of_information=get_field(
+                                SourceOfInformation,
+                                verify_mull(item, "source_of_information"),
+                            ),
                         )
 
                         case.save()
-                        #print('Saved_: ', case_id)
+                        # print('Saved_: ', case_id)
                     except Exception as error:
-                        print('Erro: ', error)
+                        print("Erro: ", error)
                         pprint.pprint(item)
-
 
                         """
 
@@ -292,11 +322,11 @@ class CaseViewset(ModelViewSet):
             else:
                 return Response({"errors": "Invalid request data"}, status=400)
 
-            return Response({"success": ''},status=200)
+            return Response({"success": ""}, status=200)
         except KeyError as error:
-            print('Error: ', error)
+            print("Error: ", error)
 
-        #print("Not_saved: ", not_saved)
+        # print("Not_saved: ", not_saved)
         return Response({"errors": "Invalid request data"}, status=400)
 
     def _update_case(self, case_id: str, case) -> bool:
@@ -332,9 +362,9 @@ class CaseViewset(ModelViewSet):
         try:
             contactor = request.data["contactor"]
             case = request.data["case"]
-            case['created_at'] = timezone.datetime.now()
-            print(case['created_at'])
-            #case["case_status"] = CaseStatus.objects.get(name="Not Started").id
+            case["created_at"] = timezone.datetime.now()
+            print(case["created_at"])
+            # case["case_status"] = CaseStatus.objects.get(name="Not Started").id
             case["case_priority"] = CasePriority.objects.get(name="High").id
 
             contactor = self._save_contactor(contactor)
@@ -385,13 +415,27 @@ class CaseViewset(ModelViewSet):
             Returns:
                 contactor_is_saved (bool):Return true or false if the contactor was updated.
         """
+        contactor_id = None
+        contactor_is_saved = False
+
+        try:
+            contactor_id = contactor_data["id"]
+        except KeyError:
+            print("Contact Data dont have contactor id")
+            return contactor_is_saved
+
         contactors = Contactor.objects.all()
-        contactor = get_object_or_404(contactors, pk=contactor_data["id"])
+        contactor = None
+
+        try:
+            conctactor = Contactor.objects.get(id=contactor_id)
+        except ObjectDoesNotExist:
+            print("COntactor not found")
+            return contactor_is_saved
+
         contact_serializer = ContactorSerializer(
             contactor, data=contactor_data, partial=True
         )
-
-        contactor_is_saved = False
 
         if contact_serializer.is_valid():
             contact_serializer.save()
@@ -678,7 +722,7 @@ class CaseReferallViewset(ModelViewSet):
             Return the list of cases with feedback from partner
             in the API.
         """
-        my_queryset = self.get_queryset().order_by('-id')
+        my_queryset = self.get_queryset().order_by("-id")
         my_groups = request.user.groups.all()
         user = request.user
 
@@ -886,13 +930,11 @@ def get_user(username, password):
     try:
         return User.objects.get(username=username)
     except Exception as error:
-        user = User.objects.create(
-                        username=username,
-                        password=password
-        )
+        user = User.objects.create(username=username, password=password)
         user.save()
-        print('User: ', user)
+        print("User: ", user)
         return User.objects.get(username=username)
+
 
 def get_field(Model, item):
 
@@ -908,10 +950,12 @@ def get_field(Model, item):
                 return Model.objects.get(name=category)
             except Exception:
                 return Model.objects.filter(name="Other").first()
+
+
 def get_time(time):
 
     try:
-        return datetime.strptime(time, '%d/%m/%Y %H:%M:%S')
+        return datetime.strptime(time, "%d/%m/%Y %H:%M:%S")
     except Exception as error:
-        print('Datetime Exception: ', error)
+        print("Datetime Exception: ", error)
         return datetime.now()
