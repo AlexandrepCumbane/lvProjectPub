@@ -239,7 +239,7 @@ def get_gestor_dashboard_data(user: object) -> dict:
     }
 
 
-def get_operador_dashboard_data(user:object)->dict:
+def get_operador_dashboard_data(user: object) -> dict:
     """
         Generate the dashboard initial data for the user of type operator.
 
@@ -279,7 +279,7 @@ def get_operador_dashboard_data(user:object)->dict:
     }
 
 
-def get_parceiro_dashboard_data(user: object)->dict:
+def get_parceiro_dashboard_data(user: object) -> dict:
     """
         Generate the dashboard initial data for the user of type parceiro or focal point.
 
@@ -336,7 +336,7 @@ def get_parceiro_dashboard_data(user: object)->dict:
     }
 
 
-def generate_focal_point_dashboard_data(user: object)->dict:
+def generate_focal_point_dashboard_data(user: object) -> dict:
     """
         Generate the dashboard initial data for the user of focal point.
 

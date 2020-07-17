@@ -15,7 +15,7 @@ ALLOWED_HOSTS = [
     # For test production container only
     os.getenv("HOSTNAME", "127.0.0.1"),
     "linhaverde-staging.herokuapp.com",
-    "lv.robobo.org"
+    "lv.robobo.org",
 ]
 
 LOGGING = {

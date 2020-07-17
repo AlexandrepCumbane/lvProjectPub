@@ -7,10 +7,9 @@ from posts_management.models import Post, PostLanguage, PostCategory
 
 # Create your tests here.
 class PostAPITestCase(TestCase):
-
     def setUp(self):
         self.client = APIClient()
-        
+
         user_data = {
             "email": "test@mail.com",
             "username": "test",
@@ -35,7 +34,7 @@ class PostAPITestCase(TestCase):
             "aproved_by": user,
             "assigned_to": user,
             "published_date": "2020-09-05",
-            "expiration_date": "2021-01-01"
+            "expiration_date": "2021-01-01",
         }
 
         post = Post(**post_data)
@@ -46,7 +45,7 @@ class PostAPITestCase(TestCase):
     def test_user_can_read_posts(self):
         response = self.client.get("/api/v1/posts/")
         self.assertEquals(response.status_code, 200)
-    
+
     def test_user_data_is_valid(self):
         post_data = {
             "id": 1,
@@ -58,13 +57,13 @@ class PostAPITestCase(TestCase):
             "aproved_by": User.objects.first().pk,
             "assigned_to": User.objects.first().pk,
             "published_date": "2030-09-05",
-            "expiration_date": "2031-01-01"
+            "expiration_date": "2031-01-01",
         }
 
         post_serializer = PostSerializer(Post.objects.first(), post_data)
 
         self.assertTrue(post_serializer.is_valid())
-    
+
     def test_user_can_save_post(self):
         post_data = {
             "title": "Vasco Post",
@@ -75,13 +74,13 @@ class PostAPITestCase(TestCase):
             "aproved_by": User.objects.first().pk,
             "assigned_to": User.objects.first().pk,
             "published_date": "2020-09-05",
-            "expiration_date": "2021-01-01"
+            "expiration_date": "2021-01-01",
         }
 
         response = self.client.post("/api/v1/posts/", post_data)
 
         self.assertEquals(response.status_code, 201)
-    
+
     def test_cant_save_post_with_existent_title(self):
         post_data = {
             "title": "Post1",
@@ -92,7 +91,7 @@ class PostAPITestCase(TestCase):
             "aproved_by": User.objects.first().pk,
             "assigned_to": User.objects.first().pk,
             "published_date": "2020-09-05",
-            "expiration_date": "2021-01-01"
+            "expiration_date": "2021-01-01",
         }
 
         response = self.client.post("/api/v1/posts/", post_data)
@@ -110,7 +109,7 @@ class PostAPITestCase(TestCase):
             "aproved_by": User.objects.first().pk,
             "assigned_to": User.objects.first().pk,
             "published_date": "2030-09-05",
-            "expiration_date": "2031-01-01"
+            "expiration_date": "2031-01-01",
         }
 
         response = self.client.put(url, post_data)
