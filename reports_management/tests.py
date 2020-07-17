@@ -3,7 +3,13 @@ from django.test import TestCase
 
 from rest_framework.test import APIClient
 
-from reports_management.api.helpers import get_parceiro_dashboard_data, generate_focal_point_dashboard_data, get_gestor_dashboard_data, get_operador_dashboard_data
+from reports_management.api.helpers import (
+    get_parceiro_dashboard_data,
+    generate_focal_point_dashboard_data,
+    get_gestor_dashboard_data,
+    get_operador_dashboard_data,
+)
+
 
 class UserReportTestCase(TestCase):
     def setUp(self):
@@ -11,16 +17,16 @@ class UserReportTestCase(TestCase):
             username="vasco", email="vasco.xavier@robobo.org", password="Test123."
         )
 
-        group = Group.objects.create(name='Parceiro')
+        group = Group.objects.create(name="Parceiro")
         group.save()
 
-        group = Group.objects.create(name='Operador')
+        group = Group.objects.create(name="Operador")
         group.save()
 
-        group = Group.objects.create(name='Ponto Focal')
+        group = Group.objects.create(name="Ponto Focal")
         group.save()
 
-        group = Group.objects.create(name='Gestor')
+        group = Group.objects.create(name="Gestor")
 
         user.save()
         user.set_password(user.password)
@@ -49,7 +55,7 @@ class UserReportTestCase(TestCase):
         Test if its possible to generate gestor dashboard
         data.
         """
-        gestor_group = Group.objects.get(name='Gestor')
+        gestor_group = Group.objects.get(name="Gestor")
         user = User.objects.first()
 
         gestor_group.user_set.add(user)
@@ -70,7 +76,7 @@ class UserReportTestCase(TestCase):
         Test if its possible to generate operador dashboard
         data.
         """
-        operador_group = Group.objects.get(name='Operador')
+        operador_group = Group.objects.get(name="Operador")
         user = User.objects.first()
 
         operador_group.user_set.add(user)
@@ -89,7 +95,7 @@ class UserReportTestCase(TestCase):
         Test if its possible to generate parceiro dashboard
         data.
         """
-        parceiro_group = Group.objects.get(name='Parceiro')
+        parceiro_group = Group.objects.get(name="Parceiro")
         user = User.objects.first()
 
         parceiro_group.user_set.add(user)
@@ -102,13 +108,13 @@ class UserReportTestCase(TestCase):
             "total_cases": 0,
         }
         self.assertDictEqual(result, parceiro_data)
-    
+
     def test_can_generate_ponto_focal_dashboard_data(self):
         """
         Test if its possible to generate ponto focal dashboard
         data.
         """
-        ponto_focal_group = Group.objects.get(name='Ponto Focal')
+        ponto_focal_group = Group.objects.get(name="Ponto Focal")
         user = User.objects.first()
 
         ponto_focal_group.user_set.add(user)
@@ -127,7 +133,7 @@ class UserReportTestCase(TestCase):
         Test if its possible to get ponto focal dashboard
         data.
         """
-        ponto_focal_group = Group.objects.get(name='Ponto Focal')
+        ponto_focal_group = Group.objects.get(name="Ponto Focal")
         user = User.objects.first()
 
         ponto_focal_group.user_set.add(user)

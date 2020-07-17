@@ -16,7 +16,7 @@ ALLOWED_HOSTS = [
     os.getenv("HOSTNAME", "127.0.0.1"),
     "d14ut9kv2nmqdl.cloudfront.net",
     "linhaverde-staging.herokuapp.com",
-    "lv.robobo.org"
+    "lv.robobo.org",
 ]
 
 LOGGING = {

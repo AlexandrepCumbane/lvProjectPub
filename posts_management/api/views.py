@@ -52,7 +52,6 @@ class PostViewSet(ModelViewSet):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
 
-
     def update(self, request, pk=None):
         post = get_object_or_404(self.queryset, pk=pk)
         post_serializer = PostSerializer(post, data=request.data, partial=True)
@@ -62,7 +61,5 @@ class PostViewSet(ModelViewSet):
 
             post_json = model_to_dict(post_saved)
             return Response(post_json, status=200)
-        
-        return Response({
-            "errors": post_serializer.errors
-        }, status=400)
+
+        return Response({"errors": post_serializer.errors}, status=400)

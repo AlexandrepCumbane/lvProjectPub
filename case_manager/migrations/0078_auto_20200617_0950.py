@@ -6,18 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0077_auto_20200610_1132'),
+        ("case_manager", "0077_auto_20200610_1132"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='case',
-            name='camp',
-            field=models.CharField(choices=[('Y', 'YES'), ('N', 'NO'), ('NR', 'NOT RELEVANT')], default='N', max_length=25),
+            model_name="case",
+            name="camp",
+            field=models.CharField(
+                choices=[("Y", "YES"), ("N", "NO"), ("NR", "NOT RELEVANT")],
+                default="N",
+                max_length=25,
+            ),
         ),
         migrations.AlterField(
-            model_name='case',
-            name='created_at',
+            model_name="case",
+            name="created_at",
             field=models.DateTimeField(blank=True, null=True),
         ),
     ]
