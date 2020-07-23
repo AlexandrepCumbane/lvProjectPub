@@ -682,7 +682,11 @@ class CaseReferallViewset(ModelViewSet):
 
     @action(methods=["GET"], detail=False)
     def feedbacks(self, request):
-        my_queryset = self.get_queryset()
+        """
+            Return the list of cases with feedback from partner
+            in the API.
+        """
+        my_queryset = self.get_queryset().order_by('-id')
         my_groups = request.user.groups.all()
         user = request.user
 

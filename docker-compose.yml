@@ -9,8 +9,9 @@ services:
       - POSTGRES_PASSWORD=postgres
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    image: roboboinc/linhaverde
     container_name: lvbackend-staging
+    command: python manage.py runserver 0.0.0.0:8000
     hostname: ${HOSTNAME}
     volumes:
       - .:/code

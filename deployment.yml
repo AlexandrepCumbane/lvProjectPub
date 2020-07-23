@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: linhaverde
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8000
+      targetPort: 8000
+  selector:
+    app: linhaverde
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linhaverde
+  labels:
+    app: linhaverde
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: linhaverde
+  template:
+    metadata:
+      labels:
+        app: linhaverde
+    spec:
+      containers:
+        - name: linhaverde-backend
+          image: roboboinc/linhaverde
+          command: ["/usr/bin/env"]
+          args:
+            [
+              "python",
+              "/usr/local/bin/gunicorn",
+              "-b",
+              "0.0.0.0:8000",
+              "--limit-request-line",
+              "0",
+              "--limit-request-field_size",
+              "0",
+              "callcenter.wsgi",
+            ]
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP

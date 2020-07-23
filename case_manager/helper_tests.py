@@ -1,0 +1,90 @@
+from case_manager.models import (
+    Ages,
+    Case,
+    CaseComments,
+    CasePriority,
+    CaseReferall,
+    CaseStatus,
+    CaseTask,
+    Category,
+    CategoryIssue,
+    Contactor,
+    CustomerSatisfaction,
+    Gender,
+    HowCaseClose,
+    HowDoYouHearAboutUs,
+    HowWouldYouLikeToBeContacted,
+    IndividualCommitedFraud,
+    MecanismUsed,
+    Programme,
+    ReferallEntity,
+    ResolutionCategory,
+    ResolutionSubCategory,
+    ResponseProgram,
+    SourceOfInformation,
+    SubCategory,
+    TaskStatus,
+    TransfereModality,
+    Vulnerability,
+    WhoIsNotReceivingAssistence,
+)
+
+def generate_initial_tests_data():
+    ages = Ages.objects.create(name="17 and below")
+    ages.save()
+
+    case_priority = CasePriority.objects.create(name="High")
+    case_priority.save()
+
+    case_status = CaseStatus.objects.create(name="Not Started")
+    case_status.save()
+    
+    case_status = CaseStatus.objects.create(name="Closed")
+    case_status.save()
+
+    category = Category.objects.create(name="Request for assistence")
+    category.save()
+
+    category = Category.objects.create(name="Complaint/ Negative feedback")
+    category.save()
+
+    category_issue = CategoryIssue.objects.create(name="Fraud", category=category)
+    category_issue.save()
+
+    customer_satisfaction = CustomerSatisfaction.objects.create(name="Happy")
+    customer_satisfaction.save()
+
+    gender = Gender.objects.create(name="Masculino")
+    gender.save()
+
+    how_do_your_hear_about_us = HowWouldYouLikeToBeContacted.objects.create(name="Radio")
+    how_do_your_hear_about_us.save()
+
+    how_would_you_like_to_be_contacteds = HowWouldYouLikeToBeContacted.objects.create(name="Other phone")
+    how_would_you_like_to_be_contacteds.save()
+
+    sub_category = SubCategory.objects.create(name="Humanitarian Actor")
+    sub_category.save()
+
+    mecanism_used = MecanismUsed.objects.create(name="Email")
+    mecanism_used.save()
+
+    programmes = Programme.objects.create(name="INGC")
+    programmes.save()
+
+    partner = ReferallEntity.objects.create(name="Parceiro")
+    partner.save()
+
+    source_of_information = SourceOfInformation.objects.create(name="Humanitarion partner")
+    source_of_information.save()
+
+    task_status = TaskStatus.objects.create(name="Not Started")
+    task_status.save()
+
+    transfere_modality = TransfereModality.objects.create(name="Food")
+    transfere_modality.save()
+
+    vulnerability = Vulnerability.objects.create(name="Single parent")
+    vulnerability.save()
+
+    
