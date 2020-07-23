@@ -254,6 +254,7 @@ def get_operador_dashboard_data(user:object)->dict:
         Returns:
             reports (dict):Dictionary containing the total number of the criteria report.
     """
+    
     is_operador = user.groups.filter(name__icontains="operador").count()
 
     if is_operador == 0:
@@ -275,10 +276,8 @@ def get_operador_dashboard_data(user:object)->dict:
     status_completed = TaskStatus.objects.get(name='Completed')
 
     total_open_tasks = CaseTask.objects.filter(
-        assigned_to=user_id
+        assigned_to=user.id
     ).exclude(status=status_completed.id).count()
-
-    print('Open tasks', total_open_tasks)
 
     return {
         "total_open_tasks": total_open_tasks,
