@@ -428,7 +428,10 @@ class CaseViewset(ModelViewSet):
         contactor = None
 
         try:
+            # Try to get case if exists
             conctactor = Contactor.objects.get(id=contactor_id)
+            # Get Case object
+            contactor = get_object_or_404(contactors, pk=contactor_id)
         except ObjectDoesNotExist:
             print("COntactor not found")
             return contactor_is_saved
@@ -441,6 +444,8 @@ class CaseViewset(ModelViewSet):
             contact_serializer.save()
             contactor_is_saved = True
             return contactor_is_saved
+        
+        print('errors', contact_serializer.errors)
 
         return contactor_is_saved
 
@@ -546,6 +551,7 @@ class CaseViewset(ModelViewSet):
                 return Response({"errors": case_serializer.errors}, status=400)
 
         except KeyError:
+            print("contactor and case field not found, save case normal")
             pass
 
         return super().update(request, pk)
