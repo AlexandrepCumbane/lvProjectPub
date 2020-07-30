@@ -3,6 +3,7 @@ version: '3'
 services:
   db:
     image: postgres:12-alpine
+    container_name: linhaverde_db
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
