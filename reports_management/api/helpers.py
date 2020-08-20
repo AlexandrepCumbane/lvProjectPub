@@ -204,8 +204,9 @@ def get_gestor_dashboard_data(user: object) -> dict:
     """
     is_gestor = user.groups.filter(name__icontains="gestor").count()
 
-    # Verify if the user id provided belongs to a gestor
-    if is_gestor == 0:
+    # Verify if the user id provided belongs to a gestor group or its
+    # a administrator of the system
+    if is_gestor == 0 and not user.is_superuser:
         return {"data": "None"}
 
     total_cases = Case.objects.filter(
