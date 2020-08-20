@@ -1,9 +1,9 @@
 import datetime
 
-from django.db.models import Count, F
+from django.db.models import Count, F, Q
 from django.utils import timezone
 
-from case_manager.models import Case, CaseReferall
+from case_manager.models import Case, CaseReferall, CaseTask, TaskStatus
 
 # Ano actual
 YEAR = datetime.date.today().year
@@ -225,6 +225,7 @@ def get_gestor_dashboard_data(user: object) -> dict:
         created_at__date__year=timezone.now().year,
         case_status__name__icontains="In Progress",
     ).count()
+
     total_cases_closed = Case.objects.filter(
         created_at__date__year=timezone.now().year, case_status__name__icontains="close"
     ).count()
@@ -253,6 +254,7 @@ def get_operador_dashboard_data(user: object) -> dict:
         Returns:
             reports (dict):Dictionary containing the total number of the criteria report.
     """
+    
     is_operador = user.groups.filter(name__icontains="operador").count()
 
     if is_operador == 0:
@@ -271,7 +273,14 @@ def get_operador_dashboard_data(user: object) -> dict:
         created_at__date=data_hoje, created_by=user
     ).count()
 
+    status_completed = TaskStatus.objects.get(name='Completed')
+
+    total_open_tasks = CaseTask.objects.filter(
+        assigned_to=user.id
+    ).exclude(status=status_completed.id).count()
+
     return {
+        "total_open_tasks": total_open_tasks,
         "total_cases_year": total_cases,
         "total_cases_month": total_cases_month,
         "total_cases_week": total_cases_week,
