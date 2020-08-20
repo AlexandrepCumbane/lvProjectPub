@@ -83,6 +83,7 @@ class UserReportTestCase(TestCase):
         result = get_operador_dashboard_data(user)
 
         operador_data = {
+            "total_open_tasks": 0,
             "total_cases_year": 0,
             "total_cases_month": 0,
             "total_cases_week": 0,

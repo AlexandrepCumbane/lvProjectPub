@@ -1,5 +1,6 @@
 import datetime
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count, F, Q
 from django.utils import timezone
 
@@ -273,11 +274,17 @@ def get_operador_dashboard_data(user: object) -> dict:
         created_at__date=data_hoje, created_by=user
     ).count()
 
-    status_completed = TaskStatus.objects.get(name='Completed')
+    status_completed = None
+
+    try:
+        # retreive the id of the status
+        status_completed = TaskStatus.objects.get(name='Completed').values('id')['id']
+    except ObjectDoesNotExist:
+        pass
 
     total_open_tasks = CaseTask.objects.filter(
         assigned_to=user.id
-    ).exclude(status=status_completed.id).count()
+    ).exclude(status=status_completed).count()
 
     return {
         "total_open_tasks": total_open_tasks,
