@@ -1,0 +1,11 @@
+[
+{
+  "model": "user_management.focalpointprofile",
+  "pk": 7,
+  "fields": {
+    "user": 20,
+    "contact": "845020012",
+    "province": 1
+  }
+}
+]
