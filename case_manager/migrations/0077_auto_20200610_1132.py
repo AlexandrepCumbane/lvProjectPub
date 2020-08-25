@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("location_management", "0008_postoadministrativo"),
-        ("case_manager", "0076_auto_20200610_1025"),
+        ("case_manager", "0076_auto_20200609_0651"),
     ]
 
     operations = [
@@ -21,5 +21,10 @@ class Migration(migrations.Migration):
                 related_name="contactor",
                 to="location_management.Province",
             ),
+        ),
+         migrations.AlterField(
+            model_name="case",
+            name="created_at",
+            field=models.DateTimeField(blank=True, null=True),
         ),
     ]

@@ -19,4 +19,14 @@ class Migration(migrations.Migration):
                 max_length=25,
             ),
         ),
+        migrations.AlterField(
+            model_name="contactor",
+            name="contact",
+            field=models.CharField(blank=True, default="", max_length=100, null=True),
+        ),
+        migrations.AlterField(
+            model_name="contactor",
+            name="full_name",
+            field=models.CharField(blank=True, default="", max_length=300, null=True),
+        ),
     ]
