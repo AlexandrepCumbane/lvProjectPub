@@ -137,8 +137,6 @@ except ImportError:
 # Cors settings
 CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ORIGIN_WHITELIST = ["http://localhost:8080", "http://linhaverde.herokuapp.com", "https://d14ut9kv2nmqdl.cloudfront.net"]
-
 JWT_AUTH = {
     "JWT_VERIFY": True,
     "JWT_VERIFY_EXPIRATION": True,
