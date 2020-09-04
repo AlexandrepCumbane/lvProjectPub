@@ -279,7 +279,7 @@ def get_operador_dashboard_data(user: object) -> dict:
 
     try:
         # retreive the id of the status
-        status_completed = TaskStatus.objects.get(name='Completed').values('id')['id']
+        status_completed = TaskStatus.objects.values('id').get(name='Completed')['id']
     except ObjectDoesNotExist:
         pass
 
