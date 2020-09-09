@@ -63,7 +63,7 @@ def filtrar_user_by_type(name: str) -> list:
         Returns:
             returns a list of users the belongs to a certain group.
     """
-    users = User.objects.filter(groups__name__in=[name]).values("username", "id")
+    users = User.objects.filter(groups__name__in=[name]).values("username", "id", "focal_point_profile")
     return users
 
 
