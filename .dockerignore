@@ -6,3 +6,4 @@ env.example
 linhaverd_db.png
 linhaverdebk.sql
 Procfile
+htmlcov
