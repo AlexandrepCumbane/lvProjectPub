@@ -11,3 +11,4 @@ callcenter/settings_local.py
 bin/
 lib/
 lib64
+htmlcov
