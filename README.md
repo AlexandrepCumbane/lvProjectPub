@@ -1,109 +1,100 @@
 # Linha Verde App
 
-Este e um projecto de desenvolvimento de um plataforma de gestao de callcenter
+This is a project to develop a call center management platform
 
-## Criando ambiente virtual
+## Create a virtual environment
 
-Para correr o projecto django primeiro e nescessario criar o ambiente virtual
+To run the django project first you need to create the virtual environment or run the project using docker-compose
 
-### Criando ambiente virtual em linux
+### Creating virtual environment in linux
 
     python3 -m venv venv
 
-### Criando ambiente virtual no windows
+### Creating virtual environment in windows
 
     py -3 -m venv venv
 
-Se você precisou instalar o virtualenv porque está em uma versão mais antiga do Python, use o seguinte comando:
+If you had to install virtualenv because you use and older version of Python < 3.5, use the following command in linux:
 
     virtualenv venv
-No Windows:
+In Windows:
 
     \Python27\Scripts\virtualenv.exe venv
 
-## Activar o ambiente virtual
+## Activate a virtual environment
 
-Antes de trabalhar em seu projeto, ative o ambiente correspondente:
+Before working on your project, activate the corresponding environment with the following command in linux:
 
     source venv/bin/activate
-No Windows:
+In Windows:
 
     ./venv/Scripts/activate.bat
 
-## Instalando dependencias do projecto
+## Install project dependencies
 
-Uma vez dentro do ambiente virtual do projecto django na raiz
-do projecto corra o comando para install as dependecias django:
+Once inside the virtual environment of the django project at the root folder
+of your project run the following command to install the dependencies django:
 
     pip install  -r requirements.txt
 
 ## Configuracao do settings_local.py
 
-Apos instalar todas as dependecias devemos configurar o nosso settings local para conseguirmos correr o projecto com sucesso,
-na raiz do projecto veremos o ficheiro __settings_local.template__. Faca uma copia deste ficheiro para a pasta __callcenter__ e renomei a extensao para __.py__ preencha os campos nescessarios de variaveis do ambiente de forma a finalizar as configuracoes e o projecto estara pronto para correr o mesmo.
+After installing all the dependencies we must configure our local settings to be able to run the project successfully,
+at the root of the project you will see a file named __settings_local.template__. Make a copy of this file and move the copy to the __callcenter__ folder, after that change the file extension to __.py__ fill the necessary environment variables in order to run the project locally.
 
-## Configuracao do projecto com Docker
+## Run project with Docker
 
-Caso nao queira fazer as configuracoes nescessarias no seu computador tambem podera correr a aplicacao utilizando o __Docker__.
+If you don't want to configure the python stack on you local computer, you can run the project using docker and docker-compose __Docker__.
 
-### Requisitos para correr a aplicacao com o Docker
+### Install docker in local machine
+
  - [Docker](https://docs.docker.com/get-docker/)
  - [Docker Compose](https://docs.docker.com/compose/install/)
 
-Apos ter o __docker__ e o __docker-compose__ instalado e a correr no seu
-sistema operativo, na raiz do projecto atraves do terminal digite o seguinte comando:
+After you have __docker__ and __docker-compose__ instaled in your computer, run the following command:
 
     docker-compose up
 
-Ou
+Or
 
     sudo docker-compose up
 
+## Creating the necessary tables for the project
 
-## Criando as tabelas nescessarias para o projecto
-
-Apos configurar __settings_local.py__ sera nescessario fazer o __migrate__ das tabelas da projecto,
-de forma que possa prosseguir com os proximos passos da aplicacao, para isso digite os comandos abaixo:
+After configuring __settings_local.py__ you need to __migrate__ the project tables to the database,
+so that you can proceed with the next steps of the application, for that type the commands below:
 
     ./manage.py migrate
 
-Apos fazer o migrate das tabelas sera nescessario carregar os dados inicias da aplicacao que estao na
-pasta __fixtures__ atraves do comando:
+After migrating the tables, it will be necessary to load the initial data of the application that is in the __fixtures__  folder with the following command:
     >./scripts/setup.sh
 
 ## Correndo o projecto django
 
-Para correr o projecto django digite o comando
-`python manage.py runserver` ou `python manage.py runserver localhost:port` para uma porta em especifica.
+To run the django project type the command:
+`python manage.py runserver` or `python manage.py runserver localhost:port` to run in a specific port.
 
-## Regras de formatacao de codigo python
+## Code Formating Rules
 
-Para uma melhor organizacao e padronizacao de codigo aconselha-se
-as seguir as normas da PEP8 ao escrever o codigo python.
+For a better code organization and standardization it is recommend to
+follow the PEP8 rules when writing the python code.
 
-### Regras de numeclatura de variaves
+### Naming variable rules
 
 Nomes de __variaveis__, __classes__ e __funcoes__ devem estar sempre em __ingles__
 
-### Regras de importacoes de modulos
+### Module import rules
 
-A ordem da importacoes devem seguir o seguinte padrao:
+The order of imports must follow the following pattern:
 
 + Built-in libraries
 + Django framework libraries
 + Third Party libraries
 + My libraries
 
-Ainda falando na ordem de importacoes, sigam a ordem alfabetica de importacoes por modulo para melhor ajudar a entender as importacoes e nunca importem mais de um __Modulo__ o __Classe__ por linha.
-Exemplo:
+### API organization rules
 
-    from django.core.exceptions import ObjectDoesNotExist
-    from rest_framework import permissions
-    from .serializers import JobOpportunitySerializer
+The apis are configured in the _api_ folder of each app __app__
+where the files are separate in serializer.py, views.py, filters.py, endpoints.py.
 
-### Regras de organizacao de api
-
-Os API devem ser criados dentro da pasta _api_ de cada __app__
-onde devemos serparar os ficheiros por serializer.py, views.py, filters.py, endpoints.py e outros caso hajam a nescessidade
-
-Os endpoints deve estar no caminhho __baseUrl/api/v1/__ onde em development mode devemos ver a lista de api.
+The endpoints are located in the __baseUrl/api/v1/__ where in development mode whe can se all the aplication APIS. Or you can go to __baseURL/docs__ to a friendly api documentation and view.
