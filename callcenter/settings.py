@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "import_export",
     # "oauth2_provider",
     # My Apps
+    "call_manager",
     "case_manager",
     "location_management",
     "reports_management",
@@ -146,13 +147,3 @@ JWT_AUTH = {
     "JWT_REFRESH_EXPIRATION_DELTA": datetime.timedelta(days=7),
     "JWT_AUTH_COOKIE": None,
 }
-
-
-# Use nose to run all tests
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-
-# Tell nose to measure coverage on the 'foo' and 'bar' apps
-NOSE_ARGS = [
-    '--with-coverage',
-    '--cover-package=case_manager,location_management,posts_management,user_management',
-]

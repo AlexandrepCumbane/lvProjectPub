@@ -37,8 +37,8 @@ from case_manager.api.serializers import (
     SubCategorySerializer,
     TaskStatusSerializer,
 )
+from call_manager.models import Ages, Contactor, Gender
 from case_manager.models import (
-    Ages,
     Case,
     CaseComments,
     CasePriority,
@@ -47,9 +47,7 @@ from case_manager.models import (
     CaseTask,
     Category,
     CategoryIssue,
-    Contactor,
     CustomerSatisfaction,
-    Gender,
     HowDoYouHearAboutUs,
     HowWouldYouLikeToBeContacted,
     Programme,
@@ -81,7 +79,7 @@ class GenderViewset(ListAPIView, ViewSet):
 
 class ProgrammeViewset(ListAPIView, ViewSet):
     serializer_class = ProgrammeSerializer
-    querysey = Programme.objects.all()
+    queryset = Programme.objects.all()
 
 
 class CategoryViewset(ListAPIView, ViewSet):
@@ -116,7 +114,7 @@ class HowDoYouHearAboutUsViewset(ListAPIView, ViewSet):
 
 class HowWouldYouLikeToBeContactedViewset(ListAPIView, ViewSet):
     serializer_class = HowWouldYouLikeToBeContactedSerializer
-    querysey = HowWouldYouLikeToBeContacted.objects.all()
+    queryset = HowWouldYouLikeToBeContacted.objects.all()
 
 
 class CustomerSatisfactionViewset(ListAPIView, ViewSet):

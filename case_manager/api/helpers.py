@@ -3,15 +3,14 @@ from enum import Enum
 from django.contrib.auth.models import Group, User
 from rest_framework import serializers
 
+from call_manager.models import Ages, Gender
 from case_manager.models import (
-    Ages,
     Case,
     CasePriority,
     CaseStatus,
     Category,
     CategoryIssue,
     CustomerSatisfaction,
-    Gender,
     HowCaseClose,
     HowDoYouHearAboutUs,
     HowWouldYouLikeToBeContacted,

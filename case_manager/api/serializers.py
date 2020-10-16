@@ -2,8 +2,8 @@ from django.contrib.auth.models import User
 from drf_auto_endpoint.factories import serializer_factory
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
+from call_manager.models import Ages, Contactor, Gender
 from case_manager.models import (
-    Ages,
     Case,
     CaseComments,
     CasePriority,
@@ -12,9 +12,7 @@ from case_manager.models import (
     CaseTask,
     Category,
     CategoryIssue,
-    Contactor,
     CustomerSatisfaction,
-    Gender,
     HowDoYouHearAboutUs,
     HowCaseClose,
     HowWouldYouLikeToBeContacted,

@@ -1,11 +1,10 @@
+from call_manager.models import Ages, Contactor, Gender
 from case_manager.models import (
-    Ages,
     CasePriority,
     CaseStatus,
     Category,
     CategoryIssue,
     CustomerSatisfaction,
-    Gender,
     HowDoYouHearAboutUs,
     HowWouldYouLikeToBeContacted,
     IndividualCommitedFraud,

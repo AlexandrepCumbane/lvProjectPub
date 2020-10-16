@@ -2,8 +2,8 @@ from django.test import TestCase
 
 from case_manager.api.views import CaseViewset
 
+from call_manager.models import Ages, Contactor, Gender
 from case_manager.models import (
-    Ages,
     Case,
     CaseComments,
     CasePriority,
@@ -12,9 +12,7 @@ from case_manager.models import (
     CaseTask,
     Category,
     CategoryIssue,
-    Contactor,
     CustomerSatisfaction,
-    Gender,
     HowCaseClose,
     HowDoYouHearAboutUs,
     HowWouldYouLikeToBeContacted,
@@ -95,8 +93,12 @@ class ContactorTestCase(TestCase):
     def test_cant_update_contactor(self):
         case_view = CaseViewset()
         contactor = {}
-        contactor_saved = case_view._update_contactor(contactor)
-        self.assertFalse(contactor_saved)
+        try:
+            contactor_saved = case_view._update_contactor(contactor)
+        except KeyError:
+            pass
+        finally:
+            self.assertFalse(contactor_saved)
 
     def test_can_update_contactor_only_with_id(self):
         case_view = CaseViewset()
