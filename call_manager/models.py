@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 from location_management.models import Location, District, Province
@@ -17,14 +18,27 @@ class Ages(models.Model):
         return self.name
 
 
+class CustomerSatisfaction(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
+class HowDoYouHearAboutUs(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Contactor(models.Model):
     alternative_number = models.CharField(
         default="", max_length=25, blank=True, null=True
     )
     contact = models.CharField(max_length=100, default="", null=True, blank=True)
-    fdp = models.CharField(max_length=200, default="", null=True, blank=True)
     full_name = models.CharField(max_length=300, default="", null=True, blank=True)
-
+    address_reference = models.CharField(max_length=300, default="", null=True, blank=True)
     # Foreign Keys
     age = models.ForeignKey(
         Ages, on_delete=models.SET_NULL, related_name="contactor", null=True, blank=True
@@ -50,3 +64,27 @@ class Contactor(models.Model):
     province = models.ForeignKey(
         Province, on_delete=models.SET_NULL, related_name="contactor", null=True
     )
+
+
+class Call(models.Model):
+    call_id = models.CharField(max_length=25)
+    consent_to_share_third_party = models.BooleanField(default=False)
+    consent_to_collect_personal_info = models.BooleanField(default=False)
+    call_require_feedback = models.BooleanField(default=False)
+    call_notes = models.TextField(default='')
+    contactor = models.OneToOneField(
+        Contactor, on_delete=models.CASCADE, related_name="calls"
+    )
+    # How do You hear about us field on form
+    how_knows_us = models.ForeignKey(
+        HowDoYouHearAboutUs,
+        on_delete=models.SET_NULL,
+        related_name="calls",
+        null=True,
+        blank=True,
+    )
+    created_at = models.DateTimeField(
+        auto_now=False, null=True, blank=True, editable=True
+    )
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='calls')

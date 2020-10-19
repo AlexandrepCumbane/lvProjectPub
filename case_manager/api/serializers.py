@@ -1,8 +1,6 @@
 from django.contrib.auth.models import User
 from drf_auto_endpoint.factories import serializer_factory
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-
-from call_manager.models import Ages, Contactor, Gender
 from case_manager.models import (
     Case,
     CaseComments,
@@ -12,8 +10,6 @@ from case_manager.models import (
     CaseTask,
     Category,
     CategoryIssue,
-    CustomerSatisfaction,
-    HowDoYouHearAboutUs,
     HowCaseClose,
     HowWouldYouLikeToBeContacted,
     IndividualCommitedFraud,
@@ -29,11 +25,10 @@ from case_manager.models import (
     Vulnerability,
     WhoIsNotReceivingAssistence,
 )
-from location_management.api.serializers import (
-    DistrictSerializer,
-    LocationSerializer,
-    ProvinceSerializer,
-)
+
+
+from call_manager.api.serializers import ContactorSerializerFull, ContactorSerializer
+from call_manager.models import CustomerSatisfaction
 
 
 class CasePrioritySerializer(ModelSerializer):
@@ -45,12 +40,6 @@ class CasePrioritySerializer(ModelSerializer):
 class CaseCommentsSerializer(ModelSerializer):
     class Meta:
         model = CaseComments
-        fields = "__all__"
-
-
-class GenderSerializer(ModelSerializer):
-    class Meta:
-        model = Gender
         fields = "__all__"
 
 
@@ -96,12 +85,6 @@ class HowCaseCloseSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class HowDoYouHearAboutUsSerializer(ModelSerializer):
-    class Meta:
-        model = HowDoYouHearAboutUs
-        fields = "__all__"
-
-
 class HowWouldYouLikeToBeContactedSerializer(ModelSerializer):
     class Meta:
         model = HowWouldYouLikeToBeContacted
@@ -113,35 +96,9 @@ class SourceOfInformationSerializer(ModelSerializer):
         model = SourceOfInformation
         fields = "__all__"
 
-
-class CustomerSatisfactionSerializer(ModelSerializer):
-    class Meta:
-        model = CustomerSatisfaction
-        fields = "__all__"
-
-
 class TaskStatusSerializer(ModelSerializer):
     class Meta:
         model = TaskStatus
-        fields = "__all__"
-
-
-class ContactorSerializer(ModelSerializer):
-    class Meta:
-        model = Contactor
-        fields = "__all__"
-
-
-class ContactorSerializerFull(ModelSerializer):
-
-    province = ProvinceSerializer()
-    location = LocationSerializer()
-    gender = GenderSerializer()
-    district = DistrictSerializer()
-    age = serializer_factory(model=Ages, fields=("id", "name"))()
-
-    class Meta:
-        model = Contactor
         fields = "__all__"
 
 
@@ -193,7 +150,6 @@ class CaseSerializerFull(ModelSerializer):
     source_of_information = SourceOfInformationSerializer()
     sub_category = SubCategorySerializer()
     created_by = serializer_factory(model=User, fields=("id", "username",))()
-    how_knows_us = HowDoYouHearAboutUsSerializer()
     how_would_you_like_to_be_contacted = HowWouldYouLikeToBeContactedSerializer()
     case_status = serializer_factory(model=CaseStatus, fields=("id", "name"))()
     programme = ProgrammeSerializer()

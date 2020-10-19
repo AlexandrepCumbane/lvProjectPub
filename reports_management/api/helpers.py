@@ -96,11 +96,11 @@ def generate_reports_charts_caller(initial_data, end_data) -> dict:
         .annotate(total=Count("contactor__gender__name"))
     )
 
-    reports["how_knows_about_us"] = (
-        Case.objects.filter(created_at__date__range=(initial_data, end_data))
-        .values(how=F("how_knows_us__name"))
-        .annotate(total=Count("how_knows_us__name"))
-    )
+    # reports["how_knows_about_us"] = (
+    #     Case.objects.filter(created_at__date__range=(initial_data, end_data))
+    #     .values(how=F("how_knows_us__name"))
+    #     .annotate(total=Count("how_knows_us__name"))
+    # )
 
     reports["customer_satisfaction"] = (
         Case.objects.filter(created_at__date__range=(initial_data, end_data))

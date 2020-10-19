@@ -8,7 +8,7 @@ from django.utils import timezone
 
 from user_management.models import FocalPointProfile
 
-from call_manager.models import Contactor
+from call_manager.models import Contactor, CustomerSatisfaction, HowDoYouHearAboutUs
 
 class CasePriority(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -75,22 +75,8 @@ class ResolutionSubCategory(models.Model):
         return self.name
 
 
-class HowDoYouHearAboutUs(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
 class HowWouldYouLikeToBeContacted(models.Model):
     name = models.CharField(max_length=100, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-class CustomerSatisfaction(models.Model):
-    name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
@@ -201,8 +187,6 @@ class Case(models.Model):
     case_forwarded = models.BooleanField(default=False)
     call_require_aditional_information = models.BooleanField(default=False)
     call_require_callback_for_feedback = models.BooleanField(default=False)
-    consent_to_share_third_party = models.BooleanField(default=False)
-    consent_to_collect_personal_info = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
     received_assistence = models.BooleanField(default=False)
     case_uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
@@ -240,14 +224,6 @@ class Case(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         related_name="cases",
-    )
-    # How do You hear about us field on form
-    how_knows_us = models.ForeignKey(
-        HowDoYouHearAboutUs,
-        on_delete=models.SET_NULL,
-        related_name="cases",
-        null=True,
-        blank=True,
     )
     programme = models.ForeignKey(
         Programme,

@@ -25,10 +25,6 @@ from case_manager.api.serializers import (
     CaseTaskSerializer,
     CategoryIssueSerializer,
     CategorySerializer,
-    ContactorSerializer,
-    CustomerSatisfactionSerializer,
-    GenderSerializer,
-    HowDoYouHearAboutUsSerializer,
     HowWouldYouLikeToBeContactedSerializer,
     ProgrammeSerializer,
     ReferallEntitySerializer,
@@ -37,7 +33,8 @@ from case_manager.api.serializers import (
     SubCategorySerializer,
     TaskStatusSerializer,
 )
-from call_manager.models import Ages, Contactor, Gender
+
+from call_manager.api.serializers import ContactorSerializer
 from case_manager.models import (
     Case,
     CaseComments,
@@ -47,7 +44,6 @@ from case_manager.models import (
     CaseTask,
     Category,
     CategoryIssue,
-    CustomerSatisfaction,
     HowDoYouHearAboutUs,
     HowWouldYouLikeToBeContacted,
     Programme,
@@ -62,6 +58,7 @@ from case_manager.models import (
 )
 
 from location_management.models import Province, District
+from call_manager.models import Contactor, Gender, Ages
 
 
 from case_manager import utils
@@ -70,11 +67,6 @@ from case_manager import utils
 class CasePriorityViewset(ListAPIView, ViewSet):
     serializer_class = CasePrioritySerializer
     queryset = CasePriority.objects.all()
-
-
-class GenderViewset(ListAPIView, ViewSet):
-    serializer_class = GenderSerializer
-    queryset = Gender.objects.all()
 
 
 class ProgrammeViewset(ListAPIView, ViewSet):
@@ -107,29 +99,14 @@ class ResolutionSubCategoryViewset(ListAPIView, ViewSet):
     queryset = ResolutionSubCategory.objects.select_related("resolution_category",)
 
 
-class HowDoYouHearAboutUsViewset(ListAPIView, ViewSet):
-    serializer_class = HowDoYouHearAboutUsSerializer
-    queryset = HowDoYouHearAboutUs.objects.all()
-
-
 class HowWouldYouLikeToBeContactedViewset(ListAPIView, ViewSet):
     serializer_class = HowWouldYouLikeToBeContactedSerializer
     queryset = HowWouldYouLikeToBeContacted.objects.all()
 
 
-class CustomerSatisfactionViewset(ListAPIView, ViewSet):
-    serializer_class = CustomerSatisfactionSerializer
-    queryset = CustomerSatisfaction.objects.all()
-
-
 class TaskStatusViewset(ListAPIView, ViewSet):
     serializer_class = TaskStatusSerializer
     queryset = TaskStatus.objects.all()
-
-
-class ContactorViewset(ModelViewSet):
-    serializer_class = ContactorSerializer
-    queryset = Contactor.objects.select_related("gender", "location", "province")
 
 
 class ReferallEntityViewset(ModelViewSet):
@@ -174,7 +151,7 @@ class CaseViewset(ModelViewSet):
     serializer_class = CaseSerializer
     queryset = (
         Case.objects.select_related(
-            "case_priority", "category", "contactor", "created_by", "how_knows_us",
+            "case_priority", "category", "contactor", "created_by",
         )
         .filter(is_deleted=False)
         .order_by("-id")
