@@ -27,9 +27,16 @@ LOGGING = {
             "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
             "style": "{",
         },
-        "simple": {"format": "{levelname} {message}", "style": "{",},
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
     },
-    "filters": {"require_debug_true": {"()": "django.utils.log.RequireDebugTrue",},},
+    "filters": {
+        "require_debug_true": {
+            "()": "django.utils.log.RequireDebugTrue",
+        },
+    },
     "handlers": {
         "console": {
             "level": "INFO",
@@ -51,7 +58,10 @@ LOGGING = {
     },
     "loggers": {
         # root logger
-        "": {"level": "WARNING", "handlers": ["console", "sentry"],},
+        "": {
+            "level": "WARNING",
+            "handlers": ["console", "sentry"],
+        },
         "django": {
             "handlers": ["console"],
             "propagate": os.environ.get("DEBUG", True),

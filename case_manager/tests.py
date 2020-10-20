@@ -1,11 +1,10 @@
 from django.contrib.auth.models import User
-
 from django.test import TestCase
 from rest_framework.test import APIClient
 
-from case_manager.api.views import CaseViewset
-
 from call_manager.models import Ages, Contactor, Gender
+from case_manager.api.views import CaseViewset
+from case_manager.helper_tests import generate_initial_tests_data
 from case_manager.models import (
     Case,
     CaseComments,
@@ -33,10 +32,8 @@ from case_manager.models import (
     Vulnerability,
     WhoIsNotReceivingAssistence,
 )
+from location_management.models import District, Location, Province
 
-from case_manager.helper_tests import generate_initial_tests_data
-
-from location_management.models import Location, District, Province
 
 def list_data(endpoint_url):
     client = APIClient()
@@ -52,6 +49,7 @@ def list_data(endpoint_url):
     client.force_authenticate(user=user)
     response = client.get(endpoint_url)
     return response.status_code
+
 
 class ProgramTestCase(TestCase):
     def test_list_programs(self):
@@ -82,6 +80,7 @@ class ReferallEntitiesTestCase(TestCase):
     def test_list_referall_entities(self):
         self.assertEqual(list_data("/api/v1/referall-entities/"), 200)
 
+
 class TaskStatusTestCase(TestCase):
     def test_list_task_status(self):
         self.assertEqual(list_data("/api/v1/task-status/"), 200)
@@ -90,6 +89,7 @@ class TaskStatusTestCase(TestCase):
 class DropdownsTestCase(TestCase):
     def test_list_task_status(self):
         self.assertEqual(list_data("/api/v1/dropdowns/"), 200)
+
 
 class ContactorTestCase(TestCase):
     def setUp(self):

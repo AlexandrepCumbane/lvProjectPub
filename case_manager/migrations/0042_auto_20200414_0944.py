@@ -16,7 +16,9 @@ class Migration(migrations.Migration):
             field=models.TextField(default="", max_length=100),
         ),
         migrations.AddField(
-            model_name="casetask", name="start_date", field=models.DateField(null=True),
+            model_name="casetask",
+            name="start_date",
+            field=models.DateField(null=True),
         ),
         migrations.AddField(
             model_name="casetask",

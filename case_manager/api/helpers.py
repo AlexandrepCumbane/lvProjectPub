@@ -27,7 +27,7 @@ from case_manager.models import (
     Vulnerability,
     WhoIsNotReceivingAssistence,
 )
-from location_management.models import Location, Province, District, PostoAdministrativo
+from location_management.models import District, Location, PostoAdministrativo, Province
 from posts_management.models import PostCategory, PostLanguage
 
 
@@ -45,9 +45,9 @@ class DropdownData(object):
     def __init__(self, **kwargs):
         """Initialize the Dropdown instance object
 
-            Parameters:
-                key (str):Represents the key of the data do be hold
-                value (list): represents the list of value holded
+        Parameters:
+            key (str):Represents the key of the data do be hold
+            value (list): represents the list of value holded
         """
         self.key = kwargs.get("key", None)
         self.value = kwargs.get("value", None)
@@ -56,13 +56,15 @@ class DropdownData(object):
 def filtrar_user_by_type(name: str) -> list:
     """Filter a user group of user based on the groups name.
 
-        Parameters:
-            name (str): The name of the group to filter the users.
+    Parameters:
+        name (str): The name of the group to filter the users.
 
-        Returns:
-            returns a list of users the belongs to a certain group.
+    Returns:
+        returns a list of users the belongs to a certain group.
     """
-    users = User.objects.filter(groups__name__in=[name]).values("username", "id", "focal_point_profile")
+    users = User.objects.filter(groups__name__in=[name]).values(
+        "username", "id", "focal_point_profile"
+    )
     return users
 
 
@@ -104,8 +106,8 @@ def get_formatted_provinces():
 
 def get_dropdowns() -> list:
     """
-        Return a list of data containing varios type of list object
-        present on the database.
+    Return a list of data containing varios type of list object
+    present on the database.
     """
     dropdowns = []
 

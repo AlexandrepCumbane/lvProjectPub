@@ -1,14 +1,19 @@
-from rest_framework.serializers import ModelSerializer
 from drf_auto_endpoint.factories import serializer_factory
+from rest_framework.serializers import ModelSerializer
 
-from call_manager.models import Ages, Call, Contactor, CustomerSatisfaction, Gender, HowDoYouHearAboutUs
-
+from call_manager.models import (
+    Ages,
+    Call,
+    Contactor,
+    CustomerSatisfaction,
+    Gender,
+    HowDoYouHearAboutUs,
+)
 from location_management.api.serializers import (
     DistrictSerializer,
     LocationSerializer,
     ProvinceSerializer,
 )
-
 
 
 class HowDoYouHearAboutUsSerializer(ModelSerializer):
@@ -36,7 +41,7 @@ class ContactorSerializer(ModelSerializer):
 
 
 class ContactorSerializerFull(ModelSerializer):
-    
+
     province = ProvinceSerializer()
     location = LocationSerializer()
     gender = GenderSerializer()

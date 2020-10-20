@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 
-from location_management.models import Location, Province, District
+from location_management.models import District, Location, Province
 
 
 class LocationSerializer(ModelSerializer):

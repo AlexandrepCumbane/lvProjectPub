@@ -6,20 +6,20 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0079_auto_20201016_1050'),
+        ("case_manager", "0079_auto_20201016_1050"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='case',
-            name='consent_to_collect_personal_info',
+            model_name="case",
+            name="consent_to_collect_personal_info",
         ),
         migrations.RemoveField(
-            model_name='case',
-            name='consent_to_share_third_party',
+            model_name="case",
+            name="consent_to_share_third_party",
         ),
         migrations.RemoveField(
-            model_name='case',
-            name='how_knows_us',
+            model_name="case",
+            name="how_knows_us",
         ),
     ]

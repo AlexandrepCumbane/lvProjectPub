@@ -1,17 +1,17 @@
 from django.contrib import admin
-
 from import_export import resources
 from import_export.admin import ImportExportActionModelAdmin
 
 # Register your models here.
 from location_management.models import (
+    District,
     Location,
     LocationClassification,
     LocationType,
-    District,
     PostoAdministrativo,
     Province,
 )
+
 
 # Models Resources
 class ProvinceResource(resources.ModelResource):
@@ -56,7 +56,9 @@ class LocationAdmin(ImportExportActionModelAdmin):
 
 
 admin.site.register(
-    Province, ProvinceAdmin, list_display=("name",),
+    Province,
+    ProvinceAdmin,
+    list_display=("name",),
 )
 
 admin.site.register(PostoAdministrativo, PostoAdministrativoAdmin)

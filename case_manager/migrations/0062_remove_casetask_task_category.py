@@ -10,5 +10,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="casetask", name="task_category",),
+        migrations.RemoveField(
+            model_name="casetask",
+            name="task_category",
+        ),
     ]

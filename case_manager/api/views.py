@@ -1,8 +1,9 @@
-import dateutil.parser
 import pprint
 from datetime import datetime
-from django.core.exceptions import ObjectDoesNotExist
+
+import dateutil.parser
 from django.contrib.auth.models import Group, User
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -12,6 +13,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
+from call_manager.api.serializers import ContactorSerializer
+from call_manager.models import Ages, Contactor, Gender
+from case_manager import utils
 from case_manager.api.filters import CaseFilter, CaseReferallFilter, CaseTaskFilter
 from case_manager.api.helpers import DropdownSerializer, get_dropdowns
 from case_manager.api.serializers import (
@@ -33,8 +37,6 @@ from case_manager.api.serializers import (
     SubCategorySerializer,
     TaskStatusSerializer,
 )
-
-from call_manager.api.serializers import ContactorSerializer
 from case_manager.models import (
     Case,
     CaseComments,
@@ -50,18 +52,13 @@ from case_manager.models import (
     ReferallEntity,
     ResolutionCategory,
     ResolutionSubCategory,
+    SourceOfInformation,
     SubCategory,
-    Vulnerability,
     TaskStatus,
     TransfereModality,
-    SourceOfInformation,
+    Vulnerability,
 )
-
-from location_management.models import Province, District
-from call_manager.models import Contactor, Gender, Ages
-
-
-from case_manager import utils
+from location_management.models import District, Province
 
 
 class CasePriorityViewset(ListAPIView, ViewSet):
@@ -81,7 +78,9 @@ class CategoryViewset(ListAPIView, ViewSet):
 
 class SubCategoryViewset(ListAPIView, ViewSet):
     serializer_class = SubCategorySerializer
-    queryset = SubCategory.objects.select_related("category",)
+    queryset = SubCategory.objects.select_related(
+        "category",
+    )
 
 
 class CategoryIssueViewset(ListAPIView, ViewSet):
@@ -96,7 +95,9 @@ class ResolutionCategoryViewset(ListAPIView, ViewSet):
 
 class ResolutionSubCategoryViewset(ListAPIView, ViewSet):
     serializer_class = ResolutionSubCategorySerializer
-    queryset = ResolutionSubCategory.objects.select_related("resolution_category",)
+    queryset = ResolutionSubCategory.objects.select_related(
+        "resolution_category",
+    )
 
 
 class HowWouldYouLikeToBeContactedViewset(ListAPIView, ViewSet):
@@ -119,8 +120,7 @@ class CaseCommentsViewset(ModelViewSet):
     queryset = CaseComments.objects.prefetch_related("case")
 
     def create(self, request):
-        """Creates a CaseComment record on the database.
-        """
+        """Creates a CaseComment record on the database."""
         case_referall = None
 
         # Raise an exception if doesn't find a case referall key,value
@@ -151,7 +151,10 @@ class CaseViewset(ModelViewSet):
     serializer_class = CaseSerializer
     queryset = (
         Case.objects.select_related(
-            "case_priority", "category", "contactor", "created_by",
+            "case_priority",
+            "category",
+            "contactor",
+            "created_by",
         )
         .filter(is_deleted=False)
         .order_by("-id")
@@ -162,9 +165,9 @@ class CaseViewset(ModelViewSet):
     def saveexcel(self, request):
         """Update the data on the database submited in the xls format
 
-            Contraints:
-                returns 400 Response if the data submited doesn't
-                contains the list of cases to be updated
+        Contraints:
+            returns 400 Response if the data submited doesn't
+            contains the list of cases to be updated
         """
 
         # Verify if the key cases in the request post body
@@ -306,13 +309,13 @@ class CaseViewset(ModelViewSet):
 
     def _update_case(self, case_id: str, case) -> bool:
         """Update a case on the database.
-        
-            Parameters:
-                case_id (str):The case_id of the case to be updated
-                case (dict): the case data to be updated on the database
-            
-            Returns:
-                Return True or false if the system was able to update the database.
+
+        Parameters:
+            case_id (str):The case_id of the case to be updated
+            case (dict): the case data to be updated on the database
+
+        Returns:
+            Return True or false if the system was able to update the database.
         """
         case_to_update = Case.objects.get(case_id=case_id)
         contactor = case_to_update.contactor
@@ -363,11 +366,11 @@ class CaseViewset(ModelViewSet):
     def _save_contactor(self, contactor: dict) -> dict:
         """Save a new Contactor on the database.
 
-            Parameters:
-                contactor (dict): The data of the contactor to be saved on the database.
+        Parameters:
+            contactor (dict): The data of the contactor to be saved on the database.
 
-            Returns:
-                Returns true or false if the contactor is saved.
+        Returns:
+            Returns true or false if the contactor is saved.
         """
         contact_serializer = ContactorSerializer(data=contactor)
 
@@ -384,11 +387,11 @@ class CaseViewset(ModelViewSet):
     def _update_contactor(self, contactor_data: dict) -> dict:
         """Update the contactor data saved on the database.
 
-            Parameters:
-                contactor_data (dict): contains the new data of the contactor to be updated.
-            
-            Returns:
-                contactor_is_saved (bool):Return true or false if the contactor was updated.
+        Parameters:
+            contactor_data (dict): contains the new data of the contactor to be updated.
+
+        Returns:
+            contactor_is_saved (bool):Return true or false if the contactor was updated.
         """
         contactor_id = None
         contactor_is_saved = False
@@ -420,13 +423,12 @@ class CaseViewset(ModelViewSet):
             contactor_is_saved = True
             return contactor_is_saved
 
-        print('errors', contact_serializer.errors)
+        print("errors", contact_serializer.errors)
 
         return contactor_is_saved
 
     def destroy(self, request, pk=None):
-        """Disable user to see case of delete request method on the API.
-        """
+        """Disable user to see case of delete request method on the API."""
 
         case = get_object_or_404(self.queryset, pk=pk)
         case.is_deleted = True
@@ -541,10 +543,9 @@ class CaseViewset(ModelViewSet):
 
         my_data["case_forwarded"] = True
 
-        
         case_ = Case.objects.get(id=pk)
-        print('my_data: ', my_data)
-        print('case_update: ', case_update.case_forwarded)
+        print("my_data: ", my_data)
+        print("case_update: ", case_update.case_forwarded)
         case_update.case_forwarded = True
         case_serializer = CaseSerializer(case_update, data=my_data, partial=True)
         if case_serializer.is_valid():
@@ -594,8 +595,8 @@ class CaseTaskViewset(ModelViewSet):
         is_gestor = utils.is_user_type_gestor(request)
         if is_gestor:
             """
-                This query filters task for today and tasks that are
-                Not completed at all
+            This query filters task for today and tasks that are
+            Not completed at all
             """
             my_queryset = (
                 self.queryset.filter(assigned_to=request.user)
@@ -685,7 +686,12 @@ class CaseReferallViewset(ModelViewSet):
 
                     return Response(case_serializer.data)
                 else:
-                    return Response({"Errors": data_serializer.errors,}, status=400)
+                    return Response(
+                        {
+                            "Errors": data_serializer.errors,
+                        },
+                        status=400,
+                    )
 
         return super().create(request)
 
@@ -708,8 +714,8 @@ class CaseReferallViewset(ModelViewSet):
     @action(methods=["GET"], detail=False)
     def feedbacks(self, request):
         """
-            Return the list of cases with feedback from partner
-            in the API.
+        Return the list of cases with feedback from partner
+        in the API.
         """
         my_queryset = self.get_queryset().order_by("-id")
         my_groups = request.user.groups.all()

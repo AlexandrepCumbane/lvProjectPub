@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User
 from drf_auto_endpoint.factories import serializer_factory
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
+
+from call_manager.api.serializers import ContactorSerializer, ContactorSerializerFull
+from call_manager.models import CustomerSatisfaction
 from case_manager.models import (
     Case,
     CaseComments,
@@ -25,10 +28,6 @@ from case_manager.models import (
     Vulnerability,
     WhoIsNotReceivingAssistence,
 )
-
-
-from call_manager.api.serializers import ContactorSerializerFull, ContactorSerializer
-from call_manager.models import CustomerSatisfaction
 
 
 class CasePrioritySerializer(ModelSerializer):
@@ -96,6 +95,7 @@ class SourceOfInformationSerializer(ModelSerializer):
         model = SourceOfInformation
         fields = "__all__"
 
+
 class TaskStatusSerializer(ModelSerializer):
     class Meta:
         model = TaskStatus
@@ -149,7 +149,13 @@ class CaseSerializerFull(ModelSerializer):
     contactor = ContactorSerializerFull()
     source_of_information = SourceOfInformationSerializer()
     sub_category = SubCategorySerializer()
-    created_by = serializer_factory(model=User, fields=("id", "username",))()
+    created_by = serializer_factory(
+        model=User,
+        fields=(
+            "id",
+            "username",
+        ),
+    )()
     how_would_you_like_to_be_contacted = HowWouldYouLikeToBeContactedSerializer()
     case_status = serializer_factory(model=CaseStatus, fields=("id", "name"))()
     programme = ProgrammeSerializer()
@@ -157,9 +163,6 @@ class CaseSerializerFull(ModelSerializer):
     vulnerability = serializer_factory(model=Vulnerability, fields=("id", "name"))()
     transfere_modality = serializer_factory(
         model=TransfereModality, fields=("id", "name")
-    )()
-    customer_satisfaction = serializer_factory(
-        model=CustomerSatisfaction, fields=("id", "name")
     )()
     who_is_never_received_assistance = serializer_factory(
         model=WhoIsNotReceivingAssistence, fields=("id", "name")

@@ -5,10 +5,9 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
-
+from call_manager.models import Contactor, CustomerSatisfaction, HowDoYouHearAboutUs
 from user_management.models import FocalPointProfile
 
-from call_manager.models import Contactor, CustomerSatisfaction, HowDoYouHearAboutUs
 
 class CasePriority(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -94,7 +93,6 @@ class TaskStatus(models.Model):
 
     def __str__(self):
         return self.name
-
 
 
 class ReferallEntity(models.Model):
@@ -204,12 +202,11 @@ class Case(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     # FOREIGN FIELDS
-    customer_satisfaction = models.ForeignKey(
-        CustomerSatisfaction, on_delete=models.SET_NULL, null=True, related_name="cases"
-    )
-
     how_case_was_closed = models.ForeignKey(
-        HowCaseClose, on_delete=models.SET_NULL, related_name="cases", null=True,
+        HowCaseClose,
+        on_delete=models.SET_NULL,
+        related_name="cases",
+        null=True,
     )
 
     how_would_you_like_to_be_contacted = models.ForeignKey(

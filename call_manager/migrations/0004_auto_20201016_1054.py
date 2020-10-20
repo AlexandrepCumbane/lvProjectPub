@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('call_manager', '0003_howdoyouhearaboutus'),
+        ("call_manager", "0003_howdoyouhearaboutus"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='contactor',
-            name='fdp',
+            model_name="contactor",
+            name="fdp",
         ),
         migrations.AddField(
-            model_name='contactor',
-            name='address_reference',
-            field=models.CharField(blank=True, default='', max_length=300, null=True),
+            model_name="contactor",
+            name="address_reference",
+            field=models.CharField(blank=True, default="", max_length=300, null=True),
         ),
     ]

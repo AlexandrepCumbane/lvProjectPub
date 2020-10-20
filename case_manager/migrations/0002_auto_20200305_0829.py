@@ -26,8 +26,14 @@ class Migration(migrations.Migration):
                 ("name", models.CharField(max_length=50)),
             ],
         ),
-        migrations.RemoveField(model_name="case", name="community_member",),
-        migrations.RemoveField(model_name="case", name="local_leader",),
+        migrations.RemoveField(
+            model_name="case",
+            name="community_member",
+        ),
+        migrations.RemoveField(
+            model_name="case",
+            name="local_leader",
+        ),
         migrations.AlterField(
             model_name="case",
             name="humanitarion_actor",

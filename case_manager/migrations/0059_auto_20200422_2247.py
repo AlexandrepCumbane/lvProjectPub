@@ -25,5 +25,8 @@ class Migration(migrations.Migration):
                 ("name", models.CharField(max_length=200, unique=True)),
             ],
         ),
-        migrations.RemoveField(model_name="case", name="vulnerabilites",),
+        migrations.RemoveField(
+            model_name="case",
+            name="vulnerabilites",
+        ),
     ]

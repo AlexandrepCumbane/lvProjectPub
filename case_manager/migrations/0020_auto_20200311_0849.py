@@ -25,5 +25,8 @@ class Migration(migrations.Migration):
                 ("name", models.CharField(max_length=50)),
             ],
         ),
-        migrations.RemoveField(model_name="casetask", name="category",),
+        migrations.RemoveField(
+            model_name="casetask",
+            name="category",
+        ),
     ]

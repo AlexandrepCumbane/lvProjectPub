@@ -1,5 +1,4 @@
-./manage.py loaddata groups.json
-./manage.py loaddata locations.json
-./manage.py loaddata users.json
-./manage.py loaddata users_profile.json
-./manage.py loaddata cases.json
+python manage.py loaddata groups
+python manage.py loaddata locations
+python manage.py loaddata users
+python manage.py loaddata users_profile

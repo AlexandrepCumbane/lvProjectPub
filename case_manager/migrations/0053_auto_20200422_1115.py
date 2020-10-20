@@ -11,7 +11,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RenameModel(
-            old_name="HumanitarionActor", new_name="SourceOfInformation",
+            old_name="HumanitarionActor",
+            new_name="SourceOfInformation",
         ),
         migrations.RenameField(
             model_name="case",

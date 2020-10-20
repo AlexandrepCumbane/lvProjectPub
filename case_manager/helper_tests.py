@@ -17,14 +17,13 @@ from case_manager.models import (
     TransfereModality,
     Vulnerability,
 )
-
 from location_management.models import District, Province
 
 
 def generate_initial_tests_data():
     """
-        This function create all models nescessary to make requests
-        to case API.
+    This function create all models nescessary to make requests
+    to case API.
     """
     ages = Ages.objects.create(name="17 and below")
     ages.save()

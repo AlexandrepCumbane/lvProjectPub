@@ -1,6 +1,12 @@
 from drf_auto_endpoint.router import DefaultRouter
 
-from call_manager.api.views import CallViewset, CustomerSatisfactionViewset, ContactorViewset, GenderViewset, HowDoYouHearAboutUsViewset
+from call_manager.api.views import (
+    CallViewset,
+    ContactorViewset,
+    CustomerSatisfactionViewset,
+    GenderViewset,
+    HowDoYouHearAboutUsViewset,
+)
 
 router = DefaultRouter()
 router.register("calls", CallViewset, basename="calls")

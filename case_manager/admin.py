@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from import_export import resources
 from import_export.admin import ImportExportActionModelAdmin
 
@@ -35,6 +34,7 @@ from case_manager.models import (
 @ Model Resources 
 """
 
+
 class CaseResource(resources.ModelResource):
     class Meta:
         model = Case
@@ -53,7 +53,6 @@ class CaseStatusResource(resources.ModelResource):
 class CategoryResource(resources.ModelResource):
     class Meta:
         model = Category
-
 
 
 class CaseAdmin(ImportExportActionModelAdmin):

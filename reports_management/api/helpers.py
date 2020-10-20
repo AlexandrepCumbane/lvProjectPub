@@ -48,15 +48,15 @@ start_year = timezone.now().replace(
 
 def generate_reports_big_number(initial_data, end_data) -> dict:
     """
-        Generate the total cases sumary, with feedback and closed reports number
-        in the period of time.
+    Generate the total cases sumary, with feedback and closed reports number
+    in the period of time.
 
-        Parameters:
-            initial_data (django.timezone.datetime):Initial date of the data to be filtered.
-            end_data (django.timezone.datetime):End date of the data to be filtered.
-        
-        Returns:
-            reports (dict):Dictionary containing the total number of the criteria report.
+    Parameters:
+        initial_data (django.timezone.datetime):Initial date of the data to be filtered.
+        end_data (django.timezone.datetime):End date of the data to be filtered.
+
+    Returns:
+        reports (dict):Dictionary containing the total number of the criteria report.
     """
     reports = {}
     reports["total_cases"] = Case.objects.filter(
@@ -76,18 +76,18 @@ def generate_reports_big_number(initial_data, end_data) -> dict:
 
 def generate_reports_charts_caller(initial_data, end_data) -> dict:
     """
-        Generate the total cases caller reports according to some criterias.
-        
-        Description:
-            The generated reports contains data about total callers by gender,
-            how knows us, customer satisfaction and age range
+    Generate the total cases caller reports according to some criterias.
 
-        Parameters:
-            initial_data (django.timezone.datetime):Initial date of the data to be filtered.
-            end_data (django.timezone.datetime):End date of the data to be filtered.
-        
-        Returns:
-            reports (dict):Dictionary containing the total number of the criteria report.
+    Description:
+        The generated reports contains data about total callers by gender,
+        how knows us, customer satisfaction and age range
+
+    Parameters:
+        initial_data (django.timezone.datetime):Initial date of the data to be filtered.
+        end_data (django.timezone.datetime):End date of the data to be filtered.
+
+    Returns:
+        reports (dict):Dictionary containing the total number of the criteria report.
     """
     reports = {}
     reports["caller_profile"] = (
@@ -102,11 +102,11 @@ def generate_reports_charts_caller(initial_data, end_data) -> dict:
     #     .annotate(total=Count("how_knows_us__name"))
     # )
 
-    reports["customer_satisfaction"] = (
-        Case.objects.filter(created_at__date__range=(initial_data, end_data))
-        .values(satisfaction=F("customer_satisfaction__name"))
-        .annotate(total=Count("customer_satisfaction__name"))
-    )
+    # reports["customer_satisfaction"] = (
+    #     Case.objects.filter(created_at__date__range=(initial_data, end_data))
+    #     .values(satisfaction=F("customer_satisfaction__name"))
+    #     .annotate(total=Count("customer_satisfaction__name"))
+    # )
 
     reports_age_aux = [
         {
@@ -138,15 +138,15 @@ def generate_reports_charts_caller(initial_data, end_data) -> dict:
 
 def generate_case_charts(initial_data, end_data):
     """
-        Generate the total cases sumary, with feedback and closed reports number
-        in the period of time.
+    Generate the total cases sumary, with feedback and closed reports number
+    in the period of time.
 
-        Parameters:
-            initial_data (django.timezone.datetime):Initial date of the data to be filtered.
-            end_data (django.timezone.datetime):End date of the data to be filtered.
-        
-        Returns:
-            reports (dict):Dictionary containing the total number of the criteria report.
+    Parameters:
+        initial_data (django.timezone.datetime):Initial date of the data to be filtered.
+        end_data (django.timezone.datetime):End date of the data to be filtered.
+
+    Returns:
+        reports (dict):Dictionary containing the total number of the criteria report.
     """
     reports = {}
     reports["case_by_province"] = (
@@ -190,17 +190,17 @@ def generate_case_charts(initial_data, end_data):
 
 def get_gestor_dashboard_data(user: object) -> dict:
     """
-        Generate the dashboard initial data for the user of type gestor.
+    Generate the dashboard initial data for the user of type gestor.
 
-        Parameters:
-            user (object):The user instance to generate the report
-        
-        Constraints:
-            If the user doesn't belongs to the gestor group the reports
-            will not be generated
+    Parameters:
+        user (object):The user instance to generate the report
 
-        Returns:
-            reports (dict):Dictionary containing the total number of the criteria report.
+    Constraints:
+        If the user doesn't belongs to the gestor group the reports
+        will not be generated
+
+    Returns:
+        reports (dict):Dictionary containing the total number of the criteria report.
     """
     is_gestor = user.groups.filter(name__icontains="gestor").count()
 
@@ -244,19 +244,19 @@ def get_gestor_dashboard_data(user: object) -> dict:
 
 def get_operador_dashboard_data(user: object) -> dict:
     """
-        Generate the dashboard initial data for the user of type operator.
+    Generate the dashboard initial data for the user of type operator.
 
-        Parameters:
-            user (object):The user instance to generate the report
+    Parameters:
+        user (object):The user instance to generate the report
 
-        Constraints:
-            If the user doesn't belongs to the operators group the reports
-            will not be generated
+    Constraints:
+        If the user doesn't belongs to the operators group the reports
+        will not be generated
 
-        Returns:
-            reports (dict):Dictionary containing the total number of the criteria report.
+    Returns:
+        reports (dict):Dictionary containing the total number of the criteria report.
     """
-    
+
     is_operador = user.groups.filter(name__icontains="operador").count()
 
     if is_operador == 0:
@@ -279,13 +279,15 @@ def get_operador_dashboard_data(user: object) -> dict:
 
     try:
         # retreive the id of the status
-        status_completed = TaskStatus.objects.values('id').get(name='Completed')['id']
+        status_completed = TaskStatus.objects.values("id").get(name="Completed")["id"]
     except ObjectDoesNotExist:
         pass
 
-    total_open_tasks = CaseTask.objects.filter(
-        assigned_to=user.id
-    ).exclude(status=status_completed).count()
+    total_open_tasks = (
+        CaseTask.objects.filter(assigned_to=user.id)
+        .exclude(status=status_completed)
+        .count()
+    )
 
     return {
         "total_open_tasks": total_open_tasks,
@@ -298,17 +300,17 @@ def get_operador_dashboard_data(user: object) -> dict:
 
 def get_parceiro_dashboard_data(user: object) -> dict:
     """
-        Generate the dashboard initial data for the user of type parceiro or focal point.
+    Generate the dashboard initial data for the user of type parceiro or focal point.
 
-        Parameters:
-            user (objeect):The user instance to generate the report
-        
-        Constraints:
-            If the user doesn't belongs to the Parceiro group or Ponto Focal Group the reports
-            will not be generated
+    Parameters:
+        user (objeect):The user instance to generate the report
 
-        Returns:
-            reports (dict):Dictionary containing the total number of the criteria report.
+    Constraints:
+        If the user doesn't belongs to the Parceiro group or Ponto Focal Group the reports
+        will not be generated
+
+    Returns:
+        reports (dict):Dictionary containing the total number of the criteria report.
     """
     ponto_focal = user.groups.filter(name__icontains="ponto focal").count()
 
@@ -328,7 +330,8 @@ def get_parceiro_dashboard_data(user: object) -> dict:
     ).count()
 
     total_cases = CaseReferall.objects.filter(
-        refered_at__date__year=timezone.now().year, referall_entity=entity_name,
+        refered_at__date__year=timezone.now().year,
+        referall_entity=entity_name,
     ).count()
 
     total_cases_with_feedback = CaseReferall.objects.filter(
@@ -355,17 +358,17 @@ def get_parceiro_dashboard_data(user: object) -> dict:
 
 def generate_focal_point_dashboard_data(user: object) -> dict:
     """
-        Generate the dashboard initial data for the user of focal point.
+    Generate the dashboard initial data for the user of focal point.
 
-        Parameters:
-            user (object):The user instance to generate the report
-        
-        Constraints:
-            If the user doesn't belongs to the Parceiro group or Ponto Focal Group the reports
-            will not be generated
+    Parameters:
+        user (object):The user instance to generate the report
 
-        Returns:
-            reports (dict):Dictionary containing the total number of the criteria report.
+    Constraints:
+        If the user doesn't belongs to the Parceiro group or Ponto Focal Group the reports
+        will not be generated
+
+    Returns:
+        reports (dict):Dictionary containing the total number of the criteria report.
     """
     total_cases_recevied = Case.objects.filter(
         created_at__date__year=timezone.now().year,
