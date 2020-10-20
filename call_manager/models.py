@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from location_management.models import Location, District, Province
+from location_management.models import District, Location, Province
 
 
 class Gender(models.Model):
@@ -38,7 +38,9 @@ class Contactor(models.Model):
     )
     contact = models.CharField(max_length=100, default="", null=True, blank=True)
     full_name = models.CharField(max_length=300, default="", null=True, blank=True)
-    address_reference = models.CharField(max_length=300, default="", null=True, blank=True)
+    address_reference = models.CharField(
+        max_length=300, default="", null=True, blank=True
+    )
     # Foreign Keys
     age = models.ForeignKey(
         Ages, on_delete=models.SET_NULL, related_name="contactor", null=True, blank=True
@@ -66,12 +68,19 @@ class Contactor(models.Model):
     )
 
 
+class CallClassification(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Call(models.Model):
     call_id = models.CharField(max_length=25)
     consent_to_share_third_party = models.BooleanField(default=False)
     consent_to_collect_personal_info = models.BooleanField(default=False)
     call_require_feedback = models.BooleanField(default=False)
-    call_notes = models.TextField(default='')
+    call_notes = models.TextField(default="")
     contactor = models.OneToOneField(
         Contactor, on_delete=models.CASCADE, related_name="calls"
     )
@@ -83,8 +92,15 @@ class Call(models.Model):
         null=True,
         blank=True,
     )
+    call_classification = models.ForeignKey(
+        CallClassification,
+        on_delete=models.SET_NULL,
+        related_name="calls",
+        null=True,
+        blank=True,
+    )
     created_at = models.DateTimeField(
-        auto_now=False, null=True, blank=True, editable=True
+        auto_now=True, null=True, blank=True, editable=True
     )
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='calls')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="calls")
