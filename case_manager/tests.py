@@ -1,39 +1,12 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from rest_framework.test import APIClient
+from mixer.backend.django import mixer
 
-from call_manager.models import Ages, Contactor, Gender
 from case_manager.api.views import CaseViewset
-from case_manager.helper_tests import generate_initial_tests_data
 from case_manager.models import (
-    Case,
-    CaseComments,
-    CasePriority,
-    CaseReferall,
-    CaseStatus,
-    CaseTask,
-    Category,
-    CategoryIssue,
-    CustomerSatisfaction,
-    HowCaseClose,
-    HowDoYouHearAboutUs,
-    HowWouldYouLikeToBeContacted,
-    IndividualCommitedFraud,
-    MecanismUsed,
-    Programme,
-    ReferallEntity,
-    ResolutionCategory,
-    ResolutionSubCategory,
-    ResponseProgram,
-    SourceOfInformation,
-    SubCategory,
-    TaskStatus,
-    TransfereModality,
-    Vulnerability,
-    WhoIsNotReceivingAssistence,
+    Case
 )
-from location_management.models import District, Location, Province
-
 
 def list_data(endpoint_url):
     client = APIClient()
@@ -91,76 +64,69 @@ class DropdownsTestCase(TestCase):
         self.assertEqual(list_data("/api/v1/dropdowns/"), 200)
 
 
-class ContactorTestCase(TestCase):
+class CaseViewTestC(TestCase):
+
     def setUp(self):
-        generate_initial_tests_data()
+        mixer.blend("case_manager.Case")
+        mixer.blend("case_manager.Case")
 
-        contactor = Contactor.objects.create(gender=Gender.objects.first())
-        contactor.save()
+    def test_list_cases(self):
+        self.assertEqual(list_data("/api/v1/cases/"), 200)
 
-    def test_save_contactor_with_gender_only(self):
-        case_view = CaseViewset()
-
-        contactor = {
-            "gender": Gender.objects.first().id,
+    def test_list_case_by_id(self):
+        case_id = Case.objects.first().id
+        self.assertEqual(list_data("/api/v1/cases/{}/".format(case_id)), 200)
+    
+    def test_delete_case_by_id(self):
+        client = APIClient()
+        user_data = {
+            "email": "test@mail.com",
+            "username": "test",
+            "password": "Test123.",
         }
-        contactor_saved = case_view._save_contactor(contactor)
 
-        self.assertTrue(contactor_saved["is_saved"])
+        user = User(**user_data)
+        user.save()
 
-    def test_save_contactor_full(self):
-        case_view = CaseViewset()
+        client.force_authenticate(user=user)
+        case_id = Case.objects.first().id
+        response = client.delete("/api/v1/cases/{}/".format(case_id))
 
-        contactor = {
-            "gender": Gender.objects.first().id,
-            "alternative_number": "",
-            "contact": "",
-            "fdp": "",
-            "full_name": "",
-            "age": Ages.objects.first().id,
-            "community": "",
-            "district": None,
-            "province": Province.objects.first().id,
-            "localtion": "",
+        self.assertEqual(response.status_code, 200)
+    
+
+    def test_create_case_from_api(self):
+        client = APIClient()
+        user_data = {
+            "email": "test@mail.com",
+            "username": "test",
+            "password": "Test123.",
         }
-        contactor_saved = case_view._save_contactor(contactor)
 
-        self.assertTrue(contactor_saved["is_saved"])
+        user = User(**user_data)
+        user.save()
 
-    def test_cant_save_contactor_without_gender(self):
-        case_view = CaseViewset()
+        client.force_authenticate(user=user)
 
-        contactor = {
-            "alternative_number": "",
-            "contact": "",
-            "fdp": "",
-            "full_name": "",
-            "age": Ages.objects.first().id,
-            "community": "",
-            "district": None,
-            "province": Province.objects.first().id,
-            "localtion": "",
+        call = mixer.blend("call_manager.Call")
+        category = mixer.blend("case_manager.Category")
+        sub_category = mixer.blend("case_manager.SubCategory", category=category)
+        case_status = mixer.blend("case_manager.CaseStatus")
+        case_priority = mixer.blend("case_manager.CasePriority")
+        persons_involved = mixer.blend("case_manager.PersonsInvolved")
+
+        case = {
+            'case_id':'43434',
+            'case_notes': 'Hellow',
+            'category': category.id,
+            'sub_category': sub_category.id,
+            'case_priority': case_priority.id,
+            'call': call.id,
+            'case_status': case_status.id,
+            'created_by': user.id,
+            'persons_involved': [persons_involved.id]
         }
-        contactor_saved = case_view._save_contactor(contactor)
 
-        self.assertFalse(contactor_saved["is_saved"])
+        response = client.post("/api/v1/cases/", case)
 
-    def test_cant_update_contactor(self):
-        case_view = CaseViewset()
-        contactor = {}
-        try:
-            contactor_saved = case_view._update_contactor(contactor)
-        except KeyError:
-            pass
-        finally:
-            self.assertFalse(contactor_saved)
-
-    def test_can_update_contactor_only_with_id(self):
-        case_view = CaseViewset()
-        contactor = {
-            "id": Contactor.objects.first().id,
-            "full_name": "Vasco Xavier",
-            "gender": Gender.objects.first().id,
-        }
-        contactor_saved = case_view._update_contactor(contactor)
-        self.assertTrue(contactor_saved)
+        self.assertEqual(response.status_code, 201)

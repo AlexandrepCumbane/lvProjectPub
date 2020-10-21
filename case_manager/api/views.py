@@ -153,7 +153,6 @@ class CaseViewset(ModelViewSet):
         Case.objects.select_related(
             "case_priority",
             "category",
-            "contactor",
             "created_by",
         )
         .filter(is_deleted=False)
@@ -337,52 +336,7 @@ class CaseViewset(ModelViewSet):
         return False
 
     def create(self, request):
-        try:
-            contactor = request.data["contactor"]
-            case = request.data["case"]
-            case["created_at"] = timezone.datetime.now()
-            print(case["created_at"])
-            # case["case_status"] = CaseStatus.objects.get(name="Not Started").id
-            case["case_priority"] = CasePriority.objects.get(name="High").id
-
-            contactor = self._save_contactor(contactor)
-
-            if not contactor["is_saved"]:
-                return Response({"error": "Erro ao gravar contactant"}, status=400)
-
-            case["contactor"] = contactor["contactor_id"]
-            case["created_by"] = request.user.id
-            case_serializer = CaseSerializer(data=case)
-
-            if case_serializer.is_valid():
-                case = case_serializer.save()
-                return Response({"case": case.id})
-            else:
-                return Response({"errors": case_serializer.errors}, status=400)
-        except KeyError:
-            pass
         return super().create(request)
-
-    def _save_contactor(self, contactor: dict) -> dict:
-        """Save a new Contactor on the database.
-
-        Parameters:
-            contactor (dict): The data of the contactor to be saved on the database.
-
-        Returns:
-            Returns true or false if the contactor is saved.
-        """
-        contact_serializer = ContactorSerializer(data=contactor)
-
-        contactor_is_saved = False
-
-        if contact_serializer.is_valid():
-            contact_saved = contact_serializer.save()
-            contactor_is_saved = True
-            return {"is_saved": contactor_is_saved, "contactor_id": contact_saved.id}
-
-        print(contact_serializer.errors)
-        return {"is_saved": contactor_is_saved, "contactor_id": 0}
 
     def _update_contactor(self, contactor_data: dict) -> dict:
         """Update the contactor data saved on the database.
@@ -457,7 +411,7 @@ class CaseViewset(ModelViewSet):
         List cases that a referred to a partner
         """
         pages = self.paginate_queryset(
-            self.get_queryset().filter(case_forwarded=True).order_by("-id")
+            self.get_queryset().filter(case_forward=True).order_by("-id")
         )
         response = CaseSerializerFull(pages, many=True)
 
@@ -541,12 +495,12 @@ class CaseViewset(ModelViewSet):
             CaseStatus.objects.filter(name__icontains="progress").first().id
         )
 
-        my_data["case_forwarded"] = True
+        my_data["case_forward"] = True
 
         case_ = Case.objects.get(id=pk)
         print("my_data: ", my_data)
-        print("case_update: ", case_update.case_forwarded)
-        case_update.case_forwarded = True
+        print("case_update: ", case_update.case_forward)
+        case_update.case_forward = True
         case_serializer = CaseSerializer(case_update, data=my_data, partial=True)
         if case_serializer.is_valid():
             case_saved = case_serializer.save()
@@ -638,7 +592,7 @@ class CaseReferallViewset(ModelViewSet):
 
     def _update_case(self, caseId):
         update_case = get_object_or_404(Case.objects.all(), pk=caseId)
-        update_case.case_forwarded = True
+        update_case.case_forward = True
         update_case.save()
 
     def _update_case_focal_point_notes(self, notes: dict, case_id: int) -> bool:

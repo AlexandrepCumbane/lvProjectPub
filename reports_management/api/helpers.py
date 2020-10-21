@@ -90,11 +90,11 @@ def generate_reports_charts_caller(initial_data, end_data) -> dict:
         reports (dict):Dictionary containing the total number of the criteria report.
     """
     reports = {}
-    reports["caller_profile"] = (
-        Case.objects.filter(created_at__date__range=(initial_data, end_data))
-        .values(gender=F("contactor__gender__name"))
-        .annotate(total=Count("contactor__gender__name"))
-    )
+    # reports["caller_profile"] = (
+    #     Case.objects.filter(created_at__date__range=(initial_data, end_data))
+    #     .values(gender=F("contactor__gender__name"))
+    #     .annotate(total=Count("contactor__gender__name"))
+    # )
 
     # reports["how_knows_about_us"] = (
     #     Case.objects.filter(created_at__date__range=(initial_data, end_data))
@@ -108,31 +108,31 @@ def generate_reports_charts_caller(initial_data, end_data) -> dict:
     #     .annotate(total=Count("customer_satisfaction__name"))
     # )
 
-    reports_age_aux = [
-        {
-            "name": "bellow_17",
-            "total": Case.objects.filter(
-                created_at__date__range=(initial_data, end_data),
-                contactor__age__name__icontains="17",
-            ).count(),
-        },
-        {
-            "name": "between_18_and_59",
-            "total": Case.objects.filter(
-                created_at__date__range=(initial_data, end_data),
-                contactor__age__name__icontains="18",
-            ).count(),
-        },
-        {
-            "name": "above_60",
-            "total": Case.objects.filter(
-                created_at__date__range=(initial_data, end_data),
-                contactor__age__name__icontains="60",
-            ).count(),
-        },
-    ]
+    # reports_age_aux = [
+    #     {
+    #         "name": "bellow_17",
+    #         "total": Case.objects.filter(
+    #             created_at__date__range=(initial_data, end_data),
+    #             contactor__age__name__icontains="17",
+    #         ).count(),
+    #     },
+    #     {
+    #         "name": "between_18_and_59",
+    #         "total": Case.objects.filter(
+    #             created_at__date__range=(initial_data, end_data),
+    #             contactor__age__name__icontains="18",
+    #         ).count(),
+    #     },
+    #     {
+    #         "name": "above_60",
+    #         "total": Case.objects.filter(
+    #             created_at__date__range=(initial_data, end_data),
+    #             contactor__age__name__icontains="60",
+    #         ).count(),
+    #     },
+    # ]
 
-    reports["caller_profile_by_age"] = reports_age_aux
+    # reports["caller_profile_by_age"] = reports_age_aux
     return reports
 
 
@@ -149,41 +149,41 @@ def generate_case_charts(initial_data, end_data):
         reports (dict):Dictionary containing the total number of the criteria report.
     """
     reports = {}
-    reports["case_by_province"] = (
-        Case.objects.filter(created_at__date__range=(initial_data, end_data))
-        .values(province=F("contactor__province__name"))
-        .annotate(total=Count("contactor__province__name"))
-    )
+    # reports["case_by_province"] = (
+    #     Case.objects.filter(created_at__date__range=(initial_data, end_data))
+    #     .values(province=F("contactor__province__name"))
+    #     .annotate(total=Count("contactor__province__name"))
+    # )
 
-    reports["case_by_category"] = (
-        Case.objects.filter(created_at__date__range=(initial_data, end_data))
-        .values(name=F("category__name"))
-        .annotate(total=Count("category__name"))
-    )
+    # reports["case_by_category"] = (
+    #     Case.objects.filter(created_at__date__range=(initial_data, end_data))
+    #     .values(name=F("category__name"))
+    #     .annotate(total=Count("category__name"))
+    # )
 
-    reports["case_by_sector"] = (
-        Case.objects.filter(created_at__date__range=(initial_data, end_data))
-        .values(sector=F("programme__name"))
-        .annotate(total=Count("programme__name"))
-    )
+    # reports["case_by_sector"] = (
+    #     Case.objects.filter(created_at__date__range=(initial_data, end_data))
+    #     .values(sector=F("programme__name"))
+    #     .annotate(total=Count("programme__name"))
+    # )
 
-    reports["case_by_type"] = (
-        Case.objects.filter(created_at__date__range=(initial_data, end_data))
-        .values(tipology=F("category__name"))
-        .annotate(total=Count("category__name"))
-    )
+    # reports["case_by_type"] = (
+    #     Case.objects.filter(created_at__date__range=(initial_data, end_data))
+    #     .values(tipology=F("category__name"))
+    #     .annotate(total=Count("category__name"))
+    # )
 
-    reports["case_by_response_program"] = (
-        Case.objects.filter(created_at__date__range=(initial_data, end_data))
-        .values(program=F("response_program__name"))
-        .annotate(total=Count("response_program__name"))
-    )
+    # reports["case_by_response_program"] = (
+    #     Case.objects.filter(created_at__date__range=(initial_data, end_data))
+    #     .values(program=F("response_program__name"))
+    #     .annotate(total=Count("response_program__name"))
+    # )
 
-    reports["case_by_referall"] = (
-        Case.objects.filter(created_at__date__range=(initial_data, end_data))
-        .values(entity=F("case_referall__referall_entity__name"))
-        .annotate(total=Count("case_referall__referall_entity__name"))
-    )
+    # reports["case_by_referall"] = (
+    #     Case.objects.filter(created_at__date__range=(initial_data, end_data))
+    #     .values(entity=F("case_referall__referall_entity__name"))
+    #     .annotate(total=Count("case_referall__referall_entity__name"))
+    # )
 
     return reports
 
@@ -213,10 +213,10 @@ def get_gestor_dashboard_data(user: object) -> dict:
         created_at__date__year=timezone.now().year
     ).count()
     total_cases_referall = Case.objects.filter(
-        case_forwarded=True, created_at__date__year=timezone.now().year
+        case_forward=True, created_at__date__year=timezone.now().year
     ).count()
     total_cases_not_forwarded = Case.objects.filter(
-        case_forwarded=False, created_at__date__year=timezone.now().year
+        case_forward=False, created_at__date__year=timezone.now().year
     ).count()
     total_cases_with_feedback = (
         CaseReferall.objects.filter(refered_at__date__year=timezone.now().year)
@@ -373,12 +373,12 @@ def generate_focal_point_dashboard_data(user: object) -> dict:
     total_cases_recevied = Case.objects.filter(
         created_at__date__year=timezone.now().year,
         focal_points__user__id__in=[user.id],
-        case_forwarded=False,
+        case_forward=False,
     ).count()
     total_cases_send = Case.objects.filter(
         created_at__date__year=timezone.now().year,
         case_referall__referall_entity__users__in=[user.id],
-        case_forwarded=True,
+        case_forward=True,
     ).count()
     total_cases_with_feedback = CaseReferall.objects.filter(
         refered_at__date__year=timezone.now().year,

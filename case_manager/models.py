@@ -5,7 +5,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
-from call_manager.models import Contactor, CustomerSatisfaction, HowDoYouHearAboutUs
+from call_manager.models import Call, Contactor, CustomerSatisfaction, HowDoYouHearAboutUs, Ages, Gender
+from location_management.models import District, Location, Province
 from user_management.models import FocalPointProfile
 
 
@@ -152,138 +153,64 @@ class Vulnerability(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+class PersonType(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
+class PersonsInvolved(models.Model):
+    contact = models.CharField(max_length=100, default="", null=True, blank=True)
+    full_name = models.CharField(max_length=300, default="", null=True, blank=True)
+    address_reference = models.CharField(
+        max_length=300, default="", null=True, blank=True
+    )
+    # Foreign Keys
+    age = models.CharField(max_length=3, default='')
+    community = models.CharField(max_length=100, default="", blank=True)
+    gender = models.ForeignKey(
+        Gender, on_delete=models.CASCADE, related_name="person_involved"
+    )
+    district = models.ForeignKey(
+        District,
+        on_delete=models.SET_NULL,
+        related_name="person_involved",
+        null=True,
+        blank=True,
+    )
+    location = models.ForeignKey(
+        Location,
+        on_delete=models.SET_NULL,
+        related_name="person_involved",
+        null=True,
+        blank=True,
+    )
+    province = models.ForeignKey(
+        Province, on_delete=models.SET_NULL, related_name="person_involved", null=True
+    )
+    person_type = models.ForeignKey(PersonType, on_delete=models.SET_NULL, null=True, blank=True, related_name='person_involved')
 
 
 class Case(models.Model):
-
-    # Text Fields
-    call_note = models.TextField(max_length=1000, default="", blank=True)
-    case_call = models.TextField(max_length=20, default="", blank=True)
-    solution = models.TextField(max_length=1000, default="", blank=True)
-    focal_point_notes = models.TextField(max_length=100, default="")
-    how_case_close = models.TextField(
-        max_length=1000, default="", null=True, blank=True
-    )
-
-    camp = models.CharField(
-        choices=[("Y", "YES"), ("N", "NO"), ("NR", "NOT RELEVANT")],
-        max_length=25,
-        default="N",
-    )
     case_id = models.CharField(max_length=20, unique=True)
-    other_category = models.CharField(max_length=200, null=True, blank=True)
-    other_sources = models.CharField(max_length=200, default="", blank=True)
-    other_vulnerabilites = models.CharField(max_length=200, null=True, blank=True)
-    resettlement_name = models.CharField(max_length=200, null=True, blank=True)
-    # Boolean fields
-
-    # Reference field feedback provided
-    caller_not_reached_for_feedback = models.BooleanField(
-        default=True, blank=True, null=True
-    )
+    case_notes = models.TextField(default='')
+    category = models.ForeignKey(Category,on_delete=models.SET_NULL, null=True, blank=True, related_name='cases')
+    sub_category = models.ForeignKey(SubCategory,on_delete=models.SET_NULL, null=True, blank=True, related_name='cases')
+    case_status = models.ForeignKey(CaseStatus,on_delete=models.CASCADE, related_name='cases')
+    created_at = models.DateTimeField(auto_now=True)
+    closed_at = models.DateTimeField(null=True, blank=True)
+    case_priority = models.ForeignKey(CasePriority, on_delete=models.CASCADE, related_name='cases')
     case_closed = models.BooleanField(default=False)
-    case_forwarded = models.BooleanField(default=False)
-    call_require_aditional_information = models.BooleanField(default=False)
-    call_require_callback_for_feedback = models.BooleanField(default=False)
+    call = models.ForeignKey(Call, on_delete=models.SET_NULL, null=True, blank=True, related_name='cases')
+    case_forward = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
-    received_assistence = models.BooleanField(default=False)
-    case_uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-
-    contactor = models.OneToOneField(
-        Contactor, on_delete=models.CASCADE, related_name="cases"
-    )
-
-    # Date Filds
-    closed_at = models.DateTimeField(auto_now=False, null=True, blank=True)
-    created_at = models.DateTimeField(
-        auto_now=False, null=True, blank=True, editable=True
-    )
-    # created_at_db = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
-
-    # FOREIGN FIELDS
-    how_case_was_closed = models.ForeignKey(
-        HowCaseClose,
-        on_delete=models.SET_NULL,
-        related_name="cases",
-        null=True,
-    )
-
-    how_would_you_like_to_be_contacted = models.ForeignKey(
-        HowWouldYouLikeToBeContacted,
-        on_delete=models.SET_NULL,
-        related_name="cases",
-        null=True,
-    )
-
-    who_is_never_received_assistance = models.ForeignKey(
-        WhoIsNotReceivingAssistence,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="cases",
-    )
-    programme = models.ForeignKey(
-        Programme,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="cases",
-        blank=True,
-    )
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cases")
-    case_priority = models.ForeignKey(
-        CasePriority,
-        on_delete=models.SET_NULL,
-        related_name="cases",
-        null=True,
-        blank=True,
-    )
-    case_status = models.ForeignKey(
-        CaseStatus,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="cases",
-        blank=True,
-    )
-    individual_commited_fraud = models.ForeignKey(
-        IndividualCommitedFraud,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="cases",
-    )
-    response_program = models.ForeignKey(
-        ResponseProgram, on_delete=models.SET_NULL, related_name="cases", null=True
-    )
-    category = models.ForeignKey(
-        Category, on_delete=models.SET_NULL, related_name="cases", null=True
-    )
-    category_issue = models.ForeignKey(
-        CategoryIssue, on_delete=models.SET_NULL, related_name="cases", null=True
-    )
-    mecanism_used = models.ForeignKey(
-        MecanismUsed, on_delete=models.SET_NULL, default=None, null=True
-    )
-    source_of_information = models.ForeignKey(
-        SourceOfInformation, on_delete=models.SET_NULL, null=True, default=None
-    )
-    transfere_modality = models.ForeignKey(
-        TransfereModality, on_delete=models.SET_NULL, null=True, default=None
-    )
-    vulnerability = models.ForeignKey(
-        Vulnerability, on_delete=models.SET_NULL, null=True, blank=True
-    )
-
-    # Many to Many Fields
-    sub_category = models.ForeignKey(
-        SubCategory,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="cases",
-        blank=True,
-    )
-
+    persons_involved = models.ManyToManyField(PersonsInvolved, related_name='cases')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cases')
     focal_points = models.ManyToManyField(
-        FocalPointProfile, related_name="cases", blank=True
-    )
+        FocalPointProfile, related_name="cases", blank=True)
 
 
 class CaseReferall(models.Model):
