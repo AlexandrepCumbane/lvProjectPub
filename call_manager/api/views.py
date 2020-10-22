@@ -2,6 +2,8 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
+from form_extra_manager.helpers import save_extra_call_fields
+
 from call_manager.api.serializers import (
     CallSerializer,
     ContactorSerializer,
@@ -17,7 +19,6 @@ from call_manager.models import (
     Gender,
     HowDoYouHearAboutUs,
 )
-
 
 class CustomerSatisfactionViewset(ListAPIView, ViewSet):
     serializer_class = CustomerSatisfactionSerializer
@@ -47,7 +48,7 @@ class CallViewset(ModelViewSet):
                 return super().create(request)
 
             contactor = self._save_contactor(contactor)
-
+            
             if not contactor["is_saved"]:
                 return Response({"error": "Erro ao gravar contactant"}, status=400)
 
@@ -55,8 +56,15 @@ class CallViewset(ModelViewSet):
             call["created_by"] = request.user.id
             call_serializer = CallSerializer(data=call)
 
+            contactor = Contactor.objects.get(pk=contactor["contactor_id"])
             if call_serializer.is_valid():
                 call = call_serializer.save()
+
+                try:
+                    save_extra_call_fields(request.data["extra_fields"], call=call, contactor=contactor)
+                except KeyError:
+                    pass
+            
                 return Response({"call": call.id})
             else:
                 return Response({"errors": call_serializer.errors}, status=400)
