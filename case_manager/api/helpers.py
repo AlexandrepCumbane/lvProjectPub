@@ -25,10 +25,11 @@ from case_manager.models import (
     TaskStatus,
     TransfereModality,
     Vulnerability,
-    WhoIsNotReceivingAssistence,
+    WhoIsNotReceivingAssistence
 )
 from location_management.models import District, Location, PostoAdministrativo, Province
 from posts_management.models import PostCategory, PostLanguage
+from form_extra_manager.models import ExtraFields
 
 
 class UserType(Enum):
@@ -182,6 +183,9 @@ def get_dropdowns() -> list:
     )
     dropdowns.append(
         DropdownData(key="categories_issues", value=CategoryIssue.objects.values())
+    )
+    dropdowns.append(
+        DropdownData(key="extra_fields", value=ExtraFields.objects.values())
     )
     dropdowns.append(
         DropdownData(key="subcategories", value=SubCategory.objects.values())
