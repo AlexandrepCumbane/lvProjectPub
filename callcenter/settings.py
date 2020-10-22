@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     "reports_management",
     "user_management",
     "posts_management",
+    "form_extra_manager",
+
     # Checkeditor
     "ckeditor",
     "ckeditor_uploader",
