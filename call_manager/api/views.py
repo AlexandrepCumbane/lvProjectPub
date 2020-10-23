@@ -6,6 +6,7 @@ from form_extra_manager.helpers import save_extra_call_fields
 
 from call_manager.api.serializers import (
     CallSerializer,
+    CallSerializerFull,
     ContactorSerializer,
     CustomerSatisfactionSerializer,
     GenderSerializer,
@@ -36,7 +37,7 @@ class ContactorViewset(ModelViewSet):
 
 
 class CallViewset(ModelViewSet):
-    serializer_class = CallSerializer
+    serializer_class = CallSerializerFull
     queryset = Call.objects.all()
 
     def create(self, request):
