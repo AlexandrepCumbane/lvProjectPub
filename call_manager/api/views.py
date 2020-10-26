@@ -38,7 +38,7 @@ class ContactorViewset(ModelViewSet):
 
 class CallViewset(ModelViewSet):
     serializer_class = CallSerializerFull
-    queryset = Call.objects.all()
+    queryset = Call.objects.all().order_by("-id")
 
     def create(self, request):
         try:

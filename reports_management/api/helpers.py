@@ -5,6 +5,7 @@ from django.db.models import Count, F, Q
 from django.utils import timezone
 
 from case_manager.models import Case, CaseReferall, CaseTask, TaskStatus
+from call_manager.models import Call
 
 # Ano actual
 YEAR = datetime.date.today().year
@@ -44,6 +45,15 @@ start_month = timezone.now().replace(
 start_year = timezone.now().replace(
     year=YEAR, month=MONTH, day=DAY, hour=0, minute=0, second=0, microsecond=0
 )
+
+
+today = datetime.date.today().day
+this_week = week = datetime.datetime.today() - datetime.timedelta(
+    days=datetime.datetime.today().isoweekday() % 7
+)
+
+current_month = datetime.date.today().month
+current_year = datetime.date.today().year
 
 
 def generate_reports_big_number(initial_data, end_data) -> dict:
@@ -274,6 +284,19 @@ def get_operador_dashboard_data(user: object) -> dict:
     total_cases_day = Case.objects.filter(
         created_at__date=data_hoje, created_by=user
     ).count()
+    
+    calls_year = Call.objects.filter(
+        created_at__date__year=current_year, created_by=user
+    ).count()
+    calls_month = Call.objects.filter(
+        created_at__month=current_month, created_by=user
+    ).count()
+    calls_week = Call.objects.filter(
+        created_at__gte=this_week, created_by=user
+    ).count()
+    calls_day = Call.objects.filter(
+        created_at__day=today, created_by=user
+    ).count()
 
     status_completed = None
 
@@ -290,11 +313,22 @@ def get_operador_dashboard_data(user: object) -> dict:
     )
 
     return {
+        # "total_open_tasks": total_open_tasks,
+        # "total_cases_year": total_cases,
+        # "total_cases_month": total_cases_month,
+        # "total_cases_week": total_cases_week,
+        # "total_cases_day": total_cases_day,
         "total_open_tasks": total_open_tasks,
-        "total_cases_year": total_cases,
-        "total_cases_month": total_cases_month,
-        "total_cases_week": total_cases_week,
-        "total_cases_day": total_cases_day,
+        "cases_year": total_cases,
+        "cases_month": total_cases_month,
+        "cases_week": total_cases_week,
+        "cases_today": total_cases_day,
+
+        # calls
+        "calls_year": calls_day,
+        "calls_month": calls_month,
+        "calls_week": calls_week,
+        "calls_today": calls_year,
     }
 
 

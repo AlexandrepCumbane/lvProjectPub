@@ -1,9 +1,9 @@
+import datetime
 from django.contrib.auth.models import User
 from django.db import models
-
 from location_management.models import District, Location, Province
 
-
+now = datetime.datetime.now()
 class Gender(models.Model):
     name = models.CharField(max_length=25, unique=True)
 
@@ -100,7 +100,15 @@ class Call(models.Model):
         blank=True,
     )
     created_at = models.DateTimeField(
-        auto_now=True, null=True, blank=True, editable=True
+        auto_now_add=True, null=True, blank=True, editable=True
     )
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="calls")
+
+    def save(self, *args, **kwargs):
+        if self.call_id == "0":
+            try:
+                self.call_id = int(Call.objects.last().call_id) + 1
+            except:
+                self.call_id = now.year + 1
+        super().save(*args, **kwargs)
