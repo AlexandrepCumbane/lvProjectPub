@@ -7,20 +7,34 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('call_manager', '0006_auto_20201019_1244'),
+        ("call_manager", "0006_auto_20201019_1244"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='CallClassification',
+            name="CallClassification",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, unique=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100, unique=True)),
             ],
         ),
         migrations.AddField(
-            model_name='call',
-            name='call_classification',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='calls', to='call_manager.CallClassification'),
+            model_name="call",
+            name="call_classification",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="calls",
+                to="call_manager.CallClassification",
+            ),
         ),
     ]

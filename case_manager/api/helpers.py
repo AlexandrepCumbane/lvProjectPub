@@ -25,7 +25,7 @@ from case_manager.models import (
     TaskStatus,
     TransfereModality,
     Vulnerability,
-    WhoIsNotReceivingAssistence
+    WhoIsNotReceivingAssistence,
 )
 from location_management.models import District, Location, PostoAdministrativo, Province
 from posts_management.models import PostCategory, PostLanguage

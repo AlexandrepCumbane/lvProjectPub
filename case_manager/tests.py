@@ -4,9 +4,8 @@ from rest_framework.test import APIClient
 from mixer.backend.django import mixer
 
 from case_manager.api.views import CaseViewset
-from case_manager.models import (
-    Case
-)
+from case_manager.models import Case
+
 
 def list_data(endpoint_url):
     client = APIClient()
@@ -65,7 +64,6 @@ class DropdownsTestCase(TestCase):
 
 
 class CaseViewTestC(TestCase):
-
     def setUp(self):
         mixer.blend("case_manager.Case")
         mixer.blend("case_manager.Case")
@@ -76,7 +74,7 @@ class CaseViewTestC(TestCase):
     def test_list_case_by_id(self):
         case_id = Case.objects.first().id
         self.assertEqual(list_data("/api/v1/cases/{}/".format(case_id)), 200)
-    
+
     def test_delete_case_by_id(self):
         client = APIClient()
         user_data = {
@@ -93,7 +91,6 @@ class CaseViewTestC(TestCase):
         response = client.delete("/api/v1/cases/{}/".format(case_id))
 
         self.assertEqual(response.status_code, 200)
-    
 
     def test_create_case_from_api(self):
         client = APIClient()
@@ -116,15 +113,15 @@ class CaseViewTestC(TestCase):
         persons_involved = mixer.blend("case_manager.PersonsInvolved")
 
         case = {
-            'case_id':'43434',
-            'case_notes': 'Hellow',
-            'category': category.id,
-            'sub_category': sub_category.id,
-            'case_priority': case_priority.id,
-            'call': call.id,
-            'case_status': case_status.id,
-            'created_by': user.id,
-            'persons_involved': [persons_involved.id]
+            "case_id": "43434",
+            "case_notes": "Hellow",
+            "category": category.id,
+            "sub_category": sub_category.id,
+            "case_priority": case_priority.id,
+            "call": call.id,
+            "case_status": case_status.id,
+            "created_by": user.id,
+            "persons_involved": [persons_involved.id],
         }
 
         response = client.post("/api/v1/cases/", case)

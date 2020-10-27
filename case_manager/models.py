@@ -5,7 +5,14 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
-from call_manager.models import Call, Contactor, CustomerSatisfaction, HowDoYouHearAboutUs, Ages, Gender
+from call_manager.models import (
+    Call,
+    Contactor,
+    CustomerSatisfaction,
+    HowDoYouHearAboutUs,
+    Ages,
+    Gender,
+)
 from location_management.models import District, Location, Province
 from user_management.models import FocalPointProfile
 
@@ -153,7 +160,7 @@ class Vulnerability(models.Model):
 
     def __str__(self):
         return self.name
-    
+
 
 class PersonType(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -169,7 +176,7 @@ class PersonsInvolved(models.Model):
         max_length=300, default="", null=True, blank=True
     )
     # Foreign Keys
-    age = models.CharField(max_length=3, default='')
+    age = models.CharField(max_length=3, default="")
     community = models.CharField(max_length=100, default="", blank=True)
     gender = models.ForeignKey(
         Gender, on_delete=models.CASCADE, related_name="person_involved"
@@ -191,26 +198,47 @@ class PersonsInvolved(models.Model):
     province = models.ForeignKey(
         Province, on_delete=models.SET_NULL, related_name="person_involved", null=True
     )
-    person_type = models.ForeignKey(PersonType, on_delete=models.SET_NULL, null=True, blank=True, related_name='person_involved')
+    person_type = models.ForeignKey(
+        PersonType,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="person_involved",
+    )
 
 
 class Case(models.Model):
     case_id = models.CharField(max_length=20, unique=True)
-    case_notes = models.TextField(default='')
-    category = models.ForeignKey(Category,on_delete=models.SET_NULL, null=True, blank=True, related_name='cases')
-    sub_category = models.ForeignKey(SubCategory,on_delete=models.SET_NULL, null=True, blank=True, related_name='cases')
-    case_status = models.ForeignKey(CaseStatus,on_delete=models.CASCADE, related_name='cases')
+    case_notes = models.TextField(default="")
+    category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL, null=True, blank=True, related_name="cases"
+    )
+    sub_category = models.ForeignKey(
+        SubCategory,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="cases",
+    )
+    case_status = models.ForeignKey(
+        CaseStatus, on_delete=models.CASCADE, related_name="cases"
+    )
     created_at = models.DateTimeField(auto_now=True)
     closed_at = models.DateTimeField(null=True, blank=True)
-    case_priority = models.ForeignKey(CasePriority, on_delete=models.CASCADE, related_name='cases')
+    case_priority = models.ForeignKey(
+        CasePriority, on_delete=models.CASCADE, related_name="cases"
+    )
     case_closed = models.BooleanField(default=False)
-    call = models.ForeignKey(Call, on_delete=models.SET_NULL, null=True, blank=True, related_name='cases')
+    call = models.ForeignKey(
+        Call, on_delete=models.SET_NULL, null=True, blank=True, related_name="cases"
+    )
     case_forward = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
-    persons_involved = models.ManyToManyField(PersonsInvolved, related_name='cases')
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cases')
+    persons_involved = models.ManyToManyField(PersonsInvolved, related_name="cases")
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cases")
     focal_points = models.ManyToManyField(
-        FocalPointProfile, related_name="cases", blank=True)
+        FocalPointProfile, related_name="cases", blank=True
+    )
 
 
 class CaseReferall(models.Model):

@@ -4,6 +4,8 @@ from django.db import models
 from location_management.models import District, Location, Province
 
 now = datetime.datetime.now()
+
+
 class Gender(models.Model):
     name = models.CharField(max_length=25, unique=True)
 

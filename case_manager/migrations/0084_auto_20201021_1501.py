@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0083_auto_20201021_1452'),
+        ("case_manager", "0083_auto_20201021_1452"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='casereferall',
-            name='feedback',
-            field=models.TextField(blank=True, default='', max_length=1000),
+            model_name="casereferall",
+            name="feedback",
+            field=models.TextField(blank=True, default="", max_length=1000),
         ),
         migrations.AlterField(
-            model_name='extrafields',
-            name='parent_name',
-            field=models.CharField(blank='', default='', max_length=200),
+            model_name="extrafields",
+            name="parent_name",
+            field=models.CharField(blank="", default="", max_length=200),
         ),
     ]

@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('call_manager', '0007_auto_20201020_0912'),
+        ("call_manager", "0007_auto_20201020_0912"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='call',
-            name='created_at',
+            model_name="call",
+            name="created_at",
             field=models.DateTimeField(auto_now_add=True, null=True),
         ),
     ]

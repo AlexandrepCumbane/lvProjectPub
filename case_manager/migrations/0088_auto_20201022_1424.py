@@ -6,33 +6,33 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0087_fieldvalue_contactor'),
+        ("case_manager", "0087_fieldvalue_contactor"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='fieldvalue',
-            name='call',
+            model_name="fieldvalue",
+            name="call",
         ),
         migrations.RemoveField(
-            model_name='fieldvalue',
-            name='case',
+            model_name="fieldvalue",
+            name="case",
         ),
         migrations.RemoveField(
-            model_name='fieldvalue',
-            name='contactor',
+            model_name="fieldvalue",
+            name="contactor",
         ),
         migrations.RemoveField(
-            model_name='fieldvalue',
-            name='field',
+            model_name="fieldvalue",
+            name="field",
         ),
         migrations.DeleteModel(
-            name='ExtraFieldOptions',
+            name="ExtraFieldOptions",
         ),
         migrations.DeleteModel(
-            name='ExtraFields',
+            name="ExtraFields",
         ),
         migrations.DeleteModel(
-            name='FieldValue',
+            name="FieldValue",
         ),
     ]

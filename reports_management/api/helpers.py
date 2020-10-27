@@ -284,19 +284,15 @@ def get_operador_dashboard_data(user: object) -> dict:
     total_cases_day = Case.objects.filter(
         created_at__date=data_hoje, created_by=user
     ).count()
-    
+
     calls_year = Call.objects.filter(
         created_at__date__year=current_year, created_by=user
     ).count()
     calls_month = Call.objects.filter(
         created_at__month=current_month, created_by=user
     ).count()
-    calls_week = Call.objects.filter(
-        created_at__gte=this_week, created_by=user
-    ).count()
-    calls_day = Call.objects.filter(
-        created_at__day=today, created_by=user
-    ).count()
+    calls_week = Call.objects.filter(created_at__gte=this_week, created_by=user).count()
+    calls_day = Call.objects.filter(created_at__day=today, created_by=user).count()
 
     status_completed = None
 
@@ -323,7 +319,6 @@ def get_operador_dashboard_data(user: object) -> dict:
         "cases_month": total_cases_month,
         "cases_week": total_cases_week,
         "cases_today": total_cases_day,
-
         # calls
         "calls_year": calls_day,
         "calls_month": calls_month,

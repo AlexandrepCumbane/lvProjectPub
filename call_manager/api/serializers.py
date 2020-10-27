@@ -16,7 +16,7 @@ from location_management.api.serializers import (
 )
 
 
-from user_management.api.serializers import (UserFullSerializer)
+from user_management.api.serializers import UserFullSerializer
 
 
 class HowDoYouHearAboutUsSerializer(ModelSerializer):
@@ -61,10 +61,12 @@ class CallSerializer(ModelSerializer):
         model = Call
         fields = "__all__"
 
+
 class CallSerializerFull(ModelSerializer):
-    
+
     contactor = ContactorSerializerFull()
     created_by = UserFullSerializer()
+
     class Meta:
         model = Call
         fields = "__all__"

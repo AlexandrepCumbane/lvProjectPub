@@ -1,6 +1,7 @@
-from form_extra_manager.models import ( ExtraFields, FieldValue, ExtraFieldOptions)
+from form_extra_manager.models import ExtraFields, FieldValue, ExtraFieldOptions
 
-def save_extra_call_fields(data:dict, **kwargs):
+
+def save_extra_call_fields(data: dict, **kwargs):
     """Save extra fields value of a form on the database.
 
     Parameters:
@@ -12,11 +13,16 @@ def save_extra_call_fields(data:dict, **kwargs):
     """
     try:
         for table_name, field_data in data.items():
-                save_extra_field_helper(table_name, field_data, {table_name: kwargs[table_name]})
+            save_extra_field_helper(
+                table_name, field_data, {table_name: kwargs[table_name]}
+            )
     except KeyError:
         pass
 
-def save_extra_field_helper(table_name:str, field_data:dict, initial_data:object)->None:
+
+def save_extra_field_helper(
+    table_name: str, field_data: dict, initial_data: object
+) -> None:
     """Helper functions to save extra field data in the database.
 
     Parameters:
@@ -28,9 +34,11 @@ def save_extra_field_helper(table_name:str, field_data:dict, initial_data:object
         Returns None.
     """
 
-    extra_field_row = ExtraFields.objects.get(field_name=field_data['extra_field_name'], table_name=table_name)
-    initial_data['field'] = extra_field_row
-    initial_data['value'] = field_data['extra_field_value']
-    
+    extra_field_row = ExtraFields.objects.get(
+        field_name=field_data["extra_field_name"], table_name=table_name
+    )
+    initial_data["field"] = extra_field_row
+    initial_data["value"] = field_data["extra_field_value"]
+
     field_value = FieldValue(**initial_data)
     field_value.save()
