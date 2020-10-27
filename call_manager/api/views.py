@@ -21,6 +21,7 @@ from call_manager.models import (
     HowDoYouHearAboutUs,
 )
 
+
 class CustomerSatisfactionViewset(ListAPIView, ViewSet):
     serializer_class = CustomerSatisfactionSerializer
     queryset = CustomerSatisfaction.objects.all()
@@ -37,7 +38,7 @@ class ContactorViewset(ModelViewSet):
 
 
 class CallViewset(ModelViewSet):
-    serializer_class = CallSerializerFull
+    serializer_class = CallSerializer
     queryset = Call.objects.all().order_by("-id")
 
     def create(self, request):
@@ -49,7 +50,7 @@ class CallViewset(ModelViewSet):
                 return super().create(request)
 
             contactor = self._save_contactor(contactor)
-            
+
             if not contactor["is_saved"]:
                 return Response({"error": "Erro ao gravar contactant"}, status=400)
 
@@ -62,10 +63,12 @@ class CallViewset(ModelViewSet):
                 call = call_serializer.save()
 
                 try:
-                    save_extra_call_fields(request.data["extra_fields"], call=call, contactor=contactor)
+                    save_extra_call_fields(
+                        request.data["extra_fields"], call=call, contactor=contactor
+                    )
                 except KeyError:
                     pass
-            
+
                 return Response({"call": call.id})
             else:
                 return Response({"errors": call_serializer.errors}, status=400)
@@ -73,6 +76,12 @@ class CallViewset(ModelViewSet):
             pass
 
         return super().create(request)
+
+    def list(self, request):
+        calls = self.queryset
+        pages = self.paginate_queryset(calls)
+        response = CallSerializerFull(pages, many=True)
+        return self.get_paginated_response(response.data)
 
     def _save_contactor(self, contactor: dict) -> dict:
         """Save a new Contactor on the database.
