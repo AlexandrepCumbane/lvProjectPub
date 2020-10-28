@@ -1,6 +1,8 @@
 import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
+
 from location_management.models import District, Location, Province
 
 now = datetime.datetime.now()

@@ -1,8 +1,7 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
-
-from form_extra_manager.helpers import save_extra_call_fields
 
 from call_manager.api.serializers import (
     CallSerializer,
@@ -12,6 +11,7 @@ from call_manager.api.serializers import (
     GenderSerializer,
     HowDoYouHearAboutUsSerializer,
 )
+from call_manager.helpers import save_call, save_contactor, update_contactor
 from call_manager.models import (
     Ages,
     Call,
@@ -20,6 +20,7 @@ from call_manager.models import (
     Gender,
     HowDoYouHearAboutUs,
 )
+from form_extra_manager.helpers import save_extra_call_fields
 
 
 class CustomerSatisfactionViewset(ListAPIView, ViewSet):
@@ -49,29 +50,13 @@ class CallViewset(ModelViewSet):
             if type(contactor) is not dict:
                 return super().create(request)
 
-            contactor = self._save_contactor(contactor)
+            contactor = save_contactor(contactor)
 
             if not contactor["is_saved"]:
                 return Response({"error": "Erro ao gravar contactant"}, status=400)
 
-            call["contactor"] = contactor["contactor_id"]
-            call["created_by"] = request.user.id
-            call_serializer = CallSerializer(data=call)
+            return save_call(call, contactor["contactor_id"], request.user.id)
 
-            contactor = Contactor.objects.get(pk=contactor["contactor_id"])
-            if call_serializer.is_valid():
-                call = call_serializer.save()
-
-                try:
-                    save_extra_call_fields(
-                        request.data["extra_fields"], call=call, contactor=contactor
-                    )
-                except KeyError:
-                    pass
-
-                return Response({"call": call.id})
-            else:
-                return Response({"errors": call_serializer.errors}, status=400)
         except KeyError:
             pass
 
@@ -83,26 +68,33 @@ class CallViewset(ModelViewSet):
         response = CallSerializerFull(pages, many=True)
         return self.get_paginated_response(response.data)
 
-    def _save_contactor(self, contactor: dict) -> dict:
-        """Save a new Contactor on the database.
+    def update(self, request, pk=None):
+        call_update = get_object_or_404(self.queryset, pk=pk)
+        try:
+            call = request.data["call"]
+            contactor = request.data["contactor"]
+            contactor_is_updated = update_contactor(contactor)
 
-        Parameters:
-            contactor (dict): The data of the contactor to be saved on the database.
+            if not contactor_is_updated:
+                return Response(
+                    {"errors": "Houve um erro ao alterar os dados do contactante"},
+                    status=400,
+                )
 
-        Returns:
-            Returns true or false if the contactor is saved.
-        """
-        contact_serializer = ContactorSerializer(data=contactor)
+            call_serializer = CallSerializer(call_update, data=call, partial=True)
 
-        contactor_is_saved = False
+            if call_serializer.is_valid():
+                call_saved = call_serializer.save()
+                call_serializer = CallSerializerFull(call_saved)
+                return Response(call_serializer.data)
+            else:
+                return Response({"errors": call_serializer.errors}, status=400)
 
-        if contact_serializer.is_valid():
-            contact_saved = contact_serializer.save()
-            contactor_is_saved = True
-            return {"is_saved": contactor_is_saved, "contactor_id": contact_saved.id}
+        except KeyError:
+            print("contactor and case field not found, save case normal")
+            pass
 
-        print(contact_serializer.errors)
-        return {"is_saved": contactor_is_saved, "contactor_id": 0}
+        return super.update(request, pk)
 
 
 class HowDoYouHearAboutUsViewset(ListAPIView, ViewSet):

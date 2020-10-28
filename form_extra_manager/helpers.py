@@ -1,4 +1,13 @@
-from form_extra_manager.models import ExtraFields, FieldValue, ExtraFieldOptions
+from form_extra_manager.models import ExtraFieldOptions, ExtraFields, FieldValue
+
+# def parse_extra_field(data, **kwargs):
+#     try:
+#         contactor = Contactor.objects.get(contactor_id)
+#         save_extra_call_fields(
+#             request.data["extra_fields"], call=call, contactor=contactor
+#         )
+#     except KeyError:
+#         pass
 
 
 def save_extra_call_fields(data: dict, **kwargs):

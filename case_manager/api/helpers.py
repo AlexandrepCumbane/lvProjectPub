@@ -27,9 +27,9 @@ from case_manager.models import (
     Vulnerability,
     WhoIsNotReceivingAssistence,
 )
+from form_extra_manager.models import ExtraFields
 from location_management.models import District, Location, PostoAdministrativo, Province
 from posts_management.models import PostCategory, PostLanguage
-from form_extra_manager.models import ExtraFields
 
 
 class UserType(Enum):

@@ -14,8 +14,6 @@ from location_management.api.serializers import (
     LocationSerializer,
     ProvinceSerializer,
 )
-
-
 from user_management.api.serializers import UserFullSerializer
 
 

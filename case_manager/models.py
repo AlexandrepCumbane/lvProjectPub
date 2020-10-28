@@ -6,12 +6,12 @@ from django.db import models
 from django.utils import timezone
 
 from call_manager.models import (
+    Ages,
     Call,
     Contactor,
     CustomerSatisfaction,
-    HowDoYouHearAboutUs,
-    Ages,
     Gender,
+    HowDoYouHearAboutUs,
 )
 from location_management.models import District, Location, Province
 from user_management.models import FocalPointProfile

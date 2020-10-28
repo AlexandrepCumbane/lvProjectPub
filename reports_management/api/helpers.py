@@ -4,8 +4,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count, F, Q
 from django.utils import timezone
 
-from case_manager.models import Case, CaseReferall, CaseTask, TaskStatus
 from call_manager.models import Call
+from case_manager.models import Case, CaseReferall, CaseTask, TaskStatus
 
 # Ano actual
 YEAR = datetime.date.today().year

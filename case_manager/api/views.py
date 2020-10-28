@@ -14,6 +14,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
 from call_manager.api.serializers import ContactorSerializer
+from call_manager.helpers import save_call, save_contactor
 from call_manager.models import Ages, Contactor, Gender
 from case_manager import utils
 from case_manager.api.filters import CaseFilter, CaseReferallFilter, CaseTaskFilter
@@ -30,6 +31,7 @@ from case_manager.api.serializers import (
     CategoryIssueSerializer,
     CategorySerializer,
     HowWouldYouLikeToBeContactedSerializer,
+    PersonsInvolvedSerializer,
     ProgrammeSerializer,
     ReferallEntitySerializer,
     ResolutionCategorySerializer,
@@ -122,7 +124,6 @@ class CaseCommentsViewset(ModelViewSet):
     def create(self, request):
         """Creates a CaseComment record on the database."""
         case_referall = None
-
         # Raise an exception if doesn't find a case referall key,value
         try:
             case_referall = request.data.pop("case_referall")
@@ -335,51 +336,74 @@ class CaseViewset(ModelViewSet):
         print("erros", case_serializer.errors)
         return False
 
-    def create(self, request):
-        return super().create(request)
+    def save_case(self, case: dict, user_id, call_id=None, persons_involved=[]) -> dict:
+        case["created_by"] = user_id
+        case["call"] = call_id
+        case["persons_involved"] = persons_involved
+        case_serializer = CaseSerializer(data=case)
+        if case_serializer.is_valid():
+            case = case_serializer.save()
+            return Response({"case": case.id}, status=200)
+        return Response({"errors": case_serializer.errors}, status=400)
 
-    def _update_contactor(self, contactor_data: dict) -> dict:
-        """Update the contactor data saved on the database.
+    def save_persons_involved(self, persons_involved: list) -> list:
+
+        all_persons_saved = False
+        my_persons = []
+        for person in persons_involved:
+            result = self.save_single_person(person)
+            if not result["is_saved"]:
+                return {"all_saved": all_persons_saved, "persons_id": my_persons}
+            my_persons.append(result["person_involved_id"])
+        all_persons_saved = True
+        return {"all_saved": all_persons_saved, "persons_id": my_persons}
+
+    def save_single_person(self, person: dict) -> bool:
+        """Save a new Contactor on the database.
 
         Parameters:
-            contactor_data (dict): contains the new data of the contactor to be updated.
+            contactor (dict): The data of the contactor to be saved on the database.
 
         Returns:
-            contactor_is_saved (bool):Return true or false if the contactor was updated.
+            Returns true or false if the contactor is saved.
         """
-        contactor_id = None
-        contactor_is_saved = False
+        person_serializer = PersonsInvolvedSerializer(data=person)
+
+        person_is_saved = False
+
+        if person_serializer.is_valid():
+            person_saved = person_serializer.save()
+            person_is_saved = True
+            return {"is_saved": person_is_saved, "person_involved_id": person_saved.id}
+        return {"is_saved": person_is_saved, "person_involved_id": 0}
+
+    def create(self, request):
 
         try:
-            contactor_id = contactor_data["id"]
-        except KeyError:
-            print("Contact Data dont have contactor id")
-            return contactor_is_saved
 
-        contactors = Contactor.objects.all()
-        contactor = None
+            call_id = None
 
-        try:
-            # Try to get case if exists
-            conctactor = Contactor.objects.get(id=contactor_id)
-            # Get Case object
-            contactor = get_object_or_404(contactors, pk=contactor_id)
-        except ObjectDoesNotExist:
-            print("COntactor not found")
-            return contactor_is_saved
+            call = request.data["call_data"]
+            persons = request.data["persons_involved_data"]
 
-        contact_serializer = ContactorSerializer(
-            contactor, data=contactor_data, partial=True
-        )
+            if isinstance(call, dict):
+                call_saved = save_call(call, None, request.user.id)
+                call_id = call_saved.data["call_data"]
+            else:
+                call_id = call
+            persons_involved = self.save_persons_involved(persons)
 
-        if contact_serializer.is_valid():
-            contact_serializer.save()
-            contactor_is_saved = True
-            return contactor_is_saved
+            if not persons_involved["all_saved"]:
+                return Response({"Error saving persons involved": "Hello"}, status=400)
 
-        print("errors", contact_serializer.errors)
+            persons_involved_ids = persons_involved["persons_id"]
+            return self.save_case(
+                request.data["case"], request.user.id, call_id, persons_involved_ids
+            )
+        except KeyError as error:
+            print("Chave nao encontrado {}".format(str(error)))
 
-        return contactor_is_saved
+        return super().create(request)
 
     def destroy(self, request, pk=None):
         """Disable user to see case of delete request method on the API."""
@@ -445,46 +469,6 @@ class CaseViewset(ModelViewSet):
         return Response(case_serializer.data)
 
     def update(self, request, pk=None):
-        case_update = get_object_or_404(self.queryset, pk=pk)
-
-        try:
-            case = request.data["case"]
-            contactor = request.data["contactor"]
-            contactor_is_updated = self._update_contactor(contactor)
-
-            try:
-                is_closed = case["case_closed"]
-
-                """
-                    Verify the case_closed key value of the data
-                    and if is true update the case status to closed
-                """
-                if is_closed:
-                    case["case_status"] = (
-                        CaseStatus.objects.filter(name__icontains="closed").first().id
-                    )
-            except KeyError:
-                print("chave nao encontrada")
-
-            if not contactor_is_updated:
-                return Response(
-                    {"errors": "Houve um erro ao alterar os dados do contactante"},
-                    status=400,
-                )
-
-            case_serializer = CaseSerializer(case_update, data=case, partial=True)
-
-            if case_serializer.is_valid():
-                case_saved = case_serializer.save()
-                case_serializer = CaseSerializerFull(case_saved)
-                return Response(case_serializer.data)
-            else:
-                return Response({"errors": case_serializer.errors}, status=400)
-
-        except KeyError:
-            print("contactor and case field not found, save case normal")
-            pass
-
         return super().update(request, pk)
 
     @action(methods=["PUT"], detail=True)

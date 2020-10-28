@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from rest_framework.test import APIClient
 from mixer.backend.django import mixer
+from rest_framework.test import APIClient
 
 from case_manager.api.views import CaseViewset
 from case_manager.models import Case

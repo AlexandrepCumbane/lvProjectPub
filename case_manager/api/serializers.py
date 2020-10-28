@@ -17,6 +17,7 @@ from case_manager.models import (
     HowWouldYouLikeToBeContacted,
     IndividualCommitedFraud,
     MecanismUsed,
+    PersonsInvolved,
     Programme,
     ReferallEntity,
     ResolutionCategory,
@@ -142,53 +143,16 @@ class CaseReferallSimpleSerializer(ModelSerializer):
         fields = ("id", "referall_entity", "has_feedback")
 
 
+class PersonsInvolvedSerializer(ModelSerializer):
+    class Meta:
+        model = PersonsInvolved
+        fields = "__all__"
+
+
 class CaseSerializerFull(ModelSerializer):
-
-    # case_priority = CasePrioritySerializer()
-    # category = CategorySerializer()
-    # contactor = ContactorSerializerFull()
-    # source_of_information = SourceOfInformationSerializer()
-    # sub_category = SubCategorySerializer()
-    # created_by = serializer_factory(
-    #     model=User,
-    #     fields=(
-    #         "id",
-    #         "username",
-    #     ),
-    # )()
-    # how_would_you_like_to_be_contacted = HowWouldYouLikeToBeContactedSerializer()
-    # case_status = serializer_factory(model=CaseStatus, fields=("id", "name"))()
-    # programme = ProgrammeSerializer()
-    # mecanism_used = serializer_factory(model=MecanismUsed, fields=("id", "name"))()
-    # vulnerability = serializer_factory(model=Vulnerability, fields=("id", "name"))()
-    # transfere_modality = serializer_factory(
-    #     model=TransfereModality, fields=("id", "name")
-    # )()
-    # who_is_never_received_assistance = serializer_factory(
-    #     model=WhoIsNotReceivingAssistence, fields=("id", "name")
-    # )()
-    # individual_commited_fraud = serializer_factory(
-    #     model=IndividualCommitedFraud, fields=("id", "name")
-    # )()
-    # how_case_was_closed = HowCaseCloseSerializer()
-    # category_issue = CategoryIssueSerializer()
-    # number_of_tasks = SerializerMethodField()
-    # has_feedback = SerializerMethodField()
-
-    # case_referall = CaseFeedbackSerializer(many=True)
-
-    # tasks = CaseTaskFull2Serializer(many=True)
-    # comments = CaseCommentsSerializer(many=True)
-
     class Meta:
         model = Case
         fields = "__all__"
-
-    # def get_number_of_tasks(self, obj):
-    #     return obj.tasks.count()
-
-    # def get_has_feedback(self, obj):
-    #     return obj.case_referall.filter(has_feedback=True).count() != 0
 
 
 class CaseReferallSerializer(ModelSerializer):

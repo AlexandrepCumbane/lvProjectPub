@@ -1,0 +1,75 @@
+from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import get_object_or_404
+from rest_framework.response import Response
+
+from call_manager.api.serializers import CallSerializer, ContactorSerializer
+from call_manager.models import Contactor
+
+
+def save_contactor(contactor: dict) -> dict:
+    """Save a new Contactor on the database.
+
+    Parameters:
+        contactor (dict): The data of the contactor to be saved on the database.
+
+    Returns:
+        Returns true or false if the contactor is saved.
+    """
+    contact_serializer = ContactorSerializer(data=contactor)
+
+    contactor_is_saved = False
+
+    if contact_serializer.is_valid():
+        contact_saved = contact_serializer.save()
+        contactor_is_saved = True
+        return {"is_saved": contactor_is_saved, "contactor_id": contact_saved.id}
+    return {"is_saved": contactor_is_saved, "contactor_id": 0}
+
+
+def save_call(call: dict, contactor_id, user_id) -> dict:
+    call["created_by"] = user_id or call["created_by"]
+    call["contactor"] = contactor_id or call["contactor"]
+    call_serializer = CallSerializer(data=call)
+    if call_serializer.is_valid():
+        call = call_serializer.save()
+        print("call saved")
+        return Response({"call": call.id}, status=200)
+    print("Erprpr", call_serializer.errors)
+    return Response({"errors": call_serializer.errors}, status=400)
+
+
+def update_contactor(contactor_data: dict) -> dict:
+    """Update the contactor data saved on the database.
+
+    Parameters:
+        contactor_data (dict): contains the new data of the contactor to be updated.
+
+    Returns:
+        contactor_is_saved (bool):Return true or false if the contactor was updated.
+    """
+    contactor_id = None
+    contactor_is_saved = False
+
+    try:
+        contactor_id = contactor_data["id"]
+    except KeyError:
+        return contactor_is_saved
+    contactor = None
+
+    try:
+        # Try to get case if exists
+        list_contactor = Contactor.objects.all()
+
+        contactor = get_object_or_404(list_contactor, pk=contactor_id)
+    except ObjectDoesNotExist:
+        return contactor_is_saved
+
+    contact_serializer = ContactorSerializer(
+        contactor, data=contactor_data, partial=True
+    )
+
+    if contact_serializer.is_valid():
+        list_contactor.filter(pk=contactor_id).update(**contactor_data)
+        contactor_is_saved = True
+        return contactor_is_saved
+    return contactor_is_saved

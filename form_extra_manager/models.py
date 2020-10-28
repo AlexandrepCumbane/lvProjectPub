@@ -1,4 +1,5 @@
 from django.db import models
+
 from call_manager.models import Call, Contactor
 from case_manager.models import Case
 
