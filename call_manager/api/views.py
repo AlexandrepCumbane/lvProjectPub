@@ -20,7 +20,6 @@ from call_manager.models import (
     Gender,
     HowDoYouHearAboutUs,
 )
-from form_extra_manager.helpers import save_extra_call_fields
 
 
 class CustomerSatisfactionViewset(ListAPIView, ViewSet):
@@ -55,7 +54,7 @@ class CallViewset(ModelViewSet):
             if not contactor["is_saved"]:
                 return Response({"error": "Erro ao gravar contactant"}, status=400)
 
-            return save_call(call, contactor["contactor_id"], request.user.id)
+            return save_call(call, contactor["contactor_id"], request.user.id, request)
 
         except KeyError:
             pass

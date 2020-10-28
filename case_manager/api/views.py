@@ -60,6 +60,7 @@ from case_manager.models import (
     TransfereModality,
     Vulnerability,
 )
+from form_extra_manager.helpers import save_extra_call_fields
 from location_management.models import District, Province
 
 

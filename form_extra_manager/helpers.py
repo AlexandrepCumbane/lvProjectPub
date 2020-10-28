@@ -1,3 +1,5 @@
+from call_manager.models import Call, Contactor
+from case_manager.models import Case, PersonsInvolved
 from form_extra_manager.models import ExtraFieldOptions, ExtraFields, FieldValue
 
 # def parse_extra_field(data, **kwargs):
@@ -22,11 +24,13 @@ def save_extra_call_fields(data: dict, **kwargs):
     """
     try:
         for table_name, field_data in data.items():
-            save_extra_field_helper(
-                table_name, field_data, {table_name: kwargs[table_name]}
+            query = "{}.objects.get(pk={})".format(
+                table_name.capitalize(), kwargs[table_name]
             )
-    except KeyError:
-        pass
+            table_info = eval(query)
+            save_extra_field_helper(table_name, field_data, {table_name: table_info})
+    except KeyError as error:
+        print("{} not found".format(str(error)))
 
 
 def save_extra_field_helper(
@@ -51,3 +55,4 @@ def save_extra_field_helper(
 
     field_value = FieldValue(**initial_data)
     field_value.save()
+    print("data saved", field_value.id)

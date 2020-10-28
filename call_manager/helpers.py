@@ -4,6 +4,7 @@ from rest_framework.response import Response
 
 from call_manager.api.serializers import CallSerializer, ContactorSerializer
 from call_manager.models import Contactor
+from form_extra_manager.helpers import save_extra_call_fields
 
 
 def save_contactor(contactor: dict) -> dict:
@@ -26,13 +27,22 @@ def save_contactor(contactor: dict) -> dict:
     return {"is_saved": contactor_is_saved, "contactor_id": 0}
 
 
-def save_call(call: dict, contactor_id, user_id) -> dict:
+def save_call(call: dict, contactor_id, user_id, request) -> dict:
     call["created_by"] = user_id or call["created_by"]
     call["contactor"] = contactor_id or call["contactor"]
     call_serializer = CallSerializer(data=call)
     if call_serializer.is_valid():
         call = call_serializer.save()
-        print("call saved")
+
+        try:
+            save_extra_call_fields(
+                request.data["extra_fields"],
+                call=call.id,
+                contactor=contactor_id or call["contactor"],
+            )
+        except KeyError:
+            pass
+
         return Response({"call": call.id}, status=200)
     print("Erprpr", call_serializer.errors)
     return Response({"errors": call_serializer.errors}, status=400)
