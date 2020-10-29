@@ -22,7 +22,7 @@ class ExtraFields(models.Model):
     parent_name = models.CharField(default="", max_length=200, blank=True)
     table_name = models.CharField(
         max_length=200,
-        choices=[("call", "call"), ("contactor", "contactor"), ("cases", "cases")],
+        choices=[("call", "call"), ("contactor", "contactor"), ("case", "case")],
     )
 
 
