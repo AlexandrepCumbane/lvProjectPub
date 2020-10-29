@@ -46,7 +46,7 @@ def save_extra_field_helper(
     Returns:
         Returns None.
     """
-
+    print("field: {} and table : {}".format(field_data["extra_field_name"], table_name))
     extra_field_row = ExtraFields.objects.get(
         field_name=field_data["extra_field_name"], table_name=table_name
     )

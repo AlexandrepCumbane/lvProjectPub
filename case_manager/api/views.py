@@ -337,13 +337,22 @@ class CaseViewset(ModelViewSet):
         print("erros", case_serializer.errors)
         return False
 
-    def save_case(self, case: dict, user_id, call_id=None, persons_involved=[]) -> dict:
+    def save_case(
+        self, case: dict, user_id, call_id=None, persons_involved=[], request=None
+    ) -> dict:
         case["created_by"] = user_id
         case["call"] = call_id
         case["persons_involved"] = persons_involved
         case_serializer = CaseSerializer(data=case)
         if case_serializer.is_valid():
             case = case_serializer.save()
+
+            try:
+                save_extra_call_fields(
+                    request.data["extra_fields"], call=call_id, case=case.id
+                )
+            except KeyError:
+                pass
             return Response({"case": case.id}, status=200)
         return Response({"errors": case_serializer.errors}, status=400)
 
@@ -386,10 +395,9 @@ class CaseViewset(ModelViewSet):
 
             call = request.data["call_data"]
             persons = request.data["persons_involved_data"]
-
             if isinstance(call, dict):
-                call_saved = save_call(call, None, request.user.id)
-                call_id = call_saved.data["call_data"]
+                call_saved = save_call(call, None, request.user.id, request)
+                call_id = call_saved.data["call"]
             else:
                 call_id = call
             persons_involved = self.save_persons_involved(persons)
@@ -399,7 +407,11 @@ class CaseViewset(ModelViewSet):
 
             persons_involved_ids = persons_involved["persons_id"]
             return self.save_case(
-                request.data["case"], request.user.id, call_id, persons_involved_ids
+                request.data["case"],
+                request.user.id,
+                call_id,
+                persons_involved_ids,
+                request,
             )
         except KeyError as error:
             print("Chave nao encontrado {}".format(str(error)))

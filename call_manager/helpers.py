@@ -32,18 +32,18 @@ def save_call(call: dict, contactor_id, user_id, request) -> dict:
     call["contactor"] = contactor_id or call["contactor"]
     call_serializer = CallSerializer(data=call)
     if call_serializer.is_valid():
-        call = call_serializer.save()
+        call_saved = call_serializer.save()
 
         try:
             save_extra_call_fields(
                 request.data["extra_fields"],
-                call=call.id,
+                call=call_saved.id,
                 contactor=contactor_id or call["contactor"],
             )
         except KeyError:
             pass
 
-        return Response({"call": call.id}, status=200)
+        return Response({"call": call_saved.id}, status=200)
     print("Erprpr", call_serializer.errors)
     return Response({"errors": call_serializer.errors}, status=400)
 

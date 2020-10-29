@@ -177,36 +177,6 @@ class CallTestCase(TestCase):
         data = response.data
         self.assertEqual(data["call_id"], "5466565")
 
-    def test_update_call_and_contactor_in_the_same_endpoint(self):
-        user = mixer.blend(User, username="vasco")
-        self.client.force_authenticate(user=user)
-
-        mixer.blend("call_manager.Contactor", id=1)
-        mixer.blend("call_manager.Call", id=1)
-
-        contactor_ext = {
-            "id": 1,
-            "alternative_number": "dsds",
-            "contact": "dsdsd",
-            "full_name": "dsds",
-            "community": "dsdsd",
-        }
-
-        call_ext = {
-            "id": 1,
-            "call_id": "5466565",
-            "consent_to_share_third_party": False,
-            "consent_to_collect_personal_info": False,
-            "call_require_feedback": True,
-            "call_notes": "Notes",
-        }
-
-        data = {"contactor": contactor_ext, "call": call_ext}
-        response = self.client.put("/api/v1/calls/1/", data, format="json")
-
-        data = response.data
-        self.assertEqual(data["contactor"]["full_name"], "dsds")
-
     def test_save_call_without_passing_user_id(self):
         user = mixer.blend(User, username="vasco")
         self.client.force_authenticate(user=user)
