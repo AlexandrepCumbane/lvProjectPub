@@ -16,6 +16,8 @@ from call_manager.models import (
 from location_management.models import District, Location, Province
 from user_management.models import FocalPointProfile
 
+now = datetime.datetime.now()
+
 
 class CasePriority(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -239,6 +241,14 @@ class Case(models.Model):
     focal_points = models.ManyToManyField(
         FocalPointProfile, related_name="cases", blank=True
     )
+
+    def save(self, *args, **kwargs):
+        if self.case_id == "0":
+            try:
+                self.case_id = int(Call.objects.last().case_id) + 1
+            except:
+                self.case_id = now.year + 1
+        super().save(*args, **kwargs)
 
 
 class CaseReferall(models.Model):
