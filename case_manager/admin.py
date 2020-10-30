@@ -18,6 +18,7 @@ from case_manager.models import (
     IndividualCommitedFraud,
     MecanismUsed,
     PersonsInvolved,
+    PersonType,
     Programme,
     ReferallEntity,
     ResolutionCategory,
@@ -92,6 +93,7 @@ admin.site.register(HowWouldYouLikeToBeContacted)
 admin.site.register(SourceOfInformation)
 admin.site.register(MecanismUsed)
 admin.site.register(PersonsInvolved)
+admin.site.register(PersonType)
 admin.site.register(Programme)
 admin.site.register(ReferallEntity)
 admin.site.register(ResolutionCategory)
