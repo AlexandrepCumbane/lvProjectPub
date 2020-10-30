@@ -62,7 +62,7 @@ class CallViewset(ModelViewSet):
         return super().create(request)
 
     def list(self, request):
-        calls = self.queryset
+        calls = self.queryset.filter(created_by=request.user)
         pages = self.paginate_queryset(calls)
         response = CallSerializerFull(pages, many=True)
         return self.get_paginated_response(response.data)

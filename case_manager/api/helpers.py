@@ -16,6 +16,7 @@ from case_manager.models import (
     HowWouldYouLikeToBeContacted,
     IndividualCommitedFraud,
     MecanismUsed,
+    PersonType,
     Programme,
     ReferallEntity,
     ResolutionCategory,
@@ -128,6 +129,10 @@ def get_dropdowns() -> list:
 
     dropdowns.append(
         DropdownData(key="districts", value=District.objects.values().order_by("name"))
+    )
+
+    dropdowns.append(
+        DropdownData(key="person_type", value=PersonType.objects.values())
     )
 
     dropdowns.append(
