@@ -396,7 +396,7 @@ class CaseViewset(ModelViewSet):
             call = request.data["call_data"]
             persons = request.data["persons_involved_data"]
             if isinstance(call, dict):
-                call_saved = save_call(call, None, request.user.id, request)
+                call_saved = save_call(call, call["contactor"], request.user.id, request)
                 call_id = call_saved.data["call"]
             else:
                 call_id = call

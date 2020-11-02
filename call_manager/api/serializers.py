@@ -47,7 +47,6 @@ class ContactorSerializerFull(ModelSerializer):
     location = LocationSerializer()
     gender = GenderSerializer()
     district = DistrictSerializer()
-    age = serializer_factory(model=Ages, fields=("id", "name"))()
 
     class Meta:
         model = Contactor

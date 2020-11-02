@@ -57,11 +57,10 @@ class CallTestCase(TestCase):
     def test_call_serializer_fields_on_list(self):
 
         gender = mixer.blend("call_manager.Gender", id=1, name="Male")
-        age = mixer.blend("call_manager.Ages", id=1, name="17 and below")
         contactor = mixer.blend(
             "call_manager.Contactor",
             full_name="fdf",
-            age=age,
+            age="12",
             gender=gender,
             community="1",
         )
@@ -127,7 +126,6 @@ class CallTestCase(TestCase):
         }
 
         gender = mixer.blend("call_manager.Gender")
-        age = mixer.blend("call_manager.Ages")
         province = mixer.blend("location_management.Province")
 
         contactor = {
@@ -136,7 +134,7 @@ class CallTestCase(TestCase):
             "contact": "",
             "fdp": "",
             "full_name": "",
-            "age": age.id,
+            "age": "23",
             "community": "",
             "district": None,
             "province": province.id,
@@ -189,7 +187,6 @@ class CallTestCase(TestCase):
         }
 
         gender = mixer.blend("call_manager.Gender")
-        age = mixer.blend("call_manager.Ages")
         province = mixer.blend("location_management.Province")
 
         contactor = {
@@ -197,7 +194,7 @@ class CallTestCase(TestCase):
             "alternative_number": "",
             "contact": "",
             "full_name": "",
-            "age": age.id,
+            "age": "10",
             "community": "",
             "district": None,
             "province": province.id,
@@ -230,7 +227,7 @@ class ContactorTestCase(TestCase):
             "alternative_number": "",
             "contact": "",
             "full_name": "",
-            "age": Ages.objects.first().id,
+            "age": "10",
             "community": "",
             "district": None,
             "province": Province.objects.first().id,
@@ -245,7 +242,7 @@ class ContactorTestCase(TestCase):
             "alternative_number": "",
             "contact": "",
             "full_name": "",
-            "age": Ages.objects.first().id,
+            "age": "10",
             "community": "",
             "district": None,
             "province": Province.objects.first().id,

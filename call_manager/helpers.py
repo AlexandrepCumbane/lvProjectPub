@@ -27,13 +27,21 @@ def save_contactor(contactor: dict) -> dict:
     return {"is_saved": contactor_is_saved, "contactor_id": 0}
 
 
-def save_call(call: dict, contactor_id, user_id, request) -> dict:
+def save_call(call: dict, contactor, user_id, request) -> dict:
+
+    contactor_id = None
+    if isinstance(contactor, dict):
+        contactor_id = save_contactor(contactor)
+        if not contactor_id["is_saved"]:
+            return Response({"error": "Erro ao gravar contactant"}, status=400)
+        contactor_id = contactor_id["contactor_id"]
+
     call["created_by"] = user_id or call["created_by"]
     call["contactor"] = contactor_id or call["contactor"]
     call_serializer = CallSerializer(data=call)
     if call_serializer.is_valid():
         call_saved = call_serializer.save()
-
+        print('call', call_saved.id)
         try:
             save_extra_call_fields(
                 request.data["extra_fields"],

@@ -44,20 +44,20 @@ class CallViewset(ModelViewSet):
     def create(self, request):
         try:
             contactor = request.data["contactor"]
-            call = request.data["call"]
+            call = request.data["call"].copy()
 
-            if type(contactor) is not dict:
+            if not isinstance(contactor, dict):
                 return super().create(request)
 
             contactor = save_contactor(contactor)
-
             if not contactor["is_saved"]:
                 return Response({"error": "Erro ao gravar contactant"}, status=400)
-
+            
+            call['contactor'] = contactor["contactor_id"]
             return save_call(call, contactor["contactor_id"], request.user.id, request)
 
-        except KeyError:
-            pass
+        except KeyError as error:
+            print("Key {} not found".format(str(error)))
 
         return super().create(request)
 
