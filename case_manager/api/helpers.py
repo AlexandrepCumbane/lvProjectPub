@@ -70,41 +70,56 @@ def filtrar_user_by_type(name: str) -> list:
     return users
 
 
-def get_formatted_provinces():
+def get_formatted_provinces() -> list:
+    """ Filter Provinces and returns the related districts, and relatives locations 
+
+    Returns:
+        returns a list of provinces with related districts with related locations    
+    """
     provinces = Province.objects.all().values()
-    lista = []
+    province_list = []
 
     for province in provinces:
-        lista2 = []
+        district_list = []
         districts = District.objects.filter(province=province["id"]).values()
 
         for district in districts:
-            lista3 = ""
-            postos = PostoAdministrativo.objects.filter(
+            location_result = ""
+            posts = PostoAdministrativo.objects.filter(
                 district=district["id"]
             ).values()
 
-            for posto in postos:
+            for post in posts:
+
                 locations = Location.objects.filter(
-                    parent_code=posto["codigo"]
+                    parent_code=post["codigo"]
                 ).values()
-                # lista3.append(locations)
 
-                if lista3 == "":
-                    lista3 = locations
+                if location_result == "":
+                    location_result = locations
                 else:
-                    lista3 = lista3 | locations
+                    location_result = location_result | locations
 
-            result = {"district": district, "location": lista3}
+            result = {"district": district, "location": location_result}
 
-            lista2.append(result)
+            district_list.append(result)
 
-        result = {"province": province, "district": lista2}
+        result = {"province": province, "district": district_list}
 
-        lista.append(result)
+        province_list.append(result)
 
-    return lista
+    return province_list
 
+
+def get_extra_fields() -> list:
+    
+    list_of_tables = ["call", "contactor", "case"]
+    results = []
+
+    for table in list_of_tables:
+        results.append({"table": table, "extra_fields":ExtraFields.objects.filter(table_name=table).values()})
+
+    return results
 
 def get_dropdowns() -> list:
     """
@@ -190,7 +205,7 @@ def get_dropdowns() -> list:
         DropdownData(key="categories_issues", value=CategoryIssue.objects.values())
     )
     dropdowns.append(
-        DropdownData(key="extra_fields", value=ExtraFields.objects.values())
+        DropdownData(key="extra_fields", value=get_extra_fields())
     )
     dropdowns.append(
         DropdownData(key="subcategories", value=SubCategory.objects.values())
