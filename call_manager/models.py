@@ -2,6 +2,7 @@ import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.core.validators import RegexValidator
 
 from location_management.models import District, Location, Province
 
@@ -46,9 +47,16 @@ class Contactor(models.Model):
         max_length=300, default="", null=True, blank=True
     )
     # Foreign Keys
-    age = models.ForeignKey(
+    age_range = models.ForeignKey(
         Ages, on_delete=models.SET_NULL, related_name="contactor", null=True, blank=True
     )
+
+    age_regex = RegexValidator(
+        regex=r"^\d{1,3}$",
+        message="The age has to a number",
+    )
+
+    age = models.CharField(max_length=3, default='0', validators=[age_regex])
     community = models.CharField(max_length=100, default="", blank=True)
     gender = models.ForeignKey(
         Gender, on_delete=models.CASCADE, related_name="contactor"
