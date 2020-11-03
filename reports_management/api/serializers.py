@@ -103,7 +103,12 @@ def generate_advanced_reports(
         qs =  eval(table_name + ".objects.values('"+ column_name +"').annotate(cnt=Count('id'))")
 
         for q in qs:           
-            res.append(q[column_name])   
+
+            if(q[column_name] is not None):
+                res.append(q[column_name])  
+            else:
+                res.append('None')  
+         
             res2.append(q['cnt'])   
          
         return {"result": {"data": {
