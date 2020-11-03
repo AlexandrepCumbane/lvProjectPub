@@ -1,8 +1,8 @@
 import json
 
 from rest_framework import serializers
-
-from call_manager.models import Call
+from django.db.models import Count
+from call_manager.models import Call, Gender
 from case_manager.models import Case
 from reports_management.api.helpers import (
     generate_case_charts,
@@ -83,7 +83,30 @@ def generate_advanced_reports(
         print("error")
 
     if result_type == "bigint":
-        my_dict = {"bigint": {"result": data.count()}}
-        return {"result": my_dict}
+        return {"result": {"data":data.count()}}
+    if result_type == "pie":
+        res = []
+        genders = Gender.objects.all().values()
+
+        for gender in genders:
+            call = Call.objects.filter(contactor__gender__id=gender['id'])
+            res.append({
+                'key': gender['name'],
+                'value': call.count()
+            })
+        return {"result": {"data": res }}
+    
+    if result_type == "bar":
+        res = []
+        res2 = []
+        qs = Case.objects.values(column_name).annotate(cnt=Count('id'))
+        for q in qs:           
+            res.append(q[column_name])   
+            res2.append(q['cnt'])   
+         
+        return {"result": {"data": {
+            'labels': res,
+            'series': res2
+        } }}
     elif result_type == "table":
         pass

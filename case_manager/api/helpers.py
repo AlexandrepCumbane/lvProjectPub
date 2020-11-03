@@ -3,7 +3,7 @@ from enum import Enum
 from django.contrib.auth.models import Group, User
 from rest_framework import serializers
 
-from call_manager.models import Ages, Gender
+from call_manager.models import Ages, Call, Contactor, Gender
 from case_manager.models import (
     Case,
     CasePriority,
@@ -16,7 +16,7 @@ from case_manager.models import (
     HowWouldYouLikeToBeContacted,
     IndividualCommitedFraud,
     MecanismUsed,
-    PersonType,
+    PersonType, PersonsInvolved,
     Programme,
     ReferallEntity,
     ResolutionCategory,
@@ -121,6 +121,55 @@ def get_extra_fields() -> list:
 
     return results
 
+
+def get_model_fields(model) -> list:
+
+    """
+    Returns the list of the models type
+    """
+    res = []
+    fields = model._meta.fields
+    for field in fields:
+        # print(field)
+        res.append({
+            "name": field.name,
+            "type": field.get_internal_type()
+        })
+    return res
+
+
+def get_main_model_fields() -> list:
+    
+    """
+    Returns the main models and it's fields
+    """
+    res = []
+
+    res.append({
+    'key': 'call',
+    'table': 'Call',
+    'values' : get_model_fields(Call)
+    })
+    res.append({
+    'key': 'contactor',
+    'table': 'Contactor',
+    'values' : get_model_fields(Contactor)
+    })
+    res.append({
+    'key': 'case',
+    'table': 'Case',
+    'values' : get_model_fields(Case),
+    })
+    res.append({
+    'key': 'people_involved',
+    'table': 'PersonsInvolved',
+    'values' : get_model_fields(PersonsInvolved)
+    })
+ 
+       
+    return res
+
+
 def get_dropdowns() -> list:
     """
     Return a list of data containing varios type of list object
@@ -128,6 +177,9 @@ def get_dropdowns() -> list:
     """
     dropdowns = []
 
+    dropdowns.append(
+        DropdownData(key="table_fields", value=get_main_model_fields())
+    )
     dropdowns.append(
         DropdownData(key="cases", value=Case.objects.values().order_by("-created_at"))
     )
