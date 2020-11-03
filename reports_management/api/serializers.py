@@ -99,7 +99,9 @@ def generate_advanced_reports(
     if result_type == "bar":
         res = []
         res2 = []
-        qs = Case.objects.values(column_name).annotate(cnt=Count('id'))
+        # qs = Case.objects.values(column_name).annotate(cnt=Count('id'))
+        qs =  eval(table_name + ".objects.values('"+ column_name +"').annotate(cnt=Count('id'))")
+
         for q in qs:           
             res.append(q[column_name])   
             res2.append(q['cnt'])   
