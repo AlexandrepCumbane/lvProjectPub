@@ -320,10 +320,10 @@ def get_operador_dashboard_data(user: object) -> dict:
         "cases_week": total_cases_week,
         "cases_today": total_cases_day,
         # calls
-        "calls_year": calls_day,
+        "calls_year":  calls_year,
         "calls_month": calls_month,
         "calls_week": calls_week,
-        "calls_today": calls_year,
+        "calls_today": calls_day,
     }
 
 
