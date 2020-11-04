@@ -28,7 +28,7 @@ from case_manager.models import (
     Vulnerability,
     WhoIsNotReceivingAssistence,
 )
-from form_extra_manager.models import ExtraFields
+from form_extra_manager.models import ExtraFields, ExtraFieldOptions
 from location_management.models import District, Location, PostoAdministrativo, Province
 from posts_management.models import PostCategory, PostLanguage
 
@@ -117,7 +117,13 @@ def get_extra_fields() -> list:
     results = []
 
     for table in list_of_tables:
-        results.append({"table": table, "extra_fields":ExtraFields.objects.filter(table_name=table).values()})
+        fields = ExtraFields.objects.filter(table_name=table).values()
+
+        for field_value in fields:
+            if field_value['is_select']:
+                field_value['values'] = ExtraFieldOptions.objects.filter(field_name=field_value['id']).values()
+
+        results.append({"table": table, "extra_fields":fields})
 
     return results
 
