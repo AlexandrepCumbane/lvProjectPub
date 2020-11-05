@@ -2,8 +2,8 @@ import json
 
 from rest_framework import serializers
 from django.db.models import Count
-from call_manager.models import Call, Gender
-from case_manager.models import Case
+from call_manager.models import Call, Gender, Contactor
+from case_manager.models import Case, PersonsInvolved
 from reports_management.api.helpers import (
     generate_case_charts,
     generate_reports_big_number,

@@ -127,16 +127,41 @@ def get_extra_fields() -> list:
     return results
 
 
-def get_model_fields(model) -> list:
+def get_model_char_fields(fields) -> list:
 
+    res = [] 
+    for field in fields:
+        if(field.is_relation is not True):
+            res.append(field.name)
+
+    return res
+
+def get_model_fields(model) -> list:
+    print(model)
     """
     Returns the list of the models type
     """
     res = []
     fields = model._meta.fields
     for field in fields:
-        # print(field)
-        res.append({"name": field.name, "type": field.get_internal_type()})
+        
+        if(field.is_relation):
+            model = field.related_model()
+            fields_ = model._meta.get_fields()
+            model_fields = get_model_char_fields(fields_)
+            res.append({
+                "name": field.name,
+                "type": field.get_internal_type(),
+                "is_relation": field.is_relation,
+                "related_fields": model_fields
+            })
+        else:    
+            res.append({
+                "name": field.name,
+                "type": field.get_internal_type(),
+                "is_relation": field.is_relation,
+                "related_fields": []
+            })
     return res
 
 
