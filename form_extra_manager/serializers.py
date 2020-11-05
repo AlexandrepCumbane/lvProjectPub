@@ -6,7 +6,7 @@ from form_extra_manager.models import *
 class ExtraFieldsSerializer(ModelSerializer):
     class Meta:
         model = ExtraFields
-        fields = ("field_name", "field_type")
+        fields = ("id","field_name", "field_type")
 
 
 class FieldValueSerializer(ModelSerializer):
@@ -21,5 +21,11 @@ class FieldValueSerializer(ModelSerializer):
         if instance.field.is_select:
             field_option = ExtraFieldOptions.objects.filter(field_name=instance.field, id=instance.value)
             if field_option.count() > 0:
-                return field_option.first().field_value
+                my_data = {}
+
+                my_data = {
+                    "id": field_option.first().id,
+                    "name": field_option.first().field_value
+                }
+                return my_data
         return instance.value
