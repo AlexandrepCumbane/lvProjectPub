@@ -16,7 +16,8 @@ from case_manager.models import (
     HowWouldYouLikeToBeContacted,
     IndividualCommitedFraud,
     MecanismUsed,
-    PersonType, PersonsInvolved,
+    PersonType,
+    PersonsInvolved,
     Programme,
     ReferallEntity,
     ResolutionCategory,
@@ -28,7 +29,7 @@ from case_manager.models import (
     Vulnerability,
     WhoIsNotReceivingAssistence,
 )
-from form_extra_manager.models import ExtraFields
+from form_extra_manager.models import ExtraFields, ExtraFieldOptions
 from location_management.models import District, Location, PostoAdministrativo, Province
 from posts_management.models import PostCategory, PostLanguage
 
@@ -71,10 +72,10 @@ def filtrar_user_by_type(name: str) -> list:
 
 
 def get_formatted_provinces() -> list:
-    """ Filter Provinces and returns the related districts, and relatives locations 
+    """Filter Provinces and returns the related districts, and relatives locations
 
     Returns:
-        returns a list of provinces with related districts with related locations    
+        returns a list of provinces with related districts with related locations
     """
     provinces = Province.objects.all().values()
     province_list = []
@@ -85,15 +86,11 @@ def get_formatted_provinces() -> list:
 
         for district in districts:
             location_result = ""
-            posts = PostoAdministrativo.objects.filter(
-                district=district["id"]
-            ).values()
+            posts = PostoAdministrativo.objects.filter(district=district["id"]).values()
 
             for post in posts:
 
-                locations = Location.objects.filter(
-                    parent_code=post["codigo"]
-                ).values()
+                locations = Location.objects.filter(parent_code=post["codigo"]).values()
 
                 if location_result == "":
                     location_result = locations
@@ -112,12 +109,20 @@ def get_formatted_provinces() -> list:
 
 
 def get_extra_fields() -> list:
-    
+
     list_of_tables = ["call", "contactor", "case"]
     results = []
 
     for table in list_of_tables:
-        results.append({"table": table, "extra_fields":ExtraFields.objects.filter(table_name=table).values()})
+        fields = ExtraFields.objects.filter(table_name=table).values()
+
+        for field_value in fields:
+            if field_value["is_select"]:
+                field_value["values"] = ExtraFieldOptions.objects.filter(
+                    field_name=field_value["id"]
+                ).values()
+
+        results.append({"table": table, "extra_fields": fields})
 
     return results
 
@@ -161,34 +166,35 @@ def get_model_fields(model) -> list:
 
 
 def get_main_model_fields() -> list:
-    
+
     """
     Returns the main models and it's fields
     """
     res = []
 
-    res.append({
-    'key': 'call',
-    'table': 'Call',
-    'values' : get_model_fields(Call)
-    })
-    res.append({
-    'key': 'contactor',
-    'table': 'Contactor',
-    'values' : get_model_fields(Contactor)
-    })
-    res.append({
-    'key': 'case',
-    'table': 'Case',
-    'values' : get_model_fields(Case),
-    })
-    res.append({
-    'key': 'people_involved',
-    'table': 'PersonsInvolved',
-    'values' : get_model_fields(PersonsInvolved)
-    })
- 
-       
+    res.append({"key": "call", "table": "Call", "values": get_model_fields(Call)})
+    res.append(
+        {
+            "key": "contactor",
+            "table": "Contactor",
+            "values": get_model_fields(Contactor),
+        }
+    )
+    res.append(
+        {
+            "key": "case",
+            "table": "Case",
+            "values": get_model_fields(Case),
+        }
+    )
+    res.append(
+        {
+            "key": "people_involved",
+            "table": "PersonsInvolved",
+            "values": get_model_fields(PersonsInvolved),
+        }
+    )
+
     return res
 
 
@@ -199,9 +205,7 @@ def get_dropdowns() -> list:
     """
     dropdowns = []
 
-    dropdowns.append(
-        DropdownData(key="table_fields", value=get_main_model_fields())
-    )
+    dropdowns.append(DropdownData(key="table_fields", value=get_main_model_fields()))
     dropdowns.append(
         DropdownData(key="cases", value=Case.objects.values().order_by("-created_at"))
     )
@@ -220,9 +224,7 @@ def get_dropdowns() -> list:
         DropdownData(key="districts", value=District.objects.values().order_by("name"))
     )
 
-    dropdowns.append(
-        DropdownData(key="person_type", value=PersonType.objects.values())
-    )
+    dropdowns.append(DropdownData(key="person_type", value=PersonType.objects.values()))
 
     dropdowns.append(
         DropdownData(key="province_alternative", value=get_formatted_provinces())
@@ -278,9 +280,7 @@ def get_dropdowns() -> list:
     dropdowns.append(
         DropdownData(key="categories_issues", value=CategoryIssue.objects.values())
     )
-    dropdowns.append(
-        DropdownData(key="extra_fields", value=get_extra_fields())
-    )
+    dropdowns.append(DropdownData(key="extra_fields", value=get_extra_fields()))
     dropdowns.append(
         DropdownData(key="subcategories", value=SubCategory.objects.values())
     )

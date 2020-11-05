@@ -7,13 +7,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('case_manager', '0089_auto_20201029_1413'),
+        ("case_manager", "0089_auto_20201029_1413"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='personsinvolved',
-            name='age',
-            field=models.CharField(default='', max_length=3, validators=[django.core.validators.RegexValidator(message='The age has to a number', regex='\\d{1,3}$')]),
+            model_name="personsinvolved",
+            name="age",
+            field=models.CharField(
+                default="",
+                max_length=3,
+                validators=[
+                    django.core.validators.RegexValidator(
+                        message="The age has to a number", regex="\\d{1,3}$"
+                    )
+                ],
+            ),
         ),
     ]

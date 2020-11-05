@@ -41,7 +41,7 @@ def save_call(call: dict, contactor, user_id, request) -> dict:
     call_serializer = CallSerializer(data=call)
     if call_serializer.is_valid():
         call_saved = call_serializer.save()
-        print('call', call_saved.id)
+        print("call", call_saved.id)
         try:
             save_extra_call_fields(
                 request.data["extra_fields"],

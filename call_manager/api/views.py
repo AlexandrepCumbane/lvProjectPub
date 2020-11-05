@@ -52,8 +52,8 @@ class CallViewset(ModelViewSet):
             contactor = save_contactor(contactor)
             if not contactor["is_saved"]:
                 return Response({"error": "Erro ao gravar contactant"}, status=400)
-            
-            call['contactor'] = contactor["contactor_id"]
+
+            call["contactor"] = contactor["contactor_id"]
             return save_call(call, contactor["contactor_id"], request.user.id, request)
 
         except KeyError as error:

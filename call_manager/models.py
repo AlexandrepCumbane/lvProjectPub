@@ -56,7 +56,7 @@ class Contactor(models.Model):
         message="The age has to a number",
     )
 
-    age = models.CharField(max_length=3, default='0', validators=[age_regex])
+    age = models.CharField(max_length=3, default="0", validators=[age_regex])
     community = models.CharField(max_length=100, default="", blank=True)
     gender = models.ForeignKey(
         Gender, on_delete=models.CASCADE, related_name="contactor"
