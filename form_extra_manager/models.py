@@ -39,21 +39,21 @@ class FieldValue(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="case_extra_fields",
+        related_name="extra_fields",
     )
     contactor = models.ForeignKey(
         Contactor,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="contactor_extra_fields",
+        related_name="extra_fields",
     )
     call = models.ForeignKey(
         Call,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="call_extra_fields",
+        related_name="extra_fields",
     )
     field = models.ForeignKey(
         ExtraFields, on_delete=models.CASCADE, related_name="extra_field_option_value"

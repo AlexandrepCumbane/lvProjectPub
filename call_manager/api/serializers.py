@@ -1,5 +1,5 @@
 from drf_auto_endpoint.factories import serializer_factory
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 from call_manager.models import (
     Ages,
@@ -15,6 +15,7 @@ from location_management.api.serializers import (
     ProvinceSerializer,
 )
 from user_management.api.serializers import UserFullSerializer
+from form_extra_manager.serializers import FieldValueSerializer
 
 
 class HowDoYouHearAboutUsSerializer(ModelSerializer):
@@ -47,6 +48,7 @@ class ContactorSerializerFull(ModelSerializer):
     location = LocationSerializer()
     gender = GenderSerializer()
     district = DistrictSerializer()
+    extra_fields = FieldValueSerializer(many=True)
 
     class Meta:
         model = Contactor
@@ -56,7 +58,7 @@ class ContactorSerializerFull(ModelSerializer):
 class CallSerializer(ModelSerializer):
     class Meta:
         model = Call
-        exclude = ['call_id']
+        exclude = ["call_id"]
 
 
 class CallSerializerFull(ModelSerializer):
