@@ -17,7 +17,7 @@ ALLOWED_HOSTS = [
     "d14ut9kv2nmqdl.cloudfront.net",
     "linhaverde-staging.herokuapp.com",
     "lv.robobo.org",
-    "robobo-callcenter.herokuapp.com/",
+    "robobo-callcenter.herokuapp.com",
 ]
 
 LOGGING = {
