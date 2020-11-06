@@ -156,3 +156,5 @@ NOSE_ARGS = [
     '--with-coverage',
     '--cover-package=case_manager,location_management,posts_management,user_management',
 ]
+
+SIGNING_BACKEND = 'django_cryptography.core.signing.TimestampSigner'
