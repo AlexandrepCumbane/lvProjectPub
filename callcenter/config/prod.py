@@ -9,15 +9,17 @@ INSTALLED_APPS += (
     "storages",
 )
 
-ALLOWED_HOSTS = [
-    "linhaverde.herokuapp.com",
-    "linhaverde.s3-website-us-east-1.amazonaws.com",
-    # For test production container only
-    os.getenv("HOSTNAME", "127.0.0.1"),
-    "d14ut9kv2nmqdl.cloudfront.net",
-    "linhaverde-staging.herokuapp.com",
-    "lv.robobo.org",
-]
+# ALLOWED_HOSTS = [
+#     "linhaverde.herokuapp.com",
+#     "linhaverde.s3-website-us-east-1.amazonaws.com",
+#     # For test production container only
+#     os.getenv("HOSTNAME", "127.0.0.1"),
+#     "d14ut9kv2nmqdl.cloudfront.net",
+#     "linhaverde-staging.herokuapp.com",
+#     "lv.robobo.org",
+# ]
+
+ALLOWED_HOSTS = ["*"]
 
 LOGGING = {
     "version": 1,
