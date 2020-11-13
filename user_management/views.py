@@ -4,6 +4,9 @@ from django.http.response import JsonResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 
+from rest_framework_jwt.views import obtain_jwt_token
+from django.http import HttpRequest
+
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
@@ -26,21 +29,17 @@ def generate_token(request):
         return JsonResponse({"errors": "Invalid Credentials"}, status=401)
 
     login_data = {"username": user.username, "password": request.data["password"]}
+    request.data["username"] = user.username
 
-    adapter = "http://"
-    # try:
-    #     import callcenter.settings_local
-    # except ImportError:
-    #     adapter = "https://"
+    new_request = HttpRequest()
+    new_request.method = "POST"
+    new_request.META = request.META
+    new_request.data = request.data
 
-    # print('url', adapter + request.get_host() + "/api/v1/o/token/")
-    # Esta linha gera o access key do utilizador
-    response = requests.post(
-        adapter + request.get_host() + "/api/v1/o/token/", data=login_data
-    )
+    response = obtain_jwt_token(new_request)
 
     if response.status_code == 200:
-        my_response = response.json()
+        my_response = response.data
         my_response["sessionid"] = user.id
 
         my_response.update(get_user_pemission(user))
