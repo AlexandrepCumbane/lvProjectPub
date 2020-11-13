@@ -112,7 +112,8 @@ class ReferallEntitySerializer(ModelSerializer):
 class CaseSerializer(ModelSerializer):
     class Meta:
         model = Case
-        fields = "__all__"
+        # fields = "__all__"
+        exclude = ["case_id"]
 
 
 class CaseFeedbackSerializer(ModelSerializer):
