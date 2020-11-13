@@ -79,6 +79,7 @@ def generate_advanced_reports(
     try:
         data = eval(table_name + ".objects.all()")
         data = data.filter(created_at__date__range=(initial_date, end_date))
+        # return {"result": {"data": data.values()}}
     except NameError:
         print("error")
 
@@ -115,4 +116,11 @@ def generate_advanced_reports(
 
         return {"result": {"data": {"labels": res, "series": res2}}}
     elif result_type == "table":
+        try:
+
+            data = eval(table_name + ".objects.all()")
+            data = data.filter(created_at__date__range=(initial_date, end_date))
+            return {"result": {"data": data.values()}}
+        except NameError:
+            print("Error")
         pass
