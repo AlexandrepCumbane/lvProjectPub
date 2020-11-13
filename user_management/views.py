@@ -27,7 +27,11 @@ def generate_token(request):
 
     login_data = {"username": user.username, "password": request.data["password"]}
 
-    adapter = "https://" if request.is_secure() else "http://"
+    adapter = "http://"
+    try:
+        import callcenter.settings_local
+    except ImportError:
+        adapter = "https://"
 
     # Esta linha gera o access key do utilizador
     response = requests.post(
