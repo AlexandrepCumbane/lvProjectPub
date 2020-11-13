@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group, User
 from django.test import RequestFactory, TestCase
 from rest_framework.test import APIClient
 
@@ -60,7 +60,7 @@ class UserLoginTestCase(TestCase):
     def test_check_user_is_gestor(self):
         """
         Check if the user belongs to the group of Gestor,
-        The funcion get_user_permission can 
+        The funcion get_user_permission can
         set the is_gestor atributo to True.
         """
         user = User.objects.first()
@@ -74,7 +74,7 @@ class UserLoginTestCase(TestCase):
     def test_check_user_is_operador(self):
         """
         Check if the user belongs to the group of Operador,
-        The funcion get_user_permission can 
+        The funcion get_user_permission can
         set the is_operador atributo to True.
         """
         user = User.objects.first()
@@ -88,7 +88,7 @@ class UserLoginTestCase(TestCase):
     def test_check_user_is_parceiro(self):
         """
         Check if the user belongs to the group of Parceiro,
-        The funcion get_user_permission can 
+        The funcion get_user_permission can
         set the is_parceiro atributo to True.
         """
         user = User.objects.first()
@@ -102,7 +102,7 @@ class UserLoginTestCase(TestCase):
     def test_check_user_is_ponto_focal(self):
         """
         Check if the user belongs to the group of Ponto Focal,
-        The funcion get_user_permission can 
+        The funcion get_user_permission can
         set the is_ponto_focal atributo to True.
         """
         user = User.objects.first()

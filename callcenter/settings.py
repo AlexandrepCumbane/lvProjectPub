@@ -47,15 +47,17 @@ INSTALLED_APPS = [
     "import_export",
     # "oauth2_provider",
     # My Apps
+    "call_manager",
     "case_manager",
     "location_management",
     "reports_management",
     "user_management",
     "posts_management",
+    "form_extra_manager",
     # Checkeditor
     "ckeditor",
     "ckeditor_uploader",
-    'django_nose',
+    "django_nose",
 ]
 
 MIDDLEWARE = [
@@ -96,9 +98,15 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
 ]
 
 

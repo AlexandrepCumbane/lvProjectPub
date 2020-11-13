@@ -2,8 +2,9 @@ from django.contrib.auth.models import User
 from drf_auto_endpoint.factories import serializer_factory
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
+from call_manager.api.serializers import ContactorSerializer, ContactorSerializerFull
+from call_manager.models import CustomerSatisfaction
 from case_manager.models import (
-    Ages,
     Case,
     CaseComments,
     CasePriority,
@@ -12,14 +13,11 @@ from case_manager.models import (
     CaseTask,
     Category,
     CategoryIssue,
-    Contactor,
-    CustomerSatisfaction,
-    Gender,
-    HowDoYouHearAboutUs,
     HowCaseClose,
     HowWouldYouLikeToBeContacted,
     IndividualCommitedFraud,
     MecanismUsed,
+    PersonsInvolved,
     Programme,
     ReferallEntity,
     ResolutionCategory,
@@ -30,11 +28,6 @@ from case_manager.models import (
     TransfereModality,
     Vulnerability,
     WhoIsNotReceivingAssistence,
-)
-from location_management.api.serializers import (
-    DistrictSerializer,
-    LocationSerializer,
-    ProvinceSerializer,
 )
 
 
@@ -47,12 +40,6 @@ class CasePrioritySerializer(ModelSerializer):
 class CaseCommentsSerializer(ModelSerializer):
     class Meta:
         model = CaseComments
-        fields = "__all__"
-
-
-class GenderSerializer(ModelSerializer):
-    class Meta:
-        model = Gender
         fields = "__all__"
 
 
@@ -98,12 +85,6 @@ class HowCaseCloseSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class HowDoYouHearAboutUsSerializer(ModelSerializer):
-    class Meta:
-        model = HowDoYouHearAboutUs
-        fields = "__all__"
-
-
 class HowWouldYouLikeToBeContactedSerializer(ModelSerializer):
     class Meta:
         model = HowWouldYouLikeToBeContacted
@@ -116,34 +97,9 @@ class SourceOfInformationSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class CustomerSatisfactionSerializer(ModelSerializer):
-    class Meta:
-        model = CustomerSatisfaction
-        fields = "__all__"
-
-
 class TaskStatusSerializer(ModelSerializer):
     class Meta:
         model = TaskStatus
-        fields = "__all__"
-
-
-class ContactorSerializer(ModelSerializer):
-    class Meta:
-        model = Contactor
-        fields = "__all__"
-
-
-class ContactorSerializerFull(ModelSerializer):
-
-    province = ProvinceSerializer()
-    location = LocationSerializer()
-    gender = GenderSerializer()
-    district = DistrictSerializer()
-    age = serializer_factory(model=Ages, fields=("id", "name"))()
-
-    class Meta:
-        model = Contactor
         fields = "__all__"
 
 
@@ -156,7 +112,8 @@ class ReferallEntitySerializer(ModelSerializer):
 class CaseSerializer(ModelSerializer):
     class Meta:
         model = Case
-        fields = "__all__"
+        # fields = "__all__"
+        exclude = ["case_id"]
 
 
 class CaseFeedbackSerializer(ModelSerializer):
@@ -187,51 +144,16 @@ class CaseReferallSimpleSerializer(ModelSerializer):
         fields = ("id", "referall_entity", "has_feedback")
 
 
+class PersonsInvolvedSerializer(ModelSerializer):
+    class Meta:
+        model = PersonsInvolved
+        fields = "__all__"
+
+
 class CaseSerializerFull(ModelSerializer):
-
-    case_priority = CasePrioritySerializer()
-    category = CategorySerializer()
-    contactor = ContactorSerializerFull()
-    source_of_information = SourceOfInformationSerializer()
-    sub_category = SubCategorySerializer()
-    created_by = serializer_factory(model=User, fields=("id", "username",))()
-    how_knows_us = HowDoYouHearAboutUsSerializer()
-    how_would_you_like_to_be_contacted = HowWouldYouLikeToBeContactedSerializer()
-    case_status = serializer_factory(model=CaseStatus, fields=("id", "name"))()
-    programme = ProgrammeSerializer()
-    mecanism_used = serializer_factory(model=MecanismUsed, fields=("id", "name"))()
-    vulnerability = serializer_factory(model=Vulnerability, fields=("id", "name"))()
-    transfere_modality = serializer_factory(
-        model=TransfereModality, fields=("id", "name")
-    )()
-    customer_satisfaction = serializer_factory(
-        model=CustomerSatisfaction, fields=("id", "name")
-    )()
-    who_is_never_received_assistance = serializer_factory(
-        model=WhoIsNotReceivingAssistence, fields=("id", "name")
-    )()
-    individual_commited_fraud = serializer_factory(
-        model=IndividualCommitedFraud, fields=("id", "name")
-    )()
-    how_case_was_closed = HowCaseCloseSerializer()
-    category_issue = CategoryIssueSerializer()
-    number_of_tasks = SerializerMethodField()
-    has_feedback = SerializerMethodField()
-
-    case_referall = CaseFeedbackSerializer(many=True)
-
-    tasks = CaseTaskFull2Serializer(many=True)
-    comments = CaseCommentsSerializer(many=True)
-
     class Meta:
         model = Case
         fields = "__all__"
-
-    def get_number_of_tasks(self, obj):
-        return obj.tasks.count()
-
-    def get_has_feedback(self, obj):
-        return obj.case_referall.filter(has_feedback=True).count() != 0
 
 
 class CaseReferallSerializer(ModelSerializer):

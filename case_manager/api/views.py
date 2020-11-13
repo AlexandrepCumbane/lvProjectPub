@@ -1,8 +1,9 @@
-import dateutil.parser
 import pprint
 from datetime import datetime
-from django.core.exceptions import ObjectDoesNotExist
+
+import dateutil.parser
 from django.contrib.auth.models import Group, User
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -12,6 +13,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
+from call_manager.api.serializers import ContactorSerializer
+from call_manager.helpers import save_call, save_contactor
+from call_manager.models import Ages, Contactor, Gender
+from case_manager import utils
 from case_manager.api.filters import CaseFilter, CaseReferallFilter, CaseTaskFilter
 from case_manager.api.helpers import DropdownSerializer, get_dropdowns
 from case_manager.api.serializers import (
@@ -25,11 +30,8 @@ from case_manager.api.serializers import (
     CaseTaskSerializer,
     CategoryIssueSerializer,
     CategorySerializer,
-    ContactorSerializer,
-    CustomerSatisfactionSerializer,
-    GenderSerializer,
-    HowDoYouHearAboutUsSerializer,
     HowWouldYouLikeToBeContactedSerializer,
+    PersonsInvolvedSerializer,
     ProgrammeSerializer,
     ReferallEntitySerializer,
     ResolutionCategorySerializer,
@@ -38,7 +40,6 @@ from case_manager.api.serializers import (
     TaskStatusSerializer,
 )
 from case_manager.models import (
-    Ages,
     Case,
     CaseComments,
     CasePriority,
@@ -47,26 +48,20 @@ from case_manager.models import (
     CaseTask,
     Category,
     CategoryIssue,
-    Contactor,
-    CustomerSatisfaction,
-    Gender,
     HowDoYouHearAboutUs,
     HowWouldYouLikeToBeContacted,
     Programme,
     ReferallEntity,
     ResolutionCategory,
     ResolutionSubCategory,
+    SourceOfInformation,
     SubCategory,
-    Vulnerability,
     TaskStatus,
     TransfereModality,
-    SourceOfInformation,
+    Vulnerability,
 )
-
-from location_management.models import Province, District
-
-
-from case_manager import utils
+from form_extra_manager.helpers import save_extra_call_fields
+from location_management.models import District, Province
 
 
 class CasePriorityViewset(ListAPIView, ViewSet):
@@ -74,14 +69,9 @@ class CasePriorityViewset(ListAPIView, ViewSet):
     queryset = CasePriority.objects.all()
 
 
-class GenderViewset(ListAPIView, ViewSet):
-    serializer_class = GenderSerializer
-    queryset = Gender.objects.all()
-
-
 class ProgrammeViewset(ListAPIView, ViewSet):
     serializer_class = ProgrammeSerializer
-    querysey = Programme.objects.all()
+    queryset = Programme.objects.all()
 
 
 class CategoryViewset(ListAPIView, ViewSet):
@@ -91,7 +81,9 @@ class CategoryViewset(ListAPIView, ViewSet):
 
 class SubCategoryViewset(ListAPIView, ViewSet):
     serializer_class = SubCategorySerializer
-    queryset = SubCategory.objects.select_related("category",)
+    queryset = SubCategory.objects.select_related(
+        "category",
+    )
 
 
 class CategoryIssueViewset(ListAPIView, ViewSet):
@@ -106,32 +98,19 @@ class ResolutionCategoryViewset(ListAPIView, ViewSet):
 
 class ResolutionSubCategoryViewset(ListAPIView, ViewSet):
     serializer_class = ResolutionSubCategorySerializer
-    queryset = ResolutionSubCategory.objects.select_related("resolution_category",)
-
-
-class HowDoYouHearAboutUsViewset(ListAPIView, ViewSet):
-    serializer_class = HowDoYouHearAboutUsSerializer
-    queryset = HowDoYouHearAboutUs.objects.all()
+    queryset = ResolutionSubCategory.objects.select_related(
+        "resolution_category",
+    )
 
 
 class HowWouldYouLikeToBeContactedViewset(ListAPIView, ViewSet):
     serializer_class = HowWouldYouLikeToBeContactedSerializer
-    querysey = HowWouldYouLikeToBeContacted.objects.all()
-
-
-class CustomerSatisfactionViewset(ListAPIView, ViewSet):
-    serializer_class = CustomerSatisfactionSerializer
-    queryset = CustomerSatisfaction.objects.all()
+    queryset = HowWouldYouLikeToBeContacted.objects.all()
 
 
 class TaskStatusViewset(ListAPIView, ViewSet):
     serializer_class = TaskStatusSerializer
     queryset = TaskStatus.objects.all()
-
-
-class ContactorViewset(ModelViewSet):
-    serializer_class = ContactorSerializer
-    queryset = Contactor.objects.select_related("gender", "location", "province")
 
 
 class ReferallEntityViewset(ModelViewSet):
@@ -144,10 +123,8 @@ class CaseCommentsViewset(ModelViewSet):
     queryset = CaseComments.objects.prefetch_related("case")
 
     def create(self, request):
-        """Creates a CaseComment record on the database.
-        """
+        """Creates a CaseComment record on the database."""
         case_referall = None
-
         # Raise an exception if doesn't find a case referall key,value
         try:
             case_referall = request.data.pop("case_referall")
@@ -176,7 +153,9 @@ class CaseViewset(ModelViewSet):
     serializer_class = CaseSerializer
     queryset = (
         Case.objects.select_related(
-            "case_priority", "category", "contactor", "created_by", "how_knows_us",
+            "case_priority",
+            "category",
+            "created_by",
         )
         .filter(is_deleted=False)
         .order_by("-id")
@@ -187,9 +166,9 @@ class CaseViewset(ModelViewSet):
     def saveexcel(self, request):
         """Update the data on the database submited in the xls format
 
-            Contraints:
-                returns 400 Response if the data submited doesn't
-                contains the list of cases to be updated
+        Contraints:
+            returns 400 Response if the data submited doesn't
+            contains the list of cases to be updated
         """
 
         # Verify if the key cases in the request post body
@@ -331,13 +310,13 @@ class CaseViewset(ModelViewSet):
 
     def _update_case(self, case_id: str, case) -> bool:
         """Update a case on the database.
-        
-            Parameters:
-                case_id (str):The case_id of the case to be updated
-                case (dict): the case data to be updated on the database
-            
-            Returns:
-                Return True or false if the system was able to update the database.
+
+        Parameters:
+            case_id (str):The case_id of the case to be updated
+            case (dict): the case data to be updated on the database
+
+        Returns:
+            Return True or false if the system was able to update the database.
         """
         case_to_update = Case.objects.get(case_id=case_id)
         contactor = case_to_update.contactor
@@ -358,100 +337,92 @@ class CaseViewset(ModelViewSet):
         print("erros", case_serializer.errors)
         return False
 
-    def create(self, request):
-        try:
-            contactor = request.data["contactor"]
-            case = request.data["case"]
-            case["created_at"] = timezone.datetime.now()
-            print(case["created_at"])
-            # case["case_status"] = CaseStatus.objects.get(name="Not Started").id
-            case["case_priority"] = CasePriority.objects.get(name="High").id
+    def save_case(
+        self, case: dict, user_id, call_id=None, persons_involved=[], request=None
+    ) -> dict:
+        case["created_by"] = user_id
+        case["call"] = call_id
+        case["persons_involved"] = persons_involved
+        case_serializer = CaseSerializer(data=case)
+        if case_serializer.is_valid():
+            case = case_serializer.save()
 
-            contactor = self._save_contactor(contactor)
+            try:
+                save_extra_call_fields(
+                    request.data["extra_fields"], call=call_id, case=case.id
+                )
+            except KeyError:
+                pass
+            return Response({"case": case.id}, status=200)
+        return Response({"errors": case_serializer.errors}, status=400)
 
-            if not contactor["is_saved"]:
-                return Response({"error": "Erro ao gravar contactant"}, status=400)
+    def save_persons_involved(self, persons_involved: list) -> list:
 
-            case["contactor"] = contactor["contactor_id"]
-            case["created_by"] = request.user.id
-            case_serializer = CaseSerializer(data=case)
+        all_persons_saved = False
+        my_persons = []
+        for person in persons_involved:
+            result = self.save_single_person(person["person_involved"])
+            if not result["is_saved"]:
+                return {"all_saved": all_persons_saved, "persons_id": my_persons}
+            my_persons.append(result["person_involved_id"])
+        all_persons_saved = True
+        return {"all_saved": all_persons_saved, "persons_id": my_persons}
 
-            if case_serializer.is_valid():
-                case = case_serializer.save()
-                return Response({"case": case.id})
-            else:
-                return Response({"errors": case_serializer.errors}, status=400)
-        except KeyError:
-            pass
-        return super().create(request)
-
-    def _save_contactor(self, contactor: dict) -> dict:
+    def save_single_person(self, person: dict) -> bool:
         """Save a new Contactor on the database.
 
-            Parameters:
-                contactor (dict): The data of the contactor to be saved on the database.
+        Parameters:
+            contactor (dict): The data of the contactor to be saved on the database.
 
-            Returns:
-                Returns true or false if the contactor is saved.
+        Returns:
+            Returns true or false if the contactor is saved.
         """
-        contact_serializer = ContactorSerializer(data=contactor)
+        person_serializer = PersonsInvolvedSerializer(data=person)
 
-        contactor_is_saved = False
+        person_is_saved = False
 
-        if contact_serializer.is_valid():
-            contact_saved = contact_serializer.save()
-            contactor_is_saved = True
-            return {"is_saved": contactor_is_saved, "contactor_id": contact_saved.id}
+        if person_serializer.is_valid():
+            person_saved = person_serializer.save()
+            person_is_saved = True
+            return {"is_saved": person_is_saved, "person_involved_id": person_saved.id}
+        return {"is_saved": person_is_saved, "person_involved_id": 0}
 
-        print(contact_serializer.errors)
-        return {"is_saved": contactor_is_saved, "contactor_id": 0}
-
-    def _update_contactor(self, contactor_data: dict) -> dict:
-        """Update the contactor data saved on the database.
-
-            Parameters:
-                contactor_data (dict): contains the new data of the contactor to be updated.
-            
-            Returns:
-                contactor_is_saved (bool):Return true or false if the contactor was updated.
-        """
-        contactor_id = None
-        contactor_is_saved = False
+    def create(self, request):
+        call_id = None
 
         try:
-            contactor_id = contactor_data["id"]
+            call = request.data["call_data"]
+            if isinstance(call, dict):
+                call_saved = save_call(
+                    call, call["contactor"], request.user.id, request
+                )
+                call_id = call_saved.data["call"]
+            else:
+                call_id = call
         except KeyError:
-            print("Contact Data dont have contactor id")
-            return contactor_is_saved
-
-        contactors = Contactor.objects.all()
-        contactor = None
+            pass
 
         try:
-            # Try to get case if exists
-            conctactor = Contactor.objects.get(id=contactor_id)
-            # Get Case object
-            contactor = get_object_or_404(contactors, pk=contactor_id)
-        except ObjectDoesNotExist:
-            print("COntactor not found")
-            return contactor_is_saved
+            persons = request.data["persons_involved_data"]
+            persons_involved = self.save_persons_involved(persons)
+            if not persons_involved["all_saved"]:
+                return Response({"Error saving persons involved": "Hello"}, status=400)
 
-        contact_serializer = ContactorSerializer(
-            contactor, data=contactor_data, partial=True
-        )
+            persons_involved_ids = persons_involved["persons_id"]
+            return self.save_case(
+                request.data["case"],
+                request.user.id,
+                call_id,
+                persons_involved_ids,
+                request,
+            )
+        except KeyError as error:
+            print("Chave nao encontrado {}".format(str(error)))
 
-        if contact_serializer.is_valid():
-            contact_serializer.save()
-            contactor_is_saved = True
-            return contactor_is_saved
-
-        print('errors', contact_serializer.errors)
-
-        return contactor_is_saved
+        return super().create(request)
 
     def destroy(self, request, pk=None):
-        """Disable user to see case of delete request method on the API.
-        """
+        """Disable user to see case of delete request method on the API."""
 
         case = get_object_or_404(self.queryset, pk=pk)
         case.is_deleted = True
@@ -480,7 +451,7 @@ class CaseViewset(ModelViewSet):
         List cases that a referred to a partner
         """
         pages = self.paginate_queryset(
-            self.get_queryset().filter(case_forwarded=True).order_by("-id")
+            self.get_queryset().filter(case_forward=True).order_by("-id")
         )
         response = CaseSerializerFull(pages, many=True)
 
@@ -514,46 +485,6 @@ class CaseViewset(ModelViewSet):
         return Response(case_serializer.data)
 
     def update(self, request, pk=None):
-        case_update = get_object_or_404(self.queryset, pk=pk)
-
-        try:
-            case = request.data["case"]
-            contactor = request.data["contactor"]
-            contactor_is_updated = self._update_contactor(contactor)
-
-            try:
-                is_closed = case["case_closed"]
-
-                """
-                    Verify the case_closed key value of the data
-                    and if is true update the case status to closed
-                """
-                if is_closed:
-                    case["case_status"] = (
-                        CaseStatus.objects.filter(name__icontains="closed").first().id
-                    )
-            except KeyError:
-                print("chave nao encontrada")
-
-            if not contactor_is_updated:
-                return Response(
-                    {"errors": "Houve um erro ao alterar os dados do contactante"},
-                    status=400,
-                )
-
-            case_serializer = CaseSerializer(case_update, data=case, partial=True)
-
-            if case_serializer.is_valid():
-                case_saved = case_serializer.save()
-                case_serializer = CaseSerializerFull(case_saved)
-                return Response(case_serializer.data)
-            else:
-                return Response({"errors": case_serializer.errors}, status=400)
-
-        except KeyError:
-            print("contactor and case field not found, save case normal")
-            pass
-
         return super().update(request, pk)
 
     @action(methods=["PUT"], detail=True)
@@ -564,13 +495,12 @@ class CaseViewset(ModelViewSet):
             CaseStatus.objects.filter(name__icontains="progress").first().id
         )
 
-        my_data["case_forwarded"] = True
+        my_data["case_forward"] = True
 
-        
         case_ = Case.objects.get(id=pk)
-        print('my_data: ', my_data)
-        print('case_update: ', case_update.case_forwarded)
-        case_update.case_forwarded = True
+        print("my_data: ", my_data)
+        print("case_update: ", case_update.case_forward)
+        case_update.case_forward = True
         case_serializer = CaseSerializer(case_update, data=my_data, partial=True)
         if case_serializer.is_valid():
             case_saved = case_serializer.save()
@@ -619,8 +549,8 @@ class CaseTaskViewset(ModelViewSet):
         is_gestor = utils.is_user_type_gestor(request)
         if is_gestor:
             """
-                This query filters task for today and tasks that are
-                Not completed at all
+            This query filters task for today and tasks that are
+            Not completed at all
             """
             my_queryset = (
                 self.queryset.filter(assigned_to=request.user)
@@ -662,7 +592,7 @@ class CaseReferallViewset(ModelViewSet):
 
     def _update_case(self, caseId):
         update_case = get_object_or_404(Case.objects.all(), pk=caseId)
-        update_case.case_forwarded = True
+        update_case.case_forward = True
         update_case.save()
 
     def _update_case_focal_point_notes(self, notes: dict, case_id: int) -> bool:
@@ -710,7 +640,12 @@ class CaseReferallViewset(ModelViewSet):
 
                     return Response(case_serializer.data)
                 else:
-                    return Response({"Errors": data_serializer.errors,}, status=400)
+                    return Response(
+                        {
+                            "Errors": data_serializer.errors,
+                        },
+                        status=400,
+                    )
 
         return super().create(request)
 
@@ -733,8 +668,8 @@ class CaseReferallViewset(ModelViewSet):
     @action(methods=["GET"], detail=False)
     def feedbacks(self, request):
         """
-            Return the list of cases with feedback from partner
-            in the API.
+        Return the list of cases with feedback from partner
+        in the API.
         """
         my_queryset = self.get_queryset().order_by("-id")
         my_groups = request.user.groups.all()

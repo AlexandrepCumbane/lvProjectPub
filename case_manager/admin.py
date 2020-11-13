@@ -1,10 +1,8 @@
 from django.contrib import admin
-
 from import_export import resources
 from import_export.admin import ImportExportActionModelAdmin
 
 from case_manager.models import (
-    Ages,
     Case,
     CaseComments,
     CasePriority,
@@ -13,14 +11,14 @@ from case_manager.models import (
     CaseTask,
     Category,
     CategoryIssue,
-    Contactor,
     CustomerSatisfaction,
-    Gender,
     HowCaseClose,
     HowDoYouHearAboutUs,
     HowWouldYouLikeToBeContacted,
     IndividualCommitedFraud,
     MecanismUsed,
+    PersonsInvolved,
+    PersonType,
     Programme,
     ReferallEntity,
     ResolutionCategory,
@@ -37,11 +35,6 @@ from case_manager.models import (
 """
 @ Model Resources 
 """
-
-
-class AgeResource(resources.ModelResource):
-    class Meta:
-        model = Ages
 
 
 class CaseResource(resources.ModelResource):
@@ -62,12 +55,6 @@ class CaseStatusResource(resources.ModelResource):
 class CategoryResource(resources.ModelResource):
     class Meta:
         model = Category
-
-
-# Action Model Admin
-class AgeAdmin(ImportExportActionModelAdmin):
-    resource_class = AgeResource
-    pass
 
 
 class CaseAdmin(ImportExportActionModelAdmin):
@@ -93,21 +80,20 @@ class CategoryAdmin(ImportExportActionModelAdmin):
 admin.autodiscover()
 
 # Register your models here.
-admin.site.register(Ages)
 admin.site.register(Case, CaseAdmin)
 admin.site.register(CaseComments)
 admin.site.register(CasePriority, CasePriorityAdmin)
 admin.site.register(CaseReferall)
 admin.site.register(CaseStatus, CaseStatusAdmin)
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(Contactor)
 admin.site.register(CustomerSatisfaction)
-admin.site.register(Gender)
 admin.site.register(HowCaseClose)
 admin.site.register(HowDoYouHearAboutUs)
 admin.site.register(HowWouldYouLikeToBeContacted)
 admin.site.register(SourceOfInformation)
 admin.site.register(MecanismUsed)
+admin.site.register(PersonsInvolved)
+admin.site.register(PersonType)
 admin.site.register(Programme)
 admin.site.register(ReferallEntity)
 admin.site.register(ResolutionCategory)

@@ -11,15 +11,23 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
-            model_name="community", name="name", field=models.CharField(max_length=200),
+            model_name="community",
+            name="name",
+            field=models.CharField(max_length=200),
         ),
         migrations.AlterField(
-            model_name="district", name="name", field=models.CharField(max_length=50),
+            model_name="district",
+            name="name",
+            field=models.CharField(max_length=50),
         ),
         migrations.AlterField(
-            model_name="location", name="name", field=models.CharField(max_length=200),
+            model_name="location",
+            name="name",
+            field=models.CharField(max_length=200),
         ),
         migrations.AlterField(
-            model_name="province", name="name", field=models.CharField(max_length=25),
+            model_name="province",
+            name="name",
+            field=models.CharField(max_length=25),
         ),
     ]

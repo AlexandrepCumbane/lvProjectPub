@@ -10,5 +10,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RenameModel(old_name="SubCategoryIssue", new_name="CategoryIssue",),
+        migrations.RenameModel(
+            old_name="SubCategoryIssue",
+            new_name="CategoryIssue",
+        ),
     ]

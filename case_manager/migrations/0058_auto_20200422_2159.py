@@ -11,7 +11,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="case", name="sub_category",),
+        migrations.RemoveField(
+            model_name="case",
+            name="sub_category",
+        ),
         migrations.AddField(
             model_name="case",
             name="sub_category",

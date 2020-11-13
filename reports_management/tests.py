@@ -1,13 +1,12 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group, User
 from django.test import TestCase
-
 from rest_framework.test import APIClient
 
 from reports_management.api.helpers import (
-    get_parceiro_dashboard_data,
     generate_focal_point_dashboard_data,
     get_gestor_dashboard_data,
     get_operador_dashboard_data,
+    get_parceiro_dashboard_data,
 )
 
 

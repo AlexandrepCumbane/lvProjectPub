@@ -10,11 +10,16 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="case", name="case_type",),
+        migrations.RemoveField(
+            model_name="case",
+            name="case_type",
+        ),
         migrations.AddField(
             model_name="case",
             name="other_category",
             field=models.CharField(blank=True, max_length=200, null=True),
         ),
-        migrations.DeleteModel(name="CaseType",),
+        migrations.DeleteModel(
+            name="CaseType",
+        ),
     ]

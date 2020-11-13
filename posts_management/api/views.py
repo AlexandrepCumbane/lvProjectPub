@@ -1,8 +1,8 @@
 from django.forms import model_to_dict
 from django.shortcuts import get_object_or_404
-
-from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
+
 from posts_management.api.serializers import (
     CategorySerializer,
     PostCategorySerializer,

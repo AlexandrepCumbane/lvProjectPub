@@ -8,11 +8,7 @@ from case_manager.api.views import (
     CaseViewset,
     CategoryIssueViewset,
     CategoryViewset,
-    ContactorViewset,
-    CustomerSatisfactionViewset,
     DropdownsViewSet,
-    GenderViewset,
-    HowDoYouHearAboutUsViewset,
     HowWouldYouLikeToBeContactedViewset,
     ProgrammeViewset,
     ReferallEntityViewset,
@@ -30,15 +26,7 @@ router.register("case-priorities", CasePriorityViewset, basename="case-prioritie
 router.register("case-referall", CaseReferallViewset, basename="case-referall")
 router.register("case-task", CaseTaskViewset, basename="case-task")
 router.register("categories", CategoryViewset, basename="categories")
-router.register("contactors", ContactorViewset, basename="contactors")
-router.register(
-    "customer-satisfaction",
-    CustomerSatisfactionViewset,
-    basename="customer-satisfaction",
-)
 router.register("dropdowns", DropdownsViewSet, basename="dropdowns")
-router.register("genders", GenderViewset, basename="genders")
-router.register("how-know-us", HowDoYouHearAboutUsViewset, basename="how-know-us")
 router.register(
     "means-of-contact", HowWouldYouLikeToBeContactedViewset, basename="means-of-contact"
 )

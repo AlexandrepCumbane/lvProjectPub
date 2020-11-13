@@ -34,7 +34,9 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AlterField(
-            model_name="post", name="created_at", field=models.DateField(auto_now=True),
+            model_name="post",
+            name="created_at",
+            field=models.DateField(auto_now=True),
         ),
         migrations.AlterField(
             model_name="post",
@@ -42,6 +44,8 @@ class Migration(migrations.Migration):
             field=models.DateField(null=True),
         ),
         migrations.AlterField(
-            model_name="post", name="published_date", field=models.DateField(null=True),
+            model_name="post",
+            name="published_date",
+            field=models.DateField(null=True),
         ),
     ]

@@ -3,7 +3,8 @@ from django.test import TestCase
 from rest_framework.test import APIClient, force_authenticate
 
 from posts_management.api.serializers import PostSerializer
-from posts_management.models import Post, PostLanguage, PostCategory
+from posts_management.models import Post, PostCategory, PostLanguage
+
 
 # Create your tests here.
 class PostAPITestCase(TestCase):

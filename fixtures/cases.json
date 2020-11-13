@@ -21,21 +21,21 @@
   }
 },
 {
-  "model": "case_manager.gender",
+  "model": "call_manager.gender",
   "pk": 1,
   "fields": {
     "name": "Male"
   }
 },
 {
-  "model": "case_manager.gender",
+  "model": "call_manager.gender",
   "pk": 2,
   "fields": {
     "name": "Female"
   }
 },
 {
-  "model": "case_manager.gender",
+  "model": "call_manager.gender",
   "pk": 3,
   "fields": {
     "name": "Other"
@@ -595,42 +595,42 @@
   }
 },
 {
-  "model": "case_manager.howdoyouhearaboutus",
+  "model": "call_manager.howdoyouhearaboutus",
   "pk": 1,
   "fields": {
     "name": "Suggestion box"
   }
 },
 {
-  "model": "case_manager.howdoyouhearaboutus",
+  "model": "call_manager.howdoyouhearaboutus",
   "pk": 2,
   "fields": {
     "name": "Radio"
   }
 },
 {
-  "model": "case_manager.howdoyouhearaboutus",
+  "model": "call_manager.howdoyouhearaboutus",
   "pk": 3,
   "fields": {
     "name": "Pamphlet"
   }
 },
 {
-  "model": "case_manager.howdoyouhearaboutus",
+  "model": "call_manager.howdoyouhearaboutus",
   "pk": 4,
   "fields": {
     "name": "People working in the community"
   }
 },
 {
-  "model": "case_manager.howdoyouhearaboutus",
+  "model": "call_manager.howdoyouhearaboutus",
   "pk": 5,
   "fields": {
     "name": "SMS"
   }
 },
 {
-  "model": "case_manager.howdoyouhearaboutus",
+  "model": "call_manager.howdoyouhearaboutus",
   "pk": 6,
   "fields": {
     "name": "Posters or other visibility material"
@@ -651,35 +651,35 @@
   }
 },
 {
-  "model": "case_manager.customersatisfaction",
+  "model": "call_manager.customersatisfaction",
   "pk": 2,
   "fields": {
     "name": "Very satisfied"
   }
 },
 {
-  "model": "case_manager.customersatisfaction",
+  "model": "call_manager.customersatisfaction",
   "pk": 3,
   "fields": {
     "name": "Satisfied"
   }
 },
 {
-  "model": "case_manager.customersatisfaction",
+  "model": "call_manager.customersatisfaction",
   "pk": 4,
   "fields": {
     "name": "Neutral"
   }
 },
 {
-  "model": "case_manager.customersatisfaction",
+  "model": "call_manager.customersatisfaction",
   "pk": 5,
   "fields": {
     "name": "Unsatisfied"
   }
 },
 {
-  "model": "case_manager.customersatisfaction",
+  "model": "call_manager.customersatisfaction",
   "pk": 6,
   "fields": {
     "name": "Very unsatisfied"
@@ -749,81 +749,24 @@
   }
 },
 {
-  "model": "case_manager.ages",
+  "model": "call_manager.ages",
   "pk": 1,
   "fields": {
     "name": "17 and below"
   }
 },
 {
-  "model": "case_manager.ages",
+  "model": "call_manager.ages",
   "pk": 2,
   "fields": {
     "name": "18 - 59"
   }
 },
 {
-  "model": "case_manager.ages",
+  "model": "call_manager.ages",
   "pk": 3,
   "fields": {
     "name": "60 and above"
-  }
-},
-{
-  "model": "case_manager.contactor",
-  "pk": 172,
-  "fields": {
-    "alternative_number": "",
-    "contact": "84000000",
-    "fdp": "",
-    "full_name": "Anonimo",
-    "age": 1,
-    "community": "",
-    "gender": 3,
-    "district": 121,
-    "location": 981,
-    "province": 6
-  }
-},
-{
-  "model": "case_manager.contactor",
-  "pk": 173,
-  "fields": {
-    "alternative_number": "854010212",
-    "contact": "85494912",
-    "fdp": "MPT",
-    "full_name": "Vasco",
-    "age": 2,
-    "community": "MPT",
-    "gender": 2,
-    "district": 108,
-    "location": 371,
-    "province": 2
-  }
-},
-{
-  "model": "case_manager.referallentity",
-  "pk": 1,
-  "fields": {
-    "contact": "4384938493",
-    "name": "Parceiro",
-    "email": "parceiro@mail.org",
-    "users": [
-      20,
-      2
-    ]
-  }
-},
-{
-  "model": "case_manager.referallentity",
-  "pk": 5,
-  "fields": {
-    "contact": "8787878789",
-    "name": "Organization",
-    "email": "organization@wfp.org",
-    "users": [
-      41
-    ]
   }
 },
 {
@@ -1145,121 +1088,6 @@
   "pk": 9,
   "fields": {
     "name": "Other"
-  }
-},
-{
-  "model": "case_manager.case",
-  "pk": 134,
-  "fields": {
-    "call_note": "Test",
-    "case_call": "",
-    "solution": "",
-    "focal_point_notes": "",
-    "how_case_close": "",
-    "camp": "N",
-    "case_id": "92675361",
-    "other_category": "",
-    "other_sources": "",
-    "other_vulnerabilites": "",
-    "resettlement_name": "",
-    "caller_not_reached_for_feedback": false,
-    "case_closed": false,
-    "case_forwarded": false,
-    "call_require_aditional_information": false,
-    "call_require_callback_for_feedback": false,
-    "consent_to_share_third_party": false,
-    "consent_to_collect_personal_info": false,
-    "is_deleted": false,
-    "received_assistence": false,
-    "case_uuid": "aec8963c-a060-4e1d-affb-d02d62741d9d",
-    "contactor": 172,
-    "closed_at": null,
-    "created_at": "2020-06-18T08:22:43.604Z",
-    "updated_at": "2020-07-23T09:25:07.681Z",
-    "customer_satisfaction": 4,
-    "how_case_was_closed": null,
-    "how_would_you_like_to_be_contacted": null,
-    "who_is_never_received_assistance": null,
-    "how_knows_us": 3,
-    "programme": null,
-    "created_by": 1,
-    "case_priority": 2,
-    "case_status": 1,
-    "individual_commited_fraud": null,
-    "response_program": null,
-    "category": 7,
-    "category_issue": null,
-    "mecanism_used": null,
-    "source_of_information": 7,
-    "transfere_modality": null,
-    "vulnerability": 5,
-    "sub_category": 35,
-    "focal_points": []
-  }
-},
-{
-  "model": "case_manager.case",
-  "pk": 135,
-  "fields": {
-    "call_note": "CHamada de apio",
-    "case_call": "",
-    "solution": "Ligue para policia",
-    "focal_point_notes": "None",
-    "how_case_close": "",
-    "camp": "Y",
-    "case_id": "26692832",
-    "other_category": "Nao tem",
-    "other_sources": "LFC",
-    "other_vulnerabilites": "Nao tem",
-    "resettlement_name": "Mot",
-    "caller_not_reached_for_feedback": true,
-    "case_closed": false,
-    "case_forwarded": true,
-    "call_require_aditional_information": false,
-    "call_require_callback_for_feedback": true,
-    "consent_to_share_third_party": true,
-    "consent_to_collect_personal_info": true,
-    "is_deleted": false,
-    "received_assistence": false,
-    "case_uuid": "73523c59-4210-4731-8663-a15b377a7cb3",
-    "contactor": 173,
-    "closed_at": null,
-    "created_at": "2020-06-24T12:34:31.446Z",
-    "updated_at": "2020-07-20T09:35:03.470Z",
-    "customer_satisfaction": 6,
-    "how_case_was_closed": 34,
-    "how_would_you_like_to_be_contacted": 2,
-    "who_is_never_received_assistance": null,
-    "how_knows_us": 4,
-    "programme": null,
-    "created_by": 1,
-    "case_priority": 2,
-    "case_status": 1,
-    "individual_commited_fraud": 2,
-    "response_program": null,
-    "category": 3,
-    "category_issue": null,
-    "mecanism_used": null,
-    "source_of_information": 4,
-    "transfere_modality": 4,
-    "vulnerability": 1,
-    "sub_category": 4,
-    "focal_points": []
-  }
-},
-{
-  "model": "case_manager.casereferall",
-  "pk": 99,
-  "fields": {
-    "feedback": "",
-    "refered_at": "2020-07-20T09:35:03.456Z",
-    "case": 135,
-    "referall_entity": 5,
-    "has_feedback": false,
-    "referred_to_focal_point": false,
-    "is_valid_feedback": true,
-    "have_focal_point_feedback": false,
-    "comments": ""
   }
 }
 ]
