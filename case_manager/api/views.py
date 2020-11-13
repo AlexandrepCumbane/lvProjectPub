@@ -361,7 +361,7 @@ class CaseViewset(ModelViewSet):
         all_persons_saved = False
         my_persons = []
         for person in persons_involved:
-            result = self.save_single_person(person)
+            result = self.save_single_person(person["person_involved"])
             if not result["is_saved"]:
                 return {"all_saved": all_persons_saved, "persons_id": my_persons}
             my_persons.append(result["person_involved_id"])
@@ -388,13 +388,10 @@ class CaseViewset(ModelViewSet):
         return {"is_saved": person_is_saved, "person_involved_id": 0}
 
     def create(self, request):
+        call_id = None
 
         try:
-
-            call_id = None
-
             call = request.data["call_data"]
-            persons = request.data["persons_involved_data"]
             if isinstance(call, dict):
                 call_saved = save_call(
                     call, call["contactor"], request.user.id, request
@@ -402,8 +399,12 @@ class CaseViewset(ModelViewSet):
                 call_id = call_saved.data["call"]
             else:
                 call_id = call
-            persons_involved = self.save_persons_involved(persons)
+        except KeyError:
+            pass
 
+        try:
+            persons = request.data["persons_involved_data"]
+            persons_involved = self.save_persons_involved(persons)
             if not persons_involved["all_saved"]:
                 return Response({"Error saving persons involved": "Hello"}, status=400)
 
