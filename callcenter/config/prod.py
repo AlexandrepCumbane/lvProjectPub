@@ -76,6 +76,16 @@ LOGGING = {
     },
 }
 
+sentry_sdk.init(
+    dsn=os.getenv("DJANGO_SENTRY_KEY"),
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
+
 # Parse database configuration from $DATABASE_URL
 DATABASES = {}
 DATABASES["default"] = dj_database_url.config()
