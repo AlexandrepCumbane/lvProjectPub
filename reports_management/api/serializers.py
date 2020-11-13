@@ -83,37 +83,36 @@ def generate_advanced_reports(
         print("error")
 
     if result_type == "bigint":
-        return {"result": {"data":data.count()}}
+        return {"result": {"data": data.count()}}
     if result_type == "pie":
         res = []
         genders = Gender.objects.all().values()
 
         for gender in genders:
-            call = Call.objects.filter(contactor__gender__id=gender['id'])
-            res.append({
-                'key': gender['name'],
-                'value': call.count()
-            })
-        return {"result": {"data": res }}
-    
+            call = Call.objects.filter(contactor__gender__id=gender["id"])
+            res.append({"key": gender["name"], "value": call.count()})
+        return {"result": {"data": res}}
+
     if result_type == "bar":
         res = []
         res2 = []
         # qs = Case.objects.values(column_name).annotate(cnt=Count('id'))
-        qs =  eval(table_name + ".objects.values('"+ column_name +"').annotate(cnt=Count('id'))")
+        qs = eval(
+            table_name
+            + ".objects.values('"
+            + column_name
+            + "').annotate(cnt=Count('id'))"
+        )
 
-        for q in qs:           
+        for q in qs:
 
-            if(q[column_name] is not None):
-                res.append(q[column_name])  
+            if q[column_name] is not None:
+                res.append(q[column_name])
             else:
-                res.append('None')  
-         
-            res2.append(q['cnt'])   
-         
-        return {"result": {"data": {
-            'labels': res,
-            'series': res2
-        } }}
+                res.append("None")
+
+            res2.append(q["cnt"])
+
+        return {"result": {"data": {"labels": res, "series": res2}}}
     elif result_type == "table":
         pass
