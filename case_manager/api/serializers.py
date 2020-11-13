@@ -30,10 +30,16 @@ from case_manager.models import (
     WhoIsNotReceivingAssistence,
 )
 
+from user_management.api.serializers import UserSerializer
 
 class CasePrioritySerializer(ModelSerializer):
     class Meta:
         model = CasePriority
+        fields = "__all__"
+
+class CaseStatusSerializer(ModelSerializer):
+    class Meta:
+        model = CaseStatus
         fields = "__all__"
 
 
@@ -112,7 +118,8 @@ class ReferallEntitySerializer(ModelSerializer):
 class CaseSerializer(ModelSerializer):
     class Meta:
         model = Case
-        fields = "__all__"
+        # fields = "__all__"
+        exclude = ["case_id"]
 
 
 class CaseFeedbackSerializer(ModelSerializer):
@@ -150,6 +157,12 @@ class PersonsInvolvedSerializer(ModelSerializer):
 
 
 class CaseSerializerFull(ModelSerializer):
+
+    category = CategorySerializer()
+    sub_category = SubCategorySerializer()
+    case_status = CaseStatusSerializer()
+    case_priority = CasePrioritySerializer()
+    created_by = UserSerializer()
     class Meta:
         model = Case
         fields = "__all__"
