@@ -131,7 +131,7 @@ STATIC_URL = "https://s3.%s.amazonaws.com/%s/" % (
 )
 
 APPEND_SLASH = True  # Fixes cases where heroku does not redirect to angular app
-SECURE_SSL_REDIRECT = True
+
 # https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching#cache-control
 # Response can be cached by browser and any intermediary caches (i.e. it is "public") for up to 1 day
 # 86400 = (60 seconds x 60 minutes x 24 hours)
