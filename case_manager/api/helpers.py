@@ -129,12 +129,13 @@ def get_extra_fields() -> list:
 
 def get_model_char_fields(fields) -> list:
 
-    res = [] 
+    res = []
     for field in fields:
-        if(field.is_relation is not True):
+        if field.is_relation is not True:
             res.append(field.name)
 
     return res
+
 
 def get_model_fields(model) -> list:
     print(model)
@@ -144,24 +145,28 @@ def get_model_fields(model) -> list:
     res = []
     fields = model._meta.fields
     for field in fields:
-        
-        if(field.is_relation):
+
+        if field.is_relation:
             model = field.related_model()
             fields_ = model._meta.get_fields()
             model_fields = get_model_char_fields(fields_)
-            res.append({
-                "name": field.name,
-                "type": field.get_internal_type(),
-                "is_relation": field.is_relation,
-                "related_fields": model_fields
-            })
-        else:    
-            res.append({
-                "name": field.name,
-                "type": field.get_internal_type(),
-                "is_relation": field.is_relation,
-                "related_fields": []
-            })
+            res.append(
+                {
+                    "name": field.name,
+                    "type": field.get_internal_type(),
+                    "is_relation": field.is_relation,
+                    "related_fields": model_fields,
+                }
+            )
+        else:
+            res.append(
+                {
+                    "name": field.name,
+                    "type": field.get_internal_type(),
+                    "is_relation": field.is_relation,
+                    "related_fields": [],
+                }
+            )
     return res
 
 

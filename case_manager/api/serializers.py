@@ -32,10 +32,12 @@ from case_manager.models import (
 
 from user_management.api.serializers import UserSerializer
 
+
 class CasePrioritySerializer(ModelSerializer):
     class Meta:
         model = CasePriority
         fields = "__all__"
+
 
 class CaseStatusSerializer(ModelSerializer):
     class Meta:
@@ -156,6 +158,12 @@ class PersonsInvolvedSerializer(ModelSerializer):
         fields = "__all__"
 
 
+class PersonsInvolvedFullSerializer(ModelSerializer):
+    class Meta:
+        model = PersonsInvolved
+        fields = "__all__"
+
+
 class CaseSerializerFull(ModelSerializer):
 
     category = CategorySerializer()
@@ -163,6 +171,8 @@ class CaseSerializerFull(ModelSerializer):
     case_status = CaseStatusSerializer()
     case_priority = CasePrioritySerializer()
     created_by = UserSerializer()
+    persons_involvod = PersonsInvolvedFullSerializer()
+
     class Meta:
         model = Case
         fields = "__all__"
