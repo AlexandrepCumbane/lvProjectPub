@@ -214,6 +214,13 @@ class PersonsInvolved(models.Model):
 class Case(models.Model):
     case_id = models.CharField(max_length=20, unique=True)
     case_notes = models.TextField(default="")
+    contactor = models.ForeignKey(
+        Contactor,
+        on_delete=models.SET_NULL,
+        null=True,
+        default=None,
+        related_name="cases",
+    )
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True, related_name="cases"
     )
