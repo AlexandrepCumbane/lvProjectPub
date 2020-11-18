@@ -29,7 +29,7 @@ from case_manager.models import (
     Vulnerability,
     WhoIsNotReceivingAssistence,
 )
-from form_extra_manager.models import ExtraFields, ExtraFieldOptions
+from form_extra_manager.models import ExtraFields, ExtraFieldOptions, FormGroup
 from location_management.models import District, Location, PostoAdministrativo, Province
 from posts_management.models import PostCategory, PostLanguage
 
@@ -125,6 +125,25 @@ def get_extra_fields() -> list:
         results.append({"table": table, "extra_fields": fields})
 
     return results
+
+
+def get_case_extra_fields() -> list:
+
+    form_groups = FormGroup.objects.all().values()
+    result = []
+    for fg in form_groups:
+
+        if fg["form_name"] == "case" or fg["form_name"] == "contactor":
+            res = {
+                "form_group": fg,
+                "extra_fields": ExtraFields.objects.filter(
+                    form_group=fg["id"]
+                ).values(),
+            }
+
+            result.append(res)
+
+    return result
 
 
 def get_model_char_fields(fields) -> list:
@@ -286,6 +305,9 @@ def get_dropdowns() -> list:
         DropdownData(key="categories_issues", value=CategoryIssue.objects.values())
     )
     dropdowns.append(DropdownData(key="extra_fields", value=get_extra_fields()))
+    dropdowns.append(
+        DropdownData(key="extra_case_fields", value=get_case_extra_fields())
+    )
     dropdowns.append(
         DropdownData(key="subcategories", value=SubCategory.objects.values())
     )
