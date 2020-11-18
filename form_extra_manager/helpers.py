@@ -34,7 +34,7 @@ def save_extra_call_fields(data: dict, **kwargs):
 
 
 def save_extra_field_helper(
-    table_name: str, field_data: dict, initial_data: object
+    table_name: str, fields_data: list, initial_data: object
 ) -> None:
     """Helper functions to save extra field data in the database.
 
@@ -46,13 +46,14 @@ def save_extra_field_helper(
     Returns:
         Returns None.
     """
-    print("field: {} and table : {}".format(field_data["extra_field_name"], table_name))
-    extra_field_row = ExtraFields.objects.get(
-        field_name=field_data["extra_field_name"], table_name=table_name
-    )
-    initial_data["field"] = extra_field_row
-    initial_data["value"] = field_data["extra_field_value"]
 
-    field_value = FieldValue(**initial_data)
-    field_value.save()
-    print("data saved", field_value.id)
+    for item in fields_data:
+        extra_field_row = ExtraFields.objects.get(
+            field_name__iexact=item["extra_field_name"], table_name__iexact=table_name
+        )
+        initial_data["field"] = extra_field_row
+        initial_data["value"] = item["extra_field_value"]
+
+        field_value = FieldValue(**initial_data)
+        field_value.save()
+        print("data saved", field_value.id)

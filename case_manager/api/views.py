@@ -354,6 +354,7 @@ class CaseViewset(ModelViewSet):
         if case_serializer.is_valid():
             case = case_serializer.save()
 
+            print('extra fields', request.data["extra_fields"])
             try:
                 save_extra_call_fields(
                     request.data["extra_fields"], call=call_id, case=case.id, contactor=contactor,
@@ -427,11 +428,11 @@ class CaseViewset(ModelViewSet):
                     request.user.id,
                     call_id,
                     persons_involved_ids,
-                    contactor,
+                    contactor['contactor_id'],
                     request,
                 )
             except KeyError as error:
-
+                print("Chave nao encontrado {}".format(str(error)))
                 return self.save_case(
                     request.data["case"],
                     request.user.id,
