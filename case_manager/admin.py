@@ -59,6 +59,7 @@ class CategoryResource(resources.ModelResource):
 
 class CaseAdmin(ImportExportActionModelAdmin):
     resource_class = CaseResource
+    list_display = ("case_id", "call", "case_status", "created_by", "created_at")
     pass
 
 
