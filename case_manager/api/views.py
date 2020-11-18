@@ -510,7 +510,23 @@ class CaseViewset(ModelViewSet):
         return Response(case_serializer.data)
 
     def update(self, request, pk=None):
-        return super().update(request, pk)
+        my_case =  get_object_or_404(self.queryset, pk=pk)
+        try:
+            contactor_data = request.data['contactor']
+            if isinstance(contactor_data, dict):
+                request.data.pop('contactor')
+                contactor = Contactor.objects.filter(pk=contactor_data['id']).update(**contactor_data)
+                print('contactor', contactor)
+        except KeyError as error:
+            print(f"{error} nao encontrado no dicionario")
+        
+        case_serializer = CaseSerializer(my_case, data=request.data, partial=True)
+        if case_serializer.is_valid():
+            case_updated = case_serializer.save()
+            case_serializer = CaseSerializerFull(case_updated)
+            return Response(case_serializer.data)
+
+        return Response({"Errors": case_serializer.errors}, status=400)
 
     @action(methods=["PUT"], detail=True)
     def send_to_focal_point(self, request, pk=None):
