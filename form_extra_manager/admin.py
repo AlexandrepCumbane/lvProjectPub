@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from form_extra_manager.models import ExtraFieldOptions, ExtraFields, FieldValue
+from form_extra_manager.models import ExtraFieldOptions, ExtraFields, FieldValue, FormGroup
 
 admin.site.register(
     ExtraFields,
@@ -18,4 +18,7 @@ admin.site.register(
 admin.site.register(ExtraFieldOptions, list_display=("field_name", "field_value"))
 admin.site.register(
     FieldValue, list_display=("case", "contactor", "call", "field", "value")
+)
+admin.site.register(
+    FormGroup, list_display=("form_name", "label", "uuid", "name")
 )

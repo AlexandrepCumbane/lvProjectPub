@@ -171,7 +171,7 @@ class CaseSerializerFull(ModelSerializer):
     case_status = CaseStatusSerializer()
     case_priority = CasePrioritySerializer()
     created_by = UserSerializer()
-    persons_involvod = PersonsInvolvedFullSerializer()
+    persons_involved = PersonsInvolvedFullSerializer()
 
     class Meta:
         model = Case
