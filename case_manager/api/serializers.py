@@ -2,8 +2,7 @@ from django.contrib.auth.models import User
 from drf_auto_endpoint.factories import serializer_factory
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from call_manager.api.serializers import ContactorSerializer, ContactorSerializerFull
-from call_manager.models import CustomerSatisfaction
+from call_manager.api.serializers import ContactorSerializerFull
 from case_manager.models import (
     Case,
     CaseComments,
@@ -15,8 +14,6 @@ from case_manager.models import (
     CategoryIssue,
     HowCaseClose,
     HowWouldYouLikeToBeContacted,
-    IndividualCommitedFraud,
-    MecanismUsed,
     PersonsInvolved,
     Programme,
     ReferallEntity,
@@ -25,9 +22,6 @@ from case_manager.models import (
     SourceOfInformation,
     SubCategory,
     TaskStatus,
-    TransfereModality,
-    Vulnerability,
-    WhoIsNotReceivingAssistence,
 )
 
 from user_management.api.serializers import UserSerializer
@@ -171,7 +165,8 @@ class CaseSerializerFull(ModelSerializer):
     case_status = CaseStatusSerializer()
     case_priority = CasePrioritySerializer()
     created_by = UserSerializer()
-    persons_involvod = PersonsInvolvedFullSerializer()
+    contactor = ContactorSerializerFull()
+    persons_involved = PersonsInvolvedFullSerializer(many=True)
 
     class Meta:
         model = Case
