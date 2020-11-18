@@ -127,6 +127,19 @@ def get_extra_fields() -> list:
     return results
 
 
+def add_extra_values_to_select(group_id) -> list:
+
+    fields = ExtraFields.objects.filter(form_group=group_id).values()
+
+    for field_value in fields:
+        if field_value["is_select"]:
+            field_value["values"] = ExtraFieldOptions.objects.filter(
+                field_name=field_value["id"]
+            ).values()
+
+    return fields
+
+
 def get_case_extra_fields() -> list:
 
     form_groups = FormGroup.objects.all().values()
@@ -136,9 +149,7 @@ def get_case_extra_fields() -> list:
         if fg["form_name"] == "case" or fg["form_name"] == "contactor":
             res = {
                 "form_group": fg,
-                "extra_fields": ExtraFields.objects.filter(
-                    form_group=fg["id"]
-                ).values(),
+                "extra_fields": add_extra_values_to_select(fg["id"]),
             }
 
             result.append(res)
