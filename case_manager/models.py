@@ -252,12 +252,17 @@ class Case(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        if self.case_id == "0":
+        print("Case id: ", self.case_id)
+        if self.case_id == "0" or self.call_id == "":
             try:
-                self.case_id = int(Call.objects.last().case_id) + 1
+                self.case_id = int(Case.objects.last().case_id) + 1
             except:
                 self.case_id = now.year + 1
         super().save(*args, **kwargs)
+
+    def __str__(self) -> str:
+
+        return self.case_id
 
 
 class CaseReferall(models.Model):
