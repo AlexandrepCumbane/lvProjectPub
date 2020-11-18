@@ -356,7 +356,7 @@ class CaseViewset(ModelViewSet):
 
             try:
                 save_extra_call_fields(
-                    request.data["extra_fields"], call=call_id, case=case.id
+                    request.data["extra_fields"], call=call_id, case=case.id, contactor=contactor,
                 )
             except KeyError:
                 pass
