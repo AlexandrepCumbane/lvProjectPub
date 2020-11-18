@@ -214,6 +214,7 @@ class PersonsInvolved(models.Model):
 class Case(models.Model):
     case_id = models.CharField(max_length=20, unique=True)
     case_notes = models.TextField(default="")
+    case_solution = models.TextField(default="")
     contactor = models.ForeignKey(
         Contactor,
         on_delete=models.SET_NULL,
