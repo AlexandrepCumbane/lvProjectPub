@@ -338,11 +338,18 @@ class CaseViewset(ModelViewSet):
         return False
 
     def save_case(
-        self, case: dict, user_id, call_id=None, persons_involved=[], request=None
+        self,
+        case: dict,
+        user_id,
+        call_id=None,
+        persons_involved=[],
+        contactor=None,
+        request=None,
     ) -> dict:
         case["created_by"] = user_id
         case["call"] = call_id
         case["persons_involved"] = persons_involved
+        case["contactor"] = contactor
         case_serializer = CaseSerializer(data=case)
         if case_serializer.is_valid():
             case = case_serializer.save()
@@ -390,32 +397,49 @@ class CaseViewset(ModelViewSet):
     def create(self, request):
         call_id = None
 
+        # try:
+        #     call = request.data["call_data"]
+        #     if isinstance(call, dict):
+        #         call_saved = save_call(
+        #             call, call["contactor"], request.user.id, request
+        #         )
+        #         call_id = call_saved.data["call"]
+        #     else:
+        #         call_id = call
+        # except KeyError:
+        #     pass
+
         try:
-            call = request.data["call_data"]
-            if isinstance(call, dict):
-                call_saved = save_call(
-                    call, call["contactor"], request.user.id, request
+
+            contactor_payload = request.data["contactor"]
+            contactor = save_contactor(contactor_payload)
+            try:
+                persons = request.data["persons_involved_data"]
+                persons_involved = self.save_persons_involved(persons)
+                if not persons_involved["all_saved"]:
+                    return Response(
+                        {"Error saving persons involved": "Hello"}, status=400
+                    )
+
+                persons_involved_ids = persons_involved["persons_id"]
+                return self.save_case(
+                    request.data["case"],
+                    request.user.id,
+                    call_id,
+                    persons_involved_ids,
+                    contactor,
+                    request,
                 )
-                call_id = call_saved.data["call"]
-            else:
-                call_id = call
-        except KeyError:
-            pass
+            except KeyError as error:
 
-        try:
-            persons = request.data["persons_involved_data"]
-            persons_involved = self.save_persons_involved(persons)
-            if not persons_involved["all_saved"]:
-                return Response({"Error saving persons involved": "Hello"}, status=400)
-
-            persons_involved_ids = persons_involved["persons_id"]
-            return self.save_case(
-                request.data["case"],
-                request.user.id,
-                call_id,
-                persons_involved_ids,
-                request,
-            )
+                return self.save_case(
+                    request.data["case"],
+                    request.user.id,
+                    call_id,
+                    [],
+                    contactor['contactor_id'],
+                    request,
+                )
         except KeyError as error:
             print("Chave nao encontrado {}".format(str(error)))
 

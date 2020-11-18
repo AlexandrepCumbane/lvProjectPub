@@ -115,7 +115,7 @@ class CaseSerializer(ModelSerializer):
     class Meta:
         model = Case
         # fields = "__all__"
-        exclude = ["case_id"]
+        exclude = ["persons_involved"]
 
 
 class CaseFeedbackSerializer(ModelSerializer):
