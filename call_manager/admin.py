@@ -15,7 +15,20 @@ class AgeAdmin(ImportExportActionModelAdmin):
     pass
 
 
-admin.site.register(Contactor)
+admin.site.register(
+    Contactor,
+    list_display=("full_name", "contact", "province", "district", "location", "gender"),
+)
 admin.site.register(Gender)
 admin.site.register(Ages)
-admin.site.register(Call)
+admin.site.register(
+    Call,
+    list_display=(
+        "call_id",
+        "contactor",
+        "call_classification",
+        "how_knows_us",
+        "created_by",
+        "created_at",
+    ),
+)
