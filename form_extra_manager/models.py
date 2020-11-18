@@ -8,7 +8,12 @@ from case_manager.models import Case
 
 class FormGroup(models.Model):
     form_name = models.CharField(
-        choices=[("call", "call"), ("contactor", "contactor"), ("case", "case"), ('persons_involved', 'persons_involved')],
+        choices=[
+            ("call", "call"),
+            ("contactor", "contactor"),
+            ("case", "case"),
+            ("persons_involved", "persons_involved"),
+        ],
         max_length=20,
     )
     label = models.CharField(max_length=200)
@@ -20,9 +25,12 @@ class FormGroup(models.Model):
 
     @classmethod
     def get_default_pk(cls):
-        form_group, created  = cls.objects.get_or_create(name='default', form_name='case', label='default')
+        form_group, created = cls.objects.get_or_create(
+            name="default", form_name="case", label="default"
+        )
 
         return form_group.pk
+
 
 class ExtraFields(models.Model):
     field_name = models.CharField(max_length=200)
@@ -46,7 +54,10 @@ class ExtraFields(models.Model):
     )
     field_index = models.CharField(default="0", max_length=2)
     form_group = models.ForeignKey(
-        FormGroup, on_delete=models.CASCADE, default=FormGroup.get_default_pk, related_name="form_fields"
+        FormGroup,
+        on_delete=models.CASCADE,
+        default=FormGroup.get_default_pk,
+        related_name="form_fields",
     )
 
     def __str__(self):
@@ -60,7 +71,7 @@ class ExtraFieldOptions(models.Model):
     field_value = models.CharField(max_length=1000)
 
     def __str__(self):
-        return self.field_name
+        return self.field_value
 
 
 class FieldValue(models.Model):
