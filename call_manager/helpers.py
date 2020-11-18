@@ -24,6 +24,7 @@ def save_contactor(contactor: dict) -> dict:
         contact_saved = contact_serializer.save()
         contactor_is_saved = True
         return {"is_saved": contactor_is_saved, "contactor_id": contact_saved.id}
+        print('gravado', contactor_is_saved)
     return {"is_saved": contactor_is_saved, "contactor_id": 0}
 
 
