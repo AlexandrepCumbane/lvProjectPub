@@ -268,6 +268,7 @@ class Case(models.Model):
 
 class CaseReferall(models.Model):
     feedback = models.TextField(max_length=1000, default="")
+    focal_point_notes = models.TextField(max_length=1000, default="")
     refered_at = models.DateTimeField(auto_now=True)
     case = models.ForeignKey(
         Case, on_delete=models.CASCADE, related_name="case_referall"
