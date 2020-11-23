@@ -112,11 +112,10 @@ class ReferallEntitySerializer(ModelSerializer):
 
 
 class CaseSerializer(ModelSerializer):
+
     class Meta:
         model = Case
-        # fields = "__all__"
         exclude = ["persons_involved"]
-
 
 class CaseFeedbackSerializer(ModelSerializer):
 
@@ -143,7 +142,7 @@ class CaseReferallSimpleSerializer(ModelSerializer):
 
     class Meta:
         model = CaseReferall
-        fields = ("id", "referall_entity", "has_feedback")
+        fields = ("id", "referall_entity", "has_feedback", "feedback")
 
 
 class PersonsInvolvedSerializer(ModelSerializer):
@@ -158,8 +157,14 @@ class PersonsInvolvedFullSerializer(ModelSerializer):
         fields = "__all__"
 
 
+class CaseReferallSerializerSimple(ModelSerializer):
+    class Meta:
+        model = CaseReferall
+        fields = ("id",)
+
 class CaseSerializerFull(ModelSerializer):
 
+    focal_point_notes = SerializerMethodField()
     category = CategorySerializer()
     sub_category = SubCategorySerializer()
     case_status = CaseStatusSerializer()
@@ -167,10 +172,23 @@ class CaseSerializerFull(ModelSerializer):
     created_by = UserSerializer()
     contactor = ContactorSerializerFull()
     persons_involved = PersonsInvolvedFullSerializer(many=True)
+    case_referall = CaseReferallSimpleSerializer(many=True)
 
     class Meta:
         model = Case
         fields = "__all__"
+    
+    
+    def get_focal_point_notes(self, obj):
+        notes = ""
+        print('obj', obj.case_referall)
+        try:
+            notes = CaseReferall.objects.filter(case=obj).first().focal_point_notes
+            print('notes', notes)
+        except Exception:
+            print('No relationship found')
+        
+        return notes
 
 
 class CaseReferallSerializer(ModelSerializer):
