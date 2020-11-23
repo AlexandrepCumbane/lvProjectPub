@@ -354,10 +354,13 @@ class CaseViewset(ModelViewSet):
         if case_serializer.is_valid():
             case = case_serializer.save()
 
-            print('extra fields', request.data["extra_fields"])
+            print("extra fields", request.data["extra_fields"])
             try:
                 save_extra_call_fields(
-                    request.data["extra_fields"], call=call_id, case=case.id
+                    request.data["extra_fields"],
+                    call=call_id,
+                    case=case.id,
+                    contactor=contactor,
                 )
             except KeyError:
                 pass
@@ -428,7 +431,7 @@ class CaseViewset(ModelViewSet):
                     request.user.id,
                     call_id,
                     persons_involved_ids,
-                    contactor['contactor_id'],
+                    contactor["contactor_id"],
                     request,
                 )
             except KeyError as error:
@@ -438,7 +441,7 @@ class CaseViewset(ModelViewSet):
                     request.user.id,
                     call_id,
                     [],
-                    contactor['contactor_id'],
+                    contactor["contactor_id"],
                     request,
                 )
         except KeyError as error:
@@ -541,8 +544,8 @@ class CaseViewset(ModelViewSet):
         my_data["case_forward"] = True
 
         case_ = Case.objects.get(id=pk)
-        print("my_data: ", my_data)
-        print("case_update: ", case_update.case_forward)
+        # print("my_data: ", my_data)
+        # print("case_update: ", case_update.case_forward)
         case_update.case_forward = True
         case_serializer = CaseSerializer(case_update, data=my_data, partial=True)
         if case_serializer.is_valid():
@@ -589,8 +592,8 @@ class CaseTaskViewset(ModelViewSet):
     def list(self, request):
         my_queryset = self.get_queryset()
 
-        is_gestor = utils.is_user_type_gestor(request)
-        if is_gestor:
+        is_operator = utils.is_user_type_operator(request)
+        if is_operator:
             """
             This query filters task for today and tasks that are
             Not completed at all
@@ -601,8 +604,11 @@ class CaseTaskViewset(ModelViewSet):
                 .order_by("-id")
             )
             my_queryset = my_queryset | self.queryset.filter(
-                created_at__date=timezone.datetime.now().date()
+                created_at__date=timezone.datetime.now().date(),
+                assigned_to=request.user,
             )
+
+        print("Queryset: ", my_queryset)
 
         pages = self.paginate_queryset(my_queryset)
         response = CaseTaskFullSerializer(pages, many=True)
