@@ -112,10 +112,10 @@ class ReferallEntitySerializer(ModelSerializer):
 
 
 class CaseSerializer(ModelSerializer):
-
     class Meta:
         model = Case
         exclude = ["persons_involved"]
+
 
 class CaseFeedbackSerializer(ModelSerializer):
 
@@ -162,45 +162,8 @@ class CaseReferallSerializerSimple(ModelSerializer):
         model = CaseReferall
         fields = ("id",)
 
-class CaseSerializerFull(ModelSerializer):
-
-    focal_point_notes = SerializerMethodField()
-    category = CategorySerializer()
-    sub_category = SubCategorySerializer()
-    case_status = CaseStatusSerializer()
-    case_priority = CasePrioritySerializer()
-    created_by = UserSerializer()
-    contactor = ContactorSerializerFull()
-    persons_involved = PersonsInvolvedFullSerializer(many=True)
-    case_referall = CaseReferallSimpleSerializer(many=True)
-
-    class Meta:
-        model = Case
-        fields = "__all__"
-    
-    
-    def get_focal_point_notes(self, obj):
-        notes = ""
-        print('obj', obj.case_referall)
-        try:
-            notes = CaseReferall.objects.filter(case=obj).first().focal_point_notes
-            print('notes', notes)
-        except Exception:
-            print('No relationship found')
-        
-        return notes
-
 
 class CaseReferallSerializer(ModelSerializer):
-    class Meta:
-        model = CaseReferall
-        fields = "__all__"
-
-
-class CaseReferallFullSerializer(ModelSerializer):
-    case = CaseSerializerFull()
-    referall_entity = ReferallEntitySerializer()
-
     class Meta:
         model = CaseReferall
         fields = "__all__"
@@ -237,3 +200,42 @@ class CaseTaskFullSerializer(ModelSerializer):
 
     def get_entities(self, obj):
         return obj.case.case_referall.values("referall_entity")
+
+
+class CaseSerializerFull(ModelSerializer):
+
+    focal_point_notes = SerializerMethodField()
+    category = CategorySerializer()
+    sub_category = SubCategorySerializer()
+    case_status = CaseStatusSerializer()
+    case_priority = CasePrioritySerializer()
+    created_by = UserSerializer()
+    contactor = ContactorSerializerFull()
+    persons_involved = PersonsInvolvedFullSerializer(many=True)
+    case_referall = CaseReferallSimpleSerializer(many=True)
+    tasks = CaseTaskFullSerializer(many=True)
+
+    class Meta:
+        model = Case
+        fields = "__all__"
+
+    def get_focal_point_notes(self, obj):
+        notes = ""
+        print("obj", obj.case_referall)
+        try:
+            notes = CaseReferall.objects.filter(case=obj).first().focal_point_notes
+            print("notes", notes)
+        except Exception:
+            print("No relationship found")
+
+        return notes
+
+
+class CaseReferallFullSerializer(ModelSerializer):
+    case = CaseSerializerFull()
+    referall_entity = ReferallEntitySerializer()
+
+    class Meta:
+        model = CaseReferall
+        fields = "__all__"
+
