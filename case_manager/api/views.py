@@ -458,13 +458,15 @@ class CaseViewset(ModelViewSet):
 
         my_queryset = self.get_queryset()
 
-        is_gestor = utils.is_user_type_gestor(request)
-        if is_gestor and request.user.is_superuser is False:
+        is_not_gestor = utils.is_user_type_gestor(request)
+        print('rsult', is_not_gestor)
+        if is_not_gestor and request.user.is_superuser is False:
             my_queryset = self.queryset.filter(
                 Q(created_by=request.user)
                 | Q(focal_points__user__id__in=(request.user.id,))
+                | Q(case_referall__referall_entity__users__id__in=(request.user.id,))
             )
-        print(my_queryset)
+            print('dentro')
         pages = self.paginate_queryset(my_queryset)
         response = CaseSerializerFull(pages, many=True)
 
@@ -652,7 +654,6 @@ class CaseReferallViewset(ModelViewSet):
         my_case = request.data
         try:
             case = {}
-            case["focal_point_notes"] = my_case.pop("focal_point_notes")
 
             result = self._update_case_focal_point_notes(case, my_case["case"])
 
@@ -670,7 +671,7 @@ class CaseReferallViewset(ModelViewSet):
                 if isinstance(item, list):
                     continue
 
-                data = {"case": my_case["case"], "referall_entity": item}
+                data = {"case": my_case["case"], "referall_entity": item, "focal_point_notes":my_case['focal_point_notes']}
 
                 data_serializer = CaseReferallSerializer(data=data)
 
