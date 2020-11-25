@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from case_manager import utils
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
@@ -63,6 +64,16 @@ class CallViewset(ModelViewSet):
 
     def list(self, request):
         calls = self.queryset.filter(created_by=request.user)
+
+        is_operator = utils.is_user_type_operator(request)
+        if not is_operator:
+            """
+            This query filters task for today and tasks that are
+            Not completed at all
+            """
+            calls = self.queryset
+        
+
         pages = self.paginate_queryset(calls)
         response = CallSerializerFull(pages, many=True)
         return self.get_paginated_response(response.data)
