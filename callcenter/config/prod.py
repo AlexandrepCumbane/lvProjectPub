@@ -20,7 +20,7 @@ INSTALLED_APPS += (
 # ]
 
 ALLOWED_HOSTS = ["*"]
-
+ADMIN_ENABLED = False
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
