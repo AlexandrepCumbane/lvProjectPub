@@ -155,3 +155,9 @@ NOSE_ARGS = [
 ]
 
 SIGNING_BACKEND = "django_cryptography.core.signing.TimestampSigner"
+
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_HSTS_SECONDS = 0
+SECURE_REFERRER_POLICY = 'origin'
