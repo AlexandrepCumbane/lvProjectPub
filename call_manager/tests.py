@@ -70,7 +70,7 @@ class CallTestCase(TestCase):
             "auth.user",
             id=1,
             username="vasco",
-            email="vasco.xavier@robobo.org",
+            email="test@robobo.org",
             groups=[groups],
             is_active=True,
         )
