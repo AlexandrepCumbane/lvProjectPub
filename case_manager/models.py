@@ -51,6 +51,16 @@ class SubCategory(models.Model):
         return self.name
 
 
+class CaseClassification(models.Model):
+    name = models.CharField(max_length=200, unique=True)
+    sub_category = models.ForeignKey(
+        Category, on_delete=models.CASCADE, related_name="case_classification"
+    )
+
+    def __str__(self):
+        return self.name
+
+
 class CategoryIssue(models.Model):
     name = models.CharField(max_length=200)  # , unique=True)
     category = models.ForeignKey(SubCategory, on_delete=models.SET_NULL, null=True)
@@ -227,6 +237,13 @@ class Case(models.Model):
     )
     sub_category = models.ForeignKey(
         SubCategory,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="cases",
+    )
+    case_classification = models.ForeignKey(
+        CaseClassification,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,

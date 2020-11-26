@@ -10,6 +10,7 @@ from case_manager.models import (
     CaseStatus,
     Category,
     CategoryIssue,
+    CaseClassification,
     CustomerSatisfaction,
     HowCaseClose,
     HowDoYouHearAboutUs,
@@ -106,6 +107,35 @@ def get_formatted_provinces() -> list:
         province_list.append(result)
 
     return province_list
+
+
+def get_formated_categories() -> list:
+    """Filter Categories and returns it's relative subcategories and classification
+
+    Returns:
+        returns a list of provinces with related districts with related locations
+    """
+    categories = Category.objects.all().values()
+    categories_list = []
+
+    for category in categories:
+        sub_categories_list = []
+        subcategories = SubCategory.objects.filter(category=category["id"]).values()
+
+        for sub_category in subcategories:
+            classifications = CaseClassification.objects.filter(
+                sub_category=sub_category["id"]
+            ).values()
+
+            result = {"sub_category": sub_category, "classifications": classifications}
+
+            sub_categories_list.append(result)
+
+        result = {"category": category, "sub_categories": sub_categories_list}
+
+        categories_list.append(result)
+
+    return categories_list
 
 
 def get_extra_fields() -> list:
@@ -263,6 +293,9 @@ def get_dropdowns() -> list:
         DropdownData(key="case_priorities", value=CasePriority.objects.values())
     )
     dropdowns.append(DropdownData(key="categories", value=Category.objects.values()))
+    dropdowns.append(
+        DropdownData(key="formated_categories", value=get_formated_categories())
+    )
     dropdowns.append(
         DropdownData(
             key="customer_satisfaction", value=CustomerSatisfaction.objects.values()
