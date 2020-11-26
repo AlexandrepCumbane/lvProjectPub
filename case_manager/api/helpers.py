@@ -113,7 +113,7 @@ def get_formated_categories() -> list:
     """Filter Categories and returns it's relative subcategories and classification
 
     Returns:
-        returns a list of provinces with related districts with related locations
+        returns a list of categories with related subcategories with related classifications
     """
     categories = Category.objects.all().values()
     categories_list = []
