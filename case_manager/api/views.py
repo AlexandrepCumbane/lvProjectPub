@@ -460,16 +460,15 @@ class CaseViewset(ModelViewSet):
     def list(self, request):
 
         my_queryset = self.get_queryset()
-
         is_not_gestor = utils.is_user_type_gestor(request)
         print('rsult', is_not_gestor)
-        if is_not_gestor and request.user.is_superuser is False:
+        if not is_not_gestor and request.user.is_superuser is False:
             my_queryset = self.queryset.filter(
                 Q(created_by=request.user)
                 | Q(focal_points__user__id__in=(request.user.id,))
                 | Q(case_referall__referall_entity__users__id__in=(request.user.id,))
             )
-            print('dentro')
+            print('nao e gestor')
         pages = self.paginate_queryset(my_queryset)
         response = CaseSerializerFull(pages, many=True)
 
