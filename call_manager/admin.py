@@ -2,7 +2,7 @@ from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportActionModelAdmin
 
-from call_manager.models import Ages, Call, Contactor, Gender
+from call_manager.models import Ages, Call, Contactor, Gender, CallClassification
 
 
 class AgeResource(resources.ModelResource):
@@ -21,6 +21,7 @@ admin.site.register(
 )
 admin.site.register(Gender)
 admin.site.register(Ages)
+admin.site.register(CallClassification)
 admin.site.register(
     Call,
     list_display=(

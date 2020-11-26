@@ -3,7 +3,7 @@ from enum import Enum
 from django.contrib.auth.models import Group, User
 from rest_framework import serializers
 
-from call_manager.models import Ages, Call, Contactor, Gender
+from call_manager.models import Ages, Call, CallClassification, Contactor, Gender
 from case_manager.models import (
     Case,
     CasePriority,
@@ -241,6 +241,11 @@ def get_dropdowns() -> list:
     dropdowns = []
 
     dropdowns.append(DropdownData(key="table_fields", value=get_main_model_fields()))
+    dropdowns.append(
+        DropdownData(
+            key="call_classification", value=CallClassification.objects.values()
+        )
+    )
     dropdowns.append(
         DropdownData(key="cases", value=Case.objects.values().order_by("-created_at"))
     )
