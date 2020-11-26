@@ -243,7 +243,16 @@ def get_dropdowns() -> list:
     dropdowns.append(DropdownData(key="table_fields", value=get_main_model_fields()))
     dropdowns.append(
         DropdownData(
-            key="call_classification", value=CallClassification.objects.values()
+            key="call_classification",
+            value=CallClassification.objects.filter(category="Intervention").values(),
+        )
+    )
+    dropdowns.append(
+        DropdownData(
+            key="call_classification_no_intervention",
+            value=CallClassification.objects.filter(
+                category="No Intervention"
+            ).values(),
         )
     )
     dropdowns.append(
