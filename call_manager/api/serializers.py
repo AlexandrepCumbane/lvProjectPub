@@ -58,7 +58,8 @@ class ContactorSerializerFull(ModelSerializer):
 class CallSerializer(ModelSerializer):
     class Meta:
         model = Call
-        exclude = ["call_id"]
+        fields = "__all__"
+        # exclude = ["call_id"]
 
 
 class CallSerializerFull(ModelSerializer):
