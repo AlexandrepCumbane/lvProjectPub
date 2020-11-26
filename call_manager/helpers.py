@@ -52,7 +52,7 @@ def save_call(call: dict, contactor, user_id, request) -> dict:
         except KeyError:
             pass
 
-        return Response({"call": call_saved.id}, status=200)
+        return Response({"call": call_saved.call_id}, status=200)
     print("Erprpr", call_serializer.errors)
     return Response({"errors": call_serializer.errors}, status=400)
 
