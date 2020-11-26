@@ -4,6 +4,7 @@ from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from call_manager.models import (
     Ages,
     Call,
+    CallClassification,
     Contactor,
     CustomerSatisfaction,
     Gender,
@@ -27,6 +28,12 @@ class HowDoYouHearAboutUsSerializer(ModelSerializer):
 class CustomerSatisfactionSerializer(ModelSerializer):
     class Meta:
         model = CustomerSatisfaction
+        fields = "__all__"
+
+
+class CallClassificationSerializer(ModelSerializer):
+    class Meta:
+        model = CallClassification
         fields = "__all__"
 
 
@@ -66,6 +73,8 @@ class CallSerializerFull(ModelSerializer):
 
     contactor = ContactorSerializerFull()
     created_by = UserFullSerializer()
+    call_classification = CallClassificationSerializer()
+    how_knows_us = HowDoYouHearAboutUsSerializer()
 
     class Meta:
         model = Call
