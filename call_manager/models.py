@@ -82,6 +82,15 @@ class Contactor(models.Model):
 
 class CallClassification(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    category = models.CharField(
+        choices=[
+            ("Intervention", "Intervention"),
+            ("No Intervention", "No Intervention"),
+        ],
+        default="Intervention",
+        max_length=100,
+        unique=True,
+    )
 
     def __str__(self):
         return self.name
