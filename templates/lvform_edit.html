@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{^id}}Add{{/id}}{{#id}}Edit{{/id}} lvform</title>
+    {{>head}}
+  </head>
+  <body>
+    <div data-role="page">
+      <div data-role="header">
+        {{>home}}
+        <h1>{{^id}}Add{{/id}}{{#id}}Edit{{/id}} lvform</h1>
+        {{#id}}
+        {{#page_config.can_delete}}
+        <form action="{{svc}}/lvforms/{{id}}" method="post" data-ajax="false"
+          data-wq-json="true" data-wq-background-sync="false" data-wq-confirm>
+          {{>csrf}}
+          <input type=hidden name="_method" value="DELETE">
+          <button type="submit" data-icon="delete" class="ui-btn-right">
+            Delete
+          </button>
+        </form>
+        {{/page_config.can_delete}}
+        {{/id}}
+      </div>
+      <div role="main" class="ui-content">
+        <form action="{{svc}}/lvforms/{{id}}" method="post" data-ajax="false"
+            data-wq-json="true"
+            {{#outbox_id}}
+              data-wq-outbox-id="{{outbox_id}}"
+              data-wq-outbox-preserve=""
+            {{/outbox_id}}>
+          {{>csrf}}
+          {{#id}}
+          <input type=hidden name="_method" value="PUT">
+          {{/id}}
+          <ul data-role="listview" data-inset="true">
+            <li class="ui-field-contain">
+              <label for='lvform-today'>Today</label>
+              <input id='lvform-today' type='date' data-xform-type='date' name='today' value="{{today}}">
+              <p class='error lvform-today-errors'></p>
+            </li>
+            <li class="ui-field-contain">
+              <label for='lvform-username'>Username</label>
+              <textarea id='lvform-username' name='username' data-xform-type="text">{{username}}</textarea>
+              <p class='error lvform-username-errors'></p>
+            </li>
+            <li class="ui-field-contain">
+              <label for='lvform-deviceid'>Deviceid</label>
+              <textarea id='lvform-deviceid' name='deviceid' data-xform-type="text">{{deviceid}}</textarea>
+              <p class='error lvform-deviceid-errors'></p>
+            </li>
+            <li class="ui-field-contain">
+              <label for='lvform-phonenumber'>Phonenumber</label>
+              <textarea id='lvform-phonenumber' name='phonenumber' data-xform-type="text">{{phonenumber}}</textarea>
+              <p class='error lvform-phonenumber-errors'></p>
+            </li>
+            <li class="ui-field-contain">
+              <fieldset data-xform-type='select one' data-role='controlgroup' data-type='horizontal'>
+                <legend>Consent to collect personal information</legend>
+                {{#consent_pi_choices}}
+                <input type='radio' id='lvform-consent_pi-{{name}}' name='consent_pi' value='{{name}}'{{#selected}} checked{{/selected}}>
+                <label for='lvform-consent_pi-{{name}}'>{{label}}</label>
+                {{/consent_pi_choices}}
+              </fieldset>
+              <p class='hint'>Consent to collect personal information</p>
+              <p class='error lvform-consent_pi-errors'></p>
+            </li>
+            <li class="ui-field-contain">
+              <fieldset data-xform-type='select one' data-role='controlgroup' data-type='horizontal'>
+                <legend>Consent to share personal information with third parties</legend>
+                {{#consent_share_pi_choices}}
+                <input type='radio' id='lvform-consent_share_pi-{{name}}' name='consent_share_pi' value='{{name}}'{{#selected}} checked{{/selected}}>
+                <label for='lvform-consent_share_pi-{{name}}'>{{label}}</label>
+                {{/consent_share_pi_choices}}
+              </fieldset>
+              <p class='hint'>Consent to share personal information with third parties</p>
+              <p class='error lvform-consent_share_pi-errors'></p>
+            </li>
+            <li class="ui-field-contain">
+              <label for='lvform-fullname'>Full Name</label>
+              <textarea id='lvform-fullname' name='fullname' data-xform-type="text" required>{{fullname}}</textarea>
+              <p class="hint">Full Name</p>
+              <p class='error lvform-fullname-errors'></p>
+            </li>
+            <li class="ui-field-contain">
+              <label for='lvform-contact'>Contact</label>
+              <input id='lvform-contact' type='number' data-xform-type='int' name='contact' required value="{{contact}}">
+              <p class="hint">Contact</p>
+              <p class='error lvform-contact-errors'></p>
+            </li>
+            <li class="ui-field-contain">
+              <fieldset data-xform-type='select one' data-role='controlgroup' data-type='horizontal'>
+                <legend>Gender</legend>
+                {{#gender_choices}}
+                <input type='radio' id='lvform-gender-{{name}}' name='gender' value='{{name}}'{{#selected}} checked{{/selected}}>
+                <label for='lvform-gender-{{name}}'>{{label}}</label>
+                {{/gender_choices}}
+              </fieldset>
+              <p class='hint'>Gender</p>
+              <p class='error lvform-gender-errors'></p>
+            </li>
+            <li class="ui-field-contain">
+              <fieldset data-xform-type='select one' data-role='controlgroup' data-type='horizontal'>
+                <legend>Province</legend>
+                {{#provincia_choices}}
+                <input type='radio' id='lvform-provincia-{{name}}' name='provincia' value='{{name}}'{{#selected}} checked{{/selected}}>
+                <label for='lvform-provincia-{{name}}'>{{label}}</label>
+                {{/provincia_choices}}
+              </fieldset>
+              <p class='hint'>Province</p>
+              <p class='error lvform-provincia-errors'></p>
+            </li>
+            <li class="ui-field-contain">
+              <fieldset data-xform-type='select one' data-role='controlgroup' data-type='horizontal'>
+                <legend>District</legend>
+                {{#distrito_choices}}
+                <input type='radio' id='lvform-distrito-{{name}}' name='distrito' value='{{name}}'{{#selected}} checked{{/selected}}>
+                <label for='lvform-distrito-{{name}}'>{{label}}</label>
+                {{/distrito_choices}}
+              </fieldset>
+              <p class='hint'>District</p>
+              <p class='error lvform-distrito-errors'></p>
+            </li>
+            <li class="ui-field-contain">
+              <fieldset data-xform-type='select one' data-role='controlgroup' data-type='horizontal'>
+                <legend>Locality</legend>
+                {{#localidade_choices}}
+                <input type='radio' id='lvform-localidade-{{name}}' name='localidade' value='{{name}}'{{#selected}} checked{{/selected}}>
+                <label for='lvform-localidade-{{name}}'>{{label}}</label>
+                {{/localidade_choices}}
+              </fieldset>
+              <p class='hint'>Locality</p>
+              <p class='error lvform-localidade-errors'></p>
+            </li>
+            <li class="ui-field-contain">
+              <label for='lvform-community'>Community</label>
+              <textarea id='lvform-community' name='community' data-xform-type="text">{{community}}</textarea>
+              <p class="hint">Community</p>
+              <p class='error lvform-community-errors'></p>
+            </li>
+            <li class="ui-field-contain">
+              <fieldset data-xform-type='select one' data-role='controlgroup'>
+                <legend>Transfer modality</legend>
+                {{#transfermod_choices}}
+                <input type='radio' id='lvform-transfermod-{{name}}' name='transfermod' value='{{name}}'{{#selected}} checked{{/selected}}>
+                <label for='lvform-transfermod-{{name}}'>{{label}}</label>
+                {{/transfermod_choices}}
+              </fieldset>
+              <p class='hint'>Transfer modality</p>
+              <p class='error lvform-transfermod-errors'></p>
+            </li>
+            <li class="ui-field-contain">
+              <fieldset data-xform-type='select one' data-role='controlgroup'>
+                <legend>Case category</legend>
+                {{#category_choices}}
+                <input type='radio' id='lvform-category-{{name}}' name='category' value='{{name}}'{{#selected}} checked{{/selected}}>
+                <label for='lvform-category-{{name}}'>{{label}}</label>
+                {{/category_choices}}
+              </fieldset>
+              <p class='error lvform-category-errors'></p>
+            </li>
+            <li class="ui-field-contain">
+              <label for='lvform-subcategory'>Sub-category</label>
+              <select id='lvform-subcategory' data-xform-type='select one' name='subcategory' required>
+                <option value="">Select one...</option>
+                {{#subcategory_choices}}
+                <option value="{{name}}"{{#selected}} selected{{/selected}}>
+                  {{label}}
+                </option>
+                {{/subcategory_choices}}
+              </select>
+              <p class='error lvform-subcategory-errors'></p>
+            </li>
+            <li class="ui-field-contain">
+              <label for='lvform-sector'>Sector</label>
+              <select id='lvform-sector' data-xform-type='select one' name='sector' required>
+                <option value="">Select one...</option>
+                {{#sector_choices}}
+                <option value="{{name}}"{{#selected}} selected{{/selected}}>
+                  {{label}}
+                </option>
+                {{/sector_choices}}
+              </select>
+              <p class='error lvform-sector-errors'></p>
+            </li>
+            <li class="ui-field-contain">
+              <label for='lvform-call_notes'>Call Notes</label>
+              <textarea id='lvform-call_notes' name='call_notes' data-xform-type="text" required>{{call_notes}}</textarea>
+              <p class='error lvform-call_notes-errors'></p>
+            </li>
+            <li class="ui-field-contain">
+              <label for='lvform-call_solution'>Call Solution</label>
+              <textarea id='lvform-call_solution' name='call_solution' data-xform-type="text" required>{{call_solution}}</textarea>
+              <p class='error lvform-call_solution-errors'></p>
+            </li>
+            <li class="ui-field-contain">
+              <fieldset data-xform-type='select one' data-role='controlgroup' data-type='horizontal'>
+                <legend>Case Priority</legend>
+                {{#case_priority_choices}}
+                <input type='radio' id='lvform-case_priority-{{name}}' name='case_priority' value='{{name}}'{{#selected}} checked{{/selected}}>
+                <label for='lvform-case_priority-{{name}}'>{{label}}</label>
+                {{/case_priority_choices}}
+              </fieldset>
+              <p class='error lvform-case_priority-errors'></p>
+            </li>
+            <li class="ui-field-contain">
+              <fieldset data-xform-type='select one' data-role='controlgroup' data-type='horizontal'>
+                <legend>Case closed</legend>
+                {{#case_status_choices}}
+                <input type='radio' id='lvform-case_status-{{name}}' name='case_status' value='{{name}}'{{#selected}} checked{{/selected}}>
+                <label for='lvform-case_status-{{name}}'>{{label}}</label>
+                {{/case_status_choices}}
+              </fieldset>
+              <p class='error lvform-case_status-errors'></p>
+            </li>
+            <li>
+              <div class="ui-grid-a">
+                <div class="ui-block-a">
+                  <a href="{{rt}}/lvforms/{{id}}" data-role="button" data-icon="back" data-direction="reverse">
+                    Back
+                  </a>
+                </div>
+                <div class="ui-block-b">
+                  <button type="submit" data-icon="check" data-theme="b">
+                    Submit
+                  </button>
+                </div>
+              </div>
+              <p class="error lvform-errors"></p>
+            </li>
+          </ul>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

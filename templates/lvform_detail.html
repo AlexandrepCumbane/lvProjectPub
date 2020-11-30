@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{label}}</title>
+    {{>head}}
+  </head>
+  <body>
+    <div data-role="page">
+      <div data-role="header">
+        {{>home}}
+        <h1>{{label}}</h1>
+        {{#page_config.can_change}}
+        <a href="{{rt}}/lvforms/{{id}}/edit" data-icon="edit" data-transition="flip">
+          Edit
+        </a>
+        {{/page_config.can_change}}
+      </div>
+      <div role="main" class="ui-content">
+          <h1>{{label}}</h1>
+          <table>
+            <tr>
+              <th>Today</th>
+              <td>{{today}}</td>
+            </tr>
+            <tr>
+              <th>Username</th>
+              <td>{{username}}</td>
+            </tr>
+            <tr>
+              <th>Deviceid</th>
+              <td>{{deviceid}}</td>
+            </tr>
+            <tr>
+              <th>Phonenumber</th>
+              <td>{{phonenumber}}</td>
+            </tr>
+            <tr>
+              <th>Consent to collect personal information</th>
+              <td>{{consent_pi_label}}</td>
+            </tr>
+            <tr>
+              <th>Consent to share personal information with third parties</th>
+              <td>{{consent_share_pi_label}}</td>
+            </tr>
+            <tr>
+              <th>Full Name</th>
+              <td>{{fullname}}</td>
+            </tr>
+            <tr>
+              <th>Contact</th>
+              <td>{{contact}}</td>
+            </tr>
+            <tr>
+              <th>Gender</th>
+              <td>{{gender_label}}</td>
+            </tr>
+            <tr>
+              <th>Province</th>
+              <td>{{provincia_label}}</td>
+            </tr>
+            <tr>
+              <th>District</th>
+              <td>{{distrito_label}}</td>
+            </tr>
+            <tr>
+              <th>Locality</th>
+              <td>{{localidade_label}}</td>
+            </tr>
+            <tr>
+              <th>Community</th>
+              <td>{{community}}</td>
+            </tr>
+            <tr>
+              <th>Transfer modality</th>
+              <td>{{transfermod_label}}</td>
+            </tr>
+            <tr>
+              <th>Case category</th>
+              <td>{{category_label}}</td>
+            </tr>
+            <tr>
+              <th>Sub-category</th>
+              <td>{{subcategory_label}}</td>
+            </tr>
+            <tr>
+              <th>Sector</th>
+              <td>{{sector_label}}</td>
+            </tr>
+            <tr>
+              <th>Call Notes</th>
+              <td>{{call_notes}}</td>
+            </tr>
+            <tr>
+              <th>Call Solution</th>
+              <td>{{call_solution}}</td>
+            </tr>
+            <tr>
+              <th>Case Priority</th>
+              <td>{{case_priority_label}}</td>
+            </tr>
+            <tr>
+              <th>Case closed</th>
+              <td>{{case_status_label}}</td>
+            </tr>
+          </table>
+      </div>
+    </div>
+  </body>
+</html>
