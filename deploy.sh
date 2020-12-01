@@ -40,7 +40,7 @@ touch db/casemgmtproject/wsgi.py
 
 
 # Build PhoneGap application
-cd app;
-wq phonegap $1
-cd ../;
+# cd app;
+# wq phonegap $1
+# cd ../;
 
