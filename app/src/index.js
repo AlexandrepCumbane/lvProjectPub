@@ -2,10 +2,12 @@ import app, { patterns, photos } from '@wq/app';
 import map from '@wq/map';
 import config from './config';
 import * as serviceWorker from './serviceWorker';
+import material from '@wq/material';
 
+app.use(material);  // Automatically registers @wq/react
 app.use(map);
-app.use(patterns);
-app.use(photos);
+// app.use(patterns);
+// app.use(photos);
 app.use({
     context() {
         const { version } = config;
