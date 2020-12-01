@@ -8,7 +8,7 @@ ENV PYTHONUNBUFFERED 1
 
 # Add dependencies nescessary to run postgres library for the project
 RUN apt-get update \
-&& apt-get install gcc libpq-dev nodejs -y \
+&& apt-get install gcc libpq-dev nodejs npm -y \
 && apt-get clean
 
 # Install project dependencies
