@@ -1,4 +1,3 @@
-argparse==1.4.0
 asgiref==3.3.1
 certifi==2020.11.8
 chardet==3.0.4
@@ -6,17 +5,20 @@ click==5.1
 compass-stylesheets==0.12.6
 Django==3.1.4
 django-mustache==1.1.2
+django-oidc-provider==0.7.0
 djangorestframework==3.11.2
 FormEncode==2.0.0
+future==0.18.2
 html-json-forms==1.1.1
 idna==2.10
 linecache2==1.0.0
 natural-keys==1.6.0
 Pillow==8.0.1
-pip==18.1
 psycopg2-binary==2.8.6
 py-mini-racer==0.5.0b1
 PyBabeljs==0.0.8
+pycryptodomex==3.9.9
+pyjwkest==1.4.2
 pyScss==1.3.7
 pystache==0.5.4
 pytz==2020.4
@@ -24,7 +26,6 @@ pyxform==1.2.1
 PyYAML==5.3.1
 requests==2.25.0
 requirejs==0.2.1
-setuptools==40.8.0
 six==1.15.0
 sqlparse==0.4.1
 traceback2==1.4.0
