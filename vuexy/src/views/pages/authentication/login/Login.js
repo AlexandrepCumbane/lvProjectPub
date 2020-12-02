@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import {
   Button,
   Card,
@@ -10,9 +11,11 @@ import {
   Input,
   Label,
 } from "reactstrap";
-import Axios from "axios";
 import { Mail, Lock, Check } from "react-feather";
-import { history } from "../../../../history";
+import {
+  requestLogin,
+  requestToken,
+} from "../../../../redux/actions/auth/loginActions";
 import Checkbox from "../../../../components/@vuexy/checkbox/CheckboxesVuexy";
 import "../../../../assets/scss/pages/authentication.scss";
 
@@ -32,36 +35,25 @@ class Login extends React.Component {
     }
   };
 
+  componentDidMount() {
+    this.props.requestToken();
+  }
+
   submit = (e) => {
     e.preventDefault();
 
+    console.log(this.props.state.auth.login)
     var bodyFormData = new FormData();
     bodyFormData.append("username", this.state.username);
     bodyFormData.append("password", this.state.password);
     bodyFormData.append(
       "csrfmiddlewaretoken",
-      "rBYQCrHIHbJrQrTOmlwmKoJgNuFsgZ0ZdStDzpvpsBmTYz6fPEMNMT44Yx5THjXA"
+      this.props.state.auth.login.csrftoken
     );
 
-    const axios = Axios;
-
-    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-    axios.defaults.xsrfCookieName = "csrftoken";
-    axios.defaults.withCredentials = true;
-
-    axios
-      .post("/login.json", bodyFormData, {
-        headers: {
-          csrftoken:
-            "hMy3uvi6QSQvh5J3VWpeFBaXcp2Bw3TE333Qrt6NBitXpdWuofFFH6vLnss2XnQf",
-          "Content-Type":
-            "multipart/form-data; boundary=----WebKitFormBoundaryj1QQuFB08RhhuHzT",
-        },
-      })
-      .then((e) => {
-        console.log(e);
-      })
-      .catch((err) => console.log(err));
+    this.props.requestLogin(bodyFormData).then(() => {
+      console.log(this.props.state);
+    });
   };
   render() {
     return (
@@ -89,7 +81,7 @@ class Login extends React.Component {
                     <Form onSubmit={(e) => e.preventDefault()}>
                       <FormGroup className="form-label-group position-relative has-icon-left">
                         <Input
-                          type="email"
+                          type="text"
                           placeholder="Email"
                           defaultValue={this.state.email}
                           onChange={(e) =>
@@ -144,4 +136,10 @@ class Login extends React.Component {
     );
   }
 }
-export default Login;
+function mapStateToProps(state) {
+  return {
+    state: state,
+  };
+}
+
+export default connect(mapStateToProps, { requestLogin, requestToken })(Login);

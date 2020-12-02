@@ -10,7 +10,6 @@ import {
   Badge
 } from "reactstrap"
 import PerfectScrollbar from "react-perfect-scrollbar"
-import axios from "axios"
 import * as Icon from "react-feather"
 import classnames from "classnames"
 import Autocomplete from "../../../components/@vuexy/autoComplete/AutoCompleteComponent"
@@ -60,9 +59,9 @@ class NavbarUser extends React.PureComponent {
   }
 
   componentDidMount() {
-    axios.get("/api/main-search/data").then(({ data }) => {
-      this.setState({ suggestions: data.searchResult })
-    })
+    // axios.get("/api/main-search/data").then(({ data }) => {
+    //   this.setState({ suggestions: data.searchResult })
+    // })
   }
 
   handleNavbarSearch = () => {

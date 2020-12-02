@@ -1,34 +1,53 @@
-export const login = (state = { userRole: "admin" }, action) => {
+const initialState = {
+  userInfo: undefined,
+  config: undefined,
+  csrftoken: undefined,
+  success: false,
+  failed: false,
+  loading: false,
+  userRole: "admin",
+};
+
+export const login = (state = initialState, action) => {
   switch (action.type) {
-    case "LOGIN_WITH_EMAIL": {
-      return { ...state, values: action.payload }
+    case "REQUEST_LOGIN": {
+      return {
+        ...state,
+        userInfo: undefined,
+        success: false,
+        failed: false,
+        loading: false,
+      };
     }
-    case "LOGIN_WITH_FB": {
-      return { ...state, values: action.payload }
+    case "LOGIN_SUCCESS": {
+      return {
+        ...state,
+        userInfo: action.userInfo,
+        config: action.config,
+        csrftoken: action.csrftoken,
+        success: true,
+        failed: false,
+        loading: false,
+      };
     }
-    case "LOGIN_WITH_TWITTER": {
-      return { ...state, values: action.payload }
+    case "LOGIN_FAILED": {
+      return {
+        ...state,
+        userInfo: action.userInfo,
+        success: false,
+        failed: true,
+        loading: false,
+      };
     }
-    case "LOGIN_WITH_GOOGLE": {
-      return { ...state, values: action.payload }
-    }
-    case "LOGIN_WITH_GITHUB": {
-      return { ...state, values: action.payload }
-    }
-    case "LOGIN_WITH_JWT": {
-      return { ...state, values: action.payload }
-    }
-    case "LOGOUT_WITH_JWT": {
-      return { ...state, values: action.payload }
-    }
-    case "LOGOUT_WITH_FIREBASE": {
-      return { ...state, values: action.payload }
-    }
+
     case "CHANGE_ROLE": {
-      return { ...state, userRole: action.userRole }
+      return { ...state, userRole: action.userRole };
+    }
+    case "UPDATE_TOKEN": {
+      return { ...state, csrftoken: action.csrftoken };
     }
     default: {
-      return state
+      return state;
     }
   }
-}
+};
