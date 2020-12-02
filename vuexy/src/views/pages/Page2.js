@@ -18,8 +18,18 @@ class Page2 extends React.Component {
   }
 
   renderForm = () => {
-    const form_ = this.props.state.auth.login.config.pages.lvform.form;
-    return <Row>{form_.map((field) => this.renderSingleInput(field))}</Row>;
+    const form_ = this.props.state.auth.login.config.pages.lvform;
+    return (
+      <Row>
+        <Col md="12">
+          <h4>Register form for: {form_.verbose_name}</h4>
+          <p>{form_.verbose_name}.</p>
+          <hr />
+        </Col>
+
+        {form_.form.map((field) => this.renderSingleInput(field))}
+      </Row>
+    );
   };
 
   renderSingleInput = (field) => {
@@ -34,6 +44,7 @@ class Page2 extends React.Component {
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
                 type="text"
+                className="square"
                 placeholder={field.label}
                 // defaultValue={this.state.email}
                 // onChange={(e) => this.setState({ username: e.target.value })}
@@ -53,6 +64,7 @@ class Page2 extends React.Component {
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
                 type="date"
+                className="square"
                 placeholder={field.label}
                 // defaultValue={this.state.email}
                 // onChange={(e) => this.setState({ username: e.target.value })}
@@ -71,6 +83,7 @@ class Page2 extends React.Component {
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
                 type="number"
+                className="square"
                 placeholder={field.label}
                 // defaultValue={this.state.email}
                 // onChange={(e) => this.setState({ username: e.target.value })}
@@ -88,6 +101,7 @@ class Page2 extends React.Component {
             <Label>{field.label}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <CustomInput
+                className="square"
                 type="select"
                 id={field.name}
                 placeholder={field.label}
