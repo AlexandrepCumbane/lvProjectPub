@@ -42,8 +42,12 @@ INSTALLED_APPS = [
 
     # Open ID
 
+    # libraries
+    'import_export',
+
     # Project apps
     'lv_form',
+    'location_management',
 ]
 
 MIDDLEWARE = [
