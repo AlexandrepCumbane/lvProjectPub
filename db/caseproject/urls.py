@@ -24,7 +24,6 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(rest.router.urls)),
-    path('openid/', include('oidc_provider.urls', namespace='oidc_provider')),
 ]
 
 if settings.DEBUG_WITH_RUNSERVER:

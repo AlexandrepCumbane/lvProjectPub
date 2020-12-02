@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'wq.db.rest.auth',
 
     # Open ID
-    'oidc_provider',
 
     # Project apps
     'lv_form',
