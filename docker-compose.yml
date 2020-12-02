@@ -12,7 +12,7 @@ services:
     build: .
     # image: roboboinc/linhaverde
     container_name: case_management_app
-    command: bash runserver.sh
+    # command: ls && ./runserver.sh
     hostname: ${HOSTNAME}
     volumes:
       - .:/code
