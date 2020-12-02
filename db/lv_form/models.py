@@ -63,11 +63,11 @@ class LvForm(models.Model):
         verbose_name="District",
         help_text="District",
     )
-    localidade = models.CharField(
-        choices=(
-            ("CodLocal", "Localidade"),
-        ),
-        max_length=8,
+    localidade = models.ForeignKey(
+        'location_management.Location',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
         verbose_name="Locality",
         help_text="Locality",
     )
@@ -185,6 +185,8 @@ class LvForm(models.Model):
             ("1", "Close case"),
         ),
         max_length=1,
+        null=True,
+        blank=True,
         verbose_name="Case closed",
     )
 

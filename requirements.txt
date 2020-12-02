@@ -20,7 +20,6 @@ natural-keys==1.6.0
 odfpy==1.4.1
 openpyxl==3.0.5
 Pillow==8.0.1
-pkg-resources==0.0.0
 psycopg2-binary==2.8.6
 py-mini-racer==0.5.0b1
 PyBabeljs==0.0.8
