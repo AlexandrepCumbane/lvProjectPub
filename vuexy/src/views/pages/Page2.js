@@ -4,6 +4,7 @@ import { toast, Bounce } from "react-toastify";
 
 import { axios } from "../../redux/api";
 import {
+  Alert,
   Button,
   Card,
   CardBody,
@@ -26,36 +27,65 @@ class Page2 extends React.Component {
 
   state = {
     form: new FormData(),
+    required_fields: [],
+    required_fields_labels: [],
+    isValid: true,
   };
   componentDidMount() {
-    // console.log(this.props.state.auth.login.config.pages.lvform);
+    const { form } = this.props.state.auth.login.config.pages.lvform;
+    form.forEach((item, index) => this.addToRequired(item));
+  }
+
+  addToRequired(field) {
+    const index = this.state.required_fields.indexOf(field.name);
+
+    if (field.bind != undefined) {
+      if (field.bind.required == true && index <= 0) {
+        this.state.required_fields.push(field.name);
+        this.state.required_fields_labels.push(field.label);
+      }
+    }
+  }
+
+  removeFromRequired(field) {
+    const index = this.state.required_fields.indexOf(field);
+    if (index >= 0) {
+      this.state.required_fields.splice(index, 1);
+      this.state.required_fields_labels.splice(index, 1);
+    }
   }
 
   updateState = (field_name, value) => {
     let form = this.state.form;
 
-    if (form.has(field_name)) {
-      form.set(field_name, value);
-    } else {
-      form.append(field_name, value);
+    if (value != "") {
+      if (form.has(field_name)) {
+        form.set(field_name, value);
+      } else {
+        form.append(field_name, value);
+      }
+
+      this.removeFromRequired(field_name);
     }
 
     this.setState({ form });
-
-    console.log(form);
   };
 
   handleSubmit = () => {
-    axios
-      .post("lvforms.json", this.state.form)
-      .then(({ data }) => {
-        console.log(data);
-        this.notifySuccessBounce(data.id);
-      })
-      .catch((error) => {
-        this.notifyErrorBounce("Failed to save Object.");
-        console.log(error);
-      });
+    if (this.state.required_fields.length > 0) {
+      this.notifyErrorBounce("Fill all required inputs");
+      this.setState({ isValid: false });
+    } else {
+      this.setState({ isValid: true });
+      axios
+        .post("lvforms.json", this.state.form)
+        .then(({ data }) => {
+          this.notifySuccessBounce(data.id);
+        })
+        .catch((error) => {
+          this.notifyErrorBounce("Failed to save Object.");
+        });
+    }
   };
 
   renderForm = () => {
@@ -67,13 +97,28 @@ class Page2 extends React.Component {
           <p>{form_.verbose_name}.</p>
           <hr />
         </Col>
+        <Col md="12">
+          {this.state.isValid && this.state.required_fields.length == 0 ? (
+            <></>
+          ) : (
+            <Alert color="danger" className="square">
+              <Label className="text-danger">
+                All these fields are required{" "}
+                {this.state.required_fields_labels.map((item, index) => (
+                  <strong key={index}>{item}, </strong>
+                ))}
+              </Label>
+            </Alert>
+          )}
+        </Col>
 
         {form_.form.map((field) => this.renderSingleInput(field))}
 
-        <Col>
+        <Col md="12">
           <div className="d-flex justify-content-between">
             <div />
             <Button.Ripple
+              className="square"
               color="primary"
               type="submit"
               onClick={(e) => this.handleSubmit()}
@@ -157,7 +202,6 @@ class Page2 extends React.Component {
                 type="select"
                 id={field.name}
                 placeholder={field.label}
-                // defaultValue={this.state.email}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               >
                 <option>Select</option>
