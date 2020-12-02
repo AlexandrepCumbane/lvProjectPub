@@ -71,7 +71,7 @@ class AppRouter extends React.Component {
             component={Home}
           />
           <AppRoute
-            path="/page2"
+            path="/lvforms"
             component={Page2}
           />
           <AppRoute

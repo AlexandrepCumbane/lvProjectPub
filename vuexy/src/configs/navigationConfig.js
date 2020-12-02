@@ -1,5 +1,5 @@
-import React from "react"
-import * as Icon from "react-feather"
+import React from "react";
+import * as Icon from "react-feather";
 const navigationConfig = [
   {
     id: "home",
@@ -7,16 +7,16 @@ const navigationConfig = [
     type: "item",
     icon: <Icon.Home size={20} />,
     permissions: ["admin", "editor"],
-    navLink: "/"
+    navLink: "/",
   },
   {
-    id: "page2",
-    title: "Page 2",
+    id: "Cases",
+    title: "Lv Forms",
     type: "item",
     icon: <Icon.File size={20} />,
     permissions: ["admin", "editor"],
-    navLink: "/page2"
-  }
-]
+    navLink: "/lvforms",
+  },
+];
 
-export default navigationConfig
+export default navigationConfig;
