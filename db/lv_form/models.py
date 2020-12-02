@@ -52,19 +52,14 @@ class LvForm(models.Model):
         verbose_name="Gender",
         help_text="Gender",
     )
-    provincia = models.CharField(
-        choices=(
-            ("CodProv", "Provincia"),
-        ),
-        max_length=7,
+    provincia = models.ForeignKey(
+        'location_management.Province',
+        on_delete=models.CASCADE,
         verbose_name="Province",
-        help_text="Province",
     )
-    distrito = models.CharField(
-        choices=(
-            ("CodDist", "Distrito"),
-        ),
-        max_length=7,
+    distrito = models.ForeignKey(
+        'location_management.District',
+        on_delete=models.CASCADE,
         verbose_name="District",
         help_text="District",
     )
