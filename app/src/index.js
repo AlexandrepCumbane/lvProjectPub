@@ -1,33 +1,19 @@
-import app, { patterns, photos } from '@wq/app';
-import map from '@wq/map';
-import config from './config';
-import * as serviceWorker from './serviceWorker';
+import app from '@wq/app';
 import material from '@wq/material';
+import mapbox from '@wq/mapbox';
 
-app.use(material);  // Automatically registers @wq/react
-app.use(map);
-// app.use(patterns);
-// app.use(photos);
+import config from './config';
+import { version } from '../package.json';
+import * as serviceWorker from './serviceWorker';
+
+app.use([material, mapbox]);
 app.use({
     context() {
-        const { version } = config;
         return { version };
-    },
-    run($page) {
-        $page.find('form[data-wq-confirm]').on('submit', () => {
-            return app.confirmSubmit(this, 'Are you sure you want to delete this record?');
-        });
-        $page.find('button[data-wq-action="sync"]').on('click', () => {
-            app.retryAll();
-        });
-        $page.find('button[data-wq-action="empty-outbox"]').on('click', () => {
-            app.emptyOutbox(true);
-        });
     }
 });
 
-var ready = app.init(config).then(function() {
-    app.jqmInit();
+app.init(config).then(function() {
     app.prefetchAll();
 });
 
@@ -38,10 +24,4 @@ serviceWorker.unregister();
 
 if (config.debug) {
     window.wq = app;
-}
-
-if (config.onReady) {
-    ready.then(function() {
-	config.onReady(app);
-    });
 }

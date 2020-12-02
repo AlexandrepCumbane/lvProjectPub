@@ -1,6 +1,6 @@
 {
-  "short_name": "casemgmtproject",
-  "name": "casemgmtproject Project",
+  "short_name": "{{ project_name }}",
+  "name": "{{ project_name }} Project",
   "icons": [
     {
       "src": "favicon.ico",

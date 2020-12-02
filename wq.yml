@@ -1,0 +1,11 @@
+# Update version.txt & JS module
+setversion:
+    filename: version.txt 
+    package: app/package.json
+
+# Generate web icons
+icons:
+    source: app/public/icon-1024.png
+    filename: app/public/icon-{size}.png
+    size: web
+

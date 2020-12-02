@@ -10,23 +10,13 @@ if [ -z "$VERSION" ]; then
     exit 1
 fi;
 
-# (Re-)generate templates for all registered models
-wq maketemplates \
-     --django-dir db \
-     --input-dir master_templates \
-     --template-dir templates
-
 # Regenerate JSON fixtures
 ./update_json.sh $VERSION;
 
-cd app;
 wq icons;
 
-
-wq init;
-wq scss;
-
 # Build using react-scripts (Webpack/Babel)
+cd app;
 npm run build;
 
 # Update existing htdocs with new version
@@ -36,11 +26,4 @@ cp -a app/build/* htdocs/
 
 
 # Restart Django
-touch db/casemgmtproject/wsgi.py
-
-
-# Build PhoneGap application
-# cd app;
-# wq phonegap $1
-# cd ../;
-
+touch db/caseproject/wsgi.py
