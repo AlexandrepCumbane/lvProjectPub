@@ -118,7 +118,13 @@ class Page2 extends React.Component {
     ));
   };
   render() {
-    return <div>{this.renderForm()}</div>;
+    return (
+      <div>
+        <Card className="rounded-0 mb-0 px-2">
+          <CardBody>{this.renderForm()}</CardBody>{" "}
+        </Card>
+      </div>
+    );
   }
 }
 
