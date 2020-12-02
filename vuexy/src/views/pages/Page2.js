@@ -1,5 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
+import { toast, Bounce } from "react-toastify";
+
+import { axios } from "../../redux/api";
 import {
   Button,
   Card,
@@ -13,9 +16,47 @@ import {
   Label,
 } from "reactstrap";
 class Page2 extends React.Component {
+  notifySuccessBounce = (id = "") =>
+    toast.success(`Object created successfuly!`, { transition: Bounce });
+
+  notifyErrorBounce = (error) =>
+    toast.error(error, {
+      transition: Bounce,
+    });
+
+  state = {
+    form: new FormData(),
+  };
   componentDidMount() {
-    console.log(this.props.state.auth.login.config.pages.lvform);
+    // console.log(this.props.state.auth.login.config.pages.lvform);
   }
+
+  updateState = (field_name, value) => {
+    let form = this.state.form;
+
+    if (form.has(field_name)) {
+      form.set(field_name, value);
+    } else {
+      form.append(field_name, value);
+    }
+
+    this.setState({ form });
+
+    console.log(form);
+  };
+
+  handleSubmit = () => {
+    axios
+      .post("lvforms.json", this.state.form)
+      .then(({ data }) => {
+        console.log(data);
+        this.notifySuccessBounce(data.id);
+      })
+      .catch((error) => {
+        this.notifyErrorBounce("Failed to save Object.");
+        console.log(error);
+      });
+  };
 
   renderForm = () => {
     const form_ = this.props.state.auth.login.config.pages.lvform;
@@ -28,6 +69,19 @@ class Page2 extends React.Component {
         </Col>
 
         {form_.form.map((field) => this.renderSingleInput(field))}
+
+        <Col>
+          <div className="d-flex justify-content-between">
+            <div />
+            <Button.Ripple
+              color="primary"
+              type="submit"
+              onClick={(e) => this.handleSubmit()}
+            >
+              Submit
+            </Button.Ripple>
+          </div>
+        </Col>
       </Row>
     );
   };
@@ -46,8 +100,7 @@ class Page2 extends React.Component {
                 type="text"
                 className="square"
                 placeholder={field.label}
-                // defaultValue={this.state.email}
-                // onChange={(e) => this.setState({ username: e.target.value })}
+                onChange={(e) => this.updateState(field.name, e.target.value)}
               />
               <div className="form-control-position">
                 {/* <Mail size={15} /> */}
@@ -66,8 +119,7 @@ class Page2 extends React.Component {
                 type="date"
                 className="square"
                 placeholder={field.label}
-                // defaultValue={this.state.email}
-                // onChange={(e) => this.setState({ username: e.target.value })}
+                onChange={(e) => this.updateState(field.name, e.target.value)}
               />
               <div className="form-control-position">
                 {/* <Mail size={15} /> */}
@@ -86,7 +138,7 @@ class Page2 extends React.Component {
                 className="square"
                 placeholder={field.label}
                 // defaultValue={this.state.email}
-                // onChange={(e) => this.setState({ username: e.target.value })}
+                onChange={(e) => this.updateState(field.name, e.target.value)}
               />
               <div className="form-control-position">
                 {/* <Mail size={15} /> */}
@@ -106,7 +158,7 @@ class Page2 extends React.Component {
                 id={field.name}
                 placeholder={field.label}
                 // defaultValue={this.state.email}
-                // onChange={(e) => this.setState({ username: e.target.value })}
+                onChange={(e) => this.updateState(field.name, e.target.value)}
               >
                 <option>Select</option>
                 {this.renderSelectOption(field.choices)}
