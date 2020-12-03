@@ -1,27 +1,34 @@
-import app from '@wq/app';
-import material from '@wq/material';
-import mapbox from '@wq/mapbox';
+import React, { Suspense, lazy } from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { Layout } from "./utility/context/Layout";
+import * as serviceWorker from "./serviceWorker";
+import { store, persistor } from "./redux/storeConfig/store";
+import Spinner from "./components/@vuexy/spinner/Fallback-spinner";
+import "./index.scss";
+import "./@fake-db";
+import { PersistGate } from "redux-persist/integration/react";
 
-import config from './config';
-import { version } from '../package.json';
-import * as serviceWorker from './serviceWorker';
+const LazyApp = lazy(() => import("./App"));
 
-app.use([material, mapbox]);
-app.use({
-    context() {
-        return { version };
-    }
-});
+// const appTitle = document.getElementById("app-title");
+// appTitle.innerHTML = process.env.REACT_APP_NAME
 
-app.init(config).then(function() {
-    app.prefetchAll();
-});
+// configureDatabase()
+ReactDOM.render(
+  <Provider store={store}>
+    <Suspense fallback={<Spinner />}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Layout>
+          <LazyApp />
+        </Layout>
+      </PersistGate>
+    </Suspense>
+  </Provider>,
+  document.getElementById("root")
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
-
-if (config.debug) {
-    window.wq = app;
-}
