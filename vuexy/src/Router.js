@@ -69,7 +69,7 @@ class AppRouter extends React.Component {
       <Router history={history}>
         <Switch>
           <AppRoute exact path="/" component={Home} />
-          <AppRoute path="/lvforms" component={AppList} />
+          <AppRoute exact path="/lvforms" component={AppList} />
           <AppRoute path="/lvforms/new" component={AppCreate} />
           {/* <AppRoute path="/lvforms" component={Page2} /> */}
           <AppRoute path="/pages/login" component={login} fullLayout />
