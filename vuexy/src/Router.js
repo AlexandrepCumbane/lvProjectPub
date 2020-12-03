@@ -12,7 +12,11 @@ import "./assets/scss/plugins/extensions/toastr.scss";
 // Route-based code splitting
 const Home = lazy(() => import("./views/pages/Home"));
 
-const Page2 = lazy(() => import("./views/pages/Page2"));
+// const Page2 = lazy(() => import("./views/pages/Page2"));
+
+const AppCreate = lazy(() => import("./views/app/create"));
+
+const AppList = lazy(() => import("./views/app/list"));
 
 const login = lazy(() => import("./views/pages/authentication/login/Login"));
 
@@ -65,7 +69,9 @@ class AppRouter extends React.Component {
       <Router history={history}>
         <Switch>
           <AppRoute exact path="/" component={Home} />
-          <AppRoute path="/lvforms" component={Page2} />
+          <AppRoute path="/lvforms" component={AppList} />
+          <AppRoute path="/lvforms/new" component={AppCreate} />
+          {/* <AppRoute path="/lvforms" component={Page2} /> */}
           <AppRoute path="/pages/login" component={login} fullLayout />
         </Switch>
       </Router>
