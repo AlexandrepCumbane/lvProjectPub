@@ -4,17 +4,7 @@ class Home extends React.Component {
   render() {
     return (
       <div>
-        <form>
-          <input className="form-control" placeholder="login" />
-          <br />
-          <input
-            type="password"
-            className="form-control"
-            placeholder="password"
-          />
-          <br />
-          <button>Submit</button>
-        </form>
+        <h4>Lorem page.</h4>
       </div>
     );
   }
