@@ -2,22 +2,6 @@ from django.db import models
 
 
 class LvForm(models.Model):
-    today = models.DateField(
-        null=True,
-        blank=True,
-    )
-    username = models.TextField(
-        null=True,
-        blank=True,
-    )
-    deviceid = models.TextField(
-        null=True,
-        blank=True,
-    )
-    phonenumber = models.TextField(
-        null=True,
-        blank=True,
-    )
     consent_pi = models.CharField(
         choices=(
             ("1", "Consento to collect personal info"),
@@ -52,27 +36,22 @@ class LvForm(models.Model):
         verbose_name="Gender",
         help_text="Gender",
     )
-    provincia = models.CharField(
-        choices=(
-            ("CodProv", "Provincia"),
-        ),
-        max_length=7,
+    provincia = models.ForeignKey(
+        'location_management.Province',
+        on_delete=models.CASCADE,
         verbose_name="Province",
-        help_text="Province",
     )
-    distrito = models.CharField(
-        choices=(
-            ("CodDist", "Distrito"),
-        ),
-        max_length=7,
+    distrito = models.ForeignKey(
+        'location_management.District',
+        on_delete=models.CASCADE,
         verbose_name="District",
         help_text="District",
     )
-    localidade = models.CharField(
-        choices=(
-            ("CodLocal", "Localidade"),
-        ),
-        max_length=8,
+    localidade = models.ForeignKey(
+        'location_management.Location',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
         verbose_name="Locality",
         help_text="Locality",
     )
@@ -190,7 +169,27 @@ class LvForm(models.Model):
             ("1", "Close case"),
         ),
         max_length=1,
+        null=True,
+        blank=True,
         verbose_name="Case closed",
+    )
+    datetime_created = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Date created",
+        help_text="Auto datetime Create",
+    )
+    datetime_modified = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Date updated",
+        help_text="Auto datetime update",
+    )
+    created_by = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Created By",
+        help_text="User",
     )
 
     class Meta:

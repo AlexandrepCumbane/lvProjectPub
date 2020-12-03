@@ -40,8 +40,14 @@ INSTALLED_APPS = [
     'wq.db.rest',
     'wq.db.rest.auth',
 
+    # Open ID
+
+    # libraries
+    'import_export',
+
     # Project apps
     'lv_form',
+    'location_management',
 ]
 
 MIDDLEWARE = [
@@ -121,3 +127,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 WQ_APP_TEMPLATE = os.path.join(BASE_DIR, 'htdocs', 'index.html')
 VERSION_TXT = os.path.join(BASE_DIR, 'version.txt')
 MEDIA_URL = '/media/'
+
+# Required for OpenID
+LOGIN_URL = '/accounts/login/'
