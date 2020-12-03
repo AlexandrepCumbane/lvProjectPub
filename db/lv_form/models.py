@@ -4,17 +4,19 @@ from django.db import models
 class LvForm(models.Model):
     consent_pi = models.CharField(
         choices=(
-            ("1", "Consento to collect personal info"),
+            ("TRUE", "TRUE"),
+            ("FALSE", "FALSE"),
         ),
-        max_length=1,
+        max_length=5,
         verbose_name="Consent to collect personal information",
         help_text="Consent to collect personal information",
     )
     consent_share_pi = models.CharField(
         choices=(
-            ("1", "Consent to share personal information with third parties"),
+            ("TRUE", "TRUE"),
+            ("FALSE", "FALSE"),
         ),
-        max_length=1,
+        max_length=5,
         verbose_name="Consent to share personal information with third parties",
         help_text="Consent to share personal information with third parties",
     )
@@ -179,7 +181,7 @@ class LvForm(models.Model):
         verbose_name="Date created",
         help_text="Auto datetime Create",
     )
-    datetime_modified = models.DateTimeField(
+    datetime_updated = models.DateTimeField(
         null=True,
         blank=True,
         verbose_name="Date updated",
@@ -191,7 +193,127 @@ class LvForm(models.Model):
         verbose_name="Created By",
         help_text="User",
     )
+    case_number = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Case number",
+        help_text="Case number",
+    )
 
     class Meta:
         verbose_name = "linha verde intake form"
         verbose_name_plural = "lvforms"
+
+
+class CaseComment(models.Model):
+    lvform = models.OneToOneField(
+        LvForm,
+        on_delete=models.CASCADE,
+    )
+    partner_feedback = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name="Parceiro Feedback",
+    )
+    task_feedback = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name="Feedback da tarefa",
+    )
+    has_feedback = models.CharField(
+        choices=(
+            ("TRUE", "TRUE"),
+            ("FALSE", "FALSE"),
+        ),
+        max_length=5,
+        null=True,
+        blank=True,
+        verbose_name="Has feedback",
+    )
+
+    class Meta:
+        verbose_name = "casecomment"
+        verbose_name_plural = "casecomments"
+
+
+class ForwardingInstitution(models.Model):
+    lvform = models.OneToOneField(
+        LvForm,
+        on_delete=models.CASCADE,
+    )
+    partner_feedback = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name="Parceiro Feedback",
+    )
+    task_feedback = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name="Feedback da tarefa",
+    )
+    has_feedback = models.CharField(
+        choices=(
+            ("TRUE", "TRUE"),
+            ("FALSE", "FALSE"),
+        ),
+        max_length=5,
+        null=True,
+        blank=True,
+        verbose_name="Has feedback",
+    )
+
+    class Meta:
+        verbose_name = "forwardinginstitution"
+        verbose_name_plural = "forwardinginstitutions"
+
+
+class Task(models.Model):
+    lvform = models.OneToOneField(
+        LvForm,
+        on_delete=models.CASCADE,
+    )
+    partner_feedback = models.CharField(
+        choices=(
+            ("1", "Request for information"),
+            ("2", "Send Feedback"),
+        ),
+        max_length=1,
+        null=True,
+        blank=True,
+        verbose_name="Parceiro Feedback",
+    )
+    description = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name="Description",
+    )
+    assignee = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Assigned to",
+    )
+    task_status = models.CharField(
+        choices=(
+            ("1", "Not started"),
+            ("2", "In Progress"),
+            ("3", "Completed"),
+        ),
+        max_length=1,
+        null=True,
+        blank=True,
+        verbose_name="Status",
+    )
+    start_date = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name="Start date",
+    )
+    end_date = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name="End Date",
+    )
+
+    class Meta:
+        verbose_name = "task"
+        verbose_name_plural = "tasks"
