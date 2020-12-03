@@ -2,22 +2,6 @@ from django.db import models
 
 
 class LvForm(models.Model):
-    today = models.DateField(
-        null=True,
-        blank=True,
-    )
-    username = models.TextField(
-        null=True,
-        blank=True,
-    )
-    deviceid = models.TextField(
-        null=True,
-        blank=True,
-    )
-    phonenumber = models.TextField(
-        null=True,
-        blank=True,
-    )
     consent_pi = models.CharField(
         choices=(
             ("1", "Consento to collect personal info"),
@@ -188,6 +172,24 @@ class LvForm(models.Model):
         null=True,
         blank=True,
         verbose_name="Case closed",
+    )
+    datetime_created = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Date created",
+        help_text="Auto datetime Create",
+    )
+    datetime_modified = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Date updated",
+        help_text="Auto datetime update",
+    )
+    created_by = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Created By",
+        help_text="User",
     )
 
     class Meta:
