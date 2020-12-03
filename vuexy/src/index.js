@@ -1,29 +1,34 @@
-import React, { Suspense, lazy } from "react"
-import ReactDOM from "react-dom"
-import { Provider } from "react-redux"
-import { Layout } from "./utility/context/Layout"
-import * as serviceWorker from "./serviceWorker"
-import { store } from "./redux/storeConfig/store"
-import Spinner from "./components/@vuexy/spinner/Fallback-spinner"
-import "./index.scss"
-import "./@fake-db"
+import React, { Suspense, lazy } from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { Layout } from "./utility/context/Layout";
+import * as serviceWorker from "./serviceWorker";
+import { store, persistor } from "./redux/storeConfig/store";
+import Spinner from "./components/@vuexy/spinner/Fallback-spinner";
+import "./index.scss";
+import "./@fake-db";
+import { PersistGate } from "redux-persist/integration/react";
 
-const LazyApp = lazy(() => import("./App"))
+const LazyApp = lazy(() => import("./App"));
 
+// const appTitle = document.getElementById("app-title");
+// appTitle.innerHTML = process.env.REACT_APP_NAME
 
 // configureDatabase()
 ReactDOM.render(
-    <Provider store={store}>
-      <Suspense fallback={<Spinner />}>
+  <Provider store={store}>
+    <Suspense fallback={<Spinner />}>
+      <PersistGate loading={null} persistor={persistor}>
         <Layout>
-            <LazyApp />
+          <LazyApp />
         </Layout>
-      </Suspense>
-    </Provider>,
+      </PersistGate>
+    </Suspense>
+  </Provider>,
   document.getElementById("root")
-)
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister()
+serviceWorker.unregister();
