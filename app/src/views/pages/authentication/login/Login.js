@@ -86,6 +86,7 @@ class Login extends React.Component {
                         <Input
                           type="text"
                           placeholder="Email"
+                          autoComplete={false}
                           defaultValue={this.state.email}
                           onChange={(e) =>
                             this.setState({ username: e.target.value })
@@ -100,6 +101,7 @@ class Login extends React.Component {
                         <Input
                           type="password"
                           placeholder="Password"
+                          autoComplete={false}
                           defaultValue={this.state.password}
                           onChange={(e) =>
                             this.setState({ password: e.target.value })
