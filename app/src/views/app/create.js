@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { toast, Bounce } from "react-toastify";
 
 import { axios } from "../../redux/api";
+import config from "../../data/config";
 import {
   Alert,
   Button,
@@ -16,6 +17,7 @@ import {
   Input,
   Label,
 } from "reactstrap";
+
 class Create extends React.Component {
   notifySuccessBounce = (id = "") =>
     toast.success(`Object created successfuly!`, { transition: Bounce });
@@ -32,6 +34,7 @@ class Create extends React.Component {
     isValid: true,
   };
   componentDidMount() {
+    console.log(config.pages);
     const { form } = this.props.state.auth.login.config.pages.lvform;
     form.forEach((item, index) => this.addToRequired(item));
   }
