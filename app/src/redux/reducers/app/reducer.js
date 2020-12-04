@@ -1,5 +1,6 @@
 const initialState = {
   list: [],
+  dropdowns: [],
   success: false,
   failed: false,
   loading: false,
@@ -30,6 +31,12 @@ export const app_reducer = (state = initialState, action) => {
         success: false,
         failed: true,
         loading: false,
+      };
+    }
+    case "DROPDOWNS": {
+      return {
+        ...state,
+        dropdowns: action.dropdowns,
       };
     }
 

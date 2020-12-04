@@ -1,4 +1,5 @@
 import { axios } from "../../api";
+import { state } from "./forms";
 
 export const handleForm = (dispatch) =>
   new Promise((resolve, reject) => {
@@ -12,8 +13,7 @@ export const handleForm = (dispatch) =>
     axios
       .get("/lvforms.json/")
       .then(({ data }) => {
-
-        console.log(data)
+        // console.log(data);
         dispatch({
           type: "FORM_SUCCESS",
           list: data.list,
@@ -32,4 +32,30 @@ export const handleForm = (dispatch) =>
         });
         resolve();
       });
+  });
+
+const requestSingle = async (link) => {
+  const response = await axios
+    .get(`/${link}/`)
+    .then(({ data }) => data)
+    .catch(({ response }) => response);
+
+  return response?.list;
+};
+
+export const handleDropdowns = (dispatch) =>
+  new Promise((resolve, reject) => {
+    const list = state.map((item) => {
+      return {
+        key: item.name,
+        value: requestSingle(item.url),
+      };
+    });
+
+    dispatch({
+      type: "DROPDOWNS",
+      dropdowns: list,
+    });
+
+    resolve();
   });
