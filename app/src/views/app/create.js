@@ -154,6 +154,25 @@ class Create extends React.Component {
           </Col>
         );
         break;
+      case "string":
+        res = (
+          <Col md="6" key={field.name}>
+            <Label>{field.label}</Label>
+
+            <FormGroup className="form-label-group position-relative has-icon-left">
+              <Input
+                type="text"
+                className="square"
+                placeholder={field.label}
+                onChange={(e) => this.updateState(field.name, e.target.value)}
+              />
+              <div className="form-control-position">
+                {/* <Mail size={15} /> */}
+              </div>
+            </FormGroup>
+          </Col>
+        );
+        break;
       case "date":
         res = (
           <Col md="6">
