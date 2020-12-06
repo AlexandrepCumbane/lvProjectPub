@@ -8,6 +8,49 @@ export default {
             "url": "logout",
             "name": "logout"
         },
+        "casecomment": {
+            "name": "casecomment",
+            "url": "casecomments",
+            "list": true,
+            "form": [
+                {
+                    "name": "lvform",
+                    "label": "Lvform",
+                    "bind": {
+                        "required": true
+                    },
+                    "type": "string",
+                    "wq:ForeignKey": "lvform"
+                },
+                {
+                    "name": "partner_feedback",
+                    "label": "Parceiro Feedback",
+                    "type": "text"
+                },
+                {
+                    "name": "task_feedback",
+                    "label": "Feedback da tarefa",
+                    "type": "text"
+                },
+                {
+                    "name": "has_feedback",
+                    "label": "Has Feedback",
+                    "choices": [
+                        {
+                            "name": "TRUE",
+                            "label": "TRUE"
+                        },
+                        {
+                            "name": "FALSE",
+                            "label": "FALSE"
+                        }
+                    ],
+                    "type": "select one"
+                }
+            ],
+            "verbose_name": "casecomment",
+            "verbose_name_plural": "casecomments"
+        },
         "province": {
             "cache": "all",
             "name": "province",
@@ -717,49 +760,6 @@ export default {
             ],
             "verbose_name": "task",
             "verbose_name_plural": "tasks"
-        },
-        "casecomment": {
-            "name": "casecomment",
-            "url": "casecomments",
-            "list": true,
-            "form": [
-                {
-                    "name": "lvform",
-                    "label": "Lvform",
-                    "bind": {
-                        "required": true
-                    },
-                    "type": "string",
-                    "wq:ForeignKey": "lvform"
-                },
-                {
-                    "name": "partner_feedback",
-                    "label": "Parceiro Feedback",
-                    "type": "text"
-                },
-                {
-                    "name": "task_feedback",
-                    "label": "Feedback da tarefa",
-                    "type": "text"
-                },
-                {
-                    "name": "has_feedback",
-                    "label": "Has Feedback",
-                    "choices": [
-                        {
-                            "name": "TRUE",
-                            "label": "TRUE"
-                        },
-                        {
-                            "name": "FALSE",
-                            "label": "FALSE"
-                        }
-                    ],
-                    "type": "select one"
-                }
-            ],
-            "verbose_name": "casecomment",
-            "verbose_name_plural": "casecomments"
         }
     },
     "debug": true
