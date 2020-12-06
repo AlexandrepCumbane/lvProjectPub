@@ -21,10 +21,7 @@ class List extends Component {
   componentDidMount() {
     this.formatFields();
     this.props.requestDropodowns();
-
-    this.props.requestForm().then(() => {
-      this.setState({ data: this.props.app_reducer.list });
-    });
+    this.props.requestForm();
   }
 
   formatFields = () => {
