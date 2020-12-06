@@ -43,7 +43,9 @@ class Create extends React.Component {
     this.props.requestForm();
 
     const { form } = this.props.state.auth.login.config.pages.lvform;
-    form.forEach((item, index) => this.addToRequired(item));
+    form.forEach((item, index) => {
+      this.addToRequired(item);
+    });
     const { dropdowns } = this.props.app_reducer;
     this.setState({ dropdowns });
   }
@@ -139,7 +141,9 @@ class Create extends React.Component {
                 type="select"
                 id={field.name}
                 placeholder={field.label}
-                onChange={(e) => this.updateState(field.name, e.target.value)}
+                onChange={(e) =>
+                  this.updateState(`${field.name}_id`, e.target.value)
+                }
               >
                 <option>Select</option>
                 {this.renderSelectOptionForeignWQ(
@@ -245,7 +249,9 @@ class Create extends React.Component {
 
     if (field.bind != undefined) {
       if (field.bind.required == true && index <= 0) {
-        this.state.required_fields.push(field.name);
+        if (field.type == "string") {
+          this.state.required_fields.push(`${field.name}_id`);
+        } else this.state.required_fields.push(field.name);
         this.state.required_fields_labels.push(field.label);
       }
     }
