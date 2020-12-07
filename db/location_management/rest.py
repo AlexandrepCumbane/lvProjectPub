@@ -1,5 +1,5 @@
 from wq.db import rest
-from .models import Location, Province, District
+from .models import Location, Province, District, LocationClassification, LocationType
 
 
 rest.router.register_model(
@@ -16,6 +16,18 @@ rest.router.register_model(
 
 rest.router.register_model(
     District,
+    fields="__all__",
+    cache="all",
+)
+
+rest.router.register_model(
+    LocationClassification,
+    fields="__all__",
+    cache="all",
+)
+
+rest.router.register_model(
+    LocationType,
     fields="__all__",
     cache="all",
 )
