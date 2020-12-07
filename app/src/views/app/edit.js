@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  Alert,
   Col,
   Row,
   Input,
   FormGroup,
   Button,
-  Spinner,
   CustomInput,
   Label,
 } from "reactstrap";
