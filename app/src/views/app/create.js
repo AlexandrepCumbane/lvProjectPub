@@ -7,7 +7,6 @@ import {
 } from "../../redux/actions/app/actions";
 
 import { axios } from "../../redux/api";
-import config from "../../data/config";
 import {
   Alert,
   Button,
@@ -15,7 +14,6 @@ import {
   CardBody,
   Row,
   Col,
-  Form,
   FormGroup,
   CustomInput,
   Input,
@@ -230,7 +228,7 @@ class Create extends React.Component {
 
   renderSelectOptionForeignWQ = (choices) => {
     return choices.map((item) => (
-      <option key={item.name} value={item.id}>
+      <option key={item.id} value={item.id}>
         {item.label}
       </option>
     ));
