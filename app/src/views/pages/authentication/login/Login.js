@@ -44,7 +44,6 @@ class Login extends React.Component {
   submit = (e) => {
     e.preventDefault();
 
-    console.log(this.props.state.auth.login);
     var bodyFormData = new FormData();
     bodyFormData.append("username", this.state.username);
     bodyFormData.append("password", this.state.password);
@@ -54,7 +53,7 @@ class Login extends React.Component {
     );
 
     this.props.requestLogin(bodyFormData).then(() => {
-      console.log(this.props.state);
+      console.log("State: ", this.props.state);
 
       if (this.props.auth_state.success) history.push("/lvforms");
       else {

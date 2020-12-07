@@ -9,6 +9,5 @@ export const requestLogin = (payload) => {
 };
 
 export const requestToken = (payload) => {
-  console.log(payload);
   return (dispatch) => handleCsrftoken(dispatch, payload);
 };

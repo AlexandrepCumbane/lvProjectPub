@@ -5,7 +5,7 @@ const initialState = {
   success: false,
   failed: false,
   loading: false,
-  userRole: "admin",
+  userRole: "Not-auth",
 };
 
 export const login = (state = initialState, action) => {
@@ -28,6 +28,7 @@ export const login = (state = initialState, action) => {
         success: true,
         failed: false,
         loading: false,
+        userRole: action.userRole,
       };
     }
     case "LOGIN_FAILED": {
