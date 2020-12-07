@@ -53,8 +53,6 @@ class Login extends React.Component {
     );
 
     this.props.requestLogin(bodyFormData).then(() => {
-      console.log("State: ", this.props.state);
-
       if (this.props.auth_state.success) history.push("/lvforms");
       else {
         alert("Wrong Credentials combination");
