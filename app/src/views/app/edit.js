@@ -37,8 +37,6 @@ class Edit extends Component {
 
   state = {
     form: new FormData(),
-    required_fields: [],
-    required_fields_labels: [],
     isValid: true,
     dropdowns: [],
   };
@@ -47,9 +45,7 @@ class Edit extends Component {
     this.props.requestForm();
 
     const { form } = this.props.state.auth.login.config.pages.lvform;
-    form.forEach((item, index) => {
-      this.addToRequired(item);
-    });
+
     const { dropdowns } = this.props.app_reducer;
     this.setState({ dropdowns });
   }
@@ -112,29 +108,13 @@ class Edit extends Component {
   renderForm = () => {
     const form_ = this.props.state.auth.login.config.pages.lvform;
     return (
-      <Row>
-        <Col md="12">
-          {this.state.isValid && this.state.required_fields.length == 0 ? (
-            <></>
-          ) : (
-            <Alert color="danger" className="square">
-              <Label className="text-danger">
-                All these fields are required{" "}
-                {this.state.required_fields_labels.map((item, index) => (
-                  <strong key={index}>{item}, </strong>
-                ))}
-              </Label>
-            </Alert>
-          )}
-        </Col>
-
-        {form_.form.map((field) => this.renderSingleInput(field))}
-      </Row>
+      <Row>{form_.form.map((field) => this.renderSingleInput(field))}</Row>
     );
   };
 
   renderSingleInput = (field) => {
     let res = <></>;
+    let { data } = this.props;
 
     switch (field.type) {
       case "text":
@@ -146,6 +126,7 @@ class Edit extends Component {
               <Input
                 type="text"
                 className="square"
+                defaultValue={data[field.name]}
                 placeholder={field.label}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
@@ -166,6 +147,7 @@ class Edit extends Component {
                 className="square"
                 type="select"
                 id={field.name}
+                defaultValue={data[`${field.name}_id`]}
                 placeholder={field.label}
                 onChange={(e) =>
                   this.updateState(`${field.name}_id`, e.target.value)
@@ -189,6 +171,7 @@ class Edit extends Component {
               <Input
                 type="date"
                 className="square"
+                defaultValue={data[field.name]}
                 placeholder={field.label}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
@@ -208,7 +191,7 @@ class Edit extends Component {
                 type="number"
                 className="square"
                 placeholder={field.label}
-                // defaultValue={this.state.email}
+                defaultValue={data[field.name]}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
               <div className="form-control-position">
@@ -228,6 +211,7 @@ class Edit extends Component {
                 type="select"
                 id={field.name}
                 placeholder={field.label}
+                defaultValue={data[field.name]}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               >
                 <option>Select</option>
@@ -267,35 +251,6 @@ class Edit extends Component {
   };
 
   /**
-   * Add all fields and add the required fields into an array
-   * @param {*} field
-   */
-  addToRequired(field) {
-    const index = this.state.required_fields.indexOf(field.name);
-
-    if (field.bind != undefined) {
-      if (field.bind.required == true && index <= 0) {
-        if (field.type == "string") {
-          this.state.required_fields.push(`${field.name}_id`);
-        } else this.state.required_fields.push(field.name);
-        this.state.required_fields_labels.push(field.label);
-      }
-    }
-  }
-
-  /**
-   * Remove field from required array if is the value is not null
-   * @param {*} field
-   */
-  removeFromRequired(field) {
-    const index = this.state.required_fields.indexOf(field);
-    if (index >= 0) {
-      this.state.required_fields.splice(index, 1);
-      this.state.required_fields_labels.splice(index, 1);
-    }
-  }
-
-  /**
    * Update each dynamic field state value
    * @param {*} field_name
    * @param {*} value
@@ -309,8 +264,6 @@ class Edit extends Component {
       } else {
         form.append(field_name, value);
       }
-
-      this.removeFromRequired(field_name);
     }
 
     this.setState({ form });
@@ -320,20 +273,15 @@ class Edit extends Component {
    * Submits the form to post request action
    */
   handleSubmit = () => {
-    if (this.state.required_fields.length > 0) {
-      this.notifyErrorBounce("Fill all required inputs");
-      this.setState({ isValid: false });
-    } else {
-      this.setState({ isValid: true });
-      axios
-        .post("lvforms.json", this.state.form)
-        .then(({ data }) => {
-          this.notifySuccessBounce(data.id);
-        })
-        .catch((error) => {
-          this.notifyErrorBounce("Failed to save Object.");
-        });
-    }
+    this.setState({ isValid: true });
+    axios
+      .put("lvforms.json", this.state.form)
+      .then(({ data }) => {
+        this.notifySuccessBounce(data.id);
+      })
+      .catch((error) => {
+        this.notifyErrorBounce("Failed to save Object.");
+      });
   };
 }
 
