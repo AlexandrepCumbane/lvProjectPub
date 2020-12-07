@@ -182,7 +182,7 @@ class Edit extends Component {
         break;
       case "date":
         res = (
-          <Col md="6">
+          <Col md="6" key={field.name}>
             <Label>{field.label}</Label>
 
             <FormGroup className="form-label-group position-relative has-icon-left">
@@ -201,7 +201,7 @@ class Edit extends Component {
         break;
       case "int":
         res = (
-          <Col md="6">
+          <Col md="6" key={field.name}>
             <Label>{field.label}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
@@ -220,7 +220,7 @@ class Edit extends Component {
         break;
       case "select one":
         res = (
-          <Col md="6">
+          <Col md="6" key={field.name}>
             <Label>{field.label}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <CustomInput
@@ -239,7 +239,7 @@ class Edit extends Component {
         break;
 
       default:
-        res = <></>;
+        res = <div key={field.name}></div>;
         break;
     }
 
