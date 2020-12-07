@@ -1,11 +1,11 @@
 from wq.db.patterns import serializers as patterns
-from .models import LvForm, CaseComment, ForwardingInstitution, Task
+from .models import LvForm, CaseComment, ForwardingInstitution, Task, TaskComment
 
 
 class CaseCommentSerializer(patterns.AttachmentSerializer):
     class Meta(patterns.AttachmentSerializer.Meta):
         model = CaseComment
-        fields = "__all__"
+        exclude = ('created_by',)
         # exclude = ('lvform',)
         # object_field = 'lvform'
 
@@ -18,7 +18,7 @@ class CaseCommentSerializer(patterns.AttachmentSerializer):
 class ForwardingInstitutionSerializer(patterns.AttachmentSerializer):
     class Meta(patterns.AttachmentSerializer.Meta):
         model = ForwardingInstitution
-        fields = "__all__"
+        exclude = ('created_by',)
         # exclude = ('lvform',)
         # object_field = 'lvform'
 
@@ -31,7 +31,7 @@ class ForwardingInstitutionSerializer(patterns.AttachmentSerializer):
 class TaskSerializer(patterns.AttachmentSerializer):
     class Meta(patterns.AttachmentSerializer.Meta):
         model = Task
-        fields = "__all__"
+        exclude = ('created_by',)
         # exclude = ('lvform',)
         # object_field = 'lvform'
 
@@ -39,6 +39,20 @@ class TaskSerializer(patterns.AttachmentSerializer):
         form = Task.objects.create(created_by=self.context['request'].user,
                                  **validated_data)
         return form
+
+
+class TaskCommentSerializer(patterns.AttachmentSerializer):
+    class Meta(patterns.AttachmentSerializer.Meta):
+        model = TaskComment
+        exclude = ('created_by',)
+        # exclude = ('lvform',)
+        # object_field = 'lvform'
+
+    def create(self, validated_data):
+        form = TaskComment.objects.create(created_by=self.context['request'].user,
+                                 **validated_data)
+        return form
+
 
 # TODO: Fix iterating/linking through the relationships
 class LvFormSerializer(patterns.AttachedModelSerializer):
@@ -48,7 +62,8 @@ class LvFormSerializer(patterns.AttachedModelSerializer):
 
     class Meta:
         model = LvForm
-        fields = "__all__"
+        # fields = "__all__"
+        exclude = ('created_by',)
 
     def create(self, validated_data):
         form = LvForm.objects.create(created_by=self.context['request'].user,

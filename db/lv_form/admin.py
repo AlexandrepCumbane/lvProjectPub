@@ -1,5 +1,5 @@
 from django.contrib import admin
-from lv_form.models import LvForm, CaseComment, ForwardingInstitution, Task
+from lv_form.models import LvForm, CaseComment, ForwardingInstitution, Task, TaskComment
 
 @admin.register(LvForm)
 class LvFormAdmin(admin.ModelAdmin):
@@ -18,5 +18,10 @@ class ForwardingInstitutionAdmin(admin.ModelAdmin):
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
+    readonly_fields = ('datetime_created',)
+    pass
+
+@admin.register(TaskComment)
+class TaskCommentAdmin(admin.ModelAdmin):
     readonly_fields = ('datetime_created',)
     pass
