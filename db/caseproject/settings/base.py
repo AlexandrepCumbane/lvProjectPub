@@ -131,7 +131,7 @@ MEDIA_URL = '/media/'
 # Required for OpenID
 LOGIN_URL = '/accounts/login/'
 
-#REST_FRAMEWORK['DEFAULT_SCHEMA_CLASS'] = 'rest_framework.schemas.coreapi.AutoSchema'
+# REST_FRAMEWORK['DEFAULT_SCHEMA_CLASS'] = 'rest_framework.schemas.coreapi.AutoSchema'
 #Important change to wq's default handling of auth
-REST_FRAMEWORK['DEFAULT_PERMISSION_CLASSES'] = ('wq.db.rest.permissions.ModelPermissions', 'rest_framework.permissions.DjangoModelPermissions') # 'rest_framework.permissions.IsAdminUser'
+REST_FRAMEWORK['DEFAULT_PERMISSION_CLASSES'] = ('caseproject.rest.permissions.ModelPermissions',) 
 # REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] = 'rest_framework.authentication.TokenAuthentication'
