@@ -180,14 +180,18 @@ class LvForm(models.Model):
         blank=True,
         verbose_name="Date created",
         help_text="Auto datetime Create",
+        auto_now_add=True,
     )
     datetime_updated = models.DateTimeField(
         null=True,
         blank=True,
         verbose_name="Date updated",
         help_text="Auto datetime update",
+        auto_now=True,
     )
-    created_by = models.IntegerField(
+    created_by = models.ForeignKey(
+        'location_management.User',
+        on_delete=models.CASCADE,
         null=True,
         blank=True,
         verbose_name="Created By",
@@ -230,6 +234,21 @@ class CaseComment(models.Model):
         blank=True,
         verbose_name="Has feedback",
     )
+    created_by = models.ForeignKey(
+        'location_management.User',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Created By",
+        help_text="User",
+    )
+    datetime_created = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Date created",
+        help_text="Auto datetime Create",
+        auto_now_add=True,
+    )
 
     class Meta:
         verbose_name = "casecomment"
@@ -261,6 +280,21 @@ class ForwardingInstitution(models.Model):
         blank=True,
         verbose_name="Has feedback",
     )
+    created_by = models.ForeignKey(
+        'location_management.User',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Created By",
+        help_text="User",
+    )
+    datetime_created = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Date created",
+        help_text="Auto datetime Create",
+        auto_now_add=True,
+    )
 
     class Meta:
         verbose_name = "forwardinginstitution"
@@ -287,10 +321,13 @@ class Task(models.Model):
         blank=True,
         verbose_name="Description",
     )
-    assignee = models.IntegerField(
+    assignee = models.ForeignKey(
+        'location_management.User',
+        on_delete=models.CASCADE,
         null=True,
         blank=True,
         verbose_name="Assigned to",
+        related_name='assignee',
     )
     task_status = models.CharField(
         choices=(
@@ -312,6 +349,22 @@ class Task(models.Model):
         null=True,
         blank=True,
         verbose_name="End Date",
+    )
+    created_by = models.ForeignKey(
+        'location_management.User',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Created By",
+        related_name='created_by',
+        help_text="User",
+    )
+    datetime_created = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Date created",
+        help_text="Auto datetime Create",
+        auto_now_add=True,
     )
 
     class Meta:
