@@ -55,9 +55,14 @@ class Login extends React.Component {
 
     this.props.requestLogin(bodyFormData).then(() => {
       console.log(this.props.state);
-      history.push("/lvforms");
+
+      if (this.props.auth_state.success) history.push("/lvforms");
+      else {
+        alert("Wrong Credentials combination");
+      }
     });
   };
+
   render() {
     return (
       <Row className="m-0 justify-content-center">
@@ -141,9 +146,11 @@ class Login extends React.Component {
     );
   }
 }
+
 function mapStateToProps(state) {
   return {
     state: state,
+    auth_state: state.auth.login,
   };
 }
 

@@ -3,7 +3,10 @@ import { connect } from "react-redux";
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import AgGridTable from "../../components/custom/table/AgGridTable";
 
-import { requestForm } from "../../redux/actions/app/actions";
+import {
+  requestForm,
+  requestDropodowns,
+} from "../../redux/actions/app/actions";
 class List extends Component {
   state = {
     pageTitle: "Pages",
@@ -16,17 +19,9 @@ class List extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.config.pages["lvform"]);
-
-    console.log("App: ", this.props.app_reducer);
-
     this.formatFields();
-
-    this.props.requestForm().then(() => {
-      this.setState({ data: this.props.app_reducer.list });
-
-      console.log(this.props.app_reducer);
-    });
+    this.props.requestDropodowns();
+    this.props.requestForm();
   }
 
   formatFields = () => {
@@ -93,4 +88,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { requestForm })(List);
+export default connect(mapStateToProps, { requestForm, requestDropodowns })(
+  List
+);
