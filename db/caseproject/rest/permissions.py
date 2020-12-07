@@ -19,18 +19,15 @@ class ModelPermissions(BasePermission):
         if getattr(view, 'model', None) is None:
             return True
 
+        if not request.user or (
+           not request.user.is_authenticated and self.authenticated_users_only):
+            print("No perms")
+            return False
+        
         user = request.user
-        print(request.user.is_authenticated)
 
-        # TODO: Ensure other methods are implemented to verify user is logged in
-        # if not request.user or (
-        #    not request.user.is_authenticated and self.authenticated_users_only):
-        #     print("No perms")
-        #     return False
-            
         ct = get_ct(view.model)
         result = has_perm(user, ct, self.METHOD_PERM[request.method])
-        print(user)
         return result
 
 
