@@ -20,7 +20,8 @@ class LvForm(models.Model):
         verbose_name="Consent to share personal information with third parties",
         help_text="Consent to share personal information with third parties",
     )
-    fullname = models.TextField(
+    fullname = models.CharField(
+        max_length=255,
         verbose_name="Full Name",
         help_text="Full Name",
     )
@@ -57,7 +58,8 @@ class LvForm(models.Model):
         verbose_name="Locality",
         help_text="Locality",
     )
-    community = models.TextField(
+    community = models.CharField(
+        max_length=255,
         null=True,
         blank=True,
         verbose_name="Community",
@@ -180,14 +182,18 @@ class LvForm(models.Model):
         blank=True,
         verbose_name="Date created",
         help_text="Auto datetime Create",
+        auto_now_add=True,
     )
     datetime_updated = models.DateTimeField(
         null=True,
         blank=True,
         verbose_name="Date updated",
         help_text="Auto datetime update",
+        auto_now=True,
     )
-    created_by = models.IntegerField(
+    created_by = models.ForeignKey(
+        'location_management.User',
+        on_delete=models.CASCADE,
         null=True,
         blank=True,
         verbose_name="Created By",
@@ -210,25 +216,25 @@ class CaseComment(models.Model):
         LvForm,
         on_delete=models.CASCADE,
     )
-    partner_feedback = models.TextField(
+    feedback = models.TextField(
         null=True,
         blank=True,
-        verbose_name="Parceiro Feedback",
+        verbose_name="Feedback",
     )
-    task_feedback = models.TextField(
+    created_by = models.ForeignKey(
+        'location_management.User',
+        on_delete=models.CASCADE,
         null=True,
         blank=True,
-        verbose_name="Feedback da tarefa",
+        verbose_name="Created By",
+        help_text="User",
     )
-    has_feedback = models.CharField(
-        choices=(
-            ("TRUE", "TRUE"),
-            ("FALSE", "FALSE"),
-        ),
-        max_length=5,
+    datetime_created = models.DateTimeField(
         null=True,
         blank=True,
-        verbose_name="Has feedback",
+        verbose_name="Date created",
+        help_text="Auto datetime Create",
+        auto_now_add=True,
     )
 
     class Meta:
@@ -261,6 +267,21 @@ class ForwardingInstitution(models.Model):
         blank=True,
         verbose_name="Has feedback",
     )
+    created_by = models.ForeignKey(
+        'location_management.User',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Created By",
+        help_text="User",
+    )
+    datetime_created = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Date created",
+        help_text="Auto datetime Create",
+        auto_now_add=True,
+    )
 
     class Meta:
         verbose_name = "forwardinginstitution"
@@ -272,7 +293,7 @@ class Task(models.Model):
         LvForm,
         on_delete=models.CASCADE,
     )
-    partner_feedback = models.CharField(
+    task_title = models.CharField(
         choices=(
             ("1", "Request for information"),
             ("2", "Send Feedback"),
@@ -280,17 +301,20 @@ class Task(models.Model):
         max_length=1,
         null=True,
         blank=True,
-        verbose_name="Parceiro Feedback",
+        verbose_name="Task Title",
     )
     description = models.TextField(
         null=True,
         blank=True,
         verbose_name="Description",
     )
-    assignee = models.IntegerField(
+    assignee = models.ForeignKey(
+        'location_management.User',
+        on_delete=models.CASCADE,
         null=True,
         blank=True,
         verbose_name="Assigned to",
+        related_name='assignee',
     )
     task_status = models.CharField(
         choices=(
@@ -313,7 +337,57 @@ class Task(models.Model):
         blank=True,
         verbose_name="End Date",
     )
+    call_attempts = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Number of attempts to reach the other person",
+    )
+    created_by = models.ForeignKey(
+        'location_management.User',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Created By",
+        related_name='created_by',
+        help_text="User",
+    )
+    datetime_created = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Date created",
+        help_text="Auto datetime Create",
+        auto_now_add=True,
+    )
 
     class Meta:
         verbose_name = "task"
         verbose_name_plural = "tasks"
+
+class TaskComment(models.Model):
+    task = models.OneToOneField(
+        Task,
+        on_delete=models.CASCADE,
+    )
+    feedback = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name="Feedback",
+    )
+    created_by = models.ForeignKey(
+        'location_management.User',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Created By",
+        help_text="User",
+    )
+    datetime_created = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Date created",
+        help_text="Auto datetime Create",
+    )
+
+    class Meta:
+        verbose_name = "taskcomment"
+        verbose_name_plural = "taskcomments"
