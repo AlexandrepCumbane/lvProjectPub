@@ -21,14 +21,18 @@ class List extends Component {
   componentDidMount() {
     this.formatFields();
     this.props.requestDropodowns();
-    this.props.requestForm();
+    this.props.requestForm().then(() => {
+      this.setState({ data: this.props.app_reducer.list });
+
+      // console.log(this.props.app_reducer);
+    });
   }
 
   formatFields = () => {
     const { form } = this.props.config.pages["lvform"];
 
     const columnDefs = form.map((item) => {
-      if (item.type == "select one") {
+      if (item.type == "select one" || item.type == "string") {
         return {
           headerName: item.label,
           field: `${item.name}_label`,
@@ -69,7 +73,7 @@ class List extends Component {
           <AgGridTable
             data={this.state.data}
             columnDefs={this.state.columnDefs}
-            tableType={"calls"}
+            tableType={"cases"}
             dropdowns={[]}
           />
         ) : (
