@@ -21,7 +21,6 @@ class ModelPermissions(BasePermission):
 
         if not request.user or (
            not request.user.is_authenticated and self.authenticated_users_only):
-            print("No perms")
             return False
         
         user = request.user
