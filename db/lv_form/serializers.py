@@ -9,6 +9,11 @@ class CaseCommentSerializer(patterns.AttachmentSerializer):
         # exclude = ('lvform',)
         # object_field = 'lvform'
 
+    def create(self, validated_data):
+        form = CaseComment.objects.create(created_by=self.context['request'].user,
+                                 **validated_data)
+        return form
+
 
 class ForwardingInstitutionSerializer(patterns.AttachmentSerializer):
     class Meta(patterns.AttachmentSerializer.Meta):
@@ -17,6 +22,11 @@ class ForwardingInstitutionSerializer(patterns.AttachmentSerializer):
         # exclude = ('lvform',)
         # object_field = 'lvform'
 
+    def create(self, validated_data):
+        form = ForwardingInstitution.objects.create(created_by=self.context['request'].user,
+                                 **validated_data)
+        return form
+
 
 class TaskSerializer(patterns.AttachmentSerializer):
     class Meta(patterns.AttachmentSerializer.Meta):
@@ -24,6 +34,11 @@ class TaskSerializer(patterns.AttachmentSerializer):
         fields = "__all__"
         # exclude = ('lvform',)
         # object_field = 'lvform'
+
+    def create(self, validated_data):
+        form = Task.objects.create(created_by=self.context['request'].user,
+                                 **validated_data)
+        return form
 
 # TODO: Fix iterating/linking through the relationships
 class LvFormSerializer(patterns.AttachedModelSerializer):
@@ -34,3 +49,8 @@ class LvFormSerializer(patterns.AttachedModelSerializer):
     class Meta:
         model = LvForm
         fields = "__all__"
+
+    def create(self, validated_data):
+        form = LvForm.objects.create(created_by=self.context['request'].user,
+                                 **validated_data)
+        return form
