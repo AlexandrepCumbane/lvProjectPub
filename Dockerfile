@@ -34,9 +34,11 @@ RUN . /code/venv/bin/activate
 RUN pip install --upgrade pip \
 && pip install -r requirements.txt
 
+ENV DJANGO_SETTINGS_MODULE caseproject.settings.prod
+
 # Migrate database
 WORKDIR /code/db
-RUN ./manage.py migrate
+# RUN ./manage.py migrate
 
 # Install npm dependencies
 WORKDIR /code/app
@@ -48,9 +50,9 @@ WORKDIR /code
 EXPOSE 8000
 EXPOSE 3000
 
-RUN ./deploy.sh 0.0.2
+# RUN ./deploy.sh 0.0.2
 
-CMD ["./runserver.sh", "0.0.2"]
+# CMD ["./runserver.sh", "0.0.2"]
 
 # Run container code
 # CMD ["gunicorn", "-w 4", "-b 0.0.0.0:8000", "callcenter.wsgi:application"]
