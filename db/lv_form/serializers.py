@@ -56,6 +56,13 @@ class TaskCommentSerializer(patterns.AttachmentSerializer):
 
 # TODO: Fix iterating/linking through the relationships
 class LvFormSerializer(patterns.AttachedModelSerializer):
+    """
+    Returns a list of all stored cases and enables CRUD operations.
+
+    When a case is created, it is stored with created_by field pre-populated
+
+    [ref]: case 
+    """
     # case_comments = CaseCommentSerializer(many=True, required=False)
     # forwarding_institutions = ForwardingInstitutionSerializer(many=True, required=False)
     # task = TaskSerializer(many=True, required=False)
