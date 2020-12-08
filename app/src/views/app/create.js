@@ -7,7 +7,6 @@ import {
 } from "../../redux/actions/app/actions";
 
 import { axios } from "../../redux/api";
-import config from "../../data/config";
 import {
   Alert,
   Button,
@@ -15,7 +14,6 @@ import {
   CardBody,
   Row,
   Col,
-  Form,
   FormGroup,
   CustomInput,
   Input,
@@ -156,7 +154,7 @@ class Create extends React.Component {
         break;
       case "date":
         res = (
-          <Col md="6">
+          <Col md="6" key={field.name}>
             <Label>{field.label}</Label>
 
             <FormGroup className="form-label-group position-relative has-icon-left">
@@ -175,7 +173,7 @@ class Create extends React.Component {
         break;
       case "int":
         res = (
-          <Col md="6">
+          <Col md="6" key={field.name}>
             <Label>{field.label}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
@@ -194,7 +192,7 @@ class Create extends React.Component {
         break;
       case "select one":
         res = (
-          <Col md="6">
+          <Col md="6" key={field.name}>
             <Label>{field.label}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <CustomInput
@@ -213,7 +211,7 @@ class Create extends React.Component {
         break;
 
       default:
-        res = <></>;
+        res = <div  key={field.name}></div>;
         break;
     }
 
@@ -230,7 +228,7 @@ class Create extends React.Component {
 
   renderSelectOptionForeignWQ = (choices) => {
     return choices.map((item) => (
-      <option key={item.name} value={item.id}>
+      <option key={item.id} value={item.id}>
         {item.label}
       </option>
     ));

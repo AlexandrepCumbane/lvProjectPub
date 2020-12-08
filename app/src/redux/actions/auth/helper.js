@@ -22,7 +22,9 @@ export const handleLogin = (dispatch, payload) =>
           success: true,
           failed: false,
           loading: false,
+          userRole: "admin",
         });
+
         resolve();
       })
       .catch(({ response }) => {
@@ -43,5 +45,12 @@ export const handleCsrftoken = (dispatch) => {
       type: "UPDATE_TOKEN",
       csrftoken: data.csrftoken,
     });
+  });
+};
+
+export const logout = (dispatch) => {
+  dispatch({
+    type: "CHANGE_ROLE",
+    userRole: "not-auth",
   });
 };

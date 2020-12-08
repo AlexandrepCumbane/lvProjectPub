@@ -44,7 +44,6 @@ class Login extends React.Component {
   submit = (e) => {
     e.preventDefault();
 
-    console.log(this.props.state.auth.login);
     var bodyFormData = new FormData();
     bodyFormData.append("username", this.state.username);
     bodyFormData.append("password", this.state.password);
@@ -54,8 +53,6 @@ class Login extends React.Component {
     );
 
     this.props.requestLogin(bodyFormData).then(() => {
-      console.log(this.props.state);
-
       if (this.props.auth_state.success) history.push("/lvforms");
       else {
         alert("Wrong Credentials combination");
@@ -91,7 +88,7 @@ class Login extends React.Component {
                         <Input
                           type="text"
                           placeholder="Email"
-                          autoComplete={false}
+                          autoComplete="false"
                           defaultValue={this.state.email}
                           onChange={(e) =>
                             this.setState({ username: e.target.value })
@@ -106,7 +103,7 @@ class Login extends React.Component {
                         <Input
                           type="password"
                           placeholder="Password"
-                          autoComplete={false}
+                          autoComplete="false"
                           defaultValue={this.state.password}
                           onChange={(e) =>
                             this.setState({ password: e.target.value })

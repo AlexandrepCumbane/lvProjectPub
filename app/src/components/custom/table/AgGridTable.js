@@ -1,29 +1,26 @@
 import React from "react";
 import { render } from "react-dom";
+import { AgGridReact } from "ag-grid-react";
+import classnames from "classnames";
+import { Edit, ChevronDown } from "react-feather";
+import { ContextLayout } from "../../../utility/context/Layout";
+
 import {
   Card,
   CardBody,
   Input,
-  //  Button,
   UncontrolledDropdown,
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
-  Button,
 } from "reactstrap";
-import { AgGridReact } from "ag-grid-react";
 
-import { ContextLayout } from "../../../utility/context/Layout";
+import CaseEdit from "../../../views/app/edit";
 
 import "../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../assets/scss/pages/users.scss";
 import "../../../assets/scss/pages/data-list.scss";
 
-// import CallEdit from "../../../views/pages/Call/Edit";
-// import CaseEdit from "../../../views/pages/Case/Edit";
-import classnames from "classnames";
-import { Edit, ChevronDown } from "react-feather";
-// import TaskEdit from "../dialogs/EditTask";
 class AggridTable extends React.Component {
   state = {
     gridReady: false,
@@ -77,7 +74,7 @@ class AggridTable extends React.Component {
                   onClick={(e) => {
                     this.setState({ selectedData: params.data });
 
-                    if (this.props.tableType == "case") {
+                    if (this.props.tableType == "cases") {
                       this.setState({ showSidebar: true });
                     }
                     if (this.props.tableType == "calls") {
@@ -162,18 +159,17 @@ class AggridTable extends React.Component {
       <React.Fragment>
         <div className={`data-list thumb-view"`}>
           {showSidebar ? (
-            // <CaseEdit
-            //   show={this.state.showSidebar}
-            //   data={this.state.selectedData}
-            //   updateData={() => {}}
-            //   addData={() => {}}
-            //   handleSidebar={this.handleSidebar}
-            //   thumbView={this.props.thumbView}
-            //   getData={this.props.getData}
-            //   dataParams={this.props.parsedFilter}
-            //   addNew={this.state.addNew}
-            // />
-            <></>
+            <CaseEdit
+              show={this.state.showSidebar}
+              data={this.state.selectedData}
+              updateData={() => {}}
+              addData={() => {}}
+              handleSidebar={this.handleSidebar}
+              thumbView={this.props.thumbView}
+              getData={this.props.getData}
+              dataParams={this.props.parsedFilter}
+              addNew={this.state.addNew}
+            />
           ) : showCallSidebar ? (
             <></>
           ) : // <CallEdit
