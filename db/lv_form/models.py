@@ -29,15 +29,40 @@ class LvForm(models.Model):
         verbose_name="Contact",
         help_text="Contact",
     )
+    contact_group = models.CharField(
+        choices=(
+            ("1", "Beneficiario"),
+            ("2", "Alguem para beneficiario"),
+            ("3", "Nao beneficiario"),
+            ("4", "Lider comunitario"),
+            ("5", "Parceiro Humanitario"),
+            ("6", "Outro"),
+        ),
+        max_length=1,
+        verbose_name="Who is contacting",
+    )
     gender = models.CharField(
         choices=(
             ("male", "Male"),
             ("female", "Female"),
-            ("other", "Other"),
+            ("other", "Not specified"),
         ),
         max_length=6,
         verbose_name="Gender",
         help_text="Gender",
+    )
+    age_group = models.CharField(
+        choices=(
+            ("1", "17 e menos"),
+            ("2", "18 - 59"),
+            ("3", "60 e acima"),
+            ("4", "Nao mencionado"),
+        ),
+        max_length=1,
+        null=True,
+        blank=True,
+        verbose_name="Age",
+        help_text="Age",
     )
     provincia = models.ForeignKey(
         'location_management.Province',
@@ -65,6 +90,12 @@ class LvForm(models.Model):
         verbose_name="Community",
         help_text="Community",
     )
+    distribution_point = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name="Distribution Point",
+        help_text="Distribution Point",
+    )
     transfermod = models.CharField(
         choices=(
             ("1", "Comida"),
@@ -80,59 +111,52 @@ class LvForm(models.Model):
         verbose_name="Transfer modality",
         help_text="Transfer modality",
     )
-    category = models.CharField(
+    location_type = models.CharField(
         choices=(
-            ("1", "Positive feedback"),
-            ("2", "Request for information"),
-            ("3", "Compaint/negative feedback"),
-            ("4", "Request for assistance"),
-            ("5", "Data amendment"),
-            ("6", "Technical problems"),
-            ("7", "Other"),
+            ("1", "Sim"),
+            ("2", "Nao"),
+            ("3", "Irrelevant"),
         ),
         max_length=1,
+        null=True,
+        blank=True,
+        verbose_name="Accommodation or resettlement centre",
+        help_text="Accommodation or resettlement centre",
+    )
+    ressetlement_name = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        verbose_name="Resettlement name",
+        help_text="Resettlement name",
+    )
+    category = models.ForeignKey(
+        'case_tipology.CaseTipology',
+        on_delete=models.CASCADE,
         verbose_name="Case category",
     )
-    subcategory = models.CharField(
-        choices=(
-            ("1", "Other"),
-            ("2", "SEA"),
-            ("3", "Quality"),
-            ("4", "Quantity"),
-            ("5", "Safety problems"),
-            ("6", "Abuse of power"),
-            ("7", "Access"),
-            ("8", "Lost card"),
-            ("9", "Assistance card not working"),
-            ("10", "Money"),
-            ("11", "Distribution issue"),
-            ("12", "Exclusion error"),
-            ("13", "Undignified/ disrespect"),
-            ("14", "Beneficiary card"),
-            ("15", "Food"),
-            ("16", "Use of personal data - who, what, how"),
-            ("17", "Entitlement"),
-            ("18", "Services"),
-            ("19", "FFA Activity"),
-            ("20", "Targeting criteria"),
-            ("21", "HR"),
-            ("22", "Symptoms"),
-            ("23", "Prevention"),
-            ("24", "Treatment"),
-            ("25", "Availability of health services"),
-            ("26", "Myths"),
-            ("27", "Government guidance"),
-            ("28", "Current situaton"),
-            ("29", "Impact of Covid-19 on program"),
-            ("30", "NFI"),
-            ("31", "Flood assistance"),
-            ("32", "Update HH, personal details"),
-            ("33", "Delete personal information"),
-            ("34", "Distribution timing"),
-            ("35", "Duration of assistance"),
-        ),
-        max_length=2,
+    subcategory = models.ForeignKey(
+        'case_tipology.SubCategory',
+        on_delete=models.CASCADE,
         verbose_name="Sub-category",
+    )
+    subcategory_issue = models.ForeignKey(
+        'case_tipology.SubCategoryIssue',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Sub-category issue",
+    )
+    who_not_receiving = models.CharField(
+        choices=(
+            ("1", "Individual"),
+            ("2", "Community"),
+        ),
+        max_length=1,
+        null=True,
+        blank=True,
+        verbose_name="Who is not receiving assistance",
+        help_text="Person not receiving",
     )
     sector = models.CharField(
         choices=(
@@ -152,6 +176,21 @@ class LvForm(models.Model):
         ),
         max_length=2,
         verbose_name="Sector",
+    )
+    vulnerability = models.CharField(
+        choices=(
+            ("1", "Pessoa com dificiencia"),
+            ("2", "Familia chefiada por crianca"),
+            ("3", "Pais solteiros"),
+            ("4", "Mulher gravida ou lactente"),
+            ("5", "Familia chefiada por idosos"),
+            ("6", "Doente Cronico"),
+            ("7", "Nenhum"),
+            ("8", "Outro"),
+        ),
+        max_length=1,
+        verbose_name="Vulnerability",
+        help_text="Vulnerability",
     )
     call_notes = models.TextField(
         verbose_name="Call notes",
@@ -176,6 +215,91 @@ class LvForm(models.Model):
         null=True,
         blank=True,
         verbose_name="Case closed",
+    )
+    means_of_communication = models.CharField(
+        choices=(
+            ("1", "Linha verde (proprio numero)"),
+            ("2", "Linha verde (telefone emprestado)"),
+            ("3", "WFP hotline (proprio numero)"),
+            ("4", "WFP hotline (telefone emprestado)"),
+            ("5", "Mesa de apoio"),
+            ("6", "sms"),
+            ("7", "Email"),
+            ("8", "Caixa de sugestoes"),
+        ),
+        max_length=1,
+        null=True,
+        blank=True,
+        verbose_name="Means of Communication",
+        help_text="Means of Communication",
+    )
+    how_knows_lv = models.CharField(
+        choices=(
+            ("1", "Radio"),
+            ("2", "Panfletos"),
+            ("3", "Pessoas trabalhando na comunidade"),
+            ("4", "SMS"),
+            ("5", "Cartazes ou material de visibilidade"),
+            ("6", "Caixa de sugestoes"),
+        ),
+        max_length=1,
+        null=True,
+        blank=True,
+        verbose_name="How have you come to know about the complaints and feedback mechanism?",
+        help_text="How have you come to know about the complaints and feedback mechanism?",
+    )
+    how_callback = models.CharField(
+        choices=(
+            ("1", "Mesmo contacto"),
+            ("2", "Outro contacto"),
+        ),
+        max_length=1,
+        null=True,
+        blank=True,
+        verbose_name="How would you prefer to be reached?",
+        help_text="How would you prefer to be reached?",
+    )
+    other_contact = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Contact",
+        help_text="Contact",
+    )
+    call_feedback = models.CharField(
+        choices=(
+            ("1", "Muito Satisfeito"),
+            ("2", "Satisfeito"),
+            ("3", "Neutro"),
+            ("4", "Insatisfeito"),
+            ("5", "Muito insatisfeito"),
+        ),
+        max_length=1,
+        null=True,
+        blank=True,
+        verbose_name="How do you feel about how your query was dealt with during this call?",
+        help_text="How do you feel about how your query was dealt with during this call?",
+    )
+    callback_required = models.CharField(
+        choices=(
+            ("TRUE", "TRUE"),
+            ("FALSE", "FALSE"),
+        ),
+        max_length=5,
+        null=True,
+        blank=True,
+        verbose_name="Callback required?",
+        help_text="Callback required?",
+    )
+    unavailable_contact = models.CharField(
+        choices=(
+            ("TRUE", "TRUE"),
+            ("FALSE", "FALSE"),
+        ),
+        max_length=5,
+        null=True,
+        blank=True,
+        verbose_name="Contact was unavailable for feedback",
+        help_text="Contact was unavailable for feedback",
     )
     datetime_created = models.DateTimeField(
         null=True,
@@ -315,7 +439,7 @@ class Task(models.Model):
         blank=True,
         verbose_name="Assigned to",
         related_name='assignee',
-    )
+        )
     task_status = models.CharField(
         choices=(
             ("1", "Not started"),

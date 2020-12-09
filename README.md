@@ -2,8 +2,9 @@
 Important for getting the project running:
 1 - Run migrations 
 2 - Import the data dump for locations with the following command from the db directory:
-''' python manage.py loaddata dumped_location
+    ''' python manage.py loaddata dumped_location
 _data.json '''
+    ''' python manage.py loaddata seed_case_tipology.json '''
 
 
  Django project template for wq framework
