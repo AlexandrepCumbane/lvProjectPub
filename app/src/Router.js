@@ -11,6 +11,7 @@ import "./assets/scss/plugins/extensions/toastr.scss";
 
 import { default as config } from "./data/config";
 import AppListView from "./views/app/list";
+import AppCreateView from "./views/app/create";
 
 // Route-based code splitting
 const Home = lazy(() => import("./views/pages/Home"));
@@ -105,7 +106,26 @@ class AppRouter extends React.Component {
               );
             }
           })}
-          <AppRoute path="/lvforms/new" component={AppCreate} />
+          {this.get_routes().map((item, index) => {
+            if (item.name != "login" && item.name != "logout") {
+              return (
+                <AppRoute
+                  key={index}
+                  exact
+                  path={`/${item.url}/new`}
+                  // component={AppList}
+                  component={(props) => (
+                    <AppCreateView
+                      {...props}
+                      path={`${item.name}`}
+                      url={`${item.url}`}
+                    />
+                  )}
+                />
+              );
+            }
+          })}
+          {/* <AppRoute path="/lvforms/new" component={AppCreate} /> */}
           {/* <AppRoute path="/lvforms" component={Page2} /> */}
           <AppRoute path="/pages/login" component={login} fullLayout />
         </Switch>

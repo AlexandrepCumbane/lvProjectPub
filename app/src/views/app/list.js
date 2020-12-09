@@ -64,7 +64,7 @@ class List extends Component {
           breadCrumbItems={[
             {
               name: "Add New",
-              link: `${this.state.pages}s/new`,
+              link: `${this.state.page}s/new`,
             },
           ]}
           breadCrumbTitle={this.state.pageTitle}
