@@ -26,19 +26,13 @@ WORKDIR /code
 # Add our Application code to container
 COPY . .
 
-# Create venv
-RUN python3 -m venv venv
-RUN . /code/venv/bin/activate
-
 # Install project dependencies
 RUN pip install --upgrade pip \
 && pip install -r requirements.txt
 
-ENV DJANGO_SETTINGS_MODULE caseproject.settings.prod
-
 # Migrate database
 WORKDIR /code/db
-# RUN ./manage.py migrate
+RUN ./manage.py migrate
 
 # Install npm dependencies
 WORKDIR /code/app
@@ -52,7 +46,5 @@ EXPOSE 3000
 
 # RUN ./deploy.sh 0.0.2
 
-# CMD ["./runserver.sh", "0.0.2"]
-
 # Run container code
-# CMD ["gunicorn", "-w 4", "-b 0.0.0.0:8000", "callcenter.wsgi:application"]
+CMD ["gunicorn", "-w 4", "-b 0.0.0.0:8000", "caseproject.wsgi:application", "&", "sleep 10", "cd app", "yarn start"]
