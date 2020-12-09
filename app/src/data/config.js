@@ -8,49 +8,6 @@ export default {
             "url": "logout",
             "name": "logout"
         },
-        "casecomment": {
-            "name": "casecomment",
-            "url": "casecomments",
-            "list": true,
-            "form": [
-                {
-                    "name": "lvform",
-                    "label": "Lvform",
-                    "bind": {
-                        "required": true
-                    },
-                    "type": "string",
-                    "wq:ForeignKey": "lvform"
-                },
-                {
-                    "name": "partner_feedback",
-                    "label": "Parceiro Feedback",
-                    "type": "text"
-                },
-                {
-                    "name": "task_feedback",
-                    "label": "Feedback da tarefa",
-                    "type": "text"
-                },
-                {
-                    "name": "has_feedback",
-                    "label": "Has Feedback",
-                    "choices": [
-                        {
-                            "name": "TRUE",
-                            "label": "TRUE"
-                        },
-                        {
-                            "name": "FALSE",
-                            "label": "FALSE"
-                        }
-                    ],
-                    "type": "select one"
-                }
-            ],
-            "verbose_name": "casecomment",
-            "verbose_name_plural": "casecomments"
-        },
         "province": {
             "cache": "all",
             "name": "province",
@@ -70,95 +27,24 @@ export default {
             "verbose_name": "province",
             "verbose_name_plural": "provinces"
         },
-        "forwardinginstitution": {
-            "name": "forwardinginstitution",
-            "url": "forwardinginstitutions",
-            "list": true,
-            "form": [
-                {
-                    "name": "lvform",
-                    "label": "Lvform",
-                    "bind": {
-                        "required": true
-                    },
-                    "type": "string",
-                    "wq:ForeignKey": "lvform"
-                },
-                {
-                    "name": "partner_feedback",
-                    "label": "Parceiro Feedback",
-                    "type": "text"
-                },
-                {
-                    "name": "task_feedback",
-                    "label": "Feedback da tarefa",
-                    "type": "text"
-                },
-                {
-                    "name": "has_feedback",
-                    "label": "Has Feedback",
-                    "choices": [
-                        {
-                            "name": "TRUE",
-                            "label": "TRUE"
-                        },
-                        {
-                            "name": "FALSE",
-                            "label": "FALSE"
-                        }
-                    ],
-                    "type": "select one"
-                }
-            ],
-            "verbose_name": "forwardinginstitution",
-            "verbose_name_plural": "forwardinginstitutions"
-        },
-        "location": {
+        "locationclassification": {
             "cache": "all",
-            "name": "location",
-            "url": "locations",
+            "name": "locationclassification",
+            "url": "locationclassifications",
             "list": true,
             "form": [
-                {
-                    "name": "classification",
-                    "label": "Classification",
-                    "type": "string"
-                },
-                {
-                    "name": "location_type",
-                    "label": "Location Type",
-                    "type": "string"
-                },
-                {
-                    "name": "codigo",
-                    "label": "Codigo",
-                    "wq:length": 20,
-                    "type": "string"
-                },
                 {
                     "name": "name",
                     "label": "Name",
                     "bind": {
                         "required": true
                     },
-                    "wq:length": 200,
-                    "type": "string"
-                },
-                {
-                    "name": "province",
-                    "label": "Province",
-                    "type": "string",
-                    "wq:ForeignKey": "province"
-                },
-                {
-                    "name": "parent_code",
-                    "label": "Parent Code",
                     "wq:length": 20,
                     "type": "string"
                 }
             ],
-            "verbose_name": "location",
-            "verbose_name_plural": "locations"
+            "verbose_name": "location classification",
+            "verbose_name_plural": "location classifications"
         },
         "lvform": {
             "name": "lvform",
@@ -210,7 +96,8 @@ export default {
                         "required": true
                     },
                     "hint": "Full Name",
-                    "type": "text"
+                    "wq:length": 255,
+                    "type": "string"
                 },
                 {
                     "name": "contact",
@@ -274,7 +161,8 @@ export default {
                     "name": "community",
                     "label": "Community",
                     "hint": "Community",
-                    "type": "text"
+                    "wq:length": 255,
+                    "type": "string"
                 },
                 {
                     "name": "transfermod",
@@ -619,24 +507,6 @@ export default {
                     "type": "select one"
                 },
                 {
-                    "name": "datetime_created",
-                    "label": "Date created",
-                    "hint": "Auto datetime Create",
-                    "type": "dateTime"
-                },
-                {
-                    "name": "datetime_updated",
-                    "label": "Date updated",
-                    "hint": "Auto datetime update",
-                    "type": "dateTime"
-                },
-                {
-                    "name": "created_by",
-                    "label": "Created By",
-                    "hint": "User",
-                    "type": "int"
-                },
-                {
                     "name": "case_number",
                     "label": "Case Number",
                     "hint": "Case number",
@@ -645,6 +515,68 @@ export default {
             ],
             "verbose_name": "linha verde intake form",
             "verbose_name_plural": "lvforms"
+        },
+        "forwardinginstitution": {
+            "name": "forwardinginstitution",
+            "url": "forwardinginstitutions",
+            "list": true,
+            "form": [
+                {
+                    "name": "lvform",
+                    "label": "Lvform",
+                    "bind": {
+                        "required": true
+                    },
+                    "type": "string",
+                    "wq:ForeignKey": "lvform"
+                },
+                {
+                    "name": "partner_feedback",
+                    "label": "Parceiro Feedback",
+                    "type": "text"
+                },
+                {
+                    "name": "task_feedback",
+                    "label": "Feedback da tarefa",
+                    "type": "text"
+                },
+                {
+                    "name": "has_feedback",
+                    "label": "Has Feedback",
+                    "choices": [
+                        {
+                            "name": "TRUE",
+                            "label": "TRUE"
+                        },
+                        {
+                            "name": "FALSE",
+                            "label": "FALSE"
+                        }
+                    ],
+                    "type": "select one"
+                }
+            ],
+            "verbose_name": "forwardinginstitution",
+            "verbose_name_plural": "forwardinginstitutions"
+        },
+        "locationtype": {
+            "cache": "all",
+            "name": "locationtype",
+            "url": "locationtypes",
+            "list": true,
+            "form": [
+                {
+                    "name": "name",
+                    "label": "Name",
+                    "bind": {
+                        "required": true
+                    },
+                    "wq:length": 20,
+                    "type": "string"
+                }
+            ],
+            "verbose_name": "location type",
+            "verbose_name_plural": "location types"
         },
         "district": {
             "cache": "all",
@@ -689,6 +621,29 @@ export default {
             "verbose_name": "district",
             "verbose_name_plural": "districts"
         },
+        "casecomment": {
+            "name": "casecomment",
+            "url": "casecomments",
+            "list": true,
+            "form": [
+                {
+                    "name": "lvform",
+                    "label": "Lvform",
+                    "bind": {
+                        "required": true
+                    },
+                    "type": "string",
+                    "wq:ForeignKey": "lvform"
+                },
+                {
+                    "name": "feedback",
+                    "label": "Feedback",
+                    "type": "text"
+                }
+            ],
+            "verbose_name": "casecomment",
+            "verbose_name_plural": "casecomments"
+        },
         "task": {
             "name": "task",
             "url": "tasks",
@@ -704,8 +659,8 @@ export default {
                     "wq:ForeignKey": "lvform"
                 },
                 {
-                    "name": "partner_feedback",
-                    "label": "Parceiro Feedback",
+                    "name": "task_title",
+                    "label": "Task Title",
                     "choices": [
                         {
                             "name": "1",
@@ -726,7 +681,7 @@ export default {
                 {
                     "name": "assignee",
                     "label": "Assigned to",
-                    "type": "int"
+                    "type": "string"
                 },
                 {
                     "name": "task_status",
@@ -756,10 +711,64 @@ export default {
                     "name": "end_date",
                     "label": "End Date",
                     "type": "date"
+                },
+                {
+                    "name": "call_attempts",
+                    "label": "Number of attempts to reach the other person",
+                    "type": "int"
                 }
             ],
             "verbose_name": "task",
             "verbose_name_plural": "tasks"
+        },
+        "location": {
+            "cache": "all",
+            "name": "location",
+            "url": "locations",
+            "list": true,
+            "form": [
+                {
+                    "name": "classification",
+                    "label": "Classification",
+                    "type": "string",
+                    "wq:ForeignKey": "locationclassification"
+                },
+                {
+                    "name": "location_type",
+                    "label": "Location Type",
+                    "type": "string",
+                    "wq:ForeignKey": "locationtype"
+                },
+                {
+                    "name": "codigo",
+                    "label": "Codigo",
+                    "wq:length": 20,
+                    "type": "string"
+                },
+                {
+                    "name": "name",
+                    "label": "Name",
+                    "bind": {
+                        "required": true
+                    },
+                    "wq:length": 200,
+                    "type": "string"
+                },
+                {
+                    "name": "province",
+                    "label": "Province",
+                    "type": "string",
+                    "wq:ForeignKey": "province"
+                },
+                {
+                    "name": "parent_code",
+                    "label": "Parent Code",
+                    "wq:length": 20,
+                    "type": "string"
+                }
+            ],
+            "verbose_name": "location",
+            "verbose_name_plural": "locations"
         }
     },
     "debug": true
