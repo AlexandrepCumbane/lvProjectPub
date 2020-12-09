@@ -38,11 +38,21 @@ class Edit extends Component {
     isValid: true,
     dropdowns: [],
   };
+
   componentDidMount() {
     this.props.requestDropodowns();
     this.props.requestForm();
 
     const { form } = this.props.state.auth.login.config.pages.lvform;
+
+    const { data } = this.props;
+
+    form.forEach((item) => {
+      this.updateState(
+        item["wq:ForeignKey"] ? item.name + "_id" : item.name,
+        data[item["wq:ForeignKey"] ? item.name + "_id" : item.name]
+      );
+    });
 
     const { dropdowns } = this.props.app_reducer;
     this.setState({ dropdowns });
@@ -51,7 +61,6 @@ class Edit extends Component {
   render() {
     let { show, handleSidebar, data } = this.props;
 
-    console.log(data);
     return (
       <div
         className={classnames("data-list-sidebar pb-1", {
@@ -92,7 +101,11 @@ class Edit extends Component {
           <div>{this.renderForm()}</div>
         </PerfectScrollbar>
         <div className="data-list-sidebar-footer px-2 d-flex justify-content-start align-items-center mt-1 mb-1">
-          <Button color="primary" className="mr-1 square">
+          <Button
+            color="primary"
+            className="mr-1 square"
+            onClick={() => console.log(this.state.form)}
+          >
             Update
           </Button>
         </div>
@@ -254,6 +267,8 @@ class Edit extends Component {
    * @param {*} value
    */
   updateState = (field_name, value) => {
+    // console.log(field_name);
+    // console.log(value);
     let form = this.state.form;
 
     if (value != "") {
@@ -263,8 +278,7 @@ class Edit extends Component {
         form.append(field_name, value);
       }
     }
-
-    this.setState({ form });
+    // this.setState({ form });
   };
 
   /**
