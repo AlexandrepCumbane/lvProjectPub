@@ -16,20 +16,23 @@ class List extends Component {
     columnDefs: [],
     show: false,
     data: [],
+    page: "lvform",
   };
 
   componentDidMount() {
+    console.log(this.props.path);
     this.formatFields();
     this.props.requestDropodowns();
     this.props.requestForm().then(() => {
-      this.setState({ data: this.props.app_reducer.list });
-
-      // console.log(this.props.app_reducer);
+      this.setState({
+        data: this.props.app_reducer.list,
+        page: this.props.path,
+      });
     });
   }
 
   formatFields = () => {
-    const { form } = this.props.config.pages["lvform"];
+    const { form } = this.props.config.pages[this.state.page];
 
     const columnDefs = form.map((item) => {
       if (item.type == "select one" || item.type == "string") {
@@ -61,7 +64,7 @@ class List extends Component {
           breadCrumbItems={[
             {
               name: "Add New",
-              link: "lvforms/new",
+              link: `${this.state.pages}s/new`,
             },
           ]}
           breadCrumbTitle={this.state.pageTitle}
