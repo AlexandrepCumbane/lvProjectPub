@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     # Project apps
     'lv_form',
     'location_management',
+    'case_tipology',
 ]
 
 MIDDLEWARE = [

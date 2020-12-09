@@ -1,0 +1,459 @@
+[
+{
+  "model": "case_tipology.casetipology",
+  "pk": 1,
+  "fields": {
+    "category": "Positive feedback"
+  }
+},
+{
+  "model": "case_tipology.casetipology",
+  "pk": 2,
+  "fields": {
+    "category": "Request for information"
+  }
+},
+{
+  "model": "case_tipology.casetipology",
+  "pk": 3,
+  "fields": {
+    "category": "Compaint/negative feedback"
+  }
+},
+{
+  "model": "case_tipology.casetipology",
+  "pk": 4,
+  "fields": {
+    "category": "Request for assistance"
+  }
+},
+{
+  "model": "case_tipology.casetipology",
+  "pk": 5,
+  "fields": {
+    "category": "Data amendment"
+  }
+},
+{
+  "model": "case_tipology.casetipology",
+  "pk": 6,
+  "fields": {
+    "category": "Technical problems"
+  }
+},
+{
+  "model": "case_tipology.casetipology",
+  "pk": 7,
+  "fields": {
+    "category": "Other"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 1,
+  "fields": {
+    "casetipology": 3,
+    "subcategory": "Acesso"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 2,
+  "fields": {
+    "casetipology": 3,
+    "subcategory": "Problemas de distribuicao"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 3,
+  "fields": {
+    "casetipology": 3,
+    "subcategory": "Abuso de poder"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 4,
+  "fields": {
+    "casetipology": 3,
+    "subcategory": "Erros de exclusao "
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 5,
+  "fields": {
+    "casetipology": 3,
+    "subcategory": "Indigno/Disrespeito"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 6,
+  "fields": {
+    "casetipology": 3,
+    "subcategory": "Exploracao ou abuso sexual"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 7,
+  "fields": {
+    "casetipology": 3,
+    "subcategory": "Qualidade "
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 8,
+  "fields": {
+    "casetipology": 3,
+    "subcategory": "Quantidade"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 9,
+  "fields": {
+    "casetipology": 3,
+    "subcategory": "FFA Actividades "
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 10,
+  "fields": {
+    "casetipology": 3,
+    "subcategory": "Problemas de seguranca"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 11,
+  "fields": {
+    "casetipology": 2,
+    "subcategory": "Quantidade "
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 12,
+  "fields": {
+    "casetipology": 2,
+    "subcategory": "Horario de distribuicao"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 13,
+  "fields": {
+    "casetipology": 2,
+    "subcategory": "Duracao de assistencia"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 14,
+  "fields": {
+    "casetipology": 2,
+    "subcategory": "Uso de dados pessoais- quem, o que, como"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 15,
+  "fields": {
+    "casetipology": 2,
+    "subcategory": "Carta de apoio"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 16,
+  "fields": {
+    "casetipology": 2,
+    "subcategory": "FFA Actividades "
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 17,
+  "fields": {
+    "casetipology": 2,
+    "subcategory": "Criterios de Selecao"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 18,
+  "fields": {
+    "casetipology": 2,
+    "subcategory": "RH"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 19,
+  "fields": {
+    "casetipology": 2,
+    "subcategory": "Sintomas"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 20,
+  "fields": {
+    "casetipology": 2,
+    "subcategory": "Prevencao"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 21,
+  "fields": {
+    "casetipology": 2,
+    "subcategory": "Tratamento"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 22,
+  "fields": {
+    "casetipology": 2,
+    "subcategory": "Disponibilidade de servicos de Saude"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 23,
+  "fields": {
+    "casetipology": 2,
+    "subcategory": "Mitos "
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 24,
+  "fields": {
+    "casetipology": 2,
+    "subcategory": "Orientacoes do Governo"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 25,
+  "fields": {
+    "casetipology": 2,
+    "subcategory": "Situacao actual"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 26,
+  "fields": {
+    "casetipology": 2,
+    "subcategory": "Impacto do Covid-19 no programa"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 27,
+  "fields": {
+    "casetipology": 2,
+    "subcategory": "Outro"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 28,
+  "fields": {
+    "casetipology": 4,
+    "subcategory": "Dinheiro"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 29,
+  "fields": {
+    "casetipology": 4,
+    "subcategory": "Comida"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 30,
+  "fields": {
+    "casetipology": 4,
+    "subcategory": "Servicos"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 31,
+  "fields": {
+    "casetipology": 4,
+    "subcategory": "Bens nao alimentares"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 32,
+  "fields": {
+    "casetipology": 4,
+    "subcategory": "Cartao de apoio nao funciona"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 33,
+  "fields": {
+    "casetipology": 4,
+    "subcategory": "Assistencia a inundacoes "
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 34,
+  "fields": {
+    "casetipology": 4,
+    "subcategory": "Perda de cartao de apoio"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 35,
+  "fields": {
+    "casetipology": 5,
+    "subcategory": "Atualizacao de endereco, dados pessoais"
+  }
+},
+{
+  "model": "case_tipology.subcategory",
+  "pk": 36,
+  "fields": {
+    "casetipology": 5,
+    "subcategory": "Eliminar dados pessoais"
+  }
+},
+{
+  "model": "case_tipology.subcategoryissue",
+  "pk": 1,
+  "fields": {
+    "subcategory": 1,
+    "subcategory_issue": "Extorcao"
+  }
+},
+{
+  "model": "case_tipology.subcategoryissue",
+  "pk": 2,
+  "fields": {
+    "subcategory": 1,
+    "subcategory_issue": "Obstaculos sociais ou culturais"
+  }
+},
+{
+  "model": "case_tipology.subcategoryissue",
+  "pk": 3,
+  "fields": {
+    "subcategory": 1,
+    "subcategory_issue": "Distancia"
+  }
+},
+{
+  "model": "case_tipology.subcategoryissue",
+  "pk": 4,
+  "fields": {
+    "subcategory": 1,
+    "subcategory_issue": "Infrastructure"
+  }
+},
+{
+  "model": "case_tipology.subcategoryissue",
+  "pk": 5,
+  "fields": {
+    "subcategory": 1,
+    "subcategory_issue": "Seguranca"
+  }
+},
+{
+  "model": "case_tipology.subcategoryissue",
+  "pk": 6,
+  "fields": {
+    "subcategory": 1,
+    "subcategory_issue": "Physical vulnerability"
+  }
+},
+{
+  "model": "case_tipology.subcategoryissue",
+  "pk": 7,
+  "fields": {
+    "subcategory": 1,
+    "subcategory_issue": "Resources"
+  }
+},
+{
+  "model": "case_tipology.subcategoryissue",
+  "pk": 8,
+  "fields": {
+    "subcategory": 1,
+    "subcategory_issue": "other"
+  }
+},
+{
+  "model": "case_tipology.subcategoryissue",
+  "pk": 9,
+  "fields": {
+    "subcategory": 3,
+    "subcategory_issue": "Motivos Politicos"
+  }
+},
+{
+  "model": "case_tipology.subcategoryissue",
+  "pk": 10,
+  "fields": {
+    "subcategory": 3,
+    "subcategory_issue": "Fraude"
+  }
+},
+{
+  "model": "case_tipology.subcategoryissue",
+  "pk": 11,
+  "fields": {
+    "subcategory": 3,
+    "subcategory_issue": "Corrupcao"
+  }
+},
+{
+  "model": "case_tipology.subcategoryissue",
+  "pk": 12,
+  "fields": {
+    "subcategory": 3,
+    "subcategory_issue": "Desvio"
+  }
+},
+{
+  "model": "case_tipology.subcategoryissue",
+  "pk": 13,
+  "fields": {
+    "subcategory": 4,
+    "subcategory_issue": "Nunca recebeu assistencia"
+  }
+},
+{
+  "model": "case_tipology.subcategoryissue",
+  "pk": 14,
+  "fields": {
+    "subcategory": 5,
+    "subcategory_issue": "Nunca recebeu assistencia"
+  }
+},
+{
+  "model": "case_tipology.subcategoryissue",
+  "pk": 15,
+  "fields": {
+    "subcategory": 6,
+    "subcategory_issue": "Nunca recebeu assistencia"
+  }
+}
+]
