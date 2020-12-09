@@ -9,6 +9,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/scss/plugins/extensions/toastr.scss";
 
+import { default as config } from "./data/config";
+import AppListView from "./views/app/list";
+
 // Route-based code splitting
 const Home = lazy(() => import("./views/pages/Home"));
 
@@ -63,13 +66,45 @@ const mapStateToProps = (state) => {
 const AppRoute = connect(mapStateToProps)(RouteConfig);
 
 class AppRouter extends React.Component {
+  get_routes = () => {
+    const { pages } = config;
+
+    const urls = Object.keys(pages).map(function (key, index) {
+      return {
+        name: pages[key].name,
+        url: pages[key].url,
+      };
+    });
+
+    return urls;
+  };
+
   render() {
     return (
       // Set the directory path if you are deploying in sub-folder
       <Router history={history}>
         <Switch>
           <AppRoute exact path="/" component={Home} />
-          <AppRoute exact path="/lvforms" component={AppList} />
+
+          {this.get_routes().map((item, index) => {
+            if (item.name != "login" && item.name != "logout") {
+              return (
+                <AppRoute
+                  key={index}
+                  exact
+                  path={`/${item.url}`}
+                  // component={AppList}
+                  component={(props) => (
+                    <AppListView
+                      {...props}
+                      path={`${item.name}`}
+                      url={`${item.url}`}
+                    />
+                  )}
+                />
+              );
+            }
+          })}
           <AppRoute path="/lvforms/new" component={AppCreate} />
           {/* <AppRoute path="/lvforms" component={Page2} /> */}
           <AppRoute path="/pages/login" component={login} fullLayout />
