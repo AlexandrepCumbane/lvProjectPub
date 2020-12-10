@@ -63,8 +63,8 @@ const ThemeNavbar = props => {
               <NavbarUser
                 handleAppOverlay={props.handleAppOverlay}
                 changeCurrentLang={props.changeCurrentLang}
-                userName="John Doe"
-                userImg={ userImg }
+                userName="Linha Verde User"
+                userImg=""
               />
             </div>
           </div>
