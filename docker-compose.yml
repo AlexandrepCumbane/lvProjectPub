@@ -1,23 +1,33 @@
 version: '3'
     
 services:
-  # db:
-  #   image: postgres:12-alpine
-  #   container_name: casemangmnt_db
-  #   environment:
-  #     - POSTGRES_DB=postgres
-  #     - POSTGRES_USER=postgres
-  #     - POSTGRES_PASSWORD=postgres
+  db:
+    image: postgres:12-alpine
+    container_name: casemangmnt_db
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
   web:
     build: .
     # image: roboboinc/linhaverde
     container_name: case_management_app
-    # command: ls && ./runserver.sh
+    command: bash -c "
+        python db/manage.py migrate 
+        && python db/manage.py runserver
+        "
+    #    && bash deploy.sh 0.0.3 
+      
     hostname: ${HOSTNAME}
     volumes:
       - .:/code
     ports:
       - "3002:3000"
       - "8001:8000"
-    # depends_on:
-    #   - db
+    environment:
+        - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+        - DATABASE_URL=${DATABASE_URL}
+        - ALLOWED_HOSTS=("*",)
+        - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+    depends_on:
+      - db

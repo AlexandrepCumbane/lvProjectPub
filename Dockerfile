@@ -31,8 +31,8 @@ RUN pip install --upgrade pip \
 && pip install -r requirements.txt
 
 # Migrate database
-WORKDIR /code/db
-RUN ./manage.py migrate
+# WORKDIR /code/db
+# RUN ./manage.py migrate
 
 # Install npm dependencies
 WORKDIR /code/app
@@ -47,4 +47,5 @@ EXPOSE 3000
 # RUN ./deploy.sh 0.0.2
 
 # Run container code
-CMD ["gunicorn", "-w 4", "-b 0.0.0.0:8000", "caseproject.wsgi:application", "&", "sleep 10", "cd app", "yarn start"]
+#CMD ["gunicorn", "-w 4", "-b 0.0.0.0:8000", "--chdir db", "caseproject.wsgi:application", "&", "sleep 10", "cd app", "yarn start"]
+CMD gunicorn -w 4 -b 0.0.0.0:8000 --chdir db caseproject.wsgi:application
