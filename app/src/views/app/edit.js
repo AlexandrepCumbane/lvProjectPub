@@ -117,7 +117,17 @@ class Edit extends Component {
             label="Task"
             color="success"
           />
-          <Modal title={`Send to case to Entity`} page="forwardinginstitution" label="Send" />
+          <Modal
+            title={`Send to case to Entity`}
+            page="forwardinginstitution"
+            label="Send"
+          />
+          <Modal
+            title={`Add your feedback`}
+            page="casecomment"
+            label="Feedback"
+            color="secondary"
+          />
         </div>
       </div>
     );
