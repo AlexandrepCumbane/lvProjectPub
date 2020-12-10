@@ -22,19 +22,19 @@ import { changeRole } from "../../../redux/actions/auth/loginActions";
 const UserDropdown = (props) => {
   return (
     <DropdownMenu right>
-      <DropdownItem tag="a" href="#">
+      {/* <DropdownItem tag="a" href="#">
         <Icon.User size={14} className="mr-50" />
         <span className="align-middle">Edit Profile</span>
       </DropdownItem>
       <DropdownItem tag="a" href="#">
         <Icon.Mail size={14} className="mr-50" />
         <span className="align-middle">My Inbox</span>
-      </DropdownItem>
+      </DropdownItem> */}
       <DropdownItem tag="a" href="#">
         <Icon.CheckSquare size={14} className="mr-50" />
         <span className="align-middle">Tasks</span>
       </DropdownItem>
-      <DropdownItem tag="a" href="#">
+      {/* <DropdownItem tag="a" href="#">
         <Icon.MessageSquare size={14} className="mr-50" />
         <span className="align-middle">Chats</span>
       </DropdownItem>
@@ -42,7 +42,7 @@ const UserDropdown = (props) => {
         <Icon.Heart size={14} className="mr-50" />
         <span className="align-middle">WishList</span>
       </DropdownItem>
-      <DropdownItem divider />
+      <DropdownItem divider /> */}
       <DropdownItem
         tag="a"
         href="#"
