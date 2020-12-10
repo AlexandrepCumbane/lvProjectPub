@@ -36,8 +36,7 @@ const get_pages = () => {
     };
   });
 
-  console.log(urls);
-  return urls;
+  return navConf;
 };
 
 let navigationConfig = get_pages();

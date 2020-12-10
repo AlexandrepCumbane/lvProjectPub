@@ -1,32 +1,31 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import {
-  Col,
-  Row,
-  Input,
-  FormGroup,
-  Button,
-  CustomInput,
-  Label,
-} from "reactstrap";
-
 import { toast, Bounce } from "react-toastify";
 import {
   requestForm,
   requestDropodowns,
-} from "../../redux/actions/app/actions";
+} from "../../../redux/actions/app/actions";
 
-import { axios } from "../../redux/api";
+import { axios } from "../../../redux/api";
+import {
+  Alert,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Card,
+  CardBody,
+  Row,
+  Col,
+  FormGroup,
+  CustomInput,
+  Input,
+  Label,
+  Spinner,
+} from "reactstrap";
 
-import Modal from "./modal/create";
-
-import { X } from "react-feather";
-import PerfectScrollbar from "react-perfect-scrollbar";
-import classnames from "classnames";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import "../../assets/scss/plugins/extensions/editor.scss";
-
-class Edit extends Component {
+class Create extends React.Component {
   notifySuccessBounce = (id = "") =>
     toast.success(`Object created successfuly!`, { transition: Bounce });
 
@@ -36,86 +35,80 @@ class Edit extends Component {
     });
 
   state = {
+    modal: false,
+    unmountOnClose: true,
+
     form: new FormData(),
+    required_fields: [],
+    required_fields_labels: [],
     isValid: true,
     dropdowns: [],
   };
-
   componentDidMount() {
-    this.props.requestDropodowns();
-    this.props.requestForm();
-
-    const { form } = this.props.state.auth.login.config.pages.lvform;
-
-    const { data } = this.props;
-
-    form.forEach((item) => {
-      this.updateState(
-        item["wq:ForeignKey"] ? item.name + "_id" : item.name,
-        data[item["wq:ForeignKey"] ? item.name + "_id" : item.name]
-      );
-    });
-
-    const { dropdowns } = this.props.app_reducer;
-    this.setState({ dropdowns });
+    // this.props.requestDropodowns();
+    // this.props.requestForm();
+    // const { form } = this.props.state.auth.login.config.pages.lvform;
+    // form.forEach((item, index) => {
+    //   this.addToRequired(item);
+    // });
+    // const { dropdowns } = this.props.app_reducer;
+    // this.setState({ dropdowns });
   }
 
   render() {
-    let { show, handleSidebar, data } = this.props;
-
     return (
-      <div
-        className={classnames("data-list-sidebar pb-1", {
-          show: show,
-        })}
-      >
-        <div className="data-list-sidebar-header bg-primary p-2 d-flex justify-content-between">
-          <h4 className="text-white">
-            Case No.
-            <strong> {String(data.id)}</strong>{" "}
-          </h4>
-          <small className="text-white">
-            <u className="text-secondary">
-              Criado aos{" "}
-              <strong>
-                {"  "}
-                {/* {moment(data.created_at).format("YYYY-MM-DD")} */}
-              </strong>
-              {"  "}
-              por{" "}
-              <strong>
-                {" "}
-                {/* <i>{String(data.created_by.username)}</i>{" "} */}
-              </strong>
-            </u>
-          </small>
-
-          <X
-            className="text-white"
-            size={20}
-            onClick={() => handleSidebar(false, true)}
-          />
-        </div>
-        <PerfectScrollbar
-          className="data-list-fields px-2 mt-3"
-          options={{ wheelPropagation: false }}
+      <>
+        <Button
+          color="warning"
+          className="square"
+          outline
+          onClick={this.toggleModal}
         >
-          <div>{this.renderForm()}</div>
-        </PerfectScrollbar>
-        <div className="data-list-sidebar-footer px-2 d-flex justify-content-start align-items-center mt-1 mb-1">
-          <Button
-            color="primary"
-            className="mr-1 square"
-            onClick={() => console.log(this.state.form)}
-          >
-            Update
-          </Button>
+          Action
+        </Button>
+        <Modal
+          isOpen={this.state.modal}
+          toggle={this.toggleModal}
+          className={`${this.props.className} square`}
+          unmountOnClose={this.state.unmountOnClose}
+        >
+          <ModalHeader toggle={this.toggleModal}>
+            {this.props.title}
+          </ModalHeader>
 
-          <Modal title={`Register form for task`}  />
-        </div>
-      </div>
+          <ModalBody>
+            <div>
+              <Card className="rounded-0 mb-0 px-2">
+                <CardBody>{this.renderForm()}</CardBody>{" "}
+              </Card>
+            </div>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              outline
+              color="primary"
+              className="square"
+              onClick={() => this.submitTask()}
+            >
+              {this.state.isLoading ? (
+                <Spinner
+                  className="mr-1"
+                  color="primary"
+                  size="sm"
+                  type="grow"
+                />
+              ) : (
+                <></>
+              )}
+              Submit
+            </Button>
+          </ModalFooter>
+        </Modal>
+      </>
     );
   }
+
   /**
    * Action and helper functions
    */
@@ -123,13 +116,48 @@ class Edit extends Component {
   renderForm = () => {
     const form_ = this.props.state.auth.login.config.pages.lvform;
     return (
-      <Row>{form_.form.map((field) => this.renderSingleInput(field))}</Row>
+      <Row>
+        <Col md="12">
+          <h4>Register form for: {form_.verbose_name}</h4>
+          <p>{form_.verbose_name}.</p>
+          <hr />
+        </Col>
+        <Col md="12">
+          {this.state.isValid && this.state.required_fields.length == 0 ? (
+            <></>
+          ) : (
+            <Alert color="danger" className="square">
+              <Label className="text-danger">
+                All these fields are required{" "}
+                {this.state.required_fields_labels.map((item, index) => (
+                  <strong key={index}>{item}, </strong>
+                ))}
+              </Label>
+            </Alert>
+          )}
+        </Col>
+
+        {form_.form.map((field) => this.renderSingleInput(field))}
+
+        <Col md="12">
+          <div className="d-flex justify-content-between">
+            <div />
+            <Button.Ripple
+              className="square"
+              color="primary"
+              type="submit"
+              onClick={(e) => this.handleSubmit()}
+            >
+              Submit
+            </Button.Ripple>
+          </div>
+        </Col>
+      </Row>
     );
   };
 
   renderSingleInput = (field) => {
     let res = <></>;
-    let { data } = this.props;
 
     switch (field.type) {
       case "text":
@@ -141,7 +169,6 @@ class Edit extends Component {
               <Input
                 type="text"
                 className="square"
-                defaultValue={data[field.name]}
                 placeholder={field.label}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
@@ -162,7 +189,6 @@ class Edit extends Component {
                 className="square"
                 type="select"
                 id={field.name}
-                defaultValue={data[`${field.name}_id`]}
                 placeholder={field.label}
                 onChange={(e) =>
                   this.updateState(`${field.name}_id`, e.target.value)
@@ -186,7 +212,6 @@ class Edit extends Component {
               <Input
                 type="date"
                 className="square"
-                defaultValue={data[field.name]}
                 placeholder={field.label}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
@@ -206,7 +231,7 @@ class Edit extends Component {
                 type="number"
                 className="square"
                 placeholder={field.label}
-                defaultValue={data[field.name]}
+                // defaultValue={this.state.email}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
               <div className="form-control-position">
@@ -226,7 +251,6 @@ class Edit extends Component {
                 type="select"
                 id={field.name}
                 placeholder={field.label}
-                defaultValue={data[field.name]}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               >
                 <option>Select</option>
@@ -243,6 +267,17 @@ class Edit extends Component {
     }
 
     return res;
+  };
+
+  toggleModal = () => {
+    this.setState((prevState) => ({
+      modal: !prevState.modal,
+    }));
+  };
+
+  changeUnmountOnClose = (e) => {
+    let value = e.target.value;
+    this.setState({ unmountOnClose: JSON.parse(value) });
   };
 
   renderSelectOption = (choices) => {
@@ -266,13 +301,40 @@ class Edit extends Component {
   };
 
   /**
+   * Add all fields and add the required fields into an array
+   * @param {*} field
+   */
+  addToRequired(field) {
+    const index = this.state.required_fields.indexOf(field.name);
+
+    if (field.bind != undefined) {
+      if (field.bind.required == true && index <= 0) {
+        if (field.type == "string") {
+          this.state.required_fields.push(`${field.name}_id`);
+        } else this.state.required_fields.push(field.name);
+        this.state.required_fields_labels.push(field.label);
+      }
+    }
+  }
+
+  /**
+   * Remove field from required array if is the value is not null
+   * @param {*} field
+   */
+  removeFromRequired(field) {
+    const index = this.state.required_fields.indexOf(field);
+    if (index >= 0) {
+      this.state.required_fields.splice(index, 1);
+      this.state.required_fields_labels.splice(index, 1);
+    }
+  }
+
+  /**
    * Update each dynamic field state value
    * @param {*} field_name
    * @param {*} value
    */
   updateState = (field_name, value) => {
-    // console.log(field_name);
-    // console.log(value);
     let form = this.state.form;
 
     if (value != "") {
@@ -281,23 +343,31 @@ class Edit extends Component {
       } else {
         form.append(field_name, value);
       }
+
+      this.removeFromRequired(field_name);
     }
-    // this.setState({ form });
+
+    this.setState({ form });
   };
 
   /**
    * Submits the form to post request action
    */
   handleSubmit = () => {
-    this.setState({ isValid: true });
-    axios
-      .put("lvforms.json", this.state.form)
-      .then(({ data }) => {
-        this.notifySuccessBounce(data.id);
-      })
-      .catch((error) => {
-        this.notifyErrorBounce("Failed to save Object.");
-      });
+    if (this.state.required_fields.length > 0) {
+      this.notifyErrorBounce("Fill all required inputs");
+      this.setState({ isValid: false });
+    } else {
+      this.setState({ isValid: true });
+      axios
+        .post("lvforms.json", this.state.form)
+        .then(({ data }) => {
+          this.notifySuccessBounce(data.id);
+        })
+        .catch((error) => {
+          this.notifyErrorBounce("Failed to save Object.");
+        });
+    }
   };
 }
 
@@ -309,5 +379,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, { requestForm, requestDropodowns })(
-  Edit
+  Create
 );

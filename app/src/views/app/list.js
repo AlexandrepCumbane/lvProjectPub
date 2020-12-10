@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import AgGridTable from "../../components/custom/table/AgGridTable";
 
+import { default as config } from "../../data/config";
+
 import {
   requestForm,
   requestDropodowns,
@@ -23,7 +25,7 @@ class List extends Component {
     console.log(this.props.path);
     this.formatFields();
     this.props.requestDropodowns();
-    this.props.requestForm().then(() => {
+    this.props.requestForm(this.props.url).then(() => {
       this.setState({
         data: this.props.app_reducer.list,
         page: this.props.path,
@@ -32,7 +34,7 @@ class List extends Component {
   }
 
   formatFields = () => {
-    const { form } = this.props.config.pages[this.state.page];
+    const { form } = config.pages[this.state.page];
 
     const columnDefs = form.map((item) => {
       if (item.type == "select one" || item.type == "string") {
