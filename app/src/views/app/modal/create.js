@@ -83,7 +83,7 @@ class Create extends React.Component {
               outline
               color="primary"
               className="square"
-              onClick={() => this.submitTask()}
+              onClick={() => this.handleSubmit()}
             >
               {this.state.isLoading ? (
                 <Spinner
@@ -335,7 +335,7 @@ class Create extends React.Component {
     } else {
       this.setState({ isValid: true });
       axios
-        .post("lvforms.json", this.state.form)
+        .post(`${this.props.page}s.json`, this.state.form)
         .then(({ data }) => {
           this.notifySuccessBounce(data.id);
         })
