@@ -111,7 +111,13 @@ class Edit extends Component {
             Update
           </Button>
 
-          <Modal title={`Register form for task`}  />
+          <Modal
+            title={`Register form for task`}
+            page="task"
+            label="Task"
+            color="success"
+          />
+          <Modal title={`Send to case to Entity`} page="forwardinginstitution" label="Send" />
         </div>
       </div>
     );

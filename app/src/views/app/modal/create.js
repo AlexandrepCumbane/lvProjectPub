@@ -59,12 +59,12 @@ class Create extends React.Component {
     return (
       <>
         <Button
-          color="warning"
-          className="square"
+          color={`${this.props.color ?? "warning"}`}
+          className="square mr-1"
           outline
           onClick={this.toggleModal}
         >
-          Action
+          {this.props.label}
         </Button>
         <Modal
           isOpen={this.state.modal}
@@ -76,13 +76,7 @@ class Create extends React.Component {
             {this.props.title}
           </ModalHeader>
 
-          <ModalBody>
-            <div>
-              <Card className="rounded-0 mb-0 px-2">
-                <CardBody>{this.renderForm()}</CardBody>{" "}
-              </Card>
-            </div>
-          </ModalBody>
+          <ModalBody>{this.renderForm()}</ModalBody>
 
           <ModalFooter>
             <Button
@@ -114,14 +108,9 @@ class Create extends React.Component {
    */
 
   renderForm = () => {
-    const form_ = this.props.state.auth.login.config.pages.lvform;
+    const form_ = this.props.state.auth.login.config.pages[this.props.page];
     return (
       <Row>
-        <Col md="12">
-          <h4>Register form for: {form_.verbose_name}</h4>
-          <p>{form_.verbose_name}.</p>
-          <hr />
-        </Col>
         <Col md="12">
           {this.state.isValid && this.state.required_fields.length == 0 ? (
             <></>
@@ -138,20 +127,6 @@ class Create extends React.Component {
         </Col>
 
         {form_.form.map((field) => this.renderSingleInput(field))}
-
-        <Col md="12">
-          <div className="d-flex justify-content-between">
-            <div />
-            <Button.Ripple
-              className="square"
-              color="primary"
-              type="submit"
-              onClick={(e) => this.handleSubmit()}
-            >
-              Submit
-            </Button.Ripple>
-          </div>
-        </Col>
       </Row>
     );
   };
@@ -162,7 +137,7 @@ class Create extends React.Component {
     switch (field.type) {
       case "text":
         res = (
-          <Col md="6" key={field.name}>
+          <Col md="12" key={field.name}>
             <Label>{field.label}</Label>
 
             <FormGroup className="form-label-group position-relative has-icon-left">
@@ -181,7 +156,7 @@ class Create extends React.Component {
         break;
       case "string":
         res = (
-          <Col md="6" key={field.name}>
+          <Col md="12" key={field.name}>
             <Label>{field.label}</Label>
 
             <FormGroup className="form-label-group position-relative has-icon-left">
@@ -205,7 +180,7 @@ class Create extends React.Component {
         break;
       case "date":
         res = (
-          <Col md="6" key={field.name}>
+          <Col md="12" key={field.name}>
             <Label>{field.label}</Label>
 
             <FormGroup className="form-label-group position-relative has-icon-left">
@@ -224,7 +199,7 @@ class Create extends React.Component {
         break;
       case "int":
         res = (
-          <Col md="6" key={field.name}>
+          <Col md="12" key={field.name}>
             <Label>{field.label}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
@@ -243,7 +218,7 @@ class Create extends React.Component {
         break;
       case "select one":
         res = (
-          <Col md="6" key={field.name}>
+          <Col md="12" key={field.name}>
             <Label>{field.label}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <CustomInput
