@@ -37,7 +37,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["/usr/bin/env"]
-          args: ["python", "/usr/local/bin/gunicorn", "-b", "0.0.0.0:8000", "--limit-request-line", "0","--timeout","60","--limit-request-field_size", "0", "callcenter.wsgi"]
+          args: ["python", "/usr/local/bin/gunicorn", "-b", "0.0.0.0:8000", "--limit-request-line", "0","--timeout","60","--limit-request-field_size", "0", "caseproject.wsgi"]
           ports:
             - name: http
               containerPort: 8000
