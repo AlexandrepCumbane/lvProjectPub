@@ -77,7 +77,12 @@ class AppRouter extends React.Component {
             path="/lvforms"
             // component={AppList}
             component={(props) => (
-              <AppListView {...props} path="lvform" url="lvforms" />
+              <AppListView
+                {...props}
+                title="Cases"
+                path="lvform"
+                url="lvforms"
+              />
             )}
           />
           <AppRoute
@@ -86,6 +91,23 @@ class AppRouter extends React.Component {
               <AppCreate {...props} path="lvform" url="lvforms" />
             )}
           />
+          <AppRoute
+            exact
+            path="/tasks"
+            // component={AppList}
+            component={(props) => (
+              <AppListView {...props} title="Tasks" path="task" url="tasks" />
+            )}
+          />
+          <AppRoute
+            exact
+            path="/users"
+            // component={AppList}
+            component={(props) => (
+              <AppListView {...props} path="lvform" url="lvforms" />
+            )}
+          />
+
           {/* <AppRoute path="/lvforms" component={Page2} /> */}
           <AppRoute path="/pages/login" component={login} fullLayout />
         </Switch>

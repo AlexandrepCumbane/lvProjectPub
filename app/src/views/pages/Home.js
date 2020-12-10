@@ -109,7 +109,7 @@ class Home extends React.Component {
           <Col xl="2" lg="4" sm="6">
             <StatisticsCard
               hideChart
-              iconBg="primary"
+              iconBg="success"
               icon={<Icons.ThumbsUp className="text-success" size={15} />}
               stat="0"
               statTitle="With Feedback Linha Verde"
@@ -118,7 +118,7 @@ class Home extends React.Component {
           <Col xl="2" lg="4" sm="6">
             <StatisticsCard
               hideChart
-              iconBg="success"
+              iconBg="danger"
               icon={<Icons.ThumbsDown className="text-danger" size={15} />}
               stat="0"
               statTitle="Without Feedback Linha Verde"
@@ -127,8 +127,8 @@ class Home extends React.Component {
           <Col xl="2" lg="4" sm="6">
             <StatisticsCard
               hideChart
-              iconBg="success"
-              icon={<Icons.ThumbsDown className="text-danger" size={15} />}
+              iconBg="primary"
+              icon={<Icons.Archive className="text-primary" size={15} />}
               stat="0"
               statTitle="Total Linha Verde Cases"
             />
@@ -136,8 +136,8 @@ class Home extends React.Component {
           <Col xl="2" lg="4" sm="6">
             <StatisticsCard
               hideChart
-              iconBg="warning"
-              icon={<Icons.Send className="text-warning" size={15} />}
+              iconBg="danger"
+              icon={<Icons.ThumbsDown className="text-danger" size={15} />}
               stat="0"
               statTitle="Cases Without Feedback Partner"
             />
@@ -145,8 +145,8 @@ class Home extends React.Component {
           <Col xl="2" lg="4" sm="6">
             <StatisticsCard
               hideChart
-              iconBg="danger"
-              icon={<Icons.ThumbsUp className="text-success" size={15} />}
+              iconBg="success"
+              icon={<Icons.Smile className="text-success" size={15} />}
               stat="0"
               statTitle="With Feedback Partner"
             />
@@ -154,8 +154,8 @@ class Home extends React.Component {
           <Col xl="2" lg="4" sm="6">
             <StatisticsCard
               hideChart
-              iconBg="success"
-              icon={<Icons.Smile className="success" size={22} />}
+              iconBg="primary"
+              icon={<Icons.Archive className="primary" size={22} />}
               stat="689"
               statTitle="Total Cases sent Partner"
             />
