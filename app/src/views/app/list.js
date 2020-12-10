@@ -26,15 +26,17 @@ class List extends Component {
     this.formatFields();
     this.props.requestDropodowns();
     this.props.requestForm(this.props.url).then(() => {
+      console.log(this.props.app_reducer.list);
       this.setState({
         data: this.props.app_reducer.list,
         page: this.props.path,
+        pageTitle: `${this.props.title}`,
       });
     });
   }
 
   formatFields = () => {
-    const { form } = config.pages[this.state.page];
+    const { form } = config.pages[this.props.path];
 
     const columnDefs = form.map((item) => {
       if (item.type == "select one" || item.type == "string") {
