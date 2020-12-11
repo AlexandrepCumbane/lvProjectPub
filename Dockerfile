@@ -39,9 +39,6 @@ WORKDIR /code/app
 RUN yarn install
 
 # Permission to correct user
-RUN groupadd --gid 1000 1000 && \
-    adduser --uid 1000 --gid 1000 1000
-
 RUN chown -R 1000:1000 /code
 
 WORKDIR /code
