@@ -107,38 +107,30 @@ export default {
             "form": [
                 {
                     "name": "consent_pi",
-                    "label": "Consent to collect personal information",
-                    "bind": {
-                        "required": true
-                    },
-                    "hint": "Consent to collect personal information",
+                    "label": "Consent Pi",
                     "choices": [
                         {
-                            "name": "TRUE",
-                            "label": "TRUE"
+                            "name": true,
+                            "label": "Yes"
                         },
                         {
-                            "name": "FALSE",
-                            "label": "FALSE"
+                            "name": false,
+                            "label": "No"
                         }
                     ],
                     "type": "select one"
                 },
                 {
                     "name": "consent_share_pi",
-                    "label": "Consent to share personal information with third parties",
-                    "bind": {
-                        "required": true
-                    },
-                    "hint": "Consent to share personal information with third parties",
+                    "label": "Consent Share Pi",
                     "choices": [
                         {
-                            "name": "TRUE",
-                            "label": "TRUE"
+                            "name": true,
+                            "label": "Yes"
                         },
                         {
-                            "name": "FALSE",
-                            "label": "FALSE"
+                            "name": false,
+                            "label": "No"
                         }
                     ],
                     "type": "select one"
@@ -668,32 +660,30 @@ export default {
                 },
                 {
                     "name": "callback_required",
-                    "label": "Callback required?",
-                    "hint": "Callback required?",
+                    "label": "Callback Required",
                     "choices": [
                         {
-                            "name": "TRUE",
-                            "label": "TRUE"
+                            "name": true,
+                            "label": "Yes"
                         },
                         {
-                            "name": "FALSE",
-                            "label": "FALSE"
+                            "name": false,
+                            "label": "No"
                         }
                     ],
                     "type": "select one"
                 },
                 {
                     "name": "unavailable_contact",
-                    "label": "Contact was unavailable for feedback",
-                    "hint": "Contact was unavailable for feedback",
+                    "label": "Unavailable Contact",
                     "choices": [
                         {
-                            "name": "TRUE",
-                            "label": "TRUE"
+                            "name": true,
+                            "label": "Yes"
                         },
                         {
-                            "name": "FALSE",
-                            "label": "FALSE"
+                            "name": false,
+                            "label": "No"
                         }
                     ],
                     "type": "select one"
@@ -912,12 +902,12 @@ export default {
                     "label": "Has Feedback",
                     "choices": [
                         {
-                            "name": "TRUE",
-                            "label": "TRUE"
+                            "name": true,
+                            "label": "Yes"
                         },
                         {
-                            "name": "FALSE",
-                            "label": "FALSE"
+                            "name": false,
+                            "label": "No"
                         }
                     ],
                     "type": "select one"

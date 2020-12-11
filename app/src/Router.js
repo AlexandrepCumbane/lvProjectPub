@@ -21,6 +21,12 @@ const AppCreate = lazy(() => import("./views/app/create"));
 
 const AppList = lazy(() => import("./views/app/list"));
 
+const Information = lazy(() => import("./views/information/Information"));
+
+const Reports = lazy(() => import("./views/reports/Reports"));
+
+const Users = lazy(() => import("./views/users/Users"));
+
 const login = lazy(() => import("./views/pages/authentication/login/Login"));
 
 // Set Layout and Component Using App Route
@@ -101,10 +107,31 @@ class AppRouter extends React.Component {
           />
           <AppRoute
             exact
+            path="/information"
+            // component={AppList}
+            component={(props) => (
+              <Information
+                {...props}
+                title="Knowledge Base"
+                path="information"
+                url="informations"
+              />
+            )}
+          />
+          <AppRoute
+            exact
             path="/users"
             // component={AppList}
             component={(props) => (
-              <AppListView {...props} path="lvform" url="lvforms" />
+              <Users {...props} title="Users" path="user" url="users" />
+            )}
+          />
+          <AppRoute
+            exact
+            path="/reports"
+            // component={AppList}
+            component={(props) => (
+              <Reports {...props} title="Reports" path="report" url="reports" />
             )}
           />
 
