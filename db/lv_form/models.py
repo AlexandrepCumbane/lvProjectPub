@@ -2,21 +2,13 @@ from django.db import models
 
 
 class LvForm(models.Model):
-    consent_pi = models.CharField(
-        choices=(
-            ("TRUE", "TRUE"),
-            ("FALSE", "FALSE"),
-        ),
-        max_length=5,
+    consent_pi = models.BooleanField(
+        default=False,
         verbose_name="Consent to collect personal information",
         help_text="Consent to collect personal information",
     )
-    consent_share_pi = models.CharField(
-        choices=(
-            ("TRUE", "TRUE"),
-            ("FALSE", "FALSE"),
-        ),
-        max_length=5,
+    consent_share_pi = models.BooleanField(
+        default=False,
         verbose_name="Consent to share personal information with third parties",
         help_text="Consent to share personal information with third parties",
     )
@@ -279,23 +271,15 @@ class LvForm(models.Model):
         verbose_name="How do you feel about how your query was dealt with during this call?",
         help_text="How do you feel about how your query was dealt with during this call?",
     )
-    callback_required = models.CharField(
-        choices=(
-            ("TRUE", "TRUE"),
-            ("FALSE", "FALSE"),
-        ),
-        max_length=5,
+    callback_required = models.BooleanField(
+        default=False,
         null=True,
         blank=True,
         verbose_name="Callback required?",
         help_text="Callback required?",
     )
-    unavailable_contact = models.CharField(
-        choices=(
-            ("TRUE", "TRUE"),
-            ("FALSE", "FALSE"),
-        ),
-        max_length=5,
+    unavailable_contact = models.BooleanField(
+        default=False,
         null=True,
         blank=True,
         verbose_name="Contact was unavailable for feedback",
@@ -381,12 +365,8 @@ class ForwardingInstitution(models.Model):
         blank=True,
         verbose_name="Feedback da tarefa",
     )
-    has_feedback = models.CharField(
-        choices=(
-            ("TRUE", "TRUE"),
-            ("FALSE", "FALSE"),
-        ),
-        max_length=5,
+    has_feedback = models.BooleanField(
+        default=False,
         null=True,
         blank=True,
         verbose_name="Has feedback",

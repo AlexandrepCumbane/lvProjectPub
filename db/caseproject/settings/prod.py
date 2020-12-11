@@ -7,10 +7,10 @@ env = environ.Env()
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = env.bool("DJANGO_DEBUG", False)
 
 # wq: Determine if we are running off django's testing server
-DEBUG_WITH_RUNSERVER = False
+DEBUG_WITH_RUNSERVER = env.bool("DJANGO_DEBUG", False)
 
 ALLOWED_HOSTS = [env("ALLOWED_HOSTS")]
 

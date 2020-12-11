@@ -8,14 +8,14 @@ ENV PYTHONUNBUFFERED 1
 
 # Add yarn 
 RUN apt-get update \
-&& apt-get install curl gnupg2 apt-utils -y
+    && apt-get install curl gnupg2 apt-utils -y
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
 # Add dependencies nescessary to run postgres library for the project
 RUN apt-get update \
-&& apt-get install gcc libpq-dev nodejs python3-venv npm yarn -y \
-&& apt-get clean
+    && apt-get install gcc libpq-dev nodejs python3-venv npm yarn -y \
+    && apt-get clean
 
 RUN npm install -g npm@latest
 
@@ -28,15 +28,18 @@ COPY . .
 
 # Install project dependencies
 RUN pip install --upgrade pip \
-&& pip install -r requirements.txt
+    && pip install -r requirements.txt
 
 # Migrate database
-WORKDIR /code/db
-RUN ./manage.py migrate
+# WORKDIR /code/db
+# RUN ./manage.py migrate
 
 # Install npm dependencies
 WORKDIR /code/app
 RUN yarn install
+
+# Permission to correct user
+RUN chown -R 1000:1000 /code
 
 WORKDIR /code
 
@@ -47,4 +50,5 @@ EXPOSE 3000
 # RUN ./deploy.sh 0.0.2
 
 # Run container code
-CMD ["gunicorn", "-w 4", "-b 0.0.0.0:8000", "caseproject.wsgi:application", "&", "sleep 10", "cd app", "yarn start"]
+#CMD ["gunicorn", "-w 4", "-b 0.0.0.0:8000", "--chdir db", "caseproject.wsgi:application", "&", "sleep 10", "cd app", "yarn start"]
+CMD gunicorn -w 4 -b 0.0.0.0:8000 --chdir db caseproject.wsgi:application
