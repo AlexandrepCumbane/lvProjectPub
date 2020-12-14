@@ -129,28 +129,49 @@ class Create extends React.Component {
         );
         break;
       case "string":
-        res = (
-          <Col md="6" key={field.name}>
-            <Label>{field.label}</Label>
+        if (field["wq:ForeignKey"]) {
+          res = (
+            <Col md="6" key={field.name}>
+              <Label>{field.label}</Label>
 
-            <FormGroup className="form-label-group position-relative has-icon-left">
-              <CustomInput
-                className="square"
-                type="select"
-                id={field.name}
-                placeholder={field.label}
-                onChange={(e) =>
-                  this.updateState(`${field.name}_id`, e.target.value)
-                }
-              >
-                <option>Select</option>
-                {this.renderSelectOptionForeignWQ(
-                  this.getForeignFieldDropdown(field["wq:ForeignKey"])
-                )}
-              </CustomInput>
-            </FormGroup>
-          </Col>
-        );
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <CustomInput
+                  className="square"
+                  type="select"
+                  id={field.name}
+                  placeholder={field.label}
+                  onChange={(e) =>
+                    this.updateState(`${field.name}_id`, e.target.value)
+                  }
+                >
+                  <option>Select</option>
+                  {this.renderSelectOptionForeignWQ(
+                    this.getForeignFieldDropdown(field["wq:ForeignKey"])
+                  )}
+                </CustomInput>
+              </FormGroup>
+            </Col>
+          );
+        } else {
+          res = (
+            <Col md="6" key={field.name}>
+              <Label>{field.label}</Label>
+
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <Input
+                  type="text"
+                  className="square"
+                  placeholder={field.label}
+                  onChange={(e) => this.updateState(field.name, e.target.value)}
+                />
+                <div className="form-control-position">
+                  {/* <Mail size={15} /> */}
+                </div>
+              </FormGroup>
+            </Col>
+          );
+        }
+
         break;
       case "date":
         res = (
@@ -211,7 +232,7 @@ class Create extends React.Component {
         break;
 
       default:
-        res = <div  key={field.name}></div>;
+        res = <div key={field.name}></div>;
         break;
     }
 
