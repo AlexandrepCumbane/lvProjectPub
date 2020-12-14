@@ -49,15 +49,19 @@ class Edit extends Component {
 
     const { data } = this.props;
 
+    let formdata = new FormData();
+
     form.forEach((item) => {
-      this.updateState(
+      formdata.append(
         item["wq:ForeignKey"] ? item.name + "_id" : item.name,
         data[item["wq:ForeignKey"] ? item.name + "_id" : item.name]
       );
     });
 
+    formdata.append("id", data["id"]);
+
     const { dropdowns } = this.props.app_reducer;
-    this.setState({ dropdowns });
+    this.setState({ dropdowns, form: formdata });
   }
 
   render() {
@@ -106,7 +110,7 @@ class Edit extends Component {
           <Button
             color="primary"
             className="mr-1 square"
-            onClick={() => console.log(this.state.form)}
+            onClick={() => this.handleSubmit()}
           >
             Update
           </Button>
@@ -356,7 +360,7 @@ class Edit extends Component {
   handleSubmit = () => {
     this.setState({ isValid: true });
     axios
-      .put("lvforms.json", this.state.form)
+      .put(`lvforms/${this.props.data.id}.json/`, this.state.form)
       .then(({ data }) => {
         this.notifySuccessBounce(data.id);
       })
