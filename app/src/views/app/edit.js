@@ -149,49 +149,98 @@ class Edit extends Component {
 
     switch (field.type) {
       case "text":
-        res = (
-          <Col md="6" key={field.name}>
-            <Label>{field.label}</Label>
+        if (field.name == "call_notes") {
+          res = (
+            <>
+              <Col md="6" />
+              <Col md="6" key={field.name}>
+                <Label>{field.label}</Label>
+                <FormGroup className="form-label-group position-relative has-icon-left">
+                  <Input
+                    type="textarea"
+                    rows={7}
+                    className="square"
+                    placeholder={field.label}
+                    defaultValue={data[field.name]}
+                    onChange={(e) =>
+                      this.updateState(field.name, e.target.value)
+                    }
+                  />
+                  <div className="form-control-position">
+                    {/* <Mail size={15} /> */}
+                  </div>
+                </FormGroup>
+              </Col>
+            </>
+          );
+        } else {
+          res = (
+            <Col md="6" key={field.name}>
+              <Label>{field.label}</Label>
 
-            <FormGroup className="form-label-group position-relative has-icon-left">
-              <Input
-                type="text"
-                className="square"
-                defaultValue={data[field.name]}
-                placeholder={field.label}
-                onChange={(e) => this.updateState(field.name, e.target.value)}
-              />
-              <div className="form-control-position">
-                {/* <Mail size={15} /> */}
-              </div>
-            </FormGroup>
-          </Col>
-        );
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <Input
+                  type="textarea"
+                  rows={7}
+                  className="square"
+                  placeholder={field.label}
+                  defaultValue={data[field.name]}
+                  onChange={(e) => this.updateState(field.name, e.target.value)}
+                />
+                <div className="form-control-position">
+                  {/* <Mail size={15} /> */}
+                </div>
+              </FormGroup>
+            </Col>
+          );
+        }
+
         break;
       case "string":
-        res = (
-          <Col md="6" key={field.name}>
-            <Label>{field.label}</Label>
+        if (field["wq:ForeignKey"]) {
+          res = (
+            <Col md="6" key={field.name}>
+              <Label>{field.label}</Label>
 
-            <FormGroup className="form-label-group position-relative has-icon-left">
-              <CustomInput
-                className="square"
-                type="select"
-                id={field.name}
-                defaultValue={data[`${field.name}_id`]}
-                placeholder={field.label}
-                onChange={(e) =>
-                  this.updateState(`${field.name}_id`, e.target.value)
-                }
-              >
-                <option>Select</option>
-                {this.renderSelectOptionForeignWQ(
-                  this.getForeignFieldDropdown(field["wq:ForeignKey"])
-                )}
-              </CustomInput>
-            </FormGroup>
-          </Col>
-        );
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <CustomInput
+                  className="square"
+                  type="select"
+                  id={field.name}
+                  placeholder={field.label}
+                  defaultValue={data[`${field.name}_id`]}
+                  onChange={(e) =>
+                    this.updateState(`${field.name}_id`, e.target.value)
+                  }
+                >
+                  <option>Select</option>
+                  {this.renderSelectOptionForeignWQ(
+                    this.getForeignFieldDropdown(field["wq:ForeignKey"])
+                  )}
+                </CustomInput>
+              </FormGroup>
+            </Col>
+          );
+        } else {
+          res = (
+            <Col md="6" key={field.name}>
+              <Label>{field.label}</Label>
+
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <Input
+                  type="text"
+                  className="square"
+                  placeholder={field.label}
+                  defaultValue={data[`${field.name}_id`]}
+                  onChange={(e) => this.updateState(field.name, e.target.value)}
+                />
+                <div className="form-control-position">
+                  {/* <Mail size={15} /> */}
+                </div>
+              </FormGroup>
+            </Col>
+          );
+        }
         break;
       case "date":
         res = (
