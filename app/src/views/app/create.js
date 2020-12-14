@@ -110,24 +110,49 @@ class Create extends React.Component {
 
     switch (field.type) {
       case "text":
-        res = (
-          <Col md="6" key={field.name}>
-            <Label>{field.label}</Label>
+        if (field.name == "call_notes") {
+          res = (
+            <>
+              <Col md="6" />
+              <Col md="6" key={field.name}>
+                <Label>{field.label}</Label>
+                <FormGroup className="form-label-group position-relative has-icon-left">
+                  <Input
+                    type="textarea"
+                    rows={7}
+                    className="square"
+                    placeholder={field.label}
+                    onChange={(e) =>
+                      this.updateState(field.name, e.target.value)
+                    }
+                  />
+                  <div className="form-control-position">
+                    {/* <Mail size={15} /> */}
+                  </div>
+                </FormGroup>
+              </Col>
+            </>
+          );
+        } else {
+          res = (
+            <Col md="6" key={field.name}>
+              <Label>{field.label}</Label>
 
-            <FormGroup className="form-label-group position-relative has-icon-left">
-              <Input
-                type="textarea"
-                rows={7}
-                className="square"
-                placeholder={field.label}
-                onChange={(e) => this.updateState(field.name, e.target.value)}
-              />
-              <div className="form-control-position">
-                {/* <Mail size={15} /> */}
-              </div>
-            </FormGroup>
-          </Col>
-        );
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <Input
+                  type="textarea"
+                  rows={7}
+                  className="square"
+                  placeholder={field.label}
+                  onChange={(e) => this.updateState(field.name, e.target.value)}
+                />
+                <div className="form-control-position">
+                  {/* <Mail size={15} /> */}
+                </div>
+              </FormGroup>
+            </Col>
+          );
+        }
         break;
       case "string":
         if (field["wq:ForeignKey"]) {
