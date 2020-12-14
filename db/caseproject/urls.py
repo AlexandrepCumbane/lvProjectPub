@@ -41,12 +41,17 @@ from caseproject.rest.views import LoginView
 rest.router.add_page('login', {'url': 'login'}, LoginView)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     re_path('swagger(?P<format>\.json|\.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('', include(rest.router.urls)),
 ]
+
+if settings.ADMIN_ENABLED:
+    #protect Admin as per client request
+    urlpatterns += (
+        path('admin/', admin.site.urls),
+    )
 
 if settings.DEBUG_WITH_RUNSERVER:
 

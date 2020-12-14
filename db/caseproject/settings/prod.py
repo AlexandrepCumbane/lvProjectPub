@@ -14,6 +14,8 @@ DEBUG_WITH_RUNSERVER = env.bool("DJANGO_DEBUG", False)
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
+# Enable or Disable Admin
+ADMIN_ENABLED = env.bool("ADMIN_ENABLED", False)
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
