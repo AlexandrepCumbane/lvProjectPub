@@ -8,14 +8,14 @@ ENV PYTHONUNBUFFERED 1
 
 # Add yarn 
 RUN apt-get update \
-&& apt-get install curl gnupg2 apt-utils -y
+    && apt-get install curl gnupg2 apt-utils -y
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
 # Add dependencies nescessary to run postgres library for the project
 RUN apt-get update \
-&& apt-get install gcc libpq-dev nodejs python3-venv npm yarn -y \
-&& apt-get clean
+    && apt-get install gcc libpq-dev nodejs python3-venv npm yarn -y \
+    && apt-get clean
 
 RUN npm install -g npm@latest
 
@@ -28,7 +28,7 @@ COPY . .
 
 # Install project dependencies
 RUN pip install --upgrade pip \
-&& pip install -r requirements.txt
+    && pip install -r requirements.txt
 
 # Migrate database
 # WORKDIR /code/db
@@ -37,6 +37,9 @@ RUN pip install --upgrade pip \
 # Install npm dependencies
 WORKDIR /code/app
 RUN yarn install
+
+# Permission to correct user
+RUN chown -R 1000:1000 /code
 
 WORKDIR /code
 
