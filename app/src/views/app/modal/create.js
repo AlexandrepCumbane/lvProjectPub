@@ -139,10 +139,10 @@ class Create extends React.Component {
         res = (
           <Col md="12" key={field.name}>
             <Label>{field.label}</Label>
-
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
-                type="text"
+                type="textarea"
+                rows={5}
                 className="square"
                 placeholder={field.label}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
@@ -153,6 +153,7 @@ class Create extends React.Component {
             </FormGroup>
           </Col>
         );
+
         break;
       case "string":
         res = (
@@ -177,10 +178,11 @@ class Create extends React.Component {
             </FormGroup>
           </Col>
         );
+
         break;
       case "date":
         res = (
-          <Col md="12" key={field.name}>
+          <Col md="6" key={field.name}>
             <Label>{field.label}</Label>
 
             <FormGroup className="form-label-group position-relative has-icon-left">
