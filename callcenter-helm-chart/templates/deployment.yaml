@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "linhaverde-chart.fullname" . }}
+  name: {{ include "lv-chart.fullname" . }}
   labels:
-    {{- include "linhaverde-chart.labels" . | nindent 4 }}
+    {{- include "lv-chart.labels" . | nindent 4 }}
 spec:
 {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
 {{- end }}
   selector:
     matchLabels:
-      {{- include "linhaverde-chart.selectorLabels" . | nindent 6 }}
+      {{- include "lv-chart.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      name: {{ include "linhaverde-chart.fullname" . }}
+      name: {{ include "lv-chart.fullname" . }}
       labels:
-        {{- include "linhaverde-chart.labels" . | nindent 8 }}
+        {{- include "lv-chart.labels" . | nindent 8 }}
       annotations:
         checksum/secrets: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
         {{- with .Values.deploymentAnnotations }}
@@ -26,7 +26,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "linhaverde-chart.serviceAccountName" . }}
+      serviceAccountName: {{ include "lv-chart.serviceAccountName" . }}
       securityContext:
         runAsUser: 1000
         fsGroup: 1000
@@ -36,8 +36,10 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["/usr/bin/env"]
-          args: ["python", "/usr/local/bin/gunicorn", "-b", "0.0.0.0:8000", "--limit-request-line", "0","--timeout","60","--limit-request-field_size", "0", "caseproject.wsgi"]
+          command: ["/bin/sh", "-c"]
+          args: ["python db/manage.py migrate 
+                  && python db/manage.py collectstatic --noinput 
+                  && python /usr/local/bin/gunicorn -b 0.0.0.0:8000 --limit-request-line 0 --timeout 60 --limit-request-field_size 0 --chdir db caseproject.wsgi:application"]
           ports:
             - name: http
               containerPort: 8000

@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "linhaverde-chart.fullname" . }}-test-connection"
+  name: "{{ include "lv-chart.fullname" . }}-test-connection"
   labels:
-    {{- include "linhaverde-chart.labels" . | nindent 4 }}
+    {{- include "lv-chart.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test-success
 spec:
@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "linhaverde-chart.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "lv-chart.fullname" . }}:{{ .Values.service.port }}']
   restartPolicy: Never
