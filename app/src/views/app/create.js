@@ -116,7 +116,8 @@ class Create extends React.Component {
 
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
-                type="text"
+                type="textarea"
+                rows={7}
                 className="square"
                 placeholder={field.label}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
