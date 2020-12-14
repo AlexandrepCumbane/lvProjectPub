@@ -9,6 +9,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/scss/plugins/extensions/toastr.scss";
 
+import { default as config } from "./data/config";
+import AppListView from "./views/app/list";
+
 // Route-based code splitting
 const Home = lazy(() => import("./views/pages/Home"));
 
@@ -17,6 +20,12 @@ const Home = lazy(() => import("./views/pages/Home"));
 const AppCreate = lazy(() => import("./views/app/create"));
 
 const AppList = lazy(() => import("./views/app/list"));
+
+const Information = lazy(() => import("./views/information/Information"));
+
+const Reports = lazy(() => import("./views/reports/Reports"));
+
+const Users = lazy(() => import("./views/users/Users"));
 
 const login = lazy(() => import("./views/pages/authentication/login/Login"));
 
@@ -69,8 +78,63 @@ class AppRouter extends React.Component {
       <Router history={history}>
         <Switch>
           <AppRoute exact path="/" component={Home} />
-          <AppRoute exact path="/lvforms" component={AppList} />
-          <AppRoute path="/lvforms/new" component={AppCreate} />
+          <AppRoute
+            exact
+            path="/lvforms"
+            // component={AppList}
+            component={(props) => (
+              <AppListView
+                {...props}
+                title="Cases"
+                path="lvform"
+                url="lvforms"
+              />
+            )}
+          />
+          <AppRoute
+            path="/lvforms/new"
+            component={(props) => (
+              <AppCreate {...props} path="lvform" url="lvforms" />
+            )}
+          />
+          <AppRoute
+            exact
+            path="/tasks"
+            // component={AppList}
+            component={(props) => (
+              <AppListView {...props} title="Tasks" path="task" url="tasks" />
+            )}
+          />
+          <AppRoute
+            exact
+            path="/information"
+            // component={AppList}
+            component={(props) => (
+              <Information
+                {...props}
+                title="Knowledge Base"
+                path="information"
+                url="informations"
+              />
+            )}
+          />
+          <AppRoute
+            exact
+            path="/users"
+            // component={AppList}
+            component={(props) => (
+              <Users {...props} title="Users" path="user" url="users" />
+            )}
+          />
+          <AppRoute
+            exact
+            path="/reports"
+            // component={AppList}
+            component={(props) => (
+              <Reports {...props} title="Reports" path="report" url="reports" />
+            )}
+          />
+
           {/* <AppRoute path="/lvforms" component={Page2} /> */}
           <AppRoute path="/pages/login" component={login} fullLayout />
         </Switch>

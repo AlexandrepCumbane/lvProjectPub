@@ -8,10 +8,59 @@ export default {
             "url": "logout",
             "name": "logout"
         },
-        "province": {
+        "location": {
             "cache": "all",
-            "name": "province",
-            "url": "provinces",
+            "name": "location",
+            "url": "locations",
+            "list": true,
+            "form": [
+                {
+                    "name": "classification",
+                    "label": "Classification",
+                    "type": "string",
+                    "wq:ForeignKey": "locationclassification"
+                },
+                {
+                    "name": "location_type",
+                    "label": "Location Type",
+                    "type": "string",
+                    "wq:ForeignKey": "locationtype"
+                },
+                {
+                    "name": "codigo",
+                    "label": "Codigo",
+                    "wq:length": 20,
+                    "type": "string"
+                },
+                {
+                    "name": "name",
+                    "label": "Name",
+                    "bind": {
+                        "required": true
+                    },
+                    "wq:length": 200,
+                    "type": "string"
+                },
+                {
+                    "name": "province",
+                    "label": "Province",
+                    "type": "string",
+                    "wq:ForeignKey": "province"
+                },
+                {
+                    "name": "parent_code",
+                    "label": "Parent Code",
+                    "wq:length": 20,
+                    "type": "string"
+                }
+            ],
+            "verbose_name": "location",
+            "verbose_name_plural": "locations"
+        },
+        "district": {
+            "cache": "all",
+            "name": "district",
+            "url": "districts",
             "list": true,
             "form": [
                 {
@@ -22,29 +71,34 @@ export default {
                     },
                     "wq:length": 25,
                     "type": "string"
-                }
-            ],
-            "verbose_name": "province",
-            "verbose_name_plural": "provinces"
-        },
-        "locationclassification": {
-            "cache": "all",
-            "name": "locationclassification",
-            "url": "locationclassifications",
-            "list": true,
-            "form": [
+                },
                 {
-                    "name": "name",
-                    "label": "Name",
+                    "name": "province",
+                    "label": "Province",
+                    "type": "string",
+                    "wq:ForeignKey": "province"
+                },
+                {
+                    "name": "codigo",
+                    "label": "Codigo",
                     "bind": {
                         "required": true
                     },
-                    "wq:length": 20,
+                    "wq:length": 25,
+                    "type": "string"
+                },
+                {
+                    "name": "parent_code",
+                    "label": "Parent Code",
+                    "bind": {
+                        "required": true
+                    },
+                    "wq:length": 25,
                     "type": "string"
                 }
             ],
-            "verbose_name": "location classification",
-            "verbose_name_plural": "location classifications"
+            "verbose_name": "district",
+            "verbose_name_plural": "districts"
         },
         "lvform": {
             "name": "lvform",
@@ -53,38 +107,30 @@ export default {
             "form": [
                 {
                     "name": "consent_pi",
-                    "label": "Consent to collect personal information",
-                    "bind": {
-                        "required": true
-                    },
-                    "hint": "Consent to collect personal information",
+                    "label": "Consent Pi",
                     "choices": [
                         {
-                            "name": "TRUE",
-                            "label": "TRUE"
+                            "name": true,
+                            "label": "Yes"
                         },
                         {
-                            "name": "FALSE",
-                            "label": "FALSE"
+                            "name": false,
+                            "label": "No"
                         }
                     ],
                     "type": "select one"
                 },
                 {
                     "name": "consent_share_pi",
-                    "label": "Consent to share personal information with third parties",
-                    "bind": {
-                        "required": true
-                    },
-                    "hint": "Consent to share personal information with third parties",
+                    "label": "Consent Share Pi",
                     "choices": [
                         {
-                            "name": "TRUE",
-                            "label": "TRUE"
+                            "name": true,
+                            "label": "Yes"
                         },
                         {
-                            "name": "FALSE",
-                            "label": "FALSE"
+                            "name": false,
+                            "label": "No"
                         }
                     ],
                     "type": "select one"
@@ -109,6 +155,40 @@ export default {
                     "type": "int"
                 },
                 {
+                    "name": "contact_group",
+                    "label": "Who is contacting",
+                    "bind": {
+                        "required": true
+                    },
+                    "choices": [
+                        {
+                            "name": "1",
+                            "label": "Beneficiario"
+                        },
+                        {
+                            "name": "2",
+                            "label": "Alguem para beneficiario"
+                        },
+                        {
+                            "name": "3",
+                            "label": "Nao beneficiario"
+                        },
+                        {
+                            "name": "4",
+                            "label": "Lider comunitario"
+                        },
+                        {
+                            "name": "5",
+                            "label": "Parceiro Humanitario"
+                        },
+                        {
+                            "name": "6",
+                            "label": "Outro"
+                        }
+                    ],
+                    "type": "select one"
+                },
+                {
                     "name": "gender",
                     "label": "Gender",
                     "bind": {
@@ -126,7 +206,31 @@ export default {
                         },
                         {
                             "name": "other",
-                            "label": "Other"
+                            "label": "Not specified"
+                        }
+                    ],
+                    "type": "select one"
+                },
+                {
+                    "name": "age_group",
+                    "label": "Age",
+                    "hint": "Age",
+                    "choices": [
+                        {
+                            "name": "1",
+                            "label": "17 e menos"
+                        },
+                        {
+                            "name": "2",
+                            "label": "18 - 59"
+                        },
+                        {
+                            "name": "3",
+                            "label": "60 e acima"
+                        },
+                        {
+                            "name": "4",
+                            "label": "Nao mencionado"
                         }
                     ],
                     "type": "select one"
@@ -163,6 +267,12 @@ export default {
                     "hint": "Community",
                     "wq:length": 255,
                     "type": "string"
+                },
+                {
+                    "name": "distribution_point",
+                    "label": "Distribution Point",
+                    "hint": "Distribution Point",
+                    "type": "text"
                 },
                 {
                     "name": "transfermod",
@@ -208,42 +318,40 @@ export default {
                     "type": "select one"
                 },
                 {
+                    "name": "location_type",
+                    "label": "Accommodation or resettlement centre",
+                    "hint": "Accommodation or resettlement centre",
+                    "choices": [
+                        {
+                            "name": "1",
+                            "label": "Sim"
+                        },
+                        {
+                            "name": "2",
+                            "label": "Nao"
+                        },
+                        {
+                            "name": "3",
+                            "label": "Irrelevant"
+                        }
+                    ],
+                    "type": "select one"
+                },
+                {
+                    "name": "ressetlement_name",
+                    "label": "Resettlement name",
+                    "hint": "Resettlement name",
+                    "wq:length": 255,
+                    "type": "string"
+                },
+                {
                     "name": "category",
                     "label": "Case category",
                     "bind": {
                         "required": true
                     },
-                    "choices": [
-                        {
-                            "name": "1",
-                            "label": "Positive feedback"
-                        },
-                        {
-                            "name": "2",
-                            "label": "Request for information"
-                        },
-                        {
-                            "name": "3",
-                            "label": "Compaint/negative feedback"
-                        },
-                        {
-                            "name": "4",
-                            "label": "Request for assistance"
-                        },
-                        {
-                            "name": "5",
-                            "label": "Data amendment"
-                        },
-                        {
-                            "name": "6",
-                            "label": "Technical problems"
-                        },
-                        {
-                            "name": "7",
-                            "label": "Other"
-                        }
-                    ],
-                    "type": "select one"
+                    "type": "string",
+                    "wq:ForeignKey": "casetipology"
                 },
                 {
                     "name": "subcategory",
@@ -251,146 +359,25 @@ export default {
                     "bind": {
                         "required": true
                     },
+                    "type": "string"
+                },
+                {
+                    "name": "subcategory_issue",
+                    "label": "Sub-category issue",
+                    "type": "string"
+                },
+                {
+                    "name": "who_not_receiving",
+                    "label": "Who is not receiving assistance",
+                    "hint": "Person not receiving",
                     "choices": [
                         {
                             "name": "1",
-                            "label": "Other"
+                            "label": "Individual"
                         },
                         {
                             "name": "2",
-                            "label": "SEA"
-                        },
-                        {
-                            "name": "3",
-                            "label": "Quality"
-                        },
-                        {
-                            "name": "4",
-                            "label": "Quantity"
-                        },
-                        {
-                            "name": "5",
-                            "label": "Safety problems"
-                        },
-                        {
-                            "name": "6",
-                            "label": "Abuse of power"
-                        },
-                        {
-                            "name": "7",
-                            "label": "Access"
-                        },
-                        {
-                            "name": "8",
-                            "label": "Lost card"
-                        },
-                        {
-                            "name": "9",
-                            "label": "Assistance card not working"
-                        },
-                        {
-                            "name": "10",
-                            "label": "Money"
-                        },
-                        {
-                            "name": "11",
-                            "label": "Distribution issue"
-                        },
-                        {
-                            "name": "12",
-                            "label": "Exclusion error"
-                        },
-                        {
-                            "name": "13",
-                            "label": "Undignified/ disrespect"
-                        },
-                        {
-                            "name": "14",
-                            "label": "Beneficiary card"
-                        },
-                        {
-                            "name": "15",
-                            "label": "Food"
-                        },
-                        {
-                            "name": "16",
-                            "label": "Use of personal data - who, what, how"
-                        },
-                        {
-                            "name": "17",
-                            "label": "Entitlement"
-                        },
-                        {
-                            "name": "18",
-                            "label": "Services"
-                        },
-                        {
-                            "name": "19",
-                            "label": "FFA Activity"
-                        },
-                        {
-                            "name": "20",
-                            "label": "Targeting criteria"
-                        },
-                        {
-                            "name": "21",
-                            "label": "HR"
-                        },
-                        {
-                            "name": "22",
-                            "label": "Symptoms"
-                        },
-                        {
-                            "name": "23",
-                            "label": "Prevention"
-                        },
-                        {
-                            "name": "24",
-                            "label": "Treatment"
-                        },
-                        {
-                            "name": "25",
-                            "label": "Availability of health services"
-                        },
-                        {
-                            "name": "26",
-                            "label": "Myths"
-                        },
-                        {
-                            "name": "27",
-                            "label": "Government guidance"
-                        },
-                        {
-                            "name": "28",
-                            "label": "Current situaton"
-                        },
-                        {
-                            "name": "29",
-                            "label": "Impact of Covid-19 on program"
-                        },
-                        {
-                            "name": "30",
-                            "label": "NFI"
-                        },
-                        {
-                            "name": "31",
-                            "label": "Flood assistance"
-                        },
-                        {
-                            "name": "32",
-                            "label": "Update HH, personal details"
-                        },
-                        {
-                            "name": "33",
-                            "label": "Delete personal information"
-                        },
-                        {
-                            "name": "34",
-                            "label": "Distribution timing"
-                        },
-                        {
-                            "name": "35",
-                            "label": "Duration of assistance"
+                            "label": "Community"
                         }
                     ],
                     "type": "select one"
@@ -458,6 +445,49 @@ export default {
                     "type": "select one"
                 },
                 {
+                    "name": "vulnerability",
+                    "label": "Vulnerability",
+                    "bind": {
+                        "required": true
+                    },
+                    "hint": "Vulnerability",
+                    "choices": [
+                        {
+                            "name": "1",
+                            "label": "Pessoa com dificiencia"
+                        },
+                        {
+                            "name": "2",
+                            "label": "Familia chefiada por crianca"
+                        },
+                        {
+                            "name": "3",
+                            "label": "Pais solteiros"
+                        },
+                        {
+                            "name": "4",
+                            "label": "Mulher gravida ou lactente"
+                        },
+                        {
+                            "name": "5",
+                            "label": "Familia chefiada por idosos"
+                        },
+                        {
+                            "name": "6",
+                            "label": "Doente Cronico"
+                        },
+                        {
+                            "name": "7",
+                            "label": "Nenhum"
+                        },
+                        {
+                            "name": "8",
+                            "label": "Outro"
+                        }
+                    ],
+                    "type": "select one"
+                },
+                {
                     "name": "call_notes",
                     "label": "Call Notes",
                     "bind": {
@@ -507,6 +537,158 @@ export default {
                     "type": "select one"
                 },
                 {
+                    "name": "means_of_communication",
+                    "label": "Means of Communication",
+                    "hint": "Means of Communication",
+                    "choices": [
+                        {
+                            "name": "1",
+                            "label": "Linha verde (proprio numero)"
+                        },
+                        {
+                            "name": "2",
+                            "label": "Linha verde (telefone emprestado)"
+                        },
+                        {
+                            "name": "3",
+                            "label": "WFP hotline (proprio numero)"
+                        },
+                        {
+                            "name": "4",
+                            "label": "WFP hotline (telefone emprestado)"
+                        },
+                        {
+                            "name": "5",
+                            "label": "Mesa de apoio"
+                        },
+                        {
+                            "name": "6",
+                            "label": "sms"
+                        },
+                        {
+                            "name": "7",
+                            "label": "Email"
+                        },
+                        {
+                            "name": "8",
+                            "label": "Caixa de sugestoes"
+                        }
+                    ],
+                    "type": "select one"
+                },
+                {
+                    "name": "how_knows_lv",
+                    "label": "How have you come to know about the complaints and feedback mechanism?",
+                    "hint": "How have you come to know about the complaints and feedback mechanism?",
+                    "choices": [
+                        {
+                            "name": "1",
+                            "label": "Radio"
+                        },
+                        {
+                            "name": "2",
+                            "label": "Panfletos"
+                        },
+                        {
+                            "name": "3",
+                            "label": "Pessoas trabalhando na comunidade"
+                        },
+                        {
+                            "name": "4",
+                            "label": "SMS"
+                        },
+                        {
+                            "name": "5",
+                            "label": "Cartazes ou material de visibilidade"
+                        },
+                        {
+                            "name": "6",
+                            "label": "Caixa de sugestoes"
+                        }
+                    ],
+                    "type": "select one"
+                },
+                {
+                    "name": "how_callback",
+                    "label": "How would you prefer to be reached?",
+                    "hint": "How would you prefer to be reached?",
+                    "choices": [
+                        {
+                            "name": "1",
+                            "label": "Mesmo contacto"
+                        },
+                        {
+                            "name": "2",
+                            "label": "Outro contacto"
+                        }
+                    ],
+                    "type": "select one"
+                },
+                {
+                    "name": "other_contact",
+                    "label": "Contact",
+                    "hint": "Contact",
+                    "type": "int"
+                },
+                {
+                    "name": "call_feedback",
+                    "label": "How do you feel about how your query was dealt with during this call?",
+                    "hint": "How do you feel about how your query was dealt with during this call?",
+                    "choices": [
+                        {
+                            "name": "1",
+                            "label": "Muito Satisfeito"
+                        },
+                        {
+                            "name": "2",
+                            "label": "Satisfeito"
+                        },
+                        {
+                            "name": "3",
+                            "label": "Neutro"
+                        },
+                        {
+                            "name": "4",
+                            "label": "Insatisfeito"
+                        },
+                        {
+                            "name": "5",
+                            "label": "Muito insatisfeito"
+                        }
+                    ],
+                    "type": "select one"
+                },
+                {
+                    "name": "callback_required",
+                    "label": "Callback Required",
+                    "choices": [
+                        {
+                            "name": true,
+                            "label": "Yes"
+                        },
+                        {
+                            "name": false,
+                            "label": "No"
+                        }
+                    ],
+                    "type": "select one"
+                },
+                {
+                    "name": "unavailable_contact",
+                    "label": "Unavailable Contact",
+                    "choices": [
+                        {
+                            "name": true,
+                            "label": "Yes"
+                        },
+                        {
+                            "name": false,
+                            "label": "No"
+                        }
+                    ],
+                    "type": "select one"
+                },
+                {
                     "name": "case_number",
                     "label": "Case Number",
                     "hint": "Case number",
@@ -515,134 +697,6 @@ export default {
             ],
             "verbose_name": "linha verde intake form",
             "verbose_name_plural": "lvforms"
-        },
-        "forwardinginstitution": {
-            "name": "forwardinginstitution",
-            "url": "forwardinginstitutions",
-            "list": true,
-            "form": [
-                {
-                    "name": "lvform",
-                    "label": "Lvform",
-                    "bind": {
-                        "required": true
-                    },
-                    "type": "string",
-                    "wq:ForeignKey": "lvform"
-                },
-                {
-                    "name": "partner_feedback",
-                    "label": "Parceiro Feedback",
-                    "type": "text"
-                },
-                {
-                    "name": "task_feedback",
-                    "label": "Feedback da tarefa",
-                    "type": "text"
-                },
-                {
-                    "name": "has_feedback",
-                    "label": "Has Feedback",
-                    "choices": [
-                        {
-                            "name": "TRUE",
-                            "label": "TRUE"
-                        },
-                        {
-                            "name": "FALSE",
-                            "label": "FALSE"
-                        }
-                    ],
-                    "type": "select one"
-                }
-            ],
-            "verbose_name": "forwardinginstitution",
-            "verbose_name_plural": "forwardinginstitutions"
-        },
-        "locationtype": {
-            "cache": "all",
-            "name": "locationtype",
-            "url": "locationtypes",
-            "list": true,
-            "form": [
-                {
-                    "name": "name",
-                    "label": "Name",
-                    "bind": {
-                        "required": true
-                    },
-                    "wq:length": 20,
-                    "type": "string"
-                }
-            ],
-            "verbose_name": "location type",
-            "verbose_name_plural": "location types"
-        },
-        "district": {
-            "cache": "all",
-            "name": "district",
-            "url": "districts",
-            "list": true,
-            "form": [
-                {
-                    "name": "name",
-                    "label": "Name",
-                    "bind": {
-                        "required": true
-                    },
-                    "wq:length": 25,
-                    "type": "string"
-                },
-                {
-                    "name": "province",
-                    "label": "Province",
-                    "type": "string",
-                    "wq:ForeignKey": "province"
-                },
-                {
-                    "name": "codigo",
-                    "label": "Codigo",
-                    "bind": {
-                        "required": true
-                    },
-                    "wq:length": 25,
-                    "type": "string"
-                },
-                {
-                    "name": "parent_code",
-                    "label": "Parent Code",
-                    "bind": {
-                        "required": true
-                    },
-                    "wq:length": 25,
-                    "type": "string"
-                }
-            ],
-            "verbose_name": "district",
-            "verbose_name_plural": "districts"
-        },
-        "casecomment": {
-            "name": "casecomment",
-            "url": "casecomments",
-            "list": true,
-            "form": [
-                {
-                    "name": "lvform",
-                    "label": "Lvform",
-                    "bind": {
-                        "required": true
-                    },
-                    "type": "string",
-                    "wq:ForeignKey": "lvform"
-                },
-                {
-                    "name": "feedback",
-                    "label": "Feedback",
-                    "type": "text"
-                }
-            ],
-            "verbose_name": "casecomment",
-            "verbose_name_plural": "casecomments"
         },
         "task": {
             "name": "task",
@@ -721,54 +775,146 @@ export default {
             "verbose_name": "task",
             "verbose_name_plural": "tasks"
         },
-        "location": {
+        "locationtype": {
             "cache": "all",
-            "name": "location",
-            "url": "locations",
+            "name": "locationtype",
+            "url": "locationtypes",
             "list": true,
             "form": [
-                {
-                    "name": "classification",
-                    "label": "Classification",
-                    "type": "string",
-                    "wq:ForeignKey": "locationclassification"
-                },
-                {
-                    "name": "location_type",
-                    "label": "Location Type",
-                    "type": "string",
-                    "wq:ForeignKey": "locationtype"
-                },
-                {
-                    "name": "codigo",
-                    "label": "Codigo",
-                    "wq:length": 20,
-                    "type": "string"
-                },
                 {
                     "name": "name",
                     "label": "Name",
                     "bind": {
                         "required": true
                     },
-                    "wq:length": 200,
-                    "type": "string"
-                },
-                {
-                    "name": "province",
-                    "label": "Province",
-                    "type": "string",
-                    "wq:ForeignKey": "province"
-                },
-                {
-                    "name": "parent_code",
-                    "label": "Parent Code",
                     "wq:length": 20,
                     "type": "string"
                 }
             ],
-            "verbose_name": "location",
-            "verbose_name_plural": "locations"
+            "verbose_name": "location type",
+            "verbose_name_plural": "location types"
+        },
+        "casecomment": {
+            "name": "casecomment",
+            "url": "casecomments",
+            "list": true,
+            "form": [
+                {
+                    "name": "lvform",
+                    "label": "Lvform",
+                    "bind": {
+                        "required": true
+                    },
+                    "type": "string",
+                    "wq:ForeignKey": "lvform"
+                },
+                {
+                    "name": "feedback",
+                    "label": "Feedback",
+                    "type": "text"
+                }
+            ],
+            "verbose_name": "casecomment",
+            "verbose_name_plural": "casecomments"
+        },
+        "province": {
+            "cache": "all",
+            "name": "province",
+            "url": "provinces",
+            "list": true,
+            "form": [
+                {
+                    "name": "name",
+                    "label": "Name",
+                    "bind": {
+                        "required": true
+                    },
+                    "wq:length": 25,
+                    "type": "string"
+                }
+            ],
+            "verbose_name": "province",
+            "verbose_name_plural": "provinces"
+        },
+        "casetipology": {
+            "name": "casetipology",
+            "url": "casetipologys",
+            "list": true,
+            "form": [
+                {
+                    "name": "category",
+                    "label": "Case Category",
+                    "bind": {
+                        "required": true
+                    },
+                    "hint": "Case Category",
+                    "type": "text"
+                }
+            ],
+            "verbose_name": "linha verde case tipology",
+            "verbose_name_plural": "casetipologys"
+        },
+        "locationclassification": {
+            "cache": "all",
+            "name": "locationclassification",
+            "url": "locationclassifications",
+            "list": true,
+            "form": [
+                {
+                    "name": "name",
+                    "label": "Name",
+                    "bind": {
+                        "required": true
+                    },
+                    "wq:length": 20,
+                    "type": "string"
+                }
+            ],
+            "verbose_name": "location classification",
+            "verbose_name_plural": "location classifications"
+        },
+        "forwardinginstitution": {
+            "name": "forwardinginstitution",
+            "url": "forwardinginstitutions",
+            "list": true,
+            "form": [
+                {
+                    "name": "lvform",
+                    "label": "Lvform",
+                    "bind": {
+                        "required": true
+                    },
+                    "type": "string",
+                    "wq:ForeignKey": "lvform"
+                },
+                {
+                    "name": "partner_feedback",
+                    "label": "Parceiro Feedback",
+                    "type": "text"
+                },
+                {
+                    "name": "task_feedback",
+                    "label": "Feedback da tarefa",
+                    "type": "text"
+                },
+                {
+                    "name": "has_feedback",
+                    "label": "Has Feedback",
+                    "choices": [
+                        {
+                            "name": true,
+                            "label": "Yes"
+                        },
+                        {
+                            "name": false,
+                            "label": "No"
+                        }
+                    ],
+                    "type": "select one"
+                }
+            ],
+            "verbose_name": "forwardinginstitution",
+            "verbose_name_plural": "forwardinginstitutions"
         }
     },
     "debug": true

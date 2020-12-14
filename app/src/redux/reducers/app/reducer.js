@@ -31,6 +31,7 @@ export const app_reducer = (state = initialState, action) => {
         success: false,
         failed: true,
         loading: false,
+        list: [],
       };
     }
     case "DROPDOWNS": {

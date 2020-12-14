@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import AgGridTable from "../../components/custom/table/AgGridTable";
 
+import { default as config } from "../../data/config";
+
 import {
   requestForm,
   requestDropodowns,
@@ -16,20 +18,25 @@ class List extends Component {
     columnDefs: [],
     show: false,
     data: [],
+    page: "lvform",
   };
 
   componentDidMount() {
+    console.log(this.props.path);
     this.formatFields();
     this.props.requestDropodowns();
-    this.props.requestForm().then(() => {
-      this.setState({ data: this.props.app_reducer.list });
-
-      // console.log(this.props.app_reducer);
+    this.props.requestForm(this.props.url).then(() => {
+      console.log(this.props.app_reducer.list);
+      this.setState({
+        data: this.props.app_reducer.list,
+        page: this.props.path,
+        pageTitle: `${this.props.title}`,
+      });
     });
   }
 
   formatFields = () => {
-    const { form } = this.props.config.pages["lvform"];
+    const { form } = config.pages[this.props.path];
 
     const columnDefs = form.map((item) => {
       if (item.type == "select one" || item.type == "string") {
@@ -61,7 +68,7 @@ class List extends Component {
           breadCrumbItems={[
             {
               name: "Add New",
-              link: "lvforms/new",
+              link: `${this.state.page}s/new`,
             },
           ]}
           breadCrumbTitle={this.state.pageTitle}

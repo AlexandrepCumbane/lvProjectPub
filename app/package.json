@@ -1,6 +1,6 @@
 {
   "name": "vuexy-react-admin-dashboard",
-  "version": "0.0.3",
+  "version": "0.0.0",
   "private": true,
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.6.3",

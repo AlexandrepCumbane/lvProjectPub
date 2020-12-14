@@ -4,12 +4,16 @@ import { toast, Bounce } from "react-toastify";
 import {
   requestForm,
   requestDropodowns,
-} from "../../redux/actions/app/actions";
+} from "../../../redux/actions/app/actions";
 
-import { axios } from "../../redux/api";
+import { axios } from "../../../redux/api";
 import {
   Alert,
   Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
   Card,
   CardBody,
   Row,
@@ -18,6 +22,7 @@ import {
   CustomInput,
   Input,
   Label,
+  Spinner,
 } from "reactstrap";
 
 class Create extends React.Component {
@@ -30,6 +35,9 @@ class Create extends React.Component {
     });
 
   state = {
+    modal: false,
+    unmountOnClose: true,
+
     form: new FormData(),
     required_fields: [],
     required_fields_labels: [],
@@ -37,24 +45,61 @@ class Create extends React.Component {
     dropdowns: [],
   };
   componentDidMount() {
-    this.props.requestDropodowns();
-    this.props.requestForm();
-
-    const { form } = this.props.state.auth.login.config.pages.lvform;
-    form.forEach((item, index) => {
-      this.addToRequired(item);
-    });
-    const { dropdowns } = this.props.app_reducer;
-    this.setState({ dropdowns });
+    // this.props.requestDropodowns();
+    // this.props.requestForm();
+    // const { form } = this.props.state.auth.login.config.pages.lvform;
+    // form.forEach((item, index) => {
+    //   this.addToRequired(item);
+    // });
+    // const { dropdowns } = this.props.app_reducer;
+    // this.setState({ dropdowns });
   }
 
   render() {
     return (
-      <div>
-        <Card className="rounded-0 mb-0 px-2">
-          <CardBody>{this.renderForm()}</CardBody>{" "}
-        </Card>
-      </div>
+      <>
+        <Button
+          color={`${this.props.color ?? "warning"}`}
+          className="square mr-1"
+          outline
+          onClick={this.toggleModal}
+        >
+          {this.props.label}
+        </Button>
+        <Modal
+          isOpen={this.state.modal}
+          toggle={this.toggleModal}
+          className={`${this.props.className} square`}
+          unmountOnClose={this.state.unmountOnClose}
+        >
+          <ModalHeader toggle={this.toggleModal}>
+            {this.props.title}
+          </ModalHeader>
+
+          <ModalBody>{this.renderForm()}</ModalBody>
+
+          <ModalFooter>
+            <Button
+              outline
+              color="primary"
+              className="square"
+              onClick={() => this.handleSubmit()}
+            >
+              {this.state.isLoading ? (
+                <Spinner
+                  className="mr-1"
+                  color="primary"
+                  size="sm"
+                  type="grow"
+                />
+              ) : (
+                <></>
+              )}
+              Submit
+            </Button>
+          </ModalFooter>
+        </Modal>
+      </>
     );
   }
 
@@ -63,14 +108,9 @@ class Create extends React.Component {
    */
 
   renderForm = () => {
-    const form_ = this.props.state.auth.login.config.pages.lvform;
+    const form_ = this.props.state.auth.login.config.pages[this.props.page];
     return (
       <Row>
-        <Col md="12">
-          <h4>Register form for: {form_.verbose_name}</h4>
-          <p>{form_.verbose_name}.</p>
-          <hr />
-        </Col>
         <Col md="12">
           {this.state.isValid && this.state.required_fields.length == 0 ? (
             <></>
@@ -87,20 +127,6 @@ class Create extends React.Component {
         </Col>
 
         {form_.form.map((field) => this.renderSingleInput(field))}
-
-        <Col md="12">
-          <div className="d-flex justify-content-between">
-            <div />
-            <Button.Ripple
-              className="square"
-              color="primary"
-              type="submit"
-              onClick={(e) => this.handleSubmit()}
-            >
-              Submit
-            </Button.Ripple>
-          </div>
-        </Col>
       </Row>
     );
   };
@@ -110,98 +136,51 @@ class Create extends React.Component {
 
     switch (field.type) {
       case "text":
-        if (field.name == "call_notes") {
-          res = (
-            <>
-              <Col md="6" />
-              <Col md="6" key={field.name}>
-                <Label>{field.label}</Label>
-                <FormGroup className="form-label-group position-relative has-icon-left">
-                  <Input
-                    type="textarea"
-                    rows={7}
-                    className="square"
-                    placeholder={field.label}
-                    onChange={(e) =>
-                      this.updateState(field.name, e.target.value)
-                    }
-                  />
-                  <div className="form-control-position">
-                    {/* <Mail size={15} /> */}
-                  </div>
-                </FormGroup>
-              </Col>
-            </>
-          );
-        } else {
-          res = (
-            <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
+        res = (
+          <Col md="12" key={field.name}>
+            <Label>{field.label}</Label>
 
-              <FormGroup className="form-label-group position-relative has-icon-left">
-                <Input
-                  type="textarea"
-                  rows={7}
-                  className="square"
-                  placeholder={field.label}
-                  onChange={(e) => this.updateState(field.name, e.target.value)}
-                />
-                <div className="form-control-position">
-                  {/* <Mail size={15} /> */}
-                </div>
-              </FormGroup>
-            </Col>
-          );
-        }
+            <FormGroup className="form-label-group position-relative has-icon-left">
+              <Input
+                type="text"
+                className="square"
+                placeholder={field.label}
+                onChange={(e) => this.updateState(field.name, e.target.value)}
+              />
+              <div className="form-control-position">
+                {/* <Mail size={15} /> */}
+              </div>
+            </FormGroup>
+          </Col>
+        );
         break;
       case "string":
-        if (field["wq:ForeignKey"]) {
-          res = (
-            <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
+        res = (
+          <Col md="12" key={field.name}>
+            <Label>{field.label}</Label>
 
-              <FormGroup className="form-label-group position-relative has-icon-left">
-                <CustomInput
-                  className="square"
-                  type="select"
-                  id={field.name}
-                  placeholder={field.label}
-                  onChange={(e) =>
-                    this.updateState(`${field.name}_id`, e.target.value)
-                  }
-                >
-                  <option>Select</option>
-                  {this.renderSelectOptionForeignWQ(
-                    this.getForeignFieldDropdown(field["wq:ForeignKey"])
-                  )}
-                </CustomInput>
-              </FormGroup>
-            </Col>
-          );
-        } else {
-          res = (
-            <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
-
-              <FormGroup className="form-label-group position-relative has-icon-left">
-                <Input
-                  type="text"
-                  className="square"
-                  placeholder={field.label}
-                  onChange={(e) => this.updateState(field.name, e.target.value)}
-                />
-                <div className="form-control-position">
-                  {/* <Mail size={15} /> */}
-                </div>
-              </FormGroup>
-            </Col>
-          );
-        }
-
+            <FormGroup className="form-label-group position-relative has-icon-left">
+              <CustomInput
+                className="square"
+                type="select"
+                id={field.name}
+                placeholder={field.label}
+                onChange={(e) =>
+                  this.updateState(`${field.name}_id`, e.target.value)
+                }
+              >
+                <option>Select</option>
+                {this.renderSelectOptionForeignWQ(
+                  this.getForeignFieldDropdown(field["wq:ForeignKey"])
+                )}
+              </CustomInput>
+            </FormGroup>
+          </Col>
+        );
         break;
       case "date":
         res = (
-          <Col md="6" key={field.name}>
+          <Col md="12" key={field.name}>
             <Label>{field.label}</Label>
 
             <FormGroup className="form-label-group position-relative has-icon-left">
@@ -220,7 +199,7 @@ class Create extends React.Component {
         break;
       case "int":
         res = (
-          <Col md="6" key={field.name}>
+          <Col md="12" key={field.name}>
             <Label>{field.label}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
@@ -239,7 +218,7 @@ class Create extends React.Component {
         break;
       case "select one":
         res = (
-          <Col md="6" key={field.name}>
+          <Col md="12" key={field.name}>
             <Label>{field.label}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <CustomInput
@@ -263,6 +242,17 @@ class Create extends React.Component {
     }
 
     return res;
+  };
+
+  toggleModal = () => {
+    this.setState((prevState) => ({
+      modal: !prevState.modal,
+    }));
+  };
+
+  changeUnmountOnClose = (e) => {
+    let value = e.target.value;
+    this.setState({ unmountOnClose: JSON.parse(value) });
   };
 
   renderSelectOption = (choices) => {
@@ -345,7 +335,7 @@ class Create extends React.Component {
     } else {
       this.setState({ isValid: true });
       axios
-        .post("lvforms.json", this.state.form)
+        .post(`${this.props.page}s.json`, this.state.form)
         .then(({ data }) => {
           this.notifySuccessBounce(data.id);
         })

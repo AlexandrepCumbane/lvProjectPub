@@ -5,7 +5,7 @@ import { store } from "../../storeConfig/store";
 
 const appState = store.getState();
 
-export const handleForm = (dispatch) =>
+export const handleForm = (dispatch, payload) =>
   new Promise((resolve, reject) => {
     dispatch({
       type: "REQUEST_FORM",
@@ -15,7 +15,7 @@ export const handleForm = (dispatch) =>
     });
 
     axios
-      .get("/lvforms.json/")
+      .get(`/${payload}.json/`)
       .then(({ data }) => {
         // console.log(data);
         dispatch({

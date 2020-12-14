@@ -56,15 +56,15 @@ const ThemeNavbar = props => {
               </div>
               {props.horizontal ? (
                 <div className="logo d-flex align-items-center">
-                  <div className="brand-logo mr-50"></div>
-                  <h2 className="text-primary brand-text mb-0">Vuexy</h2>
+                  {/* <div className="brand-logo mr-50"></div> */}
+                  <h2 className="text-primary brand-text mb-0">Linha Verde 1458</h2>
                 </div>
               ) : null}
               <NavbarUser
                 handleAppOverlay={props.handleAppOverlay}
                 changeCurrentLang={props.changeCurrentLang}
-                userName="John Doe"
-                userImg={ userImg }
+                userName="Linha Verde User"
+                userImg=""
               />
             </div>
           </div>
