@@ -12,7 +12,7 @@ DEBUG = env.bool("DJANGO_DEBUG", False)
 # wq: Determine if we are running off django's testing server
 DEBUG_WITH_RUNSERVER = env.bool("DJANGO_DEBUG", False)
 
-ALLOWED_HOSTS = [env("ALLOWED_HOSTS")]
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 
 # Database
