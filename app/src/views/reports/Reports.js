@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import BarChart from "./charts/Bar";
+import PieChart from "./charts/Pie";
 import { connect } from "react-redux";
 
 import {
@@ -47,6 +48,12 @@ class Information extends Component {
         <Row>
           <Col md="6">
             <BarChart />
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md="6">
+            <PieChart />
           </Col>
         </Row>
       </div>
