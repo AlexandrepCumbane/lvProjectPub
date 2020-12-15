@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -64,10 +63,3 @@ class Location(models.Model):
 
     def __str__(self):
         return self.name
-
-# Proxy model to enable setting users as fk from xlsform
-class User(User):
-
-    class Meta:
-        proxy = True
-        ordering = ('first_name', )
