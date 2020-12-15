@@ -10,7 +10,7 @@ const get_pages = () => {
       title: "Home",
       type: "item",
       icon: <Icon.Home size={20} />,
-      permissions: ["admin", "editor"],
+      permissions: ["operator", "manager", "focalpoint", "partner", "admin"],
       navLink: "/",
     },
     {
@@ -18,7 +18,7 @@ const get_pages = () => {
       title: "Cases",
       type: "item",
       icon: <Icon.Archive size={20} />,
-      permissions: ["admin", "editor"],
+      permissions: ["operator", "manager", "focalpoint", "partner"],
       navLink: "/lvforms",
     },
     {
@@ -26,7 +26,7 @@ const get_pages = () => {
       title: "Tasks",
       type: "item",
       icon: <Icon.Activity size={20} />,
-      permissions: ["admin", "editor"],
+      permissions: ["operator", "manager", "focalpoint", "partner", "admin"],
       navLink: "/tasks",
     },
     {
@@ -34,7 +34,7 @@ const get_pages = () => {
       title: "Reports",
       type: "item",
       icon: <Icon.BarChart size={20} />,
-      permissions: ["admin", "editor"],
+      permissions: ["operator", "manager", "focalpoint", "partner"],
       navLink: "/reports",
     },
     {
@@ -42,7 +42,7 @@ const get_pages = () => {
       title: "Knowledge Base",
       type: "item",
       icon: <Icon.Database size={20} />,
-      permissions: ["admin", "editor"],
+      permissions: ["operator", "manager", "focalpoint", "partner"],
       navLink: "/information",
     },
     {
@@ -50,7 +50,7 @@ const get_pages = () => {
       title: "Users Management",
       type: "item",
       icon: <Icon.Users size={20} />,
-      permissions: ["admin", "editor"],
+      permissions: ["operator", "manager", "focalpoint", "partner"],
       navLink: "/users",
     },
   ];
