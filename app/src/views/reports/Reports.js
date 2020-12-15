@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import BarChart from "./charts/Bar";
 import PieChart from "./charts/Pie";
+import DountChart from "./charts/Dounts"
 import { connect } from "react-redux";
 
 import {
@@ -46,16 +47,26 @@ class Information extends Component {
         />
 
         <Row>
-          <Col md="6">
+          <Col md="4">
             <BarChart />
+          </Col>
+          <Col md="4">
+            <h5 className="">KOWLEDGE ABOUT LV</h5>
+            <PieChart />
+          </Col>
+          
+          <Col md="4">
+          <h5>SATISFATION</h5>
+            <DountChart />
           </Col>
         </Row>
 
+
         <Row>
-          <Col md="6">
-            <PieChart />
-          </Col>
+
+        
         </Row>
+       
       </div>
     );
   }
