@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardHeader, CardTitle, CardBody } from "reactstrap";
 import Chart from "react-apexcharts";
 
-class ApexBarCharts extends React.Component {
+class BarCharts extends React.Component {
   state = {
     options: {
       colors: this.props.themeColors,
@@ -52,4 +52,4 @@ class ApexBarCharts extends React.Component {
     );
   }
 }
-export default ApexBarCharts;
+export default BarCharts;
