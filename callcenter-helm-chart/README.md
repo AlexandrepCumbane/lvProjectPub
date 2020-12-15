@@ -27,7 +27,7 @@ To specify a custom values file, for instance for the purpose of different value
    - Visit http://0.0.0.0:8080 to use your application
 
 ## To provision a public IP with SSL certificate, ensure the production_issuer is deployed and running, at which point, you can run:
-kubectl apply -f linhaverde-kubernetes-ingress.yaml
+``    kubectl apply -f linhaverde-kubernetes-ingress.yaml``
 
 # Manually building docker image:
  ` docker build --tag roboboinc/linhaverde:wq2 . && docker push roboboinc/linhaverde:wq2 `
