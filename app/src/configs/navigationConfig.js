@@ -34,7 +34,7 @@ const get_pages = () => {
       title: "Reports",
       type: "item",
       icon: <Icon.BarChart size={20} />,
-      permissions: ["operator", "manager", "focalpoint", "partner"],
+      permissions: ["operator", "manager", "focalpoint", "partner", "admin"],
       navLink: "/reports",
     },
     {

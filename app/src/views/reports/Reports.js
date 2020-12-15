@@ -1,5 +1,17 @@
 import React, { Component } from "react";
+import BarChart from "./charts/Bar";
 import { connect } from "react-redux";
+
+import {
+  Col,
+  Row,
+  Input,
+  FormGroup,
+  Button,
+  CustomInput,
+  Label,
+} from "reactstrap";
+
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import AgGridTable from "../../components/custom/table/AgGridTable";
 
@@ -31,6 +43,12 @@ class Information extends Component {
           breadCrumbParent={this.state.pageParent}
           breadCrumbActive={this.state.activePage}
         />
+
+        <Row>
+          <Col md="6">
+            <BarChart />
+          </Col>
+        </Row>
       </div>
     );
   }
