@@ -10,6 +10,7 @@ icon-192.png
 icon-512.png
 .wq-pgb
 conf/casemgmtproject.sqlite3
+conf/*.sqlite3
 app/.eslintcache
 db/~$lv_form.xlsx
 app_template/.eslintcache
