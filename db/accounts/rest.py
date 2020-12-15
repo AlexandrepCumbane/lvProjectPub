@@ -1,10 +1,10 @@
 from wq.db import rest
 from django.contrib.auth.models import Group, Permission
-from .models import User
+from .models import CustomUser
 
 # TODO: Filter to only return required fields
 rest.router.register_model(
-    User,
+    CustomUser,
     fields="__all__",
     cache="all",
 )

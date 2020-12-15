@@ -141,4 +141,4 @@ LOGIN_URL = '/accounts/login/'
 REST_FRAMEWORK['DEFAULT_PERMISSION_CLASSES'] = ('caseproject.rest.permissions.ModelPermissions',) 
 # REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] = 'rest_framework.authentication.TokenAuthentication'
 
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'accounts.CustomUser'
