@@ -18,7 +18,7 @@ const get_pages = () => {
       title: "Cases",
       type: "item",
       icon: <Icon.Archive size={20} />,
-      permissions: ["operator", "manager", "focalpoint", "partner"],
+      permissions: ["operator", "manager", "focalpoint", "partner", "admin"],
       navLink: "/lvforms",
     },
     {
