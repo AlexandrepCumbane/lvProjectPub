@@ -16,6 +16,7 @@ pipelines:
             script:
               - cd app/
               - yarn
+              - unset CI
               - yarn build
 #        - step:
 #            name: Code linting
