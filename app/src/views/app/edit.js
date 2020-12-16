@@ -80,13 +80,13 @@ class Edit extends Component {
           </h4>
           <small className="text-white">
             <u className="text-secondary">
-              Criado aos{" "}
+              {/* Criado aos{" "} */}
               <strong>
                 {"  "}
                 {/* {moment(data.created_at).format("YYYY-MM-DD")} */}
               </strong>
               {"  "}
-              por{" "}
+              {/* por{" "} */}
               <strong>
                 {" "}
                 {/* <i>{String(data.created_by.username)}</i>{" "} */}
@@ -107,31 +107,7 @@ class Edit extends Component {
           <div>{this.renderForm()}</div>
         </PerfectScrollbar>
         <div className="data-list-sidebar-footer px-2 d-flex justify-content-start align-items-center mt-1 mb-1">
-          <Button
-            color="primary"
-            className="mr-1 square"
-            onClick={() => this.handleSubmit()}
-          >
-            Update
-          </Button>
-
-          <Modal
-            title={`Register form for task`}
-            page="task"
-            label="Task"
-            color="success"
-          />
-          <Modal
-            title={`Send to case to Entity`}
-            page="forwardinginstitution"
-            label="Send"
-          />
-          <Modal
-            title={`Add your feedback`}
-            page="casecomment"
-            label="Feedback"
-            color="secondary"
-          />
+          {this.renderActions()}
         </div>
       </div>
     );
@@ -139,6 +115,102 @@ class Edit extends Component {
   /**
    * Action and helper functions
    */
+
+  renderActions = () => {
+    const userRole = "admin";
+
+    let element = <p>No actions Provived</p>;
+
+    switch (userRole) {
+      case "admin":
+        element = (
+          <div>
+            {" "}
+            <Button
+              color="primary"
+              className="mr-1 square"
+              onClick={() => this.handleSubmit()}
+            >
+              Update
+            </Button>
+            <Modal
+              title={`Register form for task`}
+              page="task"
+              label="Task"
+              color="success"
+            />
+            <Modal
+              title={`Send to case to Entity`}
+              page="forwardinginstitution"
+              label="Send"
+            />
+            <Modal
+              title={`Add your feedback`}
+              page="casecomment"
+              label="Feedback"
+              color="secondary"
+            />
+          </div>
+        );
+        break;
+      case "partner":
+        element = (
+          <div>
+            <Modal
+              title={`Add your feedback`}
+              page="casecomment"
+              label="Feedback"
+              color="secondary"
+            />
+          </div>
+        );
+        break;
+
+      case "focalpoint":
+        element = (
+          <div>
+            <Button
+              color="primary"
+              className="mr-1 square"
+              onClick={() => this.handleSubmit()}
+            >
+              Update
+            </Button>
+            <Modal
+              title={`Send to case to Entity`}
+              page="forwardinginstitution"
+              label="Send"
+            />
+            <Modal
+              title={`Add your feedback`}
+              page="casecomment"
+              label="Feedback"
+              color="secondary"
+            />
+          </div>
+        );
+        break;
+
+      case "operator":
+        element = (
+          <div>
+            <Button
+              color="primary"
+              className="mr-1 square"
+              onClick={() => this.handleSubmit()}
+            >
+              Update
+            </Button>
+          </div>
+        );
+        break;
+      default:
+        element = <p>Actions not authorized </p>;
+        break;
+    }
+
+    return element;
+  };
 
   renderForm = () => {
     const form_ = this.props.state.auth.login.config.pages.lvform;
