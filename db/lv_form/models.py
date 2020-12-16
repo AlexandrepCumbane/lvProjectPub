@@ -1,5 +1,6 @@
 from django.db import models
-
+from django.conf import settings
+User = settings.AUTH_USER_MODEL
 
 class LvForm(models.Model):
     consent_pi = models.BooleanField(
@@ -300,7 +301,7 @@ class LvForm(models.Model):
         auto_now=True,
     )
     created_by = models.ForeignKey(
-        'location_management.User',
+        User,
         on_delete=models.CASCADE,
         null=True,
         blank=True,
@@ -330,7 +331,7 @@ class CaseComment(models.Model):
         verbose_name="Feedback",
     )
     created_by = models.ForeignKey(
-        'location_management.User',
+        User,
         on_delete=models.CASCADE,
         null=True,
         blank=True,
@@ -372,7 +373,7 @@ class ForwardingInstitution(models.Model):
         verbose_name="Has feedback",
     )
     created_by = models.ForeignKey(
-        'location_management.User',
+        User,
         on_delete=models.CASCADE,
         null=True,
         blank=True,
@@ -413,7 +414,7 @@ class Task(models.Model):
         verbose_name="Description",
     )
     assignee = models.ForeignKey(
-        'location_management.User',
+        User,
         on_delete=models.CASCADE,
         null=True,
         blank=True,
@@ -447,7 +448,7 @@ class Task(models.Model):
         verbose_name="Number of attempts to reach the other person",
     )
     created_by = models.ForeignKey(
-        'location_management.User',
+        User,
         on_delete=models.CASCADE,
         null=True,
         blank=True,
@@ -478,7 +479,7 @@ class TaskComment(models.Model):
         verbose_name="Feedback",
     )
     created_by = models.ForeignKey(
-        'location_management.User',
+        User,
         on_delete=models.CASCADE,
         null=True,
         blank=True,

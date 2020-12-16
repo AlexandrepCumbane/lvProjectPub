@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'lv_form',
     'location_management',
     'case_tipology',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +140,5 @@ LOGIN_URL = '/accounts/login/'
 #Important change to wq's default handling of auth
 REST_FRAMEWORK['DEFAULT_PERMISSION_CLASSES'] = ('caseproject.rest.permissions.ModelPermissions',) 
 # REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] = 'rest_framework.authentication.TokenAuthentication'
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
