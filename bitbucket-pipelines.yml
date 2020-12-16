@@ -6,7 +6,8 @@
 image: node:10.15.3
 
 pipelines:
-  default:
+  branches:
+    '{master,dev,feature/*}':
       - step:
           name: Build and Test
           caches:
