@@ -14,8 +14,6 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Card,
-  CardBody,
   Row,
   Col,
   FormGroup,
@@ -25,7 +23,7 @@ import {
   Spinner,
 } from "reactstrap";
 
-class Create extends React.Component {
+class Edit extends React.Component {
   notifySuccessBounce = (id = "") =>
     toast.success(`Object created successfuly!`, { transition: Bounce });
 
@@ -356,5 +354,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, { requestForm, requestDropodowns })(
-  Create
+  Edit
 );
