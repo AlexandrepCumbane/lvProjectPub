@@ -16,7 +16,7 @@ pipelines:
             script:
               - cd app/
               - yarn
-              - yarn workspace app build
+              - yarn build
 #        - step:
 #            name: Code linting
 #            script:
