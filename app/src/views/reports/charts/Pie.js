@@ -9,18 +9,18 @@ class PieCharts extends React.Component {
 
       this.state = {
       
-        series: [44, 55, 13, 43, 22],
+        series: [3, 2, 4, 23,38,29],
         options: {
           chart: {
             width: 380,
             type: 'pie',
           },
-          labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+          labels: ['Pamphlet', 'People', 'Posters','Radio','Suggestion Boxes', 'Unspecified'],
           responsive: [{
             breakpoint: 480,
             options: {
               chart: {
-                width: 200
+                
               },
               legend: {
                 position: 'bottom'
