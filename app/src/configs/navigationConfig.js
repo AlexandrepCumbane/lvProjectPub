@@ -13,14 +13,48 @@ const get_pages = () => {
       permissions: ["operator", "manager", "focalpoint", "partner", "admin"],
       navLink: "/",
     },
+
     {
       id: "cases",
-      title: "Cases",
-      type: "item",
-      icon: <Icon.Archive size={20} />,
-      permissions: ["operator", "manager", "focalpoint", "partner", "admin"],
-      navLink: "/lvforms",
+      title: "Casos",
+      type: "collapse",
+      icon: <Icon.File size={20} />,
+      badge: "warning",
+      // badgeText: "2",
+      children: [
+        {
+          id: "all_cases",
+          title: "Registered",
+          type: "item",
+          icon: <Icon.Archive size={12} />,
+          permissions: [
+            "operator",
+            "manager",
+            "focalpoint",
+            "partner",
+            "admin",
+          ],
+
+          navLink: "/lvforms",
+        },
+        {
+          id: "referall_cases",
+          title: "Fowarded",
+          type: "item",
+          icon: <Icon.FileText size={12} />,
+          permissions: [
+            "operator",
+            "manager",
+            "focalpoint",
+            "partner",
+            "admin",
+          ],
+
+          navLink: "/lvforms_fowarded",
+        },
+      ],
     },
+
     {
       id: "tasks",
       title: "Tasks",
