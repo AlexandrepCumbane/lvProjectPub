@@ -68,7 +68,7 @@ class ColumnCharts extends React.Component {
                 colorFrom: "brown",
                 colorTo: this.props.options.color, //colorTo: "#BED1E6",
                 stops: [0, 100],
-                opacityFrom: 0.4,
+                opacityFrom: 0,
                 opacityTo: 0.5,
               },
             },
@@ -97,9 +97,7 @@ class ColumnCharts extends React.Component {
           offsetY: 330,
           align: "center",
           style: {
-            color: "brown",
-            paddingTop:"111px",
-            fontSize:"12px"
+            color: "brown"
           },
         },
       },

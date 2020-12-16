@@ -3,7 +3,8 @@ import BarChart from "./charts/Bar";
 import PieChart from "./charts/Pie";
 import DountChart from "./charts/Dounts";
 import ColumnChart from "./charts/Column";
-import DistributedChart from "./charts/Distributed";
+import { Activity } from "react-feather";
+import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
 
 import { connect } from "react-redux";
 
@@ -49,24 +50,59 @@ class Information extends Component {
           breadCrumbParent={this.state.pageParent}
           breadCrumbActive={this.state.activePage}
         />
-
+        <Row>
+          <Col lg="3" sm="6">
+            <StatisticsCard
+              hideChart
+              iconRight
+              iconBg="primary"
+              icon={<Activity className="primary" size={22} />}
+              stat="87%"
+              statTitle="Total Feedback Provided"
+            />
+          </Col>
+          <Col lg="3" sm="6">
+            <StatisticsCard
+              hideChart
+              iconRight
+              iconBg="primary"
+              icon={<Activity className="primary" size={22} />}
+              stat="9899"
+              statTitle="Total Feedback Provided"
+            />
+          </Col>
+        </Row>
         <Row>
           <Col md="4">
-            <BarChart />
+            <h5>CLIENTE PROFILE BY AGE</h5>
+            <DountChart
+              //title ="CALLER PROFILE"
+              series={[3, 90, 4]}
+              labels={["Under 17", "18-59", "60 and above"]}
+            />
           </Col>
           <Col md="4">
-            <h5 className="">KOWLEDGE ABOUT LV</h5>
-            <PieChart />
+            <h5>CLIENTE PROFILE BY GENDER</h5>
+            <DountChart
+              //title ="CALLER PROFILE"
+              series={[78, 22]}
+              labels={["Male", "Female"]}
+            />
           </Col>
+         
 
           <Col md="4">
             <h5>SATISFATION</h5>
-            <DountChart />
+            <DountChart
+              series={[95, 5]}
+              labels={["Satisfied", "Dissatisfied"]}
+            />
           </Col>
         </Row>
 
         <Row>
           <Col md="6">
+            <h5>CASES BY PROVINCES</h5>
             <ColumnChart
               options={{
                 color: "#d9eb55",
@@ -85,6 +121,7 @@ class Information extends Component {
           </Col>
 
           <Col md="6">
+            <h5>CASE TYPE</h5>
             <ColumnChart
               options={{
                 color: "#d9eb55",
@@ -103,6 +140,9 @@ class Information extends Component {
 
         <Row>
           <Col md="6">
+            <h5>
+             CASES PER SECTOR 
+            </h5>
             <ColumnChart
               options={{
                 color: "#d9eb55",
@@ -122,13 +162,12 @@ class Information extends Component {
             />
           </Col>
           <Col md="6">
-            <DountChart
-             //title ="CALLER PROFILE"
-              series={[78, 22]}
-              labels={["Male", "Female"]} 
-            />
+            <h5 className="">KOWLEDGE ABOUT LV</h5>
+            <PieChart />
           </Col>
         </Row>
+
+        
       </div>
     );
   }
