@@ -63,14 +63,55 @@ const get_pages = () => {
       permissions: ["operator", "manager", "focalpoint", "partner", "admin"],
       navLink: "/tasks",
     },
+
     {
       id: "reports",
       title: "Reports",
-      type: "item",
-      icon: <Icon.BarChart size={20} />,
-      permissions: ["operator", "manager", "focalpoint", "partner", "admin"],
-      navLink: "/reports",
+      type: "collapse",
+      icon: <Icon.PieChart size={20} />,
+      badge: "warning",
+      // badgeText: "2",
+      children: [
+        {
+          id: "general",
+          title: "General",
+          type: "item",
+          icon: <Icon.BarChart size={12} />,
+          permissions: [
+            "operator",
+            "manager",
+            "focalpoint",
+            "partner",
+            "admin",
+          ],
+
+          navLink: "/reports",
+        },
+        {
+          id: "advanced",
+          title: "Advanced",
+          type: "item",
+          icon: <Icon.Filter size={12} />,
+          permissions: [
+            "operator",
+            "manager",
+            "focalpoint",
+            "partner",
+            "admin",
+          ],
+
+          navLink: "/advanced",
+        },
+      ],
     },
+    // {
+    //   id: "reports",
+    //   title: "Reports",
+    //   type: "item",
+    //   icon: <Icon.BarChart size={20} />,
+    //   permissions: ["operator", "manager", "focalpoint", "partner", "admin"],
+    //   navLink: "/reports",
+    // },
     {
       id: "information",
       title: "Knowledge Base",

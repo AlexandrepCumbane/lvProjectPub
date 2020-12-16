@@ -25,6 +25,8 @@ const Information = lazy(() => import("./views/information/Information"));
 
 const Reports = lazy(() => import("./views/reports/Reports"));
 
+const AdvancedReports = lazy(() => import("./views/reports/Advanced"));
+
 const Users = lazy(() => import("./views/users/Users"));
 
 const login = lazy(() => import("./views/pages/authentication/login/Login"));
@@ -145,6 +147,19 @@ class AppRouter extends React.Component {
             // component={AppList}
             component={(props) => (
               <Reports {...props} title="Reports" path="report" url="reports" />
+            )}
+          />
+          <AppRoute
+            exact
+            path="/advanced"
+            // component={AppList}
+            component={(props) => (
+              <AdvancedReports
+                {...props}
+                title="Advanced Reports"
+                path="report"
+                url="reports"
+              />
             )}
           />
 
