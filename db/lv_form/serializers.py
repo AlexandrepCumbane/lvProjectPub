@@ -2,8 +2,8 @@ from wq.db.patterns import serializers as patterns
 from .models import LvForm, CaseComment, ForwardingInstitution, Task, TaskComment
 
 
-class CaseCommentSerializer(patterns.AttachmentSerializer):
-    class Meta(patterns.AttachmentSerializer.Meta):
+class CaseCommentSerializer(patterns.AttachedModelSerializer):
+    class Meta: #(patterns.AttachmentSerializer.Meta):
         model = CaseComment
         exclude = ('created_by',)
         # exclude = ('lvform',)
@@ -15,8 +15,8 @@ class CaseCommentSerializer(patterns.AttachmentSerializer):
         return form
 
 
-class ForwardingInstitutionSerializer(patterns.AttachmentSerializer):
-    class Meta(patterns.AttachmentSerializer.Meta):
+class ForwardingInstitutionSerializer(patterns.AttachedModelSerializer):
+    class Meta: #(patterns.AttachmentSerializer.Meta):
         model = ForwardingInstitution
         exclude = ('created_by',)
         # exclude = ('lvform',)
@@ -28,8 +28,8 @@ class ForwardingInstitutionSerializer(patterns.AttachmentSerializer):
         return form
 
 
-class TaskSerializer(patterns.AttachmentSerializer):
-    class Meta(patterns.AttachmentSerializer.Meta):
+class TaskSerializer(patterns.AttachedModelSerializer):
+    class Meta: #(patterns.AttachmentSerializer.Meta):
         model = Task
         exclude = ('created_by',)
         # exclude = ('lvform',)
@@ -41,8 +41,8 @@ class TaskSerializer(patterns.AttachmentSerializer):
         return form
 
 
-class TaskCommentSerializer(patterns.AttachmentSerializer):
-    class Meta(patterns.AttachmentSerializer.Meta):
+class TaskCommentSerializer(patterns.AttachedModelSerializer):
+    class Meta: #(patterns.AttachmentSerializer.Meta):
         model = TaskComment
         exclude = ('created_by',)
         # exclude = ('lvform',)
