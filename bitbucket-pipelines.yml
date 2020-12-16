@@ -7,6 +7,20 @@ image: node:10.15.3
 
 pipelines:
   default:
+    - step:
+        name: Build and Test
+        caches:
+          #- nodeapp
+          - yarn
+        script:
+          - cd app/
+          - yarn
+          - unset CI
+          - yarn build
+      artifacts:
+        - app/build/**
+  branches:
+    master:
       - step:
           name: Build and Test
           caches:
@@ -27,10 +41,10 @@ pipelines:
               variables:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-                AWS_DEFAULT_REGION: 'eu-west-1'
-                S3_BUCKET: 'linhaverde-app'
-                LOCAL_PATH: 'app/build'
-                ACL: 'public-read'
+                AWS_DEFAULT_REGION: "eu-west-1"
+                S3_BUCKET: "linhaverde-app"
+                LOCAL_PATH: "app/build"
+                ACL: "public-read"
 #        - step:
 #            name: Code linting
 #            script:
@@ -41,5 +55,5 @@ pipelines:
 #              - node
 definitions:
   caches:
-#    nodeapp: ./packages/app/node_modules
+    #    nodeapp: ./packages/app/node_modules
     yarn: /usr/local/share/.cache/yarn
