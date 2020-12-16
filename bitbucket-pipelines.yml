@@ -18,7 +18,7 @@ pipelines:
             - unset CI
             - yarn build
           artifacts:
-            - app/build/*
+            - app/build/**
       - step:
           name: Deploy to S3
           deployment: production
