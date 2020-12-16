@@ -112,5 +112,5 @@
     ]
   },
   "homepage": "",
-  "proxy": "https://backend.lv-staging.robobo.org/"
+  "proxy": "https://backend.lv-staging.robobo.org"
 }
