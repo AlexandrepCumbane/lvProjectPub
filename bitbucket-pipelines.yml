@@ -1,0 +1,31 @@
+#  Template NodeJS build
+
+#  This template allows you to validate your NodeJS code.
+#  The workflow allows running tests and code linting on the default branch.
+
+image: node:10.15.3
+
+pipelines:
+  default:
+    - parallel:
+        - step:
+            name: Build and Test
+            caches:
+              #- nodeapp
+              - yarn
+            script:
+              - cd app/
+              - yarn
+              - yarn workspace app build
+#        - step:
+#            name: Code linting
+#            script:
+#              - cd app/
+#              - npm install eslint
+#              - npx eslint .
+#            caches:
+#              - node
+definitions:
+  caches:
+#    nodeapp: ./packages/app/node_modules
+    yarn: /usr/local/share/.cache/yarn
