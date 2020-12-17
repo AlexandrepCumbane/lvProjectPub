@@ -7,12 +7,13 @@ import {
   FormGroup,
   Col,
   Row,
-  ButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
-} from "reactstrap"
-import { ChevronDown } from "react-feather"
+  CustomInput,
+  Card,
+  CardBody,
+  CardHeader,
+  CardTitle,
+} from "reactstrap";
+import { ChevronDown } from "react-feather";
 import DistributedCharts from "./charts/Distributed";
 class Information extends Component {
   state = {
@@ -38,44 +39,51 @@ class Information extends Component {
           breadCrumbActive={this.state.activePage}
         />
 
-              <Row>
+        <Row>
+          <Col md="12">
+            <Card className="rounded-0 mb-0 my-2">
+              <CardHeader>
+                <CardTitle>Advanced Report Filters</CardTitle>
+              </CardHeader>
+              <CardBody>
+                <Row>
                   <Col lg="3" md="6" sm="12">
-                    
                     <FormGroup className="mb-0">
                       <Label for="role">Province</Label>
-                      <Input
+                      <CustomInput
+                        className="square"
                         type="select"
                         name="role"
                         id="role"
-                        
                       >
                         <option value="All">Maputo</option>
                         <option value="User">Tete</option>
                         <option value="Staff">Sofala</option>
                         <option value="Admin">Nampula</option>
-                      </Input>
+                      </CustomInput>
                     </FormGroup>
                   </Col>
                   <Col lg="3" md="6" sm="12">
                     <FormGroup className="mb-0">
                       <Label for="status">Distrit</Label>
-                      <Input
+                      <CustomInput
+                        className="square"
                         type="select"
                         name="status"
                         id="status"
-                        
                       >
                         <option value="All">Boane</option>
                         <option value="Active">Marracuene</option>
                         <option value="Blocked">Matola</option>
                         <option value="Deactivated">Manhica</option>
-                      </Input>
+                      </CustomInput>
                     </FormGroup>
                   </Col>
                   <Col lg="3" md="6" sm="12">
                     <FormGroup className="mb-0">
                       <Label for="verified">Locality</Label>
-                      <Input
+                      <CustomInput
+                        className="square"
                         type="select"
                         name="verified"
                         id="verified"
@@ -83,64 +91,51 @@ class Information extends Component {
                         <option value="All">All</option>
                         <option value="True">True</option>
                         <option value="False">False</option>
-                      </Input>
+                      </CustomInput>
                     </FormGroup>
                   </Col>
-                  <Col lg="3" md="6" sm="12" >
+                  <Col lg="3" md="6" sm="12">
                     <FormGroup className="mb-0">
                       <Label for="department">Cases per Province</Label>
-                      <Input
+                      <CustomInput
+                        className="square"
                         type="select"
                         name="department"
                         id="department"
-                        
                       >
                         <option value="All">All</option>
                         <option value="Sales">Sales</option>
                         <option value="Development">Development</option>
                         <option value="Management">Management</option>
-                      </Input>
+                      </CustomInput>
                     </FormGroup>
                   </Col>
                 </Row>
-                <br></br>
-                <br></br>
-                  <Row >
-
-                  
-                  <Col md="auto" mr="auto">
-                 <h5>CLIENTE PROFILE BY AGE</h5>
-            <DistributedCharts 
-            
-            
-           
-            categorie=
-           {[
-            ['Gaza', 'Doe'],
-            ['Maputo', 'Smith'],
-            ['yes', 'Williams'],
-            'Amber',
-            ['Peter', 'Brown'],
-            ['Mary', 'Evans'],
-            ['David', 'Wilson'],
-            ['Lily', 'Roberts'], 
-          ]} 
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col md="auto" mr="auto">
+            <h5>CLIENTE PROFILE BY AGE</h5>
+            <DistributedCharts
+              categorie={[
+                ["Gaza", "Doe"],
+                ["Maputo", "Smith"],
+                ["yes", "Williams"],
+                "Amber",
+                ["Peter", "Brown"],
+                ["Mary", "Evans"],
+                ["David", "Wilson"],
+                ["Lily", "Roberts"],
+              ]}
             />
-              
-            
-                  </Col>
-
-                  
-                
-                </Row>
-   
-        
+          </Col>
+        </Row>
       </div>
-  
     );
-    }
+  }
 }
-
 
 function mapStateToProps(state) {
   return {
