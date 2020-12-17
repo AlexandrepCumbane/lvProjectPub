@@ -56,3 +56,9 @@ STATICFILES_STORAGE = "caseproject.utils.storages.StaticRootS3Boto3Storage"
 # ------------------------------------------------------------------------------
 DEFAULT_FILE_STORAGE = "caseproject.utils.storages.MediaRootS3Boto3Storage"
 MEDIA_URL = f"https://{aws_s3_domain}/media/"
+
+# CORS 
+INSTALLED_APPS += ["corsheaders"]  # noqa F405
+
+CORS_ALLOW_CREDENTIALS = True # to accept cookies via ajax request
+CORS_ORIGIN_WHITELIST = env.list("CORS_ORIGIN_WHITELIST")
