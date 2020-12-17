@@ -5,7 +5,6 @@ import DountChart from "./charts/Dounts";
 import ColumnChart from "./charts/Column";
 import { Activity } from "react-feather";
 import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
-import {Tab, Tabs} from "react-tabs";
 import { connect } from "react-redux";
 
 import {
