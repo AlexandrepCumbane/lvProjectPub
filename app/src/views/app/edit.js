@@ -19,6 +19,7 @@ import {
 import { axios } from "../../redux/api";
 
 import Modal from "./modal/create";
+import ModalEdit from "./modal/edit";
 
 import { X } from "react-feather";
 import PerfectScrollbar from "react-perfect-scrollbar";
@@ -149,6 +150,12 @@ class Edit extends Component {
               page="casecomment"
               label="Feedback"
               color="secondary"
+            />
+            <Modal
+              title={`Edit Task`}
+              page="task"
+              label="Edit Task"
+              color="info"
             />
           </div>
         );
