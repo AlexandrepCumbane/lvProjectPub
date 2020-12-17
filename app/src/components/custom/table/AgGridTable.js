@@ -1,5 +1,4 @@
 import React from "react";
-import { render } from "react-dom";
 import { AgGridReact } from "ag-grid-react";
 import classnames from "classnames";
 import { Edit, ChevronDown } from "react-feather";
@@ -16,6 +15,7 @@ import {
 } from "reactstrap";
 
 import CaseEdit from "../../../views/app/edit";
+import ModalEdit from "../../../views/app/modal/edit";
 
 import "../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../assets/scss/pages/users.scss";
@@ -74,13 +74,13 @@ class AggridTable extends React.Component {
                   onClick={(e) => {
                     this.setState({ selectedData: params.data });
 
-                    if (this.props.tableType == "cases") {
+                    if (this.props.tableType == "lvform") {
                       this.setState({ showSidebar: true });
                     }
                     if (this.props.tableType == "calls") {
                       this.setState({ showCallSidebar: true });
                     }
-                    if (this.props.tableType == "tasks") {
+                    if (this.props.tableType == "task") {
                       this.setState({ showTaskDialog: true });
                     }
                   }}
@@ -192,7 +192,14 @@ class AggridTable extends React.Component {
             //   dropdowns={this.props.dropdowns.task}
             //   updateList={this.props.updateList}
             // />
-            <></>
+            <ModalEdit
+              title={`Edit Task`}
+              page="task"
+              label="Edit Task"
+              color="info"
+              modal={showTaskDialog}
+              disabled
+            />
           ) : (
             <></>
           )}

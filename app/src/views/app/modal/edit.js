@@ -33,7 +33,7 @@ class Edit extends React.Component {
     });
 
   state = {
-    modal: false,
+    modal: this.props.modal ?? false,
     unmountOnClose: true,
 
     form: new FormData(),
@@ -56,14 +56,18 @@ class Edit extends React.Component {
   render() {
     return (
       <>
-        <Button
-          color={`${this.props.color ?? "warning"}`}
-          className="square mr-1"
-          outline
-          onClick={this.toggleModal}
-        >
-          {this.props.label}
-        </Button>
+        {this.props.disabled ? (
+          <></>
+        ) : (
+          <Button
+            color={`${this.props.color ?? "warning"}`}
+            className="square mr-1"
+            outline
+            onClick={this.toggleModal}
+          >
+            {this.props.label}
+          </Button>
+        )}
         <Modal
           isOpen={this.state.modal}
           toggle={this.toggleModal}
@@ -77,8 +81,14 @@ class Edit extends React.Component {
           <ModalBody>{this.renderForm()}</ModalBody>
 
           <ModalFooter>
+            {this.props.page == "task" ? (
+              <Button outline color="warning" className="square">
+                Comment
+              </Button>
+            ) : (
+              <></>
+            )}
             <Button
-              outline
               color="primary"
               className="square"
               onClick={() => this.handleSubmit()}

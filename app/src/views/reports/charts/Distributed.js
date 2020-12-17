@@ -16,6 +16,7 @@ class DistributedCharts extends React.Component {
         options: {
           chart: {
             height: 350,
+            
             type: 'bar',
             events: {
               click: function(chart, w, e) {
@@ -26,8 +27,9 @@ class DistributedCharts extends React.Component {
           
           plotOptions: {
             bar: {
-              columnWidth: '45%',
-              distributed: true
+              columnWidth: '50%',
+              distributed: true,
+              
             }
           },
           dataLabels: {
@@ -37,7 +39,8 @@ class DistributedCharts extends React.Component {
             show: false
           },
           xaxis: {
-            categories: [
+            categories: this.props.categorie,
+            /*categories: [
               ['John', 'Doe'],
               ['Joe', 'Smith'],
               ['Jake', 'Williams'],
@@ -46,7 +49,9 @@ class DistributedCharts extends React.Component {
               ['Mary', 'Evans'],
               ['David', 'Wilson'],
               ['Lily', 'Roberts'], 
-            ],
+            ],*/
+
+           
             labels: {
               style: {
                 
@@ -70,6 +75,7 @@ class DistributedCharts extends React.Component {
                 series={this.state.series}
                 type="bar"
                 height={350}
+                width={700}
               />
             </CardBody>
           </Card>

@@ -5,7 +5,6 @@ import DountChart from "./charts/Dounts";
 import ColumnChart from "./charts/Column";
 import { Activity } from "react-feather";
 import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
-
 import { connect } from "react-redux";
 
 import {
@@ -68,7 +67,7 @@ class Information extends Component {
               iconBg="primary"
               icon={<Activity className="primary" size={22} />}
               stat="9899"
-              statTitle="Total Feedback Provided"
+              statTitle="Total Cases Registered"
             />
           </Col>
         </Row>
@@ -82,14 +81,9 @@ class Information extends Component {
             />
           </Col>
           <Col md="4">
-            <h5>CLIENTE PROFILE BY GENDER</h5>
-            <DountChart
-              //title ="CALLER PROFILE"
-              series={[78, 22]}
-              labels={["Male", "Female"]}
-            />
+            <h5 className="">KOWLEDGE ABOUT LV</h5>
+            <PieChart />
           </Col>
-         
 
           <Col md="4">
             <h5>SATISFATION</h5>
@@ -141,7 +135,7 @@ class Information extends Component {
         <Row>
           <Col md="6">
             <h5>
-             CASES PER SECTOR 
+              Cases Per Sector 
             </h5>
             <ColumnChart
               options={{
@@ -162,12 +156,15 @@ class Information extends Component {
             />
           </Col>
           <Col md="6">
-            <h5 className="">KOWLEDGE ABOUT LV</h5>
-            <PieChart />
+            <h5>CLIENTE PROFILE BY GENDER</h5>
+            <DountChart
+              //title ="CALLER PROFILE"
+              series={[78, 22]}
+              labels={["Male", "Female"]}
+            />
           </Col>
         </Row>
 
-        
       </div>
     );
   }

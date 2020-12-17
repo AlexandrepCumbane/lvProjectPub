@@ -80,7 +80,7 @@ class List extends Component {
           <AgGridTable
             data={this.state.data}
             columnDefs={this.state.columnDefs}
-            tableType={"cases"}
+            tableType={this.state.page}
             dropdowns={[]}
           />
         ) : (
