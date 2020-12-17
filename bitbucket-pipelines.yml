@@ -32,6 +32,15 @@ pipelines:
                 S3_BUCKET: 'vulavula1458.co.mz'
                 LOCAL_PATH: 'app/build'
                 ACL: 'public-read'
+      - step:
+          name: Invalidate Cloudfront
+          script:
+            - pipe: atlassian/aws-cloudfront-invalidate:0.4.1
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_DEFAULT_REGION: 'eu-west-1'
+                DISTRIBUTION_ID: "E2L9NWMRKCT11T"
 #        - step:
 #            name: Code linting
 #            script:
