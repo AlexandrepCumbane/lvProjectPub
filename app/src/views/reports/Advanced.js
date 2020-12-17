@@ -13,6 +13,7 @@ import {
   DropdownItem
 } from "reactstrap"
 import { ChevronDown } from "react-feather"
+import DistributedCharts from "./charts/Distributed";
 class Information extends Component {
   state = {
     pageTitle: "Advanced Reports",
@@ -26,7 +27,7 @@ class Information extends Component {
     dropdownOpen: false,
   };
 
-
+  componentDidMount() {}
   render() {
     return (
       <div>
@@ -37,7 +38,7 @@ class Information extends Component {
           breadCrumbActive={this.state.activePage}
         />
 
-<Row>
+              <Row>
                   <Col lg="3" md="6" sm="12">
                     
                     <FormGroup className="mb-0">
@@ -85,26 +86,14 @@ class Information extends Component {
                       </Input>
                     </FormGroup>
                   </Col>
-                  <Col lg="3" md="6" sm="12">
+                  <Col lg="3" md="6" sm="12" >
                     <FormGroup className="mb-0">
                       <Label for="department">Cases per Province</Label>
                       <Input
                         type="select"
                         name="department"
                         id="department"
-                        value={this.state.department}
-                        onChange={e => {
-                          this.setState(
-                            {
-                              department: e.target.value
-                            },
-                            () =>
-                              this.filterData(
-                                "department",
-                                this.state.department.toLowerCase()
-                              )
-                          )
-                        }}
+                        
                       >
                         <option value="All">All</option>
                         <option value="Sales">Sales</option>
@@ -113,6 +102,36 @@ class Information extends Component {
                       </Input>
                     </FormGroup>
                   </Col>
+                </Row>
+                <br></br>
+                <br></br>
+                  <Row >
+
+                  
+                  <Col md="auto" mr="auto">
+                 <h5>CLIENTE PROFILE BY AGE</h5>
+            <DistributedCharts 
+            
+            
+           
+            categorie=
+           {[
+            ['Gaza', 'Doe'],
+            ['Maputo', 'Smith'],
+            ['yes', 'Williams'],
+            'Amber',
+            ['Peter', 'Brown'],
+            ['Mary', 'Evans'],
+            ['David', 'Wilson'],
+            ['Lily', 'Roberts'], 
+          ]} 
+            />
+              
+            
+                  </Col>
+
+                  
+                
                 </Row>
    
         
