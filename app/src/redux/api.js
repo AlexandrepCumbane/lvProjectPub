@@ -6,7 +6,7 @@ export const environment = process.env.REACT_APP_API_URL;
 const state = store.getState();
 
 const axios = Axios.create({
-  baseURL: environment,
+  baseURL: '',
   headers: {
     csrftoken: state.auth.login.csrftoken,
     "Content-Type":
