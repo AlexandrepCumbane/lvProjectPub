@@ -60,5 +60,20 @@ MEDIA_URL = f"https://{aws_s3_domain}/media/"
 # CORS 
 INSTALLED_APPS += ["corsheaders"]  # noqa F405
 
+CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True # to accept cookies via ajax request
-CORS_ORIGIN_WHITELIST = env.list("CORS_ORIGIN_WHITELIST")
+# CORS_ORIGIN_WHITELIST = env.list("CORS_ORIGIN_WHITELIST")
+CORS_ALLOWED_ORIGINS = env.list("CORS_ORIGIN_WHITELIST")
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'Access-Control-Allow-Origin',
+    'csrftoken',
+]
