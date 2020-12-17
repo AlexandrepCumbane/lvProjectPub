@@ -48,20 +48,20 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
-# if settings.ADMIN_ENABLED:
-#     #protect Admin as per client request
-#     urlpatterns += (
-#         path('admin/', admin.site.urls),
-#     )
+if settings.ADMIN_ENABLED:
+    #protect Admin as per client request
+    urlpatterns += (
+        path('admin/', admin.site.urls),
+    )
 
-# if settings.DEBUG_WITH_RUNSERVER:
+if settings.DEBUG_WITH_RUNSERVER:
 
-#     # To use django-media-thumbnailer
-#     # urlpatterns.append(url('^media/', include('dmt.urls')))
+    # To use django-media-thumbnailer
+    # urlpatterns.append(url('^media/', include('dmt.urls')))
 
-#     urlpatterns += static('/media/', document_root=settings.MEDIA_ROOT)
+    urlpatterns += static('/media/', document_root=settings.MEDIA_ROOT)
 
-#     # after building...
-#     urlpatterns += static(
-#         '/', document_root=os.path.join(settings.BASE_DIR, 'htdocs')
-#     )
+    # after building...
+    urlpatterns += static(
+        '/', document_root=os.path.join(settings.BASE_DIR, 'htdocs')
+    )
