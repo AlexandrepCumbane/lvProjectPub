@@ -130,19 +130,6 @@ const get_pages = () => {
     },
   ];
 
-  const { pages } = config;
-
-  const urls = Object.keys(pages).map(function (key, index) {
-    return {
-      id: pages[key].name,
-      title: pages[key].name,
-      type: "item",
-      icon: <Icon.File size={20} />,
-      permissions: ["admin", "editor"],
-      navLink: pages[key].url,
-    };
-  });
-
   return navConf;
 };
 
