@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
+import Radio from "../../components/@vuexy/radio/RadioVuexy";
+import { IntlContext, LOCALES } from "../../i18n";
+
+import translate from "../../i18n/translate";
 import {
   Input,
   Label,
@@ -15,6 +19,8 @@ import {
 } from "reactstrap";
 import { ChevronDown } from "react-feather";
 import DistributedCharts from "./charts/Distributed";
+
+// const contx = useContext(I18nProvider);
 class Advanced extends Component {
   state = {
     pageTitle: "Advanced Reports",
@@ -26,9 +32,12 @@ class Advanced extends Component {
     data: [],
     page: "lvform",
     dropdownOpen: false,
+    locale: LOCALES.PORTUGUESE,
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    console.log(LOCALES);
+  }
   render() {
     return (
       <div>
@@ -39,7 +48,42 @@ class Advanced extends Component {
           breadCrumbActive={this.state.activePage}
         />
 
+        <IntlContext.Consumer>
+          {(context) => {
+            return (
+              <Row>
+                <div className="language-options">
+                  <Radio
+                    name="i18n-lang-radio"
+                    onClick={() => {
+                      context.switchLanguage(LOCALES.ENGLISH);
+                    }}
+                    label="English"
+                    className="mb-1"
+                    defaultChecked={
+                      context.state.locale === LOCALES.ENGLISH ? true : false
+                    }
+                  />
+                  <Radio
+                    name="i18n-lang-radio"
+                    onClick={() => {
+                      context.switchLanguage(LOCALES.PORTUGUESE);
+                    }}
+                    label="Portuguese"
+                    className="mb-1"
+                    defaultChecked={
+                      context.state.locale === LOCALES.PORTUGUESE ? true : false
+                    }
+                  />
+                </div>
+              </Row>
+            );
+          }}
+        </IntlContext.Consumer>
         <Row>
+          <Col>
+            <Label> {translate("provincia")}</Label>
+          </Col>
           <Col md="12">
             <Card className="rounded-0 mb-0 my-2">
               <CardHeader>
@@ -117,7 +161,7 @@ class Advanced extends Component {
         </Row>
         <Row>
           <Col md={{ offset: "2", order: "2", size: "7" }}>
-            <h5>CLIENTE PROFILE BY AGE</h5>
+            <h5> {translate("CLIENTE PROFILE BY AGE")}</h5>
             <DistributedCharts
               categorie={[
                 ["Gaza", "Doe"],
