@@ -1,14 +1,13 @@
-import { LOCALES } from '../locales';
-
+import { LOCALES } from "../locales";
 
 export default {
-
-    [LOCALES.PORTUGUESE]:  {
-
-        'hello': 'Ola',
-        'Province': 'Provincia',
-        'Distrit':'Distrito',
-        'locality':'Localidade',
-        'cases per province': 'Casos por Provincia'
-    }
-}
+  [LOCALES.PORTUGUESE]: {
+    hello: "Ola",
+    provincia: "Provincia",
+    Distrit: "Distrito",
+    locality: "Localidade",
+    "cases per province": "Casos por Provincia",
+    "CLIENTE PROFILE BY AGE": "Perfil do cliente por Idade",
+    Reports: "Relatórios",
+  },
+};
