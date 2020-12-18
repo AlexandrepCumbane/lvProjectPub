@@ -15,7 +15,7 @@ import {
 } from "reactstrap";
 import { ChevronDown } from "react-feather";
 import DistributedCharts from "./charts/Distributed";
-class Information extends Component {
+class Advanced extends Component {
   state = {
     pageTitle: "Advanced Reports",
     pageParent: "Analyptics & Reports",
@@ -116,7 +116,7 @@ class Information extends Component {
           </Col>
         </Row>
         <Row>
-          <Col md="auto" mr="auto">
+          <Col md={{ offset: "2", order: "2", size: "7" }}>
             <h5>CLIENTE PROFILE BY AGE</h5>
             <DistributedCharts
               categorie={[
@@ -145,4 +145,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {})(Information);
+export default connect(mapStateToProps, {})(Advanced);
