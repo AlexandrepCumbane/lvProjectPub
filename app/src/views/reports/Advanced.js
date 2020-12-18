@@ -48,42 +48,7 @@ class Advanced extends Component {
           breadCrumbActive={this.state.activePage}
         />
 
-        <IntlContext.Consumer>
-          {(context) => {
-            return (
-              <Row>
-                <div className="language-options">
-                  <Radio
-                    name="i18n-lang-radio"
-                    onClick={() => {
-                      context.switchLanguage(LOCALES.ENGLISH);
-                    }}
-                    label="English"
-                    className="mb-1"
-                    defaultChecked={
-                      context.state.locale === LOCALES.ENGLISH ? true : false
-                    }
-                  />
-                  <Radio
-                    name="i18n-lang-radio"
-                    onClick={() => {
-                      context.switchLanguage(LOCALES.PORTUGUESE);
-                    }}
-                    label="Portuguese"
-                    className="mb-1"
-                    defaultChecked={
-                      context.state.locale === LOCALES.PORTUGUESE ? true : false
-                    }
-                  />
-                </div>
-              </Row>
-            );
-          }}
-        </IntlContext.Consumer>
         <Row>
-          <Col>
-            <Label> {translate("provincia")}</Label>
-          </Col>
           <Col md="12">
             <Card className="rounded-0 mb-0 my-2">
               <CardHeader>
