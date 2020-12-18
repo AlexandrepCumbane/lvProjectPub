@@ -20,9 +20,9 @@ class Home extends React.Component {
     currentUserRole: "admin",
   };
 
-  componentDidMount() {
-    console.log(this.props.userRole);
-  }
+  // componentDidMount() {
+  //   console.log(this.props.state);
+  // }
 
   render() {
     return (
