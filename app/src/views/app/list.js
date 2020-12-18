@@ -22,11 +22,9 @@ class List extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.path);
     this.formatFields();
     this.props.requestDropodowns();
     this.props.requestForm(this.props.url).then(() => {
-      console.log(this.props.app_reducer.list);
       this.setState({
         data: this.props.app_reducer.list,
         page: this.props.path,
