@@ -1,6 +1,7 @@
 import React from "react";
 import * as Icon from "react-feather";
 
+import translate from "../i18n/translate";
 import { default as config } from "../data/config";
 
 const get_pages = () => {
@@ -66,7 +67,7 @@ const get_pages = () => {
 
     {
       id: "reports",
-      title: "Reports",
+      title: translate("Reports"),
       type: "collapse",
       icon: <Icon.PieChart size={20} />,
       badge: "warning",
@@ -129,19 +130,6 @@ const get_pages = () => {
       navLink: "/users",
     },
   ];
-
-  const { pages } = config;
-
-  const urls = Object.keys(pages).map(function (key, index) {
-    return {
-      id: pages[key].name,
-      title: pages[key].name,
-      type: "item",
-      icon: <Icon.File size={20} />,
-      permissions: ["admin", "editor"],
-      navLink: pages[key].url,
-    };
-  });
 
   return navConf;
 };

@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
+import Radio from "../../components/@vuexy/radio/RadioVuexy";
+import { IntlContext, LOCALES } from "../../i18n";
+
+import translate from "../../i18n/translate";
 import {
   Input,
   Label,
@@ -15,7 +19,9 @@ import {
 } from "reactstrap";
 import { ChevronDown } from "react-feather";
 import DistributedCharts from "./charts/Distributed";
-class Information extends Component {
+
+// const contx = useContext(I18nProvider);
+class Advanced extends Component {
   state = {
     pageTitle: "Advanced Reports",
     pageParent: "Analyptics & Reports",
@@ -26,9 +32,12 @@ class Information extends Component {
     data: [],
     page: "lvform",
     dropdownOpen: false,
+    locale: LOCALES.PORTUGUESE,
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    console.log(LOCALES);
+  }
   render() {
     return (
       <div>
@@ -116,8 +125,8 @@ class Information extends Component {
           </Col>
         </Row>
         <Row>
-          <Col md="auto" mr="auto">
-            <h5>CLIENTE PROFILE BY AGE</h5>
+          <Col md={{ offset: "2", order: "2", size: "7" }}>
+            <h5> {translate("CLIENTE PROFILE BY AGE")}</h5>
             <DistributedCharts
               categorie={[
                 ["Gaza", "Doe"],
@@ -145,4 +154,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {})(Information);
+export default connect(mapStateToProps, {})(Advanced);

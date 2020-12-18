@@ -40,7 +40,6 @@ export const handleLogin = (dispatch, payload) =>
 
 export const handleCsrftoken = (dispatch) => {
   return axios.get("/login.json").then(({ data }) => {
-    console.log(data);
     dispatch({
       type: "UPDATE_TOKEN",
       csrftoken: data.csrftoken,
