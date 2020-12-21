@@ -141,6 +141,7 @@ class Edit extends React.Component {
 
   renderSingleInput = (field) => {
     let res = <></>;
+    let { data } = this.props;
 
     switch (field.type) {
       case "text":
@@ -152,6 +153,7 @@ class Edit extends React.Component {
                 type="textarea"
                 rows={5}
                 className="square"
+                defaultValue={data[field.name]}
                 placeholder={field.label}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
@@ -173,6 +175,7 @@ class Edit extends React.Component {
                 className="square"
                 type="select"
                 id={field.name}
+                defaultValue={data[`${field.name}_id`]}
                 placeholder={field.label}
                 onChange={(e) =>
                   this.updateState(`${field.name}_id`, e.target.value)
@@ -197,6 +200,7 @@ class Edit extends React.Component {
               <Input
                 type="date"
                 className="square"
+                defaultValue={data[field.name]}
                 placeholder={field.label}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
@@ -215,6 +219,7 @@ class Edit extends React.Component {
               <Input
                 type="number"
                 className="square"
+                defaultValue={data[field.name]}
                 placeholder={field.label}
                 // defaultValue={this.state.email}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
@@ -234,6 +239,7 @@ class Edit extends React.Component {
               <CustomInput
                 className="square"
                 type="select"
+                defaultValue={data[field.name]}
                 id={field.name}
                 placeholder={field.label}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
