@@ -11,13 +11,14 @@ const axios = Axios.create({
    */
   baseURL: process.env.REACT_APP_API_URL,
   headers: {
+    "X-CSRFTOKEN": state.auth.login,
     "Content-Type":
       "multipart/form-data; boundary=----WebKitFormBoundaryj1QQuFB08RhhuHzT",
   },
 });
 
-axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-axios.defaults.xsrfCookieName = "csrftoken";
+// axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+// axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.withCredentials = true;
 
 export { axios };
