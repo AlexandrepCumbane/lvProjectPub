@@ -345,7 +345,11 @@ class Create extends React.Component {
     } else {
       this.setState({ isValid: true });
       axios
-        .post("lvforms.json", this.state.form)
+        .post("lvforms.json", this.state.form, {
+          headers: {
+            "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
+          }
+        })
         .then(({ data }) => {
           this.notifySuccessBounce(data.id);
         })

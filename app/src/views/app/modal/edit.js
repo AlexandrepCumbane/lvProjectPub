@@ -43,14 +43,14 @@ class Edit extends React.Component {
     dropdowns: [],
   };
   // componentDidMount() {
-    // this.props.requestDropodowns();
-    // this.props.requestForm();
-    // const { form } = this.props.state.auth.login.config.pages.lvform;
-    // form.forEach((item, index) => {
-    //   this.addToRequired(item);
-    // });
-    // const { dropdowns } = this.props.app_reducer;
-    // this.setState({ dropdowns });
+  // this.props.requestDropodowns();
+  // this.props.requestForm();
+  // const { form } = this.props.state.auth.login.config.pages.lvform;
+  // form.forEach((item, index) => {
+  //   this.addToRequired(item);
+  // });
+  // const { dropdowns } = this.props.app_reducer;
+  // this.setState({ dropdowns });
   // }
 
   render() {
@@ -345,7 +345,11 @@ class Edit extends React.Component {
     } else {
       this.setState({ isValid: true });
       axios
-        .post(`${this.props.page}s.json`, this.state.form)
+        .post(`${this.props.page}s.json`, this.state.form, {
+          headers: {
+            "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
+          },
+        })
         .then(({ data }) => {
           this.notifySuccessBounce(data.id);
         })
