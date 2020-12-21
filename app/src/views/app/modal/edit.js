@@ -42,7 +42,7 @@ class Edit extends React.Component {
     isValid: true,
     dropdowns: [],
   };
-  componentDidMount() {
+  // componentDidMount() {
     // this.props.requestDropodowns();
     // this.props.requestForm();
     // const { form } = this.props.state.auth.login.config.pages.lvform;
@@ -51,7 +51,7 @@ class Edit extends React.Component {
     // });
     // const { dropdowns } = this.props.app_reducer;
     // this.setState({ dropdowns });
-  }
+  // }
 
   render() {
     return (
