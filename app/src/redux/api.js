@@ -11,7 +11,6 @@ const axios = Axios.create({
    */
   baseURL: process.env.REACT_APP_API_URL,
   headers: {
-    csrftoken: state.auth.login.csrftoken,
     "Content-Type":
       "multipart/form-data; boundary=----WebKitFormBoundaryj1QQuFB08RhhuHzT",
   },
