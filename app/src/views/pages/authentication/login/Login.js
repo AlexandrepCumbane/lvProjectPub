@@ -16,6 +16,8 @@ import {
   requestLogin,
   requestToken,
 } from "../../../../redux/actions/auth/loginActions";
+
+import { AuthService } from "../../../../redux/oidc-config/services/authservice";
 import Checkbox from "../../../../components/@vuexy/checkbox/CheckboxesVuexy";
 import "../../../../assets/scss/pages/authentication.scss";
 
@@ -29,6 +31,9 @@ class Login extends React.Component {
     username: "",
     csrf: "",
   };
+
+  authService = new AuthService();
+
   toggle = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
@@ -58,6 +63,11 @@ class Login extends React.Component {
         alert("Wrong Credentials combination");
       }
     });
+  };
+
+  login = (e) => {
+    e.preventDefault();
+    this.authService.login();
   };
 
   render() {
@@ -130,6 +140,13 @@ class Login extends React.Component {
                           onClick={this.submit}
                         >
                           Login
+                        </Button.Ripple>
+                        <Button.Ripple
+                          color="warning"
+                          type="submit"
+                          onClick={this.login}
+                        >
+                          Oauth
                         </Button.Ripple>
                       </div>
                     </Form>
