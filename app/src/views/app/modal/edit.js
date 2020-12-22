@@ -53,6 +53,25 @@ class Edit extends React.Component {
   // this.setState({ dropdowns });
   // }
 
+  componentDidMount() {
+    const { form } = this.props.state.auth.login.config.pages[this.props.page];
+    const { data } = this.props;
+
+    let formdata = new FormData();
+
+    form.forEach((item) => {
+      formdata.append(
+        item["wq:ForeignKey"] ? item.name + "_id" : item.name,
+        data[item["wq:ForeignKey"] ? item.name + "_id" : item.name]
+      );
+    });
+
+    formdata.append("id", data["id"]);
+
+    const { dropdowns } = this.props.app_reducer;
+    this.setState({ dropdowns, form: formdata });
+  }
+
   render() {
     return (
       <>

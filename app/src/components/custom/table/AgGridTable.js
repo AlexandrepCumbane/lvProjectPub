@@ -181,6 +181,7 @@ class AggridTable extends React.Component {
               modal={showTaskDialog}
               data={this.state.selectedData}
               disabled
+              page={"task"}
             />
           ) : (
             <></>
