@@ -7,14 +7,18 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
+  Dropdown,
   Media,
   Badge,
 } from "reactstrap";
+import ReactCountryFlag from "react-country-flag";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import * as Icon from "react-feather";
 import classnames from "classnames";
 import Autocomplete from "../../../components/@vuexy/autoComplete/AutoCompleteComponent";
 import { history } from "../../../history";
+
+import { IntlContext } from "../../../i18n/index";
 
 import { axios } from "../../../redux/api";
 import { changeRole } from "../../../redux/actions/auth/loginActions";
@@ -67,6 +71,7 @@ class NavbarUser extends React.PureComponent {
   state = {
     navbarSearch: false,
     suggestions: [],
+    langDropdown: false,
   };
 
   componentDidMount() {
@@ -74,6 +79,8 @@ class NavbarUser extends React.PureComponent {
     //   this.setState({ suggestions: data.searchResult })
     // })
   }
+  handleLangDropdown = () =>
+    this.setState({ langDropdown: !this.state.langDropdown });
 
   handleNavbarSearch = () => {
     this.setState({
@@ -84,6 +91,62 @@ class NavbarUser extends React.PureComponent {
   render() {
     return (
       <ul className="nav navbar-nav navbar-nav-user float-right">
+        <IntlContext.Consumer>
+          {(context) => {
+            let langArr = {
+              en: "English",
+              pt: "Portuguese",
+            };
+            return (
+              <Dropdown
+                tag="li"
+                className="dropdown-language nav-item"
+                isOpen={this.state.langDropdown}
+                toggle={this.handleLangDropdown}
+                data-tour="language"
+              >
+                <DropdownToggle tag="a" className="nav-link">
+                  <ReactCountryFlag
+                    className="country-flag"
+                    countryCode={
+                      context.state.locale === "en"
+                        ? "us"
+                        : context.state.locale
+                    }
+                    svg
+                  />
+                  <span className="d-sm-inline-block d-none text-capitalize align-middle ml-50">
+                    {langArr[context.state.locale]}
+                  </span>
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem
+                    tag="a"
+                    onClick={(e) => context.switchLanguage("en")}
+                  >
+                    <ReactCountryFlag
+                      className="country-flag"
+                      countryCode="us"
+                      svg
+                    />
+                    <span className="ml-1">English</span>
+                  </DropdownItem>
+                  <DropdownItem
+                    tag="a"
+                    onClick={(e) => context.switchLanguage("pt")}
+                  >
+                    <ReactCountryFlag
+                      className="country-flag"
+                      countryCode="pt"
+                      svg
+                    />
+                    <span className="ml-1">Portuguese</span>
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            );
+          }}
+        </IntlContext.Consumer>
         <UncontrolledDropdown tag="li" className="dropdown-user nav-item">
           <DropdownToggle tag="a" className="nav-link dropdown-user-link">
             <div className="user-nav d-sm-flex d-none">

@@ -38,7 +38,7 @@ class Create extends React.Component {
   };
   componentDidMount() {
     this.props.requestDropodowns();
-    this.props.requestForm();
+    // this.props.requestForm();
 
     const { form } = this.props.state.auth.login.config.pages.lvform;
     form.forEach((item, index) => {
@@ -113,7 +113,7 @@ class Create extends React.Component {
         if (field.name == "call_notes") {
           res = (
             <>
-              <Col md="6" />
+              <Col key={field.name + "_"} md="6" />
               <Col md="6" key={field.name}>
                 <Label>{field.label}</Label>
                 <FormGroup className="form-label-group position-relative has-icon-left">
@@ -294,7 +294,7 @@ class Create extends React.Component {
 
     if (field.bind != undefined) {
       if (field.bind.required == true && index <= 0) {
-        if (field.type == "string") {
+        if (field.type == "string" && field["wq:ForeignKey"]) {
           this.state.required_fields.push(`${field.name}_id`);
         } else this.state.required_fields.push(field.name);
         this.state.required_fields_labels.push(field.label);

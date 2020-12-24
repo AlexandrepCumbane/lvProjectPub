@@ -1,12 +1,15 @@
 import Axios from "axios";
 import { store } from "./storeConfig/store";
 
-export const environment = process.env.REACT_APP_API_URL;
-
 const state = store.getState();
 
 const axios = Axios.create({
-  baseURL: environment,
+  /*
+   * Loads APP_API_URL as baseUrl for http requests services
+   *
+   * Warning: Please make sure you added REACT_APP_API_URL on env.js file
+   */
+  baseURL: process.env.REACT_APP_API_URL,
   headers: {
     csrftoken: state.auth.login.csrftoken,
     "Content-Type":

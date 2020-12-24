@@ -9,19 +9,19 @@ import "./index.scss";
 import "./@fake-db";
 import { PersistGate } from "redux-persist/integration/react";
 
+import { IntlProviderWrapper, LOCALES } from "./i18n/index";
 const LazyApp = lazy(() => import("./App"));
 
-// const appTitle = document.getElementById("app-title");
-// appTitle.innerHTML = process.env.REACT_APP_NAME
-
-// configureDatabase()
+const locale = LOCALES.ENGLISH;
 ReactDOM.render(
   <Provider store={store}>
     <Suspense fallback={<Spinner />}>
       <PersistGate loading={null} persistor={persistor}>
-        <Layout>
-          <LazyApp />
-        </Layout>
+        <IntlProviderWrapper locale={locale}>
+          <Layout>
+            <LazyApp />
+          </Layout>
+        </IntlProviderWrapper>
       </PersistGate>
     </Suspense>
   </Provider>,
