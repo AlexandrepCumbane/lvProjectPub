@@ -52,13 +52,13 @@ class Advanced extends Component {
           <Col md="12">
             <Card className="rounded-0 mb-0 my-2">
               <CardHeader>
-                <CardTitle>Advanced Report Filters</CardTitle>
+                <CardTitle> {translate("Advanced Report Filters")}</CardTitle>
               </CardHeader>
               <CardBody>
                 <Row>
                   <Col lg="3" md="6" sm="12">
                     <FormGroup className="mb-0">
-                      <Label for="role">Province</Label>
+                      <Label for="role">{translate("Province")}</Label>
                       <CustomInput
                         className="square"
                         type="select"
@@ -74,7 +74,7 @@ class Advanced extends Component {
                   </Col>
                   <Col lg="3" md="6" sm="12">
                     <FormGroup className="mb-0">
-                      <Label for="status">Distrit</Label>
+                      <Label for="status">{translate("Distrit")}</Label>
                       <CustomInput
                         className="square"
                         type="select"
@@ -90,7 +90,7 @@ class Advanced extends Component {
                   </Col>
                   <Col lg="3" md="6" sm="12">
                     <FormGroup className="mb-0">
-                      <Label for="verified">Locality</Label>
+                      <Label for="verified">{translate("Locality")}</Label>
                       <CustomInput
                         className="square"
                         type="select"
@@ -105,7 +105,7 @@ class Advanced extends Component {
                   </Col>
                   <Col lg="3" md="6" sm="12">
                     <FormGroup className="mb-0">
-                      <Label for="department">Cases per Province</Label>
+                      <Label for="department">{translate("Cases per Province")}</Label>
                       <CustomInput
                         className="square"
                         type="select"
