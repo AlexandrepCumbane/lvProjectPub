@@ -21,6 +21,9 @@ export default {
     "CASES BY PROVINCES" : "CASOS POR PROVINCIA",
     "CASE TYPE" : "TIPO DE CASO",
     "CASES PER SECTOR" :"CASOS POR SECTOR",
+    "User role not provided" : "Função do usuário não fornecida",
+    "Dashboard & Analyptics" : "Painel e análise",
+    "Dashboard" : "Painel",
     "Total Cases Registered" : "Total de Casos Registados",
     "Total Feedback Provided" : "Feedback total fornecido",
     "CLIENTE PROFILE BY GENDER" : "PERFIL DO CLIENTE POR GÊNERO"

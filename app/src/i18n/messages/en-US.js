@@ -23,6 +23,9 @@ export default {
     "CASES PER SECTOR" : "CASES PER SECTOR",
     "Total Cases Registered" : "Total Cases Registered",
     "Total Feedback Provided" : "Total Feedback Provided",
+    "User role not provided" : "User role not provided",
+    "Dashboard & Analyptics" : "Dashboard & Analyptics",
+    "Dashboard" : "Dashboard",
     "CLIENTE PROFILE BY GENDER" : "CLIENTE PROFILE BY GENDER"
 
   },
