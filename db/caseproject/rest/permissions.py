@@ -19,8 +19,10 @@ class ModelPermissions(BasePermission):
         if getattr(view, 'model', None) is None:
             return True
 
-        if not request.user or (
-           not request.user.is_authenticated and self.authenticated_users_only):
+        # Added filter to not allow inactive users
+        if not request.user or not request.user.is_active or (
+           not request.user.is_authenticated 
+           and self.authenticated_users_only):
             return False
         
         user = request.user

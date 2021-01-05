@@ -141,8 +141,8 @@ LOGIN_URL = '/accounts/login/'
 # REST_FRAMEWORK['DEFAULT_SCHEMA_CLASS'] = 'rest_framework.schemas.coreapi.AutoSchema'
 #Important change to wq's default handling of auth
 REST_FRAMEWORK['DEFAULT_PERMISSION_CLASSES'] = ('caseproject.rest.permissions.ModelPermissions',) 
-# REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] = ('oidc_auth.authentication.JSONWebTokenAuthentication',
-#                                                     'oidc_auth.authentication.BearerTokenAuthentication',)
+REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] = ('oidc_auth.authentication.JSONWebTokenAuthentication',
+                                                    'oidc_auth.authentication.BearerTokenAuthentication',)
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
@@ -150,12 +150,12 @@ OIDC_AUTH = {
     # Specify OpenID Connect endpoint. Configuration will be
     # automatically done based on the discovery document found
     # at <endpoint>/.well-known/openid-configuration
-    'OIDC_ENDPOINT': 'https://dev-8397878.okta.com',
+    'OIDC_ENDPOINT': 'https://robobo.eu.auth0.com/',
 
     # Accepted audiences the ID Tokens can be issued to
     'OIDC_CLAIMS_OPTIONS': {
         'aud': {
-            'values': ['lvform'],
+            'values': ['lv-app'],
             'essential': True,
         }
     },
@@ -165,7 +165,7 @@ OIDC_AUTH = {
     # return a User object. The default implementation tries to find the user
     # based on username (natural key) taken from the 'sub'-claim of the
     # id_token.
-    'OIDC_RESOLVE_USER_FUNCTION': 'oidc_auth.authentication.get_user_by_id',
+    'OIDC_RESOLVE_USER_FUNCTION': 'accounts.authentication.get_user_by_id',
     
     # (Optional) Number of seconds in the past valid tokens can be 
     # issued (default 600)
