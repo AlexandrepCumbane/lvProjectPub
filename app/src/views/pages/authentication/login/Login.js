@@ -11,14 +11,20 @@ import {
   Input,
   Label,
 } from "reactstrap";
-import { Mail, Lock, Check } from "react-feather";
+import { Mail, Lock, Check, Facebook, Twitter, GitHub } from "react-feather";
 import {
   requestLogin,
   requestToken,
+  requestGetUser,
 } from "../../../../redux/actions/auth/loginActions";
 
 import { AuthService } from "../../../../redux/oidc-config/services/authservice";
 import Checkbox from "../../../../components/@vuexy/checkbox/CheckboxesVuexy";
+import "../../../../assets/scss/pages/authentication.scss";
+
+import googleSvg from "../../../../assets/img/svg/google.svg";
+
+import loginImg from "../../../../assets/img/pages/login.png";
 import "../../../../assets/scss/pages/authentication.scss";
 
 import { history } from "../../../../history";
@@ -44,25 +50,27 @@ class Login extends React.Component {
 
   componentDidMount() {
     this.props.requestToken();
+    this.props.requestGetUser().then(() => {
+      history.push("/");
+    });
     // console.log("User", this.getUser());
-    this.getUser()
+    // this.getUser();
   }
 
-  getUser = () => {
-    this.authService.getUser().then((user) => {
-      if (user) {
-        // toast.success("User has been successfully loaded from store.");
-      } else {
-        // toast.info("You are not logged in.");
-      }
+  // getUser = () => {
+  //   this.authService.getUser().then((user) => {
+  //     if (user) {
+  //       // toast.success("User has been successfully loaded from store.");
+  //     } else {
+  //       // toast.info("You are not logged in.");
+  //     }
 
-      if (!this.shouldCancel) {
-        // this.setState({ user });
-        console.log("Users", user);
-
-      }
-    });
-  };
+  //     if (!this.shouldCancel) {
+  //       // this.setState({ user });
+  //       console.log("Users", user);
+  //     }
+  //   });
+  // };
   submit = (e) => {
     e.preventDefault();
 
@@ -158,16 +166,25 @@ class Login extends React.Component {
                         >
                           Login
                         </Button.Ripple>
-                        <Button.Ripple
-                          color="warning"
-                          type="submit"
-                          onClick={this.login}
-                        >
-                          Oauth
-                        </Button.Ripple>
                       </div>
                     </Form>
                   </CardBody>
+
+                  <div className="auth-footer">
+                    <div className="divider">
+                      <div className="divider-text">OR</div>
+                    </div>
+                    <div className="footer-btn m-auto">
+                      <Button.Ripple
+                        className="btn-facebook m-auto"
+                        onClick={this.login}
+                        color=""
+                      >
+                        {" "}
+                        WFP Open Id
+                      </Button.Ripple>
+                    </div>
+                  </div>
                 </Card>
               </Col>
             </Row>
@@ -185,4 +202,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { requestLogin, requestToken })(Login);
+export default connect(mapStateToProps, {
+  requestLogin,
+  requestToken,
+  requestGetUser,
+})(Login);

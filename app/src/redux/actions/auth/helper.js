@@ -1,4 +1,7 @@
 import { axios } from "../../api";
+import { AuthService } from "../../oidc-config/services/authservice";
+
+let authService = new AuthService();
 
 export const handleLogin = (dispatch, payload) =>
   new Promise((resolve, reject) => {
@@ -51,5 +54,23 @@ export const logout = (dispatch) => {
   dispatch({
     type: "CHANGE_ROLE",
     userRole: "not-auth",
+  });
+};
+
+export const getUser = (dispatch) => {
+  return new Promise((resolve, reject) => {
+    authService.getUser().then(function (user) {
+      if (user) {
+        dispatch({
+          type: "OAUTH_SUCCESS",
+          userOauth: user,
+        });
+
+        resolve();
+      } else {
+        resolve();
+        // toast.info("You are not logged in.");
+      }
+    });
   });
 };

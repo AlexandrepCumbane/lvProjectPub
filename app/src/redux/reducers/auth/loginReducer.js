@@ -6,6 +6,7 @@ const initialState = {
   failed: false,
   loading: false,
   userRole: "Not-auth",
+  userOauth: undefined,
 };
 
 export const login = (state = initialState, action) => {
@@ -29,6 +30,13 @@ export const login = (state = initialState, action) => {
         failed: false,
         loading: false,
         userRole: action.userRole,
+      };
+    }
+    case "OAUTH_SUCCESS": {
+      return {
+        ...state,
+        userOauth: action.userOauth,
+        userRole: 'user'
       };
     }
     case "LOGIN_FAILED": {
