@@ -15,7 +15,11 @@ export const handleForm = (dispatch, payload) =>
     });
 
     axios
-      .get(`/${payload}.json/`)
+      .get(`/${payload}.json/`, {
+        headers: {
+          Authorization: `Bearer ${appState.auth.login.userOauth.access_token}`,
+        },
+      })
       .then(({ data }) => {
         // console.log(data);
         dispatch({

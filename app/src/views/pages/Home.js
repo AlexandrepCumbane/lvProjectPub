@@ -7,6 +7,11 @@ import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import SimpleAnalipticCard from "../../components/custom/statisticCards/Card";
 import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
 
+import {
+  requestForm,
+  requestDropodowns,
+} from "../../redux/actions/app/actions";
+
 class Home extends React.Component {
   state = {
     pageTitle: "Home",
@@ -20,9 +25,11 @@ class Home extends React.Component {
     currentUserRole: "admin",
   };
 
-  // componentDidMount() {
-  //   console.log(this.props.state);
-  // }
+  componentDidMount() {
+    // console.log(this.props.state);
+
+    this.props.requestForm('lvforms')
+  }
 
   render() {
     return (
@@ -220,4 +227,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {})(Home);
+export default connect(mapStateToProps, {
+  requestForm,
+})(Home);
