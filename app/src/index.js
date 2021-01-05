@@ -1,6 +1,8 @@
 import React, { Suspense, lazy } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import { ApolloProvider } from "@apollo/client";
+
 import { Layout } from "./utility/context/Layout";
 import * as serviceWorker from "./serviceWorker";
 import { store, persistor } from "./redux/storeConfig/store";
@@ -9,6 +11,7 @@ import "./index.scss";
 import "./@fake-db";
 import { PersistGate } from "redux-persist/integration/react";
 
+import { graphClient } from "./configs/apolloConfig";
 import { IntlProviderWrapper, LOCALES } from "./i18n/index";
 const LazyApp = lazy(() => import("./App"));
 
@@ -18,9 +21,11 @@ ReactDOM.render(
     <Suspense fallback={<Spinner />}>
       <PersistGate loading={null} persistor={persistor}>
         <IntlProviderWrapper locale={locale}>
-          <Layout>
-            <LazyApp />
-          </Layout>
+          <ApolloProvider client={graphClient}>
+            <Layout>
+              <LazyApp />
+            </Layout>
+          </ApolloProvider>
         </IntlProviderWrapper>
       </PersistGate>
     </Suspense>

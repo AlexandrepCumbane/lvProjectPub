@@ -9,11 +9,13 @@ import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCar
 import { IntlContext, LOCALES } from "../../i18n";
 
 import translate from "../../i18n/translate";
+
+import { ExchangeRates } from "../../utility/graphQl/index";
 class Home extends React.Component {
   state = {
-    pageTitle: translate ("Home"),
-    pageParent: translate ("Dashboard & Analyptics"),
-    activePage: translate ("Dashboard"),
+    pageTitle: translate("Home"),
+    pageParent: translate("Dashboard & Analyptics"),
+    activePage: translate("Dashboard"),
     items: [],
     columnDefs: [],
     show: false,
@@ -39,7 +41,9 @@ class Home extends React.Component {
           breadCrumbActive={this.state.activePage}
         />
 
-        {this.renderSwitchCard()}
+        {/* {this.renderSwitchCard()} */}
+        {/* {ExchangeRates()} */}
+        <ExchangeRates />
       </div>
     );
   }
