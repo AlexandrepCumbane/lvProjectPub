@@ -118,7 +118,7 @@ class Edit extends Component {
    */
 
   renderActions = () => {
-    const userRole = "admin";
+    const userRole = this.props.user;
 
     let element = <p>No actions Provived</p>;
 
@@ -150,12 +150,6 @@ class Edit extends Component {
               page="casecomment"
               label="Feedback"
               color="secondary"
-            />
-            <Modal
-              title={`Edit Task`}
-              page="task"
-              label="Edit Task"
-              color="info"
             />
           </div>
         );
@@ -457,6 +451,7 @@ function mapStateToProps(state) {
   return {
     state: state,
     app_reducer: state.app.app_reducer,
+    user: state.auth.login.userRole,
   };
 }
 
