@@ -6,6 +6,7 @@ import {
   requestDropodowns,
 } from "../../redux/actions/app/actions";
 
+import { history } from "../../history";
 import { axios } from "../../redux/api";
 import {
   Alert,
@@ -348,10 +349,13 @@ class Create extends React.Component {
         .post("lvforms.json", this.state.form, {
           headers: {
             "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
-          }
+          },
         })
         .then(({ data }) => {
           this.notifySuccessBounce(data.id);
+          setTimeout(() => {
+            history.push(`/${this.props.url}`);
+          }, 1000);
         })
         .catch((error) => {
           this.notifyErrorBounce("Failed to save Object.");
