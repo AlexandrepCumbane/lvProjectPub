@@ -377,6 +377,9 @@ class Edit extends React.Component {
         })
         .then(({ data }) => {
           this.notifySuccessBounce(data.id);
+          setTimeout(() => {
+            this.toggleModal();
+          }, 1000);
         })
         .catch((error) => {
           this.notifyErrorBounce("Failed to save Object.");

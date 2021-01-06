@@ -431,6 +431,8 @@ class Edit extends Component {
    * Submits the form to post request action
    */
   handleSubmit = () => {
+    let { handleSidebar } = this.props;
+
     this.setState({ isValid: true });
     axios
       .put(`lvforms/${this.props.data.id}.json/`, this.state.form, {
@@ -440,6 +442,10 @@ class Edit extends Component {
       })
       .then(({ data }) => {
         this.notifySuccessBounce(data.id);
+
+        setTimeout(() => {
+          handleSidebar(false, true);
+        }, 1000);
       })
       .catch((error) => {
         this.notifyErrorBounce("Failed to save Object.");
