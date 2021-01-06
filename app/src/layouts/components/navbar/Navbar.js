@@ -4,7 +4,7 @@ import classnames from "classnames";
 import NavbarBookmarks from "./NavbarBookmarks";
 import NavbarUser from "./NavbarUser";
 import userImg from "../../../assets/img/portrait/small/avatar-s-11.jpg";
-
+import translate from "../../../i18n/translate";
 const ThemeNavbar = (props) => {
   const colorsArr = ["primary", "danger", "success", "info", "warning", "dark"];
   const navbarTypes = ["floating", "static", "sticky", "hidden"];
@@ -69,7 +69,7 @@ const ThemeNavbar = (props) => {
                 <div className="logo d-flex align-items-center">
                   {/* <div className="brand-logo mr-50"></div> */}
                   <h2 className="text-primary brand-text mb-0">
-                    Linha Verde 1458
+                 {translate ("Green Line 1458")} 
                   </h2>
                 </div>
               ) : null}
