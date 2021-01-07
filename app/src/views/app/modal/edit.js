@@ -42,15 +42,34 @@ class Edit extends React.Component {
     isValid: true,
     dropdowns: [],
   };
+  // componentDidMount() {
+  // this.props.requestDropodowns();
+  // this.props.requestForm();
+  // const { form } = this.props.state.auth.login.config.pages.lvform;
+  // form.forEach((item, index) => {
+  //   this.addToRequired(item);
+  // });
+  // const { dropdowns } = this.props.app_reducer;
+  // this.setState({ dropdowns });
+  // }
+
   componentDidMount() {
-    // this.props.requestDropodowns();
-    // this.props.requestForm();
-    // const { form } = this.props.state.auth.login.config.pages.lvform;
-    // form.forEach((item, index) => {
-    //   this.addToRequired(item);
-    // });
-    // const { dropdowns } = this.props.app_reducer;
-    // this.setState({ dropdowns });
+    const { form } = this.props.state.auth.login.config.pages[this.props.page];
+    const { data } = this.props;
+
+    let formdata = new FormData();
+
+    form.forEach((item) => {
+      formdata.append(
+        item["wq:ForeignKey"] ? item.name + "_id" : item.name,
+        data[item["wq:ForeignKey"] ? item.name + "_id" : item.name]
+      );
+    });
+
+    formdata.append("id", data["id"]);
+
+    const { dropdowns } = this.props.app_reducer;
+    this.setState({ dropdowns, form: formdata });
   }
 
   render() {
@@ -141,6 +160,7 @@ class Edit extends React.Component {
 
   renderSingleInput = (field) => {
     let res = <></>;
+    let { data } = this.props;
 
     switch (field.type) {
       case "text":
@@ -152,6 +172,7 @@ class Edit extends React.Component {
                 type="textarea"
                 rows={5}
                 className="square"
+                defaultValue={data[field.name]}
                 placeholder={field.label}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
@@ -173,6 +194,7 @@ class Edit extends React.Component {
                 className="square"
                 type="select"
                 id={field.name}
+                defaultValue={data[`${field.name}_id`]}
                 placeholder={field.label}
                 onChange={(e) =>
                   this.updateState(`${field.name}_id`, e.target.value)
@@ -197,6 +219,7 @@ class Edit extends React.Component {
               <Input
                 type="date"
                 className="square"
+                defaultValue={data[field.name]}
                 placeholder={field.label}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
@@ -215,6 +238,7 @@ class Edit extends React.Component {
               <Input
                 type="number"
                 className="square"
+                defaultValue={data[field.name]}
                 placeholder={field.label}
                 // defaultValue={this.state.email}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
@@ -234,6 +258,7 @@ class Edit extends React.Component {
               <CustomInput
                 className="square"
                 type="select"
+                defaultValue={data[field.name]}
                 id={field.name}
                 placeholder={field.label}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
@@ -345,7 +370,11 @@ class Edit extends React.Component {
     } else {
       this.setState({ isValid: true });
       axios
-        .post(`${this.props.page}s.json`, this.state.form)
+        .post(`${this.props.page}s.json`, this.state.form, {
+          headers: {
+            "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
+          },
+        })
         .then(({ data }) => {
           this.notifySuccessBounce(data.id);
         })

@@ -439,7 +439,11 @@ class Edit extends Component {
   handleSubmit = () => {
     this.setState({ isValid: true });
     axios
-      .put(`lvforms/${this.props.data.id}.json/`, this.state.form)
+      .put(`lvforms/${this.props.data.id}.json/`, this.state.form, {
+        headers: {
+          "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
+        },
+      })
       .then(({ data }) => {
         this.notifySuccessBounce(data.id);
       })

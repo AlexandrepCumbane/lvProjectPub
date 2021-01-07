@@ -172,33 +172,16 @@ class AggridTable extends React.Component {
             />
           ) : showCallSidebar ? (
             <></>
-          ) : // <CallEdit
-          //   show={this.state.showCallSidebar}
-          //   data={this.state.selectedData}
-          //   updateData={() => {}}
-          //   addData={() => {}}
-          //   handleSidebar={this.handleSidebar}
-          //   thumbView={this.props.thumbView}
-          //   getData={this.props.getData}
-          //   dataParams={this.props.parsedFilter}
-          //   addNew={this.state.addNew}
-          //   // dropdowns={this.props.dropdowns.calls}
-          // />
-          showTaskDialog ? (
-            // <TaskEdit
-            //   toggleModal={this.toggleModal}
-            //   data={this.state.selectedData}
-            //   modal={showTaskDialog}
-            //   dropdowns={this.props.dropdowns.task}
-            //   updateList={this.props.updateList}
-            // />
+          ) : showTaskDialog ? (
             <ModalEdit
               title={`Edit Task`}
               page="task"
               label="Edit Task"
               color="info"
               modal={showTaskDialog}
+              data={this.state.selectedData}
               disabled
+              page={"task"}
             />
           ) : (
             <></>
