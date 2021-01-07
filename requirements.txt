@@ -19,7 +19,6 @@ django-import-export==2.4.0
 django-mustache==1.1.2
 django-storages==1.10.1
 djangorestframework==3.11.2
-djangorestql==1.0.1
 drf-oidc-auth==1.0.0
 drf-yasg==1.20.0
 et-xmlfile==1.0.1
