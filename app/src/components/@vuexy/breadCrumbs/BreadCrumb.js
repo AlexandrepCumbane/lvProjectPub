@@ -9,6 +9,7 @@ import {
 } from "reactstrap"
 import { Home,  MoreVertical } from "react-feather"
 import { NavLink } from "react-router-dom"
+import {FormattedMessage, FormattedDisplayName} from  'react-intl'
 class BreadCrumbs extends React.Component {
   render() {
     return (
@@ -18,7 +19,8 @@ class BreadCrumbs extends React.Component {
             <div className="col-12">
               {this.props.breadCrumbTitle ? (
                 <h2 className="content-header-title float-left mb-0">
-                  {this.props.breadCrumbTitle}
+                  {/* {} */}
+                  <FormattedMessage id={this.props.breadCrumbTitle} values={{...{}}} />
                 </h2>
               ) : (
                   ""
