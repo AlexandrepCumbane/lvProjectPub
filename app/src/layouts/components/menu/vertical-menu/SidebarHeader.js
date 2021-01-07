@@ -19,7 +19,7 @@ class SidebarHeader extends Component {
           <li className="nav-item mr-auto">
             <NavLink to="/" className="navbar-brand">
               {/* <div className="brand-logo" /> */}
-              <h2 className="brand-text mb-0">{translate ("Green Line 1458")} </h2>
+              <h2 className="brand-text mb-0">Linha Verde 1458 </h2>
             </NavLink>
           </li>
           <li className="nav-item nav-toggle">

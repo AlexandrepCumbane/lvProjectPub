@@ -1,7 +1,7 @@
 // Table exemple
 
 // Tabela_Lang, essa e a proposta de como deve estar a tabela na base de dados
-_________________________________________________
+// _________________________________________________
 // id | 1    | 2     |
 // Tag|login |logout |
 // en |Login |logout |

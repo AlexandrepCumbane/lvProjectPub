@@ -69,7 +69,7 @@ const ThemeNavbar = (props) => {
                 <div className="logo d-flex align-items-center">
                   {/* <div className="brand-logo mr-50"></div> */}
                   <h2 className="text-primary brand-text mb-0">
-                 {translate ("Green Line 1458")} 
+                  Linha Verde 1458
                   </h2>
                 </div>
               ) : null}
