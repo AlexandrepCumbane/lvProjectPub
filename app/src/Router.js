@@ -18,7 +18,7 @@ const Home = lazy(() => import("./views/pages/Home"));
 
 const AppCreate = lazy(() => import("./views/app/create"));
 
-const AppList = lazy(() => import("./views/app/list"));
+// const AppList = lazy(() => import("./views/app/list"));
 
 const Information = lazy(() => import("./views/information/Information"));
 
