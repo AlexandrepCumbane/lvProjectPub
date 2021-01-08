@@ -51,10 +51,6 @@ class AggridTable extends React.Component {
     ],
   };
 
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     this.setState({ rowData: this.props.data ?? this.state.rowData });
     this.setState({
@@ -181,7 +177,6 @@ class AggridTable extends React.Component {
               modal={showTaskDialog}
               data={this.state.selectedData}
               disabled
-              page={"task"}
             />
           ) : (
             <></>
