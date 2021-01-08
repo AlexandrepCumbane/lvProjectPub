@@ -115,7 +115,6 @@ class Sidebar extends Component {
       sidebarState,
       currentLang,
       permission,
-      currentUser,
       collapsedMenuPaths,
     } = this.props;
 
@@ -209,7 +208,7 @@ class Sidebar extends Component {
                         lang={currentLang}
                         permission={permission}
                         currentUser={
-                          this.props.currentUser == "Not-auth"
+                          this.props.currentUser === "Not-auth"
                             ? "Not-Auth"
                             : this.props.currentUser
                         }
