@@ -81,7 +81,7 @@ class Create extends React.Component {
           <hr />
         </Col>
         <Col md="12">
-          {this.state.isValid && this.state.required_fields.length == 0 ? (
+          {this.state.isValid && this.state.required_fields.length === 0 ? (
             <></>
           ) : (
             <Alert color="danger" className="square">
@@ -123,7 +123,7 @@ class Create extends React.Component {
 
     switch (field.type) {
       case "text":
-        if (field.name == "call_notes") {
+        if (field.name === "call_notes") {
           res = (
             <>
               <Col key={field.name + "_"} md="6" />
@@ -320,9 +320,9 @@ class Create extends React.Component {
       this.setState({ childrens });
     }
 
-    if (field.bind != undefined) {
-      if (field.bind.required == true && index <= 0) {
-        if (field.type == "string" && field["wq:ForeignKey"]) {
+    if (field.bind !== undefined) {
+      if (field.bind.required === true && index <= 0) {
+        if (field.type === "string" && field["wq:ForeignKey"]) {
           this.state.required_fields.push(`${field.name}_id`);
         } else this.state.required_fields.push(field.name);
         this.state.required_fields_labels.push(field.label);
@@ -350,7 +350,7 @@ class Create extends React.Component {
   updateState = (field_name, value) => {
     let form = this.state.form;
 
-    if (value != "") {
+    if (value !== "") {
       if (form.has(field_name)) {
         form.set(field_name, value);
       } else {
