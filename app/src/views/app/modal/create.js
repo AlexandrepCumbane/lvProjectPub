@@ -282,9 +282,9 @@ class Create extends React.Component {
   addToRequired(field) {
     const index = this.state.required_fields.indexOf(field.name);
 
-    if (field.bind != undefined) {
+    if (field.bind !== undefined) {
       if (field.bind.required === true && index <= 0) {
-        if (field.type == "string") {
+        if (field.type === "string") {
           this.state.required_fields.push(`${field.name}_id`);
         } else this.state.required_fields.push(field.name);
         this.state.required_fields_labels.push(field.label);
