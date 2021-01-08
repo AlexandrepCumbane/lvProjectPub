@@ -18,7 +18,7 @@ class SubCategoryIssueSerializer(patterns.AttachedModelSerializer):
 
 
 class CaseTipologySerializer(patterns.AttachedModelSerializer):
-    # sub_category = SubCategorySerializer(many=True, required=False)
+    subcategory_set = SubCategorySerializer(many=True, required=False)
 
     class Meta:
         model = CaseTipology

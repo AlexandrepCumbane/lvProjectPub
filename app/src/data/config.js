@@ -360,7 +360,8 @@ export default {
                         "required": true
                     },
                     "type": "string",
-                    "wq:ForeignKey": "casetipology"
+                    "wq:ForeignKey": "casetipology",
+                    "children":"subcategory"
                 },
                 {
                     "name": "subcategory",
@@ -369,7 +370,8 @@ export default {
                         "required": true
                     },
                     "type": "string",
-                    "wq:ForeignKey": "subcategory"
+                    "wq:ForeignKey": "subcategory",
+                    "has_parent":"casetipology"
                 },
                 {
                     "name": "subcategory_issue",
