@@ -44,7 +44,7 @@ class List extends Component {
     const { form } = config.pages[this.props.path];
 
     const columnDefs = form.map((item) => {
-      if (item.type == "select one" || item.type == "string") {
+      if (item.type === "select one" || item.type === "string") {
         return {
           headerName: item.label,
           field: `${item.name}_label`,
