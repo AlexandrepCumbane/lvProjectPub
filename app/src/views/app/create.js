@@ -8,6 +8,8 @@ import {
 
 import { history } from "../../history";
 import { axios } from "../../redux/api";
+
+import config from "../../data/config";
 import {
   Alert,
   Button,
@@ -36,12 +38,15 @@ class Create extends React.Component {
     required_fields_labels: [],
     isValid: true,
     dropdowns: [],
+    childrens: {},
   };
   componentDidMount() {
-    this.props.requestDropodowns();
-    // this.props.requestForm();
+    this.props.requestDropodowns(); // Request dropdown lists and place in a map
 
-    const { form } = this.props.state.auth.login.config.pages.lvform;
+    const { form } = config.pages.lvform; // loads lvform to be rendered on view
+
+    console.log("FOERM: ", config.pages.lvform.form);
+
     form.forEach((item, index) => {
       this.addToRequired(item);
     });
@@ -64,7 +69,10 @@ class Create extends React.Component {
    */
 
   renderForm = () => {
-    const form_ = this.props.state.auth.login.config.pages.lvform;
+    // const form_ = this.props.state.auth.login.config.pages.lvform;
+
+    const form_ = config.pages.lvform;
+
     return (
       <Row>
         <Col md="12">
@@ -108,6 +116,10 @@ class Create extends React.Component {
 
   renderSingleInput = (field) => {
     let res = <></>;
+
+    if (field["has_parent"]) {
+      console.log(field);
+    }
 
     switch (field.type) {
       case "text":
@@ -167,14 +179,20 @@ class Create extends React.Component {
                   type="select"
                   id={field.name}
                   placeholder={field.label}
-                  onChange={(e) =>
-                    this.updateState(`${field.name}_id`, e.target.value)
-                  }
+                  onChange={(e) => {
+                    this.updateState(`${field.name}_id`, e.target.value);
+                    this.updateChildrenList(field, e.target.value);
+                  }}
                 >
                   <option>Select</option>
-                  {this.renderSelectOptionForeignWQ(
-                    this.getForeignFieldDropdown(field["wq:ForeignKey"])
-                  )}
+
+                  {field["has_parent"] === undefined
+                    ? this.renderSelectOptionForeignWQ(
+                        this.getForeignFieldDropdown(field["wq:ForeignKey"])
+                      )
+                    : this.renderSelectOptionForeignWQ(
+                        this.state.childrens[field["wq:ForeignKey"]] ?? []
+                      )}
                 </CustomInput>
               </FormGroup>
             </Col>
@@ -293,6 +311,15 @@ class Create extends React.Component {
   addToRequired(field) {
     const index = this.state.required_fields.indexOf(field.name);
 
+    /**
+     * Add all children dropdowns fiels in a map
+     */
+    if (field["children"] !== undefined) {
+      let childrens = this.state.childrens;
+      childrens[field["children"]] = [];
+      this.setState({ childrens });
+    }
+
     if (field.bind != undefined) {
       if (field.bind.required == true && index <= 0) {
         if (field.type == "string" && field["wq:ForeignKey"]) {
@@ -334,6 +361,20 @@ class Create extends React.Component {
     }
 
     this.setState({ form });
+  };
+
+/**
+ * Dynimically places the nested fields into it's relative
+ * @param {*} field 
+ * @param {*} value 
+ */
+  updateChildrenList = (field, value) => {
+    let childrens = this.state.childrens;
+    const res = this.state.dropdowns[field["wq:ForeignKey"]].filter((item) => {
+      return Number(item.id) === Number(value);
+    });
+    childrens[field.children] = res[0][`${field.children}_set`];
+    this.setState({ childrens });
   };
 
   /**

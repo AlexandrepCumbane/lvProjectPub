@@ -249,7 +249,8 @@ export default {
                         "required": true
                     },
                     "type": "string",
-                    "wq:ForeignKey": "province"
+                    "wq:ForeignKey": "province",
+                    "children": "district"
                 },
                 {
                     "name": "distrito",
@@ -259,7 +260,8 @@ export default {
                     },
                     "hint": "District",
                     "type": "string",
-                    "wq:ForeignKey": "district"
+                    "wq:ForeignKey": "district",
+                    "has_parent": true
                 },
                 {
                     "name": "localidade",
