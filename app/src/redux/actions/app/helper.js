@@ -40,8 +40,8 @@ export const handleForm = (dispatch, payload) =>
 
 const requestSingle = (dispatch) => {
   state.map(async (item) => {
-    if (item.name != "logout" && item.name != "login") {
-      const resp = await axios
+    if (String(item.name !== "logout") && String(item.name) !== "login") {
+      await axios
         .get(`/${item.url}/`)
         .then(({ data }) => {
           let { dropdowns } = appState.app.app_reducer;
