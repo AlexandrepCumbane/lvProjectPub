@@ -2,11 +2,7 @@ from wq.db.patterns import serializers as patterns
 from .models import CaseTipology, SubCategory, SubCategoryIssue
 
 
-class SubCategorySerializer(patterns.AttachedModelSerializer):
-   class Meta:
-        model = SubCategory
-        fields = "__all__"
-        # object_field = 'casetipology'
+
 
 
 class SubCategoryIssueSerializer(patterns.AttachedModelSerializer):
@@ -16,6 +12,12 @@ class SubCategoryIssueSerializer(patterns.AttachedModelSerializer):
         fields = "__all__"
         # object_field = 'casetipology'
 
+class SubCategorySerializer(patterns.AttachedModelSerializer):
+    subcategoryissue_set = SubCategoryIssueSerializer(many=True, required=False)
+    class Meta:
+        model = SubCategory
+        fields = "__all__"
+        # object_field = 'casetipology'
 
 class CaseTipologySerializer(patterns.AttachedModelSerializer):
     subcategory_set = SubCategorySerializer(many=True, required=False)

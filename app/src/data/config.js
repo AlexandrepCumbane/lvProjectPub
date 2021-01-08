@@ -371,13 +371,15 @@ export default {
                     },
                     "type": "string",
                     "wq:ForeignKey": "subcategory",
-                    "has_parent":"casetipology"
+                    "has_parent":"casetipology",
+                    "children": "subcategoryissue"
                 },
                 {
                     "name": "subcategory_issue",
                     "label": "Sub-category issue",
                     "type": "string",
-                    "wq:ForeignKey": "subcategoryissue"
+                    "wq:ForeignKey": "subcategoryissue",
+                    "has_parent": "subcategory"
                 },
                 {
                     "name": "who_not_receiving",
