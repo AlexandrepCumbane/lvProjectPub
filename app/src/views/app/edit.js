@@ -19,7 +19,6 @@ import {
 import { axios } from "../../redux/api";
 
 import Modal from "./modal/create";
-import ModalEdit from "./modal/edit";
 
 import { X } from "react-feather";
 import PerfectScrollbar from "react-perfect-scrollbar";
@@ -226,7 +225,7 @@ class Edit extends Component {
 
     switch (field.type) {
       case "text":
-        if (field.name == "call_notes") {
+        if (field.name === "call_notes") {
           res = (
             <>
               <Col md="6" />
@@ -417,7 +416,7 @@ class Edit extends Component {
     // console.log(value);
     let form = this.state.form;
 
-    if (value != "") {
+    if (value !== "") {
       if (form.has(field_name)) {
         form.set(field_name, value);
       } else {
