@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
-import Radio from "../../components/@vuexy/radio/RadioVuexy";
-import { IntlContext, LOCALES } from "../../i18n";
+import {  LOCALES } from "../../i18n";
 
 import translate from "../../i18n/translate";
 import {
-  Input,
   Label,
   FormGroup,
   Col,
@@ -17,7 +15,6 @@ import {
   CardHeader,
   CardTitle,
 } from "reactstrap";
-import { ChevronDown } from "react-feather";
 import DistributedCharts from "./charts/Distributed";
 
 // const contx = useContext(I18nProvider);
