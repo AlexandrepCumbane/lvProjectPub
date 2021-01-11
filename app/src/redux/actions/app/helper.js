@@ -40,10 +40,8 @@ export const handleForm = (dispatch, payload) =>
 
 const requestSingle = (dispatch) => {
   state.map(async (item) => {
-    if (item.name !== "logout" && item.name !== "login") {
+    if (item.name !== "logout" && item.name !== "login" && item.name !== undefined) {
       let { dropdowns } = appState.app.app_reducer;
-
-      console.log("Dropdowns: ", dropdowns[item.name]);
       if (dropdowns[item.name] === undefined)
         await axios
           .get(`/${item.url}/`)

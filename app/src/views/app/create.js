@@ -45,8 +45,6 @@ class Create extends React.Component {
 
     const { form } = config.pages.lvform; // loads lvform to be rendered on view
 
-    console.log("FOERM: ", config.pages.lvform.form);
-
     form.forEach((item, index) => {
       this.addToRequired(item);
     });
@@ -117,10 +115,6 @@ class Create extends React.Component {
   renderSingleInput = (field) => {
     let res = <></>;
 
-    if (field["has_parent"]) {
-      console.log(field);
-    }
-
     switch (field.type) {
       case "text":
         if (field.name === "call_notes") {
@@ -181,7 +175,9 @@ class Create extends React.Component {
                   placeholder={field.label}
                   onChange={(e) => {
                     this.updateState(`${field.name}_id`, e.target.value);
-                    this.updateChildrenList(field, e.target.value);
+                    if (field["children"]) {
+                      this.updateChildrenList(field, e.target.value);
+                    }
                   }}
                 >
                   <option>Select</option>
@@ -363,11 +359,11 @@ class Create extends React.Component {
     this.setState({ form });
   };
 
-/**
- * Dynimically places the nested fields into it's relative
- * @param {*} field 
- * @param {*} value 
- */
+  /**
+   * Dynimically places the nested fields into it's relative
+   * @param {*} field
+   * @param {*} value
+   */
   updateChildrenList = (field, value) => {
     let childrens = this.state.childrens;
     const res = this.state.dropdowns[field["wq:ForeignKey"]].filter((item) => {
