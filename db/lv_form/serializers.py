@@ -1,7 +1,5 @@
 from wq.db.patterns import serializers as patterns
 from .models import LvForm, CaseComment, ForwardingInstitution, Task, TaskComment
-from djangorestql.mixins import DynamicFieldsMixin
-
 
 class CaseCommentSerializer(patterns.AttachedModelSerializer):
     class Meta: #(patterns.AttachmentSerializer.Meta):
@@ -56,7 +54,7 @@ class TaskCommentSerializer(patterns.AttachedModelSerializer):
 
 
 # TODO: Fix iterating/linking through the relationships
-class LvFormSerializer(DynamicFieldsMixin, patterns.AttachedModelSerializer):
+class LvFormSerializer(patterns.AttachedModelSerializer):
     """
     Returns a list of all stored cases and enables CRUD operations.
 
