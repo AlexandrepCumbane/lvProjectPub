@@ -136,6 +136,7 @@ class Edit extends Component {
 
   renderActions = () => {
     const userRole = this.props.user;
+    let { data } = this.props;
 
     let element = <p>No actions Provived</p>;
 
@@ -156,6 +157,7 @@ class Edit extends Component {
               page="task"
               label="Task"
               color="success"
+              lvform_id={data.id}
             />
             <Modal
               title={`Send to case to Entity`}
