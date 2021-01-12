@@ -5,12 +5,20 @@ import AgGridTable from "../../components/custom/table/AgGridTable";
 
 import { default as config } from "../../data/config";
 import translate from "../../i18n/translate";
+// import  from "../../i18n/provider";
+// import { IntlProvider, } from "react-intl";
+
+import {I18nContext } from "react-i18next";
+
+// import i18n from "../../i18n";
 
 import {
   requestForm,
   requestDropodowns,
 } from "../../redux/actions/app/actions";
 class List extends Component {
+  // static contextType = I18nContext;
+
   state = {
     pageTitle: "Pages",
     pageParent: translate("Lists & Forms"),
@@ -22,12 +30,18 @@ class List extends Component {
     page: "lvform",
   };
 
+  translata = (text) => {
+
+    console.log(this.context)
+
+    return text;
+  };
+
   // componentDidUpdate(){
   //   console.log("Props: ", this.props.title)
   // }
 
   componentDidMount() {
-
     // console.log("")
     this.formatFields();
     this.props.requestDropodowns();
@@ -72,7 +86,7 @@ class List extends Component {
         <Breadcrumbs
           breadCrumbItems={[
             {
-              name: "Add New",
+              name: this.translata("Add New"), // i18n.t('Add New'),
               link: `${this.state.page}s/new`,
             },
           ]}
