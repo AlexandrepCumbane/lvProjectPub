@@ -5,7 +5,7 @@ import ColumnChart from "./charts/Column";
 import { Activity } from "react-feather";
 import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
 import { connect } from "react-redux";
-import { LOCALES } from "../../i18n";
+import { LOCALES } from "../../i18n/index";
 
 import translate from "../../i18n/translate";
 
