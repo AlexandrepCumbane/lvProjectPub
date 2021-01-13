@@ -17,7 +17,6 @@ export default {
     "Fowarded Cases": "Fowarded Cases",
     "Lists & Forms": "Lists & Forms",
     Lists: "Lists",
-    "Consent PI": "Consent PI",
     "Green Line 1458": "Green Line 1458",
     Advanced: "Advanced",
     Registered: "Registered",
@@ -33,8 +32,11 @@ export default {
     "Dashboard & Analyptics": "Dashboard & Analyptics",
     Dashboard: "Dashboard",
     "CLIENTE PROFILE BY GENDER": "CLIENTE PROFILE BY GENDER",
-    Pages: "Pages",
-
+    "Pages": "Pages",
+    "Consent PI" : "Consent PI",
+    "Consent Share Pi" : "Consent Share Pi",
+    "Full Name" : " Full Name",
+    "Contact" : "Contact",
     "Add New": "Add New",
   },
 };

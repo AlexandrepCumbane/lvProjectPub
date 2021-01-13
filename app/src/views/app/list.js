@@ -43,7 +43,7 @@ class List extends Component {
     const columnDefs = form.map((item) => {
       if (item.type === "select one" || item.type === "string") {
         return {
-          headerName: item.label,
+          headerName: this.translate(item.label),
           field: `${item.name}_label`,
           width: 250,
           filter: true,
@@ -52,7 +52,7 @@ class List extends Component {
         };
       } else
         return {
-          headerName: item.label,
+          headerName: this.translate(item.label),
           field: `${item.name}`,
           width: 250,
           filter: true,
