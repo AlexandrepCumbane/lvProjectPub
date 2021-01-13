@@ -9,10 +9,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/scss/plugins/extensions/toastr.scss";
 
-import { default as config } from "./data/config";
 import AppListView from "./views/app/list";
-import { IntlContext, LOCALES } from "../../app/src/i18n";
-import translate from "../../app/src/i18n/translate";
 
 // Route-based code splitting
 const Home = lazy(() => import("./views/pages/Home"));
@@ -21,7 +18,7 @@ const Home = lazy(() => import("./views/pages/Home"));
 
 const AppCreate = lazy(() => import("./views/app/create"));
 
-const AppList = lazy(() => import("./views/app/list"));
+// const AppList = lazy(() => import("./views/app/list"));
 
 const Information = lazy(() => import("./views/information/Information"));
 

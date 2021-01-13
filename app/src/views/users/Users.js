@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
-import AgGridTable from "../../components/custom/table/AgGridTable";
 
 class Information extends Component {
   state = {

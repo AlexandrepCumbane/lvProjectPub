@@ -3,8 +3,6 @@ import { Navbar } from "reactstrap";
 import classnames from "classnames";
 import NavbarBookmarks from "./NavbarBookmarks";
 import NavbarUser from "./NavbarUser";
-import userImg from "../../../assets/img/portrait/small/avatar-s-11.jpg";
-import translate from "../../../i18n/translate";
 const ThemeNavbar = (props) => {
   const colorsArr = ["primary", "danger", "success", "info", "warning", "dark"];
   const navbarTypes = ["floating", "static", "sticky", "hidden"];

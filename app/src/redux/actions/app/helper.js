@@ -40,20 +40,21 @@ export const handleForm = (dispatch, payload) =>
 
 const requestSingle = (dispatch) => {
   state.map(async (item) => {
-    if (item.name != "logout" && item.name != "login") {
-      const resp = await axios
-        .get(`/${item.url}/`)
-        .then(({ data }) => {
-          let { dropdowns } = appState.app.app_reducer;
-          if (data.list) {
-            dropdowns[item.name] = data.list;
-            dispatch({
-              type: "DROPDOWNS",
-              dropdowns,
-            });
-          }
-        })
-        .catch(({ response }) => response);
+    if (item.name !== "logout" && item.name !== "login" && item.name !== undefined) {
+      let { dropdowns } = appState.app.app_reducer;
+      if (dropdowns[item.name] === undefined)
+        await axios
+          .get(`/${item.url}/`)
+          .then(({ data }) => {
+            if (data.list) {
+              dropdowns[item.name] = data.list;
+              dispatch({
+                type: "DROPDOWNS",
+                dropdowns,
+              });
+            }
+          })
+          .catch(({ response }) => response);
     }
   });
 };

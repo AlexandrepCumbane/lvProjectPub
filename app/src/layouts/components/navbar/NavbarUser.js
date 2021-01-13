@@ -1,21 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import {
-  NavItem,
-  NavLink,
   UncontrolledDropdown,
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
   Dropdown,
-  Media,
-  Badge,
 } from "reactstrap";
 import ReactCountryFlag from "react-country-flag";
-import PerfectScrollbar from "react-perfect-scrollbar";
 import * as Icon from "react-feather";
-import classnames from "classnames";
-import Autocomplete from "../../../components/@vuexy/autoComplete/AutoCompleteComponent";
 import { history } from "../../../history";
 
 import { IntlContext } from "../../../i18n/index";

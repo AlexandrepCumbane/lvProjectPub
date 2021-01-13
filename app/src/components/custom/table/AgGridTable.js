@@ -51,10 +51,6 @@ class AggridTable extends React.Component {
     ],
   };
 
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     this.setState({ rowData: this.props.data ?? this.state.rowData });
     this.setState({
@@ -74,13 +70,13 @@ class AggridTable extends React.Component {
                   onClick={(e) => {
                     this.setState({ selectedData: params.data });
 
-                    if (this.props.tableType == "lvform") {
+                    if (this.props.tableType === "lvform") {
                       this.setState({ showSidebar: true });
                     }
-                    if (this.props.tableType == "calls") {
+                    if (this.props.tableType === "calls") {
                       this.setState({ showCallSidebar: true });
                     }
-                    if (this.props.tableType == "task") {
+                    if (this.props.tableType === "task") {
                       this.setState({ showTaskDialog: true });
                     }
                   }}
@@ -133,7 +129,7 @@ class AggridTable extends React.Component {
 
   componentDidUpdate(previousProps, previousState) {
     if (this.state.gridReady) {
-      if (previousState.rowData != this.props.data) {
+      if (previousState.rowData !== this.props.data) {
         this.setState({
           rowData: this.props.data,
         });
@@ -181,7 +177,6 @@ class AggridTable extends React.Component {
               modal={showTaskDialog}
               data={this.state.selectedData}
               disabled
-              page={"task"}
             />
           ) : (
             <></>

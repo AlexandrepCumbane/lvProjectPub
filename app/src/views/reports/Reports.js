@@ -1,29 +1,17 @@
-import React, { Component } from "react";
-import BarChart from "./charts/Bar";
+import React, { Component } from "react"; 
 import PieChart from "./charts/Pie";
 import DountChart from "./charts/Dounts";
 import ColumnChart from "./charts/Column";
 import { Activity } from "react-feather";
 import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
 import { connect } from "react-redux";
-import { IntlContext, LOCALES } from "../../i18n";
+import { LOCALES } from "../../i18n/index";
 
 import translate from "../../i18n/translate";
 
-import {
-  Col,
-  Row,
-  Input,
-  FormGroup,
-  Button,
-  CustomInput,
-  Label,
-} from "reactstrap";
+import { Col, Row } from "reactstrap";
 
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
-import AgGridTable from "../../components/custom/table/AgGridTable";
-import DistributedCharts from "./charts/Distributed";
-
 class Information extends Component {
   state = {
     pageTitle: "Reports",
@@ -39,7 +27,6 @@ class Information extends Component {
   componentDidMount() {
     console.log(LOCALES);
   }
-
 
   render() {
     return (
@@ -73,7 +60,7 @@ class Information extends Component {
               iconBg="primary"
               icon={<Activity className="primary" size={22} />}
               stat="9899"
-              statTitle={translate("Total Cases Registered")} 
+              statTitle={translate("Total Cases Registered")}
             />
           </Col>
         </Row>
@@ -140,9 +127,7 @@ class Information extends Component {
 
         <Row>
           <Col md="6">
-            <h5>
-               {translate("CASES PER SECTOR")}
-            </h5>
+            <h5>{translate("CASES PER SECTOR")}</h5>
             <ColumnChart
               options={{
                 color: "#d9eb55",
@@ -170,7 +155,6 @@ class Information extends Component {
             />
           </Col>
         </Row>
-
       </div>
     );
   }

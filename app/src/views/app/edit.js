@@ -19,13 +19,14 @@ import {
 import { axios } from "../../redux/api";
 
 import Modal from "./modal/create";
-import ModalEdit from "./modal/edit";
 
 import { X } from "react-feather";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import classnames from "classnames";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "../../assets/scss/plugins/extensions/editor.scss";
+
+import config from "../../data/config";
 
 class Edit extends Component {
   notifySuccessBounce = (id = "") =>
@@ -40,19 +41,35 @@ class Edit extends Component {
     form: new FormData(),
     isValid: true,
     dropdowns: [],
+    childrens: {},
   };
 
   componentDidMount() {
     this.props.requestDropodowns();
     this.props.requestForm();
 
-    const { form } = this.props.state.auth.login.config.pages.lvform;
+    const { form } = config.pages.lvform;
 
     const { data } = this.props;
+
+    console.log(data);
 
     let formdata = new FormData();
 
     form.forEach((item) => {
+      /**
+       * Add all children dropdowns fiels in a map
+       */
+      if (item["children"]) {
+        let childrens = this.state.childrens;
+        childrens[item["children"]] = this.getForeignFieldDropdown(
+          item["children"]
+        );
+
+        console.log(childrens);
+        this.setState({ childrens });
+      }
+
       formdata.append(
         item["wq:ForeignKey"] ? item.name + "_id" : item.name,
         data[item["wq:ForeignKey"] ? item.name + "_id" : item.name]
@@ -119,6 +136,7 @@ class Edit extends Component {
 
   renderActions = () => {
     const userRole = this.props.user;
+    let { data } = this.props;
 
     let element = <p>No actions Provived</p>;
 
@@ -139,6 +157,7 @@ class Edit extends Component {
               page="task"
               label="Task"
               color="success"
+              lvform_id={data.id}
             />
             <Modal
               title={`Send to case to Entity`}
@@ -214,7 +233,7 @@ class Edit extends Component {
   };
 
   renderForm = () => {
-    const form_ = this.props.state.auth.login.config.pages.lvform;
+    const form_ = config.pages.lvform;
     return (
       <Row>{form_.form.map((field) => this.renderSingleInput(field))}</Row>
     );
@@ -226,7 +245,7 @@ class Edit extends Component {
 
     switch (field.type) {
       case "text":
-        if (field.name == "call_notes") {
+        if (field.name === "call_notes") {
           res = (
             <>
               <Col md="6" />
@@ -284,16 +303,23 @@ class Edit extends Component {
                   className="square"
                   type="select"
                   id={field.name}
-                  placeholder={field.label}
                   defaultValue={data[`${field.name}_id`]}
-                  onChange={(e) =>
-                    this.updateState(`${field.name}_id`, e.target.value)
-                  }
+                  onChange={(e) => {
+                    this.updateState(`${field.name}_id`, e.target.value);
+                    if (field["children"]) {
+                      this.updateChildrenList(field, e.target.value);
+                    }
+                  }}
                 >
                   <option>Select</option>
-                  {this.renderSelectOptionForeignWQ(
-                    this.getForeignFieldDropdown(field["wq:ForeignKey"])
-                  )}
+
+                  {field["has_parent"] === undefined
+                    ? this.renderSelectOptionForeignWQ(
+                        this.getForeignFieldDropdown(field["wq:ForeignKey"])
+                      )
+                    : this.renderSelectOptionForeignWQ(
+                        this.state.childrens[field["wq:ForeignKey"]] ?? []
+                      )}
                 </CustomInput>
               </FormGroup>
             </Col>
@@ -308,7 +334,7 @@ class Edit extends Component {
                   type="text"
                   className="square"
                   placeholder={field.label}
-                  defaultValue={data[`${field.name}_id`]}
+                  defaultValue={data[`${field.name}`]}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
                 <div className="form-control-position">
@@ -413,18 +439,30 @@ class Edit extends Component {
    * @param {*} value
    */
   updateState = (field_name, value) => {
-    // console.log(field_name);
-    // console.log(value);
     let form = this.state.form;
 
-    if (value != "") {
+    if (value !== "") {
       if (form.has(field_name)) {
         form.set(field_name, value);
       } else {
         form.append(field_name, value);
       }
     }
-    // this.setState({ form });
+  };
+
+  /**
+   * Dynimically places the nested fields into it's relative
+   * @param {*} field
+   * @param {*} value
+   */
+  updateChildrenList = (field, value) => {
+    let childrens = this.state.childrens;
+    const res = this.state.dropdowns[field["wq:ForeignKey"]].filter((item) => {
+      return Number(item.id) === Number(value);
+    });
+    childrens[field.children] = res[0][`${field.children}_set`];
+
+    this.setState({ childrens });
   };
 
   /**

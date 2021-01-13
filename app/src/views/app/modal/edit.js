@@ -100,7 +100,7 @@ class Edit extends React.Component {
           <ModalBody>{this.renderForm()}</ModalBody>
 
           <ModalFooter>
-            {this.props.page == "task" ? (
+            {this.props.page === "task" ? (
               <Button outline color="warning" className="square">
                 Comment
               </Button>
@@ -139,7 +139,7 @@ class Edit extends React.Component {
     return (
       <Row>
         <Col md="12">
-          {this.state.isValid && this.state.required_fields.length == 0 ? (
+          {this.state.isValid && this.state.required_fields.length === 0 ? (
             <></>
           ) : (
             <Alert color="danger" className="square">
@@ -317,9 +317,9 @@ class Edit extends React.Component {
   addToRequired(field) {
     const index = this.state.required_fields.indexOf(field.name);
 
-    if (field.bind != undefined) {
-      if (field.bind.required == true && index <= 0) {
-        if (field.type == "string") {
+    if (field.bind !== undefined) {
+      if (field.bind.required === true && index <= 0) {
+        if (field.type === "string") {
           this.state.required_fields.push(`${field.name}_id`);
         } else this.state.required_fields.push(field.name);
         this.state.required_fields_labels.push(field.label);
@@ -347,7 +347,7 @@ class Edit extends React.Component {
   updateState = (field_name, value) => {
     let form = this.state.form;
 
-    if (value != "") {
+    if (value !== "") {
       if (form.has(field_name)) {
         form.set(field_name, value);
       } else {
