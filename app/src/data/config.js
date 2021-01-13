@@ -1,3 +1,4 @@
+
 export default {
     "pages": {
         "login": {
@@ -113,7 +114,7 @@ export default {
             "list": true,
             "form": [
                 {
-                    "name": "consent_pi",
+                    "name": "Consent PI",
                     "label": "Consent Pi",
                     "choices": [
                         {
