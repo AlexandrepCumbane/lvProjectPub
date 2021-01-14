@@ -49,9 +49,10 @@ class Login extends React.Component {
   };
 
   componentDidMount() {
-    this.props.requestToken();
+    // this.props.requestToken();
+
     // this.props.requestGetUser().then(() => {
-      // history.push("/");
+    //   // history.push("/");
     // });
     // console.log("User", this.getUser());
     // this.getUser();

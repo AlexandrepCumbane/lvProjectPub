@@ -11,7 +11,7 @@ const get_pages = () => {
       title: "Home",
       type: "item",
       icon: <Icon.Home size={20} />,
-      permissions: ["operator", "manager", "focalpoint", "partner", "admin", 'user'],
+      // permissions: ["operator", "manager", "focalpoint", "partner", "admin", 'user'],
       navLink: "/",
     },
 

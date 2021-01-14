@@ -9,8 +9,8 @@ export class AuthService {
     const settings = {
       authority: Constants.stsAuthority,
       client_id: Constants.clientId,
-      redirect_uri: `${Constants.clientRoot}signin-callback.html`,
-      silent_redirect_uri: `${Constants.clientRoot}silent-renew.html`,
+      redirect_uri: `${Constants.clientRoot}/`,
+      silent_redirect_uri: `${Constants.clientRoot}/`,
       // tslint:disable-next-line:object-literal-sort-keys
       post_logout_redirect_uri: `${Constants.clientRoot}`,
       response_type: "code",

@@ -13,7 +13,9 @@ import { default as config } from "./data/config";
 import AppListView from "./views/app/list";
 
 // Route-based code splitting
-const Home = lazy(() => import("./views/pages/Home"));
+// const Home = lazy(() => import("./views/pages/Home"));
+
+const Welcome = lazy(() => import("./views/pages/Welcome"));
 
 // const Page2 = lazy(() => import("./views/pages/Page2"));
 
@@ -79,7 +81,7 @@ class AppRouter extends React.Component {
       // Set the directory path if you are deploying in sub-folder
       <Router history={history}>
         <Switch>
-          <AppRoute exact path="/" component={Home} />
+          <AppRoute exact path="/" component={Welcome} fullLayout />
           <AppRoute
             exact
             path="/lvforms"
