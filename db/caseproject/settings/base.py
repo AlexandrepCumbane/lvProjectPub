@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
     # libraries
     'import_export',
+    'graphene_django',
 
     # Project apps
     'lv_form',
@@ -183,3 +184,15 @@ OIDC_AUTH = {
     # (Optional) Token prefix in Bearer authorization header (default 'Bearer')
     'BEARER_AUTH_HEADER_PREFIX': 'Bearer',
 }
+
+GRAPHENE = {
+    'SCHEMA': 'caseproject.schema.schema',
+    'MIDDLEWARE': [
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ],
+}
+
+AUTHENTICATION_BACKENDS = [
+    'graphql_jwt.backends.JSONWebTokenBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
