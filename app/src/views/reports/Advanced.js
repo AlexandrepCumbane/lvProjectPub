@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
-import {  LOCALES } from "../../i18n";
+import { LOCALES } from "../../i18n/index";
 
 import translate from "../../i18n/translate";
 import {
@@ -102,7 +102,9 @@ class Advanced extends Component {
                   </Col>
                   <Col lg="3" md="6" sm="12">
                     <FormGroup className="mb-0">
-                      <Label for="department">{translate("Cases per Province")}</Label>
+                      <Label for="department">
+                        {translate("Cases per Province")}
+                      </Label>
                       <CustomInput
                         className="square"
                         type="select"

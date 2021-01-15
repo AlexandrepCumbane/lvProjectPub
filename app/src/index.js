@@ -13,6 +13,9 @@ import { PersistGate } from "redux-persist/integration/react";
 
 import { graphClient } from "./configs/apolloConfig";
 import { IntlProviderWrapper, LOCALES } from "./i18n/index";
+
+import "./i18n";
+
 const LazyApp = lazy(() => import("./App"));
 
 const locale = LOCALES.ENGLISH;

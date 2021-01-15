@@ -4,17 +4,20 @@ import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import AgGridTable from "../../components/custom/table/AgGridTable";
 
 import { default as config } from "../../data/config";
-import translate from "../../i18n/translate";
+import { IntlContext } from "../../i18n/provider";
 
 import {
   requestForm,
   requestDropodowns,
 } from "../../redux/actions/app/actions";
 class List extends Component {
+  static contextType = IntlContext;
+  translate = this.context.translate;
+
   state = {
-    pageTitle: "Pages",
-    pageParent: translate("Lists & Forms"),
-    activePage: translate("Lists"),
+    pageTitle: this.translate("Pages"),
+    pageParent: this.translate("Lists & Forms"),
+    activePage: this.translate("Lists"),
     items: [],
     columnDefs: [],
     show: false,
@@ -22,13 +25,7 @@ class List extends Component {
     page: "lvform",
   };
 
-  // componentDidUpdate(){
-  //   console.log("Props: ", this.props.title)
-  // }
-
   componentDidMount() {
-
-    // console.log("")
     this.formatFields();
     this.props.requestDropodowns();
     this.props.requestForm(this.props.url).then(() => {
@@ -72,7 +69,7 @@ class List extends Component {
         <Breadcrumbs
           breadCrumbItems={[
             {
-              name: "Add New",
+              name: this.translate("Add New"), // i18n.t('Add New'),
               link: `${this.state.page}s/new`,
             },
           ]}

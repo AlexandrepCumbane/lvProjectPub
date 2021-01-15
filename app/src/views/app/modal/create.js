@@ -51,6 +51,8 @@ class Create extends React.Component {
     // });
     // const { dropdowns } = this.props.app_reducer;
     // this.setState({ dropdowns });
+
+    this.updateState("lvform_id", this.props.lvform_id);
   }
 
   render() {
