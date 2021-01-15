@@ -53,4 +53,10 @@ DATABASES = {
     }
 }
 
+REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] = (
+    'rest_framework.authentication.SessionAuthentication',
+    'oidc_auth.authentication.JSONWebTokenAuthentication',
+    'oidc_auth.authentication.BearerTokenAuthentication',
+)
+
 # SPATIALITE_LIBRARY_PATH = 'mod_spatialite.so'

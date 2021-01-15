@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Row, Col } from "reactstrap"
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
-import AgGridTable from "../../components/custom/table/AgGridTable";
 import KnowledgeBadeMain from "./KnowledgeBaseMain";
 import "../../assets/scss/pages/knowledge-base.scss";
 

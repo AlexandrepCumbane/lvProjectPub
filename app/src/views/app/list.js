@@ -4,8 +4,6 @@ import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import AgGridTable from "../../components/custom/table/AgGridTable";
 
 import { default as config } from "../../data/config";
-import { IntlContext, LOCALES } from "../../i18n";
-
 import translate from "../../i18n/translate";
 
 import {
@@ -46,7 +44,7 @@ class List extends Component {
     const { form } = config.pages[this.props.path];
 
     const columnDefs = form.map((item) => {
-      if (item.type == "select one" || item.type == "string") {
+      if (item.type === "select one" || item.type === "string") {
         return {
           headerName: item.label,
           field: `${item.name}_label`,

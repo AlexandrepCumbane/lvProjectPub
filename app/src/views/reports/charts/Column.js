@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardHeader, CardTitle, CardBody } from "reactstrap";
+import { Card, CardBody } from "reactstrap";
 import Chart from "react-apexcharts";
 
 class ColumnCharts extends React.Component {

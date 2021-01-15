@@ -9,7 +9,7 @@ import {
 } from "reactstrap"
 import { Home,  MoreVertical } from "react-feather"
 import { NavLink } from "react-router-dom"
-import {FormattedMessage, FormattedDisplayName} from  'react-intl'
+import {FormattedMessage} from  'react-intl'
 class BreadCrumbs extends React.Component {
   render() {
     return (

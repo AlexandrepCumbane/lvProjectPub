@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import { NavLink } from "react-router-dom"
 import { Disc, X, Circle } from "react-feather"
 import classnames from "classnames"
-import translate from "../../../../i18n/translate"
 class SidebarHeader extends Component {
   render() {
     let {

@@ -249,7 +249,8 @@ export default {
                         "required": true
                     },
                     "type": "string",
-                    "wq:ForeignKey": "province"
+                    "wq:ForeignKey": "province",
+                    "children": "district"
                 },
                 {
                     "name": "distrito",
@@ -259,7 +260,8 @@ export default {
                     },
                     "hint": "District",
                     "type": "string",
-                    "wq:ForeignKey": "district"
+                    "wq:ForeignKey": "district",
+                    "has_parent": true
                 },
                 {
                     "name": "localidade",
@@ -358,7 +360,8 @@ export default {
                         "required": true
                     },
                     "type": "string",
-                    "wq:ForeignKey": "casetipology"
+                    "wq:ForeignKey": "casetipology",
+                    "children":"subcategory"
                 },
                 {
                     "name": "subcategory",
@@ -367,13 +370,16 @@ export default {
                         "required": true
                     },
                     "type": "string",
-                    "wq:ForeignKey": "subcategory"
+                    "wq:ForeignKey": "subcategory",
+                    "has_parent":"casetipology",
+                    "children": "subcategoryissue"
                 },
                 {
                     "name": "subcategory_issue",
                     "label": "Sub-category issue",
                     "type": "string",
-                    "wq:ForeignKey": "subcategoryissue"
+                    "wq:ForeignKey": "subcategoryissue",
+                    "has_parent": "subcategory"
                 },
                 {
                     "name": "who_not_receiving",

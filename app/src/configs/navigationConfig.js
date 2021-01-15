@@ -2,7 +2,6 @@ import React from "react";
 import * as Icon from "react-feather";
 
 import translate from "../i18n/translate";
-import { default as config } from "../data/config";
 
 const get_pages = () => {
   let navConf = [
