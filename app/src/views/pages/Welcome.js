@@ -1,17 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-  Button,
-  Card,
-  CardBody,
-  Row,
-  Col,
-  Form,
-  FormGroup,
-  Input,
-  Label,
-} from "reactstrap";
-import { Mail, Lock, Check, Facebook, Twitter, GitHub } from "react-feather";
+import { Card, CardBody, Row, Col } from "reactstrap";
 import {
   requestLogin,
   requestToken,
@@ -19,17 +8,11 @@ import {
 } from "../../redux/actions/auth/loginActions";
 
 import { AuthService } from "../../redux/oidc-config/services/authservice";
-import Checkbox from "../../components/@vuexy/checkbox/CheckboxesVuexy";
 import "../../assets/scss/pages/authentication.scss";
-
-// import googleSvg from "../../assets/img/svg/google.svg";
-
-// import loginImg from "../../assets/img/pages/login.png";
-// import "../../assets/scss/pages/authentication.scss";
 
 import { history } from "../../history";
 
-class Login extends React.Component {
+class Welcome extends React.Component {
   state = {
     activeTab: "1",
     email: "",
@@ -121,4 +104,4 @@ export default connect(mapStateToProps, {
   requestLogin,
   requestToken,
   requestGetUser,
-})(Login);
+})(Welcome);

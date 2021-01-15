@@ -11,7 +11,7 @@ import {
   Input,
   Label,
 } from "reactstrap";
-import { Mail, Lock, Check, Facebook, Twitter, GitHub } from "react-feather";
+import { Mail, Lock, Check } from "react-feather";
 import {
   requestLogin,
   requestToken,
@@ -22,9 +22,6 @@ import { AuthService } from "../../../../redux/oidc-config/services/authservice"
 import Checkbox from "../../../../components/@vuexy/checkbox/CheckboxesVuexy";
 import "../../../../assets/scss/pages/authentication.scss";
 
-import googleSvg from "../../../../assets/img/svg/google.svg";
-
-import loginImg from "../../../../assets/img/pages/login.png";
 import "../../../../assets/scss/pages/authentication.scss";
 
 import { history } from "../../../../history";
@@ -50,7 +47,6 @@ class Login extends React.Component {
 
   componentDidMount() {
     // this.props.requestToken();
-
     // this.props.requestGetUser().then(() => {
     //   // history.push("/");
     // });
