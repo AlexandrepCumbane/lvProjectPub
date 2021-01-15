@@ -1,30 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-  Button,
-  Card,
-  CardBody,
-  Row,
-  Col,
-  Form,
-  FormGroup,
-  Input,
-  Label,
-} from "reactstrap";
-import { Mail, Lock, Check } from "react-feather";
+import { Card, CardBody, Row, Col } from "reactstrap";
 import {
   requestLogin,
   requestToken,
   requestGetUser,
 } from "../../../../redux/actions/auth/loginActions";
 
+import { requestDropodowns } from "../../../../redux/actions/app/actions";
+
 import { AuthService } from "../../../../redux/oidc-config/services/authservice";
-import Checkbox from "../../../../components/@vuexy/checkbox/CheckboxesVuexy";
 import "../../../../assets/scss/pages/authentication.scss";
-
-import "../../../../assets/scss/pages/authentication.scss";
-
-import { history } from "../../../../history";
 
 class Login extends React.Component {
   state = {
@@ -46,49 +32,15 @@ class Login extends React.Component {
   };
 
   componentDidMount() {
-    // this.props.requestToken();
-    // this.props.requestGetUser().then(() => {
-    //   // history.push("/");
-    // });
-    // console.log("User", this.getUser());
-    // this.getUser();
-  }
-
-  // getUser = () => {
-  //   this.authService.getUser().then((user) => {
-  //     if (user) {
-  //       // toast.success("User has been successfully loaded from store.");
-  //     } else {
-  //       // toast.info("You are not logged in.");
-  //     }
-
-  //     if (!this.shouldCancel) {
-  //       // this.setState({ user });
-  //       console.log("Users", user);
-  //     }
-  //   });
-  // };
-  submit = (e) => {
-    e.preventDefault();
-
-    var bodyFormData = new FormData();
-    bodyFormData.append("username", this.state.username);
-    bodyFormData.append("password", this.state.password);
-    bodyFormData.append(
-      "csrfmiddlewaretoken",
-      this.props.state.auth.login.csrftoken
-    );
-
-    this.props.requestLogin(bodyFormData).then(() => {
-      if (this.props.auth_state.success) history.push("/lvforms");
-      else {
-        alert("Wrong Credentials combination");
+    this.props.requestGetUser().then(() => {
+      const { userOauth } = this.props.auth_state;
+      if (userOauth === undefined) {
+        this.login();
       }
     });
-  };
+  }
 
-  login = (e) => {
-    e.preventDefault();
+  login = () => {
     this.authService.login();
   };
 
@@ -102,86 +54,17 @@ class Login extends React.Component {
           md="8"
           className="d-flex justify-content-center"
         >
-          <Card className="bg-authentication login-card rounded-0 mb-0 w-100">
+          <Card className="rounded-0 mb-0 w-100">
             <Row className="m-0">
-              <Col
-                lg="6"
-                className="d-lg-block d-none text-center align-self-center px-1 py-0"
-              >
-                {/* <img src={loginImg} alt="loginImg" /> */}
-              </Col>
-              <Col lg="6" md="12" className="p-0">
+              <Col md="12" className="p-0">
                 <Card className="rounded-0 mb-0 px-2">
-                  <CardBody>
-                    <h4>Login</h4>
-                    <p>Welcome back, please login to your account.</p>
-                    <Form onSubmit={(e) => e.preventDefault()}>
-                      <FormGroup className="form-label-group position-relative has-icon-left">
-                        <Input
-                          type="text"
-                          placeholder="Email"
-                          autoComplete="false"
-                          defaultValue={this.state.email}
-                          onChange={(e) =>
-                            this.setState({ username: e.target.value })
-                          }
-                        />
-                        <div className="form-control-position">
-                          <Mail size={15} />
-                        </div>
-                        <Label>Email</Label>
-                      </FormGroup>
-                      <FormGroup className="form-label-group position-relative has-icon-left">
-                        <Input
-                          type="password"
-                          placeholder="Password"
-                          autoComplete="false"
-                          defaultValue={this.state.password}
-                          onChange={(e) =>
-                            this.setState({ password: e.target.value })
-                          }
-                        />
-                        <div className="form-control-position">
-                          <Lock size={15} />
-                        </div>
-                        <Label>Password</Label>
-                      </FormGroup>
-                      <FormGroup className="d-flex justify-content-between align-items-center">
-                        <Checkbox
-                          color="primary"
-                          icon={<Check className="vx-icon" size={16} />}
-                          label="Remember me"
-                        />
-                        <div className="float-right">Forgot Password?</div>
-                      </FormGroup>
-                      <div className="d-flex justify-content-between">
-                        <div />
-                        <Button.Ripple
-                          color="primary"
-                          type="submit"
-                          onClick={this.submit}
-                        >
-                          Login
-                        </Button.Ripple>
-                      </div>
-                    </Form>
+                  <CardBody className=" justify-content-center">
+                    <h4>Welcom to VulaVula - 1458</h4>
+                    <p>
+                      Please wait while you're being redirected to
+                      Authentication Page.
+                    </p>
                   </CardBody>
-
-                  <div className="auth-footer">
-                    <div className="divider">
-                      <div className="divider-text">OR</div>
-                    </div>
-                    <div className="footer-btn m-auto">
-                      <Button.Ripple
-                        className="btn-facebook m-auto"
-                        onClick={this.login}
-                        color=""
-                      >
-                        {" "}
-                        WFP Open Id
-                      </Button.Ripple>
-                    </div>
-                  </div>
                 </Card>
               </Col>
             </Row>
@@ -203,4 +86,5 @@ export default connect(mapStateToProps, {
   requestLogin,
   requestToken,
   requestGetUser,
+  requestDropodowns,
 })(Login);

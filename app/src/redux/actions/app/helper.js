@@ -14,16 +14,14 @@ export const handleForm = (dispatch, payload) =>
       loading: true,
     });
 
-    console.log(appState.auth.login.userOauth, payload)
-
+    const { userOauth } = appState.auth.login;
     axios
       .get(`/${payload}.json/`, {
         headers: {
-          Authorization: `Bearer ${appState.auth.login.userOauth.access_token}`,
+          Authorization: `Bearer ${userOauth?.access_token}`,
         },
       })
       .then(({ data }) => {
-        // console.log(data);
         dispatch({
           type: "FORM_SUCCESS",
           list: data.list,
@@ -46,11 +44,20 @@ export const handleForm = (dispatch, payload) =>
 
 const requestSingle = (dispatch) => {
   state.map(async (item) => {
-    if (item.name !== "logout" && item.name !== "login" && item.name !== undefined) {
+    if (
+      item.name !== "logout" &&
+      item.name !== "login" &&
+      item.name !== undefined
+    ) {
       let { dropdowns } = appState.app.app_reducer;
+      const { userOauth } = appState.auth.login;
       if (dropdowns[item.name] === undefined)
         await axios
-          .get(`/${item.url}/`)
+          .get(`/${item.url}/`, {
+            headers: {
+              Authorization: `Bearer ${userOauth?.access_token}`,
+            },
+          })
           .then(({ data }) => {
             if (data.list) {
               dropdowns[item.name] = data.list;

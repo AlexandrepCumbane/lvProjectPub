@@ -7,6 +7,10 @@ import {
   requestGetUser,
 } from "../../redux/actions/auth/loginActions";
 
+import { requestDropodowns } from "../../redux/actions/app/actions";
+
+import { axios } from "../../redux/api";
+
 import { AuthService } from "../../redux/oidc-config/services/authservice";
 import "../../assets/scss/pages/authentication.scss";
 
@@ -37,28 +41,28 @@ class Welcome extends React.Component {
       if (userOauth === undefined) {
         this.login();
       } else {
-        history.push("/lvforms");
+        this.test_connection(userOauth.access_token);
       }
     });
   }
 
-  submit = (e) => {
-    e.preventDefault();
-
-    var bodyFormData = new FormData();
-    bodyFormData.append("username", this.state.username);
-    bodyFormData.append("password", this.state.password);
-    bodyFormData.append(
-      "csrfmiddlewaretoken",
-      this.props.state.auth.login.csrftoken
-    );
-
-    this.props.requestLogin(bodyFormData).then(() => {
-      if (this.props.auth_state.success) history.push("/lvforms");
-      else {
-        alert("Wrong Credentials combination");
-      }
-    });
+  /**
+   *
+   * @param {*} token
+   *
+   * Verifies if user has role base access
+   */
+  test_connection = (token) => {
+    axios
+      .get(`lvforms.json/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(({ data }) => {
+        history.push("/home");
+      })
+      .catch(() => {});
   };
 
   login = () => {
@@ -104,4 +108,5 @@ export default connect(mapStateToProps, {
   requestLogin,
   requestToken,
   requestGetUser,
+  requestDropodowns,
 })(Welcome);
