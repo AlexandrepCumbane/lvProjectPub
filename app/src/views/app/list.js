@@ -4,6 +4,9 @@ import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import AgGridTable from "../../components/custom/table/AgGridTable";
 
 import { default as config } from "../../data/config";
+import { IntlContext, LOCALES } from "../../i18n";
+
+import translate from "../../i18n/translate";
 
 import {
   requestForm,
@@ -12,8 +15,8 @@ import {
 class List extends Component {
   state = {
     pageTitle: "Pages",
-    pageParent: "Lists & Forms",
-    activePage: "Lists",
+    pageParent: translate("Lists & Forms"),
+    activePage: translate("Lists"),
     items: [],
     columnDefs: [],
     show: false,
@@ -21,7 +24,13 @@ class List extends Component {
     page: "lvform",
   };
 
+  // componentDidUpdate(){
+  //   console.log("Props: ", this.props.title)
+  // }
+
   componentDidMount() {
+
+    // console.log("")
     this.formatFields();
     this.props.requestDropodowns();
     this.props.requestForm(this.props.url).then(() => {

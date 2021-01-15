@@ -6,6 +6,7 @@ import * as Icons from "react-feather";
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import SimpleAnalipticCard from "../../components/custom/statisticCards/Card";
 import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
+import { IntlContext, LOCALES } from "../../i18n";
 
 import {
   requestForm,
@@ -14,15 +15,16 @@ import {
 
 class Home extends React.Component {
   state = {
-    pageTitle: "Home",
-    pageParent: "Dashboard & Analyptics",
-    activePage: "Dashboard",
+    pageTitle: translate("Home"),
+    pageParent: translate("Dashboard & Analyptics"),
+    activePage: translate("Dashboard"),
     items: [],
     columnDefs: [],
     show: false,
     data: [],
     page: "lvform",
     currentUserRole: "admin",
+    locale: LOCALES.PORTUGUESE,
   };
 
   componentDidMount() {
@@ -41,7 +43,9 @@ class Home extends React.Component {
           breadCrumbActive={this.state.activePage}
         />
 
-        {this.renderSwitchCard()}
+        {/* {this.renderSwitchCard()} */}
+        {/* {ExchangeRates()} */}
+        <ExchangeRates />
       </div>
     );
   }
@@ -65,7 +69,7 @@ class Home extends React.Component {
         break;
 
       default:
-        element = <p>User role not provided</p>;
+        element = <p>{translate("User role not provided")}</p>;
         break;
     }
 

@@ -8,7 +8,7 @@ const get_pages = () => {
   let navConf = [
     {
       id: "home",
-      title: "Home",
+      title: translate("Home"),
       type: "item",
       icon: <Icon.Home size={20} />,
       // permissions: ["operator", "manager", "focalpoint", "partner", "admin", 'user'],
@@ -17,7 +17,7 @@ const get_pages = () => {
 
     {
       id: "cases",
-      title: "Casos",
+      title: translate("Cases"),
       type: "collapse",
       icon: <Icon.File size={20} />,
       badge: "warning",
@@ -32,7 +32,7 @@ const get_pages = () => {
       children: [
         {
           id: "all_cases",
-          title: "Registered",
+          title: translate("Registered"),
           type: "item",
           icon: <Icon.Archive size={12} />,
           permissions: [
@@ -47,7 +47,7 @@ const get_pages = () => {
         },
         {
           id: "referall_cases",
-          title: "Fowarded",
+          title: translate("Fowarded"),
           type: "item",
           icon: <Icon.FileText size={12} />,
           permissions: [
@@ -65,7 +65,7 @@ const get_pages = () => {
 
     {
       id: "tasks",
-      title: "Tasks",
+      title: translate("Tasks"),
       type: "item",
       icon: <Icon.Activity size={20} />,
       permissions: ["operator", "manager", "focalpoint", "partner", "admin"],
@@ -89,7 +89,7 @@ const get_pages = () => {
       children: [
         {
           id: "general",
-          title: "General",
+          title:  translate("General"),
           type: "item",
           icon: <Icon.BarChart size={12} />,
           permissions: [
@@ -104,7 +104,7 @@ const get_pages = () => {
         },
         {
           id: "advanced",
-          title: "Advanced",
+          title: translate("Advanced"),
           type: "item",
           icon: <Icon.Filter size={12} />,
           permissions: [

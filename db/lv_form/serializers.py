@@ -1,7 +1,6 @@
 from wq.db.patterns import serializers as patterns
 from .models import LvForm, CaseComment, ForwardingInstitution, Task, TaskComment
 
-
 class CaseCommentSerializer(patterns.AttachedModelSerializer):
     class Meta: #(patterns.AttachmentSerializer.Meta):
         model = CaseComment

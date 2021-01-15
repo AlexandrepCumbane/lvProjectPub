@@ -6,6 +6,9 @@ import ColumnChart from "./charts/Column";
 import { Activity } from "react-feather";
 import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
 import { connect } from "react-redux";
+import { IntlContext, LOCALES } from "../../i18n";
+
+import translate from "../../i18n/translate";
 
 import {
   Col,
@@ -31,9 +34,12 @@ class Information extends Component {
     show: false,
     data: [],
     page: "lvform",
+    locale: LOCALES.PORTUGUESE,
   };
+  componentDidMount() {
+    console.log(LOCALES);
+  }
 
-  componentDidMount() {}
 
   render() {
     return (
@@ -57,7 +63,7 @@ class Information extends Component {
               iconBg="primary"
               icon={<Activity className="primary" size={22} />}
               stat="87%"
-              statTitle="Total Feedback Provided"
+              statTitle={translate("Total Feedback Provided")}
             />
           </Col>
           <Col lg="3" sm="6">
@@ -67,13 +73,13 @@ class Information extends Component {
               iconBg="primary"
               icon={<Activity className="primary" size={22} />}
               stat="9899"
-              statTitle="Total Cases Registered"
+              statTitle={translate("Total Cases Registered")} 
             />
           </Col>
         </Row>
         <Row>
           <Col md="4">
-            <h5>CLIENTE PROFILE BY AGE</h5>
+            <h5>{translate("CLIENTE PROFILE BY AGE")}</h5>
             <DountChart
               //title ="CALLER PROFILE"
               series={[3, 90, 4]}
@@ -81,12 +87,12 @@ class Information extends Component {
             />
           </Col>
           <Col md="4">
-            <h5 className="">KOWLEDGE ABOUT LV</h5>
+            <h5 className=""> {translate("KOWLEDGE ABOUT LV")}</h5>
             <PieChart />
           </Col>
 
           <Col md="4">
-            <h5>SATISFATION</h5>
+            <h5>{translate("SATISFATION")}</h5>
             <DountChart
               series={[95, 5]}
               labels={["Satisfied", "Dissatisfied"]}
@@ -96,7 +102,7 @@ class Information extends Component {
 
         <Row>
           <Col md="6">
-            <h5>CASES BY PROVINCES</h5>
+            <h5>{translate("CASES BY PROVINCES")}</h5>
             <ColumnChart
               options={{
                 color: "#d9eb55",
@@ -115,7 +121,7 @@ class Information extends Component {
           </Col>
 
           <Col md="6">
-            <h5>CASE TYPE</h5>
+            <h5> {translate("CASE TYPE")}</h5>
             <ColumnChart
               options={{
                 color: "#d9eb55",
@@ -135,7 +141,7 @@ class Information extends Component {
         <Row>
           <Col md="6">
             <h5>
-              Cases Per Sector 
+               {translate("CASES PER SECTOR")}
             </h5>
             <ColumnChart
               options={{
@@ -156,7 +162,7 @@ class Information extends Component {
             />
           </Col>
           <Col md="6">
-            <h5>CLIENTE PROFILE BY GENDER</h5>
+            <h5> {translate("CLIENTE PROFILE BY GENDER")}</h5>
             <DountChart
               //title ="CALLER PROFILE"
               series={[78, 22]}

@@ -1,4 +1,7 @@
 import React from "react"
+import { IntlContext, LOCALES } from "../../i18n";
+
+import translate from "../../i18n/translate";
 import {
   Card,
   CardHeader,
@@ -26,8 +29,8 @@ class KBCategory extends React.Component {
         <Row>
           <Col sm="12">
             <p>
-              petiole antimasquer nonenduring hoofish unbed anergic sweetwood
-              ailsyte.
+              {translate("petiole antimasquer nonenduring hoofish unbed anergic sweetwood ailsyte.")}
+              
             </p>
           </Col>
           <Col lg="4" md="6" sm="12">
