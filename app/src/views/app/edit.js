@@ -25,10 +25,13 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import classnames from "classnames";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "../../assets/scss/plugins/extensions/editor.scss";
+import { IntlContext } from "../../i18n/provider";
 
 import config from "../../data/config";
 
 class Edit extends Component {
+  static contextType = IntlContext;
+  translate = this.context.translate;
   notifySuccessBounce = (id = "") =>
     toast.success(`Object created successfuly!`, { transition: Bounce });
 
@@ -250,13 +253,13 @@ class Edit extends Component {
             <>
               <Col md="6" />
               <Col md="6" key={field.name}>
-                <Label>{field.label}</Label>
+                <Label>{this.translate(field.label)}</Label>
                 <FormGroup className="form-label-group position-relative has-icon-left">
                   <Input
                     type="textarea"
                     rows={7}
                     className="square"
-                    placeholder={field.label}
+                    placeholder={this.translate(field.label)}
                     defaultValue={data[field.name]}
                     onChange={(e) =>
                       this.updateState(field.name, e.target.value)
@@ -272,14 +275,14 @@ class Edit extends Component {
         } else {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
+              <Label>{this.translate(field.label)}</Label>
 
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
                   type="textarea"
                   rows={7}
                   className="square"
-                  placeholder={field.label}
+                  placeholder={this.translate(field.label)}
                   defaultValue={data[field.name]}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
@@ -296,7 +299,7 @@ class Edit extends Component {
         if (field["wq:ForeignKey"]) {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
+              <Label>{this.translate(field.label)}</Label>
 
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <CustomInput
@@ -327,13 +330,13 @@ class Edit extends Component {
         } else {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
+              <Label>{this.translate(field.label)}</Label>
 
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
                   type="text"
                   className="square"
-                  placeholder={field.label}
+                  placeholder={this.translate(field.label)}
                   defaultValue={data[`${field.name}`]}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
@@ -348,7 +351,7 @@ class Edit extends Component {
       case "date":
         res = (
           <Col md="6" key={field.name}>
-            <Label>{field.label}</Label>
+            <Label>{this.translate(field.label)}</Label>
 
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
@@ -368,12 +371,12 @@ class Edit extends Component {
       case "int":
         res = (
           <Col md="6" key={field.name}>
-            <Label>{field.label}</Label>
+            <Label>{this.translate(field.label)}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
                 type="number"
                 className="square"
-                placeholder={field.label}
+                placeholder={this.translate(field.label)}
                 defaultValue={data[field.name]}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
@@ -387,13 +390,13 @@ class Edit extends Component {
       case "select one":
         res = (
           <Col md="6" key={field.name}>
-            <Label>{field.label}</Label>
+            <Label>{this.translate(field.label)}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <CustomInput
                 className="square"
                 type="select"
                 id={field.name}
-                placeholder={field.label}
+                placeholder={this.translate(field.label)}
                 defaultValue={data[field.name]}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               >

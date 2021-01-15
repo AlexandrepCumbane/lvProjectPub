@@ -5,7 +5,7 @@ import AgGridTable from "../../components/custom/table/AgGridTable";
 
 import { default as config } from "../../data/config";
 import { IntlContext } from "../../i18n/provider";
-
+// import translate from '../../i18n/translate'
 import {
   requestForm,
   requestDropodowns,
