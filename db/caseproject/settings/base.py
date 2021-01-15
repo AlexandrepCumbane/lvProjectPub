@@ -150,7 +150,7 @@ OIDC_AUTH = {
     # Specify OpenID Connect endpoint. Configuration will be
     # automatically done based on the discovery document found
     # at <endpoint>/.well-known/openid-configuration
-    'OIDC_ENDPOINT': 'https://robobo.eu.auth0.com/',
+    'OIDC_ENDPOINT': 'https://ciam.auth.wfp.org/oauth2/oidcdiscovery/',
 
     # Accepted audiences the ID Tokens can be issued to
     'OIDC_CLAIMS_OPTIONS': {

@@ -50,31 +50,15 @@ class Login extends React.Component {
 
   componentDidMount() {
     this.props.requestGetUser().then(() => {
-      // console.log("userOauth: ", this.props.auth_state.userOauth);
-
       const { userOauth } = this.props.auth_state;
       if (userOauth === undefined) {
         this.login();
+      } else {
+        history.push("/lvforms");
       }
     });
-    // console.log("User", this.getUser());
-    // this.getUser();
   }
 
-  // getUser = () => {
-  //   this.authService.getUser().then((user) => {
-  //     if (user) {
-  //       // toast.success("User has been successfully loaded from store.");
-  //     } else {
-  //       // toast.info("You are not logged in.");
-  //     }
-
-  //     if (!this.shouldCancel) {
-  //       // this.setState({ user });
-  //       console.log("Users", user);
-  //     }
-  //   });
-  // };
   submit = (e) => {
     e.preventDefault();
 

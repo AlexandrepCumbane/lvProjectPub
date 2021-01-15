@@ -14,6 +14,8 @@ export const handleForm = (dispatch, payload) =>
       loading: true,
     });
 
+    console.log(appState.auth.login.userOauth, payload)
+
     axios
       .get(`/${payload}.json/`, {
         headers: {
