@@ -5,10 +5,10 @@ import {
   requestForm,
   requestDropodowns,
 } from "../../redux/actions/app/actions";
-
+import { IntlContext } from "../../i18n/provider";
 import { history } from "../../history";
 import { axios } from "../../redux/api";
-
+// import translate from '../../i18n/translate';
 import config from "../../data/config";
 import {
   Alert,
@@ -24,6 +24,8 @@ import {
 } from "reactstrap";
 
 class Create extends React.Component {
+  static contextType = IntlContext;
+  translate = this.context.translate;
   notifySuccessBounce = (id = "") =>
     toast.success(`Object created successfuly!`, { transition: Bounce });
 
@@ -122,13 +124,13 @@ class Create extends React.Component {
             <>
               <Col key={field.name + "_"} md="6" />
               <Col md="6" key={field.name}>
-                <Label>{field.label}</Label>
+                <Label>{this.translate(field.label)}</Label>
                 <FormGroup className="form-label-group position-relative has-icon-left">
                   <Input
                     type="textarea"
                     rows={7}
                     className="square"
-                    placeholder={field.label}
+                    placeholder={this.translate(field.label)}
                     onChange={(e) =>
                       this.updateState(field.name, e.target.value)
                     }
@@ -143,14 +145,14 @@ class Create extends React.Component {
         } else {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
+              <Label>{this.translate(field.label)}</Label>
 
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
                   type="textarea"
                   rows={7}
                   className="square"
-                  placeholder={field.label}
+                  placeholder={this.translate(field.label)}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
                 <div className="form-control-position">
@@ -165,14 +167,14 @@ class Create extends React.Component {
         if (field["wq:ForeignKey"]) {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
+              <Label>{this.translate(field.label)}</Label>
 
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <CustomInput
                   className="square"
                   type="select"
                   id={field.name}
-                  placeholder={field.label}
+                  placeholder={this.translate(field.label)}
                   onChange={(e) => {
                     this.updateState(`${field.name}_id`, e.target.value);
                     if (field["children"]) {
@@ -196,13 +198,13 @@ class Create extends React.Component {
         } else {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
+              <Label>{this.translate(field.label)}</Label>
 
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
                   type="text"
                   className="square"
-                  placeholder={field.label}
+                  placeholder={this.translate(field.label)}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
                 <div className="form-control-position">
@@ -217,13 +219,13 @@ class Create extends React.Component {
       case "date":
         res = (
           <Col md="6" key={field.name}>
-            <Label>{field.label}</Label>
+            <Label>{this.translate(field.label)}</Label>
 
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
                 type="date"
                 className="square"
-                placeholder={field.label}
+                placeholder={this.translate(field.label)}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
               <div className="form-control-position">
@@ -236,12 +238,12 @@ class Create extends React.Component {
       case "int":
         res = (
           <Col md="6" key={field.name}>
-            <Label>{field.label}</Label>
+            <Label>{this.translate(field.label)}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
                 type="number"
                 className="square"
-                placeholder={field.label}
+                placeholder={this.translate(field.label)}
                 // defaultValue={this.state.email}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
@@ -255,13 +257,13 @@ class Create extends React.Component {
       case "select one":
         res = (
           <Col md="6" key={field.name}>
-            <Label>{field.label}</Label>
+            <Label>{this.translate(field.label)}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <CustomInput
                 className="square"
                 type="select"
                 id={field.name}
-                placeholder={field.label}
+                placeholder={this.translate(field.label)}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               >
                 <option>Select</option>
@@ -283,7 +285,7 @@ class Create extends React.Component {
   renderSelectOption = (choices) => {
     return choices.map((item) => (
       <option key={item.name} value={item.name}>
-        {item.label}
+        {this.translate(item.label)}
       </option>
     ));
   };
@@ -291,7 +293,7 @@ class Create extends React.Component {
   renderSelectOptionForeignWQ = (choices) => {
     return choices.map((item) => (
       <option key={item.id} value={item.id}>
-        {item.label}
+        {this.translate(item.label)}
       </option>
     ));
   };
