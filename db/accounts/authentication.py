@@ -26,7 +26,6 @@ logger = logging.getLogger(__name__)
 
 def get_user_by_id(request, id_token):
     User = get_user_model()
-    print("************ Token: ", id_token)
     try:
         user = User.objects.get_by_natural_key(id_token.get('sub'))
        
