@@ -20,13 +20,7 @@ const get_pages = () => {
       type: "collapse",
       icon: <Icon.File size={20} />,
       badge: "warning",
-      permissions: [
-        "operator",
-        "manager",
-        "focalpoint",
-        "partner",
-        "admin",
-      ],
+      permissions: ["operator", "manager", "focalpoint", "partner", "admin"],
       // badgeText: "2",
       children: [
         {
@@ -77,18 +71,12 @@ const get_pages = () => {
       type: "collapse",
       icon: <Icon.PieChart size={20} />,
       badge: "warning",
-      permissions: [
-        "operator",
-        "manager",
-        "focalpoint",
-        "partner",
-        "admin",
-      ],
+      permissions: ["operator", "manager", "focalpoint", "partner", "admin"],
       // badgeText: "2",
       children: [
         {
           id: "general",
-          title:  translate("General"),
+          title: translate("General"),
           type: "item",
           icon: <Icon.BarChart size={12} />,
           permissions: [
@@ -118,14 +106,6 @@ const get_pages = () => {
         },
       ],
     },
-    // {
-    //   id: "reports",
-    //   title: "Reports",
-    //   type: "item",
-    //   icon: <Icon.BarChart size={20} />,
-    //   permissions: ["operator", "manager", "focalpoint", "partner", "admin"],
-    //   navLink: "/reports",
-    // },
     {
       id: "information",
       title: "Knowledge Base",
@@ -134,6 +114,7 @@ const get_pages = () => {
       permissions: ["operator", "manager", "focalpoint", "partner"],
       navLink: "/information",
     },
+
     {
       id: "users",
       title: "Users Management",

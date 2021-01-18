@@ -42,7 +42,7 @@ class Create extends React.Component {
   componentDidMount() {
     this.props.requestDropodowns(); // Request dropdown lists and place in a map
 
-    const { form } = config.pages.lvform; // loads lvform to be rendered on view
+    const { form } = config.pages[this.props.path]; // loads lvform to be rendered on view
 
     form.forEach((item, index) => {
       this.addToRequired(item);
@@ -68,7 +68,7 @@ class Create extends React.Component {
   renderForm = () => {
     // const form_ = this.props.state.auth.login.config.pages.lvform;
 
-    const form_ = config.pages.lvform;
+    const form_ = config.pages[this.props.path];
 
     return (
       <Row>
@@ -384,7 +384,7 @@ class Create extends React.Component {
     } else {
       this.setState({ isValid: true });
       axios
-        .post("lvforms.json", this.state.form, {
+        .post(`${this.props.path}s.json`, this.state.form, {
           headers: {
             "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
             Authorization: `Bearer ${userOauth.access_token}`,
