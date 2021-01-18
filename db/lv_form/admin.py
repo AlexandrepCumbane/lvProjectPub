@@ -4,7 +4,7 @@ from lv_form.models import LvForm, CaseComment, ForwardingInstitution, Task, Tas
 @admin.register(LvForm)
 class LvFormAdmin(admin.ModelAdmin):
     list_display=("fullname", "contact", "datetime_created", "created_by")
-    readonly_fields = ('datetime_created', 'datetime_updated')
+    readonly_fields = ('datetime_created', 'datetime_updated', 'uuid')
     pass
 
 @admin.register(CaseComment)

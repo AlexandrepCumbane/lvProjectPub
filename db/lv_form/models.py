@@ -1,4 +1,5 @@
 from django.db import models
+import uuid
 from django.conf import settings
 User = settings.AUTH_USER_MODEL
 
@@ -313,6 +314,11 @@ class LvForm(models.Model):
         blank=True,
         verbose_name="Case number",
         help_text="Case number",
+    )
+
+    uuid = models.UUIDField( 
+        default = uuid.uuid4, 
+        editable = False
     )
 
     class Meta:
