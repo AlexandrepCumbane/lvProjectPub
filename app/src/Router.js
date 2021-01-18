@@ -143,7 +143,7 @@ class AppRouter extends React.Component {
             path="/users"
             // component={AppList}
             component={(props) => (
-              <Users {...props} title="Users" path="user" url="users" />
+              <AppListView {...props} title="Users" path="customuser" url="users" />
             )}
           />
           <AppRoute
