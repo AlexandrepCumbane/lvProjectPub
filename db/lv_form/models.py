@@ -84,7 +84,8 @@ class LvForm(models.Model):
         verbose_name="Community",
         help_text="Community",
     )
-    distribution_point = models.TextField(
+    distribution_point = models.CharField(
+        max_length=255,
         null=True,
         blank=True,
         verbose_name="Distribution Point",
