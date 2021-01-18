@@ -1,7 +1,4 @@
 import Axios from "axios";
-import { store } from "./storeConfig/store";
-
-const state = store.getState();
 
 const axios = Axios.create({
   /*
@@ -10,8 +7,8 @@ const axios = Axios.create({
    * Warning: Please make sure you added REACT_APP_API_URL on env.js file
    */
   baseURL: process.env.REACT_APP_API_URL,
+
   headers: {
-    "X-CSRFTOKEN": state.auth.login,
     "Content-Type":
       "multipart/form-data; boundary=----WebKitFormBoundaryj1QQuFB08RhhuHzT",
   },

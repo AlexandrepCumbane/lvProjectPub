@@ -141,7 +141,7 @@ class Edit extends Component {
     let element = <p>No actions Provived</p>;
 
     switch (userRole) {
-      case "admin":
+      case "operator":
         element = (
           <div>
             {" "}
@@ -211,7 +211,7 @@ class Edit extends Component {
         );
         break;
 
-      case "operator":
+      case "operators":
         element = (
           <div>
             <Button
@@ -470,12 +470,14 @@ class Edit extends Component {
    */
   handleSubmit = () => {
     let { handleSidebar } = this.props;
+    const { userOauth } = this.props.state.auth.login;
 
     this.setState({ isValid: true });
     axios
       .put(`lvforms/${this.props.data.id}.json/`, this.state.form, {
         headers: {
           "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
+          Authorization: `Bearer ${userOauth.access_token}`,
         },
       })
       .then(({ data }) => {

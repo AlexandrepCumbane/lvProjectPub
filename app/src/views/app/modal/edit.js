@@ -355,6 +355,7 @@ class Edit extends React.Component {
    * Submits the form to post request action
    */
   handleSubmit = () => {
+    const { userOauth } = this.props.state.auth.login;
     if (this.state.required_fields.length > 0) {
       this.notifyErrorBounce("Fill all required inputs");
       this.setState({ isValid: false });
@@ -364,6 +365,7 @@ class Edit extends React.Component {
         .post(`${this.props.page}s.json`, this.state.form, {
           headers: {
             "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
+            Authorization: `Bearer ${userOauth.access_token}`,
           },
         })
         .then(({ data }) => {

@@ -22,7 +22,6 @@ import {
   Input,
   Label,
 } from "reactstrap";
-
 class Create extends React.Component {
   notifySuccessBounce = (id = "") =>
     toast.success(`Object created successfuly!`, { transition: Bounce });
@@ -377,6 +376,8 @@ class Create extends React.Component {
    * Submits the form to post request action
    */
   handleSubmit = () => {
+    const { userOauth } = this.props.state.auth.login;
+
     if (this.state.required_fields.length > 0) {
       this.notifyErrorBounce("Fill all required inputs");
       this.setState({ isValid: false });
@@ -386,6 +387,7 @@ class Create extends React.Component {
         .post("lvforms.json", this.state.form, {
           headers: {
             "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
+            Authorization: `Bearer ${userOauth.access_token}`,
           },
         })
         .then(({ data }) => {

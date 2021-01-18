@@ -6,6 +6,7 @@ import {
   requestDropodowns,
 } from "../../../redux/actions/app/actions";
 
+import config from "../../../data/config";
 import { axios } from "../../../redux/api";
 import {
   Alert,
@@ -43,15 +44,6 @@ class Create extends React.Component {
     dropdowns: [],
   };
   componentDidMount() {
-    // this.props.requestDropodowns();
-    // this.props.requestForm();
-    // const { form } = this.props.state.auth.login.config.pages.lvform;
-    // form.forEach((item, index) => {
-    //   this.addToRequired(item);
-    // });
-    // const { dropdowns } = this.props.app_reducer;
-    // this.setState({ dropdowns });
-
     this.updateState("lvform_id", this.props.lvform_id);
   }
 
@@ -108,7 +100,7 @@ class Create extends React.Component {
    */
 
   renderForm = () => {
-    const form_ = this.props.state.auth.login.config.pages[this.props.page];
+    const form_ = config.pages[this.props.page];
     return (
       <Row>
         <Col md="12">
@@ -331,6 +323,9 @@ class Create extends React.Component {
    * Submits the form to post request action
    */
   handleSubmit = () => {
+    const { userOauth } = this.props.state.auth.login;
+
+    console.log(userOauth, this.props.state);
     if (this.state.required_fields.length > 0) {
       this.notifyErrorBounce("Fill all required inputs");
       this.setState({ isValid: false });
@@ -340,6 +335,7 @@ class Create extends React.Component {
         .post(`${this.props.page}s.json`, this.state.form, {
           headers: {
             "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
+            Authorization: `Bearer ${userOauth.access_token}`,
           },
         })
         .then(({ data }) => {

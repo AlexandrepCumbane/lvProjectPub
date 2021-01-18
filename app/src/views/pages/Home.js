@@ -28,9 +28,7 @@ class Home extends React.Component {
   };
 
   componentDidMount() {
-    // console.log(this.props.state);
-
-    this.props.requestForm('lvforms')
+    this.props.requestForm("lvforms");
   }
 
   render() {
