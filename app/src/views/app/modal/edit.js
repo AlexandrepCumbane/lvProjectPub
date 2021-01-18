@@ -23,6 +23,7 @@ import {
   Spinner,
 } from "reactstrap";
 
+import config from "../../../data/config";
 class Edit extends React.Component {
   notifySuccessBounce = (id = "") =>
     toast.success(`Object created successfuly!`, { transition: Bounce });
@@ -42,19 +43,9 @@ class Edit extends React.Component {
     isValid: true,
     dropdowns: [],
   };
-  // componentDidMount() {
-  // this.props.requestDropodowns();
-  // this.props.requestForm();
-  // const { form } = this.props.state.auth.login.config.pages.lvform;
-  // form.forEach((item, index) => {
-  //   this.addToRequired(item);
-  // });
-  // const { dropdowns } = this.props.app_reducer;
-  // this.setState({ dropdowns });
-  // }
 
   componentDidMount() {
-    const { form } = this.props.state.auth.login.config.pages[this.props.page];
+    const { form } = config.pages[this.props.page];
     const { data } = this.props;
 
     let formdata = new FormData();
@@ -82,18 +73,18 @@ class Edit extends React.Component {
             color={`${this.props.color ?? "warning"}`}
             className="square mr-1"
             outline
-            onClick={this.toggleModal}
+            onClick={this.props.toggleModal}
           >
             {this.props.label}
           </Button>
         )}
         <Modal
           isOpen={this.state.modal}
-          toggle={this.toggleModal}
+          toggle={this.props.toggleModal}
           className={`${this.props.className} square`}
           unmountOnClose={this.state.unmountOnClose}
         >
-          <ModalHeader toggle={this.toggleModal}>
+          <ModalHeader toggle={this.props.toggleModal}>
             {this.props.title}
           </ModalHeader>
 
@@ -135,7 +126,7 @@ class Edit extends React.Component {
    */
 
   renderForm = () => {
-    const form_ = this.props.state.auth.login.config.pages[this.props.page];
+    const form_ = config.pages[this.props.page];
     return (
       <Row>
         <Col md="12">
@@ -378,7 +369,7 @@ class Edit extends React.Component {
         .then(({ data }) => {
           this.notifySuccessBounce(data.id);
           setTimeout(() => {
-            this.toggleModal();
+            this.props.toggleModal();
           }, 1000);
         })
         .catch((error) => {

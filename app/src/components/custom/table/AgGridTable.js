@@ -52,7 +52,9 @@ class AggridTable extends React.Component {
   };
 
   componentDidMount() {
-    this.setState({ rowData: this.props.data ?? this.state.rowData });
+    this.setState({
+      rowData: this.props.data ?? this.state.rowData,
+    });
     this.setState({
       columnDefs: [
         ...(this.props.columnDefs ?? this.state.columnDefs),
@@ -142,6 +144,10 @@ class AggridTable extends React.Component {
     this.gridApi.setRowData(data);
   };
 
+  handleModal = () => {
+    this.setState({ showTaskDialog: !this.state.showTaskDialog });
+  };
+
   render() {
     const {
       rowData,
@@ -175,6 +181,7 @@ class AggridTable extends React.Component {
               label="Edit Task"
               color="info"
               modal={showTaskDialog}
+              toggleModal={this.handleModal}
               data={this.state.selectedData}
               disabled
             />
