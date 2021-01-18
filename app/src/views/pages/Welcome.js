@@ -5,14 +5,18 @@ import {
   requestLogin,
   requestToken,
   requestGetUser,
-} from "../../../../redux/actions/auth/loginActions";
+} from "../../redux/actions/auth/loginActions";
 
-import { requestDropodowns } from "../../../../redux/actions/app/actions";
+import { requestDropodowns } from "../../redux/actions/app/actions";
 
-import { AuthService } from "../../../../redux/oidc-config/services/authservice";
-import "../../../../assets/scss/pages/authentication.scss";
+import { axios } from "../../redux/api";
 
-class Login extends React.Component {
+import { AuthService } from "../../redux/oidc-config/services/authservice";
+import "../../assets/scss/pages/authentication.scss";
+
+import { history } from "../../history";
+
+class Welcome extends React.Component {
   state = {
     activeTab: "1",
     email: "",
@@ -36,9 +40,30 @@ class Login extends React.Component {
       const { userOauth } = this.props.auth_state;
       if (userOauth === undefined) {
         this.login();
+      } else {
+        this.test_connection(userOauth.access_token);
       }
     });
   }
+
+  /**
+   *
+   * @param {*} token
+   *
+   * Verifies if user has role base access
+   */
+  test_connection = (token) => {
+    axios
+      .get(`lvforms.json/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(({ data }) => {
+        history.push("/home");
+      })
+      .catch(() => {});
+  };
 
   login = () => {
     this.authService.login();
@@ -59,11 +84,8 @@ class Login extends React.Component {
               <Col md="12" className="p-0">
                 <Card className="rounded-0 mb-0 px-2">
                   <CardBody className=" justify-content-center">
-                    <h4>Welcom to VulaVula - 1458</h4>
-                    <p>
-                      Please wait while you're being redirected to
-                      Authentication Page.
-                    </p>
+                    <h4>VulaVula - 1458</h4>
+                    <p>Welcome, your account is being validated.</p>
                   </CardBody>
                 </Card>
               </Col>
@@ -87,4 +109,4 @@ export default connect(mapStateToProps, {
   requestToken,
   requestGetUser,
   requestDropodowns,
-})(Login);
+})(Welcome);

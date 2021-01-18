@@ -10,7 +10,7 @@ const get_pages = () => {
       title: translate("Home"),
       type: "item",
       icon: <Icon.Home size={20} />,
-      permissions: ["operator", "manager", "focalpoint", "partner", "admin"],
+      // permissions: ["operator", "manager", "focalpoint", "partner", "admin", 'user'],
       navLink: "/",
     },
 
@@ -20,6 +20,13 @@ const get_pages = () => {
       type: "collapse",
       icon: <Icon.File size={20} />,
       badge: "warning",
+      permissions: [
+        "operator",
+        "manager",
+        "focalpoint",
+        "partner",
+        "admin",
+      ],
       // badgeText: "2",
       children: [
         {
@@ -70,6 +77,13 @@ const get_pages = () => {
       type: "collapse",
       icon: <Icon.PieChart size={20} />,
       badge: "warning",
+      permissions: [
+        "operator",
+        "manager",
+        "focalpoint",
+        "partner",
+        "admin",
+      ],
       // badgeText: "2",
       children: [
         {

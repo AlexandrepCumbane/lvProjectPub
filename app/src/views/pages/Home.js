@@ -8,9 +8,11 @@ import SimpleAnalipticCard from "../../components/custom/statisticCards/Card";
 import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
 import { LOCALES } from "../../i18n/index";
 
-import translate from "../../i18n/translate";
+import {
+  requestForm,
+  requestDropodowns,
+} from "../../redux/actions/app/actions";
 
-import { ExchangeRates } from "../../utility/graphQl/index";
 class Home extends React.Component {
   state = {
     pageTitle: translate("Home"),
@@ -25,12 +27,12 @@ class Home extends React.Component {
     locale: LOCALES.PORTUGUESE,
   };
 
-  // componentDidMount() {
-  //   console.log(this.props.state);
-  // }
   componentDidMount() {
-    console.log(LOCALES);
+    // console.log(this.props.state);
+
+    this.props.requestForm('lvforms')
   }
+
   render() {
     return (
       <div>
@@ -229,4 +231,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {})(Home);
+export default connect(mapStateToProps, {
+  requestForm,
+})(Home);

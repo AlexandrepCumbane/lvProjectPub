@@ -27,7 +27,8 @@ logger = logging.getLogger(__name__)
 def get_user_by_id(request, id_token):
     User = get_user_model()
     try:
-        user = User.objects.get_by_natural_key(id_token.get('email'))
+        user = User.objects.get_by_natural_key(id_token.get('sub'))
+       
     except User.DoesNotExist:
         # check if these fields exist or are filled
         try:
@@ -39,7 +40,7 @@ def get_user_by_id(request, id_token):
         except:
             last_name=''
         # We create the new user with inactive state - admin to provide role and activate 
-        user = User.objects.create_user(email=id_token.get('email'),
+        user = User.objects.create_user(email=id_token.get('sub'),
                                         is_active=False,
                                         first_name=first_name,
                                         last_name=last_name,
