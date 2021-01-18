@@ -401,7 +401,7 @@ class ForwardingInstitution(models.Model):
 
 
 class Task(models.Model):
-    lvform = models.OneToOneField(
+    lvform = models.ForeignKey(
         LvForm,
         on_delete=models.CASCADE,
     )
@@ -420,7 +420,7 @@ class Task(models.Model):
         blank=True,
         verbose_name="Description",
     )
-    assignee = models.ForeignKey(
+    assignee = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
         null=True,
@@ -476,7 +476,7 @@ class Task(models.Model):
         verbose_name_plural = "tasks"
 
 class TaskComment(models.Model):
-    task = models.OneToOneField(
+    task = models.ForeignKey(
         Task,
         on_delete=models.CASCADE,
     )
