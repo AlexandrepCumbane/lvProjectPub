@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+
+import { Badge } from "reactstrap";
+import { Circle, Octagon } from "react-feather";
+
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import AgGridTable from "../../components/custom/table/AgGridTable";
 
@@ -37,19 +41,98 @@ class List extends Component {
     });
   }
 
+  renderStatusLabel = (props, label) => {
+    let color = "white";
+
+    switch (props[`${this.props.path}_status_label`]) {
+      case "Not started":
+        color = "danger";
+        break;
+      case "In Progress":
+        color = "primary";
+        break;
+      case "Completed":
+        color = "success";
+        break;
+    }
+
+    return (
+      <Badge color={color} className="mr-1 mb-1 badge-square">
+        <Octagon size={12} />
+        <span>{label}</span>
+      </Badge>
+    );
+  };
+  renderStatus = (props, label) => {
+    let color = "white";
+
+    switch (props[`${this.props.path}_status_label`]) {
+      case "Not started":
+        color = "danger";
+        break;
+      case "In Progress":
+        color = "primary";
+        break;
+      case "Completed":
+        color = "success";
+        break;
+    }
+    return (
+      <div
+        style={{
+          flexDirection: "row",
+          alignContent: "center",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <span>
+          <Circle
+            className={`text-${color} text-center bg-${color} rounded mb-1 mt-1`}
+            size={12}
+          />
+          {` ${label}`}
+        </span>
+      </div>
+    );
+  };
+
   formatFields = () => {
     const { form } = config.pages[this.props.path];
 
-    const columnDefs = form.map((item) => {
+    const columnDefs = form.map((item, index) => {
       if (item.type === "select one" || item.type === "string") {
-        return {
-          headerName: item.label,
-          field: `${item.name}_label`,
-          width: 250,
-          filter: true,
-          headerCheckboxSelectionFilteredOnly: true,
-          headerCheckboxSelection: true,
-        };
+        if (index === 0) {
+          return {
+            headerName: item.label,
+            field: `${item.name}_label`,
+            width: 250,
+            filter: true,
+            cellRendererFramework: ({ data }) => {
+              return this.renderStatus(data, data[`${item.name}_label`]);
+            },
+          };
+        } else {
+          if (`${item.name}_label` === `${this.props.path}_status_label`)
+            return {
+              headerName: item.label,
+              field: `${item.name}_label`,
+              width: 250,
+              filter: true,
+              cellRendererFramework: ({ data }) => {
+                return this.renderStatusLabel(data, data[`${item.name}_label`]);
+              },
+            };
+          else
+            return {
+              headerName: item.label,
+              field: `${item.name}_label`,
+              width: 250,
+              filter: true,
+              headerCheckboxSelectionFilteredOnly: true,
+              headerCheckboxSelection: true,
+            };
+        }
       } else
         return {
           headerName: item.label,
