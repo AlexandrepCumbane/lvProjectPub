@@ -24,6 +24,8 @@ import {
 } from "reactstrap";
 
 import config from "../../../data/config";
+
+import CreateModal from "./create";
 class Edit extends React.Component {
   notifySuccessBounce = (id = "") =>
     toast.success(`Object created successfuly!`, { transition: Bounce });
@@ -42,6 +44,7 @@ class Edit extends React.Component {
     required_fields_labels: [],
     isValid: true,
     dropdowns: [],
+    commentsShow: false,
   };
 
   componentDidMount() {
@@ -92,9 +95,12 @@ class Edit extends React.Component {
 
           <ModalFooter>
             {this.props.page === "task" ? (
-              <Button outline color="warning" className="square">
-                Comment
-              </Button>
+              <CreateModal
+                title={`Comment Your task`}
+                page="taskcomment"
+                label="Comment"
+                color="warning"
+              />
             ) : (
               <></>
             )}
@@ -362,7 +368,7 @@ class Edit extends React.Component {
     } else {
       this.setState({ isValid: true });
       axios
-        .post(`${this.props.page}s.json`, this.state.form, {
+        .put(`${this.props.page}s/${this.props.data.id}.json`, this.state.form, {
           headers: {
             "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
             Authorization: `Bearer ${userOauth.access_token}`,
