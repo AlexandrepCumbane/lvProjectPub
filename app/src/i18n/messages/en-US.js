@@ -59,6 +59,7 @@ export default {
     "Contact" : "Contact",
     "Add New": "Add New",
     "Lvform" : "Lvform",
+    "Pelembe" : "Pelembe",
     "Age" : "Age",
     "Community" : "Community",
     "Distribution Point" : "Distribution Point",
