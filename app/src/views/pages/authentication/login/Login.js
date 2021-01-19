@@ -12,6 +12,7 @@ import { requestDropodowns } from "../../../../redux/actions/app/actions";
 import { AuthService } from "../../../../redux/oidc-config/services/authservice";
 import "../../../../assets/scss/pages/authentication.scss";
 
+import { history } from "../../../../history";
 class Login extends React.Component {
   state = {
     activeTab: "1",
@@ -36,6 +37,8 @@ class Login extends React.Component {
       const { userOauth } = this.props.auth_state;
       if (userOauth === undefined) {
         this.login();
+      } else {
+        history.push("/welcome");
       }
     });
   }

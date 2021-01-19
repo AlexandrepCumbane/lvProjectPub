@@ -10,7 +10,7 @@ const get_pages = () => {
       title: translate("Home"),
       type: "item",
       icon: <Icon.Home size={20} />,
-      // permissions: ["operator", "manager", "focalpoint", "partner", "admin", 'user'],
+      permissions: ["operator", "manager", "focalpoint", "partner", "admin", 'user'],
       navLink: "/",
     },
 
@@ -20,7 +20,7 @@ const get_pages = () => {
       type: "collapse",
       icon: <Icon.File size={20} />,
       badge: "warning",
-      permissions: ["operator", "manager", "focalpoint", "partner", "admin"],
+      permissions: ["operator", "manager", "focalpoint", "partner"],
       // badgeText: "2",
       children: [
         {
@@ -28,13 +28,7 @@ const get_pages = () => {
           title: translate("Registered"),
           type: "item",
           icon: <Icon.Archive size={12} />,
-          permissions: [
-            "operator",
-            "manager",
-            "focalpoint",
-            "partner",
-            "admin",
-          ],
+          permissions: ["operator", "manager", "focalpoint"],
 
           navLink: "/lvforms",
         },
@@ -43,13 +37,7 @@ const get_pages = () => {
           title: translate("Fowarded"),
           type: "item",
           icon: <Icon.FileText size={12} />,
-          permissions: [
-            "operator",
-            "manager",
-            "focalpoint",
-            "partner",
-            "admin",
-          ],
+          permissions: ["manager", "focalpoint", "partner"],
 
           navLink: "/lvforms_fowarded",
         },
@@ -61,7 +49,7 @@ const get_pages = () => {
       title: translate("Tasks"),
       type: "item",
       icon: <Icon.Activity size={20} />,
-      permissions: ["operator", "manager", "focalpoint", "partner", "admin"],
+      permissions: ["operator", "manager"],
       navLink: "/tasks",
     },
 
@@ -71,7 +59,7 @@ const get_pages = () => {
       type: "collapse",
       icon: <Icon.PieChart size={20} />,
       badge: "warning",
-      permissions: ["operator", "manager", "focalpoint", "partner", "admin"],
+      permissions: ["manager"],
       // badgeText: "2",
       children: [
         {
@@ -79,13 +67,7 @@ const get_pages = () => {
           title: translate("General"),
           type: "item",
           icon: <Icon.BarChart size={12} />,
-          permissions: [
-            "operator",
-            "manager",
-            "focalpoint",
-            "partner",
-            "admin",
-          ],
+          permissions: ["manager"],
 
           navLink: "/reports",
         },
@@ -94,13 +76,7 @@ const get_pages = () => {
           title: translate("Advanced"),
           type: "item",
           icon: <Icon.Filter size={12} />,
-          permissions: [
-            "operator",
-            "manager",
-            "focalpoint",
-            "partner",
-            "admin",
-          ],
+          permissions: ["manager"],
 
           navLink: "/advanced",
         },
@@ -120,7 +96,7 @@ const get_pages = () => {
       title: "Users Management",
       type: "item",
       icon: <Icon.Users size={20} />,
-      permissions: ["operator", "manager", "focalpoint", "partner"],
+      permissions: ["manager"],
       navLink: "/users",
     },
   ];
