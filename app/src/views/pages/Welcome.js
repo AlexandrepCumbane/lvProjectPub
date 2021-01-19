@@ -5,6 +5,7 @@ import {
   requestLogin,
   requestToken,
   requestGetUser,
+  changeRole,
 } from "../../redux/actions/auth/loginActions";
 
 import { requestDropodowns } from "../../redux/actions/app/actions";
@@ -54,12 +55,13 @@ class Welcome extends React.Component {
    */
   test_connection = (token) => {
     axios
-      .get(`lvforms.json/`, {
+      .get(`users/0/user_info`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then(({ data }) => {
+        this.props.changeRole(data["groups_label"][0]);
         history.push("/home");
       })
       .catch(() => {});
@@ -108,5 +110,6 @@ export default connect(mapStateToProps, {
   requestLogin,
   requestToken,
   requestGetUser,
+  changeRole,
   requestDropodowns,
 })(Welcome);
