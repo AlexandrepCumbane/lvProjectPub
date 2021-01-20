@@ -44,12 +44,14 @@ export const handleForm = (dispatch, payload) =>
 
 const requestSingle = (dispatch) => {
   state.map(async (item) => {
+    let { dropdowns } = appState.app.app_reducer;
+
     if (
       item.name !== "logout" &&
       item.name !== "login" &&
-      item.name !== undefined
+      item.url !== undefined &&
+      dropdowns[item.name]
     ) {
-      let { dropdowns } = appState.app.app_reducer;
       const { userOauth } = appState.auth.login;
       if (dropdowns[item.name] === undefined) {
         if (item.name === "forwardcasetofocalpoint") {
