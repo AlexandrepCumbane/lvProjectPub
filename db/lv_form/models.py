@@ -498,8 +498,32 @@ class TaskComment(models.Model):
         blank=True,
         verbose_name="Date created",
         help_text="Auto datetime Create",
+        auto_now_add=True,
     )
 
     class Meta:
         verbose_name = "taskcomment"
         verbose_name_plural = "taskcomments"
+
+class ForwardToFocalpoint(models.Model):
+    lvform = models.ForeignKey(
+        LvForm,
+        on_delete=models.CASCADE,
+    )
+    focalpoint = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="Focal Point",
+        help_text="User",
+    )
+    datetime_created = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Date forwarded",
+        help_text="Auto datetime Create",
+        auto_now_add=True,
+    )
+
+    class Meta:
+        verbose_name = "Forward to Focal Point"
+        verbose_name_plural = "Forwarded to focal points"
