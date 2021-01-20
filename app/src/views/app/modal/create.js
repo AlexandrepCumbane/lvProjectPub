@@ -1,10 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { toast, Bounce } from "react-toastify";
-import {
-  requestForm,
-  requestDropodowns,
-} from "../../../redux/actions/app/actions";
+import { requestDropodowns } from "../../../redux/actions/app/actions";
 
 import config from "../../../data/config";
 import { axios } from "../../../redux/api";
@@ -45,6 +42,14 @@ class Create extends React.Component {
   };
   componentDidMount() {
     this.updateState("lvform_id", this.props.lvform_id);
+
+    let formdata = new FormData();
+
+    if (this.props.description) {
+      formdata.append("description", this.props["description"]);
+    }
+
+    this.setState({ form: formdata });
   }
 
   render() {
@@ -137,6 +142,7 @@ class Create extends React.Component {
                 rows={5}
                 className="square"
                 placeholder={field.label}
+                defaultValue={this.props["description"] ?? undefined}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
               <div className="form-control-position">
@@ -358,6 +364,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { requestForm, requestDropodowns })(
-  Create
-);
+export default connect(mapStateToProps, { requestDropodowns })(Create);

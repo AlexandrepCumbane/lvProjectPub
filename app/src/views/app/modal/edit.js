@@ -1,10 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { toast, Bounce } from "react-toastify";
-import {
-  requestForm,
-  requestDropodowns,
-} from "../../../redux/actions/app/actions";
+import { requestDropodowns } from "../../../redux/actions/app/actions";
 
 import { axios } from "../../../redux/api";
 import {
@@ -99,6 +96,17 @@ class Edit extends React.Component {
                 title={`Comment Your task`}
                 page="taskcomment"
                 label="Comment"
+                color="warning"
+              />
+            ) : (
+              <></>
+            )}
+            {this.props.page === "forwardinginstitution" ? (
+              <CreateModal
+                title={`Add  new task`}
+                page="task"
+                label="Task"
+                description={this.props.data["partner_feedback"]}
                 color="warning"
               />
             ) : (
@@ -368,12 +376,16 @@ class Edit extends React.Component {
     } else {
       this.setState({ isValid: true });
       axios
-        .put(`${this.props.page}s/${this.props.data.id}.json`, this.state.form, {
-          headers: {
-            "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
-            Authorization: `Bearer ${userOauth.access_token}`,
-          },
-        })
+        .put(
+          `${this.props.page}s/${this.props.data.id}.json`,
+          this.state.form,
+          {
+            headers: {
+              "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
+              Authorization: `Bearer ${userOauth.access_token}`,
+            },
+          }
+        )
         .then(({ data }) => {
           this.notifySuccessBounce(data.id);
           setTimeout(() => {
@@ -394,6 +406,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { requestForm, requestDropodowns })(
-  Edit
-);
+export default connect(mapStateToProps, { requestDropodowns })(Edit);

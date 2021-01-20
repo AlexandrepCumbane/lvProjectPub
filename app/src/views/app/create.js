@@ -17,10 +17,7 @@ import { Check } from "react-feather";
 
 import Checkbox from "../../components/@vuexy/checkbox/CheckboxesVuexy";
 
-import {
-  requestForm,
-  requestDropodowns,
-} from "../../redux/actions/app/actions";
+import { requestDropodowns } from "../../redux/actions/app/actions";
 
 import { history } from "../../history";
 import { axios } from "../../redux/api";
@@ -516,6 +513,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { requestForm, requestDropodowns })(
-  Create
-);
+export default connect(mapStateToProps, { requestDropodowns })(Create);

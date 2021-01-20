@@ -13,10 +13,7 @@ import {
 } from "reactstrap";
 
 import { toast, Bounce } from "react-toastify";
-import {
-  requestForm,
-  requestDropodowns,
-} from "../../redux/actions/app/actions";
+import { requestDropodowns } from "../../redux/actions/app/actions";
 
 import { axios } from "../../redux/api";
 
@@ -27,6 +24,7 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import classnames from "classnames";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "../../assets/scss/plugins/extensions/editor.scss";
+import ModalEdit from "./modal/edit";
 
 import config from "../../data/config";
 
@@ -45,12 +43,13 @@ class Edit extends Component {
     dropdowns: [],
     childrens: {},
     edit_status: false,
+    showModal: false,
+    selectedData: {},
+    form: "task",
   };
 
   componentDidMount() {
     this.props.requestDropodowns();
-    this.props.requestForm();
-
     const { form } = config.pages.lvform;
 
     const { data } = this.props;
@@ -78,9 +77,15 @@ class Edit extends Component {
 
     formdata.append("id", data["id"]);
 
+    
+
     const { dropdowns } = this.props.app_reducer;
     this.setState({ dropdowns, form: formdata });
   }
+
+  handleModal = () => {
+    this.setState({ showModal: !this.state.showModal });
+  };
 
   render() {
     let { show, handleSidebar, data } = this.props;
@@ -96,6 +101,22 @@ class Edit extends Component {
             Case No.
             <strong> {String(data.id)}</strong>{" "}
           </h4>
+
+          {this.state.showModal ? (
+            <ModalEdit
+              title={`Edit`}
+              page={this.state.form}
+              label="Save"
+              color="info"
+              modal={this.state.showModal}
+              toggleModal={this.handleModal}
+              data={this.state.selectedData}
+              disabled
+            />
+          ) : (
+            <></>
+          )}
+
           <small className="text-white">
             <u className="text-secondary">
               {/* Criado aos{" "} */}
@@ -157,7 +178,17 @@ class Edit extends Component {
 
     if (forwardinginstitution) {
       return (
-        <ListGroup flush className="rounded-0">
+        <ListGroup
+          flush
+          className="rounded-0"
+          onClick={() => {
+            this.setState({
+              showModal: true,
+              selectedData: forwardinginstitution,
+              form: "forwardinginstitution",
+            });
+          }}
+        >
           <ListGroupItem>
             <div className="d-flex justify-content-between w-100">
               <h5 className="mb-1">Partner Feedback</h5>
@@ -695,6 +726,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { requestForm, requestDropodowns })(
-  Edit
-);
+export default connect(mapStateToProps, { requestDropodowns })(Edit);
