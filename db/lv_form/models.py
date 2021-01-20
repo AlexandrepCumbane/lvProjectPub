@@ -3,6 +3,7 @@ import uuid
 from django.conf import settings
 User = settings.AUTH_USER_MODEL
 
+
 class LvForm(models.Model):
     consent_pi = models.BooleanField(
         default=False,
@@ -187,12 +188,8 @@ class LvForm(models.Model):
         verbose_name="Vulnerability",
         help_text="Vulnerability",
     )
-    call_notes = models.TextField(
-        verbose_name="Call notes",
-    )
-    call_solution = models.TextField(
-        verbose_name="Call solution",
-    )
+    call_notes = models.TextField(verbose_name="Call notes", )
+    call_solution = models.TextField(verbose_name="Call solution", )
     case_priority = models.CharField(
         choices=(
             ("1", "Medium"),
@@ -203,9 +200,7 @@ class LvForm(models.Model):
         verbose_name="Case priority",
     )
     case_status = models.CharField(
-        choices=(
-            ("1", "Close case"),
-        ),
+        choices=(("1", "Close case"), ),
         max_length=1,
         null=True,
         blank=True,
@@ -240,8 +235,10 @@ class LvForm(models.Model):
         max_length=1,
         null=True,
         blank=True,
-        verbose_name="How have you come to know about the complaints and feedback mechanism?",
-        help_text="How have you come to know about the complaints and feedback mechanism?",
+        verbose_name=
+        "How have you come to know about the complaints and feedback mechanism?",
+        help_text=
+        "How have you come to know about the complaints and feedback mechanism?",
     )
     how_callback = models.CharField(
         choices=(
@@ -271,8 +268,10 @@ class LvForm(models.Model):
         max_length=1,
         null=True,
         blank=True,
-        verbose_name="How do you feel about how your query was dealt with during this call?",
-        help_text="How do you feel about how your query was dealt with during this call?",
+        verbose_name=
+        "How do you feel about how your query was dealt with during this call?",
+        help_text=
+        "How do you feel about how your query was dealt with during this call?",
     )
     callback_required = models.BooleanField(
         default=False,
@@ -317,10 +316,7 @@ class LvForm(models.Model):
         help_text="Case number",
     )
 
-    uuid = models.UUIDField( 
-        default = uuid.uuid4, 
-        editable = False
-    )
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 
     class Meta:
         verbose_name = "linha verde intake form"
@@ -443,7 +439,7 @@ class Task(models.Model):
         blank=True,
         verbose_name="Assigned to",
         related_name='assignee',
-        )
+    )
     task_status = models.CharField(
         choices=(
             ("1", "Not started"),
@@ -491,6 +487,7 @@ class Task(models.Model):
         verbose_name = "task"
         verbose_name_plural = "tasks"
 
+
 class TaskComment(models.Model):
     task = models.ForeignKey(
         Task,
@@ -521,7 +518,32 @@ class TaskComment(models.Model):
         verbose_name = "taskcomment"
         verbose_name_plural = "taskcomments"
 
-class ForwardToFocalpoint(models.Model):
+
+# class ForwardToFocalpoint(models.Model):
+#     lvform = models.ForeignKey(
+#         LvForm,
+#         on_delete=models.CASCADE,
+#     )
+#     focalpoint = models.ForeignKey(
+#         User,
+#         on_delete=models.CASCADE,
+#         verbose_name="Focal Point",
+#         help_text="User",
+#     )
+#     datetime_created = models.DateTimeField(
+#         null=True,
+#         blank=True,
+#         verbose_name="Date forwarded",
+#         help_text="Auto datetime Create",
+#         auto_now_add=True,
+#     )
+
+#     class Meta:
+#         verbose_name = "Forward to Focal Point"
+#         verbose_name_plural = "Forwarded to focal points"
+
+
+class ForwardCaseToFocalpoint(models.Model):
     lvform = models.ForeignKey(
         LvForm,
         on_delete=models.CASCADE,
@@ -539,7 +561,3 @@ class ForwardToFocalpoint(models.Model):
         help_text="Auto datetime Create",
         auto_now_add=True,
     )
-
-    class Meta:
-        verbose_name = "Forward to Focal Point"
-        verbose_name_plural = "Forwarded to focal points"
