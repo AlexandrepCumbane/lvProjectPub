@@ -77,8 +77,6 @@ class Edit extends Component {
 
     formdata.append("id", data["id"]);
 
-    
-
     const { dropdowns } = this.props.app_reducer;
     this.setState({ dropdowns, form: formdata });
   }
@@ -176,7 +174,7 @@ class Edit extends Component {
   renderComments = () => {
     const { forwardinginstitution } = this.props.data;
 
-    if (forwardinginstitution) {
+    if (forwardinginstitution && forwardinginstitution["has_feedback"]) {
       return (
         <ListGroup
           flush
@@ -247,12 +245,12 @@ class Edit extends Component {
                   page="forwardcasetofocalpoint"
                   label="Send"
                 />
-                <Modal
+                {/* <Modal
                   title={`Add your feedback`}
                   page="casecomment"
                   label="Feedback"
                   color="secondary"
-                />
+                /> */}
               </>
             )}
           </div>
