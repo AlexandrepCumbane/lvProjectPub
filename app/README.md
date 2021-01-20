@@ -68,55 +68,74 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify -->
 
 ### Deploying to S3 with Cloudfront and ensuring security with Lambda Function.
+
 1 - Create a Lambda Function
 2 - Use following Lambda function code:
- 'use strict';
+
+```javascript
+"use strict";
 
 exports.handler = async (event, context, callback) => {
   const response = event.Records[0].cf.response;
   const headers = response.headers;
 
-    headers['Strict-Transport-Security'] = [{
-        key: 'Strict-Transport-Security',
-        value: 'max-age=63072000; includeSubDomains; preload',
-    }];
-    
-    headers['X-XSS-Protection'] = [{
-        key: 'X-XSS-Protection',
-        value: '1; mode=block',
-    }];
+  headers["Strict-Transport-Security"] = [
+    {
+      key: "Strict-Transport-Security",
+      value: "max-age=63072000; includeSubDomains; preload",
+    },
+  ];
 
-    headers['X-Content-Type-Options'] = [{
-        key: 'X-Content-Type-Options',
-        value: 'nosniff',
-    }];
+  headers["X-XSS-Protection"] = [
+    {
+      key: "X-XSS-Protection",
+      value: "1; mode=block",
+    },
+  ];
 
-    headers['X-Frame-Options'] = [{
-        key: 'X-Frame-Options',
-        value: 'SAMEORIGIN',
-    }];
+  headers["X-Content-Type-Options"] = [
+    {
+      key: "X-Content-Type-Options",
+      value: "nosniff",
+    },
+  ];
 
-    headers['Referrer-Policy'] = [{ key: 'Referrer-Policy', value: 'no-referrer-when-downgrade' }];
+  headers["X-Frame-Options"] = [
+    {
+      key: "X-Frame-Options",
+      value: "SAMEORIGIN",
+    },
+  ];
 
-    headers['Content-Security-Policy'] = [{
-        key: 'Content-Security-Policy',
-        value: 'upgrade-insecure-requests;',
-    }];
+  headers["Referrer-Policy"] = [
+    { key: "Referrer-Policy", value: "no-referrer-when-downgrade" },
+  ];
 
-    // Craft the Feature Policy params based on your needs.
-    // The settings below are very restrictive and might produce undesiderable results
-    headers['Feature-Policy'] = [{
-        key: 'Feature-Policy',
-        value: 'geolocation none; midi none; notifications none; push none; sync-xhr none; microphone none; camera none; magnetometer none; gyroscope none; speaker self; vibrate none; fullscreen self; payment none;',
-    }];
+  headers["Content-Security-Policy"] = [
+    {
+      key: "Content-Security-Policy",
+      value: "upgrade-insecure-requests;",
+    },
+  ];
 
-    // The Expect-CT header is still experimental. Uncomment the code only if you have a report-uri
-    // You may refer to report-uri.com to setup an account and set your own URI
-    // headers['Expect-CT'] = [{
-    //     key: 'Expect-CT',
-    //     value: 'max-age=86400, enforce, report-uri="https://{{ your_subdomain }}report-uri.com/r/d/ct/enforce'",
-    // }];
-    callback(null, response);
-};  
+  // Craft the Feature Policy params based on your needs.
+  // The settings below are very restrictive and might produce undesiderable results
+  headers["Feature-Policy"] = [
+    {
+      key: "Feature-Policy",
+      value:
+        "geolocation none; midi none; notifications none; push none; sync-xhr none; microphone none; camera none; magnetometer none; gyroscope none; speaker self; vibrate none; fullscreen self; payment none;",
+    },
+  ];
+
+  // The Expect-CT header is still experimental. Uncomment the code only if you have a report-uri
+  // You may refer to report-uri.com to setup an account and set your own URI
+  // headers['Expect-CT'] = [{
+  //     key: 'Expect-CT',
+  //     value: 'max-age=86400, enforce, report-uri="https://{{ your_subdomain }}report-uri.com/r/d/ct/enforce'",
+  // }];
+  callback(null, response);
+};
+```
 
 --> More info: follow guide:https://medium.com/faun/hardening-the-http-security-headers-with-aws-lambda-edge-and-cloudfront-2e2da1ae4d83
