@@ -55,8 +55,6 @@ class Edit extends Component {
 
     const { data } = this.props;
 
-    console.log(data);
-
     let formdata = new FormData();
 
     form.forEach((item) => {
@@ -69,7 +67,6 @@ class Edit extends Component {
           item["children"]
         );
 
-        console.log(childrens);
         this.setState({ childrens });
       }
 
@@ -183,8 +180,6 @@ class Edit extends Component {
   renderActions = () => {
     const userRole = this.props.user;
     let { data } = this.props;
-
-    console.log("User Role: ", userRole);
 
     let element = <p>No actions Provived</p>;
 
@@ -363,6 +358,10 @@ class Edit extends Component {
             <Col md="6"></Col>
           </>
         );
+        break;
+
+      default:
+        element = <></>;
         break;
     }
     return element;
