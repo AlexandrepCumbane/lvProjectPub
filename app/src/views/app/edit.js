@@ -292,7 +292,7 @@ class Edit extends Component {
           </div>
         </Col>
         <Col md="6">
-          <strong>Partner Comment</strong>
+          <strong>Comments</strong>
           {this.renderComments()}
         </Col>
         <Col md="6">
