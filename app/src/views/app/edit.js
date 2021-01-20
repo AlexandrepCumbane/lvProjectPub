@@ -235,10 +235,35 @@ class Edit extends Component {
     return element;
   };
 
+  renderDetails = () => {
+    if (this.state.edit_status) {
+      return <></>;
+    }
+    return (
+      <>
+        <Col md="12" className="mt-1 mb-1F">
+          <div className="divider">
+            <div className="divider-text"> More Details </div>
+          </div>
+        </Col>
+        <Col md="6">
+          <strong>Comments</strong>
+        </Col>
+        <Col md="6">
+          {" "}
+          <strong>Tasks</strong>
+        </Col>
+      </>
+    );
+  };
+
   renderForm = () => {
     const form_ = config.pages.lvform;
     return (
-      <Row>{form_.form.map((field) => this.renderSingleInput(field))}</Row>
+      <Row>
+        {form_.form.map((field) => this.renderSingleInput(field))}{" "}
+        {this.renderDetails()}
+      </Row>
     );
   };
 
