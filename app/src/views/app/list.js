@@ -37,10 +37,13 @@ class List extends Component {
     });
 
     this.props
-      .requestForm({ url: this.props.url, name: this.props.path })
+      .requestForm({
+        url: this.props.url,
+        name: this.props.name ?? this.props.path,
+      })
       .then(() => {
         this.setState({
-          data: this.props.app_reducer[this.props.path],
+          data: this.props.app_reducer[this.props.name ?? this.props.path],
           page: this.props.path,
           pageTitle: `${this.props.title}`,
         });
