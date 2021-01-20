@@ -332,9 +332,9 @@ class Create extends React.Component {
     } else {
       this.setState({ isValid: true });
       axios
-        .post(`${this.props.page}s.json`, this.state.form, {
+        .post(`${this.props.page}s/`, this.state.form, {
           headers: {
-            "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
+            // "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
             Authorization: `Bearer ${userOauth.access_token}`,
           },
         })
