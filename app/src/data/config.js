@@ -8,375 +8,6 @@ export default {
       url: "logout",
       name: "logout",
     },
-    locationclassification: {
-      cache: "all",
-      name: "locationclassification",
-      url: "locationclassifications",
-      list: true,
-      form: [
-        {
-          name: "name",
-          label: "Name",
-          bind: {
-            required: true,
-          },
-          "wq:length": 20,
-          type: "string",
-        },
-      ],
-      verbose_name: "location classification",
-      verbose_name_plural: "location classifications",
-    },
-    permission: {
-      cache: "all",
-      name: "permission",
-      url: "permissions",
-      list: true,
-      form: [
-        {
-          name: "name",
-          label: "Name",
-          bind: {
-            required: true,
-          },
-          "wq:length": 255,
-          type: "string",
-        },
-        {
-          name: "content_type",
-          label: "Content Type",
-          bind: {
-            required: true,
-          },
-          type: "string",
-          "wq:ForeignKey": "contenttype",
-        },
-        {
-          name: "codename",
-          label: "Codename",
-          bind: {
-            required: true,
-          },
-          "wq:length": 100,
-          type: "string",
-        },
-      ],
-      verbose_name: "permission",
-      verbose_name_plural: "permissions",
-    },
-    forwardinginstitution: {
-      name: "forwardinginstitution",
-      url: "forwardinginstitutions",
-      list: true,
-      form: [
-        {
-          name: "lvform",
-          label: "Lvform",
-          bind: {
-            required: true,
-          },
-          type: "string",
-          "wq:ForeignKey": "lvform",
-        },
-        {
-          name: "partner_feedback",
-          label: "Parceiro Feedback",
-          type: "text",
-        },
-        {
-          name: "task_feedback",
-          label: "Feedback da tarefa",
-          type: "text",
-        },
-        {
-          name: "has_feedback",
-          label: "Has Feedback",
-          choices: [
-            {
-              name: true,
-              label: "Yes",
-            },
-            {
-              name: false,
-              label: "No",
-            },
-          ],
-          type: "select one",
-        },
-      ],
-      verbose_name: "forwardinginstitution",
-      verbose_name_plural: "forwardinginstitutions",
-    },
-    location: {
-      cache: "all",
-      name: "location",
-      url: "locations",
-      list: true,
-      form: [
-        {
-          name: "classification",
-          label: "Classification",
-          type: "string",
-          "wq:ForeignKey": "locationclassification",
-        },
-        {
-          name: "location_type",
-          label: "Location Type",
-          type: "string",
-          "wq:ForeignKey": "locationtype",
-        },
-        {
-          name: "codigo",
-          label: "Codigo",
-          "wq:length": 20,
-          type: "string",
-        },
-        {
-          name: "name",
-          label: "Name",
-          bind: {
-            required: true,
-          },
-          "wq:length": 200,
-          type: "string",
-        },
-        {
-          name: "province",
-          label: "Province",
-          type: "string",
-          "wq:ForeignKey": "province",
-        },
-        {
-          name: "parent_code",
-          label: "Parent Code",
-          "wq:length": 20,
-          type: "string",
-        },
-      ],
-      verbose_name: "location",
-      verbose_name_plural: "locations",
-    },
-    task: {
-      name: "task",
-      url: "tasks",
-      list: true,
-      form: [
-        {
-          name: "lvform",
-          label: "Lvform",
-          bind: {
-            required: true,
-          },
-          type: "string",
-          "wq:ForeignKey": "lvform",
-        },
-        {
-          name: "task_title",
-          label: "Task Title",
-          choices: [
-            {
-              name: "1",
-              label: "Request for information",
-            },
-            {
-              name: "2",
-              label: "Send Feedback",
-            },
-          ],
-          type: "select one",
-        },
-        {
-          name: "description",
-          label: "Description",
-          type: "text",
-        },
-        {
-          name: "assignee",
-          label: "Assigned to",
-          type: "string",
-          "wq:ForeignKey": "customuser",
-        },
-        {
-          name: "task_status",
-          label: "Status",
-          choices: [
-            {
-              name: "1",
-              label: "Not started",
-            },
-            {
-              name: "2",
-              label: "In Progress",
-            },
-            {
-              name: "3",
-              label: "Completed",
-            },
-          ],
-          type: "select one",
-        },
-        {
-          name: "start_date",
-          label: "Start Date",
-          type: "date",
-        },
-        {
-          name: "end_date",
-          label: "End Date",
-          type: "date",
-        },
-        {
-          name: "call_attempts",
-          label: "Number of attempts to reach the other person",
-          type: "int",
-        },
-      ],
-      verbose_name: "task",
-      verbose_name_plural: "tasks",
-    },
-    customuser: {
-      cache: "all",
-      name: "customuser",
-      url: "users",
-      list: true,
-      form: [
-        {
-          name: "last_login",
-          label: "Last Login",
-          type: "dateTime",
-        },
-        {
-          name: "is_superuser",
-          label: "Is Superuser",
-          choices: [
-            {
-              name: true,
-              label: "Yes",
-            },
-            {
-              name: false,
-              label: "No",
-            },
-          ],
-          type: "select one",
-        },
-        {
-          name: "is_active",
-          label: "Is Active",
-          choices: [
-            {
-              name: true,
-              label: "Yes",
-            },
-            {
-              name: false,
-              label: "No",
-            },
-          ],
-          type: "select one",
-        },
-        {
-          name: "date_joined",
-          label: "Date Joined",
-          type: "dateTime",
-        },
-        {
-          name: "email",
-          label: "Email address",
-          bind: {
-            required: true,
-          },
-          "wq:length": 254,
-          type: "string",
-        },
-        {
-          name: "first_name",
-          label: "First Name",
-          "wq:length": 254,
-          type: "string",
-        },
-        {
-          name: "last_name",
-          label: "Last Name",
-          "wq:length": 30,
-          type: "string",
-        },
-        {
-          name: "groups",
-          label: "Groups",
-          hint:
-            "The groups this user belongs to. A user will get all permissions granted to each of their groups.",
-          type: "string",
-        },
-        {
-          name: "user_permissions",
-          label: "User Permissions",
-          hint: "Specific permissions for this user.",
-          type: "string",
-        },
-        {
-          name: "groups_label",
-          label: "Groups Label",
-          bind: {
-            required: true,
-          },
-          type: "string",
-        },
-        {
-          name: "user_permissions_label",
-          label: "User Permissions Label",
-          bind: {
-            required: true,
-          },
-          type: "string",
-        },
-      ],
-      verbose_name: "user",
-      verbose_name_plural: "users",
-    },
-    locationtype: {
-      cache: "all",
-      name: "locationtype",
-      url: "locationtypes",
-      list: true,
-      form: [
-        {
-          name: "name",
-          label: "Name",
-          bind: {
-            required: true,
-          },
-          "wq:length": 20,
-          type: "string",
-        },
-      ],
-      verbose_name: "location type",
-      verbose_name_plural: "location types",
-    },
-    casecomment: {
-      name: "casecomment",
-      url: "casecomments",
-      list: true,
-      form: [
-        {
-          name: "lvform",
-          label: "Lvform",
-          bind: {
-            required: true,
-          },
-          type: "string",
-          "wq:ForeignKey": "lvform",
-        },
-        {
-          name: "feedback",
-          label: "Feedback",
-          type: "text",
-        },
-      ],
-      verbose_name: "casecomment",
-      verbose_name_plural: "casecomments",
-    },
-
     lvform: {
       name: "lvform",
       url: "lvforms",
@@ -413,7 +44,6 @@ export default {
           ],
           type: "select one",
           has_boolean_options: true,
-          depends_on: "consent_pi",
         },
         {
           name: "fullname",
@@ -556,7 +186,8 @@ export default {
           name: "distribution_point",
           label: "Distribution Point",
           hint: "Distribution Point",
-          type: "text",
+          "wq:length": 255,
+          type: "string",
         },
         {
           name: "transfermod",
@@ -646,7 +277,7 @@ export default {
           },
           type: "string",
           "wq:ForeignKey": "subcategory",
-          has_parent: "casetipology",
+          has_parent: true,
           children: "subcategoryissue",
         },
         {
@@ -654,7 +285,7 @@ export default {
           label: "Sub-category issue",
           type: "string",
           "wq:ForeignKey": "subcategoryissue",
-          has_parent: "subcategory",
+          has_parent: true,
         },
         {
           name: "who_not_receiving",
@@ -993,6 +624,308 @@ export default {
       verbose_name: "linha verde intake form",
       verbose_name_plural: "lvforms",
     },
+    location: {
+      cache: "all",
+      name: "location",
+      url: "locations",
+      list: true,
+      form: [
+        {
+          name: "classification",
+          label: "Classification",
+          type: "string",
+          "wq:ForeignKey": "locationclassification",
+        },
+        {
+          name: "location_type",
+          label: "Location Type",
+          type: "string",
+          "wq:ForeignKey": "locationtype",
+        },
+        {
+          name: "codigo",
+          label: "Codigo",
+          "wq:length": 20,
+          type: "string",
+        },
+        {
+          name: "name",
+          label: "Name",
+          bind: {
+            required: true,
+          },
+          "wq:length": 200,
+          type: "string",
+        },
+        {
+          name: "province",
+          label: "Province",
+          type: "string",
+          "wq:ForeignKey": "province",
+        },
+        {
+          name: "parent_code",
+          label: "Parent Code",
+          "wq:length": 20,
+          type: "string",
+        },
+      ],
+      verbose_name: "location",
+      verbose_name_plural: "locations",
+    },
+    forwardinginstitution: {
+      name: "forwardinginstitution",
+      url: "forwardinginstitutions",
+      list: true,
+      form: [
+        {
+          name: "lvform",
+          label: "Lvform",
+          bind: {
+            required: true,
+          },
+          type: "string",
+          "wq:ForeignKey": "lvform",
+        },
+        {
+          name: "partner_feedback",
+          label: "Parceiro Feedback",
+          type: "text",
+        },
+        {
+          name: "task_feedback",
+          label: "Feedback da tarefa",
+          type: "text",
+        },
+        {
+          name: "has_feedback",
+          label: "Has Feedback",
+          choices: [
+            {
+              name: true,
+              label: "Yes",
+            },
+            {
+              name: false,
+              label: "No",
+            },
+          ],
+          type: "select one",
+        },
+      ],
+      verbose_name: "forwardinginstitution",
+      verbose_name_plural: "forwardinginstitutions",
+    },
+    customuser: {
+      cache: "all",
+      name: "customuser",
+      url: "users",
+      list: true,
+      form: [
+        {
+          name: "last_login",
+          label: "Last Login",
+          type: "dateTime",
+        },
+        {
+          name: "is_superuser",
+          label: "Is Superuser",
+          choices: [
+            {
+              name: true,
+              label: "Yes",
+            },
+            {
+              name: false,
+              label: "No",
+            },
+          ],
+          type: "select one",
+        },
+        {
+          name: "is_active",
+          label: "Is Active",
+          choices: [
+            {
+              name: true,
+              label: "Yes",
+            },
+            {
+              name: false,
+              label: "No",
+            },
+          ],
+          type: "select one",
+        },
+        {
+          name: "date_joined",
+          label: "Date Joined",
+          type: "dateTime",
+        },
+        {
+          name: "email",
+          label: "Email address",
+          bind: {
+            required: true,
+          },
+          "wq:length": 254,
+          type: "string",
+        },
+        {
+          name: "first_name",
+          label: "First Name",
+          "wq:length": 254,
+          type: "string",
+        },
+        {
+          name: "last_name",
+          label: "Last Name",
+          "wq:length": 30,
+          type: "string",
+        },
+        {
+          name: "groups",
+          label: "Groups",
+          hint:
+            "The groups this user belongs to. A user will get all permissions granted to each of their groups.",
+          type: "string",
+        },
+        {
+          name: "user_permissions",
+          label: "User Permissions",
+          hint: "Specific permissions for this user.",
+          type: "string",
+        },
+        {
+          name: "groups_label",
+          label: "Groups Label",
+          bind: {
+            required: true,
+          },
+          type: "string",
+        },
+        {
+          name: "user_permissions_label",
+          label: "User Permissions Label",
+          bind: {
+            required: true,
+          },
+          type: "string",
+        },
+      ],
+      verbose_name: "user",
+      verbose_name_plural: "users",
+    },
+    casecomment: {
+      name: "casecomment",
+      url: "casecomments",
+      list: true,
+      form: [
+        {
+          name: "lvform",
+          label: "Lvform",
+          bind: {
+            required: true,
+          },
+          type: "string",
+          "wq:ForeignKey": "lvform",
+        },
+        {
+          name: "feedback",
+          label: "Feedback",
+          type: "text",
+        },
+      ],
+      verbose_name: "casecomment",
+      verbose_name_plural: "casecomments",
+    },
+    group: {
+      cache: "all",
+      name: "group",
+      url: "groups",
+      list: true,
+      form: [
+        {
+          name: "name",
+          label: "Name",
+          bind: {
+            required: true,
+          },
+          "wq:length": 150,
+          type: "string",
+        },
+        {
+          name: "permissions",
+          label: "Permissions",
+          type: "string",
+        },
+        {
+          name: "permissions_label",
+          label: "Permissions Label",
+          bind: {
+            required: true,
+          },
+          type: "string",
+        },
+      ],
+      verbose_name: "group",
+      verbose_name_plural: "groups",
+    },
+    contenttype: {
+      cache: "all",
+      name: "contenttype",
+      url: "contenttypes",
+      list: true,
+      form: [
+        {
+          name: "app_label",
+          label: "App Label",
+          bind: {
+            required: true,
+          },
+          "wq:length": 100,
+          type: "string",
+        },
+        {
+          name: "model",
+          label: "Python model class name",
+          bind: {
+            required: true,
+          },
+          "wq:length": 100,
+          type: "string",
+        },
+      ],
+      verbose_name: "content type",
+      verbose_name_plural: "content types",
+    },
+    subcategoryissue: {
+      name: "subcategoryissue",
+      url: "subcategoryissues",
+      list: true,
+      form: [
+        {
+          name: "subcategory",
+          label: "Subcategory",
+          bind: {
+            required: true,
+          },
+          type: "string",
+          "wq:ForeignKey": "subcategory",
+        },
+        {
+          name: "subcategory_issue",
+          label: "Sub Category Issue",
+          bind: {
+            required: true,
+          },
+          hint: "Sub Category Issue",
+          type: "text",
+        },
+      ],
+      verbose_name: "subcategoryissue",
+      verbose_name_plural: "subcategoryissues",
+    },
     province: {
       name: "province",
       url: "provinces",
@@ -1076,10 +1009,10 @@ export default {
       verbose_name: "province",
       verbose_name_plural: "provinces",
     },
-    group: {
+    locationtype: {
       cache: "all",
-      name: "group",
-      url: "groups",
+      name: "locationtype",
+      url: "locationtypes",
       list: true,
       form: [
         {
@@ -1088,80 +1021,35 @@ export default {
           bind: {
             required: true,
           },
-          "wq:length": 150,
-          type: "string",
-        },
-        {
-          name: "permissions",
-          label: "Permissions",
-          type: "string",
-        },
-        {
-          name: "permissions_label",
-          label: "Permissions Label",
-          bind: {
-            required: true,
-          },
+          "wq:length": 20,
           type: "string",
         },
       ],
-      verbose_name: "group",
-      verbose_name_plural: "groups",
+      verbose_name: "location type",
+      verbose_name_plural: "location types",
     },
-    subcategoryissue: {
-      name: "subcategoryissue",
-      url: "subcategoryissues",
+    taskcomment: {
+      name: "taskcomment",
+      url: "taskcomments",
       list: true,
       form: [
         {
-          name: "subcategory",
-          label: "Subcategory",
+          name: "task",
+          label: "Task",
           bind: {
             required: true,
           },
           type: "string",
-          "wq:ForeignKey": "subcategory",
+          "wq:ForeignKey": "task",
         },
         {
-          name: "subcategory_issue",
-          label: "Sub Category Issue",
-          bind: {
-            required: true,
-          },
-          hint: "Sub Category Issue",
+          name: "feedback",
+          label: "Feedback",
           type: "text",
         },
       ],
-      verbose_name: "subcategoryissue",
-      verbose_name_plural: "subcategoryissues",
-    },
-    contenttype: {
-      cache: "all",
-      name: "contenttype",
-      url: "contenttypes",
-      list: true,
-      form: [
-        {
-          name: "app_label",
-          label: "App Label",
-          bind: {
-            required: true,
-          },
-          "wq:length": 100,
-          type: "string",
-        },
-        {
-          name: "model",
-          label: "Python model class name",
-          bind: {
-            required: true,
-          },
-          "wq:length": 100,
-          type: "string",
-        },
-      ],
-      verbose_name: "content type",
-      verbose_name_plural: "content types",
+      verbose_name: "taskcomment",
+      verbose_name_plural: "taskcomments",
     },
     subcategory: {
       name: "subcategory",
@@ -1283,6 +1171,43 @@ export default {
       verbose_name: "linha verde case tipology",
       verbose_name_plural: "casetipologys",
     },
+    permission: {
+      cache: "all",
+      name: "permission",
+      url: "permissions",
+      list: true,
+      form: [
+        {
+          name: "name",
+          label: "Name",
+          bind: {
+            required: true,
+          },
+          "wq:length": 255,
+          type: "string",
+        },
+        {
+          name: "content_type",
+          label: "Content Type",
+          bind: {
+            required: true,
+          },
+          type: "string",
+          "wq:ForeignKey": "contenttype",
+        },
+        {
+          name: "codename",
+          label: "Codename",
+          bind: {
+            required: true,
+          },
+          "wq:length": 100,
+          type: "string",
+        },
+      ],
+      verbose_name: "permission",
+      verbose_name_plural: "permissions",
+    },
     district: {
       cache: "all",
       name: "district",
@@ -1351,34 +1276,130 @@ export default {
       verbose_name: "district",
       verbose_name_plural: "districts",
     },
-    taskcomment: {
-      name: "taskcomment",
-      url: "taskcomments",
+    task: {
+      name: "task",
+      url: "tasks",
       list: true,
       form: [
         {
-          name: "task",
-          label: "Task",
+          name: "lvform",
+          label: "Lvform",
           bind: {
             required: true,
           },
           type: "string",
-          "wq:ForeignKey": "task",
+          "wq:ForeignKey": "lvform",
         },
         {
-          name: "feedback",
-          label: "Feedback",
+          name: "task_title",
+          label: "Task Title",
+          choices: [
+            {
+              name: "1",
+              label: "Request for information",
+            },
+            {
+              name: "2",
+              label: "Send Feedback",
+            },
+          ],
+          type: "select one",
+        },
+        {
+          name: "description",
+          label: "Description",
           type: "text",
         },
         {
-          name: "datetime_created",
-          label: "Date created",
-          hint: "Auto datetime Create",
-          type: "dateTime",
+          name: "assignee",
+          label: "Assigned to",
+          type: "string",
+          "wq:ForeignKey": "customuser",
+        },
+        {
+          name: "task_status",
+          label: "Status",
+          choices: [
+            {
+              name: "1",
+              label: "Not started",
+            },
+            {
+              name: "2",
+              label: "In Progress",
+            },
+            {
+              name: "3",
+              label: "Completed",
+            },
+          ],
+          type: "select one",
+        },
+        {
+          name: "start_date",
+          label: "Start Date",
+          type: "date",
+        },
+        {
+          name: "end_date",
+          label: "End Date",
+          type: "date",
+        },
+        {
+          name: "call_attempts",
+          label: "Number of attempts to reach the other person",
+          type: "int",
         },
       ],
-      verbose_name: "taskcomment",
-      verbose_name_plural: "taskcomments",
+      verbose_name: "task",
+      verbose_name_plural: "tasks",
+    },
+    locationclassification: {
+      cache: "all",
+      name: "locationclassification",
+      url: "locationclassifications",
+      list: true,
+      form: [
+        {
+          name: "name",
+          label: "Name",
+          bind: {
+            required: true,
+          },
+          "wq:length": 20,
+          type: "string",
+        },
+      ],
+      verbose_name: "location classification",
+      verbose_name_plural: "location classifications",
+    },
+    forwardtofocalpoint: {
+      name: "forwardtofocalpoint",
+      url: "Forwardedtofocalpoints",
+      list: true,
+      form: [
+        {
+          name: "lvform",
+          label: "Lvform",
+          bind: {
+            required: true,
+          },
+          type: "string",
+          "wq:ForeignKey": "lvform",
+        },
+        {
+          name: "focalpoint",
+          label: "Focal Point",
+          bind: {
+            required: true,
+          },
+          hint: "User",
+          type: "string",
+          "wq:ForeignKey": "customuser",
+        },
+      ],
+      verbose_name: "Forward to Focal Point",
+      verbose_name_plural: "Forwarded to focal points",
     },
   },
   debug: true,
