@@ -8,6 +8,8 @@ import {
   Button,
   CustomInput,
   Label,
+  ListGroup,
+  ListGroupItem,
 } from "reactstrap";
 
 import { toast, Bounce } from "react-toastify";
@@ -131,6 +133,27 @@ class Edit extends Component {
       </div>
     );
   }
+
+  renderTasks = () => {
+    const { task_set } = this.props.data;
+
+    return (
+      <ListGroup flush className="rounded-0">
+        {task_set.map((item) => {
+          return (
+            <ListGroupItem>
+              <div className="d-flex justify-content-between w-100">
+                <h5 className="mb-1">{item.task_title_label}</h5>
+                <small>{item.end_date}</small>
+              </div>
+              <p className="mb-1">{item.description} </p>
+              <small>{item.assignee_label}</small>
+            </ListGroupItem>
+          );
+        })}
+      </ListGroup>
+    );
+  };
   /**
    * Action and helper functions
    */
@@ -252,6 +275,7 @@ class Edit extends Component {
         <Col md="6">
           {" "}
           <strong>Tasks</strong>
+          {this.renderTasks()}
         </Col>
       </>
     );
