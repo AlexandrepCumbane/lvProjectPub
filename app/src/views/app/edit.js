@@ -295,24 +295,66 @@ class Edit extends Component {
     if (this.state.edit_status) {
       return <></>;
     }
-    return (
-      <>
-        <Col md="12" className="mt-1 mb-1F">
-          <div className="divider">
-            <div className="divider-text"> More Details </div>
-          </div>
-        </Col>
-        <Col md="6">
-          <strong>Comments</strong>
-          {this.renderComments()}
-        </Col>
-        <Col md="6">
-          {" "}
-          <strong>Tasks</strong>
-          {this.renderTasks()}
-        </Col>
-      </>
-    );
+
+    let element = <></>;
+
+    const userRole = this.props.user;
+
+    switch (userRole) {
+      case "manager":
+        element = (
+          <>
+            <Col md="12" className="mt-1 mb-1F">
+              <div className="divider">
+                <div className="divider-text"> More Details </div>
+              </div>
+            </Col>
+            <Col md="6">
+              <strong>Comments</strong>
+              {this.renderComments()}
+            </Col>
+            <Col md="6">
+              {" "}
+              <strong>Tasks</strong>
+              {this.renderTasks()}
+            </Col>
+          </>
+        );
+        break;
+      case "partner":
+        element = (
+          <>
+            <Col md="12" className="mt-1 mb-1F">
+              <div className="divider">
+                <div className="divider-text"> More Details </div>
+              </div>
+            </Col>
+            <Col md="6">
+              <strong>Comments</strong>
+              {this.renderComments()}
+            </Col>
+            <Col md="6"></Col>
+          </>
+        );
+        break;
+      case "focalpoint":
+        element = (
+          <>
+            <Col md="12" className="mt-1 mb-1F">
+              <div className="divider">
+                <div className="divider-text"> More Details </div>
+              </div>
+            </Col>
+            <Col md="6">
+              <strong>Comments</strong>
+              {this.renderComments()}
+            </Col>
+            <Col md="6"></Col>
+          </>
+        );
+        break;
+    }
+    return element;
   };
 
   renderForm = () => {
