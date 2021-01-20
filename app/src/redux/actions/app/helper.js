@@ -51,23 +51,43 @@ const requestSingle = (dispatch) => {
     ) {
       let { dropdowns } = appState.app.app_reducer;
       const { userOauth } = appState.auth.login;
-      if (dropdowns[item.name] === undefined)
-        await axios
-          .get(`/${item.url}/`, {
-            headers: {
-              Authorization: `Bearer ${userOauth?.access_token}`,
-            },
-          })
-          .then(({ data }) => {
-            if (data.list) {
-              dropdowns[item.name] = data.list;
-              dispatch({
-                type: "DROPDOWNS",
-                dropdowns,
-              });
-            }
-          })
-          .catch(({ response }) => response);
+      if (dropdowns[item.name] === undefined) {
+        if (item.name === "forwardcasetofocalpoint") {
+          await axios
+            .get(`users/0/${item.url}`, {
+              headers: {
+                Authorization: `Bearer ${userOauth?.access_token}`,
+              },
+            })
+            .then(({ data }) => {
+              if (data.list) {
+                dropdowns[item.name] = data.list;
+                dispatch({
+                  type: "DROPDOWNS",
+                  dropdowns,
+                });
+              }
+            })
+            .catch(({ response }) => response);
+        } else {
+          await axios
+            .get(`/${item.url}/`, {
+              headers: {
+                Authorization: `Bearer ${userOauth?.access_token}`,
+              },
+            })
+            .then(({ data }) => {
+              if (data.list) {
+                dropdowns[item.name] = data.list;
+                dispatch({
+                  type: "DROPDOWNS",
+                  dropdowns,
+                });
+              }
+            })
+            .catch(({ response }) => response);
+        }
+      }
     }
   });
 };

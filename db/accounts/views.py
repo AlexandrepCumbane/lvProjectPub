@@ -22,3 +22,11 @@ class UserViewSet(ModelViewSet):
         user = self.queryset.get(id=request.user.id)
         serializer = self.serializer_class(user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    @action(detail=True, methods=['get'])
+    def forwardcasetofocalpoints(self, request, *args, **kwargs):
+
+        users = CustomUser.objects.filter(groups__name='focalpoint')
+        page = self.paginate_queryset(users)
+        serializer = self.serializer_class(page, many=True)
+        return self.get_paginated_response(serializer.data)
