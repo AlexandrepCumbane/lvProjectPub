@@ -324,7 +324,7 @@ class LvForm(models.Model):
 
 
 class CaseComment(models.Model):
-    lvform = models.OneToOneField(
+    lvform = models.ForeignKey(
         LvForm,
         on_delete=models.CASCADE,
     )

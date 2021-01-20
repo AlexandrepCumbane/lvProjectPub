@@ -84,7 +84,8 @@ class LvFormSerializer(patterns.AttachedModelSerializer):
     """
     # case_comments = CaseCommentSerializer(many=True, required=False)
     # forwarding_institutions = ForwardingInstitutionSerializer(many=True, required=False)
-    task = TaskSerializer(required=False)
+    task_set = TaskSerializer(required=False, many=True)
+    casecomment_set = CaseCommentSerializer(required=False, many=True)
 
     class Meta:
         model = LvForm
