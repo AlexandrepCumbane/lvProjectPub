@@ -45,7 +45,7 @@ class Edit extends Component {
     edit_status: false,
     showModal: false,
     selectedData: {},
-    form: "task",
+    modal_form: "task",
   };
 
   componentDidMount() {
@@ -103,7 +103,7 @@ class Edit extends Component {
           {this.state.showModal ? (
             <ModalEdit
               title={`Edit`}
-              page={this.state.form}
+              page={this.state.modal_form}
               label="Save"
               color="info"
               modal={this.state.showModal}
@@ -183,7 +183,7 @@ class Edit extends Component {
             this.setState({
               showModal: true,
               selectedData: forwardinginstitution,
-              form: "forwardinginstitution",
+              modal_form: "forwardinginstitution",
             });
           }}
         >
