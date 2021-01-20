@@ -154,6 +154,28 @@ class Edit extends Component {
       </ListGroup>
     );
   };
+
+  renderComments = () => {
+    const { forwardinginstitution } = this.props.data;
+
+    if (forwardinginstitution) {
+      return (
+        <ListGroup flush className="rounded-0">
+          <ListGroupItem>
+            <div className="d-flex justify-content-between w-100">
+              <h5 className="mb-1">Partner Feedback</h5>
+              <small>{forwardinginstitution.isFeedback_aproved_label}</small>
+            </div>
+            <p className="mb-1">{forwardinginstitution.partner_feedback} </p>
+            <small>{forwardinginstitution.referall_to_label}</small>
+          </ListGroupItem>
+        </ListGroup>
+      );
+    } else {
+      return <></>;
+    }
+  };
+
   /**
    * Action and helper functions
    */
@@ -270,7 +292,8 @@ class Edit extends Component {
           </div>
         </Col>
         <Col md="6">
-          <strong>Comments</strong>
+          <strong>Partner Comment</strong>
+          {this.renderComments()}
         </Col>
         <Col md="6">
           {" "}
