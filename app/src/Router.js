@@ -30,7 +30,7 @@ const Reports = lazy(() => import("./views/reports/Reports"));
 
 const AdvancedReports = lazy(() => import("./views/reports/Advanced"));
 
-const Users = lazy(() => import("./views/users/Users"));
+// const Users = lazy(() => import("./views/users/Users"));
 
 const login = lazy(() => import("./views/pages/authentication/login/Login"));
 

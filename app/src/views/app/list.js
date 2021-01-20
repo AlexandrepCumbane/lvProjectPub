@@ -54,6 +54,9 @@ class List extends Component {
       case "Completed":
         color = "success";
         break;
+      default:
+        color = "info";
+        break;
     }
 
     return (
@@ -75,6 +78,9 @@ class List extends Component {
         break;
       case "Completed":
         color = "success";
+        break;
+      default:
+        color = "info";
         break;
     }
     return (
