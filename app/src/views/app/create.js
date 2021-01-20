@@ -2,15 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { toast, Bounce } from "react-toastify";
 import {
-  requestForm,
-  requestDropodowns,
-} from "../../redux/actions/app/actions";
-
-import { history } from "../../history";
-import { axios } from "../../redux/api";
-
-import config from "../../data/config";
-import {
   Alert,
   Button,
   Card,
@@ -22,6 +13,20 @@ import {
   Input,
   Label,
 } from "reactstrap";
+import { Check } from "react-feather";
+
+import Checkbox from "../../components/@vuexy/checkbox/CheckboxesVuexy";
+
+import {
+  requestForm,
+  requestDropodowns,
+} from "../../redux/actions/app/actions";
+
+import { history } from "../../history";
+import { axios } from "../../redux/api";
+
+import config from "../../data/config";
+
 class Create extends React.Component {
   notifySuccessBounce = (id = "") =>
     toast.success(`Object created successfuly!`, { transition: Bounce });
@@ -111,6 +116,17 @@ class Create extends React.Component {
     );
   };
 
+  checkboxValue = (field_name) => {
+    const { form } = this.state;
+
+    console.log("Field Value: ", form.get(field_name));
+
+    if (form.get(field_name) === "true") {
+      return true;
+    }
+    return false;
+  };
+
   renderSingleInput = (field) => {
     let res = <></>;
 
@@ -193,23 +209,51 @@ class Create extends React.Component {
             </Col>
           );
         } else {
-          res = (
-            <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
+          if (field["depends_on"]) {
+            res = this.checkboxValue(field.depends_on) ? (
+              <Col md="6" key={field.name}>
+                <>
+                  <Label>{field.label}</Label>
 
-              <FormGroup className="form-label-group position-relative has-icon-left">
-                <Input
-                  type="text"
-                  className="square"
-                  placeholder={field.label}
-                  onChange={(e) => this.updateState(field.name, e.target.value)}
-                />
-                <div className="form-control-position">
-                  {/* <Mail size={15} /> */}
-                </div>
-              </FormGroup>
-            </Col>
-          );
+                  <FormGroup className="form-label-group position-relative has-icon-left">
+                    <Input
+                      type="text"
+                      className="square"
+                      placeholder={field.label}
+                      onChange={(e) =>
+                        this.updateState(field.name, e.target.value)
+                      }
+                    />
+                    <div className="form-control-position">
+                      {/* <Mail size={15} /> */}
+                    </div>
+                  </FormGroup>
+                </>
+              </Col>
+            ) : (
+              <div key={field.name} />
+            );
+          } else {
+            res = (
+              <Col md="6" key={field.name}>
+                <Label>{field.label}</Label>
+
+                <FormGroup className="form-label-group position-relative has-icon-left">
+                  <Input
+                    type="text"
+                    className="square"
+                    placeholder={field.label}
+                    onChange={(e) =>
+                      this.updateState(field.name, e.target.value)
+                    }
+                  />
+                  <div className="form-control-position">
+                    {/* <Mail size={15} /> */}
+                  </div>
+                </FormGroup>
+              </Col>
+            );
+          }
         }
 
         break;
@@ -233,42 +277,104 @@ class Create extends React.Component {
         );
         break;
       case "int":
-        res = (
-          <Col md="6" key={field.name}>
-            <Label>{field.label}</Label>
-            <FormGroup className="form-label-group position-relative has-icon-left">
-              <Input
-                type="number"
-                className="square"
-                placeholder={field.label}
-                // defaultValue={this.state.email}
-                onChange={(e) => this.updateState(field.name, e.target.value)}
-              />
-              <div className="form-control-position">
-                {/* <Mail size={15} /> */}
-              </div>
-            </FormGroup>
-          </Col>
-        );
+        if (field["depends_on"]) {
+          res = this.checkboxValue(field.depends_on) ? (
+            <Col md="6" key={field.name}>
+              <Label>{field.label}</Label>
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <Input
+                  type="number"
+                  className="square"
+                  placeholder={field.label}
+                  // defaultValue={this.state.email}
+                  onChange={(e) => this.updateState(field.name, e.target.value)}
+                />
+                <div className="form-control-position">
+                  {/* <Mail size={15} /> */}
+                </div>
+              </FormGroup>
+            </Col>
+          ) : (
+            <div key={field.name} />
+          );
+        } else {
+          res = (
+            <Col md="6" key={field.name}>
+              <Label>{field.label}</Label>
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <Input
+                  type="number"
+                  className="square"
+                  placeholder={field.label}
+                  // defaultValue={this.state.email}
+                  onChange={(e) => this.updateState(field.name, e.target.value)}
+                />
+                <div className="form-control-position">
+                  {/* <Mail size={15} /> */}
+                </div>
+              </FormGroup>
+            </Col>
+          );
+        }
         break;
       case "select one":
-        res = (
-          <Col md="6" key={field.name}>
-            <Label>{field.label}</Label>
-            <FormGroup className="form-label-group position-relative has-icon-left">
-              <CustomInput
-                className="square"
-                type="select"
-                id={field.name}
-                placeholder={field.label}
-                onChange={(e) => this.updateState(field.name, e.target.value)}
-              >
-                <option>Select</option>
-                {this.renderSelectOption(field.choices)}
-              </CustomInput>
-            </FormGroup>
-          </Col>
-        );
+        if (field["has_boolean_options"]) {
+          if (field["depends_on"]) {
+            res = this.checkboxValue(field.depends_on) ? (
+              <Col md="6" key={field.name} className="mb-1">
+                <Checkbox
+                  color="primary"
+                  icon={<Check className="vx-icon" size={16} />}
+                  label={field.label}
+                  defaultChecked={false}
+                  onChange={(e) =>
+                    this.updateState(
+                      field.name,
+                      !this.checkboxValue(field.name)
+                    )
+                  }
+                />
+              </Col>
+            ) : (
+              <Col md="6" key={field.name} />
+            );
+          } else {
+            res = (
+              <Col md="6" key={field.name} className="mb-1">
+                <Checkbox
+                  color="primary"
+                  icon={<Check className="vx-icon" size={16} />}
+                  label={field.label}
+                  defaultChecked={false}
+                  onChange={(e) =>
+                    this.updateState(
+                      field.name,
+                      !this.checkboxValue(field.name)
+                    )
+                  }
+                />
+              </Col>
+            );
+          }
+        } else {
+          res = (
+            <Col md="6" key={field.name}>
+              <Label>{field.label}</Label>
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <CustomInput
+                  className="square"
+                  type="select"
+                  id={field.name}
+                  placeholder={field.label}
+                  onChange={(e) => this.updateState(field.name, e.target.value)}
+                >
+                  <option>Select</option>
+                  {this.renderSelectOption(field.choices)}
+                </CustomInput>
+              </FormGroup>
+            </Col>
+          );
+        }
         break;
 
       default:

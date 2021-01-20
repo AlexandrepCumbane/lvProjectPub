@@ -396,6 +396,7 @@ export default {
             },
           ],
           type: "select one",
+          has_boolean_options: true,
         },
         {
           name: "consent_share_pi",
@@ -411,6 +412,8 @@ export default {
             },
           ],
           type: "select one",
+          has_boolean_options: true,
+          depends_on: "consent_pi",
         },
         {
           name: "fullname",
@@ -421,6 +424,7 @@ export default {
           hint: "Full Name",
           "wq:length": 255,
           type: "string",
+          depends_on: "consent_pi",
         },
         {
           name: "contact",
@@ -430,6 +434,7 @@ export default {
           },
           hint: "Contact",
           type: "int",
+          depends_on: "consent_pi",
         },
         {
           name: "contact_group",
