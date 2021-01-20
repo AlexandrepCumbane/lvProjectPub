@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { Badge } from "reactstrap";
-import { Circle, Octagon } from "react-feather";
+import { Circle, Octagon, ArrowUp } from "react-feather";
 
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import AgGridTable from "../../components/custom/table/AgGridTable";
@@ -55,7 +55,7 @@ class List extends Component {
         color = "success";
         break;
       default:
-        color = "info";
+        color = "white";
         break;
     }
 
@@ -66,6 +66,7 @@ class List extends Component {
       </Badge>
     );
   };
+
   renderStatus = (props, label) => {
     let color = "white";
 
@@ -80,7 +81,7 @@ class List extends Component {
         color = "success";
         break;
       default:
-        color = "info";
+        color = "white";
         break;
     }
     return (
@@ -93,13 +94,37 @@ class List extends Component {
         }}
       >
         <span>
+          {this.renderPriority(props)}
           <Circle
-            className={`text-${color} text-center bg-${color} rounded mb-1 mt-1`}
+            className={`text-${color} text-center bg-${color} rounded m-1`}
             size={12}
           />
+
           {` ${label}`}
         </span>
       </div>
+    );
+  };
+
+  renderPriority = (props) => {
+    let color = "white";
+
+    switch (props[`case_priority_label`]) {
+      case "High":
+        color = "danger";
+        break;
+      case "Medium":
+        color = "warning";
+        break;
+      case "Low":
+        color = "info";
+        break;
+      default:
+        color = "white";
+        break;
+    }
+    return (
+      <ArrowUp className={`text-${color} text-center mb-1 mt-1`} size={14} />
     );
   };
 
