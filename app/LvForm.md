@@ -37,6 +37,8 @@ form: {
           },
           type: "string",
           "wq:ForeignKey": "category",
+
+
           children: "subcategory", // tells that this field has children and the option values in field must be renderend after the it's value selection
         },
         {
@@ -57,9 +59,10 @@ form: {
 
 ```
 
-Note: To enable children field rendering, on backend list serializer the parent field must have a list of children queryset values
+Note:
 
-
+- To enable children field rendering, on backend list serializer the parent field must have a list of children queryset values.
+- The children value must corresponds to the "wq:ForeignKey" value in children field
 
 ### Hide/Show dependent fields
 
