@@ -16,7 +16,7 @@ export const handleForm = (dispatch, payload) =>
 
     const { userOauth } = appState.auth.login;
     axios
-      .get(`/${payload}.json/`, {
+      .get(`/${payload.url}.json/`, {
         headers: {
           Authorization: `Bearer ${userOauth?.access_token}`,
         },
@@ -24,7 +24,10 @@ export const handleForm = (dispatch, payload) =>
       .then(({ data }) => {
         dispatch({
           type: "FORM_SUCCESS",
-          list: data.list,
+          data: {
+            key: payload.name,
+            value: data.list,
+          },
           success: true,
           failed: false,
           loading: false,
@@ -43,16 +46,16 @@ export const handleForm = (dispatch, payload) =>
   });
 
 const requestSingle = (dispatch) => {
-  state.map(async (item) => {
-    let { dropdowns } = appState.app.app_reducer;
+  let { dropdowns } = appState.app.app_reducer;
 
+  state.map(async (item) => {
     if (
       item.name !== "logout" &&
       item.name !== "login" &&
-      item.url !== undefined &&
-      dropdowns[item.name]
+      item.url !== undefined
     ) {
       const { userOauth } = appState.auth.login;
+
       if (dropdowns[item.name] === undefined) {
         if (item.name === "forwardcasetofocalpoint") {
           await axios

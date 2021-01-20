@@ -32,13 +32,19 @@ class List extends Component {
   componentDidMount() {
     this.formatFields();
     this.props.requestDropodowns();
-    this.props.requestForm(this.props.url).then(() => {
-      this.setState({
-        data: this.props.app_reducer.list,
-        page: this.props.path,
-        pageTitle: `${this.props.title}`,
-      });
+    this.setState({
+      data: this.props.app_reducer[this.props.path] ?? [],
     });
+
+    this.props
+      .requestForm({ url: this.props.url, name: this.props.path })
+      .then(() => {
+        this.setState({
+          data: this.props.app_reducer[this.props.path],
+          page: this.props.path,
+          pageTitle: `${this.props.title}`,
+        });
+      });
   }
 
   renderStatusLabel = (props, label) => {
