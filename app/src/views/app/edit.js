@@ -189,7 +189,7 @@ class Edit extends Component {
     let element = <p>No actions Provived</p>;
 
     switch (userRole) {
-      case "operator":
+      case "manager":
         element = (
           <div>
             <Button
@@ -270,16 +270,27 @@ class Edit extends Component {
         );
         break;
 
-      case "operators":
+      case "operator":
         element = (
           <div>
             <Button
-              color="primary"
+              color={this.state.edit_status ? "primary" : "success"}
               className="mr-1 square"
               onClick={() => this.handleSubmit()}
             >
-              Update
+              {this.state.edit_status ? "Update" : "Edit"}
             </Button>
+            {this.state.edit_status ? (
+              <Button
+                color="danger"
+                className="mr-1 square"
+                onClick={() => this.setState({ edit_status: false })}
+              >
+                Cancel
+              </Button>
+            ) : (
+              <></>
+            )}
           </div>
         );
         break;
