@@ -1,4 +1,5 @@
 from django.db import models
+import uuid
 from django.conf import settings
 User = settings.AUTH_USER_MODEL
 
@@ -83,7 +84,8 @@ class LvForm(models.Model):
         verbose_name="Community",
         help_text="Community",
     )
-    distribution_point = models.TextField(
+    distribution_point = models.CharField(
+        max_length=255,
         null=True,
         blank=True,
         verbose_name="Distribution Point",
@@ -315,6 +317,11 @@ class LvForm(models.Model):
         help_text="Case number",
     )
 
+    uuid = models.UUIDField( 
+        default = uuid.uuid4, 
+        editable = False
+    )
+
     class Meta:
         verbose_name = "linha verde intake form"
         verbose_name_plural = "lvforms"
@@ -394,7 +401,7 @@ class ForwardingInstitution(models.Model):
 
 
 class Task(models.Model):
-    lvform = models.OneToOneField(
+    lvform = models.ForeignKey(
         LvForm,
         on_delete=models.CASCADE,
     )
@@ -413,7 +420,7 @@ class Task(models.Model):
         blank=True,
         verbose_name="Description",
     )
-    assignee = models.ForeignKey(
+    assignee = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
         null=True,
@@ -469,7 +476,7 @@ class Task(models.Model):
         verbose_name_plural = "tasks"
 
 class TaskComment(models.Model):
-    task = models.OneToOneField(
+    task = models.ForeignKey(
         Task,
         on_delete=models.CASCADE,
     )
@@ -491,8 +498,32 @@ class TaskComment(models.Model):
         blank=True,
         verbose_name="Date created",
         help_text="Auto datetime Create",
+        auto_now_add=True,
     )
 
     class Meta:
         verbose_name = "taskcomment"
         verbose_name_plural = "taskcomments"
+
+class ForwardToFocalpoint(models.Model):
+    lvform = models.ForeignKey(
+        LvForm,
+        on_delete=models.CASCADE,
+    )
+    focalpoint = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="Focal Point",
+        help_text="User",
+    )
+    datetime_created = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Date forwarded",
+        help_text="Auto datetime Create",
+        auto_now_add=True,
+    )
+
+    class Meta:
+        verbose_name = "Forward to Focal Point"
+        verbose_name_plural = "Forwarded to focal points"

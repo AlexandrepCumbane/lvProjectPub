@@ -1,5 +1,5 @@
 from wq.db.patterns import serializers as patterns
-from .models import LvForm, CaseComment, ForwardingInstitution, Task, TaskComment
+from .models import LvForm, CaseComment, ForwardingInstitution, Task, TaskComment, ForwardToFocalpoint
 
 class CaseCommentSerializer(patterns.AttachedModelSerializer):
     class Meta: #(patterns.AttachmentSerializer.Meta):
@@ -51,6 +51,11 @@ class TaskCommentSerializer(patterns.AttachedModelSerializer):
         form = TaskComment.objects.create(created_by=self.context['request'].user,
                                  **validated_data)
         return form
+
+class ForwardToFocalpointSerializer(patterns.AttachedModelSerializer):
+    class Meta: #(patterns.AttachmentSerializer.Meta):
+        model = ForwardToFocalpoint
+        fields = "__all__"
 
 
 # TODO: Fix iterating/linking through the relationships
