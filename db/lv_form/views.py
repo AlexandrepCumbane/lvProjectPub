@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 from wq.db.rest.views import ModelViewSet
 from accounts.serializer import CustomUserSerializer
-from .models import ForwardCaseToFocalpoint, LvForm
+from .models import ForwardCaseToFocalpoint, ForwardingInstitution, LvForm
 from .serializers import LvFormSerializer
 
 # Create your views here.
@@ -32,6 +32,16 @@ class LvFormViewSet(ModelViewSet):
 
             lv_forms = LvForm.objects.filter(
                 forwardcasetofocalpoint__in=fowarded_results)
+
+            return lv_forms
+
+        if "partner" in user_data['groups_label']:
+
+            fowarded_results = ForwardingInstitution.objects.filter(
+                referall_to__id=user.id).only('lvform')
+
+            lv_forms = LvForm.objects.filter(
+                forwardinginstitution__in=fowarded_results)
 
             return lv_forms
 
