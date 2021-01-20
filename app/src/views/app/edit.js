@@ -192,7 +192,6 @@ class Edit extends Component {
       case "operator":
         element = (
           <div>
-            {" "}
             <Button
               color={this.state.edit_status ? "primary" : "success"}
               className="mr-1 square"
@@ -200,24 +199,36 @@ class Edit extends Component {
             >
               {this.state.edit_status ? "Update" : "Edit"}
             </Button>
-            <Modal
-              title={`Register form for task`}
-              page="task"
-              label="Task"
-              color="success"
-              lvform_id={data.id}
-            />
-            <Modal
-              title={`Send to Focal Point`}
-              page="forwardcasetofocalpoint"
-              label="Send"
-            />
-            <Modal
-              title={`Add your feedback`}
-              page="casecomment"
-              label="Feedback"
-              color="secondary"
-            />
+            {this.state.edit_status ? (
+              <Button
+                color="danger"
+                className="mr-1 square"
+                onClick={() => this.setState({ edit_status: false })}
+              >
+                Cancel
+              </Button>
+            ) : (
+              <>
+                <Modal
+                  title={`Register form for task`}
+                  page="task"
+                  label="Task"
+                  color="success"
+                  lvform_id={data.id}
+                />
+                <Modal
+                  title={`Send to Focal Point`}
+                  page="forwardcasetofocalpoint"
+                  label="Send"
+                />
+                <Modal
+                  title={`Add your feedback`}
+                  page="casecomment"
+                  label="Feedback"
+                  color="secondary"
+                />
+              </>
+            )}
           </div>
         );
         break;
