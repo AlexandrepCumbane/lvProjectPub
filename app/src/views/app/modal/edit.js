@@ -101,7 +101,8 @@ class Edit extends React.Component {
             ) : (
               <></>
             )}
-            {this.props.page === "forwardinginstitution" ? (
+            {this.props.page === "forwardinginstitution" &&
+            this.props.userRole === "manager" ? (
               <CreateModal
                 title={`Add  new task`}
                 page="task"

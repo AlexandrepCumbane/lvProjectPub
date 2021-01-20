@@ -108,6 +108,7 @@ class Edit extends Component {
               color="info"
               modal={this.state.showModal}
               toggleModal={this.handleModal}
+              userRole={this.props.user}
               data={this.state.selectedData}
               disabled
             />
@@ -273,23 +274,35 @@ class Edit extends Component {
         element = (
           <div>
             <Button
-              color="primary"
+              color={this.state.edit_status ? "primary" : "success"}
               className="mr-1 square"
               onClick={() => this.handleSubmit()}
             >
-              Update
+              {this.state.edit_status ? "Update" : "Edit"}
             </Button>
-            <Modal
-              title={`Send to case to Entity`}
-              page="forwardinginstitution"
-              label="Send"
-            />
-            <Modal
-              title={`Add your feedback`}
-              page="casecomment"
-              label="Feedback"
-              color="secondary"
-            />
+            {this.state.edit_status ? (
+              <Button
+                color="danger"
+                className="mr-1 square"
+                onClick={() => this.setState({ edit_status: false })}
+              >
+                Cancel
+              </Button>
+            ) : (
+              <>
+                <Modal
+                  title={`Send to case to Entity`}
+                  page="forwardinginstitution"
+                  label="Send"
+                />
+                <Modal
+                  title={`Add your feedback`}
+                  page="casecomment"
+                  label="Feedback"
+                  color="secondary"
+                />
+              </>
+            )}
           </div>
         );
         break;
