@@ -42,6 +42,7 @@ class Edit extends Component {
     isValid: true,
     dropdowns: [],
     childrens: {},
+    edit_status: false,
   };
 
   componentDidMount() {
@@ -138,6 +139,8 @@ class Edit extends Component {
     const userRole = this.props.user;
     let { data } = this.props;
 
+    console.log("User Role: ", userRole);
+
     let element = <p>No actions Provived</p>;
 
     switch (userRole) {
@@ -146,11 +149,11 @@ class Edit extends Component {
           <div>
             {" "}
             <Button
-              color="primary"
+              color={this.state.edit_status ? "primary" : "success"}
               className="mr-1 square"
               onClick={() => this.handleSubmit()}
             >
-              Update
+              {this.state.edit_status ? "Update" : "Edit"}
             </Button>
             <Modal
               title={`Register form for task`}
@@ -160,8 +163,8 @@ class Edit extends Component {
               lvform_id={data.id}
             />
             <Modal
-              title={`Send to case to Entity`}
-              page="forwardinginstitution"
+              title={`Send to Focal Point`}
+              page="forwardcasetofocalpoint"
               label="Send"
             />
             <Modal
@@ -250,13 +253,47 @@ class Edit extends Component {
             <>
               <Col md="6" />
               <Col md="6" key={field.name}>
-                <Label>{field.label}</Label>
+                <Label>
+                  <strong>{field.label}</strong>
+                </Label>
+                {this.state.edit_status ? (
+                  <FormGroup className="form-label-group position-relative has-icon-left">
+                    <Input
+                      type="textarea"
+                      rows={7}
+                      className="square"
+                      disabled={!this.state.edit_status}
+                      placeholder={field.label}
+                      defaultValue={data[field.name]}
+                      onChange={(e) =>
+                        this.updateState(field.name, e.target.value)
+                      }
+                    />
+                    <div className="form-control-position">
+                      {/* <Mail size={15} /> */}
+                    </div>
+                  </FormGroup>
+                ) : (
+                  <p>{data[field.name]}</p>
+                )}
+              </Col>
+            </>
+          );
+        } else {
+          res = (
+            <Col md="6" key={field.name}>
+              <Label>
+                <strong>{field.label}</strong>
+              </Label>
+
+              {this.state.edit_status ? (
                 <FormGroup className="form-label-group position-relative has-icon-left">
                   <Input
                     type="textarea"
                     rows={7}
                     className="square"
                     placeholder={field.label}
+                    disabled={!this.state.edit_status}
                     defaultValue={data[field.name]}
                     onChange={(e) =>
                       this.updateState(field.name, e.target.value)
@@ -266,27 +303,9 @@ class Edit extends Component {
                     {/* <Mail size={15} /> */}
                   </div>
                 </FormGroup>
-              </Col>
-            </>
-          );
-        } else {
-          res = (
-            <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
-
-              <FormGroup className="form-label-group position-relative has-icon-left">
-                <Input
-                  type="textarea"
-                  rows={7}
-                  className="square"
-                  placeholder={field.label}
-                  defaultValue={data[field.name]}
-                  onChange={(e) => this.updateState(field.name, e.target.value)}
-                />
-                <div className="form-control-position">
-                  {/* <Mail size={15} /> */}
-                </div>
-              </FormGroup>
+              ) : (
+                <p>{data[field.name]}</p>
+              )}
             </Col>
           );
         }
@@ -296,51 +315,66 @@ class Edit extends Component {
         if (field["wq:ForeignKey"]) {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
+              <Label>
+                <strong>{field.label}</strong>
+              </Label>
 
-              <FormGroup className="form-label-group position-relative has-icon-left">
-                <CustomInput
-                  className="square"
-                  type="select"
-                  id={field.name}
-                  defaultValue={data[`${field.name}_id`]}
-                  onChange={(e) => {
-                    this.updateState(`${field.name}_id`, e.target.value);
-                    if (field["children"]) {
-                      this.updateChildrenList(field, e.target.value);
-                    }
-                  }}
-                >
-                  <option>Select</option>
+              {this.state.edit_status ? (
+                <FormGroup className="form-label-group position-relative has-icon-left">
+                  <CustomInput
+                    className="square"
+                    type="select"
+                    id={field.name}
+                    disabled={!this.state.edit_status}
+                    defaultValue={data[`${field.name}_id`]}
+                    onChange={(e) => {
+                      this.updateState(`${field.name}_id`, e.target.value);
+                      if (field["children"]) {
+                        this.updateChildrenList(field, e.target.value);
+                      }
+                    }}
+                  >
+                    <option>Select</option>
 
-                  {field["has_parent"] === undefined
-                    ? this.renderSelectOptionForeignWQ(
-                        this.getForeignFieldDropdown(field["wq:ForeignKey"])
-                      )
-                    : this.renderSelectOptionForeignWQ(
-                        this.state.childrens[field["wq:ForeignKey"]] ?? []
-                      )}
-                </CustomInput>
-              </FormGroup>
+                    {field["has_parent"] === undefined
+                      ? this.renderSelectOptionForeignWQ(
+                          this.getForeignFieldDropdown(field["wq:ForeignKey"])
+                        )
+                      : this.renderSelectOptionForeignWQ(
+                          this.state.childrens[field["wq:ForeignKey"]] ?? []
+                        )}
+                  </CustomInput>
+                </FormGroup>
+              ) : (
+                <p>{data[`${field.name}_label`]}</p>
+              )}
             </Col>
           );
         } else {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
-
-              <FormGroup className="form-label-group position-relative has-icon-left">
-                <Input
-                  type="text"
-                  className="square"
-                  placeholder={field.label}
-                  defaultValue={data[`${field.name}`]}
-                  onChange={(e) => this.updateState(field.name, e.target.value)}
-                />
-                <div className="form-control-position">
-                  {/* <Mail size={15} /> */}
-                </div>
-              </FormGroup>
+              <Label>
+                <strong>{field.label}</strong>
+              </Label>
+              {this.state.edit_status ? (
+                <FormGroup className="form-label-group position-relative has-icon-left">
+                  <Input
+                    type="text"
+                    className="square"
+                    placeholder={field.label}
+                    disabled={!this.state.edit_status}
+                    defaultValue={data[`${field.name}`]}
+                    onChange={(e) =>
+                      this.updateState(field.name, e.target.value)
+                    }
+                  />
+                  <div className="form-control-position">
+                    {/* <Mail size={15} /> */}
+                  </div>
+                </FormGroup>
+              ) : (
+                <p>{data[`${field.name}`]}</p>
+              )}
             </Col>
           );
         }
@@ -348,59 +382,80 @@ class Edit extends Component {
       case "date":
         res = (
           <Col md="6" key={field.name}>
-            <Label>{field.label}</Label>
-
-            <FormGroup className="form-label-group position-relative has-icon-left">
-              <Input
-                type="date"
-                className="square"
-                defaultValue={data[field.name]}
-                placeholder={field.label}
-                onChange={(e) => this.updateState(field.name, e.target.value)}
-              />
-              <div className="form-control-position">
-                {/* <Mail size={15} /> */}
-              </div>
-            </FormGroup>
+            <Label>
+              <strong>{field.label}</strong>
+            </Label>
+            {this.state.edit_status ? (
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <Input
+                  type="date"
+                  className="square"
+                  defaultValue={data[field.name]}
+                  disabled={!this.state.edit_status}
+                  placeholder={field.label}
+                  onChange={(e) => this.updateState(field.name, e.target.value)}
+                />
+                <div className="form-control-position">
+                  {/* <Mail size={15} /> */}
+                </div>
+              </FormGroup>
+            ) : (
+              <p>{data[`${field.name}`]}</p>
+            )}
           </Col>
         );
         break;
       case "int":
         res = (
           <Col md="6" key={field.name}>
-            <Label>{field.label}</Label>
-            <FormGroup className="form-label-group position-relative has-icon-left">
-              <Input
-                type="number"
-                className="square"
-                placeholder={field.label}
-                defaultValue={data[field.name]}
-                onChange={(e) => this.updateState(field.name, e.target.value)}
-              />
-              <div className="form-control-position">
-                {/* <Mail size={15} /> */}
-              </div>
-            </FormGroup>
+            <Label>
+              <strong>{field.label}</strong>
+            </Label>
+            {this.state.edit_status ? (
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <Input
+                  type="number"
+                  className="square"
+                  placeholder={field.label}
+                  disabled={!this.state.edit_status}
+                  defaultValue={data[field.name]}
+                  onChange={(e) => this.updateState(field.name, e.target.value)}
+                />
+                <div className="form-control-position">
+                  {/* <Mail size={15} /> */}
+                </div>
+              </FormGroup>
+            ) : (
+              <p>{data[`${field.name}`]}</p>
+            )}
           </Col>
         );
         break;
       case "select one":
+        //`${field.name}_label`
         res = (
           <Col md="6" key={field.name}>
-            <Label>{field.label}</Label>
-            <FormGroup className="form-label-group position-relative has-icon-left">
-              <CustomInput
-                className="square"
-                type="select"
-                id={field.name}
-                placeholder={field.label}
-                defaultValue={data[field.name]}
-                onChange={(e) => this.updateState(field.name, e.target.value)}
-              >
-                <option>Select</option>
-                {this.renderSelectOption(field.choices)}
-              </CustomInput>
-            </FormGroup>
+            <Label>
+              <strong>{field.label}</strong>
+            </Label>
+            {this.state.edit_status ? (
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <CustomInput
+                  className="square"
+                  type="select"
+                  id={field.name}
+                  placeholder={field.label}
+                  disabled={!this.state.edit_status}
+                  defaultValue={data[field.name]}
+                  onChange={(e) => this.updateState(field.name, e.target.value)}
+                >
+                  <option>Select</option>
+                  {this.renderSelectOption(field.choices)}
+                </CustomInput>
+              </FormGroup>
+            ) : (
+              <p>{data[`${field.name}_label`]}</p>
+            )}
           </Col>
         );
         break;
@@ -469,27 +524,31 @@ class Edit extends Component {
    * Submits the form to post request action
    */
   handleSubmit = () => {
-    let { handleSidebar } = this.props;
-    const { userOauth } = this.props.state.auth.login;
+    if (this.state.edit_status) {
+      let { handleSidebar } = this.props;
+      const { userOauth } = this.props.state.auth.login;
 
-    this.setState({ isValid: true });
-    axios
-      .put(`lvforms/${this.props.data.id}.json/`, this.state.form, {
-        headers: {
-          "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
-          Authorization: `Bearer ${userOauth.access_token}`,
-        },
-      })
-      .then(({ data }) => {
-        this.notifySuccessBounce(data.id);
+      this.setState({ isValid: true });
+      axios
+        .put(`lvforms/${this.props.data.id}.json/`, this.state.form, {
+          headers: {
+            "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
+            Authorization: `Bearer ${userOauth.access_token}`,
+          },
+        })
+        .then(({ data }) => {
+          this.notifySuccessBounce(data.id);
 
-        setTimeout(() => {
-          handleSidebar(false, true);
-        }, 1000);
-      })
-      .catch((error) => {
-        this.notifyErrorBounce("Failed to save Object.");
-      });
+          setTimeout(() => {
+            handleSidebar(false, true);
+          }, 1000);
+        })
+        .catch((error) => {
+          this.notifyErrorBounce("Failed to save Object.");
+        });
+    } else {
+      this.setState({ edit_status: true });
+    }
   };
 }
 
