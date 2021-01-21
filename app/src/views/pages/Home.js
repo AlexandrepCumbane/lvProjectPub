@@ -59,6 +59,10 @@ class Home extends React.Component {
         element = this.renderFocalPointCards();
         break;
 
+      case "partner":
+        element = <p>{this.translate("Role without cards")}</p>; //this.renderFocalPointCards();
+        break;
+
       case "manager":
         element = this.renderManagerCards();
         break;
