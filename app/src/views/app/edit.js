@@ -175,24 +175,30 @@ class Edit extends Component {
   renderComments = () => {
     const { casecomment_set } = this.props.data;
     return (
-      <ListGroup flush className="rounded-0">
-        {casecomment_set.map((item) => (
-          <ListGroupItem>
-            <div className="d-flex justify-content-between w-100">
-              {/* <h5 className="mb-1">Partner Feedback</h5> */}
-              <small></small>
-            </div>
-            <p className="mb-1">{item.feedback}</p>
-            <small>{item.created_by_label}</small>
-          </ListGroupItem>
-        ))}
-      </ListGroup>
+      <>
+        <div className="divider">
+          <div className="divider-text"> Case Comments History</div>
+        </div>
+        <ListGroup flush className="rounded-0">
+          {casecomment_set.map((item) => (
+            <ListGroupItem>
+              <div className="d-flex justify-content-between w-100">
+                {/* <h5 className="mb-1">Partner Feedback</h5> */}
+                <small></small>
+              </div>
+              <p className="mb-1">{item.feedback}</p>
+              <small>{item.created_by_label}</small>
+            </ListGroupItem>
+          ))}
+        </ListGroup>
+      </>
     );
   };
   renderFeedbackComments = () => {
     const { forwardinginstitution } = this.props.data;
 
-    if (forwardinginstitution && forwardinginstitution["has_feedback"]) {
+    if (forwardinginstitution) {
+      // && forwardinginstitution["has_feedback"]) {
       return (
         <>
           <div className="divider">
@@ -200,7 +206,7 @@ class Edit extends Component {
           </div>
           <ListGroup
             flush
-            className="rounded-0"
+            className="rounded-0 mb-2"
             onClick={() => {
               this.setState({
                 showModal: true,
