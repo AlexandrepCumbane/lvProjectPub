@@ -47,7 +47,52 @@ class LvFormViewSet(ModelViewSet):
 
         return self.queryset
 
+    def get_queryset_fowarded(self, user) -> list:
+        """
+            This method filter LvForms records from relative user groups/roles 
+        """
+
+        user_data = CustomUserSerializer(user).data
+
+        if "focalpoint" in user_data['groups_label']:
+
+            fowarded_results = ForwardCaseToFocalpoint.objects.filter(
+                focalpoint__id=user.id).only('lvform')
+
+            lv_forms = LvForm.objects.filter(
+                forwardcasetofocalpoint__in=fowarded_results)
+
+            return lv_forms
+
+        if "manager" in user_data['groups_label']:
+
+            fowarded_results = ForwardCaseToFocalpoint.objects.all().only(
+                'lvform')
+
+            lv_forms = LvForm.objects.filter(
+                forwardcasetofocalpoint__in=fowarded_results)
+
+            return lv_forms
+
+        if "partner" in user_data['groups_label']:
+
+            fowarded_results = ForwardingInstitution.objects.filter(
+                referall_to__id=user.id).only('lvform')
+
+            lv_forms = LvForm.objects.filter(
+                forwardinginstitution__in=fowarded_results)
+
+            return lv_forms
+
+        return self.queryset
+
     def list(self, request, *args, **kwargs):
         page = self.paginate_queryset(self.get_queryset_list(request.user))
+        serializer = self.serializer_class(page, many=True)
+        return self.get_paginated_response(serializer.data)
+
+    @action(detail=True, methods=['get'])
+    def fowarded_cases(self, request, *args, **kwargs):
+        page = self.paginate_queryset(self.get_queryset_fowarded(request.user))
         serializer = self.serializer_class(page, many=True)
         return self.get_paginated_response(serializer.data)
