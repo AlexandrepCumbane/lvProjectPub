@@ -25,7 +25,7 @@ import config from "../../../data/config";
 import CreateModal from "./create";
 class Edit extends React.Component {
   notifySuccessBounce = (id = "") =>
-    toast.success(`Object created successfuly!`, { transition: Bounce });
+    toast.success(`Transaction completed successfuly.`, { transition: Bounce });
 
   notifyErrorBounce = (error) =>
     toast.error(error, {
@@ -396,7 +396,7 @@ class Edit extends React.Component {
           }, 1000);
         })
         .catch((error) => {
-          this.notifyErrorBounce("Failed to save Object.");
+          this.notifyErrorBounce("Transaction process failed");
         });
     }
   };
