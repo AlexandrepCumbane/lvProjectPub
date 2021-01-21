@@ -16,6 +16,6 @@ const axios = Axios.create({
 
 // axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 // axios.defaults.xsrfCookieName = "csrftoken";
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 
 export { axios };

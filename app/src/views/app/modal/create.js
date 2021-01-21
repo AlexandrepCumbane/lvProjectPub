@@ -49,6 +49,8 @@ class Create extends React.Component {
       formdata.append("description", this.props["description"]);
     }
 
+    formdata.append("lvform_id", this.props.lvform_id);
+
     this.setState({ form: formdata });
   }
 
@@ -131,6 +133,9 @@ class Create extends React.Component {
   renderSingleInput = (field) => {
     let res = <></>;
 
+    if (field.name === "lvform") {
+      return <span key="lvform" />;
+    }
     switch (field.type) {
       case "text":
         res = (

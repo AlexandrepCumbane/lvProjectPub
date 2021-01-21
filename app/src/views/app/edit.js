@@ -267,6 +267,7 @@ class Edit extends Component {
                   title={`Send to Focal Point`}
                   page="forwardcasetofocalpoint"
                   label="Send"
+                  lvform_id={data['id']}
                 />
                 {/* <Modal
                   title={`Add your feedback`}
@@ -287,6 +288,7 @@ class Edit extends Component {
               page="casecomment"
               label="Feedback"
               color="secondary"
+              lvform_id={data['id']}
             />
           </div>
         );
