@@ -173,30 +173,52 @@ class Edit extends Component {
   };
 
   renderComments = () => {
+    const { casecomment_set } = this.props.data;
+    return (
+      <ListGroup flush className="rounded-0">
+        {casecomment_set.map((item) => (
+          <ListGroupItem>
+            <div className="d-flex justify-content-between w-100">
+              {/* <h5 className="mb-1">Partner Feedback</h5> */}
+              <small></small>
+            </div>
+            <p className="mb-1">{item.feedback}</p>
+            <small>{item.created_by_label}</small>
+          </ListGroupItem>
+        ))}
+      </ListGroup>
+    );
+  };
+  renderFeedbackComments = () => {
     const { forwardinginstitution } = this.props.data;
 
     if (forwardinginstitution && forwardinginstitution["has_feedback"]) {
       return (
-        <ListGroup
-          flush
-          className="rounded-0"
-          onClick={() => {
-            this.setState({
-              showModal: true,
-              selectedData: forwardinginstitution,
-              modal_form: "forwardinginstitution",
-            });
-          }}
-        >
-          <ListGroupItem>
-            <div className="d-flex justify-content-between w-100">
-              <h5 className="mb-1">Partner Feedback</h5>
-              <small>{forwardinginstitution.isFeedback_aproved_label}</small>
-            </div>
-            <p className="mb-1">{forwardinginstitution.partner_feedback} </p>
-            <small>{forwardinginstitution.referall_to_label}</small>
-          </ListGroupItem>
-        </ListGroup>
+        <>
+          <div className="divider">
+            <div className="divider-text"> Partner Feedback</div>
+          </div>
+          <ListGroup
+            flush
+            className="rounded-0"
+            onClick={() => {
+              this.setState({
+                showModal: true,
+                selectedData: forwardinginstitution,
+                modal_form: "forwardinginstitution",
+              });
+            }}
+          >
+            <ListGroupItem>
+              <div className="d-flex justify-content-between w-100">
+                <h5 className="mb-1">Partner Feedback</h5>
+                <small>{forwardinginstitution.isFeedback_aproved_label}</small>
+              </div>
+              <p className="mb-1">{forwardinginstitution.partner_feedback} </p>
+              <small>{forwardinginstitution.referall_to_label}</small>
+            </ListGroupItem>
+          </ListGroup>
+        </>
       );
     } else {
       return <></>;
@@ -357,14 +379,14 @@ class Edit extends Component {
                 <div className="divider-text"> More Details </div>
               </div>
             </Col>
+            <Col md="6">{this.renderFeedbackComments()}</Col>
             <Col md="6">
-              <strong>Comments</strong>
-              {this.renderComments()}
-            </Col>
-            <Col md="6">
-              {" "}
               <strong>Tasks</strong>
               {this.renderTasks()}
+            </Col>
+            <Col md="12">
+              <strong>Othern Comments</strong>
+              {this.renderComments()}
             </Col>
           </>
         );
@@ -377,7 +399,8 @@ class Edit extends Component {
                 <div className="divider-text"> More Details </div>
               </div>
             </Col>
-            <Col md="6">
+            <Col md="6">{this.renderFeedbackComments()}</Col>
+            <Col md="12">
               <strong>Comments</strong>
               {this.renderComments()}
             </Col>

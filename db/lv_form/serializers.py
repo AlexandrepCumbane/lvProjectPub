@@ -5,7 +5,10 @@ from .models import LvForm, CaseComment, ForwardingInstitution, Task, TaskCommen
 class CaseCommentSerializer(patterns.AttachedModelSerializer):
     class Meta:  #(patterns.AttachmentSerializer.Meta):
         model = CaseComment
-        exclude = ('created_by', )
+        fields = '__all__'
+        read_only_fields = ('created_by', )
+        
+
         # exclude = ('lvform',)
         # object_field = 'lvform'
 
@@ -87,6 +90,7 @@ class LvFormSerializer(patterns.AttachedModelSerializer):
     task_set = TaskSerializer(required=False, many=True)
     casecomment_set = CaseCommentSerializer(required=False, many=True)
     forwardinginstitution = ForwardingInstitutionSerializer(required=False)
+    casecomment_set = CaseCommentSerializer(required=False, many=True)
 
     class Meta:
         model = LvForm
