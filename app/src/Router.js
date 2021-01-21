@@ -107,7 +107,8 @@ class AppRouter extends React.Component {
                 {...props}
                 title="Fowarded Cases"
                 path="lvform"
-                url="lvforms"
+                name="fowarded"
+                url="lvforms/0/fowarded_cases"
               />
             )}
           />

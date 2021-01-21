@@ -8,11 +8,6 @@ import SimpleAnalipticCard from "../../components/custom/statisticCards/Card";
 import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
 import { LOCALES } from "../../i18n/index";
 
-import {
-  requestForm,
-  requestDropodowns,
-} from "../../redux/actions/app/actions";
-
 class Home extends React.Component {
   state = {
     pageTitle: translate("Home"),
@@ -27,9 +22,7 @@ class Home extends React.Component {
     locale: LOCALES.PORTUGUESE,
   };
 
-  componentDidMount() {
-    this.props.requestForm("lvforms");
-  }
+  componentDidMount() {}
 
   render() {
     return (
@@ -229,6 +222,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
-  requestForm,
-})(Home);
+export default connect(mapStateToProps, {})(Home);
