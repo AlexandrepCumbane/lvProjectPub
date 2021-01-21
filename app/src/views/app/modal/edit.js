@@ -170,6 +170,10 @@ class Edit extends React.Component {
     let res = <></>;
     let { data } = this.props;
 
+    if (field.name === "lvform") {
+      return <span key="lvform" />;
+    }
+
     switch (field.type) {
       case "text":
         res = (
