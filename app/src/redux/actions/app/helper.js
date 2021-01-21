@@ -1,9 +1,13 @@
 import { axios } from "../../api";
+import { AuthService } from "../../oidc-config/services/authservice";
 import { state } from "./forms";
 
 import { store } from "../../storeConfig/store";
+import { getUser } from "../auth/helper";
 
 const appState = store.getState();
+
+const authService = new AuthService();
 
 export const handleForm = (dispatch, payload) =>
   new Promise((resolve, reject) => {
@@ -35,6 +39,13 @@ export const handleForm = (dispatch, payload) =>
         resolve();
       })
       .catch(({ response }) => {
+        authService
+          .renewToken()
+          .then(() => {
+            return getUser(dispatch);
+          })
+          .catch(() => {});
+
         dispatch({
           type: "FORM_FAILED",
           failed: true,
@@ -73,7 +84,15 @@ const requestSingle = (dispatch) => {
                 });
               }
             })
-            .catch(({ response }) => response);
+            .catch(({ response }) => {
+              authService
+                .renewToken()
+                .then(() => {
+                  return getUser(dispatch);
+                })
+                .catch(() => {});
+              return response;
+            });
         } else {
           await axios
             .get(`/${item.url}/`, {
@@ -90,7 +109,15 @@ const requestSingle = (dispatch) => {
                 });
               }
             })
-            .catch(({ response }) => response);
+            .catch(({ response }) => {
+              authService
+                .renewToken()
+                .then(() => {
+                  return getUser(dispatch);
+                })
+                .catch(() => {});
+              return response;
+            });
         }
       }
     }
