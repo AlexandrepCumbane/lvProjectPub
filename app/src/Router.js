@@ -10,11 +10,11 @@ import "react-toastify/dist/ReactToastify.css";
 import "./assets/scss/plugins/extensions/toastr.scss";
 
 import AppListView from "./views/app/list";
-import { Home } from "react-feather";
+// import { Home } from "react-feather";
 import Login from "./views/pages/authentication/login/Login";
 
 // Route-based code splitting
-// const Home = lazy(() => import("./views/pages/Home"));
+const Home = lazy(() => import("./views/pages/Home"));
 
 const Welcome = lazy(() => import("./views/pages/Welcome"));
 
