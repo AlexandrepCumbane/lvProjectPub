@@ -184,13 +184,18 @@ class Edit extends React.Component {
                 type="textarea"
                 rows={5}
                 className="square"
+                disabled={
+                  (field.name === "partner_feedback" &&
+                    (this.props.user === "focalpoint" ||
+                      this.props.user === "manager")) ||
+                  (field.name === "task_feedback" &&
+                    (this.props.user === "partner" ||
+                      this.props.user === "manager"))
+                }
                 defaultValue={data[field.name]}
                 placeholder={field.label}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
-              <div className="form-control-position">
-                {/* <Mail size={15} /> */}
-              </div>
             </FormGroup>
           </Col>
         );
@@ -263,25 +268,29 @@ class Edit extends React.Component {
         );
         break;
       case "select one":
-        res = (
-          <Col md="12" key={field.name}>
-            <Label>{field.label}</Label>
-            <FormGroup className="form-label-group position-relative has-icon-left">
-              <CustomInput
-                className="square"
-                type="select"
-                defaultValue={data[field.name]}
-                id={field.name}
-                placeholder={field.label}
-                onChange={(e) => this.updateState(field.name, e.target.value)}
-              >
-                <option>Select</option>
-                {this.renderSelectOption(field.choices)}
-              </CustomInput>
-            </FormGroup>
-          </Col>
-        );
-        break;
+        if (field.name === "has_feedback") {
+          res = <div key={field.name} />;
+        } else {
+          res = (
+            <Col md="12" key={field.name}>
+              <Label>{field.label}</Label>
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <CustomInput
+                  className="square"
+                  type="select"
+                  defaultValue={data[field.name]}
+                  id={field.name}
+                  placeholder={field.label}
+                  onChange={(e) => this.updateState(field.name, e.target.value)}
+                >
+                  <option>Select</option>
+                  {this.renderSelectOption(field.choices)}
+                </CustomInput>
+              </FormGroup>
+            </Col>
+          );
+          break;
+        }
 
       default:
         res = <div key={field.name}></div>;
@@ -410,6 +419,7 @@ function mapStateToProps(state) {
   return {
     state: state,
     app_reducer: state.app.app_reducer,
+    user: state.auth.login.userRole,
   };
 }
 
