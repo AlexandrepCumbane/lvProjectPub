@@ -58,7 +58,7 @@ class Create extends React.Component {
     return (
       <div>
         <Card className="rounded-0 mb-0 px-2">
-          <CardBody>{this.renderForm()}</CardBody>{" "}
+          <CardBody>{this.renderForm()}</CardBody>
         </Card>
       </div>
     );
@@ -67,10 +67,7 @@ class Create extends React.Component {
   /**
    * Action and helper functions
    */
-
   renderForm = () => {
-    // const form_ = this.props.state.auth.login.config.pages.lvform;
-
     const form_ = config.pages[this.props.path];
 
     return (
@@ -146,9 +143,6 @@ class Create extends React.Component {
                       this.updateState(field.name, e.target.value)
                     }
                   />
-                  <div className="form-control-position">
-                    {/* <Mail size={15} /> */}
-                  </div>
                 </FormGroup>
               </Col>
             </>
@@ -166,9 +160,6 @@ class Create extends React.Component {
                   placeholder={field.label}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
-                <div className="form-control-position">
-                  {/* <Mail size={15} /> */}
-                </div>
               </FormGroup>
             </Col>
           );
@@ -222,9 +213,6 @@ class Create extends React.Component {
                         this.updateState(field.name, e.target.value)
                       }
                     />
-                    <div className="form-control-position">
-                      {/* <Mail size={15} /> */}
-                    </div>
                   </FormGroup>
                 </>
               </Col>
@@ -245,9 +233,6 @@ class Create extends React.Component {
                       this.updateState(field.name, e.target.value)
                     }
                   />
-                  <div className="form-control-position">
-                    {/* <Mail size={15} /> */}
-                  </div>
                 </FormGroup>
               </Col>
             );
@@ -267,9 +252,6 @@ class Create extends React.Component {
                 placeholder={field.label}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
-              <div className="form-control-position">
-                {/* <Mail size={15} /> */}
-              </div>
             </FormGroup>
           </Col>
         );
@@ -287,9 +269,6 @@ class Create extends React.Component {
                   // defaultValue={this.state.email}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
-                <div className="form-control-position">
-                  {/* <Mail size={15} /> */}
-                </div>
               </FormGroup>
             </Col>
           ) : (
@@ -307,9 +286,6 @@ class Create extends React.Component {
                   // defaultValue={this.state.email}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
-                <div className="form-control-position">
-                  {/* <Mail size={15} /> */}
-                </div>
               </FormGroup>
             </Col>
           );
