@@ -1,6 +1,6 @@
 """caseproject URL Configuration
 
-The `urlpatterns` list routes URLs to views. For more information please see:
+The urlpatterns list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.0/topics/http/urls/
 Examples:
 Function views
@@ -23,7 +23,9 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from django.views.decorators.csrf import csrf_exempt
-from graphene_django.views import GraphQLs
+from graphene_django.views import GraphQLView
+
+schema_view = get_schema_view(
    openapi.Info(
       title="LinhaVerde API",
       default_version='v1',
