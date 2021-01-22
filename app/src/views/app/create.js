@@ -84,9 +84,9 @@ class Create extends React.Component {
           ) : (
             <Alert color="danger" className="square">
               <Label className="text-danger">
-                All these fields are required{" "}
+                {`${this.translate("Required fields")}: `}
                 {this.state.required_fields_labels.map((item, index) => (
-                  <strong key={index}>{item}, </strong>
+                  <strong key={index}>{this.translate(item)}, </strong>
                 ))}
               </Label>
             </Alert>
