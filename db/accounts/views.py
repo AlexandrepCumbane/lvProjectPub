@@ -1,3 +1,4 @@
+from re import error
 from django.shortcuts import render
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -26,7 +27,10 @@ class UserViewSet(ModelViewSet):
     @action(detail=True, methods=['get'])
     def forwardcasetofocalpoints(self, request, *args, **kwargs):
 
-        users = CustomUser.objects.filter(groups__name='focalpoint')
-        page = self.paginate_queryset(users)
-        serializer = self.serializer_class(page, many=True)
-        return self.get_paginated_response(serializer.data)
+        try:
+            users = CustomUser.objects.filter(groups__name='focalpoint')
+            page = self.paginate_queryset(users)
+            serializer = self.serializer_class(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        except:
+            return Response(status=status.HTTP_200_OK)
