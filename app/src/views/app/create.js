@@ -1,9 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { toast, Bounce } from "react-toastify";
-import {
-  requestDropodowns,
-} from "../../redux/actions/app/actions";
+import { requestDropodowns } from "../../redux/actions/app/actions";
 import { IntlContext } from "../../i18n/provider";
 import { history } from "../../history";
 import { axios } from "../../redux/api";
@@ -24,7 +22,6 @@ import {
 import { Check } from "react-feather";
 
 import Checkbox from "../../components/@vuexy/checkbox/CheckboxesVuexy";
-
 
 class Create extends React.Component {
   static contextType = IntlContext;
@@ -138,13 +135,13 @@ class Create extends React.Component {
             <>
               <Col key={field.name + "_"} md="6" />
               <Col md="6" key={field.name}>
-                <Label>{this.translate(field.label)}</Label>
+                <Label>{field.label}</Label>
                 <FormGroup className="form-label-group position-relative has-icon-left">
                   <Input
                     type="textarea"
                     rows={7}
                     className="square"
-                    placeholder={this.translate(field.label)}
+                    placeholder={field.label}
                     onChange={(e) =>
                       this.updateState(field.name, e.target.value)
                     }
@@ -159,14 +156,14 @@ class Create extends React.Component {
         } else {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{this.translate(field.label)}</Label>
+              <Label>{field.label}</Label>
 
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
                   type="textarea"
                   rows={7}
                   className="square"
-                  placeholder={this.translate(field.label)}
+                  placeholder={field.label}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
                 <div className="form-control-position">
@@ -181,14 +178,14 @@ class Create extends React.Component {
         if (field["wq:ForeignKey"]) {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{this.translate(field.label)}</Label>
+              <Label>{field.label}</Label>
 
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <CustomInput
                   className="square"
                   type="select"
                   id={field.name}
-                  placeholder={this.translate(field.label)}
+                  placeholder={field.label}
                   onChange={(e) => {
                     this.updateState(`${field.name}_id`, e.target.value);
                     if (field["children"]) {
@@ -214,13 +211,13 @@ class Create extends React.Component {
             res = this.checkboxValue(field.depends_on) ? (
               <Col md="6" key={field.name}>
                 <>
-                  <Label>{this.translate(field.label)}</Label>
+                  <Label>{field.label}</Label>
 
                   <FormGroup className="form-label-group position-relative has-icon-left">
                     <Input
                       type="text"
                       className="square"
-                      placeholder={this.translate(field.label)}
+                      placeholder={field.label}
                       onChange={(e) =>
                         this.updateState(field.name, e.target.value)
                       }
@@ -237,13 +234,13 @@ class Create extends React.Component {
           } else {
             res = (
               <Col md="6" key={field.name}>
-                <Label>{this.translate(field.label)}</Label>
+                <Label>{field.label}</Label>
 
                 <FormGroup className="form-label-group position-relative has-icon-left">
                   <Input
                     type="text"
                     className="square"
-                    placeholder={this.translate(field.label)}
+                    placeholder={field.label}
                     onChange={(e) =>
                       this.updateState(field.name, e.target.value)
                     }
@@ -261,13 +258,13 @@ class Create extends React.Component {
       case "date":
         res = (
           <Col md="6" key={field.name}>
-            <Label>{this.translate(field.label)}</Label>
+            <Label>{field.label}</Label>
 
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
                 type="date"
                 className="square"
-                placeholder={this.translate(field.label)}
+                placeholder={field.label}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
               <div className="form-control-position">
@@ -281,7 +278,7 @@ class Create extends React.Component {
         if (field["depends_on"]) {
           res = this.checkboxValue(field.depends_on) ? (
             <Col md="6" key={field.name}>
-              <Label>{this.translate(field.label)}</Label>
+              <Label>{field.label}</Label>
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
                   type="number"
@@ -301,12 +298,12 @@ class Create extends React.Component {
         } else {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{this.translate(field.label)}</Label>
+              <Label>{field.label}</Label>
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
                   type="number"
                   className="square"
-                  placeholder={this.translate(field.label)}
+                  placeholder={field.label}
                   // defaultValue={this.state.email}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
@@ -326,7 +323,7 @@ class Create extends React.Component {
                 <Checkbox
                   color="primary"
                   icon={<Check className="vx-icon" size={16} />}
-                  label={this.translate(field.label)}
+                  label={field.label}
                   defaultChecked={false}
                   onChange={(e) =>
                     this.updateState(
@@ -345,7 +342,7 @@ class Create extends React.Component {
                 <Checkbox
                   color="primary"
                   icon={<Check className="vx-icon" size={16} />}
-                  label={this.translate(field.label)}
+                  label={field.label}
                   defaultChecked={false}
                   onChange={(e) =>
                     this.updateState(
@@ -360,13 +357,13 @@ class Create extends React.Component {
         } else {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{this.translate(field.label)}</Label>
+              <Label>{field.label}</Label>
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <CustomInput
                   className="square"
                   type="select"
                   id={field.name}
-                  placeholder={this.translate(field.label)}
+                  placeholder={field.label}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 >
                   <option>Select</option>
@@ -389,7 +386,7 @@ class Create extends React.Component {
   renderSelectOption = (choices) => {
     return choices.map((item) => (
       <option key={item.name} value={item.name}>
-        {this.translate(item.label)}
+        {item.label}
       </option>
     ));
   };
@@ -397,7 +394,7 @@ class Create extends React.Component {
   renderSelectOptionForeignWQ = (choices) => {
     return choices.map((item) => (
       <option key={item.id} value={item.id}>
-        {this.translate(item.label)}
+        {item.label}
       </option>
     ));
   };
