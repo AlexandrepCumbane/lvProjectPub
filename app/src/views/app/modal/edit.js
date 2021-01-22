@@ -48,7 +48,6 @@ class Edit extends React.Component {
     const { form } = config.pages[this.props.page];
     const { data } = this.props;
 
-    console.log(data);
     let formdata = new FormData();
 
     form.forEach((item) => {
@@ -57,6 +56,13 @@ class Edit extends React.Component {
         data[item["wq:ForeignKey"] ? item.name + "_id" : item.name]
       );
     });
+
+    if (
+      this.props.user === "partner" &&
+      this.props.page === "forwardinginstitution"
+    ) {
+      this.updateState("has_feedback", true);
+    }
 
     formdata.append("id", data["id"]);
 
@@ -213,6 +219,11 @@ class Edit extends React.Component {
                 id={field.name}
                 defaultValue={data[`${field.name}_id`]}
                 placeholder={field.label}
+                disabled={
+                  field.name === "referall_to" &&
+                  (this.props.user === "partner" ||
+                    this.props.user === "manager")
+                }
                 onChange={(e) =>
                   this.updateState(`${field.name}_id`, e.target.value)
                 }
@@ -280,6 +291,14 @@ class Edit extends React.Component {
                   type="select"
                   defaultValue={data[field.name]}
                   id={field.name}
+                  disabled={
+                    (field.name === "isFeedback_aproved" &&
+                      (this.props.user === "partner" ||
+                        this.props.user === "manager")) ||
+                    (field.name === "referall_to" &&
+                      (this.props.user === "partner" ||
+                        this.props.user === "manager"))
+                  }
                   placeholder={field.label}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 >
@@ -391,6 +410,7 @@ class Edit extends React.Component {
       this.setState({ isValid: false });
     } else {
       this.setState({ isValid: true });
+
       axios
         .put(
           `${this.props.page}s/${this.props.data.id}.json`,
