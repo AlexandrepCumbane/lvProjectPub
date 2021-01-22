@@ -25,10 +25,13 @@ import classnames from "classnames";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "../../assets/scss/plugins/extensions/editor.scss";
 import ModalEdit from "./modal/edit";
+import { IntlContext } from "../../i18n/provider";
 
 import config from "../../data/config";
 
 class Edit extends Component {
+  static contextType = IntlContext;
+  translate = this.context.translate;
   notifySuccessBounce = (id = "") =>
     toast.success(`Object created successfuly!`, { transition: Bounce });
 
@@ -500,8 +503,8 @@ class Edit extends Component {
                     type="textarea"
                     rows={7}
                     className="square"
-                    placeholder={field.label}
                     disabled={!this.state.edit_status}
+                    placeholder={this.translate(field.label)}
                     defaultValue={data[field.name]}
                     onChange={(e) =>
                       this.updateState(field.name, e.target.value)
@@ -524,8 +527,9 @@ class Edit extends Component {
           res = (
             <Col md="6" key={field.name}>
               <Label>
-                <strong>{field.label}</strong>
+                <strong>{this.translate(field.label)}</strong>
               </Label>
+
 
               {this.state.edit_status ? (
                 <FormGroup className="form-label-group position-relative has-icon-left">
