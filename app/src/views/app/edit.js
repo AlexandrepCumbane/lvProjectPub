@@ -201,9 +201,9 @@ class Edit extends Component {
       // && forwardinginstitution["has_feedback"]) {
       return (
         <>
-          <div className="divider">
+          {/* <div className="divider">
             <div className="divider-text"> Partner Feedback</div>
-          </div>
+          </div> */}
           <ListGroup
             flush
             className="rounded-0 mb-2"
@@ -217,7 +217,7 @@ class Edit extends Component {
           >
             <ListGroupItem>
               <div className="d-flex justify-content-between w-100">
-                <h5 className="mb-1">Partner Feedback</h5>
+                <h6 className="mb-1">Partner Feedback</h6>
                 <small>{forwardinginstitution.isFeedback_aproved_label}</small>
               </div>
               <p className="mb-1">{forwardinginstitution.partner_feedback} </p>
