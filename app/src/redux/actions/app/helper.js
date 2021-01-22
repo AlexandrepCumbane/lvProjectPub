@@ -44,7 +44,11 @@ export const handleForm = (dispatch, payload) =>
           .then(() => {
             return getUser(dispatch);
           })
-          .catch(() => {});
+          .catch(() => {
+            authService.logout().then(() => {
+              authService.login();
+            });
+          });
 
         dispatch({
           type: "FORM_FAILED",
@@ -90,7 +94,11 @@ const requestSingle = (dispatch) => {
                 .then(() => {
                   return getUser(dispatch);
                 })
-                .catch(() => {});
+                .catch(() => {
+                  authService.logout().then(() => {
+                    authService.login();
+                  });
+                });
               return response;
             });
         } else {
@@ -115,7 +123,11 @@ const requestSingle = (dispatch) => {
                 .then(() => {
                   return getUser(dispatch);
                 })
-                .catch(() => {});
+                .catch(() => {
+                  authService.logout().then(() => {
+                    authService.login();
+                  });
+                });
               return response;
             });
         }
