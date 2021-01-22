@@ -114,9 +114,6 @@ class Create extends React.Component {
 
   checkboxValue = (field_name) => {
     const { form } = this.state;
-
-    console.log("Field Value: ", form.get(field_name));
-
     if (form.get(field_name) === "true") {
       return true;
     }
@@ -139,7 +136,7 @@ class Create extends React.Component {
                     type="textarea"
                     rows={7}
                     className="square"
-                    placeholder={field.label}
+                    placeholder={this.translate(field.label)}
                     onChange={(e) =>
                       this.updateState(field.name, e.target.value)
                     }
@@ -158,7 +155,7 @@ class Create extends React.Component {
                   type="textarea"
                   rows={7}
                   className="square"
-                  placeholder={field.label}
+                  placeholder={this.translate(field.label)}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
               </FormGroup>
@@ -177,7 +174,7 @@ class Create extends React.Component {
                   className="square"
                   type="select"
                   id={field.name}
-                  placeholder={field.label}
+                  placeholder={this.translate(field.label)}
                   onChange={(e) => {
                     this.updateState(`${field.name}_id`, e.target.value);
                     if (field["children"]) {
@@ -208,7 +205,7 @@ class Create extends React.Component {
                     <Input
                       type="text"
                       className="square"
-                      placeholder={field.label}
+                      placeholder={this.translate(field.label)}
                       onChange={(e) =>
                         this.updateState(field.name, e.target.value)
                       }
@@ -227,7 +224,7 @@ class Create extends React.Component {
                   <Input
                     type="text"
                     className="square"
-                    placeholder={field.label}
+                    placeholder={this.translate(field.label)}
                     onChange={(e) =>
                       this.updateState(field.name, e.target.value)
                     }
@@ -247,7 +244,7 @@ class Create extends React.Component {
               <Input
                 type="date"
                 className="square"
-                placeholder={field.label}
+                placeholder={this.translate(field.label)}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
             </FormGroup>
@@ -264,8 +261,7 @@ class Create extends React.Component {
                 <Input
                   type="number"
                   className="square"
-                  placeholder={field.label}
-                  // defaultValue={this.state.email}
+                  placeholder={this.translate(field.label)}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
               </FormGroup>
@@ -281,8 +277,7 @@ class Create extends React.Component {
                 <Input
                   type="number"
                   className="square"
-                  placeholder={field.label}
-                  // defaultValue={this.state.email}
+                  placeholder={this.translate(field.label)}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
               </FormGroup>
@@ -338,7 +333,7 @@ class Create extends React.Component {
                   className="square"
                   type="select"
                   id={field.name}
-                  placeholder={field.label}
+                  placeholder={this.translate(field.label)}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 >
                   <option>Select</option>
