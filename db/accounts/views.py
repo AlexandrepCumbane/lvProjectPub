@@ -27,10 +27,12 @@ class UserViewSet(ModelViewSet):
     @action(detail=True, methods=['get'])
     def forwardcasetofocalpoints(self, request, *args, **kwargs):
 
-        try:
+        user_data = CustomUserSerializer(request.user).data
+
+        if "focalpoint" in user_data['groups_label']:
             users = CustomUser.objects.filter(groups__name='focalpoint')
             page = self.paginate_queryset(users)
             serializer = self.serializer_class(page, many=True)
             return self.get_paginated_response(serializer.data)
-        except:
-            return Response(status=status.HTTP_200_OK)
+
+        return Response(status=status.HTTP_200_OK)
