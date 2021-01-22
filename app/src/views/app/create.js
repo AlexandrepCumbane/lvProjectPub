@@ -5,7 +5,7 @@ import { requestDropodowns } from "../../redux/actions/app/actions";
 import { IntlContext } from "../../i18n/provider";
 import { history } from "../../history";
 import { axios } from "../../redux/api";
-// import translate from '../../i18n/translate';
+
 import config from "../../data/config";
 import {
   Alert,
@@ -26,8 +26,11 @@ import Checkbox from "../../components/@vuexy/checkbox/CheckboxesVuexy";
 class Create extends React.Component {
   static contextType = IntlContext;
   translate = this.context.translate;
-  notifySuccessBounce = (id = "") =>
-    toast.success(`Object created successfuly!`, { transition: Bounce });
+
+  notifySuccessBounce = () =>
+    toast.success(this.translate(`Transaction completed successfuly!`), {
+      transition: Bounce,
+    });
 
   notifyErrorBounce = (error) =>
     toast.error(error, {
@@ -44,9 +47,7 @@ class Create extends React.Component {
   };
   componentDidMount() {
     this.props.requestDropodowns(); // Request dropdown lists and place in a map
-
     const { form } = config.pages[this.props.path]; // loads lvform to be rendered on view
-
     form.forEach((item, index) => {
       this.addToRequired(item);
     });
@@ -73,7 +74,7 @@ class Create extends React.Component {
     return (
       <Row>
         <Col md="12">
-          <h4>Register form for: {form_.verbose_name}</h4>
+          <h4>Register a new record: {form_.verbose_name}</h4>
           <p>{form_.verbose_name}.</p>
           <hr />
         </Col>
@@ -132,7 +133,7 @@ class Create extends React.Component {
             <>
               <Col key={field.name + "_"} md="6" />
               <Col md="6" key={field.name}>
-                <Label>{field.label}</Label>
+                <Label>{this.translate(field.label)}</Label>
                 <FormGroup className="form-label-group position-relative has-icon-left">
                   <Input
                     type="textarea"
@@ -150,7 +151,7 @@ class Create extends React.Component {
         } else {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
+              <Label>{this.translate(field.label)}</Label>
 
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
@@ -169,7 +170,7 @@ class Create extends React.Component {
         if (field["wq:ForeignKey"]) {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
+              <Label>{this.translate(field.label)}</Label>
 
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <CustomInput
@@ -202,8 +203,7 @@ class Create extends React.Component {
             res = this.checkboxValue(field.depends_on) ? (
               <Col md="6" key={field.name}>
                 <>
-                  <Label>{field.label}</Label>
-
+                  <Label>{this.translate(field.label)}</Label>
                   <FormGroup className="form-label-group position-relative has-icon-left">
                     <Input
                       type="text"
@@ -222,8 +222,7 @@ class Create extends React.Component {
           } else {
             res = (
               <Col md="6" key={field.name}>
-                <Label>{field.label}</Label>
-
+                <Label>{this.translate(field.label)}</Label>
                 <FormGroup className="form-label-group position-relative has-icon-left">
                   <Input
                     type="text"
@@ -243,8 +242,7 @@ class Create extends React.Component {
       case "date":
         res = (
           <Col md="6" key={field.name}>
-            <Label>{field.label}</Label>
-
+            <Label>{this.translate(field.label)}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
                 type="date"
@@ -260,7 +258,8 @@ class Create extends React.Component {
         if (field["depends_on"]) {
           res = this.checkboxValue(field.depends_on) ? (
             <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
+              {" "}
+              <Label>{this.translate(field.label)}</Label>
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
                   type="number"
@@ -277,7 +276,7 @@ class Create extends React.Component {
         } else {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
+              <Label>{this.translate(field.label)}</Label>
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
                   type="number"
@@ -299,7 +298,7 @@ class Create extends React.Component {
                 <Checkbox
                   color="primary"
                   icon={<Check className="vx-icon" size={16} />}
-                  label={field.label}
+                  label={this.translate(field.label)}
                   defaultChecked={false}
                   onChange={(e) =>
                     this.updateState(
@@ -318,7 +317,7 @@ class Create extends React.Component {
                 <Checkbox
                   color="primary"
                   icon={<Check className="vx-icon" size={16} />}
-                  label={field.label}
+                  label={this.translate(field.label)}
                   defaultChecked={false}
                   onChange={(e) =>
                     this.updateState(
@@ -333,7 +332,7 @@ class Create extends React.Component {
         } else {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
+              <Label>{this.translate(field.label)}</Label>
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <CustomInput
                   className="square"
