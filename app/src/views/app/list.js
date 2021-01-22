@@ -9,7 +9,7 @@ import AgGridTable from "../../components/custom/table/AgGridTable";
 
 import { default as config } from "../../data/config";
 import { IntlContext } from "../../i18n/provider";
-
+// import translate from '../../i18n/translate'
 import {
   requestForm,
   requestDropodowns,
@@ -175,7 +175,7 @@ class List extends Component {
         }
       } else
         return {
-          headerName: item.label,
+          headerName: this.translate(item.label),
           field: `${item.name}`,
           width: 250,
           filter: true,
