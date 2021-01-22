@@ -196,7 +196,9 @@ class Edit extends React.Component {
                       this.props.user === "manager")) ||
                   (field.name === "task_feedback" &&
                     (this.props.user === "partner" ||
-                      this.props.user === "manager"))
+                      this.props.user === "manager")) ||
+                  (field.name === "description" &&
+                    this.props.user === "operator")
                 }
                 defaultValue={data[field.name]}
                 placeholder={field.label}
@@ -220,9 +222,10 @@ class Edit extends React.Component {
                 defaultValue={data[`${field.name}_id`]}
                 placeholder={field.label}
                 disabled={
-                  field.name === "referall_to" &&
-                  (this.props.user === "partner" ||
-                    this.props.user === "manager")
+                  (field.name === "referall_to" &&
+                    (this.props.user === "partner" ||
+                      this.props.user === "manager")) ||
+                  field.name === "assignee"
                 }
                 onChange={(e) =>
                   this.updateState(`${field.name}_id`, e.target.value)
