@@ -276,7 +276,7 @@ class Edit extends Component {
                   title={`Send to Focal Point`}
                   page="forwardcasetofocalpoint"
                   label="Send"
-                  lvform_id={data['id']}
+                  lvform_id={data["id"]}
                 />
                 {/* <Modal
                   title={`Add your feedback`}
@@ -297,7 +297,7 @@ class Edit extends Component {
               page="casecomment"
               label="Feedback"
               color="secondary"
-              lvform_id={data['id']}
+              lvform_id={data["id"]}
             />
           </div>
         );
@@ -396,7 +396,7 @@ class Edit extends Component {
               {this.renderTasks()}
             </Col>
             <Col md="12">
-              <strong>Othern Comments</strong>
+              <strong>Comments</strong>
               {this.renderComments()}
             </Col>
           </>
@@ -529,7 +529,6 @@ class Edit extends Component {
               <Label>
                 <strong>{this.translate(field.label)}</strong>
               </Label>
-
 
               {this.state.edit_status ? (
                 <FormGroup className="form-label-group position-relative has-icon-left">
