@@ -145,7 +145,7 @@ class List extends Component {
         if (index === 0) {
           return {
             headerName: item.label,
-            field: `${item.name}_label`,
+            field: this.translate("`${item.name}_label`") ,
             width: 250,
             filter: true,
             cellRendererFramework: ({ data }) => {
@@ -155,8 +155,8 @@ class List extends Component {
         } else {
           if (`${item.name}_label` === `${this.props.path}_status_label`)
             return {
-              headerName: item.label,
-              field: `${item.name}_label`,
+              headerName: this.translate(item.label),
+              field: this.translate(`${item.name}_label`),
               width: 250,
               filter: true,
               cellRendererFramework: ({ data }) => {
@@ -165,7 +165,7 @@ class List extends Component {
             };
           else
             return {
-              headerName: item.label,
+              headerName: this.translate(item.label),
               field: `${item.name}_label`,
               width: 250,
               filter: true,
