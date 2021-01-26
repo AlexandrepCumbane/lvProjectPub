@@ -32,7 +32,7 @@ import config from "../../data/config";
 class Edit extends Component {
   static contextType = IntlContext;
   translate = this.context.translate;
-  notifySuccessBounce = (id = "") =>
+  notifySuccessBounce = () =>
     toast.success(`Object created successfuly!`, { transition: Bounce });
 
   notifyErrorBounce = (error) =>
@@ -327,12 +327,14 @@ class Edit extends Component {
                   title={`Send to case to Entity`}
                   page="forwardinginstitution"
                   label="Send"
+                  lvform_id={data["id"]}
                 />
                 <Modal
                   title={`Add your feedback`}
                   page="casecomment"
                   label="Feedback"
                   color="secondary"
+                  lvform_id={data["id"]}
                 />
               </>
             )}
@@ -427,6 +429,7 @@ class Edit extends Component {
                 <div className="divider-text"> More Details </div>
               </div>
             </Col>
+            <Col md="6">{this.renderFeedbackComments()}</Col>
             <Col md="6">
               <strong>Comments</strong>
               {this.renderComments()}
