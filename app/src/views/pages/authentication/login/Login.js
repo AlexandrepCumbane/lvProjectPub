@@ -4,6 +4,7 @@ import { Card, CardBody, Row, Col } from "reactstrap";
 import {
   requestLogin,
   requestToken,
+  requestUpdateUser,
   requestGetUser,
 } from "../../../../redux/actions/auth/loginActions";
 
@@ -33,12 +34,14 @@ class Login extends React.Component {
   };
 
   componentDidMount() {
-    this.props.requestGetUser().then(() => {
-      const { userOauth } = this.props.auth_state;
-      if (userOauth === undefined) {
-        this.login();
+    this.authService.getUser().then((user) => {
+      if (user) {
+        this.props.requestUpdateUser(user).then(() => {
+          history.push("/welcome");
+        });
       } else {
-        history.push("/welcome");
+        console.log("Loggin");
+        this.login();
       }
     });
   }
@@ -89,5 +92,6 @@ export default connect(mapStateToProps, {
   requestLogin,
   requestToken,
   requestGetUser,
+  requestUpdateUser,
   requestDropodowns,
 })(Login);

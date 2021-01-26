@@ -56,10 +56,7 @@
   <script>
     new Oidc.UserManager({ response_mode: "query" })
       .signinRedirectCallback()
-      .then(function (e) {
-        console.log(e)
-        window.location = "/welcome";
-      })
+      .then(function (e) {})
       .catch(function (e) {
         console.error(e);
       });

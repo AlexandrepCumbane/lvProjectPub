@@ -5,6 +5,7 @@ import {
   requestLogin,
   requestToken,
   requestGetUser,
+  requestUpdateUser,
   changeRole,
 } from "../../redux/actions/auth/loginActions";
 
@@ -37,14 +38,15 @@ class Welcome extends React.Component {
   };
 
   componentDidMount() {
-    this.props.requestGetUser().then(() => {
-      const { userOauth } = this.props.auth_state;
-      if (userOauth === undefined) {
-        this.login();
-      } else {
-        this.test_connection(userOauth.access_token);
-      }
-    });
+    // this.authService.getUser().then((user) => {
+    if (this.props.userOauth === undefined) {
+      this.authService.login();
+    } else {
+      this.props.requestUpdateUser(this.props.userOauth).then(() => {
+        this.test_connection(this.props.userOauth.access_token);
+      });
+    }
+    // });
   }
 
   /**
@@ -65,10 +67,6 @@ class Welcome extends React.Component {
         history.push("/home");
       })
       .catch(() => {});
-  };
-
-  login = () => {
-    this.authService.login();
   };
 
   render() {
@@ -103,6 +101,7 @@ function mapStateToProps(state) {
   return {
     state: state,
     auth_state: state.auth.login,
+    userOauth: state.auth.login.userOauth,
   };
 }
 
@@ -112,4 +111,5 @@ export default connect(mapStateToProps, {
   requestGetUser,
   changeRole,
   requestDropodowns,
+  requestUpdateUser,
 })(Welcome);
