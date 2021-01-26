@@ -262,7 +262,13 @@ class Edit extends Component {
                 <small>{forwardinginstitution.isFeedback_aproved_label}</small>
               </div>
               <p className="mb-1">{forwardinginstitution.partner_feedback} </p>
-              <small>{forwardinginstitution.referall_to_label}</small>
+
+              <div className="d-flex justify-content-between w-100">
+                <small>{forwardinginstitution.referall_to_label}</small>{" "}
+                <small className="text-primary" style={{ cursor: "pointer" }}>
+                  Read more...
+                </small>
+              </div>
             </ListGroupItem>
           </ListGroup>
         </>
@@ -333,7 +339,7 @@ class Edit extends Component {
             <Modal
               title={`Add your feedback`}
               page="casecomment"
-              label="Feedback"
+              label="Comment"
               color="secondary"
               lvform_id={data["id"]}
             />
@@ -436,7 +442,6 @@ class Edit extends Component {
               {this.renderTasks()}
             </Col>
             <Col md="12">
-              <strong>Comments</strong>
               {this.renderComments()}
             </Col>
           </>
