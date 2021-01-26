@@ -40,7 +40,6 @@ class Login extends React.Component {
           history.push("/welcome");
         });
       } else {
-        console.log("Loggin");
         this.login();
       }
     });
