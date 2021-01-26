@@ -9,48 +9,25 @@ import {
 } from "reactstrap";
 import ReactCountryFlag from "react-country-flag";
 import * as Icon from "react-feather";
-import { history } from "../../../history";
 
 import { IntlContext } from "../../../i18n/index";
 
-import { axios } from "../../../redux/api";
 import { changeRole } from "../../../redux/actions/auth/loginActions";
+import { AuthService } from "../../../redux/oidc-config/services/authservice";
 
 const UserDropdown = (props) => {
   return (
     <DropdownMenu right>
-      {/* <DropdownItem tag="a" href="#">
-        <Icon.User size={14} className="mr-50" />
-        <span className="align-middle">Edit Profile</span>
-      </DropdownItem>
-      <DropdownItem tag="a" href="#">
-        <Icon.Mail size={14} className="mr-50" />
-        <span className="align-middle">My Inbox</span>
-      </DropdownItem> */}
       <DropdownItem tag="a" href="#">
         <Icon.CheckSquare size={14} className="mr-50" />
         <span className="align-middle">Tasks</span>
       </DropdownItem>
-      {/* <DropdownItem tag="a" href="#">
-        <Icon.MessageSquare size={14} className="mr-50" />
-        <span className="align-middle">Chats</span>
-      </DropdownItem>
-      <DropdownItem tag="a" href="#">
-        <Icon.Heart size={14} className="mr-50" />
-        <span className="align-middle">WishList</span>
-      </DropdownItem>
-      <DropdownItem divider /> */}
       <DropdownItem
         tag="a"
         href="#"
         onClick={(e) => {
           props.changeRole("Not-auth");
-          axios
-            .get("logout.json")
-            .then(() => {
-              history.push("/pages/login");
-            })
-            .catch((err) => console.log(err));
+          new AuthService().logout();
         }}
       >
         <Icon.Power size={14} className="mr-50" />
