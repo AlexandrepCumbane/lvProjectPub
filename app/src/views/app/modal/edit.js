@@ -311,8 +311,9 @@ class Edit extends React.Component {
               </FormGroup>
             </Col>
           );
-          break;
         }
+
+        break;
 
       default:
         res = <div key={field.name}></div>;
