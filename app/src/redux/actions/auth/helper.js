@@ -74,3 +74,14 @@ export const getUser = (dispatch) => {
     });
   });
 };
+
+export const updateUser = (dispatch, payload) => {
+  return new Promise((resolve, reject) => {
+    dispatch({
+      type: "OAUTH_SUCCESS",
+      userOauth: payload,
+    });
+
+    resolve();
+  });
+};
