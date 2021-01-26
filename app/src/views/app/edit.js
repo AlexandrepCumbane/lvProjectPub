@@ -18,6 +18,7 @@ import { requestDropodowns } from "../../redux/actions/app/actions";
 import { axios } from "../../redux/api";
 
 import Modal from "./modal/create";
+import ListModal from "./modal/list";
 
 import { X } from "react-feather";
 import PerfectScrollbar from "react-perfect-scrollbar";
@@ -49,6 +50,8 @@ class Edit extends Component {
     showModal: false,
     selectedData: {},
     modal_form: "task",
+    modal_list: false,
+    modal_list_data: {},
   };
 
   componentDidMount() {
@@ -154,14 +157,34 @@ class Edit extends Component {
     );
   }
 
+  toggleListModal = () => {
+    this.setState((prevState) => ({
+      modal_list: !prevState.modal_list,
+    }));
+  };
+
+  raiseListData(item) {
+    this.setState({ modal_list_data: item });
+    this.toggleListModal();
+  }
+
   renderTasks = () => {
     const { task_set } = this.props.data;
 
     return (
       <ListGroup flush className="rounded-0">
+        {this.state.modal_list ? (
+          <ListModal
+            modal={this.state.modal_list}
+            toggleModal={this.toggleListModal}
+            data={this.state.modal_list_data}
+          />
+        ) : (
+          <></>
+        )}
         {task_set.map((item) => {
           return (
-            <ListGroupItem>
+            <ListGroupItem onClick={() => this.raiseListData(item)}>
               <div className="d-flex justify-content-between w-100">
                 <h5 className="mb-1">{item.task_title_label}</h5>
                 <small>{item.end_date}</small>
