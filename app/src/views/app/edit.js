@@ -200,7 +200,12 @@ class Edit extends Component {
                 {badge}
               </div>
               <p className="mb-1">{item.description} </p>
-              <small>{item.assignee_label}</small>
+              <div className="d-flex justify-content-between w-100">
+                <small>{item.assignee_label}</small>{" "}
+                <small className="text-primary" style={{ cursor: "pointer" }}>
+                  Read Comments
+                </small>
+              </div>
             </ListGroupItem>
           );
         })}
