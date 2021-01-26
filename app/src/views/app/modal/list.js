@@ -33,12 +33,12 @@ class ModalForm extends React.Component {
           {taskcomment_set.map((item) => {
             return (
               <ListGroupItem>
-                <div className="d-flex justify-content-between w-100">
-                  <h5 className="mb-1"></h5>
+                <div className="d-flex justify-content-between w-100 mb-2">
+                  <small>{item.created_by_label}</small>
                   <small>{item.datetime_created_label}</small>
                 </div>
                 <p className="mb-1">{item.feedback} </p>
-                <small>{item.assignee_label}</small>
+                {/* <small>{item.created_by_label}</small> */}
               </ListGroupItem>
             );
           })}

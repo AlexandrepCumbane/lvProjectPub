@@ -36,9 +36,8 @@ class ForwardingInstitutionSerializer(patterns.AttachedModelSerializer):
 class TaskCommentSerializer(patterns.AttachedModelSerializer):
     class Meta:  #(patterns.AttachmentSerializer.Meta):
         model = TaskComment
-        exclude = ('created_by', )
-        # exclude = ('lvform',)
-        # object_field = 'lvform'
+        fields = '__all__'
+        read_only_fields = ('created_by', ) 
 
     def create(self, validated_data):
         form = TaskComment.objects.create(
