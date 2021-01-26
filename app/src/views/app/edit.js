@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
+  Badge,
   Col,
   Row,
   Input,
@@ -183,11 +184,20 @@ class Edit extends Component {
           <></>
         )}
         {task_set.map((item) => {
+          let badge = <></>;
+
+          if (item.taskcomment_set.length > 0) {
+            badge = (
+              <Badge className="mb-1" color="primary" pill>
+                {item.taskcomment_set.length}
+              </Badge>
+            );
+          }
           return (
             <ListGroupItem onClick={() => this.raiseListData(item)}>
-              <div className="d-flex justify-content-between w-100">
+              <div className="d-flex justify-content-between w-100 align-items-center">
                 <h5 className="mb-1">{item.task_title_label}</h5>
-                <small>{item.end_date}</small>
+                {badge}
               </div>
               <p className="mb-1">{item.description} </p>
               <small>{item.assignee_label}</small>

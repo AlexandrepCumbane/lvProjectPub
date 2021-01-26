@@ -26,22 +26,26 @@ class ModalForm extends React.Component {
   renderTaskComments = () => {
     const { taskcomment_set } = this.props.data;
 
-    return (
-      <ListGroup flush className="rounded-0">
-        {taskcomment_set.map((item) => {
-          return (
-            <ListGroupItem>
-              <div className="d-flex justify-content-between w-100">
-                <h5 className="mb-1"></h5>
-                <small>{item.datetime_created_label}</small>
-              </div>
-              <p className="mb-1">{item.feedback} </p>
-              <small>{item.assignee_label}</small>
-            </ListGroupItem>
-          );
-        })}
-      </ListGroup>
-    );
+    let res = <p>No comments for this record.</p>;
+    if (taskcomment_set.length > 0) {
+      res = (
+        <ListGroup flush className="rounded-0">
+          {taskcomment_set.map((item) => {
+            return (
+              <ListGroupItem>
+                <div className="d-flex justify-content-between w-100">
+                  <h5 className="mb-1"></h5>
+                  <small>{item.datetime_created_label}</small>
+                </div>
+                <p className="mb-1">{item.feedback} </p>
+                <small>{item.assignee_label}</small>
+              </ListGroupItem>
+            );
+          })}
+        </ListGroup>
+      );
+    }
+    return res;
   };
 
   render() {
