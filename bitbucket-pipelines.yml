@@ -10,7 +10,7 @@ pipelines:
     staging:
       - step:
           name: Build and Test
-          deployment: Staging
+          # deployment: Staging
           caches:
             #- nodeapp
             - yarn
