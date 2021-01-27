@@ -15,7 +15,7 @@ from .serializers import LvFormSerializer, TaskSerializer
 
 class LvFormViewSet(ModelViewSet):
 
-    queryset = LvForm.objects.all()
+    queryset = LvForm.objects.all().order_by('-id')
     serializer_class = LvFormSerializer
 
     def get_queryset_list(self, user) -> list:
@@ -104,7 +104,7 @@ class LvFormViewSet(ModelViewSet):
 
 class TaskViewSet(ModelViewSet):
 
-    queryset = Task.objects.all()
+    queryset = Task.objects.all().order_by('-id')
     serializer_class = TaskSerializer
 
     def get_queryset_list(self, user) -> list:

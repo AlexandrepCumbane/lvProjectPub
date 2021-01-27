@@ -15,7 +15,7 @@ from .serializer import CustomUserSerializer
 
 class UserViewSet(ModelViewSet):
 
-    queryset = CustomUser.objects.all()
+    queryset = CustomUser.objects.all().order_by('-id')
     serializer_class = CustomUserSerializer
 
     @action(detail=True, methods=['get'])
