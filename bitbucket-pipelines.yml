@@ -15,21 +15,24 @@ pipelines:
             #- nodeapp
             - yarn
           script:
-            - echo $REACT_APP_PUBLIC_URL
-          # artifacts:
-          #   - app/build/**
-      # - step:
-      #     name: Deploy to S3 Staging
-      #     deployment: Staging
-      #     script:
-      #       - pipe: atlassian/aws-s3-deploy:0.3.8
-      #         variables:
-      #           AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
-      #           AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-      #           AWS_DEFAULT_REGION: 'eu-west-1'
-      #           S3_BUCKET: 'staging.linha1458.moz.wfp.org'
-      #           LOCAL_PATH: 'app/build'
-      #           ACL: 'public-read'
+            - cd app/
+            - yarn
+            - unset CI
+            - yarn build
+          artifacts:
+            - app/build/**
+      - step:
+          name: Deploy to S3 Staging
+          deployment: Staging
+          script:
+            - pipe: atlassian/aws-s3-deploy:0.3.8
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_DEFAULT_REGION: 'eu-west-1'
+                S3_BUCKET: 'staging.linha1458.moz.wfp.org'
+                LOCAL_PATH: 'app/build'
+                ACL: 'public-read'
     '{master,dev,feature/*}':
       - step:
           name: Build and Test
