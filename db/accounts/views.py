@@ -30,9 +30,11 @@ class UserViewSet(ModelViewSet):
         user_data = CustomUserSerializer(request.user).data
 
         if "focalpoint" in user_data['groups_label']:
-            users = CustomUser.objects.filter(groups__name='focalpoint')
-            page = self.paginate_queryset(users)
-            serializer = self.serializer_class(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
+            try:
+                users = CustomUser.objects.filter(groups__name='focalpoint')
+                page = self.paginate_queryset(users)
+                serializer = self.serializer_class(page, many=True)
+                return self.get_paginated_response(serializer.data)
+            except CustomUser.DoesNotExist as error:
+                return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_200_OK)
