@@ -32,6 +32,7 @@ class AggridTable extends React.Component {
     currenPageSize: "",
     getPageSize: "",
     selectedData: {},
+    modalForm: "",
     defaultColDef: {
       sortable: true,
       editable: true,
@@ -79,7 +80,16 @@ class AggridTable extends React.Component {
                       this.setState({ showCallSidebar: true });
                     }
                     if (this.props.tableType === "task") {
-                      this.setState({ showTaskDialog: true });
+                      this.setState({
+                        showTaskDialog: true,
+                        modalForm: "task",
+                      });
+                    }
+                    if (this.props.tableType === "customuser") {
+                      this.setState({
+                        showTaskDialog: true,
+                        modalForm: "customuser",
+                      });
                     }
                   }}
                 />
@@ -156,6 +166,7 @@ class AggridTable extends React.Component {
       showSidebar,
       showCallSidebar,
       showTaskDialog,
+      modalForm,
     } = this.state;
     return (
       <React.Fragment>
@@ -177,7 +188,7 @@ class AggridTable extends React.Component {
           ) : showTaskDialog ? (
             <ModalEdit
               title={`Edit Task`}
-              page="task"
+              page={modalForm}
               label="Edit Task"
               color="info"
               modal={showTaskDialog}

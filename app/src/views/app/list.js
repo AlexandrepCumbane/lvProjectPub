@@ -169,6 +169,8 @@ class List extends Component {
               field: `${item.name}_label`,
               width: 250,
               filter: true,
+              valueGetter: ({ data }) =>
+                data[`${item.name}_label`] ?? data[`${item.name}`],
               headerCheckboxSelectionFilteredOnly: true,
               headerCheckboxSelection: true,
             };
