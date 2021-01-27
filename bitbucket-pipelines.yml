@@ -23,7 +23,6 @@ pipelines:
             - app/build/**
       - step:
           name: Deploy to S3 Staging
-          deployment: Staging
           script:
             - pipe: atlassian/aws-s3-deploy:0.3.8
               variables:
