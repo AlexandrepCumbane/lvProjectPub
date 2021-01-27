@@ -15,12 +15,9 @@ pipelines:
             - yarn
           deployment: staging
           script:
-            - cd app/
-            - yarn
-            - unset CI
-            - yarn build
-          artifacts:
-            - app/build/**
+            - echo $REACT_APP_PUBLIC_URL
+          # artifacts:
+          #   - app/build/**
       - step:
           name: Deploy to S3 Staging
           deployment: staging
