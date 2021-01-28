@@ -14,6 +14,7 @@ import { Col, Row } from "reactstrap";
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import { CasesByCategory } from "./queries/CaseType";
 import { CasesByProvince } from "./queries/Province";
+import { CasesBySector } from "./queries/CasesPerSector";
 class Information extends Component {
   state = {
     pageTitle: "Reports",
@@ -102,25 +103,9 @@ class Information extends Component {
         </Row>
 
         <Row>
-          <Col md="6">
+          <Col md="12">
             <h5>{translate("CASES PER SECTOR")}</h5>
-            <ColumnChart
-              options={{
-                color: "#d9eb55",
-                title: "Cases Per Sector - May 2019 February 2020",
-                categories: [
-                  "INGC",
-                  "WASH",
-                  "Education",
-                  "Health",
-                  "CCCM",
-                  "Other",
-                  "Shelter",
-                  "Food Security",
-                ],
-                data: [2, 1, 1, 1, 1, 17, 5, 71],
-              }}
-            />
+            <CasesBySector />
           </Col>
           <Col md="6">
             <h5> {translate("CLIENTE PROFILE BY GENDER")}</h5>
