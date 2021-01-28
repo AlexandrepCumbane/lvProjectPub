@@ -1,4 +1,4 @@
-import React, { Component } from "react"; 
+import React, { Component } from "react";
 import PieChart from "./charts/Pie";
 import DountChart from "./charts/Dounts";
 import ColumnChart from "./charts/Column";
@@ -13,6 +13,7 @@ import { Col, Row } from "reactstrap";
 
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import { CasesByCategory } from "./queries/CaseType";
+import { CasesByProvince } from "./queries/Province";
 class Information extends Component {
   state = {
     pageTitle: "Reports",
@@ -89,23 +90,9 @@ class Information extends Component {
         </Row>
 
         <Row>
-          <Col md="6">
+          <Col md="12">
             <h5>{translate("CASES BY PROVINCES")}</h5>
-            <ColumnChart
-              options={{
-                color: "#d9eb55",
-                title: "CASES BY PROVINCES",
-                categories: [
-                  "Gaza",
-                  "Cabo Delgado",
-                  "Tete",
-                  "Manica",
-                  "Zambezia",
-                  "Sofala",
-                ],
-                data: [1, 2, 1, 5, 4, 86],
-              }}
-            />
+            <CasesByProvince />
           </Col>
 
           <Col md="12">
