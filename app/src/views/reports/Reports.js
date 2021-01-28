@@ -15,6 +15,7 @@ import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import { CasesByCategory } from "./queries/CaseType";
 import { CasesByProvince } from "./queries/CasesProvince";
 import { CasesBySector } from "./queries/CasesPerSector";
+import { CasesByAge } from "./queries/CaseAge";
 class Information extends Component {
   state = {
     pageTitle: "Reports",
@@ -70,11 +71,7 @@ class Information extends Component {
         <Row>
           <Col md="4">
             <h5>{translate("CLIENTE PROFILE BY AGE")}</h5>
-            <DountChart
-              //title ="CALLER PROFILE"
-              series={[3, 90, 4]}
-              labels={["Under 17", "18-59", "60 and above"]}
-            />
+            <CasesByAge />
           </Col>
           <Col md="4">
             <h5 className=""> {translate("KOWLEDGE ABOUT LV")}</h5>
@@ -84,7 +81,7 @@ class Information extends Component {
           <Col md="4">
             <h5>{translate("SATISFATION")}</h5>
             <DountChart
-              series={[95, 5]}
+              series={[1, 2]}
               labels={["Satisfied", "Dissatisfied"]}
             />
           </Col>

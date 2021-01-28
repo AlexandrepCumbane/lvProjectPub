@@ -34,11 +34,16 @@ class SectorType(ObjectType):
     sector = String()
     dcount = String()
 
+class AgeType(ObjectType):
+    age_group = String()
+    dcount = String()
+
 class Query(lv_form.schema.Query, graphene.ObjectType):
 
     all_lvforms = graphene.List(LvFormType)
     all_case_typologies = graphene.List(CaseTipologyType)
     all_cases_sector = graphene.List(SectorType)
+    all_cases_age = graphene.List(AgeType)
     all_cases_provinces = graphene.List(ProvinceType)
 
 
@@ -50,6 +55,9 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
     
     def resolve_all_cases_sector(root, info):
         return LvForm.objects.values('sector').annotate(dcount=Count('sector'))
+    
+    def resolve_all_cases_age(root, info):
+        return LvForm.objects.values('age_group').annotate(dcount=Count('age_group'))
     
     def resolve_all_cases_provinces(root, info):
         return Province.objects.all()
