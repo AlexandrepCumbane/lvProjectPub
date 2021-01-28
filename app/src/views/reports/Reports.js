@@ -13,7 +13,7 @@ import { Col, Row } from "reactstrap";
 
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import { CasesByCategory } from "./queries/CaseType";
-import { CasesByProvince } from "./queries/Province";
+import { CasesByProvince } from "./queries/CasesProvince";
 import { CasesBySector } from "./queries/CasesPerSector";
 class Information extends Component {
   state = {

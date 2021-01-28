@@ -30,20 +30,16 @@ class LvFormType(DjangoObjectType):
         fields = ('id',)
         # exclude = ('case_number', )
 
-class LvForm2Type(ObjectType):
+class SectorType(ObjectType):
     sector = String()
     dcount = String()
-    # class Meta:
-    #     model = LvForm
-    #     fields = ('sector','id')
 
 class Query(lv_form.schema.Query, graphene.ObjectType):
 
     all_lvforms = graphene.List(LvFormType)
     all_case_typologies = graphene.List(CaseTipologyType)
-    all_cases_sector = graphene.List(LvForm2Type)
-    
-    provinces = graphene.List(ProvinceType)
+    all_cases_sector = graphene.List(SectorType)
+    all_cases_provinces = graphene.List(ProvinceType)
 
 
     def resolve_render_some(root, info):
@@ -53,11 +49,9 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
         return LvForm.objects.all()
     
     def resolve_all_cases_sector(root, info):
-
         return LvForm.objects.values('sector').annotate(dcount=Count('sector'))
-
     
-    def resolve_provinces(root, info):
+    def resolve_all_cases_provinces(root, info):
         return Province.objects.all()
 
     def resolve_all_case_typologies(root, info):

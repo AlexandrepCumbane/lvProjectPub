@@ -2,9 +2,9 @@ import React from "react";
 import { useQuery, gql } from "@apollo/client";
 import ColumnChart from "../charts/Column";
 
-const CASES_BY_CATEGORY = gql`
+const CASES_BY_PROVINCE = gql`
   {
-    provinces {
+    allCasesProvinces {
       id
       name
       lvformSet {
@@ -15,7 +15,7 @@ const CASES_BY_CATEGORY = gql`
 `;
 
 export function CasesByProvince() {
-  const { loading, error, data } = useQuery(CASES_BY_CATEGORY);
+  const { loading, error, data } = useQuery(CASES_BY_PROVINCE);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error </p>;
@@ -23,7 +23,7 @@ export function CasesByProvince() {
   let category = [];
   let datas = [];
 
-  data.provinces.forEach((element) => {
+  data.allCasesProvinces.forEach((element) => {
     category.push(element.name);
     datas.push(element.lvformSet.length);
   });
