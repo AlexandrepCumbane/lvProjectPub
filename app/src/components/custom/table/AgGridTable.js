@@ -17,6 +17,8 @@ import {
 import CaseEdit from "../../../views/app/edit";
 import ModalEdit from "../../../views/app/modal/edit";
 
+import {history} from '../../../history'
+
 import "../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../assets/scss/pages/users.scss";
 import "../../../assets/scss/pages/data-list.scss";
@@ -276,6 +278,12 @@ class AggridTable extends React.Component {
                           <ChevronDown className="ml-50" size={15} />
                         </DropdownToggle>
                         <DropdownMenu right>
+                          <DropdownItem
+                            tag="div"
+                            onClick={() => history.push(`${this.props.tableType}s/new`)}
+                          >
+                            Add New
+                          </DropdownItem>
                           <DropdownItem
                             tag="div"
                             onClick={() => this.gridApi.exportDataAsCsv()}
