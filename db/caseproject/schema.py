@@ -1,4 +1,3 @@
-
 from django.db.models import Count
 from django.db.models import Sum
 
@@ -13,30 +12,45 @@ from lv_form.models import LvForm
 from case_tipology.models import CaseTipology
 from location_management.models import Province
 
- 
+
 class ProvinceType(DjangoObjectType):
     class Meta:
         model = Province
-        fields = ("id", "name", "lvform_set" )
+        fields = ("id", "name", "lvform_set")
+
 
 class CaseTipologyType(DjangoObjectType):
     class Meta:
         model = CaseTipology
-        fields = ("id", "category", "lvform_set" )
+        fields = ("id", "category", "lvform_set")
+
 
 class LvFormType(DjangoObjectType):
     class Meta:
         model = LvForm
-        fields = ('id',)
+        fields = ('id', )
         # exclude = ('case_number', )
+
 
 class SectorType(ObjectType):
     sector = String()
     dcount = String()
 
+
 class AgeType(ObjectType):
     age_group = String()
     dcount = String()
+
+
+class HearAboutType(ObjectType):
+    how_knows_lv = String()
+    dcount = String()
+
+
+class CallFeedbackType(ObjectType):
+    call_feedback = String()
+    dcount = String()
+
 
 class Query(lv_form.schema.Query, graphene.ObjectType):
 
@@ -44,27 +58,36 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
     all_case_typologies = graphene.List(CaseTipologyType)
     all_cases_sector = graphene.List(SectorType)
     all_cases_age = graphene.List(AgeType)
+    all_cases_call_feedback = graphene.List(CallFeedbackType)
+    all_cases_knowledge_about = graphene.List(HearAboutType)
     all_cases_provinces = graphene.List(ProvinceType)
-
 
     def resolve_render_some(root, info):
         return LvForm.objects.all()
 
     def resolve_all_lvforms(root, info):
         return LvForm.objects.all()
-    
+
     def resolve_all_cases_sector(root, info):
         return LvForm.objects.values('sector').annotate(dcount=Count('sector'))
-    
+
     def resolve_all_cases_age(root, info):
-        return LvForm.objects.values('age_group').annotate(dcount=Count('age_group'))
-    
+        return LvForm.objects.values('age_group').annotate(
+            dcount=Count('age_group'))
+
+    def resolve_all_cases_knowledge_about(root, info):
+        return LvForm.objects.values('how_knows_lv').annotate(
+            dcount=Count('how_knows_lv'))
+
+    def resolve_all_cases_call_feedback(root, info):
+        return LvForm.objects.values('call_feedback').annotate(
+            dcount=Count('call_feedback'))
+
     def resolve_all_cases_provinces(root, info):
         return Province.objects.all()
 
     def resolve_all_case_typologies(root, info):
         return CaseTipology.objects.all()
-    
 
 
 schema = graphene.Schema(query=Query)

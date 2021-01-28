@@ -16,6 +16,8 @@ import { CasesByCategory } from "./queries/CaseType";
 import { CasesByProvince } from "./queries/CasesProvince";
 import { CasesBySector } from "./queries/CasesPerSector";
 import { CasesByAge } from "./queries/CaseAge";
+import { CasesByKnowLedge } from "./queries/CaseKnowledgeLV";
+import { CasesByCallFeedback } from "./queries/CaseCallFeedback";
 class Information extends Component {
   state = {
     pageTitle: "Reports",
@@ -75,15 +77,16 @@ class Information extends Component {
           </Col>
           <Col md="4">
             <h5 className=""> {translate("KOWLEDGE ABOUT LV")}</h5>
-            <PieChart />
+            <CasesByKnowLedge />
           </Col>
 
           <Col md="4">
             <h5>{translate("SATISFATION")}</h5>
-            <DountChart
+            <CasesByCallFeedback />
+            {/* <DountChart
               series={[1, 2]}
               labels={["Satisfied", "Dissatisfied"]}
-            />
+            /> */}
           </Col>
         </Row>
 
