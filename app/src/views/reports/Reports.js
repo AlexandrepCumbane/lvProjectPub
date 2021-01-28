@@ -12,6 +12,7 @@ import translate from "../../i18n/translate";
 import { Col, Row } from "reactstrap";
 
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
+import { CasesByCategory } from "./queries/CaseType";
 class Information extends Component {
   state = {
     pageTitle: "Reports",
@@ -107,21 +108,9 @@ class Information extends Component {
             />
           </Col>
 
-          <Col md="6">
+          <Col md="12">
             <h5> {translate("CASE TYPE")}</h5>
-            <ColumnChart
-              options={{
-                color: "#d9eb55",
-                title: "CASE TYPE",
-                categories: [
-                  "Complaints",
-                  "Request for Information",
-                  "Request for Assistance",
-                  "Positive Feedback",
-                ],
-                data: [40, 18, 12, 27],
-              }}
-            />
+            <CasesByCategory />
           </Col>
         </Row>
 

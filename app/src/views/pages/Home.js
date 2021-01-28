@@ -8,6 +8,7 @@ import SimpleAnalipticCard from "../../components/custom/statisticCards/Card";
 import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
 import { LOCALES } from "../../i18n/index";
 
+import { CasesByCategory } from "../../utility/graphQl/index";
 import { IntlContext } from "../../i18n/provider";
 class Home extends React.Component {
   static contextType = IntlContext;
@@ -26,6 +27,8 @@ class Home extends React.Component {
     locale: LOCALES.PORTUGUESE,
   };
 
+  componentDidMount() {}
+
   render() {
     return (
       <div>
@@ -37,6 +40,7 @@ class Home extends React.Component {
         />
 
         {this.renderSwitchCard()}
+        {<CasesByCategory />}
         {/* {ExchangeRates()} */}
         {/* <ExchangeRates /> */}
       </div>
