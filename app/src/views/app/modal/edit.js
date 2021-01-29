@@ -48,6 +48,7 @@ class Edit extends React.Component {
     const { form } = config.pages[this.props.page];
     const { data } = this.props;
 
+    console.log(data);
     let formdata = new FormData();
 
     form.forEach((item) => {
@@ -239,6 +240,72 @@ class Edit extends React.Component {
             </FormGroup>
           </Col>
         );
+
+        if (field["wq:ForeignKey"]) {
+          res = (
+            <Col key={field.name}>
+              <Label>
+                <strong>{field.label}</strong>
+              </Label>
+
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <CustomInput
+                  className="square"
+                  type="select"
+                  id={field.name}
+                  defaultValue={
+                    field.name === "groups"
+                      ? data["groups"][0]
+                      : data[`${field.name}_id`]
+                  }
+                  disabled={
+                    (field.name === "referall_to" &&
+                      (this.props.user === "partner" ||
+                        this.props.user === "manager")) ||
+                    field.name === "assignee"
+                  }
+                  onChange={(e) => {
+                    if (field.name === "groups") {
+                      this.updateState(`${field.name}`, [e.target.value]);
+                    } else {
+                      this.updateState(`${field.name}_id`, e.target.value);
+                    }
+                  }}
+                >
+                  <option>Select</option>
+
+                  {field["has_parent"] === undefined
+                    ? this.renderSelectOptionForeignWQ(
+                        this.getForeignFieldDropdown(field["wq:ForeignKey"])
+                      )
+                    : this.renderSelectOptionForeignWQ(
+                        this.state.childrens[field["wq:ForeignKey"]] ?? []
+                      )}
+                </CustomInput>
+              </FormGroup>
+            </Col>
+          );
+        } else {
+          res = (
+            <Col md="12" key={field.name}>
+              <Label>
+                <strong>{field.label}</strong>
+              </Label>
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <Input
+                  type="text"
+                  className="square"
+                  placeholder={field.label}
+                  defaultValue={data[`${field.name}`]}
+                  onChange={(e) => this.updateState(field.name, e.target.value)}
+                />
+                <div className="form-control-position">
+                  {/* <Mail size={15} /> */}
+                </div>
+              </FormGroup>
+            </Col>
+          );
+        }
 
         break;
       case "date":

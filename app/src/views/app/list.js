@@ -9,7 +9,6 @@ import AgGridTable from "../../components/custom/table/AgGridTable";
 
 import { default as config } from "../../data/config";
 import { IntlContext } from "../../i18n/provider";
-// import translate from '../../i18n/translate'
 import {
   requestForm,
   requestDropodowns,
@@ -169,6 +168,8 @@ class List extends Component {
               field: `${item.name}_label`,
               width: 250,
               filter: true,
+              valueGetter: ({ data }) =>
+                data[`${item.name}_label`] ?? data[`${item.name}`],
               headerCheckboxSelectionFilteredOnly: true,
               headerCheckboxSelection: true,
             };
