@@ -65,6 +65,10 @@ class Edit extends React.Component {
       this.updateState("has_feedback", true);
     }
 
+    if (this.props.page === "customuser") {
+      formdata.append("groups_id", data['groups'][0]);
+    }
+
     formdata.append("id", data["id"]);
 
     const { dropdowns } = this.props.app_reducer;
