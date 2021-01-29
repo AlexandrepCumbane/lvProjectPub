@@ -128,12 +128,7 @@ class Edit extends React.Component {
               onClick={() => this.handleSubmit()}
             >
               {this.state.isLoading ? (
-                <Spinner
-                  className="mr-1"
-                  color="primary"
-                  size="sm"
-                  type="grow"
-                />
+                <Spinner className="mr-1" color="white" size="sm" type="grow" />
               ) : (
                 <></>
               )}
@@ -476,19 +471,15 @@ class Edit extends React.Component {
       this.notifyErrorBounce("Fill all required inputs");
       this.setState({ isValid: false });
     } else {
-      this.setState({ isValid: true });
+      this.setState({ isValid: true, isLoading: true });
       const url = this.props.page === "customuser" ? "user" : this.props.page;
       axios
-        .put(
-          `${url}s/${this.props.data.id}.json`,
-          this.state.form,
-          {
-            headers: {
-              "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
-              Authorization: `Bearer ${userOauth.access_token}`,
-            },
-          }
-        )
+        .put(`${url}s/${this.props.data.id}.json`, this.state.form, {
+          headers: {
+            "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
+            Authorization: `Bearer ${userOauth.access_token}`,
+          },
+        })
         .then(({ data }) => {
           this.notifySuccessBounce(data.id);
           setTimeout(() => {
@@ -496,6 +487,7 @@ class Edit extends React.Component {
           }, 1000);
         })
         .catch((error) => {
+          this.setState({ isLoading: false });
           this.notifyErrorBounce("Transaction process failed");
         });
     }

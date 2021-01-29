@@ -87,7 +87,6 @@ class Create extends React.Component {
 
           <ModalFooter>
             <Button
-              outline
               color="primary"
               className="square"
               onClick={() => this.handleSubmit()}
@@ -95,7 +94,7 @@ class Create extends React.Component {
               {this.state.isLoading ? (
                 <Spinner
                   className="mr-1"
-                  color="primary"
+                  color="white"
                   size="sm"
                   type="grow"
                 />
@@ -352,7 +351,7 @@ class Create extends React.Component {
       this.notifyErrorBounce("Fill all required inputs");
       this.setState({ isValid: false });
     } else {
-      this.setState({ isValid: true });
+      this.setState({ isValid: true, isLoading: true });
       axios
         .post(`${this.props.page}s/`, this.state.form, {
           headers: {
@@ -367,7 +366,8 @@ class Create extends React.Component {
           }, 1000);
         })
         .catch((error) => {
-          this.notifyErrorBounce("Failed to save Object.");
+          this.setState({ isLoading: false });
+          this.notifyErrorBounce("Transaction not completed!");
         });
     }
   };
