@@ -11,10 +11,14 @@ import {
   Label,
   ListGroup,
   ListGroupItem,
+  Spinner,
 } from "reactstrap";
 
 import { toast, Bounce } from "react-toastify";
-import { requestDropodowns } from "../../redux/actions/app/actions";
+import {
+  requestDropodowns,
+  requestForm,
+} from "../../redux/actions/app/actions";
 
 import { axios } from "../../redux/api";
 
@@ -35,7 +39,7 @@ class Edit extends Component {
   static contextType = IntlContext;
   translate = this.context.translate;
   notifySuccessBounce = () =>
-    toast.success(`Object created successfuly!`, { transition: Bounce });
+    toast.success(`Transaction completed successfuly!`, { transition: Bounce });
 
   notifyErrorBounce = (error) =>
     toast.error(error, {
@@ -53,6 +57,7 @@ class Edit extends Component {
     modal_form: "task",
     modal_list: false,
     modal_list_data: {},
+    isProcessing: false,
   };
 
   componentDidMount() {
@@ -297,6 +302,11 @@ class Edit extends Component {
               className="mr-1 square"
               onClick={() => this.handleSubmit()}
             >
+              {this.state.isProcessing ? (
+                <Spinner color="white" className="mr-1" size="sm" type="grow" />
+              ) : (
+                <></>
+              )}
               {this.state.edit_status ? "Update" : "Edit"}
             </Button>
             {this.state.edit_status ? (
@@ -441,9 +451,7 @@ class Edit extends Component {
               <strong>Tasks</strong>
               {this.renderTasks()}
             </Col>
-            <Col md="12">
-              {this.renderComments()}
-            </Col>
+            <Col md="12">{this.renderComments()}</Col>
           </>
         );
         break;
@@ -785,7 +793,7 @@ class Edit extends Component {
       let { handleSidebar } = this.props;
       const { userOauth } = this.props.state.auth.login;
 
-      this.setState({ isValid: true });
+      this.setState({ isValid: true, isProcessing: true });
       axios
         .put(`lvforms/${this.props.data.id}.json/`, this.state.form, {
           headers: {
@@ -794,6 +802,11 @@ class Edit extends Component {
           },
         })
         .then(({ data }) => {
+          this.props.requestForm({
+            url: "lvforms",
+            name: "lvform"
+          });
+
           this.notifySuccessBounce(data.id);
 
           setTimeout(() => {
@@ -801,7 +814,8 @@ class Edit extends Component {
           }, 1000);
         })
         .catch((error) => {
-          this.notifyErrorBounce("Failed to save Object.");
+          this.setState({ isProcessing: false });
+          this.notifyErrorBounce("Transaction not completed.");
         });
     } else {
       this.setState({ edit_status: true });
@@ -817,4 +831,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { requestDropodowns })(Edit);
+export default connect(mapStateToProps, { requestDropodowns, requestForm })(
+  Edit
+);
