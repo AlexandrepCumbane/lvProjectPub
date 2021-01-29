@@ -4,6 +4,11 @@
 
 This is Linhaverde official helm charts for installing and getting instance up and running with Kubernetes.
 
+## Connecting to AWS EKS 
+https://aws.amazon.com/premiumsupport/knowledge-center/eks-cluster-connection/
+aws eks --region eu-west-1 update-kubeconfig --name linhaverde
+
+
 ## First time set-up
 2. Initialize helm in cluster:
 ```helm init```
@@ -31,3 +36,6 @@ To specify a custom values file, for instance for the purpose of different value
 
 # Manually building docker image:
  ` docker build --tag roboboinc/linhaverde:wq2 . && docker push roboboinc/linhaverde:wq2 `
+
+# running a shell session
+` kubectl exec -it pod_name /bin/sh`
