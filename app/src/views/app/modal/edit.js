@@ -265,11 +265,7 @@ class Edit extends React.Component {
                     field.name === "assignee"
                   }
                   onChange={(e) => {
-                    if (field.name === "groups") {
-                      this.updateState(`${field.name}`, [e.target.value]);
-                    } else {
-                      this.updateState(`${field.name}_id`, e.target.value);
-                    }
+                    this.updateState(`${field.name}_id`, e.target.value);
                   }}
                 >
                   <option>Select</option>
@@ -481,10 +477,10 @@ class Edit extends React.Component {
       this.setState({ isValid: false });
     } else {
       this.setState({ isValid: true });
-
+      const url = this.props.page === "customuser" ? "user" : this.props.page;
       axios
         .put(
-          `${this.props.page}s/${this.props.data.id}.json`,
+          `${url}s/${this.props.data.id}.json`,
           this.state.form,
           {
             headers: {

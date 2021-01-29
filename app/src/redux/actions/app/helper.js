@@ -77,7 +77,7 @@ const requestSingle = (dispatch) => {
       if (dropdowns[item.name] === undefined) {
         if (item.name === "forwardcasetofocalpoint") {
           await axios
-            .get(`users/0/${item.url}`, {
+            .get(`users/0/get_${item.url}`, {
               headers: {
                 Authorization: `Bearer ${userOauth?.access_token}`,
               },
