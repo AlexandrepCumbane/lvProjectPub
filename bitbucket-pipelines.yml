@@ -10,10 +10,10 @@ pipelines:
     staging:
       - step:
           name: Build and Test
+          deployment: Staging
           caches:
             #- nodeapp
             - yarn
-          deployment: staging
           script:
             - cd app/
             - yarn
@@ -23,7 +23,6 @@ pipelines:
             - app/build/**
       - step:
           name: Deploy to S3 Staging
-          deployment: staging
           script:
             - pipe: atlassian/aws-s3-deploy:0.3.8
               variables:
