@@ -57,7 +57,7 @@ class Welcome extends React.Component {
    */
   test_connection = (token) => {
     axios
-      .get(`users/0/user_info`, {
+      .get(`users/0/get_user_info`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
