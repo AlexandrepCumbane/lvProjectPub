@@ -457,8 +457,10 @@ class Create extends React.Component {
       this.setState({ isValid: false });
     } else {
       this.setState({ isValid: true });
+
+      const url = this.props.path === "customuser" ? "user" : this.props.path;
       axios
-        .post(`${this.props.path}s.json`, this.state.form, {
+        .post(`${url}s.json`, this.state.form, {
           headers: {
             "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
             Authorization: `Bearer ${userOauth.access_token}`,

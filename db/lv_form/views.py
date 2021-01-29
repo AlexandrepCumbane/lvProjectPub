@@ -1,3 +1,4 @@
+from accounts.serializer import CustomUserFullSerializer
 from django.shortcuts import render
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -6,7 +7,6 @@ from wq.db.patterns import serializers
 from django.contrib.auth.models import User
 
 from wq.db.rest.views import ModelViewSet
-from accounts.serializer import CustomUserSerializer
 from .models import ForwardCaseToFocalpoint, ForwardingInstitution, LvForm, Task
 from .serializers import LvFormSerializer, TaskSerializer
 
@@ -23,7 +23,7 @@ class LvFormViewSet(ModelViewSet):
             This method filter LvForms records from relative user groups/roles 
         """
 
-        user_data = CustomUserSerializer(user).data
+        user_data = CustomUserFullSerializer(user).data
 
         if "focalpoint" in user_data['groups_label']:
 
@@ -56,7 +56,7 @@ class LvFormViewSet(ModelViewSet):
             This method filter LvForms records from relative user groups/roles 
         """
 
-        user_data = CustomUserSerializer(user).data
+        user_data = CustomUserFullSerializer(user).data
 
         if "focalpoint" in user_data['groups_label']:
 
@@ -112,7 +112,7 @@ class TaskViewSet(ModelViewSet):
             This method filter LvForms records from relative user groups/roles 
         """
 
-        user_data = CustomUserSerializer(user).data
+        user_data = CustomUserFullSerializer(user).data
 
         if "manager" in user_data['groups_label']:
 
