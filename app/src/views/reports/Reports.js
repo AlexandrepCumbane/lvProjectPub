@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import PieChart from "./charts/Pie";
 import DountChart from "./charts/Dounts";
-import ColumnChart from "./charts/Column";
 import { Activity } from "react-feather";
 import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
 import { connect } from "react-redux";
