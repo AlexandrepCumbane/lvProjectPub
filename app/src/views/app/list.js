@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { Badge } from "reactstrap";
+
 import { Circle, Octagon, ArrowUp } from "react-feather";
 
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
@@ -26,6 +27,7 @@ class List extends Component {
     show: false,
     data: [],
     page: "lvform",
+    isLoading: false,
   };
 
   componentDidMount() {
@@ -33,6 +35,7 @@ class List extends Component {
     this.props.requestDropodowns();
     this.setState({
       data: this.props.app_reducer[this.props.path] ?? [],
+      isLoading: true,
     });
 
     this.props
@@ -45,6 +48,7 @@ class List extends Component {
           data: this.props.app_reducer[this.props.name ?? this.props.path],
           page: this.props.path,
           pageTitle: `${this.props.title}`,
+          isLoading: false,
         });
       });
   }
@@ -204,6 +208,7 @@ class List extends Component {
 
         {this.state.show ? (
           <AgGridTable
+            loading={this.state.isLoading}
             data={this.state.data}
             columnDefs={this.state.columnDefs}
             tableType={this.state.page}
