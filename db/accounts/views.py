@@ -23,18 +23,35 @@ class UserViewSet(ModelViewSet):
         user = self.queryset.get(id=request.user.id)
         serializer = self.serializer_class(user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    @action(detail=True, methods=['get'], url_path="get_focalpoints_list")
+    def get_focalpoints(self, request, *args, **kwargs):
+        print("**********************************************")
+        try:
+            user_data = CustomUserSerializer(request.user).data
 
-    @action(detail=True, methods=['get'])
-    def forwardcasetofocalpoints(self, request, *args, **kwargs):
-
-        user_data = CustomUserSerializer(request.user).data
-
-        if "focalpoint" in user_data['groups_label']:
-            try:
+            if "focalpoint" in user_data['groups_label']:
                 users = CustomUser.objects.filter(groups__name='focalpoint')
                 page = self.paginate_queryset(users)
                 serializer = self.serializer_class(page, many=True)
                 return self.get_paginated_response(serializer.data)
-            except CustomUser.DoesNotExist as error:
-                return Response(status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_200_OK)
+
+        except CustomUser.DoesNotExist as error:
+            return Response(status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['get'], url_path="get_forwardcasetofocalpoints")
+    def forwardcasetofocalpoints(self, request, *args, **kwargs):
+
+        try:
+            user_data = CustomUserSerializer(request.user).data
+            if "manager" in user_data['groups_label']:
+                users = CustomUser.objects.filter(groups__name='focalpoint')
+                page = self.paginate_queryset(users)
+                serializer = self.serializer_class(page, many=True)
+                return self.get_paginated_response(serializer.data)
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        except CustomUser.DoesNotExist as error:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+
