@@ -814,7 +814,7 @@ export default {
           },
           hint: "User",
           type: "string",
-          "wq:ForeignKey": "customuser",
+          "wq:ForeignKey": "forwardcasetofocalpoint",
         },
       ],
       verbose_name: "forward case to focalpoint",
@@ -1330,26 +1330,6 @@ export default {
       list: true,
       form: [
         {
-          name: "last_login",
-          label: "Last Login",
-          type: "dateTime",
-        },
-        {
-          name: "is_superuser",
-          label: "Is Superuser",
-          choices: [
-            {
-              name: true,
-              label: "Yes",
-            },
-            {
-              name: false,
-              label: "No",
-            },
-          ],
-          type: "select one",
-        },
-        {
           name: "is_active",
           label: "Is Active",
           choices: [
@@ -1363,11 +1343,6 @@ export default {
             },
           ],
           type: "select one",
-        },
-        {
-          name: "date_joined",
-          label: "Date Joined",
-          type: "dateTime",
         },
         {
           name: "email",
@@ -1396,28 +1371,7 @@ export default {
           hint:
             "The groups this user belongs to. A user will get all permissions granted to each of their groups.",
           type: "string",
-        },
-        {
-          name: "user_permissions",
-          label: "User Permissions",
-          hint: "Specific permissions for this user.",
-          type: "string",
-        },
-        {
-          name: "groups_label",
-          label: "Groups Label",
-          bind: {
-            required: true,
-          },
-          type: "string",
-        },
-        {
-          name: "user_permissions_label",
-          label: "User Permissions Label",
-          bind: {
-            required: true,
-          },
-          type: "string",
+          "wq:ForeignKey": "group",
         },
       ],
       verbose_name: "user",

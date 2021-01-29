@@ -1,6 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import { toast, Bounce } from "react-toastify";
+import { requestDropodowns } from "../../redux/actions/app/actions";
+import { IntlContext } from "../../i18n/provider";
+import { history } from "../../history";
+import { axios } from "../../redux/api";
+
+import config from "../../data/config";
 import {
   Alert,
   Button,
@@ -17,19 +23,14 @@ import { Check } from "react-feather";
 
 import Checkbox from "../../components/@vuexy/checkbox/CheckboxesVuexy";
 
-import {
-  requestForm,
-  requestDropodowns,
-} from "../../redux/actions/app/actions";
-
-import { history } from "../../history";
-import { axios } from "../../redux/api";
-
-import config from "../../data/config";
-
 class Create extends React.Component {
-  notifySuccessBounce = (id = "") =>
-    toast.success(`Object created successfuly!`, { transition: Bounce });
+  static contextType = IntlContext;
+  translate = this.context.translate;
+
+  notifySuccessBounce = () =>
+    toast.success(this.translate(`Transaction completed successfuly!`), {
+      transition: Bounce,
+    });
 
   notifyErrorBounce = (error) =>
     toast.error(error, {
@@ -46,9 +47,7 @@ class Create extends React.Component {
   };
   componentDidMount() {
     this.props.requestDropodowns(); // Request dropdown lists and place in a map
-
     const { form } = config.pages[this.props.path]; // loads lvform to be rendered on view
-
     form.forEach((item, index) => {
       this.addToRequired(item);
     });
@@ -60,7 +59,7 @@ class Create extends React.Component {
     return (
       <div>
         <Card className="rounded-0 mb-0 px-2">
-          <CardBody>{this.renderForm()}</CardBody>{" "}
+          <CardBody>{this.renderForm()}</CardBody>
         </Card>
       </div>
     );
@@ -69,16 +68,13 @@ class Create extends React.Component {
   /**
    * Action and helper functions
    */
-
   renderForm = () => {
-    // const form_ = this.props.state.auth.login.config.pages.lvform;
-
     const form_ = config.pages[this.props.path];
 
     return (
       <Row>
         <Col md="12">
-          <h4>Register form for: {form_.verbose_name}</h4>
+          <h4>Register a new record: {form_.verbose_name}</h4>
           <p>{form_.verbose_name}.</p>
           <hr />
         </Col>
@@ -88,9 +84,9 @@ class Create extends React.Component {
           ) : (
             <Alert color="danger" className="square">
               <Label className="text-danger">
-                All these fields are required{" "}
+                {`${this.translate("Required fields")}: `}
                 {this.state.required_fields_labels.map((item, index) => (
-                  <strong key={index}>{item}, </strong>
+                  <strong key={index}>{this.translate(item)}, </strong>
                 ))}
               </Label>
             </Alert>
@@ -118,9 +114,6 @@ class Create extends React.Component {
 
   checkboxValue = (field_name) => {
     const { form } = this.state;
-
-    console.log("Field Value: ", form.get(field_name));
-
     if (form.get(field_name) === "true") {
       return true;
     }
@@ -137,20 +130,17 @@ class Create extends React.Component {
             <>
               <Col key={field.name + "_"} md="6" />
               <Col md="6" key={field.name}>
-                <Label>{field.label}</Label>
+                <Label>{this.translate(field.label)}</Label>
                 <FormGroup className="form-label-group position-relative has-icon-left">
                   <Input
                     type="textarea"
                     rows={7}
                     className="square"
-                    placeholder={field.label}
+                    placeholder={this.translate(field.label)}
                     onChange={(e) =>
                       this.updateState(field.name, e.target.value)
                     }
                   />
-                  <div className="form-control-position">
-                    {/* <Mail size={15} /> */}
-                  </div>
                 </FormGroup>
               </Col>
             </>
@@ -158,19 +148,16 @@ class Create extends React.Component {
         } else {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
+              <Label>{this.translate(field.label)}</Label>
 
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
                   type="textarea"
                   rows={7}
                   className="square"
-                  placeholder={field.label}
+                  placeholder={this.translate(field.label)}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
-                <div className="form-control-position">
-                  {/* <Mail size={15} /> */}
-                </div>
               </FormGroup>
             </Col>
           );
@@ -180,14 +167,14 @@ class Create extends React.Component {
         if (field["wq:ForeignKey"]) {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
+              <Label>{this.translate(field.label)}</Label>
 
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <CustomInput
                   className="square"
                   type="select"
                   id={field.name}
-                  placeholder={field.label}
+                  placeholder={this.translate(field.label)}
                   onChange={(e) => {
                     this.updateState(`${field.name}_id`, e.target.value);
                     if (field["children"]) {
@@ -213,20 +200,16 @@ class Create extends React.Component {
             res = this.checkboxValue(field.depends_on) ? (
               <Col md="6" key={field.name}>
                 <>
-                  <Label>{field.label}</Label>
-
+                  <Label>{this.translate(field.label)}</Label>
                   <FormGroup className="form-label-group position-relative has-icon-left">
                     <Input
                       type="text"
                       className="square"
-                      placeholder={field.label}
+                      placeholder={this.translate(field.label)}
                       onChange={(e) =>
                         this.updateState(field.name, e.target.value)
                       }
                     />
-                    <div className="form-control-position">
-                      {/* <Mail size={15} /> */}
-                    </div>
                   </FormGroup>
                 </>
               </Col>
@@ -236,20 +219,16 @@ class Create extends React.Component {
           } else {
             res = (
               <Col md="6" key={field.name}>
-                <Label>{field.label}</Label>
-
+                <Label>{this.translate(field.label)}</Label>
                 <FormGroup className="form-label-group position-relative has-icon-left">
                   <Input
                     type="text"
                     className="square"
-                    placeholder={field.label}
+                    placeholder={this.translate(field.label)}
                     onChange={(e) =>
                       this.updateState(field.name, e.target.value)
                     }
                   />
-                  <div className="form-control-position">
-                    {/* <Mail size={15} /> */}
-                  </div>
                 </FormGroup>
               </Col>
             );
@@ -260,18 +239,14 @@ class Create extends React.Component {
       case "date":
         res = (
           <Col md="6" key={field.name}>
-            <Label>{field.label}</Label>
-
+            <Label>{this.translate(field.label)}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
                 type="date"
                 className="square"
-                placeholder={field.label}
+                placeholder={this.translate(field.label)}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
-              <div className="form-control-position">
-                {/* <Mail size={15} /> */}
-              </div>
             </FormGroup>
           </Col>
         );
@@ -280,18 +255,15 @@ class Create extends React.Component {
         if (field["depends_on"]) {
           res = this.checkboxValue(field.depends_on) ? (
             <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
+              {" "}
+              <Label>{this.translate(field.label)}</Label>
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
                   type="number"
                   className="square"
-                  placeholder={field.label}
-                  // defaultValue={this.state.email}
+                  placeholder={this.translate(field.label)}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
-                <div className="form-control-position">
-                  {/* <Mail size={15} /> */}
-                </div>
               </FormGroup>
             </Col>
           ) : (
@@ -300,18 +272,14 @@ class Create extends React.Component {
         } else {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
+              <Label>{this.translate(field.label)}</Label>
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
                   type="number"
                   className="square"
-                  placeholder={field.label}
-                  // defaultValue={this.state.email}
+                  placeholder={this.translate(field.label)}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
-                <div className="form-control-position">
-                  {/* <Mail size={15} /> */}
-                </div>
               </FormGroup>
             </Col>
           );
@@ -325,7 +293,7 @@ class Create extends React.Component {
                 <Checkbox
                   color="primary"
                   icon={<Check className="vx-icon" size={16} />}
-                  label={field.label}
+                  label={this.translate(field.label)}
                   defaultChecked={false}
                   onChange={(e) =>
                     this.updateState(
@@ -344,7 +312,7 @@ class Create extends React.Component {
                 <Checkbox
                   color="primary"
                   icon={<Check className="vx-icon" size={16} />}
-                  label={field.label}
+                  label={this.translate(field.label)}
                   defaultChecked={false}
                   onChange={(e) =>
                     this.updateState(
@@ -359,13 +327,13 @@ class Create extends React.Component {
         } else {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{field.label}</Label>
+              <Label>{this.translate(field.label)}</Label>
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <CustomInput
                   className="square"
                   type="select"
                   id={field.name}
-                  placeholder={field.label}
+                  placeholder={this.translate(field.label)}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 >
                   <option>Select</option>
@@ -516,6 +484,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { requestForm, requestDropodowns })(
-  Create
-);
+export default connect(mapStateToProps, { requestDropodowns })(Create);

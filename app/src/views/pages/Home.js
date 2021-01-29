@@ -8,16 +8,16 @@ import SimpleAnalipticCard from "../../components/custom/statisticCards/Card";
 import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
 import { LOCALES } from "../../i18n/index";
 
-import {
-  requestForm,
-  requestDropodowns,
-} from "../../redux/actions/app/actions";
-
+import { CasesByCategory } from "../../utility/graphQl/index";
+import { IntlContext } from "../../i18n/provider";
 class Home extends React.Component {
+  static contextType = IntlContext;
+  translate = this.context.translate;
+
   state = {
-    pageTitle: translate("Home"),
-    pageParent: translate("Dashboard & Analyptics"),
-    activePage: translate("Dashboard"),
+    pageTitle: this.translate("Home"),
+    pageParent: this.translate("Dashboard & Analyptics"),
+    activePage: this.translate("Dashboard"),
     items: [],
     columnDefs: [],
     show: false,
@@ -27,9 +27,7 @@ class Home extends React.Component {
     locale: LOCALES.PORTUGUESE,
   };
 
-  componentDidMount() {
-    this.props.requestForm("lvforms");
-  }
+  componentDidMount() {}
 
   render() {
     return (
@@ -41,9 +39,10 @@ class Home extends React.Component {
           breadCrumbActive={this.state.activePage}
         />
 
-        {/* {this.renderSwitchCard()} */}
+        {this.renderSwitchCard()}
+        {<CasesByCategory />}
         {/* {ExchangeRates()} */}
-        <ExchangeRates />
+        {/* <ExchangeRates /> */}
       </div>
     );
   }
@@ -52,6 +51,8 @@ class Home extends React.Component {
     const { userRole } = this.props;
 
     let element = <></>;
+
+    console.log(userRole);
 
     switch (userRole) {
       case "operator":
@@ -62,12 +63,16 @@ class Home extends React.Component {
         element = this.renderFocalPointCards();
         break;
 
+      case "partner":
+        element = <p>{this.translate("Role without cards")}</p>; //this.renderFocalPointCards();
+        break;
+
       case "manager":
         element = this.renderManagerCards();
         break;
 
       default:
-        element = <p>{translate("User role not provided")}</p>;
+        element = <p>{this.translate("User role not provided")}</p>;
         break;
     }
 
@@ -229,6 +234,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
-  requestForm,
-})(Home);
+export default connect(mapStateToProps, {})(Home);

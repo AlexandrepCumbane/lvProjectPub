@@ -2,14 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { Badge } from "reactstrap";
-import { Circle, Octagon } from "react-feather";
+import { Circle, Octagon, ArrowUp } from "react-feather";
 
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import AgGridTable from "../../components/custom/table/AgGridTable";
 
 import { default as config } from "../../data/config";
 import { IntlContext } from "../../i18n/provider";
-
 import {
   requestForm,
   requestDropodowns,
@@ -32,13 +31,22 @@ class List extends Component {
   componentDidMount() {
     this.formatFields();
     this.props.requestDropodowns();
-    this.props.requestForm(this.props.url).then(() => {
-      this.setState({
-        data: this.props.app_reducer.list,
-        page: this.props.path,
-        pageTitle: `${this.props.title}`,
-      });
+    this.setState({
+      data: this.props.app_reducer[this.props.path] ?? [],
     });
+
+    this.props
+      .requestForm({
+        url: this.props.url,
+        name: this.props.name ?? this.props.path,
+      })
+      .then(() => {
+        this.setState({
+          data: this.props.app_reducer[this.props.name ?? this.props.path],
+          page: this.props.path,
+          pageTitle: `${this.props.title}`,
+        });
+      });
   }
 
   renderStatusLabel = (props, label) => {
@@ -54,6 +62,9 @@ class List extends Component {
       case "Completed":
         color = "success";
         break;
+      default:
+        color = "white";
+        break;
     }
 
     return (
@@ -63,6 +74,7 @@ class List extends Component {
       </Badge>
     );
   };
+
   renderStatus = (props, label) => {
     let color = "white";
 
@@ -76,6 +88,9 @@ class List extends Component {
       case "Completed":
         color = "success";
         break;
+      default:
+        color = "white";
+        break;
     }
     return (
       <div
@@ -87,13 +102,37 @@ class List extends Component {
         }}
       >
         <span>
+          {this.renderPriority(props)}
           <Circle
-            className={`text-${color} text-center bg-${color} rounded mb-1 mt-1`}
+            className={`text-${color} text-center bg-${color} rounded m-1`}
             size={12}
           />
+
           {` ${label}`}
         </span>
       </div>
+    );
+  };
+
+  renderPriority = (props) => {
+    let color = "white";
+
+    switch (props[`case_priority_label`]) {
+      case "High":
+        color = "danger";
+        break;
+      case "Medium":
+        color = "warning";
+        break;
+      case "Low":
+        color = "info";
+        break;
+      default:
+        color = "white";
+        break;
+    }
+    return (
+      <ArrowUp className={`text-${color} text-center mb-1 mt-1`} size={14} />
     );
   };
 
@@ -129,13 +168,15 @@ class List extends Component {
               field: `${item.name}_label`,
               width: 250,
               filter: true,
+              valueGetter: ({ data }) =>
+                data[`${item.name}_label`] ?? data[`${item.name}`],
               headerCheckboxSelectionFilteredOnly: true,
               headerCheckboxSelection: true,
             };
         }
       } else
         return {
-          headerName: item.label,
+          headerName: this.translate(item.label),
           field: `${item.name}`,
           width: 250,
           filter: true,

@@ -1,4 +1,4 @@
-import React, { Component } from "react"; 
+import React, { Component } from "react";
 import PieChart from "./charts/Pie";
 import DountChart from "./charts/Dounts";
 import ColumnChart from "./charts/Column";
@@ -12,6 +12,12 @@ import translate from "../../i18n/translate";
 import { Col, Row } from "reactstrap";
 
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
+import { CasesByCategory } from "./queries/CaseType";
+import { CasesByProvince } from "./queries/CasesProvince";
+import { CasesBySector } from "./queries/CasesPerSector";
+import { CasesByAge } from "./queries/CaseAge";
+import { CasesByKnowLedge } from "./queries/CaseKnowledgeLV";
+import { CasesByCallFeedback } from "./queries/CaseCallFeedback";
 class Information extends Component {
   state = {
     pageTitle: "Reports",
@@ -67,84 +73,39 @@ class Information extends Component {
         <Row>
           <Col md="4">
             <h5>{translate("CLIENTE PROFILE BY AGE")}</h5>
-            <DountChart
-              //title ="CALLER PROFILE"
-              series={[3, 90, 4]}
-              labels={["Under 17", "18-59", "60 and above"]}
-            />
+            <CasesByAge />
           </Col>
           <Col md="4">
             <h5 className=""> {translate("KOWLEDGE ABOUT LV")}</h5>
-            <PieChart />
+            <CasesByKnowLedge />
           </Col>
 
           <Col md="4">
             <h5>{translate("SATISFATION")}</h5>
-            <DountChart
-              series={[95, 5]}
+            <CasesByCallFeedback />
+            {/* <DountChart
+              series={[1, 2]}
               labels={["Satisfied", "Dissatisfied"]}
-            />
+            /> */}
           </Col>
         </Row>
 
         <Row>
-          <Col md="6">
+          <Col md="12">
             <h5>{translate("CASES BY PROVINCES")}</h5>
-            <ColumnChart
-              options={{
-                color: "#d9eb55",
-                title: "CASES BY PROVINCES",
-                categories: [
-                  "Gaza",
-                  "Cabo Delgado",
-                  "Tete",
-                  "Manica",
-                  "Zambezia",
-                  "Sofala",
-                ],
-                data: [1, 2, 1, 5, 4, 86],
-              }}
-            />
+            <CasesByProvince />
           </Col>
 
-          <Col md="6">
+          <Col md="12">
             <h5> {translate("CASE TYPE")}</h5>
-            <ColumnChart
-              options={{
-                color: "#d9eb55",
-                title: "CASE TYPE",
-                categories: [
-                  "Complaints",
-                  "Request for Information",
-                  "Request for Assistance",
-                  "Positive Feedback",
-                ],
-                data: [40, 18, 12, 27],
-              }}
-            />
+            <CasesByCategory />
           </Col>
         </Row>
 
         <Row>
-          <Col md="6">
+          <Col md="12">
             <h5>{translate("CASES PER SECTOR")}</h5>
-            <ColumnChart
-              options={{
-                color: "#d9eb55",
-                title: "Cases Per Sector - May 2019 February 2020",
-                categories: [
-                  "INGC",
-                  "WASH",
-                  "Education",
-                  "Health",
-                  "CCCM",
-                  "Other",
-                  "Shelter",
-                  "Food Security",
-                ],
-                data: [2, 1, 1, 1, 1, 17, 5, 71],
-              }}
-            />
+            <CasesBySector />
           </Col>
           <Col md="6">
             <h5> {translate("CLIENTE PROFILE BY GENDER")}</h5>

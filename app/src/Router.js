@@ -10,11 +10,11 @@ import "react-toastify/dist/ReactToastify.css";
 import "./assets/scss/plugins/extensions/toastr.scss";
 
 import AppListView from "./views/app/list";
-import { Home } from "react-feather";
+// import { Home } from "react-feather";
 import Login from "./views/pages/authentication/login/Login";
 
 // Route-based code splitting
-// const Home = lazy(() => import("./views/pages/Home"));
+const Home = lazy(() => import("./views/pages/Home"));
 
 const Welcome = lazy(() => import("./views/pages/Welcome"));
 
@@ -30,7 +30,7 @@ const Reports = lazy(() => import("./views/reports/Reports"));
 
 const AdvancedReports = lazy(() => import("./views/reports/Advanced"));
 
-const Users = lazy(() => import("./views/users/Users"));
+// const Users = lazy(() => import("./views/users/Users"));
 
 const login = lazy(() => import("./views/pages/authentication/login/Login"));
 
@@ -107,7 +107,8 @@ class AppRouter extends React.Component {
                 {...props}
                 title="Fowarded Cases"
                 path="lvform"
-                url="lvforms"
+                name="fowarded"
+                url="lvforms/0/fowarded_cases"
               />
             )}
           />

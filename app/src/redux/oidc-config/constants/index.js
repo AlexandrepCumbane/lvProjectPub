@@ -1,7 +1,7 @@
 export class Constants {
-  static stsAuthority = "https://ciam.auth.wfp.org/oauth2/oidcdiscovery/";
-  static clientId = "t3NLjBPCUPfUfOFKaPz7PROwC1sa";
-  static clientRoot = "http://localhost:3000";
+  static stsAuthority = process.env.REACT_APP_CIAM_STS_AUTH;
+  static clientId = process.env.REACT_APP_CIAM_CLIENT_ID;
+  static clientRoot = process.env.REACT_APP_PUBLIC_URL;
   static clientScope = "openid email api";
-  static apiRoot = "https://ciam.auth.wfp.org/oauth2/oidcdiscovery/api/";
+  static apiRoot = process.env.REACT_APP_CIAM_STS_AUTH;
 }

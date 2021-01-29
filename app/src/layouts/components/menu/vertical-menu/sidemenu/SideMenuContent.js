@@ -136,7 +136,7 @@ class SideMenuContent extends React.Component {
         );
       }
 
-      let renderItem = (
+      let renderItem = item.permissions.includes(this.props.currentUser) ? (
         <li
           className={classnames("nav-item", {
             "has-sub": item.type === "collapse",
@@ -237,6 +237,8 @@ class SideMenuContent extends React.Component {
             ""
           )}
         </li>
+      ) : (
+        <></>
       );
 
       if (

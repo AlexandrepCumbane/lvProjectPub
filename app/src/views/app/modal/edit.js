@@ -1,10 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { toast, Bounce } from "react-toastify";
-import {
-  requestForm,
-  requestDropodowns,
-} from "../../../redux/actions/app/actions";
+import { requestDropodowns } from "../../../redux/actions/app/actions";
 
 import { axios } from "../../../redux/api";
 import {
@@ -28,7 +25,7 @@ import config from "../../../data/config";
 import CreateModal from "./create";
 class Edit extends React.Component {
   notifySuccessBounce = (id = "") =>
-    toast.success(`Object created successfuly!`, { transition: Bounce });
+    toast.success(`Transaction completed successfuly.`, { transition: Bounce });
 
   notifyErrorBounce = (error) =>
     toast.error(error, {
@@ -51,6 +48,7 @@ class Edit extends React.Component {
     const { form } = config.pages[this.props.page];
     const { data } = this.props;
 
+    console.log(data);
     let formdata = new FormData();
 
     form.forEach((item) => {
@@ -59,6 +57,13 @@ class Edit extends React.Component {
         data[item["wq:ForeignKey"] ? item.name + "_id" : item.name]
       );
     });
+
+    if (
+      this.props.user === "partner" &&
+      this.props.page === "forwardinginstitution"
+    ) {
+      this.updateState("has_feedback", true);
+    }
 
     formdata.append("id", data["id"]);
 
@@ -99,6 +104,19 @@ class Edit extends React.Component {
                 title={`Comment Your task`}
                 page="taskcomment"
                 label="Comment"
+                color="warning"
+              />
+            ) : (
+              <></>
+            )}
+            {this.props.page === "forwardinginstitution" &&
+            this.props.userRole === "manager" ? (
+              <CreateModal
+                title={`Add  new task`}
+                page="task"
+                label="Task"
+                lvform_id={this.props.data["lvform_id"]}
+                description={this.props.data["partner_feedback"]}
                 color="warning"
               />
             ) : (
@@ -159,6 +177,10 @@ class Edit extends React.Component {
     let res = <></>;
     let { data } = this.props;
 
+    if (field.name === "lvform") {
+      return <span key="lvform" />;
+    }
+
     switch (field.type) {
       case "text":
         res = (
@@ -169,13 +191,20 @@ class Edit extends React.Component {
                 type="textarea"
                 rows={5}
                 className="square"
+                disabled={
+                  (field.name === "partner_feedback" &&
+                    (this.props.user === "focalpoint" ||
+                      this.props.user === "manager")) ||
+                  (field.name === "task_feedback" &&
+                    (this.props.user === "partner" ||
+                      this.props.user === "manager")) ||
+                  (field.name === "description" &&
+                    this.props.user === "operator")
+                }
                 defaultValue={data[field.name]}
                 placeholder={field.label}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
-              <div className="form-control-position">
-                {/* <Mail size={15} /> */}
-              </div>
             </FormGroup>
           </Col>
         );
@@ -193,6 +222,12 @@ class Edit extends React.Component {
                 id={field.name}
                 defaultValue={data[`${field.name}_id`]}
                 placeholder={field.label}
+                disabled={
+                  (field.name === "referall_to" &&
+                    (this.props.user === "partner" ||
+                      this.props.user === "manager")) ||
+                  field.name === "assignee"
+                }
                 onChange={(e) =>
                   this.updateState(`${field.name}_id`, e.target.value)
                 }
@@ -205,6 +240,72 @@ class Edit extends React.Component {
             </FormGroup>
           </Col>
         );
+
+        if (field["wq:ForeignKey"]) {
+          res = (
+            <Col key={field.name}>
+              <Label>
+                <strong>{field.label}</strong>
+              </Label>
+
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <CustomInput
+                  className="square"
+                  type="select"
+                  id={field.name}
+                  defaultValue={
+                    field.name === "groups"
+                      ? data["groups"][0]
+                      : data[`${field.name}_id`]
+                  }
+                  disabled={
+                    (field.name === "referall_to" &&
+                      (this.props.user === "partner" ||
+                        this.props.user === "manager")) ||
+                    field.name === "assignee"
+                  }
+                  onChange={(e) => {
+                    if (field.name === "groups") {
+                      this.updateState(`${field.name}`, [e.target.value]);
+                    } else {
+                      this.updateState(`${field.name}_id`, e.target.value);
+                    }
+                  }}
+                >
+                  <option>Select</option>
+
+                  {field["has_parent"] === undefined
+                    ? this.renderSelectOptionForeignWQ(
+                        this.getForeignFieldDropdown(field["wq:ForeignKey"])
+                      )
+                    : this.renderSelectOptionForeignWQ(
+                        this.state.childrens[field["wq:ForeignKey"]] ?? []
+                      )}
+                </CustomInput>
+              </FormGroup>
+            </Col>
+          );
+        } else {
+          res = (
+            <Col md="12" key={field.name}>
+              <Label>
+                <strong>{field.label}</strong>
+              </Label>
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <Input
+                  type="text"
+                  className="square"
+                  placeholder={field.label}
+                  defaultValue={data[`${field.name}`]}
+                  onChange={(e) => this.updateState(field.name, e.target.value)}
+                />
+                <div className="form-control-position">
+                  {/* <Mail size={15} /> */}
+                </div>
+              </FormGroup>
+            </Col>
+          );
+        }
 
         break;
       case "date":
@@ -248,24 +349,37 @@ class Edit extends React.Component {
         );
         break;
       case "select one":
-        res = (
-          <Col md="12" key={field.name}>
-            <Label>{field.label}</Label>
-            <FormGroup className="form-label-group position-relative has-icon-left">
-              <CustomInput
-                className="square"
-                type="select"
-                defaultValue={data[field.name]}
-                id={field.name}
-                placeholder={field.label}
-                onChange={(e) => this.updateState(field.name, e.target.value)}
-              >
-                <option>Select</option>
-                {this.renderSelectOption(field.choices)}
-              </CustomInput>
-            </FormGroup>
-          </Col>
-        );
+        if (field.name === "has_feedback") {
+          res = <div key={field.name} />;
+        } else {
+          res = (
+            <Col md="12" key={field.name}>
+              <Label>{field.label}</Label>
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <CustomInput
+                  className="square"
+                  type="select"
+                  defaultValue={data[field.name]}
+                  id={field.name}
+                  disabled={
+                    (field.name === "isFeedback_aproved" &&
+                      (this.props.user === "partner" ||
+                        this.props.user === "manager")) ||
+                    (field.name === "referall_to" &&
+                      (this.props.user === "partner" ||
+                        this.props.user === "manager"))
+                  }
+                  placeholder={field.label}
+                  onChange={(e) => this.updateState(field.name, e.target.value)}
+                >
+                  <option>Select</option>
+                  {this.renderSelectOption(field.choices)}
+                </CustomInput>
+              </FormGroup>
+            </Col>
+          );
+        }
+
         break;
 
       default:
@@ -367,13 +481,18 @@ class Edit extends React.Component {
       this.setState({ isValid: false });
     } else {
       this.setState({ isValid: true });
+
       axios
-        .put(`${this.props.page}s/${this.props.data.id}.json`, this.state.form, {
-          headers: {
-            "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
-            Authorization: `Bearer ${userOauth.access_token}`,
-          },
-        })
+        .put(
+          `${this.props.page}s/${this.props.data.id}.json`,
+          this.state.form,
+          {
+            headers: {
+              "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
+              Authorization: `Bearer ${userOauth.access_token}`,
+            },
+          }
+        )
         .then(({ data }) => {
           this.notifySuccessBounce(data.id);
           setTimeout(() => {
@@ -381,7 +500,7 @@ class Edit extends React.Component {
           }, 1000);
         })
         .catch((error) => {
-          this.notifyErrorBounce("Failed to save Object.");
+          this.notifyErrorBounce("Transaction process failed");
         });
     }
   };
@@ -391,9 +510,8 @@ function mapStateToProps(state) {
   return {
     state: state,
     app_reducer: state.app.app_reducer,
+    user: state.auth.login.userRole,
   };
 }
 
-export default connect(mapStateToProps, { requestForm, requestDropodowns })(
-  Edit
-);
+export default connect(mapStateToProps, { requestDropodowns })(Edit);

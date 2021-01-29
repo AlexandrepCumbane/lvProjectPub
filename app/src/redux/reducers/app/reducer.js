@@ -1,6 +1,7 @@
 const initialState = {
   list: [],
   dropdowns: [],
+
   success: false,
   failed: false,
   loading: false,
@@ -17,13 +18,17 @@ export const app_reducer = (state = initialState, action) => {
       };
     }
     case "FORM_SUCCESS": {
-      return {
+      let stat = {
         ...state,
-        list: action.list,
+        list: [],
         success: true,
         failed: false,
         loading: false,
       };
+
+      stat[action.data.key] = action.data.value;
+
+      return stat;
     }
     case "FORM_FAILED": {
       return {
@@ -47,6 +52,7 @@ export const app_reducer = (state = initialState, action) => {
     case "UPDATE_TOKEN": {
       return { ...state, csrftoken: action.csrftoken };
     }
+
     default: {
       return state;
     }

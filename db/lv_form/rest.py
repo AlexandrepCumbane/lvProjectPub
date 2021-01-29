@@ -1,7 +1,7 @@
 from wq.db import rest
 from .models import LvForm, CaseComment, ForwardingInstitution, Task, ForwardCaseToFocalpoint, TaskComment
 from .serializers import LvFormSerializer, CaseCommentSerializer, ForwardingInstitutionSerializer, TaskSerializer, TaskCommentSerializer, ForwardCaseToFocalpointSerializer
-from .views import LvFormViewSet
+from .views import LvFormViewSet, TaskViewSet
 
 rest.router.register_model(
     LvForm,
@@ -32,6 +32,7 @@ rest.router.register_model(
     Task,
     serializer=TaskSerializer,
     fields="__all__",
+    viewset=TaskViewSet
 )
 
 rest.router.register_model(

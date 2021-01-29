@@ -1,10 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { toast, Bounce } from "react-toastify";
-import {
-  requestForm,
-  requestDropodowns,
-} from "../../../redux/actions/app/actions";
+import { requestDropodowns } from "../../../redux/actions/app/actions";
 
 import config from "../../../data/config";
 import { axios } from "../../../redux/api";
@@ -45,19 +42,37 @@ class Create extends React.Component {
   };
   componentDidMount() {
     this.updateState("lvform_id", this.props.lvform_id);
+
+    let formdata = new FormData();
+
+    if (this.props.description) {
+      formdata.append("description", this.props["description"]);
+    }
+    if (this.props.feedback) {
+      formdata.append("feedback", this.props["feedback"]);
+    }
+
+    formdata.append("lvform_id", this.props.lvform_id);
+
+    this.setState({ form: formdata, modal: this.props.modal ?? false });
   }
 
   render() {
     return (
       <>
-        <Button
-          color={`${this.props.color ?? "warning"}`}
-          className="square mr-1"
-          outline
-          onClick={this.toggleModal}
-        >
-          {this.props.label}
-        </Button>
+        {this.props.hideButton ? (
+          <></>
+        ) : (
+          <Button
+            color={`${this.props.color ?? "warning"}`}
+            className="square mr-1"
+            outline
+            onClick={this.toggleModal}
+          >
+            {this.props.label}
+          </Button>
+        )}
+
         <Modal
           isOpen={this.state.modal}
           toggle={this.toggleModal}
@@ -126,6 +141,9 @@ class Create extends React.Component {
   renderSingleInput = (field) => {
     let res = <></>;
 
+    if (field.name === "lvform") {
+      return <span key="lvform" />;
+    }
     switch (field.type) {
       case "text":
         res = (
@@ -137,6 +155,10 @@ class Create extends React.Component {
                 rows={5}
                 className="square"
                 placeholder={field.label}
+                defaultValue={
+                  this.props["description"] ??
+                  this.props["feedback" ?? undefined]
+                }
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
               <div className="form-control-position">
@@ -332,9 +354,9 @@ class Create extends React.Component {
     } else {
       this.setState({ isValid: true });
       axios
-        .post(`${this.props.page}s.json`, this.state.form, {
+        .post(`${this.props.page}s/`, this.state.form, {
           headers: {
-            "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
+            // "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
             Authorization: `Bearer ${userOauth.access_token}`,
           },
         })
@@ -358,6 +380,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { requestForm, requestDropodowns })(
-  Create
-);
+export default connect(mapStateToProps, { requestDropodowns })(Create);
