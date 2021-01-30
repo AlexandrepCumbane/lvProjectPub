@@ -8,10 +8,10 @@ const ThemeNavbar = (props) => {
   const navbarTypes = ["floating", "static", "sticky", "hidden"];
 
   const verifyUserInfo = () => {
-    const { userInfo } = props;
-    if (userInfo) {
-      const { first_name } = userInfo;
-      return first_name !== "" ? first_name : "User";
+    const { userOauth } = props;
+    if (userOauth) {
+      const { family_name } = userOauth.profile;
+      return family_name !== "" ? family_name : "User";
     }
     return "User";
   };
@@ -67,7 +67,7 @@ const ThemeNavbar = (props) => {
                 <div className="logo d-flex align-items-center">
                   {/* <div className="brand-logo mr-50"></div> */}
                   <h2 className="text-primary brand-text mb-0">
-                  Vula-Vula 1458
+                    Vula-Vula 1458
                   </h2>
                 </div>
               ) : null}

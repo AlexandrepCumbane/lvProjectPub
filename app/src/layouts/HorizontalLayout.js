@@ -47,8 +47,7 @@ class HorizontalLayout extends PureComponent {
   };
 
   componentDidMount() {
-
-    console.log("Printing: ", this.props.userInfo)
+    console.log("Printing: ", this.props.userInfo);
 
     if (window !== "undefined") {
       window.addEventListener("resize", this.updateWidth, false);
@@ -69,7 +68,6 @@ class HorizontalLayout extends PureComponent {
   }
 
   componentDidUpdate() {
-
     if (this.state.currRoute !== this.props.location.pathname) {
       this.handleRouteChange();
       this.setState({
@@ -213,6 +211,7 @@ class HorizontalLayout extends PureComponent {
             navbarColor={customizerProps.navbarColor}
             navbarType={customizerProps.navbarType}
             userInfo={this.props.userInfo}
+            userOauth={this.props.userOauth}
           />
           <div className="content-wrapper">{this.props.children}</div>
         </div>
@@ -251,6 +250,7 @@ const mapStateToProps = (state) => {
   return {
     app: state.customizer,
     userInfo: state.auth.login.userInfo,
+    userOauth: state.auth.login,
   };
 };
 export default connect(mapStateToProps, {
