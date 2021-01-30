@@ -9,6 +9,9 @@ import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCar
 import { LOCALES } from "../../i18n/index";
 import { IntlContext } from "../../i18n/provider";
 import { DailyCases } from "../dashboard/roles/query/TotalCases";
+import { ReferallCases } from "../dashboard/roles/query/TotalReferall";
+import { FeedbackCases } from "../dashboard/roles/query/TotalReferallFeedback";
+import { NotReferallCases } from "../dashboard/roles/query/TotalNotReferall";
 class Home extends React.Component {
   static contextType = IntlContext;
   translate = this.context.translate;
@@ -119,29 +122,14 @@ class Home extends React.Component {
           <DailyCases />
         </Col>
         <Col lg="3" md="3" className="text-center align-middle">
-          <SimpleAnalipticCard
-            icon={<Icons.PhoneForwarded className="text-success" size={15} />}
-            stat="0"
-            statTitle="Referall cases"
-            type="area"
-          />
+          <ReferallCases />
         </Col>
         <Col lg="3" md="3" className="text-center align-middle">
-          <SimpleAnalipticCard
-            icon={<Icons.PhoneMissed className="text-danger" size={15} />}
-            stat="0"
-            statTitle="Not referred cases"
-            type="area"
-          />
+          <NotReferallCases />
         </Col>
 
         <Col lg="3" md="3" className="text-center align-middle">
-          <SimpleAnalipticCard
-            icon={<Icons.PhoneCall className="text-warning" size={15} />}
-            stat="0"
-            statTitle="Cases with Feedback"
-            type="area"
-          />
+          <FeedbackCases />
         </Col>
 
         {/* TODO: Show diference between closed and opened cases */}

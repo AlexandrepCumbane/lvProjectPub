@@ -6,7 +6,7 @@ from graphene_django import DjangoObjectType
 
 import lv_form.schema
 
-from lv_form.models import LvForm
+from lv_form.models import LvForm, ForwardingInstitution
 from case_tipology.models import CaseTipology
 from location_management.models import Province
 
@@ -50,7 +50,7 @@ class CallFeedbackType(ObjectType):
     dcount = String()
 
 
-class LvFormTotalType(ObjectType):
+class DcountType(ObjectType):
     dcount = String()
 
 
@@ -63,7 +63,11 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
     all_cases_call_feedback = graphene.List(CallFeedbackType)
     all_cases_knowledge_about = graphene.List(HearAboutType)
     all_cases_provinces = graphene.List(ProvinceType)
-    total_lvform_records = graphene.Field(LvFormTotalType)
+    total_lvform_records = graphene.Field(DcountType)
+    total_lvform_with_feedback_records = graphene.Field(DcountType)
+    total_lvform_no_feedback_records = graphene.Field(DcountType)
+    total_lvform_referall_records = graphene.Field(DcountType)
+    total_lvform_not_referall_records = graphene.Field(DcountType)
 
     def resolve_render_some(root, info):
         return LvForm.objects.all()
@@ -94,6 +98,30 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
 
     def resolve_total_lvform_records(root, info):
         return {"dcount": LvForm.objects.all().count()}
+
+    def resolve_total_lvform_with_feedback_records(root, info):
+        return {
+            "dcount":
+            ForwardingInstitution.objects.filter(has_feedback=True).count()
+        }
+
+    def resolve_total_lvform_referall_records(root, info):
+        return {
+            "dcount":
+            ForwardingInstitution.objects.all().count()
+        }
+    
+    def resolve_total_lvform_not_referall_records(root, info):
+        return {
+            "dcount":
+            LvForm.objects.select_related('forwardinginstitution').filter(forwardinginstitution=None).count()
+        }
+
+    def resolve_total_lvform_no_feedback_records(root, info):
+        return {
+            "dcount":
+            ForwardingInstitution.objects.filter(has_feedback=False).count()
+        }
 
 
 schema = graphene.Schema(query=Query)
