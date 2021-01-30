@@ -57,23 +57,35 @@ class Welcome extends React.Component {
    * Verifies if user has role base access
    */
   test_connection = (token) => {
-    let interval = setInterval(() => {
-      if (this.state.times < 10) {
-        this.setState({ times: this.state.times + 1 });
-        axios
-          .get(`users/0/get_user_info`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-          .then(({ data }) => {
-            clearInterval(interval);
-            this.props.changeRole(data["groups_label"][0]);
-            history.push("/home");
-          })
-          .catch(() => {});
-      } else clearInterval(interval);
-    }, 10000);
+    axios
+      .get(`users/0/get_user_info`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(({ data }) => {
+        this.props.changeRole(data["groups_label"][0]);
+        history.push("/home");
+      })
+      .catch(() => {
+        let interval = setInterval(() => {
+          if (this.state.times < 10) {
+            this.setState({ times: this.state.times + 1 });
+            axios
+              .get(`users/0/get_user_info`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              })
+              .then(({ data }) => {
+                clearInterval(interval);
+                this.props.changeRole(data["groups_label"][0]);
+                history.push("/home");
+              })
+              .catch(() => {});
+          } else clearInterval(interval);
+        }, 10000);
+      });
   };
 
   render() {
