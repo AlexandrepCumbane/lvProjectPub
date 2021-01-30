@@ -31,8 +31,5 @@ export function CasesByAge() {
     datas.push(Number(element.dcount));
   });
 
-  // console.log(category)
-  // console.log(datas)
-
   return <DountChart series={datas} labels={category} />;
 }
