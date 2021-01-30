@@ -8,6 +8,7 @@ import SimpleAnalipticCard from "../../components/custom/statisticCards/Card";
 import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
 import { LOCALES } from "../../i18n/index";
 import { IntlContext } from "../../i18n/provider";
+import { DailyCases } from "../dashboard/roles/query/TotalCases";
 class Home extends React.Component {
   static contextType = IntlContext;
   translate = this.context.translate;
@@ -80,12 +81,7 @@ class Home extends React.Component {
     return (
       <Row>
         <Col lg="3" md="3" className="text-center align-middle">
-          <SimpleAnalipticCard
-            icon={<Phone className="text-primary" size={15} />}
-            stat="0"
-            statTitle="Daily cases"
-            type="area"
-          />
+          <DailyCases />
         </Col>
         <Col lg="3" md="3" className="text-center align-middle">
           <SimpleAnalipticCard
@@ -120,12 +116,7 @@ class Home extends React.Component {
     return (
       <Row>
         <Col lg="3" md="3" className="text-center align-middle">
-          <SimpleAnalipticCard
-            icon={<Icons.Phone className="text-primary" size={15} />}
-            stat="0"
-            statTitle="New Cases"
-            type="area"
-          />
+          <DailyCases />
         </Col>
         <Col lg="3" md="3" className="text-center align-middle">
           <SimpleAnalipticCard

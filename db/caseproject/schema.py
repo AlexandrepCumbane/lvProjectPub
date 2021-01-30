@@ -1,6 +1,4 @@
 from django.db.models import Count
-from django.db.models import Sum
-
 import graphene
 from graphene.types.objecttype import ObjectType
 from graphene.types.scalars import String
@@ -52,6 +50,10 @@ class CallFeedbackType(ObjectType):
     dcount = String()
 
 
+class LvFormTotalType(ObjectType):
+    dcount = String()
+
+
 class Query(lv_form.schema.Query, graphene.ObjectType):
 
     all_lvforms = graphene.List(LvFormType)
@@ -61,6 +63,7 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
     all_cases_call_feedback = graphene.List(CallFeedbackType)
     all_cases_knowledge_about = graphene.List(HearAboutType)
     all_cases_provinces = graphene.List(ProvinceType)
+    total_lvform_records = graphene.Field(LvFormTotalType)
 
     def resolve_render_some(root, info):
         return LvForm.objects.all()
@@ -88,6 +91,9 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
 
     def resolve_all_case_typologies(root, info):
         return CaseTipology.objects.all()
+
+    def resolve_total_lvform_records(root, info):
+        return {"dcount": LvForm.objects.all().count()}
 
 
 schema = graphene.Schema(query=Query)
