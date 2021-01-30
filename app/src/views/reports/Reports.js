@@ -70,8 +70,15 @@ class Information extends Component {
         </Row>
         <Row>
           <Col md="4">
-            <h5>{translate("CLIENTE PROFILE BY AGE")}</h5>
+            <h5>{translate("CALLER PROFILE BY AGE")}</h5>
             <CasesByAge />
+          </Col>
+          <Col md="4">
+            <h5> {translate("CALLER PROFILE BY GENDER")}</h5>
+            <DountChart
+              series={[78, 22]}
+              labels={["Male", "Female"]}
+            />
           </Col>
           <Col md="4">
             <h5 className=""> {translate("KOWLEDGE ABOUT LV")}</h5>
@@ -81,10 +88,6 @@ class Information extends Component {
           <Col md="4">
             <h5>{translate("SATISFATION")}</h5>
             <CasesByCallFeedback />
-            {/* <DountChart
-              series={[1, 2]}
-              labels={["Satisfied", "Dissatisfied"]}
-            /> */}
           </Col>
         </Row>
 
@@ -104,14 +107,6 @@ class Information extends Component {
           <Col md="12">
             <h5>{translate("CASES PER SECTOR")}</h5>
             <CasesBySector />
-          </Col>
-          <Col md="6">
-            <h5> {translate("CLIENTE PROFILE BY GENDER")}</h5>
-            <DountChart
-              //title ="CALLER PROFILE"
-              series={[78, 22]}
-              labels={["Male", "Female"]}
-            />
           </Col>
         </Row>
       </div>

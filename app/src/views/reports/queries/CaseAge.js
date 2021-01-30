@@ -32,7 +32,7 @@ export function CasesByAge() {
   });
 
   // console.log(category)
-  console.log(datas)
+  // console.log(datas)
 
   return <DountChart series={datas} labels={category} />;
 }
