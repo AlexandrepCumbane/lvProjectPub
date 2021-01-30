@@ -30,7 +30,7 @@ export function CasesByCallFeedback() {
   data.allCasesCallFeedback.forEach((element) => {
     if (element.callFeedback) {
       category.push(choices[element.callFeedback]);
-      datas.push(element.dcount);
+      datas.push(Number(element.dcount));
     }
   });
 

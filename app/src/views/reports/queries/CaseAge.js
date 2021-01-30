@@ -28,10 +28,11 @@ export function CasesByAge() {
 
   data.allCasesAge.forEach((element) => {
     category.push(choices[element.ageGroup]);
-    datas.push(element.dcount);
+    datas.push(Number(element.dcount));
   });
 
-  console.log(category)
+  // console.log(category)
+  console.log(datas)
 
   return <DountChart series={datas} labels={category} />;
 }

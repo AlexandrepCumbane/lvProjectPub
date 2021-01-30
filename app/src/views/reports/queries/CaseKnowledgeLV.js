@@ -31,7 +31,7 @@ export function CasesByKnowLedge() {
   data.allCasesKnowledgeAbout.forEach((element) => {
     if (element.howKnowsLv) {
       category.push(choices[element.howKnowsLv]);
-      datas.push(element.dcount);
+      datas.push(Number(element.dcount));
     }
   });
 
