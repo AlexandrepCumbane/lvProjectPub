@@ -7,8 +7,7 @@ import { history } from "../../history";
 import { axios } from "../../redux/api";
 
 import config from "../../data/config";
-import {
-  Alert,
+import { 
   Button,
   Card,
   CardBody,

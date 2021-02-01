@@ -16,7 +16,7 @@ class ColumnCharts extends React.Component {
     this.setState({
       series: [
         {
-          name: "Inflation",
+          name: "Value",
           data: this.props.options.data, //[1, 2, 1, 5, 4, 86]
         },
       ],
@@ -29,14 +29,13 @@ class ColumnCharts extends React.Component {
           bar: {
             dataLabels: {
               position: "top", // top, center, bottom
+              columnWidth: "70%",
+              barHeight: "70%",
             },
           },
         },
         dataLabels: {
           enabled: true,
-          formatter: function (val) {
-            return val + "%";
-          },
           offsetY: -20,
           style: {
             fontSize: "12px",
@@ -86,9 +85,9 @@ class ColumnCharts extends React.Component {
           },
           labels: {
             show: false,
-            formatter: function (val) {
-              return val + "%";
-            },
+            // formatter: function (val) {
+            //   return val + "%";
+            // },
           },
         },
         title: {
@@ -97,7 +96,7 @@ class ColumnCharts extends React.Component {
           offsetY: 330,
           align: "center",
           style: {
-            color: "brown"
+            color: "brown",
           },
         },
       },

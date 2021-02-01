@@ -9,10 +9,14 @@ class BarCharts extends React.Component {
       plotOptions: {
         bar: {
           horizontal: true,
+          columnWidth: "70%",
+          barHeight: "70%",
         },
       },
       dataLabels: {
-        enabled: false,
+        enabled: true,
+        hideOverflowingLabels: true,
+        orientation: horizontal,
       },
       xaxis: {
         categories: [
