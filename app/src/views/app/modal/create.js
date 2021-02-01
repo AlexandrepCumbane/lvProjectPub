@@ -41,6 +41,7 @@ class Create extends React.Component {
     dropdowns: [],
   };
   componentDidMount() {
+    console.log(this.props)
     this.updateState("lvform_id", this.props.lvform_id);
 
     let formdata = new FormData();
@@ -53,6 +54,7 @@ class Create extends React.Component {
     }
 
     formdata.append("lvform_id", this.props.lvform_id);
+    formdata.append("task_id", this.props.task_id);
 
     this.setState({ form: formdata, modal: this.props.modal ?? false });
   }
@@ -140,7 +142,7 @@ class Create extends React.Component {
   renderSingleInput = (field) => {
     let res = <></>;
 
-    if (field.name === "lvform") {
+    if (field.name === "lvform" || field.name === "task") {
       return <span key="lvform" />;
     }
     switch (field.type) {
