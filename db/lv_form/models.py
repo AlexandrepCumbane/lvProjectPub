@@ -322,6 +322,9 @@ class LvForm(models.Model):
         verbose_name = "linha verde intake form"
         verbose_name_plural = "lvforms"
 
+    def __str__(self) -> str:
+        return str(self.id)
+
 
 class CaseComment(models.Model):
     lvform = models.ForeignKey(
