@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import DountChart from "./charts/Dounts";
-import { Activity } from "react-feather";
-import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
+// import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
 import { connect } from "react-redux";
 import { LOCALES } from "../../i18n/index";
 
