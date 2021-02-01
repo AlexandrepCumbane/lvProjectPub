@@ -356,7 +356,7 @@ class Create extends React.Component {
   renderSelectOption = (choices) => {
     return choices.map((item) => (
       <option key={item.name} value={item.name}>
-        {item.label}
+        {this.translate(item.label)}
       </option>
     ));
   };
@@ -364,7 +364,7 @@ class Create extends React.Component {
   renderSelectOptionForeignWQ = (choices) => {
     return choices.map((item) => (
       <option key={item.id} value={item.id}>
-        {item.label}
+        {this.translate(item.label)}
       </option>
     ));
   };
