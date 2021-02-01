@@ -16,6 +16,7 @@ import { CasesBySector } from "./queries/CasesPerSector";
 import { CasesByAge } from "./queries/CaseAge";
 import { CasesByKnowLedge } from "./queries/CaseKnowledgeLV";
 import { CasesByCallFeedback } from "./queries/CaseCallFeedback";
+import { CasesByGender } from "./queries/CaseGender";
 class Information extends Component {
   state = {
     pageTitle: "Reports",
@@ -28,9 +29,6 @@ class Information extends Component {
     page: "lvform",
     locale: LOCALES.PORTUGUESE,
   };
-  componentDidMount() {
-    console.log(LOCALES);
-  }
 
   render() {
     return (
@@ -70,7 +68,8 @@ class Information extends Component {
           </Col>
           <Col md="6">
             <h5> {translate("CALLER PROFILE BY GENDER")}</h5>
-            <DountChart series={[78, 22]} labels={["Male", "Female"]} />
+
+            <CasesByGender />
           </Col>
           <Col md="6">
             <h5 className=""> {translate("KOWLEDGE ABOUT LV")}</h5>

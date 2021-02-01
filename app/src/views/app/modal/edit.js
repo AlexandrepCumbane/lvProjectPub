@@ -48,7 +48,7 @@ class Edit extends React.Component {
     const { form } = config.pages[this.props.page];
     const { data } = this.props;
 
-    console.log(data);
+    console.log(data)
     let formdata = new FormData();
 
     form.forEach((item) => {
@@ -109,6 +109,7 @@ class Edit extends React.Component {
                 page="taskcomment"
                 label="Comment"
                 color="warning"
+                task_id={this.props.data["id"]}
               />
             ) : (
               <></>

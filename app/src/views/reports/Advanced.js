@@ -31,9 +31,6 @@ class Advanced extends Component {
     locale: LOCALES.PORTUGUESE,
   };
 
-  componentDidMount() {
-    console.log(LOCALES);
-  }
   render() {
     return (
       <div>

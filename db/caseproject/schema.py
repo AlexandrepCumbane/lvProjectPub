@@ -40,6 +40,11 @@ class AgeType(ObjectType):
     dcount = String()
 
 
+class GenderType(ObjectType):
+    gender = String()
+    dcount = String()
+
+
 class HearAboutType(ObjectType):
     how_knows_lv = String()
     dcount = String()
@@ -60,6 +65,7 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
     all_case_typologies = graphene.List(CaseTipologyType)
     all_cases_sector = graphene.List(SectorType)
     all_cases_age = graphene.List(AgeType)
+    all_cases_gender = graphene.List(GenderType)
     all_cases_call_feedback = graphene.List(CallFeedbackType)
     all_cases_knowledge_about = graphene.List(HearAboutType)
     all_cases_provinces = graphene.List(ProvinceType)
@@ -81,6 +87,9 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
     def resolve_all_cases_age(root, info):
         return LvForm.objects.values('age_group').annotate(
             dcount=Count('age_group'))
+
+    def resolve_all_cases_gender(root, info):
+        return LvForm.objects.values('gender').annotate(dcount=Count('gender'))
 
     def resolve_all_cases_knowledge_about(root, info):
         return LvForm.objects.values('how_knows_lv').annotate(
@@ -106,15 +115,13 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
         }
 
     def resolve_total_lvform_referall_records(root, info):
-        return {
-            "dcount":
-            ForwardingInstitution.objects.all().count()
-        }
-    
+        return {"dcount": ForwardingInstitution.objects.all().count()}
+
     def resolve_total_lvform_not_referall_records(root, info):
         return {
             "dcount":
-            LvForm.objects.select_related('forwardinginstitution').filter(forwardinginstitution=None).count()
+            LvForm.objects.select_related('forwardinginstitution').filter(
+                forwardinginstitution=None).count()
         }
 
     def resolve_total_lvform_no_feedback_records(root, info):

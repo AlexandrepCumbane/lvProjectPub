@@ -7,8 +7,7 @@ import { history } from "../../history";
 import { axios } from "../../redux/api";
 
 import config from "../../data/config";
-import {
-  Alert,
+import { 
   Button,
   Card,
   CardBody,
@@ -78,20 +77,6 @@ class Create extends React.Component {
           <p>{form_.verbose_name}.</p>
           <hr />
         </Col>
-        <Col md="12">
-          {this.state.isValid && this.state.required_fields.length === 0 ? (
-            <></>
-          ) : (
-            <Alert color="danger" className="square">
-              <Label className="text-danger">
-                {`${this.translate("Required fields")}: `}
-                {this.state.required_fields_labels.map((item, index) => (
-                  <strong key={index}>{this.translate(item)}, </strong>
-                ))}
-              </Label>
-            </Alert>
-          )}
-        </Col>
 
         {form_.form.map((field) => this.renderSingleInput(field))}
 
@@ -120,6 +105,16 @@ class Create extends React.Component {
     return false;
   };
 
+  renderLabel = (field) => {
+    if (!this.state.isValid && this.state.required_fields_labels.includes(field.label)) {
+      return (
+        <Label className="text-danger"> * {this.translate(field.label)}</Label>
+      );
+    } else {
+      return <Label>{this.translate(field.label)}</Label>;
+    }
+  };
+
   renderSingleInput = (field) => {
     let res = <></>;
 
@@ -130,7 +125,8 @@ class Create extends React.Component {
             <>
               <Col key={field.name + "_"} md="6" />
               <Col md="6" key={field.name}>
-                <Label>{this.translate(field.label)}</Label>
+                {this.renderLabel(field)}
+
                 <FormGroup className="form-label-group position-relative has-icon-left">
                   <Input
                     type="textarea"
@@ -148,8 +144,8 @@ class Create extends React.Component {
         } else {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{this.translate(field.label)}</Label>
-
+              {/* <Label>{this.translate(field.label)}</Label> */}
+              {this.renderLabel(field)}
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
                   type="textarea"
@@ -167,7 +163,7 @@ class Create extends React.Component {
         if (field["wq:ForeignKey"]) {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{this.translate(field.label)}</Label>
+              {this.renderLabel(field)}
 
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <CustomInput
@@ -200,7 +196,8 @@ class Create extends React.Component {
             res = this.checkboxValue(field.depends_on) ? (
               <Col md="6" key={field.name}>
                 <>
-                  <Label>{this.translate(field.label)}</Label>
+                  {this.renderLabel(field)}
+
                   <FormGroup className="form-label-group position-relative has-icon-left">
                     <Input
                       type="text"
@@ -219,7 +216,7 @@ class Create extends React.Component {
           } else {
             res = (
               <Col md="6" key={field.name}>
-                <Label>{this.translate(field.label)}</Label>
+                {this.renderLabel(field)}
                 <FormGroup className="form-label-group position-relative has-icon-left">
                   <Input
                     type="text"
@@ -239,7 +236,8 @@ class Create extends React.Component {
       case "date":
         res = (
           <Col md="6" key={field.name}>
-            <Label>{this.translate(field.label)}</Label>
+            {this.renderLabel(field)}
+
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
                 type="date"
@@ -255,8 +253,8 @@ class Create extends React.Component {
         if (field["depends_on"]) {
           res = this.checkboxValue(field.depends_on) ? (
             <Col md="6" key={field.name}>
-              {" "}
-              <Label>{this.translate(field.label)}</Label>
+              {this.renderLabel(field)}
+
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
                   type="number"
@@ -272,7 +270,8 @@ class Create extends React.Component {
         } else {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{this.translate(field.label)}</Label>
+              {this.renderLabel(field)}
+
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
                   type="number"
@@ -327,7 +326,8 @@ class Create extends React.Component {
         } else {
           res = (
             <Col md="6" key={field.name}>
-              <Label>{this.translate(field.label)}</Label>
+              {this.renderLabel(field)}
+
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <CustomInput
                   className="square"

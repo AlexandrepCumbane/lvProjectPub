@@ -72,10 +72,10 @@ const requestSingle = (dispatch) => {
       item.url !== undefined
     ) {
       
-      const { userOauth } = appState.auth.login;
+      const { userOauth, userRole } = appState.auth.login;
 
       if (dropdowns[item.name] === undefined) {
-        if (item.name === "forwardcasetofocalpoint") {
+        if (item.name === "forwardcasetofocalpoint" && userRole === "manager") {
           await axios
             .get(`users/0/get_${item.url}`, {
               headers: {

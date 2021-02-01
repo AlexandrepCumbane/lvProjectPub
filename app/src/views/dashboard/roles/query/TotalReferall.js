@@ -5,7 +5,7 @@ import { PhoneForwarded } from "react-feather";
 
 const CASES_BY_AGE = gql`
   {
-    totalLvformReferallRecords{
+    totalLvformReferallRecords {
       dcount
     }
   }
@@ -15,7 +15,15 @@ export function ReferallCases() {
   const { loading, error, data } = useQuery(CASES_BY_AGE);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error </p>;
+  if (error)
+    return (
+      <SimpleAnalipticCard
+        icon={<PhoneForwarded className="text-success" size={15} />}
+        stat="0"
+        statTitle="Referall cases"
+        type="area"
+      />
+    );
 
   const { dcount } = data.totalLvformReferallRecords;
 
