@@ -23,7 +23,7 @@ import {
 
 class Create extends React.Component {
   notifySuccessBounce = (id = "") =>
-    toast.success(`Object created successfuly!`, { transition: Bounce });
+    toast.success(`Transaction completed successfuly!`, { transition: Bounce });
 
   notifyErrorBounce = (error) =>
     toast.error(error, {
@@ -41,7 +41,7 @@ class Create extends React.Component {
     dropdowns: [],
   };
   componentDidMount() {
-    console.log(this.props)
+    console.log(this.props);
     this.updateState("lvform_id", this.props.lvform_id);
 
     let formdata = new FormData();
@@ -94,12 +94,7 @@ class Create extends React.Component {
               onClick={() => this.handleSubmit()}
             >
               {this.state.isLoading ? (
-                <Spinner
-                  className="mr-1"
-                  color="white"
-                  size="sm"
-                  type="grow"
-                />
+                <Spinner className="mr-1" color="white" size="sm" type="grow" />
               ) : (
                 <></>
               )}

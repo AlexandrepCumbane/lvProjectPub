@@ -16,6 +16,7 @@ import { CasesBySector } from "./queries/CasesPerSector";
 import { CasesByAge } from "./queries/CaseAge";
 import { CasesByKnowLedge } from "./queries/CaseKnowledgeLV";
 import { CasesByCallFeedback } from "./queries/CaseCallFeedback";
+import { CasesByGender } from "./queries/CaseGender";
 class Information extends Component {
   state = {
     pageTitle: "Reports",
@@ -29,7 +30,6 @@ class Information extends Component {
     locale: LOCALES.PORTUGUESE,
   };
 
-  
   render() {
     return (
       <div>
@@ -44,7 +44,7 @@ class Information extends Component {
           breadCrumbParent={this.state.pageParent}
           breadCrumbActive={this.state.activePage}
         />
-        <Row>
+        {/* <Row>
           <Col lg="3" sm="6">
             <StatisticsCard
               hideChart
@@ -65,25 +65,23 @@ class Information extends Component {
               statTitle={translate("Total Cases Registered")}
             />
           </Col>
-        </Row>
+        </Row> */}
         <Row>
-          <Col md="4">
+          <Col md="6">
             <h5>{translate("CALLER PROFILE BY AGE")}</h5>
             <CasesByAge />
           </Col>
-          <Col md="4">
+          <Col md="6">
             <h5> {translate("CALLER PROFILE BY GENDER")}</h5>
-            <DountChart
-              series={[78, 22]}
-              labels={["Male", "Female"]}
-            />
+
+            <CasesByGender />
           </Col>
-          <Col md="4">
+          <Col md="6">
             <h5 className=""> {translate("KOWLEDGE ABOUT LV")}</h5>
             <CasesByKnowLedge />
           </Col>
 
-          <Col md="4">
+          <Col md="6">
             <h5>{translate("SATISFATION")}</h5>
             <CasesByCallFeedback />
           </Col>
