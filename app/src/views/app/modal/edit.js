@@ -19,11 +19,13 @@ import {
   Label,
   Spinner,
 } from "reactstrap";
-
+import { IntlContext } from "../../../i18n/provider";
 import config from "../../../data/config";
 
 import CreateModal from "./create";
 class Edit extends React.Component {
+  static contextType = IntlContext;
+  translate = this.context.translate;
   notifySuccessBounce = (id = "") =>
     toast.success(`Transaction completed successfuly.`, { transition: Bounce });
 
@@ -185,7 +187,7 @@ class Edit extends React.Component {
       case "text":
         res = (
           <Col md="12" key={field.name}>
-            <Label>{field.label}</Label>
+            <Label>{this.translate(field.label)}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
                 type="textarea"
@@ -202,7 +204,7 @@ class Edit extends React.Component {
                     this.props.user === "operator")
                 }
                 defaultValue={data[field.name]}
-                placeholder={field.label}
+                placeholder={this.translate(field.label)}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
             </FormGroup>
@@ -213,7 +215,7 @@ class Edit extends React.Component {
       case "string":
         res = (
           <Col md="12" key={field.name}>
-            <Label>{field.label}</Label>
+            <Label>{this.translate(field.label)}</Label>
 
             <FormGroup className="form-label-group position-relative has-icon-left">
               <CustomInput
@@ -221,7 +223,7 @@ class Edit extends React.Component {
                 type="select"
                 id={field.name}
                 defaultValue={data[`${field.name}_id`]}
-                placeholder={field.label}
+                placeholder={this.translate(field.label)}
                 disabled={
                   (field.name === "referall_to" &&
                     (this.props.user === "partner" ||
@@ -232,7 +234,7 @@ class Edit extends React.Component {
                   this.updateState(`${field.name}_id`, e.target.value)
                 }
               >
-                <option>Select</option>
+                <option>{this.translate(field.label)}</option>
                 {this.renderSelectOptionForeignWQ(
                   this.getForeignFieldDropdown(field["wq:ForeignKey"])
                 )}
@@ -307,14 +309,14 @@ class Edit extends React.Component {
       case "date":
         res = (
           <Col md="6" key={field.name}>
-            <Label>{field.label}</Label>
+            <Label>{this.translate(field.label)}</Label>
 
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
                 type="date"
                 className="square"
                 defaultValue={data[field.name]}
-                placeholder={field.label}
+                placeholder={this.translate(field.label)}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
               <div className="form-control-position">
@@ -327,13 +329,13 @@ class Edit extends React.Component {
       case "int":
         res = (
           <Col md="12" key={field.name}>
-            <Label>{field.label}</Label>
+            <Label>{this.translate(field.label)}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
                 type="number"
                 className="square"
                 defaultValue={data[field.name]}
-                placeholder={field.label}
+                placeholder={this.translate(field.label)}
                 // defaultValue={this.state.email}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
@@ -400,7 +402,7 @@ class Edit extends React.Component {
   renderSelectOption = (choices) => {
     return choices.map((item) => (
       <option key={item.name} value={item.name}>
-        {item.label}
+        {this.translate(item.label)}
       </option>
     ));
   };
@@ -408,7 +410,7 @@ class Edit extends React.Component {
   renderSelectOptionForeignWQ = (choices) => {
     return choices.map((item) => (
       <option key={item.id} value={item.id}>
-        {item.label}
+        {this.translate(item.label)}
       </option>
     ));
   };

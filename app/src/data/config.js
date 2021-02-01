@@ -198,7 +198,7 @@ export default {
           choices: [
             {
               name: "1",
-              label: "17 e menos",
+              label: "17 and under",
             },
             {
               name: "2",
@@ -206,11 +206,11 @@ export default {
             },
             {
               name: "3",
-              label: "60 e acima",
+              label: "17 and up",
             },
             {
               name: "4",
-              label: "Nao mencionado",
+              label: "Not mentioned",
             },
           ],
           type: "select one",

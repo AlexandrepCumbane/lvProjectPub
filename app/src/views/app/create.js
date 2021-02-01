@@ -178,7 +178,7 @@ class Create extends React.Component {
                     }
                   }}
                 >
-                  <option>Select</option>
+                  <option>{this.translate("Select")}</option>
 
                   {field["has_parent"] === undefined
                     ? this.renderSelectOptionForeignWQ(
@@ -336,7 +336,7 @@ class Create extends React.Component {
                   placeholder={this.translate(field.label)}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 >
-                  <option>Select</option>
+                  <option>{this.translate("Select")}</option>
                   {this.renderSelectOption(field.choices)}
                 </CustomInput>
               </FormGroup>
@@ -356,7 +356,7 @@ class Create extends React.Component {
   renderSelectOption = (choices) => {
     return choices.map((item) => (
       <option key={item.name} value={item.name}>
-        {item.label}
+        {this.translate(item.label)}
       </option>
     ));
   };
@@ -364,7 +364,7 @@ class Create extends React.Component {
   renderSelectOptionForeignWQ = (choices) => {
     return choices.map((item) => (
       <option key={item.id} value={item.id}>
-        {item.label}
+        {this.translate(item.label)}
       </option>
     ));
   };

@@ -548,7 +548,7 @@ class Edit extends Component {
           res = (
             <Col md="6" key={field.name}>
               <Label>
-                <strong>{field.label}</strong>
+                <strong>{this.translate(field.label)}</strong>
               </Label>
 
               {this.state.edit_status ? (
@@ -619,14 +619,14 @@ class Edit extends Component {
           res = (
             <Col md="6" key={field.name}>
               <Label>
-                <strong>{field.label}</strong>
+                <strong>{this.translate(field.label)}</strong>
               </Label>
               {this.state.edit_status ? (
                 <FormGroup className="form-label-group position-relative has-icon-left">
                   <Input
                     type="text"
                     className="square"
-                    placeholder={field.label}
+                    placeholder={this.translate(field.label)}
                     disabled={!this.state.edit_status}
                     defaultValue={data[`${field.name}`]}
                     onChange={(e) =>
@@ -648,7 +648,7 @@ class Edit extends Component {
         res = (
           <Col md="6" key={field.name}>
             <Label>
-              <strong>{field.label}</strong>
+              <strong>{this.translate(field.label)}</strong>
             </Label>
             {this.state.edit_status ? (
               <FormGroup className="form-label-group position-relative has-icon-left">
@@ -657,7 +657,7 @@ class Edit extends Component {
                   className="square"
                   defaultValue={data[field.name]}
                   disabled={!this.state.edit_status}
-                  placeholder={field.label}
+                  placeholder={this.translate(field.label)}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
                 <div className="form-control-position">
@@ -674,14 +674,14 @@ class Edit extends Component {
         res = (
           <Col md="6" key={field.name}>
             <Label>
-              <strong>{field.label}</strong>
+              <strong>{this.translate(field.label)}</strong>
             </Label>
             {this.state.edit_status ? (
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
                   type="number"
                   className="square"
-                  placeholder={field.label}
+                  placeholder={this.translate(field.label)}
                   disabled={!this.state.edit_status}
                   defaultValue={data[field.name]}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
@@ -701,7 +701,7 @@ class Edit extends Component {
         res = (
           <Col md="6" key={field.name}>
             <Label>
-              <strong>{field.label}</strong>
+              <strong>{this.translate(field.label)}</strong>
             </Label>
             {this.state.edit_status ? (
               <FormGroup className="form-label-group position-relative has-icon-left">
@@ -709,7 +709,7 @@ class Edit extends Component {
                   className="square"
                   type="select"
                   id={field.name}
-                  placeholder={field.label}
+                  placeholder={this.translate(field.label)}
                   disabled={!this.state.edit_status}
                   defaultValue={data[field.name]}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
