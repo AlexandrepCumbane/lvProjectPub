@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 // import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
 import { connect } from "react-redux";
-import { LOCALES } from "../../i18n/index";
+import { IntlContext, LOCALES } from "../../i18n/index";
 
-import translate from "../../i18n/translate";
+// import translate from "../../i18n/translate";
 
 import { Col, Row } from "reactstrap";
 
@@ -16,6 +16,10 @@ import { CasesByKnowLedge } from "./queries/CaseKnowledgeLV";
 import { CasesByCallFeedback } from "./queries/CaseCallFeedback";
 import { CasesByGender } from "./queries/CaseGender";
 class Information extends Component {
+
+  static contextType = IntlContext;
+  translate = this.context.translate;
+
   state = {
     pageTitle: "Reports",
     pageParent: "Analyptics & Reports",
@@ -61,40 +65,40 @@ class Information extends Component {
         </Row> */}
         <Row>
           <Col md="6">
-            <h5>{translate("CALLER PROFILE BY AGE")}</h5>
+            <h5>{this.translate("CALLER PROFILE BY AGE")}</h5>
             <CasesByAge />
           </Col>
           <Col md="6">
-            <h5> {translate("CALLER PROFILE BY GENDER")}</h5>
+            <h5> {this.translate("CALLER PROFILE BY GENDER")}</h5>
 
             <CasesByGender />
           </Col>
           <Col md="6">
-            <h5 className=""> {translate("KOWLEDGE ABOUT LV")}</h5>
+            <h5 className=""> {this.translate("KOWLEDGE ABOUT LV")}</h5>
             <CasesByKnowLedge />
           </Col>
 
           <Col md="6">
-            <h5>{translate("SATISFATION")}</h5>
+            <h5>{this.translate("SATISFATION")}</h5>
             <CasesByCallFeedback />
           </Col>
         </Row>
 
         <Row>
           <Col md="12">
-            <h5>{translate("CASES BY PROVINCES")}</h5>
+            <h5>{this.translate("CASES BY PROVINCES")}</h5>
             <CasesByProvince />
           </Col>
 
           <Col md="12">
-            <h5> {translate("CASE TYPE")}</h5>
+            <h5> {this.translate("CASE TYPE")}</h5>
             <CasesByCategory />
           </Col>
         </Row>
 
         <Row>
           <Col md="12">
-            <h5>{translate("CASES PER SECTOR")}</h5>
+            <h5>{this.translate("CASES PER SECTOR")}</h5>
             <CasesBySector />
           </Col>
         </Row>

@@ -12,7 +12,7 @@ export class AuthService {
       redirect_uri: `${Constants.clientRoot}/`,
       silent_redirect_uri: `${Constants.clientRoot}/`,
       // tslint:disable-next-line:object-literal-sort-keys
-      post_logout_redirect_uri: `${Constants.clientRoot}`,
+      post_logout_redirect_uri: `${Constants.clientRoot}/logout/#`,
       response_type: "code",
       scope: Constants.clientScope,
     };
