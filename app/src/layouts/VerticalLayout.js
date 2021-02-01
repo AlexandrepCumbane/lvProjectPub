@@ -272,7 +272,11 @@ class VerticalLayout extends PureComponent {
           })}
           onClick={this.handleAppOverlayClick}
         >
-          <Navbar {...navbarProps} userInfo={this.props.userInfo} />
+          <Navbar
+            {...navbarProps}
+            userInfo={this.props.userInfo}
+            userOauth={this.props.userOauth}
+          />
           <div className="content-wrapper">{this.props.children}</div>
         </div>
 
@@ -292,6 +296,7 @@ const mapStateToProps = (state) => {
   return {
     app: state.customizer,
     userInfo: state.auth.login.userInfo,
+    userOauth: state.auth.login.userOauth,
   };
 };
 export default connect(mapStateToProps, {

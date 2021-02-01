@@ -1,13 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import { toast, Bounce } from "react-toastify";
-import {
-  requestDropodowns,
-} from "../../redux/actions/app/actions";
+import { requestDropodowns } from "../../redux/actions/app/actions";
 import { IntlContext } from "../../i18n/provider";
 import { history } from "../../history";
 import { axios } from "../../redux/api";
-// import translate from '../../i18n/translate';
+
 import config from "../../data/config";
 import {
   Alert,
@@ -25,12 +23,14 @@ import { Check } from "react-feather";
 
 import Checkbox from "../../components/@vuexy/checkbox/CheckboxesVuexy";
 
-
 class Create extends React.Component {
   static contextType = IntlContext;
   translate = this.context.translate;
-  notifySuccessBounce = (id = "") =>
-    toast.success(`Object created successfuly!`, { transition: Bounce });
+
+  notifySuccessBounce = () =>
+    toast.success(this.translate(`Transaction completed successfuly!`), {
+      transition: Bounce,
+    });
 
   notifyErrorBounce = (error) =>
     toast.error(error, {
@@ -47,9 +47,7 @@ class Create extends React.Component {
   };
   componentDidMount() {
     this.props.requestDropodowns(); // Request dropdown lists and place in a map
-
     const { form } = config.pages[this.props.path]; // loads lvform to be rendered on view
-
     form.forEach((item, index) => {
       this.addToRequired(item);
     });
@@ -61,7 +59,7 @@ class Create extends React.Component {
     return (
       <div>
         <Card className="rounded-0 mb-0 px-2">
-          <CardBody>{this.renderForm()}</CardBody>{" "}
+          <CardBody>{this.renderForm()}</CardBody>
         </Card>
       </div>
     );
@@ -70,16 +68,13 @@ class Create extends React.Component {
   /**
    * Action and helper functions
    */
-
   renderForm = () => {
-    // const form_ = this.props.state.auth.login.config.pages.lvform;
-
     const form_ = config.pages[this.props.path];
 
     return (
       <Row>
         <Col md="12">
-          <h4>Register form for: {form_.verbose_name}</h4>
+          <h4>Register a new record: {form_.verbose_name}</h4>
           <p>{form_.verbose_name}.</p>
           <hr />
         </Col>
@@ -89,9 +84,9 @@ class Create extends React.Component {
           ) : (
             <Alert color="danger" className="square">
               <Label className="text-danger">
-                All these fields are required{" "}
+                {`${this.translate("Required fields")}: `}
                 {this.state.required_fields_labels.map((item, index) => (
-                  <strong key={index}>{item}, </strong>
+                  <strong key={index}>{this.translate(item)}, </strong>
                 ))}
               </Label>
             </Alert>
@@ -119,9 +114,6 @@ class Create extends React.Component {
 
   checkboxValue = (field_name) => {
     const { form } = this.state;
-
-    console.log("Field Value: ", form.get(field_name));
-
     if (form.get(field_name) === "true") {
       return true;
     }
@@ -149,9 +141,6 @@ class Create extends React.Component {
                       this.updateState(field.name, e.target.value)
                     }
                   />
-                  <div className="form-control-position">
-                    {/* <Mail size={15} /> */}
-                  </div>
                 </FormGroup>
               </Col>
             </>
@@ -169,9 +158,6 @@ class Create extends React.Component {
                   placeholder={this.translate(field.label)}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
-                <div className="form-control-position">
-                  {/* <Mail size={15} /> */}
-                </div>
               </FormGroup>
             </Col>
           );
@@ -215,7 +201,6 @@ class Create extends React.Component {
               <Col md="6" key={field.name}>
                 <>
                   <Label>{this.translate(field.label)}</Label>
-
                   <FormGroup className="form-label-group position-relative has-icon-left">
                     <Input
                       type="text"
@@ -225,9 +210,6 @@ class Create extends React.Component {
                         this.updateState(field.name, e.target.value)
                       }
                     />
-                    <div className="form-control-position">
-                      {/* <Mail size={15} /> */}
-                    </div>
                   </FormGroup>
                 </>
               </Col>
@@ -238,7 +220,6 @@ class Create extends React.Component {
             res = (
               <Col md="6" key={field.name}>
                 <Label>{this.translate(field.label)}</Label>
-
                 <FormGroup className="form-label-group position-relative has-icon-left">
                   <Input
                     type="text"
@@ -248,9 +229,6 @@ class Create extends React.Component {
                       this.updateState(field.name, e.target.value)
                     }
                   />
-                  <div className="form-control-position">
-                    {/* <Mail size={15} /> */}
-                  </div>
                 </FormGroup>
               </Col>
             );
@@ -262,7 +240,6 @@ class Create extends React.Component {
         res = (
           <Col md="6" key={field.name}>
             <Label>{this.translate(field.label)}</Label>
-
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
                 type="date"
@@ -270,9 +247,6 @@ class Create extends React.Component {
                 placeholder={this.translate(field.label)}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
-              <div className="form-control-position">
-                {/* <Mail size={15} /> */}
-              </div>
             </FormGroup>
           </Col>
         );
@@ -281,18 +255,15 @@ class Create extends React.Component {
         if (field["depends_on"]) {
           res = this.checkboxValue(field.depends_on) ? (
             <Col md="6" key={field.name}>
+              {" "}
               <Label>{this.translate(field.label)}</Label>
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
                   type="number"
                   className="square"
-                  placeholder={field.label}
-                  // defaultValue={this.state.email}
+                  placeholder={this.translate(field.label)}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
-                <div className="form-control-position">
-                  {/* <Mail size={15} /> */}
-                </div>
               </FormGroup>
             </Col>
           ) : (
@@ -307,12 +278,8 @@ class Create extends React.Component {
                   type="number"
                   className="square"
                   placeholder={this.translate(field.label)}
-                  // defaultValue={this.state.email}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
-                <div className="form-control-position">
-                  {/* <Mail size={15} /> */}
-                </div>
               </FormGroup>
             </Col>
           );
@@ -389,7 +356,7 @@ class Create extends React.Component {
   renderSelectOption = (choices) => {
     return choices.map((item) => (
       <option key={item.name} value={item.name}>
-        {this.translate(item.label)}
+        {item.label}
       </option>
     ));
   };
@@ -397,7 +364,7 @@ class Create extends React.Component {
   renderSelectOptionForeignWQ = (choices) => {
     return choices.map((item) => (
       <option key={item.id} value={item.id}>
-        {this.translate(item.label)}
+        {item.label}
       </option>
     ));
   };
@@ -490,8 +457,10 @@ class Create extends React.Component {
       this.setState({ isValid: false });
     } else {
       this.setState({ isValid: true });
+
+      const url = this.props.path === "customuser" ? "user" : this.props.path;
       axios
-        .post(`${this.props.path}s.json`, this.state.form, {
+        .post(`${url}s.json`, this.state.form, {
           headers: {
             "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
             Authorization: `Bearer ${userOauth.access_token}`,

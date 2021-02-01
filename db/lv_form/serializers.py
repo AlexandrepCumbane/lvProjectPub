@@ -31,7 +31,21 @@ class ForwardingInstitutionSerializer(patterns.AttachedModelSerializer):
         return form
 
 
+
+
+class TaskCommentSerializer(patterns.AttachedModelSerializer):
+    class Meta:  #(patterns.AttachmentSerializer.Meta):
+        model = TaskComment
+        fields = '__all__'
+        read_only_fields = ('created_by', ) 
+
+    def create(self, validated_data):
+        form = TaskComment.objects.create(
+            created_by=self.context['request'].user, **validated_data)
+        return form
+
 class TaskSerializer(patterns.AttachedModelSerializer):
+    taskcomment_set = TaskCommentSerializer(required=False, many=True)
     class Meta:  #(patterns.AttachmentSerializer.Meta):
         model = Task
         exclude = ('created_by', )
@@ -44,36 +58,11 @@ class TaskSerializer(patterns.AttachedModelSerializer):
         return form
 
 
-class TaskCommentSerializer(patterns.AttachedModelSerializer):
-    class Meta:  #(patterns.AttachmentSerializer.Meta):
-        model = TaskComment
-        exclude = ('created_by', )
-        # exclude = ('lvform',)
-        # object_field = 'lvform'
-
-    def create(self, validated_data):
-        form = TaskComment.objects.create(
-            created_by=self.context['request'].user, **validated_data)
-        return form
-
-
-# class ForwardToFocalpointSerializer(patterns.AttachedModelSerializer):
-#     class Meta:
-#         model = ForwardToFocalpoint
-#         # fields = "__all__"
-#         exclude = ('datetime_created', )
-
-
 class ForwardCaseToFocalpointSerializer(patterns.AttachedModelSerializer):
     class Meta:
         model = ForwardCaseToFocalpoint
         fields = "__all__"
-        # exclude = ('datetime_created', )
 
-    # def create(self, validated_data):
-    #     print("Entra aqui: ", validated_data)
-    #     form = ForwardToFocalpoint.objects.create(**validated_data)
-    #     return form
 
 
 # TODO: Fix iterating/linking through the relationships

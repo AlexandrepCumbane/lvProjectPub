@@ -12,10 +12,13 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
+  Spinner,
 } from "reactstrap";
 
 import CaseEdit from "../../../views/app/edit";
 import ModalEdit from "../../../views/app/modal/edit";
+
+import { history } from "../../../history";
 
 import "../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../assets/scss/pages/users.scss";
@@ -32,6 +35,7 @@ class AggridTable extends React.Component {
     currenPageSize: "",
     getPageSize: "",
     selectedData: {},
+    modalForm: "",
     defaultColDef: {
       sortable: true,
       editable: true,
@@ -79,7 +83,16 @@ class AggridTable extends React.Component {
                       this.setState({ showCallSidebar: true });
                     }
                     if (this.props.tableType === "task") {
-                      this.setState({ showTaskDialog: true });
+                      this.setState({
+                        showTaskDialog: true,
+                        modalForm: "task",
+                      });
+                    }
+                    if (this.props.tableType === "customuser") {
+                      this.setState({
+                        showTaskDialog: true,
+                        modalForm: "customuser",
+                      });
                     }
                   }}
                 />
@@ -91,6 +104,19 @@ class AggridTable extends React.Component {
     });
     this.setState({ showSidebar: this.props.showSidebar ?? false });
   }
+
+  renderLoading = () => {
+    let res = (
+      <div className="d-flex justify-content-center align-items-center mb-1">
+        <Spinner color="warning" type="grow" size="sm" />
+        <strong className="ml-1">Loading...</strong>
+      </div>
+    );
+
+    if (!this.props.loading) res = <></>;
+
+    return res;
+  };
 
   onGridReady = (params) => {
     this.gridApi = params.api;
@@ -156,6 +182,7 @@ class AggridTable extends React.Component {
       showSidebar,
       showCallSidebar,
       showTaskDialog,
+      modalForm,
     } = this.state;
     return (
       <React.Fragment>
@@ -177,7 +204,7 @@ class AggridTable extends React.Component {
           ) : showTaskDialog ? (
             <ModalEdit
               title={`Edit Task`}
-              page="task"
+              page={modalForm}
               label="Edit Task"
               color="info"
               modal={showTaskDialog}
@@ -250,6 +277,7 @@ class AggridTable extends React.Component {
                       </DropdownMenu>
                     </UncontrolledDropdown>
                   </div>
+                  {this.renderLoading()}
                   <div className="d-flex flex-wrap justify-content-between mb-1">
                     <div className="table-input mr-1">
                       <Input
@@ -258,6 +286,7 @@ class AggridTable extends React.Component {
                         value={this.state.value}
                       />
                     </div>
+
                     <div className="export-btn">
                       <UncontrolledDropdown className="p-1 ag-dropdown">
                         <DropdownToggle tag="div">
@@ -265,6 +294,14 @@ class AggridTable extends React.Component {
                           <ChevronDown className="ml-50" size={15} />
                         </DropdownToggle>
                         <DropdownMenu right>
+                          <DropdownItem
+                            tag="div"
+                            onClick={() =>
+                              history.push(`${this.props.tableType}s/new`)
+                            }
+                          >
+                            Add New
+                          </DropdownItem>
                           <DropdownItem
                             tag="div"
                             onClick={() => this.gridApi.exportDataAsCsv()}

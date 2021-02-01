@@ -1,10 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Card, CardBody, Row, Col } from "reactstrap";
+import { Card, CardBody, Row, Col, Spinner } from "reactstrap";
 import {
   requestLogin,
   requestToken,
   requestGetUser,
+  requestUpdateUser,
   changeRole,
 } from "../../redux/actions/auth/loginActions";
 
@@ -24,6 +25,7 @@ class Welcome extends React.Component {
     password: "",
     username: "",
     csrf: "",
+    times: 0,
   };
 
   authService = new AuthService();
@@ -37,14 +39,15 @@ class Welcome extends React.Component {
   };
 
   componentDidMount() {
-    this.props.requestGetUser().then(() => {
-      const { userOauth } = this.props.auth_state;
-      if (userOauth === undefined) {
-        this.login();
-      } else {
-        this.test_connection(userOauth.access_token);
-      }
-    });
+    // this.authService.getUser().then((user) => {
+    if (this.props.userOauth === undefined) {
+      this.authService.login();
+    } else {
+      this.props.requestUpdateUser(this.props.userOauth).then(() => {
+        this.test_connection(this.props.userOauth.access_token);
+      });
+    }
+    // });
   }
 
   /**
@@ -55,7 +58,7 @@ class Welcome extends React.Component {
    */
   test_connection = (token) => {
     axios
-      .get(`users/0/user_info`, {
+      .get(`users/0/get_user_info`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -64,11 +67,25 @@ class Welcome extends React.Component {
         this.props.changeRole(data["groups_label"][0]);
         history.push("/home");
       })
-      .catch(() => {});
-  };
-
-  login = () => {
-    this.authService.login();
+      .catch(() => {
+        let interval = setInterval(() => {
+          if (this.state.times < 10) {
+            this.setState({ times: this.state.times + 1 });
+            axios
+              .get(`users/0/get_user_info`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              })
+              .then(({ data }) => {
+                clearInterval(interval);
+                this.props.changeRole(data["groups_label"][0]);
+                history.push("/home");
+              })
+              .catch(() => {});
+          } else clearInterval(interval);
+        }, 10000);
+      });
   };
 
   render() {
@@ -85,9 +102,12 @@ class Welcome extends React.Component {
             <Row className="m-0">
               <Col md="12" className="p-0">
                 <Card className="rounded-0 mb-0 px-2">
-                  <CardBody className=" justify-content-center">
-                    <h4>VulaVula - 1458</h4>
-                    <p>Welcome, your account is being validated.</p>
+                  <CardBody className="d-flex justify-content-between align-items-center">
+                    <div className="justify-content-center">
+                      <h4>VulaVula - 1458</h4>
+                      <p>Welcome, your account is being validated.</p>
+                    </div>
+                    <Spinner color="primary" />
                   </CardBody>
                 </Card>
               </Col>
@@ -103,6 +123,7 @@ function mapStateToProps(state) {
   return {
     state: state,
     auth_state: state.auth.login,
+    userOauth: state.auth.login.userOauth,
   };
 }
 
@@ -112,4 +133,5 @@ export default connect(mapStateToProps, {
   requestGetUser,
   changeRole,
   requestDropodowns,
+  requestUpdateUser,
 })(Welcome);

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
+  Badge,
   Col,
   Row,
   Input,
@@ -10,14 +11,19 @@ import {
   Label,
   ListGroup,
   ListGroupItem,
+  Spinner,
 } from "reactstrap";
 
 import { toast, Bounce } from "react-toastify";
-import { requestDropodowns } from "../../redux/actions/app/actions";
+import {
+  requestDropodowns,
+  requestForm,
+} from "../../redux/actions/app/actions";
 
 import { axios } from "../../redux/api";
 
 import Modal from "./modal/create";
+import ListModal from "./modal/list";
 
 import { X } from "react-feather";
 import PerfectScrollbar from "react-perfect-scrollbar";
@@ -32,8 +38,8 @@ import config from "../../data/config";
 class Edit extends Component {
   static contextType = IntlContext;
   translate = this.context.translate;
-  notifySuccessBounce = (id = "") =>
-    toast.success(`Object created successfuly!`, { transition: Bounce });
+  notifySuccessBounce = () =>
+    toast.success(`Transaction completed successfuly!`, { transition: Bounce });
 
   notifyErrorBounce = (error) =>
     toast.error(error, {
@@ -49,6 +55,9 @@ class Edit extends Component {
     showModal: false,
     selectedData: {},
     modal_form: "task",
+    modal_list: false,
+    modal_list_data: {},
+    isProcessing: false,
   };
 
   componentDidMount() {
@@ -154,20 +163,54 @@ class Edit extends Component {
     );
   }
 
+  toggleListModal = () => {
+    this.setState((prevState) => ({
+      modal_list: !prevState.modal_list,
+    }));
+  };
+
+  raiseListData(item) {
+    this.setState({ modal_list_data: item });
+    this.toggleListModal();
+  }
+
   renderTasks = () => {
     const { task_set } = this.props.data;
 
     return (
       <ListGroup flush className="rounded-0">
+        {this.state.modal_list ? (
+          <ListModal
+            modal={this.state.modal_list}
+            toggleModal={this.toggleListModal}
+            data={this.state.modal_list_data}
+          />
+        ) : (
+          <></>
+        )}
         {task_set.map((item) => {
+          let badge = <></>;
+
+          if (item.taskcomment_set.length > 0) {
+            badge = (
+              <Badge className="mb-1" color="primary" pill>
+                {item.taskcomment_set.length}
+              </Badge>
+            );
+          }
           return (
-            <ListGroupItem>
-              <div className="d-flex justify-content-between w-100">
+            <ListGroupItem onClick={() => this.raiseListData(item)}>
+              <div className="d-flex justify-content-between w-100 align-items-center">
                 <h5 className="mb-1">{item.task_title_label}</h5>
-                <small>{item.end_date}</small>
+                {badge}
               </div>
               <p className="mb-1">{item.description} </p>
-              <small>{item.assignee_label}</small>
+              <div className="d-flex justify-content-between w-100">
+                <small>{item.assignee_label}</small>{" "}
+                <small className="text-primary" style={{ cursor: "pointer" }}>
+                  Read Comments
+                </small>
+              </div>
             </ListGroupItem>
           );
         })}
@@ -224,7 +267,13 @@ class Edit extends Component {
                 <small>{forwardinginstitution.isFeedback_aproved_label}</small>
               </div>
               <p className="mb-1">{forwardinginstitution.partner_feedback} </p>
-              <small>{forwardinginstitution.referall_to_label}</small>
+
+              <div className="d-flex justify-content-between w-100">
+                <small>{forwardinginstitution.referall_to_label}</small>{" "}
+                <small className="text-primary" style={{ cursor: "pointer" }}>
+                  Read more...
+                </small>
+              </div>
             </ListGroupItem>
           </ListGroup>
         </>
@@ -253,6 +302,11 @@ class Edit extends Component {
               className="mr-1 square"
               onClick={() => this.handleSubmit()}
             >
+              {this.state.isProcessing ? (
+                <Spinner color="white" className="mr-1" size="sm" type="grow" />
+              ) : (
+                <></>
+              )}
               {this.state.edit_status ? "Update" : "Edit"}
             </Button>
             {this.state.edit_status ? (
@@ -276,7 +330,7 @@ class Edit extends Component {
                   title={`Send to Focal Point`}
                   page="forwardcasetofocalpoint"
                   label="Send"
-                  lvform_id={data['id']}
+                  lvform_id={data["id"]}
                 />
                 {/* <Modal
                   title={`Add your feedback`}
@@ -295,9 +349,9 @@ class Edit extends Component {
             <Modal
               title={`Add your feedback`}
               page="casecomment"
-              label="Feedback"
+              label="Comment"
               color="secondary"
-              lvform_id={data['id']}
+              lvform_id={data["id"]}
             />
           </div>
         );
@@ -327,12 +381,14 @@ class Edit extends Component {
                   title={`Send to case to Entity`}
                   page="forwardinginstitution"
                   label="Send"
+                  lvform_id={data["id"]}
                 />
                 <Modal
                   title={`Add your feedback`}
                   page="casecomment"
                   label="Feedback"
                   color="secondary"
+                  lvform_id={data["id"]}
                 />
               </>
             )}
@@ -395,10 +451,7 @@ class Edit extends Component {
               <strong>Tasks</strong>
               {this.renderTasks()}
             </Col>
-            <Col md="12">
-              <strong>Othern Comments</strong>
-              {this.renderComments()}
-            </Col>
+            <Col md="12">{this.renderComments()}</Col>
           </>
         );
         break;
@@ -427,6 +480,7 @@ class Edit extends Component {
                 <div className="divider-text"> More Details </div>
               </div>
             </Col>
+            <Col md="6">{this.renderFeedbackComments()}</Col>
             <Col md="6">
               <strong>Comments</strong>
               {this.renderComments()}
@@ -529,7 +583,6 @@ class Edit extends Component {
               <Label>
                 <strong>{this.translate(field.label)}</strong>
               </Label>
-
 
               {this.state.edit_status ? (
                 <FormGroup className="form-label-group position-relative has-icon-left">
@@ -740,7 +793,7 @@ class Edit extends Component {
       let { handleSidebar } = this.props;
       const { userOauth } = this.props.state.auth.login;
 
-      this.setState({ isValid: true });
+      this.setState({ isValid: true, isProcessing: true });
       axios
         .put(`lvforms/${this.props.data.id}.json/`, this.state.form, {
           headers: {
@@ -749,6 +802,11 @@ class Edit extends Component {
           },
         })
         .then(({ data }) => {
+          this.props.requestForm({
+            url: "lvforms",
+            name: "lvform"
+          });
+
           this.notifySuccessBounce(data.id);
 
           setTimeout(() => {
@@ -756,7 +814,8 @@ class Edit extends Component {
           }, 1000);
         })
         .catch((error) => {
-          this.notifyErrorBounce("Failed to save Object.");
+          this.setState({ isProcessing: false });
+          this.notifyErrorBounce("Transaction not completed.");
         });
     } else {
       this.setState({ edit_status: true });
@@ -772,4 +831,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { requestDropodowns })(Edit);
+export default connect(mapStateToProps, { requestDropodowns, requestForm })(
+  Edit
+);

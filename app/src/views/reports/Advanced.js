@@ -17,7 +17,6 @@ import {
 } from "reactstrap";
 import DistributedCharts from "./charts/Distributed";
 
-// const contx = useContext(I18nProvider);
 class Advanced extends Component {
   state = {
     pageTitle: "Advanced Reports",
@@ -125,7 +124,7 @@ class Advanced extends Component {
         </Row>
         <Row>
           <Col md={{ offset: "2", order: "2", size: "7" }}>
-            <h5> {translate("CLIENTE PROFILE BY AGE")}</h5>
+            <h5> {translate("CALLER PROFILE BY AGE")}</h5>
             <DistributedCharts
               categorie={[
                 ["Gaza", "Doe"],

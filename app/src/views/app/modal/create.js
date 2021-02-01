@@ -48,23 +48,31 @@ class Create extends React.Component {
     if (this.props.description) {
       formdata.append("description", this.props["description"]);
     }
+    if (this.props.feedback) {
+      formdata.append("feedback", this.props["feedback"]);
+    }
 
     formdata.append("lvform_id", this.props.lvform_id);
 
-    this.setState({ form: formdata });
+    this.setState({ form: formdata, modal: this.props.modal ?? false });
   }
 
   render() {
     return (
       <>
-        <Button
-          color={`${this.props.color ?? "warning"}`}
-          className="square mr-1"
-          outline
-          onClick={this.toggleModal}
-        >
-          {this.props.label}
-        </Button>
+        {this.props.hideButton ? (
+          <></>
+        ) : (
+          <Button
+            color={`${this.props.color ?? "warning"}`}
+            className="square mr-1"
+            outline
+            onClick={this.toggleModal}
+          >
+            {this.props.label}
+          </Button>
+        )}
+
         <Modal
           isOpen={this.state.modal}
           toggle={this.toggleModal}
@@ -79,7 +87,6 @@ class Create extends React.Component {
 
           <ModalFooter>
             <Button
-              outline
               color="primary"
               className="square"
               onClick={() => this.handleSubmit()}
@@ -87,7 +94,7 @@ class Create extends React.Component {
               {this.state.isLoading ? (
                 <Spinner
                   className="mr-1"
-                  color="primary"
+                  color="white"
                   size="sm"
                   type="grow"
                 />
@@ -147,7 +154,10 @@ class Create extends React.Component {
                 rows={5}
                 className="square"
                 placeholder={field.label}
-                defaultValue={this.props["description"] ?? undefined}
+                defaultValue={
+                  this.props["description"] ??
+                  this.props["feedback" ?? undefined]
+                }
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
               <div className="form-control-position">
@@ -341,7 +351,7 @@ class Create extends React.Component {
       this.notifyErrorBounce("Fill all required inputs");
       this.setState({ isValid: false });
     } else {
-      this.setState({ isValid: true });
+      this.setState({ isValid: true, isLoading: true });
       axios
         .post(`${this.props.page}s/`, this.state.form, {
           headers: {
@@ -356,7 +366,8 @@ class Create extends React.Component {
           }, 1000);
         })
         .catch((error) => {
-          this.notifyErrorBounce("Failed to save Object.");
+          this.setState({ isLoading: false });
+          this.notifyErrorBounce("Transaction not completed!");
         });
     }
   };

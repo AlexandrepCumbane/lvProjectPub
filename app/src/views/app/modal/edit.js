@@ -60,6 +60,17 @@ class Edit extends React.Component {
       );
     });
 
+    if (
+      this.props.user === "partner" &&
+      this.props.page === "forwardinginstitution"
+    ) {
+      this.updateState("has_feedback", true);
+    }
+
+    if (this.props.page === "customuser") {
+      formdata.append("groups_id", data['groups'][0]);
+    }
+
     formdata.append("id", data["id"]);
 
     const { dropdowns } = this.props.app_reducer;
@@ -123,12 +134,7 @@ class Edit extends React.Component {
               onClick={() => this.handleSubmit()}
             >
               {this.state.isLoading ? (
-                <Spinner
-                  className="mr-1"
-                  color="primary"
-                  size="sm"
-                  type="grow"
-                />
+                <Spinner className="mr-1" color="white" size="sm" type="grow" />
               ) : (
                 <></>
               )}
@@ -186,13 +192,20 @@ class Edit extends React.Component {
                 type="textarea"
                 rows={5}
                 className="square"
+                disabled={
+                  (field.name === "partner_feedback" &&
+                    (this.props.user === "focalpoint" ||
+                      this.props.user === "manager")) ||
+                  (field.name === "task_feedback" &&
+                    (this.props.user === "partner" ||
+                      this.props.user === "manager")) ||
+                  (field.name === "description" &&
+                    this.props.user === "operator")
+                }
                 defaultValue={data[field.name]}
                 placeholder={this.translate(field.label)}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
-              <div className="form-control-position">
-                {/* <Mail size={15} /> */}
-              </div>
             </FormGroup>
           </Col>
         );
@@ -210,6 +223,12 @@ class Edit extends React.Component {
                 id={field.name}
                 defaultValue={data[`${field.name}_id`]}
                 placeholder={this.translate(field.label)}
+                disabled={
+                  (field.name === "referall_to" &&
+                    (this.props.user === "partner" ||
+                      this.props.user === "manager")) ||
+                  field.name === "assignee"
+                }
                 onChange={(e) =>
                   this.updateState(`${field.name}_id`, e.target.value)
                 }
@@ -222,6 +241,68 @@ class Edit extends React.Component {
             </FormGroup>
           </Col>
         );
+
+        if (field["wq:ForeignKey"]) {
+          res = (
+            <Col key={field.name}>
+              <Label>
+                <strong>{field.label}</strong>
+              </Label>
+
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <CustomInput
+                  className="square"
+                  type="select"
+                  id={field.name}
+                  defaultValue={
+                    field.name === "groups"
+                      ? data["groups"][0]
+                      : data[`${field.name}_id`]
+                  }
+                  disabled={
+                    (field.name === "referall_to" &&
+                      (this.props.user === "partner" ||
+                        this.props.user === "manager")) ||
+                    field.name === "assignee"
+                  }
+                  onChange={(e) => {
+                    this.updateState(`${field.name}_id`, e.target.value);
+                  }}
+                >
+                  <option>Select</option>
+
+                  {field["has_parent"] === undefined
+                    ? this.renderSelectOptionForeignWQ(
+                        this.getForeignFieldDropdown(field["wq:ForeignKey"])
+                      )
+                    : this.renderSelectOptionForeignWQ(
+                        this.state.childrens[field["wq:ForeignKey"]] ?? []
+                      )}
+                </CustomInput>
+              </FormGroup>
+            </Col>
+          );
+        } else {
+          res = (
+            <Col md="12" key={field.name}>
+              <Label>
+                <strong>{field.label}</strong>
+              </Label>
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <Input
+                  type="text"
+                  className="square"
+                  placeholder={field.label}
+                  defaultValue={data[`${field.name}`]}
+                  onChange={(e) => this.updateState(field.name, e.target.value)}
+                />
+                <div className="form-control-position">
+                  {/* <Mail size={15} /> */}
+                </div>
+              </FormGroup>
+            </Col>
+          );
+        }
 
         break;
       case "date":
@@ -265,24 +346,37 @@ class Edit extends React.Component {
         );
         break;
       case "select one":
-        res = (
-          <Col md="12" key={field.name}>
-            <Label>{this.translate(field.label)}</Label>
-            <FormGroup className="form-label-group position-relative has-icon-left">
-              <CustomInput
-                className="square"
-                type="select"
-                defaultValue={data[field.name]}
-                id={field.name}
-                placeholder={this.translate(field.label)}
-                onChange={(e) => this.updateState(field.name, e.target.value)}
-              >
-                <option>{this.translate("Select")}</option>
-                {this.renderSelectOption(field.choices)}
-              </CustomInput>
-            </FormGroup>
-          </Col>
-        );
+        if (field.name === "has_feedback") {
+          res = <div key={field.name} />;
+        } else {
+          res = (
+            <Col md="12" key={field.name}>
+              <Label>{field.label}</Label>
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <CustomInput
+                  className="square"
+                  type="select"
+                  defaultValue={data[field.name]}
+                  id={field.name}
+                  disabled={
+                    (field.name === "isFeedback_aproved" &&
+                      (this.props.user === "partner" ||
+                        this.props.user === "manager")) ||
+                    (field.name === "referall_to" &&
+                      (this.props.user === "partner" ||
+                        this.props.user === "manager"))
+                  }
+                  placeholder={field.label}
+                  onChange={(e) => this.updateState(field.name, e.target.value)}
+                >
+                  <option>Select</option>
+                  {this.renderSelectOption(field.choices)}
+                </CustomInput>
+              </FormGroup>
+            </Col>
+          );
+        }
+
         break;
 
       default:
@@ -383,18 +477,15 @@ class Edit extends React.Component {
       this.notifyErrorBounce("Fill all required inputs");
       this.setState({ isValid: false });
     } else {
-      this.setState({ isValid: true });
+      this.setState({ isValid: true, isLoading: true });
+      const url = this.props.page === "customuser" ? "user" : this.props.page;
       axios
-        .put(
-          `${this.props.page}s/${this.props.data.id}.json`,
-          this.state.form,
-          {
-            headers: {
-              "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
-              Authorization: `Bearer ${userOauth.access_token}`,
-            },
-          }
-        )
+        .put(`${url}s/${this.props.data.id}.json`, this.state.form, {
+          headers: {
+            "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
+            Authorization: `Bearer ${userOauth.access_token}`,
+          },
+        })
         .then(({ data }) => {
           this.notifySuccessBounce(data.id);
           setTimeout(() => {
@@ -402,6 +493,7 @@ class Edit extends React.Component {
           }, 1000);
         })
         .catch((error) => {
+          this.setState({ isLoading: false });
           this.notifyErrorBounce("Transaction process failed");
         });
     }
@@ -412,6 +504,7 @@ function mapStateToProps(state) {
   return {
     state: state,
     app_reducer: state.app.app_reducer,
+    user: state.auth.login.userRole,
   };
 }
 

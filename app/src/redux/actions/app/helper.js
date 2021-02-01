@@ -5,7 +5,7 @@ import { state } from "./forms";
 import { store } from "../../storeConfig/store";
 import { getUser } from "../auth/helper";
 
-const appState = store.getState();
+
 
 const authService = new AuthService();
 
@@ -18,6 +18,7 @@ export const handleForm = (dispatch, payload) =>
       loading: true,
     });
 
+    const appState = store.getState();
     const { userOauth } = appState.auth.login;
     axios
       .get(`/${payload.url}.json/`, {
@@ -61,6 +62,7 @@ export const handleForm = (dispatch, payload) =>
   });
 
 const requestSingle = (dispatch) => {
+  const appState = store.getState();
   let { dropdowns } = appState.app.app_reducer;
 
   state.map(async (item) => {
@@ -69,12 +71,13 @@ const requestSingle = (dispatch) => {
       item.name !== "login" &&
       item.url !== undefined
     ) {
+      
       const { userOauth } = appState.auth.login;
 
       if (dropdowns[item.name] === undefined) {
         if (item.name === "forwardcasetofocalpoint") {
           await axios
-            .get(`users/0/${item.url}`, {
+            .get(`users/0/get_${item.url}`, {
               headers: {
                 Authorization: `Bearer ${userOauth?.access_token}`,
               },
