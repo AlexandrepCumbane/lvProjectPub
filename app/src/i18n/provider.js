@@ -28,6 +28,18 @@ class IntlProviderWrapper extends React.Component {
   render() {
     const { children } = this.props;
     const { locale, messages, resources } = this.state;
+
+    i18n
+      .use(initReactI18next) // passes i18n down to react-i18next
+      .init({
+        resources,
+        lng: locale,
+        keySeparator: false, // we do not use keys in form messages.welcome
+        interpolation: {
+          escapeValue: false, // react already safes from xss
+        },
+      });
+
     return (
       <Context.Provider
         value={{
@@ -40,17 +52,6 @@ class IntlProviderWrapper extends React.Component {
             });
           },
           translate: (text) => {
-            i18n
-              .use(initReactI18next) // passes i18n down to react-i18next
-              .init({
-                resources,
-                lng: locale,
-                keySeparator: false, // we do not use keys in form messages.welcome
-                interpolation: {
-                  escapeValue: false, // react already safes from xss
-                },
-              });
-
             return i18n.t(text);
           },
         }}
