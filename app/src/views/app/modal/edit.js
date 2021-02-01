@@ -48,7 +48,6 @@ class Edit extends React.Component {
     const { form } = config.pages[this.props.page];
     const { data } = this.props;
 
-    console.log(data);
     let formdata = new FormData();
 
     form.forEach((item) => {

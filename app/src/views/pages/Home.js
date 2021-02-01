@@ -53,8 +53,6 @@ class Home extends React.Component {
 
     let element = <></>;
 
-    console.log(userRole);
-
     switch (userRole) {
       case "operator":
         element = this.renderOperatorCards();

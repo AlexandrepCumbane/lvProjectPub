@@ -19,24 +19,13 @@ class BarCharts extends React.Component {
         orientation: horizontal,
       },
       xaxis: {
-        categories: [
-          "South Korea",
-          "Canada",
-          "United Kingdom",
-          "Netherlands",
-          "Italy",
-          "France",
-          "Japan",
-          "United States",
-          "China",
-          "Germany",
-        ],
+        categories: [],
         tickAmount: 5,
       },
     },
     series: [
       {
-        data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380],
+        data: [],
       },
     ],
   };

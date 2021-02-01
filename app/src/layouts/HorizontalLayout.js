@@ -47,8 +47,6 @@ class HorizontalLayout extends PureComponent {
   };
 
   componentDidMount() {
-    console.log("Printing: ", this.props.userInfo);
-
     if (window !== "undefined") {
       window.addEventListener("resize", this.updateWidth, false);
       window.addEventListener("scroll", this.updateScroll, false);
