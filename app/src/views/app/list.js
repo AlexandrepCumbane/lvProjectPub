@@ -148,7 +148,7 @@ class List extends Component {
         if (index === 0) {
           return {
             headerName: item.label,
-            field: this.translate("`${item.name}_label`") ,
+            field: this.translate(`${item.name}_label`) ,
             width: 250,
             filter: true,
             cellRendererFramework: ({ data }) => {
@@ -181,7 +181,7 @@ class List extends Component {
       } else
         return {
           headerName: this.translate(item.label),
-          field: `${item.name}`,
+          field: this.translate(`${item.name}`) ,
           width: 250,
           filter: true,
           headerCheckboxSelectionFilteredOnly: true,
