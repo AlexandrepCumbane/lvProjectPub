@@ -253,5 +253,6 @@ export default {
     Groups: "Privilégios",
 
     Status: "Estado",
+    Available: "Disponível",
   },
 };

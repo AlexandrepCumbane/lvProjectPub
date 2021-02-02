@@ -41,6 +41,8 @@ const UserDropdown = (props) => {
 };
 
 class NavbarUser extends React.PureComponent {
+  static contextType = IntlContext;
+  translate = this.context.translate;
   state = {
     navbarSearch: false,
     suggestions: [],
@@ -126,7 +128,7 @@ class NavbarUser extends React.PureComponent {
               <span className="user-name text-bold-600">
                 {this.props.userName}
               </span>
-              <span className="user-status">Available</span>
+              <span className="user-status">{this.translate("Available")}</span>
             </div>
             {/* <span data-tour="user">
               <img
