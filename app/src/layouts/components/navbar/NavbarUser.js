@@ -13,7 +13,7 @@ import * as Icon from "react-feather";
 import { IntlContext } from "../../../i18n/index";
 
 import { changeRole } from "../../../redux/actions/auth/loginActions";
-import { AuthService } from "../../../redux/oidc-config/services/authservice";
+// import { AuthService } from "../../../redux/oidc-config/services/authservice";
 import { history } from "../../../history";
 
 const UserDropdown = (props) => {
