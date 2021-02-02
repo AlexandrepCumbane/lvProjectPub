@@ -15,7 +15,15 @@ export function FeedbackCases() {
   const { loading, error, data } = useQuery(CASES_BY_AGE);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error </p>;
+  if (error)
+    return (
+      <SimpleAnalipticCard
+        icon={<PhoneCall className="text-success" size={15} />}
+        stat="0"
+        statTitle="Cases with Feedback"
+        type="area"
+      />
+    );
 
   const { dcount } = data.totalLvformWithFeedbackRecords;
 

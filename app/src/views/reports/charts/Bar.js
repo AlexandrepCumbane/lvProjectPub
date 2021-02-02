@@ -9,30 +9,23 @@ class BarCharts extends React.Component {
       plotOptions: {
         bar: {
           horizontal: true,
+          columnWidth: "70%",
+          barHeight: "70%",
         },
       },
       dataLabels: {
-        enabled: false,
+        enabled: true,
+        hideOverflowingLabels: true,
+        orientation: horizontal,
       },
       xaxis: {
-        categories: [
-          "South Korea",
-          "Canada",
-          "United Kingdom",
-          "Netherlands",
-          "Italy",
-          "France",
-          "Japan",
-          "United States",
-          "China",
-          "Germany",
-        ],
+        categories: [],
         tickAmount: 5,
       },
     },
     series: [
       {
-        data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380],
+        data: [],
       },
     ],
   };

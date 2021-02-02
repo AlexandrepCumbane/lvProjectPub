@@ -346,7 +346,6 @@ class Create extends React.Component {
   handleSubmit = () => {
     const { userOauth } = this.props.state.auth.login;
 
-    console.log(userOauth, this.props.state);
     if (this.state.required_fields.length > 0) {
       this.notifyErrorBounce("Fill all required inputs");
       this.setState({ isValid: false });

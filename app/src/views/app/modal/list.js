@@ -17,8 +17,6 @@ class ModalForm extends React.Component {
   };
 
   componentDidMount() {
-    console.log(this.props.data);
-
     this.setState({ lvform_id: this.props.data.lvform_id });
   }
 
