@@ -20,9 +20,13 @@ const resources = {
 
 class IntlProviderWrapper extends React.Component {
   state = {
-    locale: LOCALES.ENGLISH,
-    messages: messages_lan[LOCALES.ENGLISH],
+    locale: localStorage.getItem("lang") ?? LOCALES.PORTUGUESE,
+    messages: messages_lan[localStorage.getItem("lang") ?? LOCALES.PORTUGUESE],
     resources: resources,
+  };
+
+  setLanguage = (lang) => {
+    localStorage.setItem("lang", lang);
   };
 
   render() {
@@ -45,6 +49,7 @@ class IntlProviderWrapper extends React.Component {
         value={{
           state: this.state,
           switchLanguage: (language) => {
+            this.setLanguage(language);
             this.setState({
               locale: language,
               messages: messages_lan[language],
@@ -52,7 +57,7 @@ class IntlProviderWrapper extends React.Component {
             });
           },
           translate: (text) => {
-            return text !== undefined || text !== null ? i18n.t(text) : 'None';
+            return text !== undefined || text !== null ? i18n.t(text) : "None";
           },
         }}
       >
