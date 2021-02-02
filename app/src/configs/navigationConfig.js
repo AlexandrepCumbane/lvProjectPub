@@ -93,7 +93,7 @@ const get_pages = () => {
 
     {
       id: "users",
-      title: "Users Management",
+      title: "Users",
       type: "item",
       icon: <Icon.Users size={20} />,
       permissions: ["manager"],

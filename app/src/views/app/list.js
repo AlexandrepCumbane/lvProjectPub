@@ -163,7 +163,6 @@ class List extends Component {
               headerName: this.translate(item.label),
               field: this.translate(`${item.name}_label`),
               width: 250,
-              filter: true,
               valueGetter: ({ data }) => {
                 if (item.name === "groups")
                   return this.translate(data["groups_label"][0] ?? "None");
@@ -179,7 +178,6 @@ class List extends Component {
               headerName: this.translate(item.label),
               field: `${item.name}_label`,
               width: 250,
-              filter: true,
               valueGetter: ({ data }) => {
                 if (item.name === "groups")
                   return this.translate(data["groups_label"][0] ?? "None");

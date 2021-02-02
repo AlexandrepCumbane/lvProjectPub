@@ -254,5 +254,6 @@ export default {
 
     Status: "Estado",
     Available: "Disponível",
+    Users: "Utilizadores",
   },
 };
