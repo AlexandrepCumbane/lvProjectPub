@@ -527,27 +527,6 @@ export default {
           label: "Number of attempts to reach the other person",
           type: "int",
         },
-        {
-          name: "taskcomment_set",
-          label: "Taskcomment Set",
-          type: "repeat",
-          children: [
-            {
-              name: "task",
-              label: "Task",
-              bind: {
-                required: true,
-              },
-              type: "string",
-              "wq:ForeignKey": "task",
-            },
-            {
-              name: "feedback",
-              label: "Feedback",
-              type: "text",
-            },
-          ],
-        },
       ],
       verbose_name: "task",
       verbose_name_plural: "tasks",
