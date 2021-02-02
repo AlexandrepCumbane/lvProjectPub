@@ -74,7 +74,7 @@ class List extends Component {
     return (
       <Badge color={color} className="mr-1 mb-1 badge-square">
         <Octagon size={12} />
-        <span>{label}</span>
+        <span>{this.translate(label)}</span>
       </Badge>
     );
   };
