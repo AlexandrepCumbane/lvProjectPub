@@ -150,7 +150,7 @@ class List extends Component {
       ) {
         if (index === 0) {
           return {
-            headerName: item.label,
+            headerName: this.translate(item.label),
             field: `${item.name}_label`,
             width: 150,
             cellRendererFramework: ({ data }) => {

@@ -240,5 +240,18 @@ export default {
     "Other number": "Outro contacto",
     "How do you feel you issue was managed during this call?":
       "Como é que você sente que seu assunto foi tratado durante esta chamada?",
+
+    manager: "Gestor",
+    operator: "Operador",
+    focalpoint: "Ponto Focal",
+    partner: "Parceiro",
+
+    "Is Active": "Está activo",
+    "Email address": "Email",
+    "First Name": "Primeiro Nome",
+    "Last Name": "Último Nome",
+    Groups: "Privilégios",
+
+    Status: "Estado",
   },
 };
