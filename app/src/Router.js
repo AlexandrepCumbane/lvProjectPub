@@ -12,6 +12,8 @@ import "./assets/scss/plugins/extensions/toastr.scss";
 import AppListView from "./views/app/list";
 // import { Home } from "react-feather";
 // import Login from "./views/pages/authentication/login/Login";
+import Login from "./views/pages/authentication/login/Login";
+import Logout from "./views/pages/authentication/logout/Logout";
 
 // Route-based code splitting
 const Home = lazy(() => import("./views/pages/Home"));
@@ -187,6 +189,7 @@ class AppRouter extends React.Component {
 
           {/* <AppRoute path="/lvforms" component={Page2} /> */}
           <AppRoute path="/pages/login" component={login} fullLayout />
+          <AppRoute path="/logout" component={Logout} fullLayout />
         </Switch>
       </Router>
     );

@@ -20,10 +20,14 @@ import {
   Label,
   Spinner,
 } from "reactstrap";
+import { IntlContext } from "../../../i18n";
 
 class Create extends React.Component {
+  static contextType = IntlContext;
+  translate = this.context.translate;
+
   notifySuccessBounce = (id = "") =>
-    toast.success(`Object created successfuly!`, { transition: Bounce });
+    toast.success(`Transaction completed successfuly!`, { transition: Bounce });
 
   notifyErrorBounce = (error) =>
     toast.error(error, {
@@ -41,6 +45,7 @@ class Create extends React.Component {
     dropdowns: [],
   };
   componentDidMount() {
+    console.log(this.props);
     this.updateState("lvform_id", this.props.lvform_id);
 
     let formdata = new FormData();
@@ -53,6 +58,7 @@ class Create extends React.Component {
     }
 
     formdata.append("lvform_id", this.props.lvform_id);
+    formdata.append("task_id", this.props.task_id);
 
     this.setState({ form: formdata, modal: this.props.modal ?? false });
   }
@@ -69,7 +75,7 @@ class Create extends React.Component {
             outline
             onClick={this.toggleModal}
           >
-            {this.props.label}
+            {this.translate(this.props.label)}
           </Button>
         )}
 
@@ -80,7 +86,7 @@ class Create extends React.Component {
           unmountOnClose={this.state.unmountOnClose}
         >
           <ModalHeader toggle={this.toggleModal}>
-            {this.props.title}
+            {this.translate(this.props.title)}
           </ModalHeader>
 
           <ModalBody>{this.renderForm()}</ModalBody>
@@ -92,16 +98,11 @@ class Create extends React.Component {
               onClick={() => this.handleSubmit()}
             >
               {this.state.isLoading ? (
-                <Spinner
-                  className="mr-1"
-                  color="white"
-                  size="sm"
-                  type="grow"
-                />
+                <Spinner className="mr-1" color="white" size="sm" type="grow" />
               ) : (
                 <></>
               )}
-              Submit
+              {this.translate("Submit")}
             </Button>
           </ModalFooter>
         </Modal>
@@ -123,9 +124,11 @@ class Create extends React.Component {
           ) : (
             <Alert color="danger" className="square">
               <Label className="text-danger">
-                All these fields are required{" "}
+                {this.translate(
+                  `${this.translate("All these fields are required")} `
+                )}
                 {this.state.required_fields_labels.map((item, index) => (
-                  <strong key={index}>{item}, </strong>
+                  <strong key={index}>{this.translate(item)}, </strong>
                 ))}
               </Label>
             </Alert>
@@ -140,20 +143,20 @@ class Create extends React.Component {
   renderSingleInput = (field) => {
     let res = <></>;
 
-    if (field.name === "lvform") {
+    if (field.name === "lvform" || field.name === "task") {
       return <span key="lvform" />;
     }
     switch (field.type) {
       case "text":
         res = (
           <Col md="12" key={field.name}>
-            <Label>{field.label}</Label>
+            <Label>{this.translate(field.label)}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
                 type="textarea"
                 rows={5}
                 className="square"
-                placeholder={field.label}
+                placeholder={this.translate(field.label)}
                 defaultValue={
                   this.props["description"] ??
                   this.props["feedback" ?? undefined]
@@ -171,19 +174,19 @@ class Create extends React.Component {
       case "string":
         res = (
           <Col md="12" key={field.name}>
-            <Label>{field.label}</Label>
+            <Label>{this.translate(field.label)}</Label>
 
             <FormGroup className="form-label-group position-relative has-icon-left">
               <CustomInput
                 className="square"
                 type="select"
                 id={field.name}
-                placeholder={field.label}
+                placeholder={this.translate(field.label)}
                 onChange={(e) =>
                   this.updateState(`${field.name}_id`, e.target.value)
                 }
               >
-                <option>Select</option>
+                <option>{this.translate("Select")}</option>
                 {this.renderSelectOptionForeignWQ(
                   this.getForeignFieldDropdown(field["wq:ForeignKey"])
                 )}
@@ -196,13 +199,13 @@ class Create extends React.Component {
       case "date":
         res = (
           <Col md="6" key={field.name}>
-            <Label>{field.label}</Label>
+            <Label>{this.translate(field.label)}</Label>
 
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
                 type="date"
                 className="square"
-                placeholder={field.label}
+                placeholder={this.translate(field.label)}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
               <div className="form-control-position">
@@ -215,12 +218,12 @@ class Create extends React.Component {
       case "int":
         res = (
           <Col md="12" key={field.name}>
-            <Label>{field.label}</Label>
+            <Label>{this.translate(field.label)}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
                 type="number"
                 className="square"
-                placeholder={field.label}
+                placeholder={this.translate(field.label)}
                 // defaultValue={this.state.email}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
@@ -234,16 +237,16 @@ class Create extends React.Component {
       case "select one":
         res = (
           <Col md="12" key={field.name}>
-            <Label>{field.label}</Label>
+            <Label>{this.translate(field.label)}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <CustomInput
                 className="square"
                 type="select"
                 id={field.name}
-                placeholder={field.label}
+                placeholder={this.translate(field.label)}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               >
-                <option>Select</option>
+                <option>{this.translate("Select")}</option>
                 {this.renderSelectOption(field.choices)}
               </CustomInput>
             </FormGroup>
@@ -273,7 +276,7 @@ class Create extends React.Component {
   renderSelectOption = (choices) => {
     return choices.map((item) => (
       <option key={item.name} value={item.name}>
-        {item.label}
+        {this.translate(item.label)}
       </option>
     ));
   };
@@ -281,7 +284,7 @@ class Create extends React.Component {
   renderSelectOptionForeignWQ = (choices) => {
     return choices.map((item) => (
       <option key={item.id} value={item.id}>
-        {item.label}
+        {this.translate(item.label)}
       </option>
     ));
   };
@@ -347,7 +350,7 @@ class Create extends React.Component {
     const { userOauth } = this.props.state.auth.login;
 
     if (this.state.required_fields.length > 0) {
-      this.notifyErrorBounce("Fill all required inputs");
+      this.notifyErrorBounce(this.translate("Fill all required inputs"));
       this.setState({ isValid: false });
     } else {
       this.setState({ isValid: true, isLoading: true });
@@ -366,7 +369,7 @@ class Create extends React.Component {
         })
         .catch((error) => {
           this.setState({ isLoading: false });
-          this.notifyErrorBounce("Transaction not completed!");
+          this.notifyErrorBounce(this.translate("Transaction not completed!"));
         });
     }
   };

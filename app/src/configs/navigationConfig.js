@@ -71,15 +71,15 @@ const get_pages = () => {
 
           navLink: "/reports",
         },
-        {
-          id: "advanced",
-          title: translate("Advanced"),
-          type: "item",
-          icon: <Icon.Filter size={12} />,
-          permissions: ["manager"],
+        // {
+        //   id: "advanced",
+        //   title: translate("Advanced"),
+        //   type: "item",
+        //   icon: <Icon.Filter size={12} />,
+        //   permissions: ["manager"],
 
-          navLink: "/advanced",
-        },
+        //   navLink: "/advanced",
+        // },
       ],
     },
     {

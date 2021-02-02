@@ -13,21 +13,24 @@ import * as Icon from "react-feather";
 import { IntlContext } from "../../../i18n/index";
 
 import { changeRole } from "../../../redux/actions/auth/loginActions";
-import { AuthService } from "../../../redux/oidc-config/services/authservice";
+// import { AuthService } from "../../../redux/oidc-config/services/authservice";
+import { history } from "../../../history";
 
 const UserDropdown = (props) => {
   return (
     <DropdownMenu right>
-      <DropdownItem tag="a" href="#">
+      {/* <DropdownItem tag="a" href="#">
         <Icon.CheckSquare size={14} className="mr-50" />
         <span className="align-middle">Tasks</span>
-      </DropdownItem>
+      </DropdownItem> */}
       <DropdownItem
         tag="a"
         href="#"
         onClick={(e) => {
-          props.changeRole("Not-auth");
-          new AuthService().logout();
+          // props.changeRole("Not-auth");
+          // new AuthService().logout();
+
+          history.push("/logout");
         }}
       >
         <Icon.Power size={14} className="mr-50" />

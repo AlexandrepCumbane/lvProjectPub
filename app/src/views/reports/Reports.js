@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import DountChart from "./charts/Dounts";
-import { Activity } from "react-feather";
-import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
+// import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
 import { connect } from "react-redux";
-import { LOCALES } from "../../i18n/index";
+import { IntlContext, LOCALES } from "../../i18n/index";
 
-import translate from "../../i18n/translate";
+// import translate from "../../i18n/translate";
 
 import { Col, Row } from "reactstrap";
 
@@ -16,7 +14,12 @@ import { CasesBySector } from "./queries/CasesPerSector";
 import { CasesByAge } from "./queries/CaseAge";
 import { CasesByKnowLedge } from "./queries/CaseKnowledgeLV";
 import { CasesByCallFeedback } from "./queries/CaseCallFeedback";
+import { CasesByGender } from "./queries/CaseGender";
 class Information extends Component {
+
+  static contextType = IntlContext;
+  translate = this.context.translate;
+
   state = {
     pageTitle: "Reports",
     pageParent: "Analyptics & Reports",
@@ -29,22 +32,16 @@ class Information extends Component {
     locale: LOCALES.PORTUGUESE,
   };
 
-  
   render() {
     return (
       <div>
         <Breadcrumbs
-          breadCrumbItems={[
-            {
-              name: "Add New",
-              link: `${this.state.page}s/new`,
-            },
-          ]}
+          breadCrumbItems={[]}
           breadCrumbTitle={this.state.pageTitle}
           breadCrumbParent={this.state.pageParent}
           breadCrumbActive={this.state.activePage}
         />
-        <Row>
+        {/* <Row>
           <Col lg="3" sm="6">
             <StatisticsCard
               hideChart
@@ -65,45 +62,43 @@ class Information extends Component {
               statTitle={translate("Total Cases Registered")}
             />
           </Col>
-        </Row>
+        </Row> */}
         <Row>
-          <Col md="4">
-            <h5>{translate("CALLER PROFILE BY AGE")}</h5>
+          <Col md="6">
+            <h5>{this.translate("CALLER PROFILE BY AGE")}</h5>
             <CasesByAge />
           </Col>
-          <Col md="4">
-            <h5> {translate("CALLER PROFILE BY GENDER")}</h5>
-            <DountChart
-              series={[78, 22]}
-              labels={["Male", "Female"]}
-            />
+          <Col md="6">
+            <h5> {this.translate("CALLER PROFILE BY GENDER")}</h5>
+
+            <CasesByGender />
           </Col>
-          <Col md="4">
-            <h5 className=""> {translate("KOWLEDGE ABOUT LV")}</h5>
+          <Col md="6">
+            <h5 className=""> {this.translate("KOWLEDGE ABOUT LV")}</h5>
             <CasesByKnowLedge />
           </Col>
 
-          <Col md="4">
-            <h5>{translate("SATISFATION")}</h5>
+          <Col md="6">
+            <h5>{this.translate("SATISFATION")}</h5>
             <CasesByCallFeedback />
           </Col>
         </Row>
 
         <Row>
           <Col md="12">
-            <h5>{translate("CASES BY PROVINCES")}</h5>
+            <h5>{this.translate("CASES BY PROVINCES")}</h5>
             <CasesByProvince />
           </Col>
 
           <Col md="12">
-            <h5> {translate("CASE TYPE")}</h5>
+            <h5> {this.translate("CASE TYPE")}</h5>
             <CasesByCategory />
           </Col>
         </Row>
 
         <Row>
           <Col md="12">
-            <h5>{translate("CASES PER SECTOR")}</h5>
+            <h5>{this.translate("CASES PER SECTOR")}</h5>
             <CasesBySector />
           </Col>
         </Row>

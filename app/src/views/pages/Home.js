@@ -63,7 +63,7 @@ class Home extends React.Component {
         break;
 
       case "partner":
-        element = <p>{this.translate("Role without cards")}</p>; //this.renderFocalPointCards();
+        element = this.renderPartnerCards();
         break;
 
       case "manager":
@@ -190,6 +190,51 @@ class Home extends React.Component {
             icon={<Icons.Archive className="primary" size={22} />}
             stat="689"
             statTitle="Total Cases sent Partner"
+          />
+        </Col>
+
+        {/* TODO: Show diference between closed and opened cases */}
+      </Row>
+    );
+  };
+
+  renderPartnerCards = () => {
+    return (
+      <Row>
+        <Col md="3">
+          <StatisticsCard
+            hideChart
+            iconBg="primary"
+            icon={<Icons.ThumbsUp className="text-primary" size={15} />}
+            stat="0"
+            statTitle="Referred Cases"
+          />
+        </Col>
+        <Col md="3">
+          <StatisticsCard
+            hideChart
+            iconBg="warning"
+            icon={<Icons.PhoneMissed className="text-warning" size={15} />}
+            stat="0"
+            statTitle="Without Feedback"
+          />
+        </Col>
+        <Col md="3">
+          <StatisticsCard
+            hideChart
+            iconBg="success"
+            icon={<Icons.ThumbsUp className="text-success" size={15} />}
+            stat="0"
+            statTitle="Approved Cases"
+          />
+        </Col>
+        <Col md="3">
+          <StatisticsCard
+            hideChart
+            iconBg="danger"
+            icon={<Icons.ThumbsDown className="text-danger" size={15} />}
+            stat="0"
+            statTitle="Rejected Cases"
           />
         </Col>
 

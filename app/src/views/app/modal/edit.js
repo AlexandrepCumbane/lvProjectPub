@@ -27,7 +27,9 @@ class Edit extends React.Component {
   static contextType = IntlContext;
   translate = this.context.translate;
   notifySuccessBounce = (id = "") =>
-    toast.success(`Transaction completed successfuly.`, { transition: Bounce });
+    toast.success(this.translate(`Transaction completed successfuly.`), {
+      transition: Bounce,
+    });
 
   notifyErrorBounce = (error) =>
     toast.error(error, {
@@ -50,6 +52,7 @@ class Edit extends React.Component {
     const { form } = config.pages[this.props.page];
     const { data } = this.props;
 
+    console.log(data);
     let formdata = new FormData();
 
     form.forEach((item) => {
@@ -67,7 +70,7 @@ class Edit extends React.Component {
     }
 
     if (this.props.page === "customuser") {
-      formdata.append("groups_id", data['groups'][0]);
+      formdata.append("groups_id", data["groups"][0]);
     }
 
     formdata.append("id", data["id"]);
@@ -88,7 +91,7 @@ class Edit extends React.Component {
             outline
             onClick={this.props.toggleModal}
           >
-            {this.props.label}
+            {this.translate(this.props.label)}
           </Button>
         )}
         <Modal
@@ -98,7 +101,7 @@ class Edit extends React.Component {
           unmountOnClose={this.state.unmountOnClose}
         >
           <ModalHeader toggle={this.props.toggleModal}>
-            {this.props.title}
+            {this.translate(this.props.title)}
           </ModalHeader>
 
           <ModalBody>{this.renderForm()}</ModalBody>
@@ -106,10 +109,11 @@ class Edit extends React.Component {
           <ModalFooter>
             {this.props.page === "task" ? (
               <CreateModal
-                title={`Comment Your task`}
+                title={this.translate(`Comment Your task`)}
                 page="taskcomment"
-                label="Comment"
+                label={this.translate("Comment")}
                 color="warning"
+                task_id={this.props.data["id"]}
               />
             ) : (
               <></>
@@ -117,9 +121,9 @@ class Edit extends React.Component {
             {this.props.page === "forwardinginstitution" &&
             this.props.userRole === "manager" ? (
               <CreateModal
-                title={`Add  new task`}
+                title={this.translate(`Add  new task`)}
                 page="task"
-                label="Task"
+                label={this.translate("Task")}
                 lvform_id={this.props.data["lvform_id"]}
                 description={this.props.data["partner_feedback"]}
                 color="warning"
@@ -137,7 +141,7 @@ class Edit extends React.Component {
               ) : (
                 <></>
               )}
-              Submit
+              {this.translate("Submit")}
             </Button>
           </ModalFooter>
         </Modal>
@@ -159,9 +163,9 @@ class Edit extends React.Component {
           ) : (
             <Alert color="danger" className="square">
               <Label className="text-danger">
-                All these fields are required{" "}
+                {`${this.translate("All these fields are required")} `}
                 {this.state.required_fields_labels.map((item, index) => (
-                  <strong key={index}>{item}, </strong>
+                  <strong key={index}>{this.translate(item)}, </strong>
                 ))}
               </Label>
             </Alert>
@@ -473,7 +477,7 @@ class Edit extends React.Component {
   handleSubmit = () => {
     const { userOauth } = this.props.state.auth.login;
     if (this.state.required_fields.length > 0) {
-      this.notifyErrorBounce("Fill all required inputs");
+      this.notifyErrorBounce(this.translate("Fill all required inputs"));
       this.setState({ isValid: false });
     } else {
       this.setState({ isValid: true, isLoading: true });
@@ -493,7 +497,7 @@ class Edit extends React.Component {
         })
         .catch((error) => {
           this.setState({ isLoading: false });
-          this.notifyErrorBounce("Transaction process failed");
+          this.notifyErrorBounce(this.translate("Transaction process failed"));
         });
     }
   };

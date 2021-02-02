@@ -815,7 +815,7 @@ class Edit extends Component {
         })
         .catch((error) => {
           this.setState({ isProcessing: false });
-          this.notifyErrorBounce("Transaction not completed.");
+          this.notifyErrorBounce("Unable to complete transaction.");
         });
     } else {
       this.setState({ edit_status: true });
