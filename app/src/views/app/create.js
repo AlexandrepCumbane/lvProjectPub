@@ -462,7 +462,6 @@ class Create extends React.Component {
       axios
         .post(`${url}s.json`, this.state.form, {
           headers: {
-            "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
             Authorization: `Bearer ${userOauth.access_token}`,
           },
         })

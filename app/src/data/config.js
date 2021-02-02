@@ -646,6 +646,14 @@ export default {
           "wq:length": 30,
           type: "string",
         },
+        {
+          name: "groups",
+          label: "Groups",
+          hint:
+            "The groups this user belongs to. A user will get all permissions granted to each of their groups.",
+          type: "string",
+          "wq:ForeignKey": "group",
+        },
       ],
       verbose_name: "user",
       verbose_name_plural: "users",

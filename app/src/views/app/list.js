@@ -152,8 +152,7 @@ class List extends Component {
           return {
             headerName: item.label,
             field: `${item.name}_label`,
-            width: 250,
-            filter: true,
+            width: 150,
             cellRendererFramework: ({ data }) => {
               return this.renderStatus(data, data[`${item.name}_label`]);
             },
@@ -166,6 +165,9 @@ class List extends Component {
               width: 250,
               filter: true,
               valueGetter: ({ data }) => {
+                if (item.name === "groups")
+                  return this.translate(data["groups_label"][0] ?? "None");
+
                 return this.translate(data[`${item.name}_label`] ?? "None");
               },
               cellRendererFramework: ({ data }) => {
@@ -178,12 +180,13 @@ class List extends Component {
               field: `${item.name}_label`,
               width: 250,
               filter: true,
-              valueGetter: ({ data }) =>
-                this.translate(
+              valueGetter: ({ data }) => {
+                if (item.name === "groups")
+                  return this.translate(data["groups_label"][0] ?? "None");
+                return this.translate(
                   data[`${item.name}_label`] ?? data[`${item.name}`] ?? "None"
-                ),
-              headerCheckboxSelectionFilteredOnly: true,
-              headerCheckboxSelection: true,
+                );
+              },
             };
         }
       } else
@@ -191,11 +194,17 @@ class List extends Component {
           headerName: this.translate(item.label),
           field: `${item.name}`,
           width: 250,
-          valueGetter: ({ data }) =>
-            this.translate(data[`${item.name}`] ?? "None"),
-          filter: true,
-          headerCheckboxSelectionFilteredOnly: true,
-          headerCheckboxSelection: true,
+          valueGetter: ({ data }) => {
+            if (
+              data[`${item.name}`] === "" ||
+              data[`${item.name}`] === undefined ||
+              data[`${item.name}`] === null
+            ) {
+              return this.translate("None");
+            }
+
+            return this.translate(data[`${item.name}`]);
+          },
         };
     });
     this.setState({ columnDefs, show: true });
