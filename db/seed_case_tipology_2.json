@@ -17,7 +17,7 @@
         "model": "case_tipology.casetipology",
         "pk": 3,
         "fields": {
-            "category": "Compaint/negative feedback"
+            "category": "Complaint/negative feedback"
         }
     },
     {
