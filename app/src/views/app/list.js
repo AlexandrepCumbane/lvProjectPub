@@ -144,11 +144,14 @@ class List extends Component {
     const { form } = config.pages[this.props.path];
 
     const columnDefs = form.map((item, index) => {
-      if (item.type === "select one" || item.type === "string" && item['wq:ForeignKey']) {
+      if (
+        item.type === "select one" ||
+        (item.type === "string" && item["wq:ForeignKey"])
+      ) {
         if (index === 0) {
           return {
             headerName: item.label,
-            field: this.translate("`${item.name}_label`"),
+            field: `${item.name}_label`,
             width: 250,
             filter: true,
             cellRendererFramework: ({ data }) => {
@@ -163,7 +166,7 @@ class List extends Component {
               width: 250,
               filter: true,
               valueGetter: ({ data }) => {
-                return this.translate(data[`${item.name}_label`]);
+                return this.translate(data[`${item.name}_label`] ?? "None");
               },
               cellRendererFramework: ({ data }) => {
                 return this.renderStatusLabel(data, data[`${item.name}_label`]);
@@ -176,8 +179,9 @@ class List extends Component {
               width: 250,
               filter: true,
               valueGetter: ({ data }) =>
-                this.translate(data[`${item.name}_label`]) ??
-                this.translate(data[`${item.name}`]),
+                this.translate(
+                  data[`${item.name}_label`] ?? data[`${item.name}`] ?? "None"
+                ),
               headerCheckboxSelectionFilteredOnly: true,
               headerCheckboxSelection: true,
             };
@@ -187,7 +191,8 @@ class List extends Component {
           headerName: this.translate(item.label),
           field: `${item.name}`,
           width: 250,
-          valueGetter: ({ data }) => this.translate(data[`${item.name}`]),
+          valueGetter: ({ data }) =>
+            this.translate(data[`${item.name}`] ?? "None"),
           filter: true,
           headerCheckboxSelectionFilteredOnly: true,
           headerCheckboxSelection: true,

@@ -26,12 +26,12 @@ class LvForm(models.Model):
     )
     contact_group = models.CharField(
         choices=(
-            ("1", "Beneficiario"),
-            ("2", "Alguem para beneficiario"),
-            ("3", "Nao beneficiario"),
-            ("4", "Lider comunitario"),
-            ("5", "Parceiro Humanitario"),
-            ("6", "Outro"),
+            ("1", "Beneficiary"),
+            ("2", "Representative of beneficiary"),
+            ("3", "Non beneficiary"),
+            ("4", "Community leader"),
+            ("5", "Humanitarian partner"),
+            ("6", "Other"),
         ),
         max_length=1,
         verbose_name="Who is contacting",
@@ -48,10 +48,10 @@ class LvForm(models.Model):
     )
     age_group = models.CharField(
         choices=(
-            ("1", "17 e menos"),
+            ("1", "17 and below"),
             ("2", "18 - 59"),
-            ("3", "60 e acima"),
-            ("4", "Nao mencionado"),
+            ("3", "60 and above"),
+            ("4", "Not disclosed"),
         ),
         max_length=1,
         null=True,
@@ -94,14 +94,14 @@ class LvForm(models.Model):
     )
     transfermod = models.CharField(
         choices=(
-            ("1", "Comida"),
-            ("2", "Senha de dinheiro"),
-            ("3", "Dinheiro"),
-            ("4", "Senha de bens"),
-            ("5", "Bens Não alimentares"),
-            ("6", "Irrelevante"),
+            ("1", "Food"),
+            ("2", "Value voucher"),
+            ("3", "Money"),
+            ("4", "Commodity voucher"),
+            ("5", "Non-food Items"),
+            ("6", "Not relevant"),
             ("7", "FFA"),
-            ("8", "Alimentação escolar"),
+            ("8", "School feeding"),
         ),
         max_length=1,
         verbose_name="Transfer modality",
@@ -109,9 +109,9 @@ class LvForm(models.Model):
     )
     location_type = models.CharField(
         choices=(
-            ("1", "Sim"),
-            ("2", "Nao"),
-            ("3", "Irrelevant"),
+            ("1", "Yes"),
+            ("2", "No"),
+            ("3", "Not relevant"),
         ),
         max_length=1,
         null=True,
@@ -156,33 +156,33 @@ class LvForm(models.Model):
     )
     sector = models.CharField(
         choices=(
-            ("1", "Resiliência"),
-            ("2", "INGC"),
-            ("3", "CCCM"),
-            ("4", "Protecção"),
-            ("5", "Proteção contra Exploração e Abuso Sexual"),
-            ("6", "Proteção a criança"),
-            ("7", "Saúde"),
-            ("8", "Educação"),
-            ("9", "Agua, saneamento e Higiene"),
-            ("10", "Abrigo"),
-            ("11", "Violência baseada no gênero"),
-            ("12", "Segurança Alimentar"),
-            ("13", "Outro"),
+            ("1", "Shelter"),
+            ("2", "WASH"),
+            ("3", "Education"),
+            ("4", "Food Security"),
+            ("5", "Health"),
+            ("6", "Child Protection"),
+            ("7", "Gender-based violence"),
+            ("8", "Protection from Sexual Exploitation and Abuse"),
+            ("9", "Protection"),
+            ("10", "CCCM"),
+            ("11", "Resilience"),
+            ("12", "INGC"),
+            ("13", "Other"),
         ),
         max_length=2,
         verbose_name="Sector",
     )
     vulnerability = models.CharField(
         choices=(
-            ("1", "Pessoa com dificiencia"),
-            ("2", "Familia chefiada por crianca"),
-            ("3", "Pais solteiros"),
-            ("4", "Mulher gravida ou lactente"),
-            ("5", "Familia chefiada por idosos"),
-            ("6", "Doente Cronico"),
-            ("7", "Nenhum"),
-            ("8", "Outro"),
+            ("1", "Person with disability"),
+            ("2", "Child headed household"),
+            ("3", "Single parent"),
+            ("4", "Pregnant or lactating woman"),
+            ("5", "Elderly head of household"),
+            ("6", "Chronically patient"),
+            ("7", "None"),
+            ("8", "Other"),
         ),
         max_length=1,
         verbose_name="Vulnerability",
@@ -208,84 +208,84 @@ class LvForm(models.Model):
     )
     means_of_communication = models.CharField(
         choices=(
-            ("1", "Linha verde (proprio numero)"),
-            ("2", "Linha verde (telefone emprestado)"),
-            ("3", "WFP hotline (proprio numero)"),
-            ("4", "WFP hotline (telefone emprestado)"),
-            ("5", "Mesa de apoio"),
-            ("6", "sms"),
+            ("1", "Linha verde (own phone)"),
+            ("2", "Linha verde (borrowed phone)"),
+            ("3", "WFP hotline (own phone)"),
+            ("4", "WFP hotline (borrowed phone)"),
+            ("5", "Helpdesk"),
+            ("6", "SMS"),
             ("7", "Email"),
-            ("8", "Caixa de sugestoes"),
+            ("8", "Suggestion box"),
         ),
         max_length=1,
         null=True,
         blank=True,
-        verbose_name="Means of Communication",
-        help_text="Means of Communication",
+        verbose_name="How did they contact us?",
+        help_text="How did they contact us?",
     )
     how_knows_lv = models.CharField(
         choices=(
             ("1", "Radio"),
-            ("2", "Panfletos"),
-            ("3", "Pessoas trabalhando na comunidade"),
+            ("2", "Pamphlet"),
+            ("3", "People working in the community"),
             ("4", "SMS"),
-            ("5", "Cartazes ou material de visibilidade"),
-            ("6", "Caixa de sugestoes"),
+            ("5", "Posters or other visibility material"),
+            ("6", "Suggestion box"),
         ),
         max_length=1,
         null=True,
         blank=True,
         verbose_name=
-        "How have you come to know about the complaints and feedback mechanism?",
+        "How did you hear about linha verde?",
         help_text=
-        "How have you come to know about the complaints and feedback mechanism?",
+        "How did you hear about linha verde?",
     )
     how_callback = models.CharField(
         choices=(
-            ("1", "Mesmo contacto"),
-            ("2", "Outro contacto"),
+            ("1", "Same phone"),
+            ("2", "Other phone "),
         ),
         max_length=1,
         null=True,
         blank=True,
-        verbose_name="How would you prefer to be reached?",
-        help_text="How would you prefer to be reached?",
+        verbose_name="How would you like to be contacted?",
+        help_text="How would you like to be contacted?",
     )
     other_contact = models.IntegerField(
         null=True,
         blank=True,
-        verbose_name="Contact",
-        help_text="Contact",
+        verbose_name="Other number",
+        help_text="Other number",
     )
     call_feedback = models.CharField(
         choices=(
-            ("1", "Muito Satisfeito"),
-            ("2", "Satisfeito"),
-            ("3", "Neutro"),
-            ("4", "Insatisfeito"),
-            ("5", "Muito insatisfeito"),
+            ("1", "Very satisfied"),
+            ("2", "Satisfied"),
+            ("3", "Neutral"),
+            ("4", "Unsatisfied"),
+            ("5", "Very unsatisfied"),
         ),
         max_length=1,
         null=True,
         blank=True,
         verbose_name=
-        "How do you feel about how your query was dealt with during this call?",
+        "How do you feel you issue was managed during this call?",
         help_text=
-        "How do you feel about how your query was dealt with during this call?",
+        "How do you feel you issue was managed during this call? ",
     )
     callback_required = models.BooleanField(
         default=False,
         null=True,
         blank=True,
-        verbose_name="Callback required?",
-        help_text="Callback required?",
+        verbose_name="Requires callback?",
+        help_text="Requires callback?",
     )
     unavailable_contact = models.BooleanField(
         default=False,
         null=True,
         blank=True,
-        verbose_name="Contact was unavailable for feedback",
-        help_text="Contact was unavailable for feedback",
+        verbose_name="Caller not reached for feedback?",
+        help_text="Caller not reached for feedback?",
     )
     datetime_created = models.DateTimeField(
         null=True,
@@ -319,7 +319,7 @@ class LvForm(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 
     class Meta:
-        verbose_name = "linha verde intake form"
+        verbose_name = "Case"
         verbose_name_plural = "lvforms"
 
     def __str__(self) -> str:

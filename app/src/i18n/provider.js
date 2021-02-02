@@ -52,7 +52,7 @@ class IntlProviderWrapper extends React.Component {
             });
           },
           translate: (text) => {
-            return i18n.t(text);
+            return text !== undefined || text !== null ? i18n.t(text) : 'None';
           },
         }}
       >
