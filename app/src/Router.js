@@ -18,7 +18,7 @@ import Logout from "./views/pages/authentication/logout/Logout";
 // Route-based code splitting
 const Home = lazy(() => import("./views/pages/Home"));
 
-// const Welcome = lazy(() => import("./views/pages/Welcome"));
+const Welcome = lazy(() => import("./views/pages/Welcome"));
 
 // const Page2 = lazy(() => import("./views/pages/Page2"));
 
