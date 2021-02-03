@@ -28,6 +28,7 @@ class List extends Component {
     data: [],
     page: "lvform",
     isLoading: false,
+    hidden: true,
   };
 
   componentDidMount() {
@@ -36,6 +37,7 @@ class List extends Component {
     this.setState({
       data: this.props.app_reducer[this.props.path] ?? [],
       isLoading: true,
+      show: true,
     });
 
     this.props
@@ -153,6 +155,7 @@ class List extends Component {
             headerName: this.translate(item.label),
             field: `${item.name}_label`,
             width: 150,
+            editable: false,
             cellRendererFramework: ({ data }) => {
               return this.renderStatus(data, data[`${item.name}_label`]);
             },
@@ -163,6 +166,7 @@ class List extends Component {
               headerName: this.translate(item.label),
               field: this.translate(`${item.name}_label`),
               width: 250,
+              editable: false,
               valueGetter: ({ data }) => {
                 if (item.name === "groups")
                   return this.translate(data["groups_label"][0] ?? "None");
@@ -178,6 +182,7 @@ class List extends Component {
               headerName: this.translate(item.label),
               field: `${item.name}_label`,
               width: 250,
+              editable: false,
               valueGetter: ({ data }) => {
                 if (item.name === "groups")
                   return this.translate(data["groups_label"][0] ?? "None");
@@ -205,7 +210,7 @@ class List extends Component {
           },
         };
     });
-    this.setState({ columnDefs, show: true });
+    this.setState({ columnDefs });
   };
 
   render() {
@@ -228,8 +233,9 @@ class List extends Component {
             loading={this.state.isLoading}
             data={this.state.data}
             columnDefs={this.state.columnDefs}
-            tableType={this.state.page}
+            tableType={this.props.path}
             dropdowns={[]}
+            onColumnMoved={this.onColumnMoved}
           />
         ) : (
           <></>

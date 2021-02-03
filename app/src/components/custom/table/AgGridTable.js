@@ -25,6 +25,9 @@ import "../../../assets/scss/pages/users.scss";
 import "../../../assets/scss/pages/data-list.scss";
 
 class AggridTable extends React.Component {
+  // static contextType = ContextLayout;
+  // setPage = this.context.setPage;
+
   state = {
     gridReady: false,
     showSidebar: false,
@@ -36,6 +39,8 @@ class AggridTable extends React.Component {
     getPageSize: "",
     selectedData: {},
     modalForm: "",
+    page: "",
+    showTable: false,
     defaultColDef: {
       sortable: true,
       editable: true,
@@ -58,7 +63,11 @@ class AggridTable extends React.Component {
   componentDidMount() {
     this.setState({
       rowData: this.props.data ?? this.state.rowData,
+      page: this.props.tableType,
     });
+
+    // this.setPage(this.props.tableType);
+
     this.setState({
       columnDefs: [
         ...(this.props.columnDefs ?? this.state.columnDefs),
@@ -102,7 +111,13 @@ class AggridTable extends React.Component {
         },
       ],
     });
-    this.setState({ showSidebar: this.props.showSidebar ?? false });
+
+    // this.gridApi.setColumnDefs(this.props.columnDefs);
+
+    this.setState({
+      showSidebar: this.props.showSidebar ?? false,
+      showTable: true,
+    });
   }
 
   renderLoading = () => {
@@ -118,10 +133,24 @@ class AggridTable extends React.Component {
     return res;
   };
 
-  onGridReady = (params) => {
+  onColumnMoved(name, params) {
+    var columnState = JSON.stringify(params.columnApi.getColumnState());
+    localStorage.setItem(name, columnState);
+  }
+
+  onGridReady = (name, params) => {
+    var columnState = JSON.parse(localStorage.getItem(name));
+    const { columnDefs } = params.columnApi.columnController;
+    if (columnState) {
+      if (columnState.length === columnDefs.length) {
+        params.columnApi.setColumnState(columnState);
+      }
+    }
+
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     this.gridApi.paginationSetPageSize(Number(20));
+
     this.setState({
       currenPageSize: this.gridApi.paginationGetCurrentPage() + 1,
       getPageSize: this.gridApi.paginationGetPageSize(),
@@ -308,30 +337,56 @@ class AggridTable extends React.Component {
                           >
                             Export
                           </DropdownItem>
+                          <DropdownItem
+                            tag="div"
+                            onClick={() => {
+                              this.setState({
+                                columnDefs: this.props.columnDefs,
+                                showTable: false,
+                              });
+
+                              this.gridApi.setColumnDefs(this.props.columnDefs);
+                              localStorage.removeItem(this.props.tableType);
+
+                              this.setState({
+                                showTable: true,
+                              });
+                            }}
+                          >
+                            Restore Columns
+                          </DropdownItem>
                         </DropdownMenu>
                       </UncontrolledDropdown>
                     </div>
                   </div>
                 </div>
-                <ContextLayout.Consumer>
-                  {(context) => (
-                    <AgGridReact
-                      // modules={this.state.modules}
-                      rowSelection="multiple"
-                      defaultColDef={defaultColDef}
-                      columnDefs={columnDefs}
-                      rowData={rowData}
-                      onGridReady={this.onGridReady}
-                      colResizeDefault={"shift"}
-                      animateRows={true}
-                      floatingFilter={true}
-                      pagination={true}
-                      paginationPageSize={this.state.paginationPageSize}
-                      pivotPanelShow="always"
-                      enableRtl={context.state.direction === "rtl"}
-                    />
-                  )}
-                </ContextLayout.Consumer>
+                {this.state.showTable ? (
+                  <ContextLayout.Consumer>
+                    {(context) => (
+                      <AgGridReact
+                        rowSelection="multiple"
+                        defaultColDef={this.state.columnDefs}
+                        columnDefs={this.state.columnDefs}
+                        rowData={rowData}
+                        onGridReady={(params) =>
+                          this.onGridReady(this.props.tableType, params)
+                        }
+                        colResizeDefault={"shift"}
+                        animateRows={true}
+                        floatingFilter={true}
+                        pagination={true}
+                        paginationPageSize={this.state.paginationPageSize}
+                        pivotPanelShow="always"
+                        enableRtl={context.state.direction === "rtl"}
+                        onColumnMoved={(params) =>
+                          this.onColumnMoved(this.props.tableType, params)
+                        }
+                      />
+                    )}
+                  </ContextLayout.Consumer>
+                ) : (
+                  <Spinner size="lg" />
+                )}
               </div>
             )}
           </CardBody>

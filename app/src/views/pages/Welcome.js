@@ -39,7 +39,6 @@ class Welcome extends React.Component {
   };
 
   componentDidMount() {
-    // this.authService.getUser().then((user) => {
     if (this.props.userOauth === undefined) {
       this.authService.login();
     } else {
@@ -47,7 +46,6 @@ class Welcome extends React.Component {
         this.test_connection(this.props.userOauth.access_token);
       });
     }
-    // });
   }
 
   /**
