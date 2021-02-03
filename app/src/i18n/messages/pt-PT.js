@@ -3,7 +3,7 @@ import { LOCALES } from "../locales";
 export default {
   [LOCALES.PORTUGUESE]: {
     Province: "Provincia",
-    Distrit: "Distrito",
+    District: "Distrito",
     Locality: "Localidade",
     "Cases per province": "Casos por Provincia",
     "CLIENTE PROFILE BY AGE": "PERFIL DO CLIENTE POR IDADE",
