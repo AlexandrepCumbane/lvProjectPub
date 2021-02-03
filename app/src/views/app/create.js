@@ -7,7 +7,7 @@ import { history } from "../../history";
 import { axios } from "../../redux/api";
 
 import config from "../../data/config";
-import { 
+import {
   Button,
   Card,
   CardBody,
@@ -106,7 +106,10 @@ class Create extends React.Component {
   };
 
   renderLabel = (field) => {
-    if (!this.state.isValid && this.state.required_fields_labels.includes(field.label)) {
+    if (
+      !this.state.isValid &&
+      this.state.required_fields_labels.includes(field.label)
+    ) {
       return (
         <Label className="text-danger"> * {this.translate(field.label)}</Label>
       );
@@ -117,6 +120,10 @@ class Create extends React.Component {
 
   renderSingleInput = (field) => {
     let res = <></>;
+
+    if (field.name === "case_number") {
+      return <span key="case_number" />;
+    }
 
     switch (field.type) {
       case "text":

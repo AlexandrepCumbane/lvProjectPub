@@ -786,6 +786,12 @@ export default {
       list: true,
       form: [
         {
+          name: "case_number",
+          label: "Case Number",
+          hint: "Case number",
+          type: "int",
+        },
+        {
           name: "consent_pi",
           label: "Consent Pi",
           choices: [
@@ -1400,12 +1406,6 @@ export default {
             },
           ],
           type: "select one",
-        },
-        {
-          name: "case_number",
-          label: "Case Number",
-          hint: "Case number",
-          type: "int",
         },
       ],
       verbose_name: "Case",

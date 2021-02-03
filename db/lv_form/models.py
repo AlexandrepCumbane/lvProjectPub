@@ -329,7 +329,7 @@ class LvForm(models.Model):
         verbose_name_plural = "lvforms"
 
     def __str__(self) -> str:
-        return str(self.id)
+        return str(self.case_number)
 
 
 class CaseComment(models.Model):

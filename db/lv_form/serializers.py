@@ -1,3 +1,4 @@
+import random
 from wq.db.patterns import serializers as patterns
 from .models import LvForm, CaseComment, ForwardingInstitution, Task, TaskComment, ForwardCaseToFocalpoint
 
@@ -7,7 +8,6 @@ class CaseCommentSerializer(patterns.AttachedModelSerializer):
         model = CaseComment
         fields = '__all__'
         read_only_fields = ('created_by', )
-        
 
         # exclude = ('lvform',)
         # object_field = 'lvform'
@@ -31,21 +31,21 @@ class ForwardingInstitutionSerializer(patterns.AttachedModelSerializer):
         return form
 
 
-
-
 class TaskCommentSerializer(patterns.AttachedModelSerializer):
     class Meta:  #(patterns.AttachmentSerializer.Meta):
         model = TaskComment
         fields = '__all__'
-        read_only_fields = ('created_by', ) 
+        read_only_fields = ('created_by', )
 
     def create(self, validated_data):
         form = TaskComment.objects.create(
             created_by=self.context['request'].user, **validated_data)
         return form
 
+
 class TaskSerializer(patterns.AttachedModelSerializer):
     taskcomment_set = TaskCommentSerializer(required=False, many=True)
+
     class Meta:  #(patterns.AttachmentSerializer.Meta):
         model = Task
         exclude = ('created_by', )
@@ -62,7 +62,6 @@ class ForwardCaseToFocalpointSerializer(patterns.AttachedModelSerializer):
     class Meta:
         model = ForwardCaseToFocalpoint
         fields = "__all__"
-
 
 
 # TODO: Fix iterating/linking through the relationships
@@ -85,8 +84,15 @@ class LvFormSerializer(patterns.AttachedModelSerializer):
         model = LvForm
         # fields = "__all__"
         exclude = ('created_by', )
+        read_only_fields = ('case_number', )
 
     def create(self, validated_data):
-        form = LvForm.objects.create(created_by=self.context['request'].user,
+        last = LvForm.objects.last()
+        case_number = random.randint(10283, 112398)
+        if (last):
+            case_number = last.case_number + 1
+
+        form = LvForm.objects.create(case_number=case_number,
+                                     created_by=self.context['request'].user,
                                      **validated_data)
         return form

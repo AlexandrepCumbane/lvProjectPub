@@ -201,7 +201,22 @@ class List extends Component {
               },
             };
         }
-      } else
+      } else {
+        if (index === 0) {
+          return {
+            headerName: this.translate(item.label),
+            field: `${item.name}`,
+            minWidth: 250,
+            editable: false,
+            resizable: true,
+            checkboxSelection: true,
+            headerCheckboxSelection: true,
+            cellRendererFramework: ({ data }) => {
+              return this.renderStatus(data, data[`${item.name}`]);
+            },
+          };
+        }
+
         return {
           headerName: this.translate(item.label),
           field: this.translate(`${item.name}`),
@@ -220,6 +235,7 @@ class List extends Component {
             return this.translate(data[`${item.name}`]);
           },
         };
+      }
     });
     this.setState({ columnDefs });
   };
