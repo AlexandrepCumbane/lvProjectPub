@@ -291,6 +291,7 @@ class Create extends React.Component {
               <Col md="6" key={field.name} className="mb-1">
                 <Checkbox
                   color="primary"
+                  className="my-2"
                   icon={<Check className="vx-icon" size={16} />}
                   label={this.translate(field.label)}
                   defaultChecked={false}
@@ -310,6 +311,7 @@ class Create extends React.Component {
               <Col md="6" key={field.name} className="mb-1">
                 <Checkbox
                   color="primary"
+                  className="my-2"
                   icon={<Check className="vx-icon" size={16} />}
                   label={this.translate(field.label)}
                   defaultChecked={false}
