@@ -199,7 +199,17 @@ class LvForm(models.Model):
         max_length=1,
         verbose_name="Case priority",
     )
-    case_status = models.CharField(
+    lvform_status = models.CharField(choices=(
+        ("1", "Not started"),
+        ("2", "In Progress"),
+        ("3", "Closed"),
+    ),
+                                   max_length=1,
+                                   null=True,
+                                   blank=True,
+                                   verbose_name="Status",
+                                   default="1")
+    case_close_category = models.CharField(
         choices=(("1", "Close case"), ),
         max_length=1,
         null=True,
@@ -235,10 +245,8 @@ class LvForm(models.Model):
         max_length=1,
         null=True,
         blank=True,
-        verbose_name=
-        "How did you hear about linha verde?",
-        help_text=
-        "How did you hear about linha verde?",
+        verbose_name="How did you hear about linha verde?",
+        help_text="How did you hear about linha verde?",
     )
     how_callback = models.CharField(
         choices=(
@@ -268,10 +276,8 @@ class LvForm(models.Model):
         max_length=1,
         null=True,
         blank=True,
-        verbose_name=
-        "How do you feel you issue was managed during this call?",
-        help_text=
-        "How do you feel you issue was managed during this call? ",
+        verbose_name="How do you feel you issue was managed during this call?",
+        help_text="How do you feel you issue was managed during this call? ",
     )
     callback_required = models.BooleanField(
         default=False,
