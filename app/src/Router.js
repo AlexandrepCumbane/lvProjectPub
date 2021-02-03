@@ -84,8 +84,8 @@ class AppRouter extends React.Component {
       // Set the directory path if you are deploying in sub-folder
       <Router history={history}>
         <Switch>
-          {/* <AppRoute exact path="/" component={Login} fullLayout />
-          <AppRoute exact path="/welcome" component={Welcome} fullLayout /> */}
+          <AppRoute exact path="/" component={Login} fullLayout />
+          <AppRoute exact path="/welcome" component={Welcome} fullLayout />
           <AppRoute exact path="/home" component={Home} />
           <AppRoute
             exact
