@@ -121,7 +121,7 @@ class Edit extends React.Component {
             {this.props.page === "forwardinginstitution" &&
             this.props.userRole === "manager" ? (
               <CreateModal
-                title={this.translate(`Add  new task`)}
+                title={this.translate(`Add new task`)}
                 page="task"
                 label={this.translate("Task")}
                 lvform_id={this.props.data["lvform_id"]}
@@ -249,7 +249,7 @@ class Edit extends React.Component {
           res = (
             <Col key={field.name}>
               <Label>
-                <strong>{field.label}</strong>
+                <strong> {this.translate(field.label)}</strong>
               </Label>
 
               <FormGroup className="form-label-group position-relative has-icon-left">
@@ -272,7 +272,7 @@ class Edit extends React.Component {
                     this.updateState(`${field.name}_id`, e.target.value);
                   }}
                 >
-                  <option>Select</option>
+                  <option>{this.translate("Select")}</option>
 
                   {field["has_parent"] === undefined
                     ? this.renderSelectOptionForeignWQ(
@@ -372,7 +372,7 @@ class Edit extends React.Component {
                   placeholder={field.label}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 >
-                  <option>Select</option>
+                  <option>{this.translate("Select")}</option>
                   {this.renderSelectOption(field.choices)}
                 </CustomInput>
               </FormGroup>

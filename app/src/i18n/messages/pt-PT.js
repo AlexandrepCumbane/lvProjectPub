@@ -270,5 +270,9 @@ export default {
     Update: "Actualizar",
     Task: "Tarefa",
     Send: "Encaminhar",
+    "Fill all required inputs": "Preencha todos os campos obrigatórios",
+    "Add new task": "Adicionar nova tarefa",
+    "Comment Your task": "Comente sua tarefa",
+    "Transaction completed successfuly.": "Transação concluída com sucesso.",
   },
 };

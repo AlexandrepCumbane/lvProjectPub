@@ -45,7 +45,6 @@ class Create extends React.Component {
     dropdowns: [],
   };
   componentDidMount() {
-    console.log(this.props);
     this.updateState("lvform_id", this.props.lvform_id);
 
     let formdata = new FormData();
