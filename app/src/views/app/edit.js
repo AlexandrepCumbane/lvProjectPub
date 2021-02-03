@@ -465,7 +465,6 @@ class Edit extends Component {
             </Col>
             <Col md="6">{this.renderFeedbackComments()}</Col>
             <Col md="12">
-              <strong>Comments</strong>
               {this.renderComments()}
             </Col>
             <Col md="6"></Col>
@@ -481,8 +480,7 @@ class Edit extends Component {
               </div>
             </Col>
             <Col md="6">{this.renderFeedbackComments()}</Col>
-            <Col md="6">
-              <strong>Comments</strong>
+            <Col md="12">
               {this.renderComments()}
             </Col>
             <Col md="6"></Col>

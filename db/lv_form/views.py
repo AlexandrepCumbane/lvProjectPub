@@ -31,7 +31,7 @@ class LvFormViewSet(ModelViewSet):
                 focalpoint__id=user.id).only('lvform')
 
             lv_forms = LvForm.objects.filter(
-                forwardcasetofocalpoint__in=fowarded_results)
+                forwardcasetofocalpoint__in=fowarded_results).order_by('-id')
 
             return lv_forms
 
@@ -41,13 +41,13 @@ class LvFormViewSet(ModelViewSet):
                 referall_to__id=user.id).only('lvform')
 
             lv_forms = LvForm.objects.filter(
-                forwardinginstitution__in=fowarded_results)
+                forwardinginstitution__in=fowarded_results).order_by('-id')
 
             return lv_forms
 
         if "operator" in user_data['groups_label']:
 
-            return self.queryset.filter(created_by__id=user.id)
+            return self.queryset.filter(created_by__id=user.id).order_by('-id')
 
         return self.queryset
 
@@ -64,7 +64,7 @@ class LvFormViewSet(ModelViewSet):
                 focalpoint__id=user.id).only('lvform')
 
             lv_forms = LvForm.objects.filter(
-                forwardcasetofocalpoint__in=fowarded_results)
+                forwardcasetofocalpoint__in=fowarded_results).order_by('-id')
 
             return lv_forms
 
@@ -74,7 +74,7 @@ class LvFormViewSet(ModelViewSet):
                 'lvform')
 
             lv_forms = LvForm.objects.filter(
-                forwardcasetofocalpoint__in=fowarded_results)
+                forwardcasetofocalpoint__in=fowarded_results).order_by('-id')
 
             return lv_forms
 
@@ -84,7 +84,7 @@ class LvFormViewSet(ModelViewSet):
                 referall_to__id=user.id).only('lvform')
 
             lv_forms = LvForm.objects.filter(
-                forwardinginstitution__in=fowarded_results)
+                forwardinginstitution__in=fowarded_results).order_by('-id')
 
             return lv_forms
 
