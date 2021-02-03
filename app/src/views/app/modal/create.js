@@ -143,7 +143,13 @@ class Create extends React.Component {
   renderSingleInput = (field) => {
     let res = <></>;
 
-    if (field.name === "lvform" || field.name === "task") {
+    if (
+      field.name === "lvform" ||
+      field.name === "task" ||
+      field.name === "has_feedback" ||
+      field.name === "partner_feedback" ||
+      field.name === "isFeedback_aproved"
+    ) {
       return <span key="lvform" />;
     }
     switch (field.type) {
