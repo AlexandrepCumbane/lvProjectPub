@@ -464,9 +464,7 @@ class Edit extends Component {
               </div>
             </Col>
             <Col md="6">{this.renderFeedbackComments()}</Col>
-            <Col md="12">
-              {this.renderComments()}
-            </Col>
+            <Col md="12">{this.renderComments()}</Col>
             <Col md="6"></Col>
           </>
         );
@@ -480,9 +478,7 @@ class Edit extends Component {
               </div>
             </Col>
             <Col md="6">{this.renderFeedbackComments()}</Col>
-            <Col md="12">
-              {this.renderComments()}
-            </Col>
+            <Col md="12">{this.renderComments()}</Col>
             <Col md="6"></Col>
           </>
         );
@@ -508,6 +504,10 @@ class Edit extends Component {
   renderSingleInput = (field) => {
     let res = <></>;
     let { data } = this.props;
+
+    if (field.name === "case_number") {
+      return <span key="case_number" />;
+    }
 
     switch (field.type) {
       case "text":
@@ -537,7 +537,7 @@ class Edit extends Component {
                     </div>
                   </FormGroup>
                 ) : (
-                  <p>{data[field.name]}</p>
+                  <p>{this.translate(data[field.name] ?? "None")}</p>
                 )}
               </Col>
             </>
@@ -567,7 +567,7 @@ class Edit extends Component {
                   </div>
                 </FormGroup>
               ) : (
-                <p>{data[field.name]}</p>
+                <p>{this.translate(data[field.name] ?? "None")}</p>
               )}
             </Col>
           );
@@ -609,7 +609,7 @@ class Edit extends Component {
                   </CustomInput>
                 </FormGroup>
               ) : (
-                <p>{data[`${field.name}_label`]}</p>
+                <p>{this.translate(data[`${field.name}_label`] ?? "None")}</p>
               )}
             </Col>
           );
@@ -636,7 +636,7 @@ class Edit extends Component {
                   </div>
                 </FormGroup>
               ) : (
-                <p>{data[`${field.name}`]}</p>
+                <p>{this.translate(data[field.name] ?? "None")}</p>
               )}
             </Col>
           );
@@ -663,7 +663,7 @@ class Edit extends Component {
                 </div>
               </FormGroup>
             ) : (
-              <p>{data[`${field.name}`]}</p>
+              <p>{this.translate(data[field.name] ?? "None")}</p>
             )}
           </Col>
         );
@@ -689,7 +689,7 @@ class Edit extends Component {
                 </div>
               </FormGroup>
             ) : (
-              <p>{data[`${field.name}`]}</p>
+              <p>{this.translate(data[field.name] ?? "None")}</p>
             )}
           </Col>
         );
@@ -717,7 +717,7 @@ class Edit extends Component {
                 </CustomInput>
               </FormGroup>
             ) : (
-              <p>{data[`${field.name}_label`]}</p>
+              <p>{this.translate(data[`${field.name}_label`] ?? "None")}</p>
             )}
           </Col>
         );
@@ -802,7 +802,7 @@ class Edit extends Component {
         .then(({ data }) => {
           this.props.requestForm({
             url: "lvforms",
-            name: "lvform"
+            name: "lvform",
           });
 
           this.notifySuccessBounce(data.id);
