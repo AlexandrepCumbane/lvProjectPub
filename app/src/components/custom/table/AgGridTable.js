@@ -19,14 +19,15 @@ import CaseEdit from "../../../views/app/edit";
 import ModalEdit from "../../../views/app/modal/edit";
 
 import { history } from "../../../history";
-
+import { IntlContext } from "../../../i18n/provider";
 import "../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../assets/scss/pages/users.scss";
 import "../../../assets/scss/pages/data-list.scss";
 
 class AggridTable extends React.Component {
-  // static contextType = ContextLayout;
-  // setPage = this.context.setPage;
+  static contextType = IntlContext;
+  translate = this.context.translate;
+
 
   state = {
     gridReady: false,
@@ -72,7 +73,7 @@ class AggridTable extends React.Component {
       columnDefs: [
         ...(this.props.columnDefs ?? this.state.columnDefs),
         {
-          headerName: "Accao",
+          headerName: this.translate("Action"),
           field: "company",
           width: 100,
           pinned: window.innerWidth > 992 ? "right" : false,
@@ -317,7 +318,7 @@ class AggridTable extends React.Component {
                     <div className="export-btn">
                       <UncontrolledDropdown className="p-1 ag-dropdown">
                         <DropdownToggle tag="div">
-                          Action
+                          {this.translate("Action")}
                           <ChevronDown className="ml-50" size={15} />
                         </DropdownToggle>
                         <DropdownMenu right>

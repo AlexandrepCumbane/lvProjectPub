@@ -11,13 +11,14 @@ import "./assets/scss/plugins/extensions/toastr.scss";
 
 import AppListView from "./views/app/list";
 // import { Home } from "react-feather";
+// import Login from "./views/pages/authentication/login/Login";
 import Login from "./views/pages/authentication/login/Login";
 import Logout from "./views/pages/authentication/logout/Logout";
 
 // Route-based code splitting
 const Home = lazy(() => import("./views/pages/Home"));
 
-const Welcome = lazy(() => import("./views/pages/Welcome"));
+// const Welcome = lazy(() => import("./views/pages/Welcome"));
 
 // const Page2 = lazy(() => import("./views/pages/Page2"));
 
@@ -83,8 +84,8 @@ class AppRouter extends React.Component {
       // Set the directory path if you are deploying in sub-folder
       <Router history={history}>
         <Switch>
-          <AppRoute exact path="/" component={Login} fullLayout />
-          <AppRoute exact path="/welcome" component={Welcome} fullLayout />
+          {/* <AppRoute exact path="/" component={Login} fullLayout />
+          <AppRoute exact path="/welcome" component={Welcome} fullLayout /> */}
           <AppRoute exact path="/home" component={Home} />
           <AppRoute
             exact

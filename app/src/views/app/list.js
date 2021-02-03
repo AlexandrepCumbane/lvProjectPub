@@ -200,7 +200,7 @@ class List extends Component {
       } else
         return {
           headerName: this.translate(item.label),
-          field: `${item.name}`,
+          field: this.translate(`${item.name}`) ,
           width: 250,
           resizable: true,
           editable: false,
