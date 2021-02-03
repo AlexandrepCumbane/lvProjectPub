@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Card, CardBody, Row, Col } from "reactstrap";
+import { Card, CardBody, Row, Col, Spinner } from "reactstrap";
 import {
   requestLogin,
   requestToken,
@@ -63,12 +63,15 @@ class Login extends React.Component {
             <Row className="m-0">
               <Col md="12" className="p-0">
                 <Card className="rounded-0 mb-0 px-2">
-                  <CardBody className=" justify-content-center">
-                    <h4>Welcom to VulaVula - 1458</h4>
-                    <p>
-                      Please wait while you're being redirected to
-                      Authentication Page.
-                    </p>
+                  <CardBody className="d-flex justify-content-between align-items-center">
+                    <div className="justify-content-center">
+                      <h4>Welcom to VulaVula - 1458</h4>
+                      <p>
+                        Please wait while you're being redirected to
+                        Authentication Page.
+                      </p>
+                    </div>
+                    <Spinner color="primary"  />
                   </CardBody>
                 </Card>
               </Col>
