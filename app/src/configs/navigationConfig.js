@@ -93,7 +93,7 @@ const get_pages = () => {
 
     {
       id: "users",
-      title: "Users",
+      title: translate ("Users"),
       type: "item",
       icon: <Icon.Users size={20} />,
       permissions: ["manager"],
