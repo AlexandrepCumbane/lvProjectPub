@@ -154,8 +154,11 @@ class List extends Component {
           return {
             headerName: this.translate(item.label),
             field: `${item.name}_label`,
-            width: 150,
+            minWidth: 250,
             editable: false,
+            resizable: true,
+            checkboxSelection: true,
+            headerCheckboxSelection: true,
             cellRendererFramework: ({ data }) => {
               return this.renderStatus(data, data[`${item.name}_label`]);
             },
@@ -167,6 +170,7 @@ class List extends Component {
               field: this.translate(`${item.name}_label`),
               width: 250,
               editable: false,
+              resizable: true,
               valueGetter: ({ data }) => {
                 if (item.name === "groups")
                   return this.translate(data["groups_label"][0] ?? "None");
@@ -183,6 +187,7 @@ class List extends Component {
               field: `${item.name}_label`,
               width: 250,
               editable: false,
+              resizable: true,
               valueGetter: ({ data }) => {
                 if (item.name === "groups")
                   return this.translate(data["groups_label"][0] ?? "None");
@@ -197,6 +202,8 @@ class List extends Component {
           headerName: this.translate(item.label),
           field: `${item.name}`,
           width: 250,
+          resizable: true,
+          editable: false,
           valueGetter: ({ data }) => {
             if (
               data[`${item.name}`] === "" ||

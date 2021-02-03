@@ -329,13 +329,17 @@ class AggridTable extends React.Component {
                               history.push(`${this.props.tableType}s/new`)
                             }
                           >
-                            Add New
+                            Create Record
                           </DropdownItem>
                           <DropdownItem
                             tag="div"
-                            onClick={() => this.gridApi.exportDataAsCsv()}
+                            onClick={() =>
+                              this.gridApi.exportDataAsCsv({
+                                onlySelected: true,
+                              })
+                            }
                           >
-                            Export
+                            Export Select
                           </DropdownItem>
                           <DropdownItem
                             tag="div"
