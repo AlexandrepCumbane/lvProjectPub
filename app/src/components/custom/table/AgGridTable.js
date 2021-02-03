@@ -205,9 +205,7 @@ class AggridTable extends React.Component {
 
   render() {
     const {
-      rowData,
-      columnDefs,
-      defaultColDef,
+      rowData, 
       showSidebar,
       showCallSidebar,
       showTaskDialog,
