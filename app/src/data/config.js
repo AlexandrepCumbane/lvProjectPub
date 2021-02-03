@@ -426,6 +426,25 @@ export default {
           type: "select one",
         },
         {
+          name: "task_priority",
+          label: "Task Priority",
+          choices: [
+            {
+              name: "1",
+              label: "Medium",
+            },
+            {
+              name: "2",
+              label: "High",
+            },
+            {
+              name: "3",
+              label: "Low",
+            },
+          ],
+          type: "select one",
+        },
+        {
           name: "start_date",
           label: "Start Date",
           type: "date",

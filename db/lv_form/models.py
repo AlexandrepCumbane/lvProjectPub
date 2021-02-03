@@ -460,6 +460,16 @@ class Task(models.Model):
         blank=True,
         verbose_name="Status",
     )
+    task_priority = models.CharField(
+        choices=(
+            ("1", "Medium"),
+            ("2", "High"),
+            ("3", "Low"),
+        ),
+        max_length=1,
+        default="1",
+        verbose_name="Task priority",
+    )
     start_date = models.DateField(
         null=True,
         blank=True,

@@ -10,8 +10,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "./assets/scss/plugins/extensions/toastr.scss";
 
 import AppListView from "./views/app/list";
-// import { Home } from "react-feather";
-// import Login from "./views/pages/authentication/login/Login";
 import Login from "./views/pages/authentication/login/Login";
 import Logout from "./views/pages/authentication/logout/Logout";
 
@@ -20,19 +18,13 @@ const Home = lazy(() => import("./views/pages/Home"));
 
 const Welcome = lazy(() => import("./views/pages/Welcome"));
 
-// const Page2 = lazy(() => import("./views/pages/Page2"));
-
 const AppCreate = lazy(() => import("./views/app/create"));
-
-// const AppList = lazy(() => import("./views/app/list"));
 
 const Information = lazy(() => import("./views/information/Information"));
 
 const Reports = lazy(() => import("./views/reports/Reports"));
 
 const AdvancedReports = lazy(() => import("./views/reports/Advanced"));
-
-// const Users = lazy(() => import("./views/users/Users"));
 
 const login = lazy(() => import("./views/pages/authentication/login/Login"));
 

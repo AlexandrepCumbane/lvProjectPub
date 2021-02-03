@@ -94,6 +94,9 @@ class List extends Component {
       case "Completed":
         color = "success";
         break;
+      case "Closed":
+        color = "success";
+        break;
       default:
         color = "white";
         break;
@@ -123,7 +126,8 @@ class List extends Component {
   renderPriority = (props) => {
     let color = "white";
 
-    switch (props[`case_priority_label`]) {
+    let model = this.props.path === "lvform" ? "case" : this.props.path;
+    switch (props[`${model}_priority_label`]) {
       case "High":
         color = "danger";
         break;
@@ -200,7 +204,7 @@ class List extends Component {
       } else
         return {
           headerName: this.translate(item.label),
-          field: this.translate(`${item.name}`) ,
+          field: this.translate(`${item.name}`),
           width: 250,
           resizable: true,
           editable: false,
