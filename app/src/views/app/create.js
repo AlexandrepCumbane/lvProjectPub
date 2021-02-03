@@ -89,7 +89,7 @@ class Create extends React.Component {
               type="submit"
               onClick={(e) => this.handleSubmit()}
             >
-              Submit
+              {this.translate("Submit")}
             </Button.Ripple>
           </div>
         </Col>

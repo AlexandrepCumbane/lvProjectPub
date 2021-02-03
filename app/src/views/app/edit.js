@@ -108,8 +108,8 @@ class Edit extends Component {
       >
         <div className="data-list-sidebar-header bg-primary p-2 d-flex justify-content-between">
           <h4 className="text-white">
-            Case No.
-            <strong> {String(data.id)}</strong>{" "}
+            {this.translate("Case")} No.
+            <strong> {String(data.case_number)}</strong>{" "}
           </h4>
 
           {this.state.showModal ? (
@@ -223,7 +223,7 @@ class Edit extends Component {
     return (
       <>
         <div className="divider">
-          <div className="divider-text"> Case Comments History</div>
+          <div className="divider-text"> {this.translate("Case Comments History")}</div>
         </div>
         <ListGroup flush className="rounded-0">
           {casecomment_set.map((item) => (
@@ -307,7 +307,7 @@ class Edit extends Component {
               ) : (
                 <></>
               )}
-              {this.state.edit_status ? "Update" : "Edit"}
+              {this.translate(this.state.edit_status ? "Update" : "Edit")}
             </Button>
             {this.state.edit_status ? (
               <Button
@@ -315,29 +315,23 @@ class Edit extends Component {
                 className="mr-1 square"
                 onClick={() => this.setState({ edit_status: false })}
               >
-                Cancel
+                {this.translate("Cancel")}
               </Button>
             ) : (
               <>
                 <Modal
-                  title={`Register form for task`}
+                  title={this.translate(`Register form for task`)}
                   page="task"
-                  label="Task"
+                  label={this.translate("Task")}
                   color="success"
                   lvform_id={data.id}
                 />
                 <Modal
-                  title={`Send to Focal Point`}
+                  title={this.translate(`Send to Focal Point`)}
                   page="forwardcasetofocalpoint"
-                  label="Send"
+                  label={this.translate("Send")}
                   lvform_id={data["id"]}
                 />
-                {/* <Modal
-                  title={`Add your feedback`}
-                  page="casecomment"
-                  label="Feedback"
-                  color="secondary"
-                /> */}
               </>
             )}
           </div>
@@ -347,9 +341,9 @@ class Edit extends Component {
         element = (
           <div>
             <Modal
-              title={`Add your feedback`}
+              title={this.translate(`Add your feedback`)}
               page="casecomment"
-              label="Comment"
+              label={this.translate("Comment")}
               color="secondary"
               lvform_id={data["id"]}
             />
@@ -365,7 +359,7 @@ class Edit extends Component {
               className="mr-1 square"
               onClick={() => this.handleSubmit()}
             >
-              {this.state.edit_status ? "Update" : "Edit"}
+              {this.translate(this.state.edit_status ? "Update" : "Edit")}
             </Button>
             {this.state.edit_status ? (
               <Button
@@ -373,20 +367,20 @@ class Edit extends Component {
                 className="mr-1 square"
                 onClick={() => this.setState({ edit_status: false })}
               >
-                Cancel
+                {this.translate("Cancel")}
               </Button>
             ) : (
               <>
                 <Modal
-                  title={`Send to case to Entity`}
+                  title={this.translate(`Send to case to Entity`)}
                   page="forwardinginstitution"
-                  label="Send"
+                  label={this.translate("Send")}
                   lvform_id={data["id"]}
                 />
                 <Modal
-                  title={`Add your feedback`}
+                  title={this.translate(`Add your feedback`)}
                   page="casecomment"
-                  label="Feedback"
+                  label={this.translate("Feedback")}
                   color="secondary"
                   lvform_id={data["id"]}
                 />
@@ -404,7 +398,7 @@ class Edit extends Component {
               className="mr-1 square"
               onClick={() => this.handleSubmit()}
             >
-              {this.state.edit_status ? "Update" : "Edit"}
+              {this.translate(this.state.edit_status ? "Update" : "Edit")}
             </Button>
             {this.state.edit_status ? (
               <Button
@@ -412,7 +406,7 @@ class Edit extends Component {
                 className="mr-1 square"
                 onClick={() => this.setState({ edit_status: false })}
               >
-                Cancel
+                {this.translate("Cancel")}
               </Button>
             ) : (
               <></>
@@ -443,12 +437,15 @@ class Edit extends Component {
           <>
             <Col md="12" className="mt-1 mb-1F">
               <div className="divider">
-                <div className="divider-text"> More Details </div>
+                <div className="divider-text">
+                  {" "}
+                  {this.translate("More Details")}{" "}
+                </div>
               </div>
             </Col>
             <Col md="6">{this.renderFeedbackComments()}</Col>
             <Col md="6">
-              <strong>Tasks</strong>
+              <strong> {this.translate("Tasks")}</strong>
               {this.renderTasks()}
             </Col>
             <Col md="12">{this.renderComments()}</Col>
@@ -460,7 +457,10 @@ class Edit extends Component {
           <>
             <Col md="12" className="mt-1 mb-1F">
               <div className="divider">
-                <div className="divider-text"> More Details </div>
+                <div className="divider-text">
+                  {" "}
+                  {this.translate("More Details")}{" "}
+                </div>
               </div>
             </Col>
             <Col md="6">{this.renderFeedbackComments()}</Col>
@@ -474,7 +474,10 @@ class Edit extends Component {
           <>
             <Col md="12" className="mt-1 mb-1F">
               <div className="divider">
-                <div className="divider-text"> More Details </div>
+                <div className="divider-text">
+                  {" "}
+                  {this.translate("More Details")}{" "}
+                </div>
               </div>
             </Col>
             <Col md="6">{this.renderFeedbackComments()}</Col>

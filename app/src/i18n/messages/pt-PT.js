@@ -258,5 +258,17 @@ export default {
     "17 and below": "17 e menos",
     "60 and above": "60 e acima",
     "17 and bellow": "17 e menos",
+
+    "Partner Feedback": "Feedback do Parceiro",
+    Save: "Guardar",
+    Cancel: "Abortar",
+    Submit: "Submeter",
+    Edit: "Editar",
+    "Read more": "Ler mais",
+    "More Details": "Mais detalhes",
+    "Case Comments History": "Histórico de comentários do caso",
+    Update: "Actualizar",
+    Task: "Tarefa",
+    Send: "Encaminhar",
   },
 };
