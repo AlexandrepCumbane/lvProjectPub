@@ -151,6 +151,25 @@ class List extends Component {
 
     const columnDefs = form.map((item, index) => {
       if (
+        item.name === "fullname" ||
+        item.name === "contact" ||
+        item.name === "other_contact"
+      ) {
+        return {
+          headerName: this.translate(item.label),
+          field: `${item.name}_label`,
+          minWidth: 250,
+          editable: false,
+          resizable: true,
+          hide: true,
+          checkboxSelection: true,
+          headerCheckboxSelection: true,
+          cellRendererFramework: ({ data }) => {
+            return this.renderStatus(data, data[`${item.name}_label`]);
+          },
+        };
+      }
+      if (
         item.type === "select one" ||
         (item.type === "string" && item["wq:ForeignKey"])
       ) {
