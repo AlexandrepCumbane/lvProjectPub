@@ -25,7 +25,7 @@ import { axios } from "../../redux/api";
 import Modal from "./modal/create";
 import ListModal from "./modal/list";
 
-import { X } from "react-feather";
+import { X, Check } from "react-feather";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import classnames from "classnames";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -34,7 +34,7 @@ import ModalEdit from "./modal/edit";
 import { IntlContext } from "../../i18n/provider";
 
 import config from "../../data/config";
-
+import Checkbox from "../../components/@vuexy/checkbox/CheckboxesVuexy";
 class Edit extends Component {
   static contextType = IntlContext;
   translate = this.context.translate;
@@ -92,6 +92,31 @@ class Edit extends Component {
     const { dropdowns } = this.props.app_reducer;
     this.setState({ dropdowns, form: formdata });
   }
+
+  checkboxValue = (field_name) => {
+    const { form } = this.state;
+    return form.get(field_name) === "true";
+  };
+
+  renderLabel = (field) => {
+    if (
+      !this.state.isValid &&
+      this.state.required_fields_labels.includes(field.label)
+    ) {
+      return (
+        <Label className="text-danger">
+          <strong> * {this.translate(field.label)}</strong>
+        </Label>
+      );
+    } else {
+      return (
+        <Label>
+          {" "}
+          <strong>{this.translate(field.label)}</strong>
+        </Label>
+      );
+    }
+  };
 
   handleModal = () => {
     this.setState({ showModal: !this.state.showModal });
@@ -208,7 +233,7 @@ class Edit extends Component {
               <div className="d-flex justify-content-between w-100">
                 <small>{item.assignee_label}</small>{" "}
                 <small className="text-primary" style={{ cursor: "pointer" }}>
-                  Read Comments
+                  {this.translate("Read Comments")}
                 </small>
               </div>
             </ListGroupItem>
@@ -223,7 +248,10 @@ class Edit extends Component {
     return (
       <>
         <div className="divider">
-          <div className="divider-text"> {this.translate("Case Comments History")}</div>
+          <div className="divider-text">
+            {" "}
+            {this.translate("Case Comments History")}
+          </div>
         </div>
         <ListGroup flush className="rounded-0">
           {casecomment_set.map((item) => (
@@ -263,7 +291,7 @@ class Edit extends Component {
           >
             <ListGroupItem>
               <div className="d-flex justify-content-between w-100">
-                <h6 className="mb-1">Partner Feedback</h6>
+                <h6 className="mb-1">{this.translate("Partner Feedback")}</h6>
                 <small>{forwardinginstitution.isFeedback_aproved_label}</small>
               </div>
               <p className="mb-1">{forwardinginstitution.partner_feedback} </p>
@@ -271,7 +299,7 @@ class Edit extends Component {
               <div className="d-flex justify-content-between w-100">
                 <small>{forwardinginstitution.referall_to_label}</small>{" "}
                 <small className="text-primary" style={{ cursor: "pointer" }}>
-                  Read more...
+                  {this.translate("Read more")} ...
                 </small>
               </div>
             </ListGroupItem>
@@ -498,7 +526,11 @@ class Edit extends Component {
     const form_ = config.pages.lvform;
     return (
       <Row>
-        {form_.form.map((field) => this.renderSingleInput(field))}{" "}
+        {form_.form.map((field) =>
+          this.state.edit_status
+            ? this.renderSingleInput(field)
+            : this.renderSingleRead(field)
+        )}
         {this.renderDetails()}
       </Row>
     );
@@ -512,69 +544,29 @@ class Edit extends Component {
       return <span key="case_number" />;
     }
 
-    switch (field.type) {
-      case "text":
-        if (field.name === "call_notes") {
-          res = (
-            <>
-              <Col md="6" />
-              <Col md="6" key={field.name}>
-                <Label>
-                  <strong>{field.label}</strong>
-                </Label>
-                {this.state.edit_status ? (
-                  <FormGroup className="form-label-group position-relative has-icon-left">
-                    <Input
-                      type="textarea"
-                      rows={7}
-                      className="square"
-                      disabled={!this.state.edit_status}
-                      placeholder={field.label}
-                      defaultValue={data[field.name]}
-                      onChange={(e) =>
-                        this.updateState(field.name, e.target.value)
-                      }
-                    />
-                    <div className="form-control-position">
-                      {/* <Mail size={15} /> */}
-                    </div>
-                  </FormGroup>
-                ) : (
-                  <p>{this.translate(data[field.name] ?? "None")}</p>
-                )}
-              </Col>
-            </>
-          );
-        } else {
-          res = (
-            <Col md="6" key={field.name}>
-              <Label>
-                <strong>{this.translate(field.label)}</strong>
-              </Label>
+    console.log(this.checkboxValue(field.depends_on))
 
-              {this.state.edit_status ? (
-                <FormGroup className="form-label-group position-relative has-icon-left">
-                  <Input
-                    type="textarea"
-                    rows={7}
-                    className="square"
-                    disabled={!this.state.edit_status}
-                    placeholder={this.translate(field.label)}
-                    defaultValue={data[field.name]}
-                    onChange={(e) =>
-                      this.updateState(field.name, e.target.value)
-                    }
-                  />
-                  <div className="form-control-position">
-                    {/* <Mail size={15} /> */}
-                  </div>
-                </FormGroup>
-              ) : (
-                <p>{this.translate(data[field.name] ?? "None")}</p>
-              )}
-            </Col>
-          );
-        }
+    switch (field.type) {
+      
+      case "text":
+        res = (
+          <Col md="6" key={field.name}>
+            <Label>
+              <strong>{field.label}</strong>
+            </Label>
+            <FormGroup className="form-label-group position-relative has-icon-left">
+              <Input
+                type="textarea"
+                rows={7}
+                className="square"
+                disabled={!this.state.edit_status}
+                placeholder={field.label}
+                defaultValue={data[field.name]}
+                onChange={(e) => this.updateState(field.name, e.target.value)}
+              />
+            </FormGroup>
+          </Col>
+        );
 
         break;
       case "string":
@@ -584,65 +576,70 @@ class Edit extends Component {
               <Label>
                 <strong>{this.translate(field.label)}</strong>
               </Label>
-
-              {this.state.edit_status ? (
-                <FormGroup className="form-label-group position-relative has-icon-left">
-                  <CustomInput
-                    className="square"
-                    type="select"
-                    id={field.name}
-                    disabled={!this.state.edit_status}
-                    defaultValue={data[`${field.name}_id`]}
-                    onChange={(e) => {
-                      this.updateState(`${field.name}_id`, e.target.value);
-                      if (field["children"]) {
-                        this.updateChildrenList(field, e.target.value);
-                      }
-                    }}
-                  >
-                    <option>Select</option>
-
-                    {field["has_parent"] === undefined
-                      ? this.renderSelectOptionForeignWQ(
-                          this.getForeignFieldDropdown(field["wq:ForeignKey"])
-                        )
-                      : this.renderSelectOptionForeignWQ(
-                          this.state.childrens[field["wq:ForeignKey"]] ?? []
-                        )}
-                  </CustomInput>
-                </FormGroup>
-              ) : (
-                <p>{this.translate(data[`${field.name}_label`] ?? "None")}</p>
-              )}
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <CustomInput
+                  className="square"
+                  type="select"
+                  id={field.name}
+                  disabled={!this.state.edit_status}
+                  defaultValue={data[`${field.name}_id`]}
+                  onChange={(e) => {
+                    this.updateState(`${field.name}_id`, e.target.value);
+                    if (field["children"]) {
+                      this.updateChildrenList(field, e.target.value);
+                    }
+                  }}
+                >
+                  <option>Select</option>
+                  {field["has_parent"] === undefined
+                    ? this.renderSelectOptionForeignWQ(
+                        this.getForeignFieldDropdown(field["wq:ForeignKey"])
+                      )
+                    : this.renderSelectOptionForeignWQ(
+                        this.state.childrens[field["wq:ForeignKey"]] ?? []
+                      )}
+                </CustomInput>
+              </FormGroup>
             </Col>
           );
         } else {
-          res = (
-            <Col md="6" key={field.name}>
-              <Label>
-                <strong>{this.translate(field.label)}</strong>
-              </Label>
-              {this.state.edit_status ? (
+          if (field["depends_on"]) {
+            res = this.checkboxValue(field.depends_on) ? (
+              <Col md="6" key={field.name}>
+                {this.renderLabel(field)}
                 <FormGroup className="form-label-group position-relative has-icon-left">
                   <Input
                     type="text"
                     className="square"
                     placeholder={this.translate(field.label)}
-                    disabled={!this.state.edit_status}
                     defaultValue={data[`${field.name}`]}
                     onChange={(e) =>
                       this.updateState(field.name, e.target.value)
                     }
                   />
-                  <div className="form-control-position">
-                    {/* <Mail size={15} /> */}
-                  </div>
                 </FormGroup>
-              ) : (
-                <p>{this.translate(data[field.name] ?? "None")}</p>
-              )}
-            </Col>
-          );
+              </Col>
+            ) : (
+              <div key={field.name} />
+            );
+          } else {
+            res = (
+              <Col md="6" key={field.name}>
+                {this.renderLabel(field)}
+                <FormGroup className="form-label-group position-relative has-icon-left">
+                  <Input
+                    type="text"
+                    className="square"
+                    defaultValue={data[`${field.name}`]}
+                    placeholder={this.translate(field.label)}
+                    onChange={(e) =>
+                      this.updateState(field.name, e.target.value)
+                    }
+                  />
+                </FormGroup>
+              </Col>
+            );
+          }
         }
         break;
       case "date":
@@ -651,79 +648,172 @@ class Edit extends Component {
             <Label>
               <strong>{this.translate(field.label)}</strong>
             </Label>
-            {this.state.edit_status ? (
-              <FormGroup className="form-label-group position-relative has-icon-left">
-                <Input
-                  type="date"
-                  className="square"
-                  defaultValue={data[field.name]}
-                  disabled={!this.state.edit_status}
-                  placeholder={this.translate(field.label)}
-                  onChange={(e) => this.updateState(field.name, e.target.value)}
-                />
-                <div className="form-control-position">
-                  {/* <Mail size={15} /> */}
-                </div>
-              </FormGroup>
-            ) : (
-              <p>{this.translate(data[field.name] ?? "None")}</p>
-            )}
+            <FormGroup className="form-label-group position-relative has-icon-left">
+              <Input
+                type="date"
+                className="square"
+                defaultValue={data[field.name]}
+                disabled={!this.state.edit_status}
+                placeholder={this.translate(field.label)}
+                onChange={(e) => this.updateState(field.name, e.target.value)}
+              />
+            </FormGroup>
           </Col>
         );
         break;
       case "int":
-        res = (
-          <Col md="6" key={field.name}>
-            <Label>
-              <strong>{this.translate(field.label)}</strong>
-            </Label>
-            {this.state.edit_status ? (
+        if (field["depends_on"]) {
+          res = this.checkboxValue(field.depends_on) ? (
+            <Col md="6" key={field.name}>
+              {this.renderLabel(field)}
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
                   type="number"
+                  defaultValue={data[field.name]}
                   className="square"
                   placeholder={this.translate(field.label)}
-                  disabled={!this.state.edit_status}
-                  defaultValue={data[field.name]}
                   onChange={(e) => this.updateState(field.name, e.target.value)}
                 />
-                <div className="form-control-position">
-                  {/* <Mail size={15} /> */}
-                </div>
               </FormGroup>
-            ) : (
-              <p>{this.translate(data[field.name] ?? "None")}</p>
-            )}
-          </Col>
-        );
+            </Col>
+          ) : (
+            <div key={field.name} />
+          );
+        } else {
+          res = (
+            <Col md="6" key={field.name}>
+              {this.renderLabel(field)}
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <Input
+                  type="number"
+                  defaultValue={data[field.name]}
+                  className="square"
+                  placeholder={this.translate(field.label)}
+                  onChange={(e) => this.updateState(field.name, e.target.value)}
+                />
+              </FormGroup>
+            </Col>
+          );
+        }
         break;
       case "select one":
-        //`${field.name}_label`
-        res = (
-          <Col md="6" key={field.name}>
-            <Label>
-              <strong>{this.translate(field.label)}</strong>
-            </Label>
-            {this.state.edit_status ? (
-              <FormGroup className="form-label-group position-relative has-icon-left">
-                <CustomInput
-                  className="square"
-                  type="select"
-                  id={field.name}
-                  placeholder={this.translate(field.label)}
-                  disabled={!this.state.edit_status}
-                  defaultValue={data[field.name]}
-                  onChange={(e) => this.updateState(field.name, e.target.value)}
-                >
-                  <option>Select</option>
-                  {this.renderSelectOption(field.choices)}
-                </CustomInput>
-              </FormGroup>
+        if (field["has_boolean_options"]) {
+          if (field["depends_on"]) {
+            res = this.checkboxValue(field.depends_on) ? (
+              <Col md="6" key={field.name} className="mb-1">
+                <Checkbox
+                  color="primary"
+                  className="my-2"
+                  icon={<Check className="vx-icon" size={16} />}
+                  label={this.translate(field.label)}
+                  defaultChecked={false}
+                  onChange={(e) => {
+                    this.updateState(
+                      field.name,
+                      !this.checkboxValue(field.name)
+                    );
+                  }}
+                />
+              </Col>
             ) : (
-              <p>{this.translate(data[`${field.name}_label`] ?? "None")}</p>
-            )}
-          </Col>
-        );
+              <Col md="6" key={field.name} />
+            );
+          } else {
+            res = (
+              <Col md="6" key={field.name} className="mb-1">
+                <Checkbox
+                  color="primary"
+                  className="my-2"
+                  icon={<Check className="vx-icon" size={16} />}
+                  label={this.translate(field.label)}
+                  defaultChecked={data[field.name]}
+                  onChange={(e) => {
+                    this.updateState(
+                      field.name,
+                      !this.checkboxValue(field.name)
+                    );
+                  }}
+                />
+              </Col>
+            );
+          }
+        } else {
+          if (field.depend_on_value) {
+            if (
+              field.depend_on_value.value.includes(
+                this.state.form.get(`${field.depend_on_value.field}_id`)
+              )
+            ) {
+              res = res = (
+                <Col md="6" key={field.name}>
+                  {this.renderLabel(field)}
+                  <FormGroup className="form-label-group position-relative has-icon-left">
+                    <CustomInput
+                      className="square"
+                      type="select"
+                      id={field.name}
+                      defaultValue={data[field.name]}
+                      placeholder={this.translate(field.label)}
+                      onChange={(e) =>
+                        this.updateState(field.name, e.target.value)
+                      }
+                    >
+                      <option>{this.translate("Select")}</option>
+                      {this.renderSelectOption(field.choices)}
+                    </CustomInput>
+                  </FormGroup>
+                </Col>
+              );
+            } else return <Col md="6" key={field.name} />;
+          } else {
+            if (field["depends_on"]) {
+              res = this.checkboxValue(field.depends_on) ? (
+                <Col md="6" key={field.name}>
+                  {this.renderLabel(field)}
+                  <FormGroup className="form-label-group position-relative has-icon-left">
+                    <CustomInput
+                      className="square"
+                      type="select"
+                      id={field.name}
+                      defaultValue={data[field.name]}
+                      placeholder={this.translate(field.label)}
+                      onChange={(e) =>
+                        this.updateState(field.name, e.target.value)
+                      }
+                    >
+                      <option>{this.translate("Select")}</option>
+                      {this.renderSelectOption(field.choices)}
+                    </CustomInput>
+                  </FormGroup>
+                </Col>
+              ) : (
+                <Col md="6" key={field.name} />
+              );
+            } else {
+              res = (
+                <Col md="6" key={field.name}>
+                  {this.renderLabel(field)}
+                  <FormGroup className="form-label-group position-relative has-icon-left">
+                    <CustomInput
+                      className="square"
+                      type="select"
+                      id={field.name}
+                      defaultValue={data[field.name]}
+                      placeholder={this.translate(field.label)}
+                      onChange={(e) =>
+                        this.updateState(field.name, e.target.value)
+                      }
+                    >
+                      <option>{this.translate("Select")}</option>
+                      {this.renderSelectOption(field.choices)}
+                    </CustomInput>
+                  </FormGroup>
+                </Col>
+              );
+            }
+          }
+        }
+
         break;
 
       default:
@@ -821,6 +911,150 @@ class Edit extends Component {
     } else {
       this.setState({ edit_status: true });
     }
+  };
+
+  renderSingleRead = (field) => {
+    let res = <></>;
+    let { data } = this.props;
+
+    if (field.name === "case_number") {
+      return <span key="case_number" />;
+    }
+
+    switch (field.type) {
+      case "text":
+        res = (
+          <Col md="6" key={field.name}>
+            <Label>
+              <strong>{field.label}</strong>
+            </Label>
+
+            <p>{this.translate(data[field.name] ?? "None")}</p>
+          </Col>
+        );
+        break;
+      case "string":
+        if (field["wq:ForeignKey"]) {
+          res = (
+            <Col md="6" key={field.name}>
+              <Label>
+                <strong>{this.translate(field.label)}</strong>
+              </Label>
+              <p>{this.translate(data[`${field.name}_label`] ?? "None")}</p>
+            </Col>
+          );
+        } else {
+          if (field["depends_on"]) {
+            res = this.checkboxValue(field.depends_on) ? (
+              <Col md="6" key={field.name}>
+                {this.renderLabel(field)}
+                <p>{this.translate(data[`${field.name})`] ?? "None")}</p>
+              </Col>
+            ) : (
+              <div key={field.name} />
+            );
+          } else {
+            res = (
+              <Col md="6" key={field.name}>
+                {this.renderLabel(field)}
+                <p>{this.translate(data[`${field.name}`] ?? "None")}</p>
+              </Col>
+            );
+          }
+        }
+        break;
+      case "date":
+        res = (
+          <Col md="6" key={field.name}>
+            <Label>
+              <strong>{this.translate(field.label)}</strong>
+            </Label>
+            <p>{this.translate(data[field.name] ?? "None")}</p>
+          </Col>
+        );
+        break;
+      case "int":
+        if (field["depends_on"]) {
+          res = this.checkboxValue(field.depends_on) ? (
+            <Col md="6" key={field.name}>
+              {this.renderLabel(field)}
+              <p>{this.translate(data[`${field.name}`] ?? "None")}</p>
+            </Col>
+          ) : (
+            <div key={field.name} />
+          );
+        } else {
+          res = (
+            <Col md="6" key={field.name}>
+              {this.renderLabel(field)}
+              <p>{this.translate(data[`${field.name}`] ?? "None")}</p>
+            </Col>
+          );
+        }
+        break;
+      case "select one":
+        if (field["has_boolean_options"]) {
+          if (field["depends_on"]) {
+            res = this.checkboxValue(field.depends_on) ? (
+              <Col md="6" key={field.name} className="mb-1">
+                {this.renderLabel(field)}
+                <p>{this.translate(data[`${field.name}`] ?? "None")}</p>
+              </Col>
+            ) : (
+              <Col md="6" key={field.name} />
+            );
+          } else {
+            res = (
+              <Col md="6" key={field.name} className="mb-1">
+                {this.renderLabel(field)}
+                <p>{this.translate(data[`${field.name}`] ?? "None")}</p>
+              </Col>
+            );
+          }
+        } else {
+          if (field.depend_on_value) {
+            if (
+              field.depend_on_value.value.includes(
+                this.state.form.get(`${field.depend_on_value.field}_id`)
+              )
+            ) {
+              res = res = (
+                <Col md="6" key={field.name}>
+                  {this.renderLabel(field)}
+
+                  <p>{this.translate(data[`${field.name}_label`] ?? "None")}</p>
+                </Col>
+              );
+            } else return <Col md="6" key={field.name} />;
+          } else {
+            if (field["depends_on"]) {
+              res = this.checkboxValue(field.depends_on) ? (
+                <Col md="6" key={field.name}>
+                  {this.renderLabel(field)}
+                  <p>{this.translate(data[`${field.name}_label`] ?? "None")}</p>
+                </Col>
+              ) : (
+                <Col md="6" key={field.name} />
+              );
+            } else {
+              res = (
+                <Col md="6" key={field.name}>
+                  {this.renderLabel(field)}
+                  <p>{this.translate(data[`${field.name}_label`] ?? "None")}</p>
+                </Col>
+              );
+            }
+          }
+        }
+
+        break;
+
+      default:
+        res = <div key={field.name}></div>;
+        break;
+    }
+
+    return res;
   };
 }
 

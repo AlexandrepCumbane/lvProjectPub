@@ -265,6 +265,7 @@ export default {
     Submit: "Submeter",
     Edit: "Editar",
     "Read more": "Ler mais",
+    "Read Comments": "Ler comentários",
     "More Details": "Mais detalhes",
     "Case Comments History": "Histórico de comentários do caso",
     Update: "Actualizar",
@@ -274,5 +275,7 @@ export default {
     "Add new task": "Adicionar nova tarefa",
     "Comment Your task": "Comente sua tarefa",
     "Transaction completed successfuly.": "Transação concluída com sucesso.",
+    false: "Näo",
+    true: "Sim",
   },
 };
