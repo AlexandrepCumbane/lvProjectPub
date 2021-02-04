@@ -51,6 +51,9 @@ class Location(models.Model):
     classification = models.ForeignKey(
         LocationClassification, on_delete=models.SET_NULL, null=True, default=None
     )
+    district = models.ForeignKey(
+        District, on_delete=models.SET_NULL, null=True, default=None
+    )
     location_type = models.ForeignKey(
         LocationType, on_delete=models.SET_NULL, null=True, default=None
     )

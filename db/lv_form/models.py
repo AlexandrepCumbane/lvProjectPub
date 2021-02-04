@@ -15,15 +15,15 @@ class LvForm(models.Model):
         verbose_name="Consent to share personal information with third parties",
         help_text="Consent to share personal information with third parties",
     )
-    fullname = models.CharField(
-        max_length=255,
-        verbose_name="Full Name",
-        help_text="Full Name",
-    )
-    contact = models.IntegerField(
-        verbose_name="Contact",
-        help_text="Contact",
-    )
+    fullname = models.CharField(max_length=255,
+                                blank=True,
+                                verbose_name="Full Name",
+                                help_text="Full Name",
+                                null=True)
+    contact = models.IntegerField(verbose_name="Contact",
+                                  help_text="Contact",
+                                  blank=True,
+                                  null=True)
     contact_group = models.CharField(
         choices=(
             ("1", "Beneficiary"),
@@ -33,6 +33,8 @@ class LvForm(models.Model):
             ("5", "Humanitarian partner"),
             ("6", "Other"),
         ),
+        null=True,
+        blank=True,
         max_length=1,
         verbose_name="Who is contacting",
     )
@@ -53,9 +55,8 @@ class LvForm(models.Model):
             ("3", "60 and above"),
             ("4", "Not disclosed"),
         ),
+        default="4",
         max_length=1,
-        null=True,
-        blank=True,
         verbose_name="Age",
         help_text="Age",
     )
@@ -104,6 +105,8 @@ class LvForm(models.Model):
             ("8", "School feeding"),
         ),
         max_length=1,
+        null=True,
+        blank=True,
         verbose_name="Transfer modality",
         help_text="Transfer modality",
     )
@@ -154,6 +157,20 @@ class LvForm(models.Model):
         verbose_name="Who is not receiving assistance",
         help_text="Person not receiving",
     )
+    individual_commiting_malpractice = models.CharField(
+        choices=(
+            ("1", "Local Leader"),
+            ("2", "Community Member"),
+            ("3", "Humanitarian actor"),
+            ("4", "Unknown"),
+        ),
+        max_length=1,
+        null=True,
+        blank=True,
+        default="",
+        verbose_name="LBL_Individual committing malpractice",
+        help_text="LBL_Individual committing malpractice",
+    )
     sector = models.CharField(
         choices=(
             ("1", "Shelter"),
@@ -167,12 +184,25 @@ class LvForm(models.Model):
             ("9", "Protection"),
             ("10", "CCCM"),
             ("11", "Resilience"),
-            ("12", "INGC"),
-            ("13", "Other"),
+            ("12", "INGD"),
+            ("13", "IDP Registration"),
+            ("14", "Social Protection/INAS"),
+            ("15", "Other"),
         ),
         max_length=2,
         verbose_name="Sector",
     )
+    """
+    Person with disability
+Child headed household
+Single parent
+Pregnant or lactating woman
+Elderly head of household
+Chronic patient
+None
+Other
+
+    """
     vulnerability = models.CharField(
         choices=(
             ("1", "Person with disability"),
@@ -180,7 +210,7 @@ class LvForm(models.Model):
             ("3", "Single parent"),
             ("4", "Pregnant or lactating woman"),
             ("5", "Elderly head of household"),
-            ("6", "Chronically patient"),
+            ("6", "Chronic patient"),
             ("7", "None"),
             ("8", "Other"),
         ),
@@ -189,7 +219,11 @@ class LvForm(models.Model):
         help_text="Vulnerability",
     )
     call_notes = models.TextField(verbose_name="Call notes", )
-    call_solution = models.TextField(verbose_name="Call solution", )
+    call_solution = models.TextField(
+        verbose_name="Call solution",
+        null=True,
+        blank=True,
+    )
     case_priority = models.CharField(
         choices=(
             ("1", "Medium"),
@@ -204,17 +238,28 @@ class LvForm(models.Model):
         ("2", "In Progress"),
         ("3", "Closed"),
     ),
-                                   max_length=1,
-                                   null=True,
-                                   blank=True,
-                                   verbose_name="Status",
-                                   default="1")
+                                     max_length=1,
+                                     null=True,
+                                     blank=True,
+                                     verbose_name="Status",
+                                     default="1")
+    is_closed = models.BooleanField(
+        default=False,
+        verbose_name="Case Closed",
+        help_text="Case is closed",
+        null=True,
+        blank=True,
+        
+    )
     case_close_category = models.CharField(
-        choices=(("1", "Close case"), ),
+        choices=(
+            ("1", "With Feedback"),
+            ("2", "Without Feedback"),
+        ),
         max_length=1,
         null=True,
         blank=True,
-        verbose_name="Case closed",
+        verbose_name="Case close category",
     )
     means_of_communication = models.CharField(
         choices=(
