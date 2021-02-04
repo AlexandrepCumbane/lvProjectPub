@@ -8,51 +8,84 @@ export default {
       url: "logout",
       name: "logout",
     },
-    group: {
-      cache: "all",
-      name: "group",
-      url: "groups",
+    forwardinginstitution: {
+      name: "forwardinginstitution",
+      url: "forwardinginstitutions",
       list: true,
       form: [
         {
-          name: "name",
-          label: "Name",
-          bind: {
-            required: true,
-          },
-          "wq:length": 150,
-          type: "string",
-        },
-        {
-          name: "permissions",
-          label: "Permissions",
-          type: "string",
-        },
-        {
-          name: "permissions_label",
-          label: "Permissions Label",
+          name: "lvform",
+          label: "Lvform",
           bind: {
             required: true,
           },
           type: "string",
+          "wq:ForeignKey": "lvform",
+        },
+        {
+          name: "partner_feedback",
+          label: "Parceiro Feedback",
+          type: "text",
+        },
+        {
+          name: "task_feedback",
+          label: "Feedback da tarefa",
+          type: "text",
+        },
+        {
+          name: "has_feedback",
+          label: "Has Feedback",
+          choices: [
+            {
+              name: true,
+              label: "Yes",
+            },
+            {
+              name: false,
+              label: "No",
+            },
+          ],
+          type: "select one",
+        },
+        {
+          name: "isFeedback_aproved",
+          label: "Isfeedback Aproved",
+          choices: [
+            {
+              name: true,
+              label: "Yes",
+            },
+            {
+              name: false,
+              label: "No",
+            },
+          ],
+          type: "select one",
+        },
+        {
+          name: "referall_to",
+          label: "Referral to",
+          hint: "User",
+          type: "string",
+          "wq:ForeignKey": "customuser",
         },
       ],
-      verbose_name: "group",
-      verbose_name_plural: "groups",
+      verbose_name: "forwardinginstitution",
+      verbose_name_plural: "forwardinginstitutions",
     },
-    taskcomment: {
-      name: "taskcomment",
-      url: "taskcomments",
+    casecomment: {
+      name: "casecomment",
+      url: "casecomments",
       list: true,
       form: [
         {
-          name: "task",
-          label: "Task",
+          name: "lvform",
+          label: "Lvform",
           bind: {
             required: true,
           },
           type: "string",
-          "wq:ForeignKey": "task",
+          "wq:ForeignKey": "lvform",
         },
         {
           name: "feedback",
@@ -60,35 +93,54 @@ export default {
           type: "text",
         },
       ],
-      verbose_name: "taskcomment",
-      verbose_name_plural: "taskcomments",
+      verbose_name: "casecomment",
+      verbose_name_plural: "casecomments",
     },
-    subcategoryissue: {
-      name: "subcategoryissue",
-      url: "subcategoryissues",
+    customuser: {
+      cache: "all",
+      name: "customuser",
+      url: "users",
       list: true,
       form: [
         {
-          name: "subcategory",
-          label: "Subcategory",
-          bind: {
-            required: true,
-          },
-          type: "string",
-          "wq:ForeignKey": "subcategory",
+          name: "is_active",
+          label: "Is Active",
+          choices: [
+            {
+              name: true,
+              label: "Yes",
+            },
+            {
+              name: false,
+              label: "No",
+            },
+          ],
+          type: "select one",
         },
         {
-          name: "subcategory_issue",
-          label: "Sub Category Issue",
+          name: "email",
+          label: "Email address",
           bind: {
             required: true,
           },
-          hint: "Sub Category Issue",
-          type: "text",
+          "wq:length": 254,
+          type: "string",
+        },
+        {
+          name: "first_name",
+          label: "First Name",
+          "wq:length": 254,
+          type: "string",
+        },
+        {
+          name: "last_name",
+          label: "Last Name",
+          "wq:length": 30,
+          type: "string",
         },
       ],
-      verbose_name: "subcategoryissue",
-      verbose_name_plural: "subcategoryissues",
+      verbose_name: "user",
+      verbose_name_plural: "users",
     },
     province: {
       name: "province",
@@ -173,411 +225,6 @@ export default {
       verbose_name: "province",
       verbose_name_plural: "provinces",
     },
-    locationtype: {
-      cache: "all",
-      name: "locationtype",
-      url: "locationtypes",
-      list: true,
-      form: [
-        {
-          name: "name",
-          label: "Name",
-          bind: {
-            required: true,
-          },
-          "wq:length": 20,
-          type: "string",
-        },
-      ],
-      verbose_name: "location type",
-      verbose_name_plural: "location types",
-    },
-    subcategory: {
-      name: "subcategory",
-      url: "subcategorys",
-      list: true,
-      form: [
-        {
-          name: "casetipology",
-          label: "Casetipology",
-          bind: {
-            required: true,
-          },
-          type: "string",
-          "wq:ForeignKey": "casetipology",
-        },
-        {
-          name: "subcategory",
-          label: "Sub Category",
-          bind: {
-            required: true,
-          },
-          hint: "Sub Category",
-          type: "text",
-        },
-        {
-          name: "subcategoryissue_set",
-          label: "Subcategoryissue Set",
-          type: "repeat",
-          children: [
-            {
-              name: "subcategory",
-              label: "Subcategory",
-              bind: {
-                required: true,
-              },
-              type: "string",
-              "wq:ForeignKey": "subcategory",
-            },
-            {
-              name: "subcategory_issue",
-              label: "Sub Category Issue",
-              bind: {
-                required: true,
-              },
-              hint: "Sub Category Issue",
-              type: "text",
-            },
-          ],
-        },
-      ],
-      verbose_name: "subcategory",
-      verbose_name_plural: "subcategorys",
-    },
-    customuser: {
-      cache: "all",
-      name: "customuser",
-      url: "users",
-      list: true,
-      form: [
-        {
-          name: "is_active",
-          label: "Is Active",
-          choices: [
-            {
-              name: true,
-              label: "Yes",
-            },
-            {
-              name: false,
-              label: "No",
-            },
-          ],
-          type: "select one",
-        },
-        {
-          name: "email",
-          label: "Email address",
-          bind: {
-            required: true,
-          },
-          "wq:length": 254,
-          type: "string",
-        },
-        {
-          name: "first_name",
-          label: "First Name",
-          "wq:length": 254,
-          type: "string",
-        },
-        {
-          name: "last_name",
-          label: "Last Name",
-          "wq:length": 30,
-          type: "string",
-        },
-        {
-          name: "groups",
-          label: "Groups",
-          hint:
-            "The groups this user belongs to. A user will get all permissions granted to each of their groups.",
-          type: "string",
-          "wq:ForeignKey": "group",
-        },
-      ],
-      verbose_name: "user",
-      verbose_name_plural: "users",
-    },
-    casetipology: {
-      name: "casetipology",
-      url: "casetipologys",
-      list: true,
-      form: [
-        {
-          name: "category",
-          label: "Case Category",
-          bind: {
-            required: true,
-          },
-          hint: "Case Category",
-          type: "text",
-        },
-        {
-          name: "subcategory_set",
-          label: "Subcategory Set",
-          type: "repeat",
-          children: [
-            {
-              name: "casetipology",
-              label: "Casetipology",
-              bind: {
-                required: true,
-              },
-              type: "string",
-              "wq:ForeignKey": "casetipology",
-            },
-            {
-              name: "subcategory",
-              label: "Sub Category",
-              bind: {
-                required: true,
-              },
-              hint: "Sub Category",
-              type: "text",
-            },
-            {
-              name: "subcategoryissue_set",
-              label: "Subcategoryissue Set",
-              type: "repeat",
-              children: [
-                {
-                  name: "subcategory",
-                  label: "Subcategory",
-                  bind: {
-                    required: true,
-                  },
-                  type: "string",
-                  "wq:ForeignKey": "subcategory",
-                },
-                {
-                  name: "subcategory_issue",
-                  label: "Sub Category Issue",
-                  bind: {
-                    required: true,
-                  },
-                  hint: "Sub Category Issue",
-                  type: "text",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-      verbose_name: "linha verde case tipology",
-      verbose_name_plural: "casetipologys",
-    },
-    task: {
-      name: "task",
-      url: "tasks",
-      list: true,
-      form: [
-        {
-          name: "lvform",
-          label: "Lvform",
-          bind: {
-            required: true,
-          },
-          type: "string",
-          "wq:ForeignKey": "lvform",
-        },
-        {
-          name: "task_title",
-          label: "Task Title",
-          choices: [
-            {
-              name: "1",
-              label: "Request for information",
-            },
-            {
-              name: "2",
-              label: "Send Feedback",
-            },
-          ],
-          type: "select one",
-        },
-        {
-          name: "description",
-          label: "Description",
-          type: "text",
-        },
-        {
-          name: "assignee",
-          label: "Assigned to",
-          type: "string",
-          "wq:ForeignKey": "customuser",
-        },
-        {
-          name: "task_status",
-          label: "Status",
-          choices: [
-            {
-              name: "1",
-              label: "Not started",
-            },
-            {
-              name: "2",
-              label: "In Progress",
-            },
-            {
-              name: "3",
-              label: "Completed",
-            },
-          ],
-          type: "select one",
-        },
-        {
-          name: "task_priority",
-          label: "Task Priority",
-          choices: [
-            {
-              name: "1",
-              label: "Medium",
-            },
-            {
-              name: "2",
-              label: "High",
-            },
-            {
-              name: "3",
-              label: "Low",
-            },
-          ],
-          type: "select one",
-        },
-        {
-          name: "start_date",
-          label: "Start Date",
-          type: "date",
-        },
-        {
-          name: "end_date",
-          label: "End Date",
-          type: "date",
-        },
-        {
-          name: "call_attempts",
-          label: "Number of attempts to reach the other person",
-          type: "int",
-        },
-      ],
-      verbose_name: "task",
-      verbose_name_plural: "tasks",
-    },
-    district: {
-      cache: "all",
-      name: "district",
-      url: "districts",
-      list: true,
-      form: [
-        {
-          name: "name",
-          label: "Name",
-          bind: {
-            required: true,
-          },
-          "wq:length": 25,
-          type: "string",
-        },
-        {
-          name: "province",
-          label: "Province",
-          type: "string",
-          "wq:ForeignKey": "province",
-        },
-        {
-          name: "postoadministrativo_set",
-          label: "Postoadministrativo Set",
-          bind: {
-            required: true,
-          },
-          type: "repeat",
-          children: [
-            {
-              name: "name",
-              label: "Name",
-              bind: {
-                required: true,
-              },
-              "wq:length": 25,
-              type: "string",
-            },
-            {
-              name: "district",
-              label: "District",
-              type: "string",
-              "wq:ForeignKey": "district",
-            },
-            {
-              name: "codigo",
-              label: "Codigo",
-              bind: {
-                required: true,
-              },
-              "wq:length": 25,
-              type: "string",
-            },
-            {
-              name: "parent_code",
-              label: "Parent Code",
-              bind: {
-                required: true,
-              },
-              "wq:length": 25,
-              type: "string",
-            },
-          ],
-        },
-      ],
-      verbose_name: "district",
-      verbose_name_plural: "districts",
-    },
-    locationclassification: {
-      cache: "all",
-      name: "locationclassification",
-      url: "locationclassifications",
-      list: true,
-      form: [
-        {
-          name: "name",
-          label: "Name",
-          bind: {
-            required: true,
-          },
-          "wq:length": 20,
-          type: "string",
-        },
-      ],
-      verbose_name: "location classification",
-      verbose_name_plural: "location classifications",
-    },
-    forwardcasetofocalpoint: {
-      name: "forwardcasetofocalpoint",
-      url: "forwardcasetofocalpoints",
-      list: true,
-      form: [
-        {
-          name: "lvform",
-          label: "Lvform",
-          bind: {
-            required: true,
-          },
-          type: "string",
-          "wq:ForeignKey": "lvform",
-        },
-        {
-          name: "focalpoint",
-          label: "Focal Point",
-          bind: {
-            required: true,
-          },
-          hint: "User",
-          type: "string",
-          "wq:ForeignKey": "customuser",
-        },
-      ],
-      verbose_name: "forward case to focalpoint",
-      verbose_name_plural: "forward case to focalpoints",
-    },
     permission: {
       cache: "all",
       name: "permission",
@@ -614,171 +261,6 @@ export default {
       ],
       verbose_name: "permission",
       verbose_name_plural: "permissions",
-    },
-    casecomment: {
-      name: "casecomment",
-      url: "casecomments",
-      list: true,
-      form: [
-        {
-          name: "lvform",
-          label: "Lvform",
-          bind: {
-            required: true,
-          },
-          type: "string",
-          "wq:ForeignKey": "lvform",
-        },
-        {
-          name: "feedback",
-          label: "Feedback",
-          type: "text",
-        },
-      ],
-      verbose_name: "casecomment",
-      verbose_name_plural: "casecomments",
-    },
-    forwardinginstitution: {
-      name: "forwardinginstitution",
-      url: "forwardinginstitutions",
-      list: true,
-      form: [
-        {
-          name: "lvform",
-          label: "Lvform",
-          bind: {
-            required: true,
-          },
-          type: "string",
-          "wq:ForeignKey": "lvform",
-        },
-        {
-          name: "partner_feedback",
-          label: "Partner Feedback",
-          type: "text",
-        },
-        {
-          name: "task_feedback",
-          label: "Focalpoint notes",
-          type: "text",
-        },
-        {
-          name: "has_feedback",
-          label: "Has Feedback",
-          choices: [
-            {
-              name: true,
-              label: "Yes",
-            },
-            {
-              name: false,
-              label: "No",
-            },
-          ],
-          type: "select one",
-        },
-        {
-          name: "isFeedback_aproved",
-          label: "Isfeedback Aproved",
-          choices: [
-            {
-              name: true,
-              label: "Yes",
-            },
-            {
-              name: false,
-              label: "No",
-            },
-          ],
-          type: "select one",
-        },
-        {
-          name: "referall_to",
-          label: "Referral to",
-          hint: "User",
-          type: "string",
-          "wq:ForeignKey": "customuser",
-        },
-      ],
-      verbose_name: "forwardinginstitution",
-      verbose_name_plural: "forwardinginstitutions",
-    },
-    contenttype: {
-      cache: "all",
-      name: "contenttype",
-      url: "contenttypes",
-      list: true,
-      form: [
-        {
-          name: "app_label",
-          label: "App Label",
-          bind: {
-            required: true,
-          },
-          "wq:length": 100,
-          type: "string",
-        },
-        {
-          name: "model",
-          label: "Python model class name",
-          bind: {
-            required: true,
-          },
-          "wq:length": 100,
-          type: "string",
-        },
-      ],
-      verbose_name: "content type",
-      verbose_name_plural: "content types",
-    },
-    location: {
-      cache: "all",
-      name: "location",
-      url: "locations",
-      list: true,
-      form: [
-        {
-          name: "classification",
-          label: "Classification",
-          type: "string",
-          "wq:ForeignKey": "locationclassification",
-        },
-        {
-          name: "location_type",
-          label: "Location Type",
-          type: "string",
-          "wq:ForeignKey": "locationtype",
-        },
-        {
-          name: "codigo",
-          label: "Codigo",
-          "wq:length": 20,
-          type: "string",
-        },
-        {
-          name: "name",
-          label: "Name",
-          bind: {
-            required: true,
-          },
-          "wq:length": 200,
-          type: "string",
-        },
-        {
-          name: "province",
-          label: "Province",
-          type: "string",
-          "wq:ForeignKey": "province",
-        },
-        {
-          name: "parent_code",
-          label: "Parent Code",
-          "wq:length": 20,
-          type: "string",
-        },
-      ],
-      verbose_name: "location",
-      verbose_name_plural: "locations",
     },
     lvform: {
       name: "lvform",
@@ -827,9 +309,6 @@ export default {
         {
           name: "fullname",
           label: "Full Name",
-          bind: {
-            required: true,
-          },
           hint: "Full Name",
           "wq:length": 255,
           type: "string",
@@ -838,9 +317,6 @@ export default {
         {
           name: "contact",
           label: "Contact",
-          bind: {
-            required: true,
-          },
           hint: "Contact",
           type: "int",
           depends_on: "consent_pi",
@@ -848,9 +324,6 @@ export default {
         {
           name: "contact_group",
           label: "Who is contacting",
-          bind: {
-            required: true,
-          },
           choices: [
             {
               name: "1",
@@ -906,6 +379,9 @@ export default {
           name: "age_group",
           label: "Age",
           hint: "Age",
+          bind: {
+            required: true,
+          },
           choices: [
             {
               name: "1",
@@ -971,9 +447,6 @@ export default {
         {
           name: "transfermod",
           label: "Transfer modality",
-          bind: {
-            required: true,
-          },
           hint: "Transfer modality",
           choices: [
             {
@@ -1083,6 +556,30 @@ export default {
           type: "select one",
         },
         {
+          name: "individual_commiting_malpractice",
+          label: "LBL_Individual committing malpractice",
+          hint: "LBL_Individual committing malpractice",
+          choices: [
+            {
+              name: "1",
+              label: "Local Leader",
+            },
+            {
+              name: "2",
+              label: "Community Member",
+            },
+            {
+              name: "3",
+              label: "Humanitarian actor",
+            },
+            {
+              name: "4",
+              label: "Unknown",
+            },
+          ],
+          type: "select one",
+        },
+        {
           name: "sector",
           label: "Sector",
           bind: {
@@ -1135,10 +632,18 @@ export default {
             },
             {
               name: "12",
-              label: "INGC",
+              label: "INGD",
             },
             {
               name: "13",
+              label: "IDP Registration",
+            },
+            {
+              name: "14",
+              label: "Social Protection/INAS",
+            },
+            {
+              name: "15",
               label: "Other",
             },
           ],
@@ -1174,7 +679,7 @@ export default {
             },
             {
               name: "6",
-              label: "Chronically patient",
+              label: "Chronic patient",
             },
             {
               name: "7",
@@ -1198,9 +703,6 @@ export default {
         {
           name: "call_solution",
           label: "Call Solution",
-          bind: {
-            required: true,
-          },
           type: "text",
         },
         {
@@ -1245,15 +747,37 @@ export default {
           type: "select one",
         },
         {
-          name: "case_close_category",
-          label: "Case closed",
+          name: "is_closed",
+          label: "Is Closed",
           choices: [
             {
-              name: "1",
-              label: "Close case",
+              name: true,
+              label: "Yes",
+            },
+            {
+              name: false,
+              label: "No",
             },
           ],
           type: "select one",
+          has_boolean_options: true,
+        },
+        {
+          name: "case_close_category",
+          label: "Case Close Category",
+          choices: [
+            {
+              name: "1",
+              label: "With Feedback",
+            },
+            {
+              name: "2",
+              label: "Without Feedback",
+            },
+          ],
+          type: "select one",
+
+          depends_on: "is_closed",
         },
         {
           name: "means_of_communication",
@@ -1391,6 +915,7 @@ export default {
             },
           ],
           type: "select one",
+          has_boolean_options: true,
         },
         {
           name: "unavailable_contact",
@@ -1406,10 +931,548 @@ export default {
             },
           ],
           type: "select one",
+          has_boolean_options: true,
         },
       ],
       verbose_name: "Case",
       verbose_name_plural: "lvforms",
+    },
+    taskcomment: {
+      name: "taskcomment",
+      url: "taskcomments",
+      list: true,
+      form: [
+        {
+          name: "task",
+          label: "Task",
+          bind: {
+            required: true,
+          },
+          type: "string",
+          "wq:ForeignKey": "task",
+        },
+        {
+          name: "feedback",
+          label: "Feedback",
+          type: "text",
+        },
+      ],
+      verbose_name: "taskcomment",
+      verbose_name_plural: "taskcomments",
+    },
+    locationtype: {
+      cache: "all",
+      name: "locationtype",
+      url: "locationtypes",
+      list: true,
+      form: [
+        {
+          name: "name",
+          label: "Name",
+          bind: {
+            required: true,
+          },
+          "wq:length": 20,
+          type: "string",
+        },
+      ],
+      verbose_name: "location type",
+      verbose_name_plural: "location types",
+    },
+    subcategoryissue: {
+      name: "subcategoryissue",
+      url: "subcategoryissues",
+      list: true,
+      form: [
+        {
+          name: "subcategory",
+          label: "Subcategory",
+          bind: {
+            required: true,
+          },
+          type: "string",
+          "wq:ForeignKey": "subcategory",
+        },
+        {
+          name: "subcategory_issue",
+          label: "Sub Category Issue",
+          bind: {
+            required: true,
+          },
+          hint: "Sub Category Issue",
+          type: "text",
+        },
+      ],
+      verbose_name: "subcategoryissue",
+      verbose_name_plural: "subcategoryissues",
+    },
+    casetipology: {
+      name: "casetipology",
+      url: "casetipologys",
+      list: true,
+      form: [
+        {
+          name: "category",
+          label: "Case Category",
+          bind: {
+            required: true,
+          },
+          hint: "Case Category",
+          type: "text",
+        },
+        {
+          name: "subcategory_set",
+          label: "Subcategory Set",
+          type: "repeat",
+          children: [
+            {
+              name: "casetipology",
+              label: "Casetipology",
+              bind: {
+                required: true,
+              },
+              type: "string",
+              "wq:ForeignKey": "casetipology",
+            },
+            {
+              name: "subcategory",
+              label: "Sub Category",
+              bind: {
+                required: true,
+              },
+              hint: "Sub Category",
+              type: "text",
+            },
+            {
+              name: "subcategoryissue_set",
+              label: "Subcategoryissue Set",
+              type: "repeat",
+              children: [
+                {
+                  name: "subcategory",
+                  label: "Subcategory",
+                  bind: {
+                    required: true,
+                  },
+                  type: "string",
+                  "wq:ForeignKey": "subcategory",
+                },
+                {
+                  name: "subcategory_issue",
+                  label: "Sub Category Issue",
+                  bind: {
+                    required: true,
+                  },
+                  hint: "Sub Category Issue",
+                  type: "text",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      verbose_name: "linha verde case tipology",
+      verbose_name_plural: "casetipologys",
+    },
+    group: {
+      cache: "all",
+      name: "group",
+      url: "groups",
+      list: true,
+      form: [
+        {
+          name: "name",
+          label: "Name",
+          bind: {
+            required: true,
+          },
+          "wq:length": 150,
+          type: "string",
+        },
+        {
+          name: "permissions",
+          label: "Permissions",
+          type: "string",
+        },
+        {
+          name: "permissions_label",
+          label: "Permissions Label",
+          bind: {
+            required: true,
+          },
+          type: "string",
+        },
+      ],
+      verbose_name: "group",
+      verbose_name_plural: "groups",
+    },
+    district: {
+      cache: "all",
+      name: "district",
+      url: "districts",
+      list: true,
+      form: [
+        {
+          name: "name",
+          label: "Name",
+          bind: {
+            required: true,
+          },
+          "wq:length": 25,
+          type: "string",
+        },
+        {
+          name: "province",
+          label: "Province",
+          type: "string",
+          "wq:ForeignKey": "province",
+        },
+        {
+          name: "postoadministrativo_set",
+          label: "Postoadministrativo Set",
+          bind: {
+            required: true,
+          },
+          type: "repeat",
+          children: [
+            {
+              name: "name",
+              label: "Name",
+              bind: {
+                required: true,
+              },
+              "wq:length": 25,
+              type: "string",
+            },
+            {
+              name: "district",
+              label: "District",
+              type: "string",
+              "wq:ForeignKey": "district",
+            },
+            {
+              name: "codigo",
+              label: "Codigo",
+              bind: {
+                required: true,
+              },
+              "wq:length": 25,
+              type: "string",
+            },
+            {
+              name: "parent_code",
+              label: "Parent Code",
+              bind: {
+                required: true,
+              },
+              "wq:length": 25,
+              type: "string",
+            },
+          ],
+        },
+      ],
+      verbose_name: "district",
+      verbose_name_plural: "districts",
+    },
+    subcategory: {
+      name: "subcategory",
+      url: "subcategorys",
+      list: true,
+      form: [
+        {
+          name: "casetipology",
+          label: "Casetipology",
+          bind: {
+            required: true,
+          },
+          type: "string",
+          "wq:ForeignKey": "casetipology",
+        },
+        {
+          name: "subcategory",
+          label: "Sub Category",
+          bind: {
+            required: true,
+          },
+          hint: "Sub Category",
+          type: "text",
+        },
+        {
+          name: "subcategoryissue_set",
+          label: "Subcategoryissue Set",
+          type: "repeat",
+          children: [
+            {
+              name: "subcategory",
+              label: "Subcategory",
+              bind: {
+                required: true,
+              },
+              type: "string",
+              "wq:ForeignKey": "subcategory",
+            },
+            {
+              name: "subcategory_issue",
+              label: "Sub Category Issue",
+              bind: {
+                required: true,
+              },
+              hint: "Sub Category Issue",
+              type: "text",
+            },
+          ],
+        },
+      ],
+      verbose_name: "subcategory",
+      verbose_name_plural: "subcategorys",
+    },
+    task: {
+      name: "task",
+      url: "tasks",
+      list: true,
+      form: [
+        {
+          name: "lvform",
+          label: "Lvform",
+          bind: {
+            required: true,
+          },
+          type: "string",
+          "wq:ForeignKey": "lvform",
+        },
+        {
+          name: "task_title",
+          label: "Task Title",
+          choices: [
+            {
+              name: "1",
+              label: "Request for information",
+            },
+            {
+              name: "2",
+              label: "Send Feedback",
+            },
+          ],
+          type: "select one",
+        },
+        {
+          name: "description",
+          label: "Description",
+          type: "text",
+        },
+        {
+          name: "assignee",
+          label: "Assigned to",
+          type: "string",
+          "wq:ForeignKey": "customuser",
+        },
+        {
+          name: "task_status",
+          label: "Status",
+          choices: [
+            {
+              name: "1",
+              label: "Not started",
+            },
+            {
+              name: "2",
+              label: "In Progress",
+            },
+            {
+              name: "3",
+              label: "Completed",
+            },
+          ],
+          type: "select one",
+        },
+        {
+          name: "task_priority",
+          label: "Task Priority",
+          choices: [
+            {
+              name: "1",
+              label: "Medium",
+            },
+            {
+              name: "2",
+              label: "High",
+            },
+            {
+              name: "3",
+              label: "Low",
+            },
+          ],
+          type: "select one",
+        },
+        {
+          name: "start_date",
+          label: "Start Date",
+          type: "date",
+        },
+        {
+          name: "end_date",
+          label: "End Date",
+          type: "date",
+        },
+        {
+          name: "call_attempts",
+          label: "Number of attempts to reach the other person",
+          type: "int",
+        },
+        {
+          name: "taskcomment_set",
+          label: "Taskcomment Set",
+          type: "repeat",
+          children: [
+            {
+              name: "task",
+              label: "Task",
+              bind: {
+                required: true,
+              },
+              type: "string",
+              "wq:ForeignKey": "task",
+            },
+            {
+              name: "feedback",
+              label: "Feedback",
+              type: "text",
+            },
+          ],
+        },
+      ],
+      verbose_name: "task",
+      verbose_name_plural: "tasks",
+    },
+    locationclassification: {
+      cache: "all",
+      name: "locationclassification",
+      url: "locationclassifications",
+      list: true,
+      form: [
+        {
+          name: "name",
+          label: "Name",
+          bind: {
+            required: true,
+          },
+          "wq:length": 20,
+          type: "string",
+        },
+      ],
+      verbose_name: "location classification",
+      verbose_name_plural: "location classifications",
+    },
+    forwardcasetofocalpoint: {
+      name: "forwardcasetofocalpoint",
+      url: "forwardcasetofocalpoints",
+      list: true,
+      form: [
+        {
+          name: "lvform",
+          label: "Lvform",
+          bind: {
+            required: true,
+          },
+          type: "string",
+          "wq:ForeignKey": "lvform",
+        },
+        {
+          name: "focalpoint",
+          label: "Focal Point",
+          bind: {
+            required: true,
+          },
+          hint: "User",
+          type: "string",
+          "wq:ForeignKey": "customuser",
+        },
+      ],
+      verbose_name: "forward case to focalpoint",
+      verbose_name_plural: "forward case to focalpoints",
+    },
+    contenttype: {
+      cache: "all",
+      name: "contenttype",
+      url: "contenttypes",
+      list: true,
+      form: [
+        {
+          name: "app_label",
+          label: "App Label",
+          bind: {
+            required: true,
+          },
+          "wq:length": 100,
+          type: "string",
+        },
+        {
+          name: "model",
+          label: "Python model class name",
+          bind: {
+            required: true,
+          },
+          "wq:length": 100,
+          type: "string",
+        },
+      ],
+      verbose_name: "content type",
+      verbose_name_plural: "content types",
+    },
+    location: {
+      cache: "all",
+      name: "location",
+      url: "locations",
+      list: true,
+      form: [
+        {
+          name: "classification",
+          label: "Classification",
+          type: "string",
+          "wq:ForeignKey": "locationclassification",
+        },
+        {
+          name: "district",
+          label: "District",
+          type: "string",
+          "wq:ForeignKey": "district",
+        },
+        {
+          name: "location_type",
+          label: "Location Type",
+          type: "string",
+          "wq:ForeignKey": "locationtype",
+        },
+        {
+          name: "codigo",
+          label: "Codigo",
+          "wq:length": 20,
+          type: "string",
+        },
+        {
+          name: "name",
+          label: "Name",
+          bind: {
+            required: true,
+          },
+          "wq:length": 200,
+          type: "string",
+        },
+        {
+          name: "province",
+          label: "Province",
+          type: "string",
+          "wq:ForeignKey": "province",
+        },
+        {
+          name: "parent_code",
+          label: "Parent Code",
+          "wq:length": 20,
+          type: "string",
+        },
+      ],
+      verbose_name: "location",
+      verbose_name_plural: "locations",
     },
   },
   debug: true,
