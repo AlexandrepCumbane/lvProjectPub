@@ -195,7 +195,7 @@ export default {
     "Gender-based Violence": "Violência baseada no gênero",
     Resilience: "Resiliência",
 
-    Entitlement: "Direito",
+    Entitlement: "Direito de quantidade a receber",
     "Distribution timing": "Horario de Distribuição",
     "Duration of assistance": "Duração da Assistência",
     "Use of personal data - who, what, how":
