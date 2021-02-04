@@ -26,6 +26,7 @@ class Welcome extends React.Component {
     username: "",
     csrf: "",
     times: 0,
+    initialText: "",
   };
 
   authService = new AuthService();
@@ -48,6 +49,35 @@ class Welcome extends React.Component {
     }
   }
 
+  renderText = () => {
+    if (this.state.times >= 10) {
+      return (
+        <CardBody className="d-flex justify-content-between align-items-center">
+          <div className="justify-content-center">
+            <h4>VulaVula - 1458</h4>
+            <p>
+              You've reached the attempts limit, please reload the page or
+              contact your system manager.
+            </p>
+          </div>
+          {/* <Spinner color="primary" /> */}
+        </CardBody>
+      );
+    } else {
+      return (
+        <CardBody className="d-flex justify-content-between align-items-center">
+          <div className="justify-content-center">
+            <h4>VulaVula - 1458</h4>
+            <p>Welcome, your account is being validated.</p>
+            <p>
+              Validation attemps <strong>{this.state.times}</strong>
+            </p>
+          </div>
+          <Spinner color="primary" />
+        </CardBody>
+      );
+    }
+  };
   /**
    *
    * @param {*} token
@@ -65,7 +95,8 @@ class Welcome extends React.Component {
         this.props.changeRole(data["groups_label"][0]);
         history.push("/home");
       })
-      .catch(() => {
+      .catch(({ response }) => {
+        this.validate_error(response.data.detail);
         let interval = setInterval(() => {
           if (this.state.times < 10) {
             this.setState({ times: this.state.times + 1 });
@@ -80,10 +111,26 @@ class Welcome extends React.Component {
                 this.props.changeRole(data["groups_label"][0]);
                 history.push("/home");
               })
-              .catch(() => {});
-          } else clearInterval(interval);
-        }, 10000);
+              .catch(({ response }) => {
+                this.validate_error(response.data.detail);
+              });
+          } else {
+            clearInterval(interval);
+          }
+        }, 5000);
       });
+  };
+
+  validate_error = (text) => {
+    if (text === "You do not have permission to perform this action.") {
+      return;
+    } else {
+      if (
+        text === "Invalid Authorization header. Unable to verify bearer token"
+      ) {
+        this.authService.logout().then(() => this.authService.login());
+      }
+    }
   };
 
   render() {
@@ -99,15 +146,7 @@ class Welcome extends React.Component {
           <Card className="rounded-0 mb-0 w-100">
             <Row className="m-0">
               <Col md="12" className="p-0">
-                <Card className="rounded-0 mb-0 px-2">
-                  <CardBody className="d-flex justify-content-between align-items-center">
-                    <div className="justify-content-center">
-                      <h4>VulaVula - 1458</h4>
-                      <p>Welcome, your account is being validated.</p>
-                    </div>
-                    <Spinner color="primary" />
-                  </CardBody>
-                </Card>
+                <Card className="rounded-0 mb-0 px-2">{this.renderText()}</Card>
               </Col>
             </Row>
           </Card>
