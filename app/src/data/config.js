@@ -422,6 +422,7 @@ export default {
           type: "string",
           "wq:ForeignKey": "district",
           has_parent: true,
+          children: "location",
         },
         {
           name: "localidade",
@@ -429,6 +430,7 @@ export default {
           hint: "Locality",
           type: "string",
           "wq:ForeignKey": "location",
+          has_parent: true,
         },
         {
           name: "community",

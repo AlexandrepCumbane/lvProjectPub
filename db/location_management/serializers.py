@@ -18,7 +18,7 @@ class PostoAdministrativoSerializer(patterns.AttachedModelSerializer):
 
 class DistrictSerializer(patterns.AttachedModelSerializer):
 
-    postoadministrativo_set = PostoAdministrativoSerializer(many=True, required=True)
+    location_set = LocationSerializer(many=True, required=True)
 
     class Meta:
         model = District
