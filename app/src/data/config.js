@@ -768,7 +768,7 @@ export default {
             },
           ],
           type: "select one",
-          b: true,
+          has_boolean_options: true,
         },
         {
           name: "case_close_category",
