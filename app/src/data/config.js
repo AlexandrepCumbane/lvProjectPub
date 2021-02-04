@@ -554,6 +554,10 @@ export default {
             },
           ],
           type: "select one",
+          depend_on_value: {
+            field: "subcategory",
+            value: ["4"],
+          },
         },
         {
           name: "individual_commiting_malpractice",
@@ -578,6 +582,10 @@ export default {
             },
           ],
           type: "select one",
+          depend_on_value: {
+            field: "subcategory",
+            value: ["5", "6"],
+          },
         },
         {
           name: "sector",
@@ -760,7 +768,7 @@ export default {
             },
           ],
           type: "select one",
-          has_boolean_options: true,
+          b: true,
         },
         {
           name: "case_close_category",
@@ -776,7 +784,6 @@ export default {
             },
           ],
           type: "select one",
-
           depends_on: "is_closed",
         },
         {

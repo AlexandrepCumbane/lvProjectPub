@@ -127,44 +127,22 @@ class Create extends React.Component {
 
     switch (field.type) {
       case "text":
-        if (field.name === "call_notes") {
-          res = (
-            <>
-              <Col key={field.name + "_"} md="6" />
-              <Col md="6" key={field.name}>
-                {this.renderLabel(field)}
+        res = (
+          <Col md="6" key={field.name}>
+            {/* <Label>{this.translate(field.label)}</Label> */}
+            {this.renderLabel(field)}
+            <FormGroup className="form-label-group position-relative has-icon-left">
+              <Input
+                type="textarea"
+                rows={7}
+                className="square"
+                placeholder={this.translate(field.label)}
+                onChange={(e) => this.updateState(field.name, e.target.value)}
+              />
+            </FormGroup>
+          </Col>
+        );
 
-                <FormGroup className="form-label-group position-relative has-icon-left">
-                  <Input
-                    type="textarea"
-                    rows={7}
-                    className="square"
-                    placeholder={this.translate(field.label)}
-                    onChange={(e) =>
-                      this.updateState(field.name, e.target.value)
-                    }
-                  />
-                </FormGroup>
-              </Col>
-            </>
-          );
-        } else {
-          res = (
-            <Col md="6" key={field.name}>
-              {/* <Label>{this.translate(field.label)}</Label> */}
-              {this.renderLabel(field)}
-              <FormGroup className="form-label-group position-relative has-icon-left">
-                <Input
-                  type="textarea"
-                  rows={7}
-                  className="square"
-                  placeholder={this.translate(field.label)}
-                  onChange={(e) => this.updateState(field.name, e.target.value)}
-                />
-              </FormGroup>
-            </Col>
-          );
-        }
         break;
       case "string":
         if (field["wq:ForeignKey"]) {
@@ -333,24 +311,80 @@ class Create extends React.Component {
             );
           }
         } else {
-          res = (
-            <Col md="6" key={field.name}>
-              {this.renderLabel(field)}
+          if (field.depend_on_value) {
+            if (
+              field.depend_on_value.value.includes(
+                this.state.form.get(`${field.depend_on_value.field}_id`)
+              )
+            ) {
+              res = res = (
+                <Col md="6" key={field.name}>
+                  {this.renderLabel(field)}
 
-              <FormGroup className="form-label-group position-relative has-icon-left">
-                <CustomInput
-                  className="square"
-                  type="select"
-                  id={field.name}
-                  placeholder={this.translate(field.label)}
-                  onChange={(e) => this.updateState(field.name, e.target.value)}
-                >
-                  <option>{this.translate("Select")}</option>
-                  {this.renderSelectOption(field.choices)}
-                </CustomInput>
-              </FormGroup>
-            </Col>
-          );
+                  <FormGroup className="form-label-group position-relative has-icon-left">
+                    <CustomInput
+                      className="square"
+                      type="select"
+                      id={field.name}
+                      placeholder={this.translate(field.label)}
+                      onChange={(e) =>
+                        this.updateState(field.name, e.target.value)
+                      }
+                    >
+                      <option>{this.translate("Select")}</option>
+                      {this.renderSelectOption(field.choices)}
+                    </CustomInput>
+                  </FormGroup>
+                </Col>
+              );
+            } else return <Col md="6" key={field.name} />;
+          } else {
+            if (field["depends_on"]) {
+              res = this.checkboxValue(field.depends_on) ? (
+                <Col md="6" key={field.name}>
+                  {this.renderLabel(field)}
+
+                  <FormGroup className="form-label-group position-relative has-icon-left">
+                    <CustomInput
+                      className="square"
+                      type="select"
+                      id={field.name}
+                      placeholder={this.translate(field.label)}
+                      onChange={(e) =>
+                        this.updateState(field.name, e.target.value)
+                      }
+                    >
+                      <option>{this.translate("Select")}</option>
+                      {this.renderSelectOption(field.choices)}
+                    </CustomInput>
+                  </FormGroup>
+                </Col>
+              ) : (
+                <Col md="6" key={field.name} />
+              );
+            } else {
+              res = (
+                <Col md="6" key={field.name}>
+                  {this.renderLabel(field)}
+
+                  <FormGroup className="form-label-group position-relative has-icon-left">
+                    <CustomInput
+                      className="square"
+                      type="select"
+                      id={field.name}
+                      placeholder={this.translate(field.label)}
+                      onChange={(e) =>
+                        this.updateState(field.name, e.target.value)
+                      }
+                    >
+                      <option>{this.translate("Select")}</option>
+                      {this.renderSelectOption(field.choices)}
+                    </CustomInput>
+                  </FormGroup>
+                </Col>
+              );
+            }
+          }
         }
         break;
 
