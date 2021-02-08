@@ -61,8 +61,8 @@ class BreadCrumbs extends React.Component {
 
         <div className="content-header-right text-md-right col-md-3 col-12 d-md-block d-none">
           <div className="form-group breadcrum-right dropdown">
-            <UncontrolledButtonDropdown>
-              <DropdownToggle
+            <UncontrolledButtonDropdown >
+              <DropdownToggle 
                 color="primary"
                 size="sm"
                 className="btn-icon btn-round dropdown-toggle"
@@ -74,12 +74,12 @@ class BreadCrumbs extends React.Component {
                   }}
                 />
               </DropdownToggle>
-              <DropdownMenu tag="ul" right>
+              <DropdownMenu tag="ul" right className="rounded-0">
                 {this.props.breadCrumbItems.map((item, index) => {
 
                   return (
-                    <DropdownItem tag="li" key={index}>
-                      <NavLink className="text-dark w-100" to={item.link}>
+                    <DropdownItem tag="li" key={index} className="rounded-0">
+                      <NavLink className="text-primary w-100" to={item.link}>
                         {item.name}
                       </NavLink>
                     </DropdownItem>
