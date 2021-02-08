@@ -33,8 +33,8 @@ export default {
     Dashboard: "Dashboard",
     "CLIENTE PROFILE BY GENDER": "CLIENTE PROFILE BY GENDER",
     Pages: "Pages",
-    "Consent PI": "Consent PI",
-    "Consent Share Pi": "Consent Share Pi",
+    "Consent Pi": "Consent to Collect Personal Information",
+    "Consent Share Pi": "Consent to share Personal Information",
     "Resettlement name": "Resettlement name",
     "Case category": "Case category",
     Status: "Status",
@@ -110,5 +110,7 @@ export default {
 
     false: "No",
     true: "Yes",
+    "Case Close Category" : "How it ended?",
+    "Is Closed": "Case closed?"
   },
 };

@@ -360,6 +360,13 @@ class Edit extends Component {
                   label={this.translate("Send")}
                   lvform_id={data["id"]}
                 />
+                <Modal
+                  title={this.translate(`Add your comment`)}
+                  page="casecomment"
+                  label={this.translate("Comment")}
+                  color="primary"
+                  lvform_id={data["id"]}
+                />
               </>
             )}
           </div>
@@ -372,7 +379,7 @@ class Edit extends Component {
               title={this.translate(`Add your feedback`)}
               page="casecomment"
               label={this.translate("Comment")}
-              color="secondary"
+              color="primary"
               lvform_id={data["id"]}
             />
           </div>
@@ -409,7 +416,7 @@ class Edit extends Component {
                   title={this.translate(`Add your feedback`)}
                   page="casecomment"
                   label={this.translate("Feedback")}
-                  color="secondary"
+                  color="primary"
                   lvform_id={data["id"]}
                 />
               </>
@@ -544,10 +551,9 @@ class Edit extends Component {
       return <span key="case_number" />;
     }
 
-    console.log(this.checkboxValue(field.depends_on))
+    console.log(this.checkboxValue(field.depends_on));
 
     switch (field.type) {
-      
       case "text":
         res = (
           <Col md="6" key={field.name}>

@@ -138,6 +138,14 @@ export default {
           "wq:length": 30,
           type: "string",
         },
+        {
+          name: "groups",
+          label: "Groups",
+          hint:
+            "The groups this user belongs to. A user will get all permissions granted to each of their groups.",
+          type: "string",
+          "wq:ForeignKey": "group",
+        },
       ],
       verbose_name: "user",
       verbose_name_plural: "users",
@@ -586,7 +594,7 @@ export default {
           type: "select one",
           depend_on_value: {
             field: "subcategory",
-            value: ["5", "6"],
+            value: ["5", "6", "3"],
           },
         },
         {
@@ -1327,27 +1335,6 @@ export default {
           name: "call_attempts",
           label: "Number of attempts to reach the other person",
           type: "int",
-        },
-        {
-          name: "taskcomment_set",
-          label: "Taskcomment Set",
-          type: "repeat",
-          children: [
-            {
-              name: "task",
-              label: "Task",
-              bind: {
-                required: true,
-              },
-              type: "string",
-              "wq:ForeignKey": "task",
-            },
-            {
-              name: "feedback",
-              label: "Feedback",
-              type: "text",
-            },
-          ],
         },
       ],
       verbose_name: "task",
