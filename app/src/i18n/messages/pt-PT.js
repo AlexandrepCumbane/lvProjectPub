@@ -115,7 +115,7 @@ export default {
     "Non beneficiary": "Não beneficiário",
     "Community leader": "Líder comunitário",
     "Humanitarian partner": "Parceiro Humanitário",
-    Other: "Outro",
+    Other: "Outro(s)",
 
     Gender: "Gênero",
     Male: "Masculino",

@@ -183,7 +183,6 @@ class LvForm(models.Model):
             ("8", "Protection from Sexual Exploitation and Abuse"),
             ("9", "Protection"),
             ("10", "CCCM"),
-            ("11", "Resilience"),
             ("12", "INGD"),
             ("13", "IDP Registration"),
             ("14", "Social Protection/INAS"),
@@ -192,17 +191,6 @@ class LvForm(models.Model):
         max_length=2,
         verbose_name="Sector",
     )
-    """
-    Person with disability
-Child headed household
-Single parent
-Pregnant or lactating woman
-Elderly head of household
-Chronic patient
-None
-Other
-
-    """
     vulnerability = models.CharField(
         choices=(
             ("1", "Person with disability"),
