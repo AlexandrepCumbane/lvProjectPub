@@ -22,7 +22,7 @@ const ThemeNavbar = (props) => {
       <div className="header-navbar-shadow" />
       <Navbar
         className={classnames(
-          "header-navbar navbar-expand-lg navbar navbar-with-menu navbar-shadow",
+          "header-navbar navbar-expand-lg navbar navbar-with-menu navbar-shadow rounded-0",
           {
             "navbar-light":
               props.navbarColor === "default" ||

@@ -40,7 +40,7 @@ class SideMenuGroup extends React.Component {
 
   renderChild(item, activeGroup, handleGroupClick, handleActiveItem, parent) {
     return (
-      <ul className="menu-content">
+      <ul className="menu-content rounded-0">
         {item.children
           ? item.children.map(child => {
               const CustomAnchorTag =
@@ -66,7 +66,7 @@ class SideMenuGroup extends React.Component {
                 return (
                   <li
                     key={child.id}
-                    className={classnames({
+                    className={`${classnames({
                       hover: this.props.hoverIndex === child.id,
                       "has-sub": child.type === "collapse",
                       open:
@@ -79,7 +79,7 @@ class SideMenuGroup extends React.Component {
                         (this.props.activeItemState === child.navLink &&
                         child.type === "item") || (item.parentOf && item.parentOf.includes(this.props.activeItemState)),
                       disabled: child.disabled
-                    })}
+                    })} rounded-0`}
                     onClick={e => {
                       e.stopPropagation()
                       handleGroupClick(child.id, item.id, child.type)
@@ -92,9 +92,9 @@ class SideMenuGroup extends React.Component {
                     }}
                   >
                     <CustomAnchorTag
-                    className={classnames({
+                    className={`${classnames({
                       "d-flex justify-content-between" : child.type === "collapse"
-                    })}
+                    })} rounded-0`}
                       to={
                         child.navLink && child.type === "item"
                           ? child.navLink

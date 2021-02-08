@@ -256,7 +256,7 @@ class AggridTable extends React.Component {
             onClick={() => this.handleSidebar(!this.state.showSidebar, true)}
           />
         </div>
-        <Card className="overflow-hidden agGrid-card">
+        <Card className="overflow-hidden agGrid-card rounded-0">
           <CardBody className="py-0">
             {this.state.rowData === null ? null : (
               <div className="ag-theme-material w-100 my-3 ag-grid-table">

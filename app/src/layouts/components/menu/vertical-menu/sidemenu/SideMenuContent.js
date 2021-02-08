@@ -138,7 +138,7 @@ class SideMenuContent extends React.Component {
 
       let renderItem = item.permissions.includes(this.props.currentUser) ? (
         <li
-          className={classnames("nav-item", {
+          className={`${classnames("nav-item rounded-0", {
             "has-sub": item.type === "collapse",
             open: this.state.activeGroups.includes(item.id),
             "sidebar-group-active": this.state.currentActiveGroup.includes(
@@ -151,7 +151,7 @@ class SideMenuContent extends React.Component {
               (item.parentOf &&
                 item.parentOf.includes(this.props.activeItemState)),
             disabled: item.disabled,
-          })}
+          })} rounded-0`}
           key={item.id}
           onClick={(e) => {
             e.stopPropagation();
@@ -175,7 +175,7 @@ class SideMenuContent extends React.Component {
                 : ""
             }
             href={item.type === "external-link" ? item.navLink : ""}
-            className={`d-flex ${
+            className={`d-flex rounded-0 ${
               item.badgeText
                 ? "justify-content-between"
                 : "justify-content-start"

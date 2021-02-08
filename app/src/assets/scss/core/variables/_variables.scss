@@ -27,11 +27,12 @@ $blue: #00cfe8; //$info
 $red: #ea5455; //$danger
 $orange: #ff9f43; //$warning
 $green: #28c76f; //$success
-$cyan: #7367f0; //$primary
+$cyan: #0078d4; //$primary
 
 $primary: $cyan;
 $info: $blue;
 $warning: $orange;
+
 
 // Spacing
 //
@@ -79,7 +80,7 @@ $spacers: map-merge(
 // Settings for the `<body>` element.
 
 // $body-bg: $body-bg;
-$body-color: #626262;
+$body-color: #272727;
 
 // Links
 //
@@ -117,23 +118,23 @@ $font-family-sans-serif: "Montserrat", Helvetica, Arial, serif;
 $font-family-monospace: "Montserrat", Helvetica, Arial, serif;
 
 // stylelint-enable value-keyword-case
-$font-size-base: 1rem;
-$font-size-sm: ceil($font-size-base * 0.85);
-$font-size-lg: ceil($font-size-base * 1.25);
+$font-size-base: 0.95rem;
+$font-size-sm: ceil($font-size-base * 0.75);
+$font-size-lg: ceil($font-size-base * 1.05);
 
 $line-height-base: 1.45;
 
-$h1-font-size: $font-size-base * 2;
-$h2-font-size: $font-size-base * 1.74;
-$h3-font-size: $font-size-base * 1.51;
-$h4-font-size: $font-size-base * 1.32;
-$h5-font-size: $font-size-base * 1.14;
+$h1-font-size: $font-size-base * 1.5;
+$h2-font-size: $font-size-base * 1.54;
+$h3-font-size: $font-size-base * 1.21;
+$h4-font-size: $font-size-base * 1.12;
+$h5-font-size: $font-size-base * 0.94;
 
 $headings-margin-bottom: ($spacer / 2);
 $headings-font-family: inherit;
-$headings-font-weight: 500;
+$headings-font-weight: 400;
 
-$headings-color: #2c2c2c;
+$headings-color: #080808;
 
 $small-font-size: smaller;
 
@@ -142,8 +143,8 @@ $small-font-size: smaller;
 $table-border-color: $body-bg;
 
 // Buttons + Forms
-$btn-padding-y: 0.9rem;
-$btn-padding-x: 2rem;
+$btn-padding-y: 0.8rem;
+$btn-padding-x: 1.8rem;
 $input-btn-padding-y: 0.75rem;
 $input-btn-padding-x: 2rem;
 
