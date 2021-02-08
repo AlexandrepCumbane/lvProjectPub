@@ -295,7 +295,6 @@ export default {
     "Abuse of power-  Fraud": "Abuso de poder- Fraude",
     "Abuse of power-  Corruption": "Abuso de poder- Corrupção",
     "Lack of access to water": "Falta de acesso à água",
-    "Government Guidelines": "Government Guidelines",
     "What is Corona virus?": "O que é o  Corona vírus?",
     "Registration process": "Processo de inscrição",
     Mitigation: "Mitigação",
