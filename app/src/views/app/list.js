@@ -3,12 +3,13 @@ import { connect } from "react-redux";
 
 import { Badge } from "reactstrap";
 
-import { Circle, Octagon, ArrowUp } from "react-feather";
+import { Circle, Octagon, ArrowUp, Columns } from "react-feather";
 
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import AgGridTable from "../../components/custom/table/AgGridTable";
 
 import { default as config } from "../../data/config";
+import { operator as operatorColumns, partner as partnerColumns } from "../../data/lvform.config";
 import { IntlContext } from "../../i18n/provider";
 import {
   requestForm,
@@ -55,6 +56,33 @@ class List extends Component {
       });
   }
 
+  getSpecificields = () => {
+    let form = [];
+
+    const { userRole } = this.props;
+    if (this.props.path == "lvform") {
+      switch (userRole) {
+        case "manager":
+          form = operatorColumns.form;
+          break;
+        case "operator":
+          form = operatorColumns.form;
+          break;
+        case "focalpoint":
+          form = operatorColumns.form;
+          break;
+        case "partner":
+          form = partnerColumns.form;
+          break;
+
+        default:
+          form = [];
+          break;
+      }
+    }
+
+    return form;
+  };
   renderStatusLabel = (props, label) => {
     let color = "white";
 
@@ -147,7 +175,9 @@ class List extends Component {
   };
 
   formatFields = () => {
-    const { form } = config.pages[this.props.path];
+    let colm = this.getSpecificields();
+
+    const form = colm.length > 0 ? colm : config.pages[this.props.path].form;
 
     const columnDefs = form.map((item, index) => {
       if (
@@ -223,7 +253,6 @@ class List extends Component {
             editable: false,
             resizable: true,
           };
-
         }
         if (index === 0) {
           return {
@@ -300,6 +329,7 @@ function mapStateToProps(state) {
     state: state,
     config: state.auth.login.config,
     app_reducer: state.app.app_reducer,
+    userRole: state.auth.login.userRole,
   };
 }
 
