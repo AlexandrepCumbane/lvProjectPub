@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import { Badge } from "reactstrap";
 
-import { Circle, Octagon, ArrowUp, Columns } from "react-feather";
+import { Circle, Octagon, ArrowUp } from "react-feather";
 
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import AgGridTable from "../../components/custom/table/AgGridTable";
@@ -60,7 +60,7 @@ class List extends Component {
     let form = [];
 
     const { userRole } = this.props;
-    if (this.props.path == "lvform") {
+    if (this.props.path === "lvform") {
       switch (userRole) {
         case "manager":
           form = operatorColumns.form;
