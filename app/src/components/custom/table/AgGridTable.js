@@ -12,8 +12,7 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
-  Spinner,
-  Label,
+  Spinner, 
 } from "reactstrap";
 
 import CaseEdit from "../../../views/app/edit";
