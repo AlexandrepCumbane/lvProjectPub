@@ -13,6 +13,7 @@ import {
   DropdownItem,
   DropdownToggle,
   Spinner,
+  Label,
 } from "reactstrap";
 
 import CaseEdit from "../../../views/app/edit";
@@ -27,7 +28,6 @@ import "../../../assets/scss/pages/data-list.scss";
 class AggridTable extends React.Component {
   static contextType = IntlContext;
   translate = this.context.translate;
-
 
   state = {
     gridReady: false,
@@ -206,7 +206,7 @@ class AggridTable extends React.Component {
 
   render() {
     const {
-      rowData, 
+      rowData,
       showSidebar,
       showCallSidebar,
       showTaskDialog,
@@ -307,6 +307,37 @@ class AggridTable extends React.Component {
                   </div>
                   {this.renderLoading()}
                   <div className="d-flex flex-wrap justify-content-between mb-1">
+                    <div className="table-input mr-1">
+                      <div class="input-group input-daterange">
+                        <div className="m-1 text-danger">
+                          <strong><u>List from</u></strong>
+                        </div>
+                        <Input
+                          label="From"
+                          type="datetime-local"
+                          placeholder="search..."
+                          className="rounded-0 border-white"
+                          onChange={(e) =>
+                            this.updateSearchQuery(e.target.value)
+                          }
+                          value={this.state.value}
+                        />
+                        <div className="m-1 text-success">
+                          <strong><u>to</u></strong>
+                        </div>
+                        <Input
+                          label="From"
+                          type="datetime-local"
+                          className="rounded-0 border-white"
+                          placeholder="search..."
+                          onChange={(e) =>
+                            this.updateSearchQuery(e.target.value)
+                          }
+                          value={this.state.value}
+                        />
+                      </div>
+                    </div>
+
                     <div className="table-input mr-1">
                       <Input
                         placeholder="search..."
