@@ -159,16 +159,10 @@ class List extends Component {
           headerName: this.translate(item.label),
           field: `${item.name}_label`,
           minWidth: 250,
-          editable: false,
-          resizable: true,
           hide: true,
-          checkboxSelection: true,
-          headerCheckboxSelection: true,
-          cellRendererFramework: ({ data }) => {
-            return this.renderStatus(data, data[`${item.name}_label`]);
-          },
         };
       }
+
       if (
         item.type === "select one" ||
         (item.type === "string" && item["wq:ForeignKey"])
@@ -221,6 +215,16 @@ class List extends Component {
             };
         }
       } else {
+        if (item.type === "datetime") {
+          return {
+            headerName: this.translate(item.label),
+            field: `${item.name}_label`,
+            minWidth: 250,
+            editable: false,
+            resizable: true,
+          };
+
+        }
         if (index === 0) {
           return {
             headerName: this.translate(item.label),

@@ -282,6 +282,12 @@ export default {
           type: "int",
         },
         {
+          name: "datetime_created",
+          label: "Created at",
+          hint: "Created at",
+          type: "datetime",
+        },
+        {
           name: "consent_pi",
           label: "Consent Pi",
           choices: [
