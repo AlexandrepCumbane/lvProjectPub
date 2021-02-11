@@ -27,7 +27,7 @@ class Create extends React.Component {
   translate = this.context.translate;
 
   notifySuccessBounce = (id = "") =>
-    toast.success(`Transaction completed successfuly!`, { transition: Bounce });
+    toast.success(this.translate(`Transaction completed successfuly!`), { transition: Bounce });
 
   notifyErrorBounce = (error) =>
     toast.error(error, {

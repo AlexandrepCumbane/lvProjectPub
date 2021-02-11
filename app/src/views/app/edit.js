@@ -292,7 +292,9 @@ class Edit extends Component {
             <ListGroupItem>
               <div className="d-flex justify-content-between w-100">
                 <h6 className="mb-1">{this.translate("Partner Feedback")}</h6>
-                <small>{forwardinginstitution.isFeedback_aproved_label}</small>
+                <small>{`${this.translate("Aproved")}: ${this.translate(
+                  forwardinginstitution.isFeedback_aproved_label
+                )}`}</small>
               </div>
               <p className="mb-1">{forwardinginstitution.partner_feedback} </p>
 
@@ -407,7 +409,7 @@ class Edit extends Component {
             ) : (
               <>
                 <Modal
-                  title={this.translate(`Send to case to Entity`)}
+                  title={this.translate(`Send case to Entity`)}
                   page="forwardinginstitution"
                   label={this.translate("Send")}
                   lvform_id={data["id"]}

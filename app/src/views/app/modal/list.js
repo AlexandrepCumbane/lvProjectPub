@@ -9,7 +9,12 @@ import {
 } from "reactstrap";
 
 import Create from "./create";
+import { IntlContext } from "../../../i18n/provider";
 class ModalForm extends React.Component {
+
+  static contextType = IntlContext;
+  translate = this.context.translate;
+
   state = {
     modal: false,
     feedback: "",
@@ -29,14 +34,14 @@ class ModalForm extends React.Component {
   renderTaskComments = () => {
     const { taskcomment_set } = this.props.data;
 
-    let res = <p>No comments for this record.</p>;
+    let res = <p>{this.translate("No comments for this record")}</p>;
 
     let create = this.state.modal ? (
       <Create
         modal={this.state.modal}
         feedback={this.state.feedback}
         page="casecomment"
-        title={`Add your comment`}
+        title={this.translate(`Add your comment`)}
         color="success"
         hideButton={true}
         lvform_id={this.state.lvform_id}
@@ -69,7 +74,7 @@ class ModalForm extends React.Component {
                 <div className="d-flex justify-content-between w-100">
                   <small></small>{" "}
                   <small className="text-primary" style={{ cursor: "pointer" }}>
-                    Send as case comment
+                   {this.translate("Send as case comment")}
                   </small>
                 </div>
               </ListGroupItem>
@@ -90,7 +95,7 @@ class ModalForm extends React.Component {
           className="modal-dialog-centered"
         >
           <ModalHeader toggle={this.props.toggleModal} className="bg-success">
-            Comments
+            {this.translate("Comments")}
           </ModalHeader>
           <ModalBody>{this.renderTaskComments()}</ModalBody>
           <ModalFooter></ModalFooter>

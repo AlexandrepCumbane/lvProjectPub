@@ -24,12 +24,12 @@ export default {
         },
         {
           name: "partner_feedback",
-          label: "Parceiro Feedback",
+          label: "Partner Feedback",
           type: "text",
         },
         {
           name: "task_feedback",
-          label: "Feedback da tarefa",
+          label: "Focal Point Notes",
           type: "text",
         },
         {
