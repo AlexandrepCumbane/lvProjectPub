@@ -339,5 +339,7 @@ export default {
     "Isfeedback Aproved": "Feedback aprovado",
     "Is feedback Aproved": "Feedback aprovado",
     Aproved: "Aprovado",
+    "Created at": "Criado aos",
+    "Updated at": "Actualizado aos",
   },
 };
