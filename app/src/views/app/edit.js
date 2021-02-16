@@ -275,7 +275,10 @@ class Edit extends Component {
 
     const userRole = this.props.user;
 
-    if (userRole === "manager" && !forwardinginstitution.isFeedback_aproved) {
+    if (
+      !forwardinginstitution ||
+      (userRole === "manager" && !forwardinginstitution.isFeedback_aproved)
+    ) {
       return <></>;
     }
     if (forwardinginstitution) {

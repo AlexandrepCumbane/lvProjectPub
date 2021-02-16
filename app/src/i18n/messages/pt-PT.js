@@ -79,6 +79,7 @@ export default {
     "Total Feedback Provided": "Feedback total fornecido",
     "CLIENTE PROFILE BY GENDER": "PERFIL DO CLIENTE POR GÊNERO",
     Pages: "Páginas",
+    Páginas: "Páginas",
     "Unavailable Contact": "Chamador não encontrado para feedback",
     "Add New": "Adicionar novo",
     Yes: "Sim",

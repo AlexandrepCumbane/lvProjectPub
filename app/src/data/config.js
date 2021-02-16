@@ -1387,7 +1387,7 @@ export default {
           },
           hint: "User",
           type: "string",
-          "wq:ForeignKey": "customuser",
+          "wq:ForeignKey": "forwardcasetofocalpoint",
         },
       ],
       verbose_name: "forward case to focalpoint",
