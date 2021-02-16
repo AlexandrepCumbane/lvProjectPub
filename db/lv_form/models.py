@@ -613,3 +613,12 @@ class ForwardCaseToFocalpoint(models.Model):
         help_text="Auto datetime Create",
         auto_now_add=True,
     )
+    created_by = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Created By",
+        related_name='forwarded_by',
+        help_text="User",
+    )

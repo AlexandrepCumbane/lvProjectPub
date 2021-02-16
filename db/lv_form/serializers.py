@@ -79,6 +79,7 @@ class LvFormSerializer(patterns.AttachedModelSerializer):
     casecomment_set = CaseCommentSerializer(required=False, many=True)
     forwardinginstitution = ForwardingInstitutionSerializer(required=False)
     casecomment_set = CaseCommentSerializer(required=False, many=True)
+    forwardcasetofocalpoint_set = ForwardCaseToFocalpointSerializer(required=False, many=True)
 
     class Meta:
         model = LvForm
