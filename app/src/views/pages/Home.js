@@ -18,7 +18,7 @@ class Home extends React.Component {
 
   state = {
     pageTitle: this.translate("Home"),
-    pageParent: this.translate("Dashboard & Analyptics"),
+    pageParent: this.translate("Dashboard & Analytics"),
     activePage: this.translate("Dashboard"),
     items: [],
     columnDefs: [],

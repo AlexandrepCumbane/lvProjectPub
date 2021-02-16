@@ -34,7 +34,7 @@ const get_pages = () => {
         },
         {
           id: "referall_cases",
-          title: translate("Fowarded"),
+          title: translate("Forwarded"),
           type: "item",
           icon: <Icon.FileText size={12} />,
           permissions: ["manager", "focalpoint", "partner"],
