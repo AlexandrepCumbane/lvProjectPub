@@ -245,11 +245,15 @@ class Edit extends Component {
 
   renderComments = () => {
     const { casecomment_set } = this.props.data;
+
+    if (casecomment_set.length === 0) {
+      return <div />;
+    }
+
     return (
       <>
         <div className="divider">
           <div className="divider-text">
-            {" "}
             {this.translate("Case Comments History")}
           </div>
         </div>
@@ -257,7 +261,9 @@ class Edit extends Component {
           {casecomment_set.map((item) => (
             <ListGroupItem>
               <p className="mb-1">{item.feedback}</p>
-              <small>{item.created_by_label} {`  |  ${item.datetime_created_label}`}</small>
+              <small>
+                {item.created_by_label} {`  |  ${item.datetime_created_label}`}
+              </small>
             </ListGroupItem>
           ))}
         </ListGroup>
@@ -267,10 +273,15 @@ class Edit extends Component {
   renderFeedbackComments = () => {
     const { forwardinginstitution } = this.props.data;
 
+    const userRole = this.props.user;
+
+    if (userRole === "manager" && !forwardinginstitution.isFeedback_aproved) {
+      return <></>;
+    }
     if (forwardinginstitution) {
       // && forwardinginstitution["has_feedback"]) {
       return (
-        <>
+        <Col md="6">
           {/* <div className="divider">
             <div className="divider-text"> Partner Feedback</div>
           </div> */}
@@ -287,7 +298,10 @@ class Edit extends Component {
           >
             <ListGroupItem>
               <div className="d-flex justify-content-between w-100">
-                <h6 className="mb-1">{this.translate("Partner Feedback")}</h6>
+                <div className="mb-1">
+                  <h6>{this.translate("Partner Feedback")} </h6>
+                  <small>{forwardinginstitution.datetime_created_label}</small>
+                </div>
                 <small>{`${this.translate("Aproved")}: ${this.translate(
                   forwardinginstitution.isFeedback_aproved_label
                 )}`}</small>
@@ -302,7 +316,7 @@ class Edit extends Component {
               </div>
             </ListGroupItem>
           </ListGroup>
-        </>
+        </Col>
       );
     } else {
       return <></>;
@@ -471,14 +485,13 @@ class Edit extends Component {
             <Col md="12" className="mt-1 mb-1F">
               <div className="divider">
                 <div className="divider-text">
-                  {" "}
                   {this.translate("More Details")}{" "}
                 </div>
               </div>
             </Col>
-            <Col md="6">{this.renderFeedbackComments()}</Col>
+            {this.renderFeedbackComments()}
             <Col md="6">
-              <strong> {this.translate("Tasks")}</strong>
+              <strong className="ml-2"> {this.translate("Tasks")}</strong>
               {this.renderTasks()}
             </Col>
             <Col md="12">{this.renderComments()}</Col>
