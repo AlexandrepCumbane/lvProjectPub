@@ -256,12 +256,8 @@ class Edit extends Component {
         <ListGroup flush className="rounded-0">
           {casecomment_set.map((item) => (
             <ListGroupItem>
-              <div className="d-flex justify-content-between w-100">
-                {/* <h5 className="mb-1">Partner Feedback</h5> */}
-                <small></small>
-              </div>
               <p className="mb-1">{item.feedback}</p>
-              <small>{item.created_by_label}</small>
+              <small>{item.created_by_label} {`  |  ${item.datetime_created_label}`}</small>
             </ListGroupItem>
           ))}
         </ListGroup>
