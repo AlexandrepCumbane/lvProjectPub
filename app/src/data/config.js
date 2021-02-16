@@ -1380,6 +1380,29 @@ export default {
           "wq:ForeignKey": "lvform",
         },
         {
+          name: "cluster_sector",
+          label: "Cluster Sector",
+          type: "string",
+          "wq:ForeignKey": "clustersector",
+          children: "cluster_agency",
+        },
+        {
+          name: "cluster_agency",
+          label: "Cluster Agency",
+          type: "string",
+          children: "cluster_region",
+          "wq:ForeignKey": "cluster_agency",
+          has_parent: true,
+        },
+        {
+          name: "cluster_region",
+          label: "Cluster Region",
+          type: "string",
+          has_parent: true,
+          children: "focalpoints",
+          "wq:ForeignKey": "cluster_region",
+        },
+        {
           name: "focalpoint",
           label: "Focal Point",
           bind: {
@@ -1387,7 +1410,8 @@ export default {
           },
           hint: "User",
           type: "string",
-          "wq:ForeignKey": "forwardcasetofocalpoint",
+          "wq:ForeignKey": "focalpoints",
+          has_parent: true,
         },
       ],
       verbose_name: "forward case to focalpoint",
@@ -1481,8 +1505,14 @@ export default {
       name: "partner",
       url: "users/0/get_partners",
       list: true,
-      form:[]
-    }
+      form: [],
+    },
+    clustersector: {
+      name: "clustersector",
+      url: "clustersectors",
+      list: true,
+      form: [],
+    },
   },
   debug: true,
 };

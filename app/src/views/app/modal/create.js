@@ -27,7 +27,9 @@ class Create extends React.Component {
   translate = this.context.translate;
 
   notifySuccessBounce = (id = "") =>
-    toast.success(this.translate(`Transaction completed successfuly!`), { transition: Bounce });
+    toast.success(this.translate(`Transaction completed successfuly!`), {
+      transition: Bounce,
+    });
 
   notifyErrorBounce = (error) =>
     toast.error(error, {
@@ -43,6 +45,7 @@ class Create extends React.Component {
     required_fields_labels: [],
     isValid: true,
     dropdowns: [],
+    childrens: {},
   };
   componentDidMount() {
     this.updateState("lvform_id", this.props.lvform_id);
@@ -60,7 +63,30 @@ class Create extends React.Component {
     formdata.append("task_id", this.props.task_id);
 
     this.setState({ form: formdata, modal: this.props.modal ?? false });
+    const { dropdowns } = this.props.app_reducer;
+    this.setState({ dropdowns });
   }
+
+  /**
+   * Dynimically places the nested fields into it's relative
+   * @param {*} field
+   * @param {*} value
+   */
+  updateChildrenList = (field, value) => {
+    let childrens = this.state.childrens;
+    let res = [];
+    if (field.has_parent) {
+      res = this.state.childrens[field["wq:ForeignKey"]].filter((item) => {
+        return Number(item.id) === Number(value);
+      });
+    } else {
+      res = this.state.dropdowns[field["wq:ForeignKey"]].filter((item) => {
+        return Number(item.id) === Number(value);
+      });
+    }
+    childrens[field.children] = res[0][`${field.children}`];
+    this.setState({ childrens });
+  };
 
   render() {
     return (
@@ -187,14 +213,27 @@ class Create extends React.Component {
                 type="select"
                 id={field.name}
                 placeholder={this.translate(field.label)}
-                onChange={(e) =>
-                  this.updateState(`${field.name}_id`, e.target.value)
-                }
+                onChange={(e) => {
+                  this.updateState(`${field.name}_id`, e.target.value);
+                  if (field["children"]) {
+                    this.updateChildrenList(field, e.target.value);
+                  }
+                }}
               >
-                <option>{this.translate("Select")}</option>
+                {/* <option>{this.translate("Select")}</option>
                 {this.renderSelectOptionForeignWQ(
                   this.getForeignFieldDropdown(field["wq:ForeignKey"])
-                )}
+                )} */}
+
+                <option>{this.translate("Select")}</option>
+
+                {field["has_parent"] === undefined
+                  ? this.renderSelectOptionForeignWQ(
+                      this.getForeignFieldDropdown(field["wq:ForeignKey"])
+                    )
+                  : this.renderSelectOptionForeignWQ(
+                      this.state.childrens[field["wq:ForeignKey"]] ?? []
+                    )}
               </CustomInput>
             </FormGroup>
           </Col>

@@ -64,15 +64,16 @@ export const handleForm = (dispatch, payload) =>
 const requestSingle = (dispatch) => {
   const appState = store.getState();
   let { dropdowns } = appState.app.app_reducer;
+  const { userOauth, userRole } = appState.auth.login;
 
   state.map(async (item) => {
     if (
       item.name !== "logout" &&
       item.name !== "login" &&
       item.url !== undefined
-    ) {
+      ) {
       
-      const { userOauth, userRole } = appState.auth.login;
+     
 
       if (dropdowns[item.name] === undefined) {
         if (item.name === "forwardcasetofocalpoint" && userRole === "manager") {

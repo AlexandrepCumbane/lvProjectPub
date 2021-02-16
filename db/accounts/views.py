@@ -52,9 +52,9 @@ class UserViewSet(ModelViewSet):
                 page = self.paginate_queryset(users)
                 serializer = self.serializer_class(page, many=True)
                 return self.get_paginated_response(serializer.data)
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+            return Response(status=status.HTTP_200_OK)
         except CustomUser.DoesNotExist as error:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+            return Response(status=status.HTTP_200_OK)
     
     @action(detail=True,
             methods=['get'],
@@ -67,9 +67,9 @@ class UserViewSet(ModelViewSet):
                 page = self.paginate_queryset(users)
                 serializer = self.serializer_class(page, many=True)
                 return self.get_paginated_response(serializer.data)
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+            return Response(status=status.HTTP_200_OK)
         except CustomUser.DoesNotExist as error:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+            return Response(status=status.HTTP_200_OK)
 
     def list(self, request, *args, **kwargs):
         users = CustomUser.objects.all()
