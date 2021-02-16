@@ -1,6 +1,7 @@
 from django.db import models
 import uuid
 from django.conf import settings
+from accounts.models import ClusterSector, ClusterAgency, ClusterRegion
 User = settings.AUTH_USER_MODEL
 
 
@@ -600,12 +601,36 @@ class ForwardCaseToFocalpoint(models.Model):
         LvForm,
         on_delete=models.CASCADE,
     )
+    
+    cluster_sector = models.ForeignKey(
+        ClusterSector,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Cluster Sector",
+    )
+    cluster_agency = models.ForeignKey(
+        ClusterAgency,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Cluster Agency",
+    )
+    cluster_region = models.ForeignKey(
+        ClusterRegion,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Cluster Region",
+    )
+
     focalpoint = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         verbose_name="Focal Point",
         help_text="User",
     )
+    
     datetime_created = models.DateTimeField(
         null=True,
         blank=True,
@@ -613,6 +638,7 @@ class ForwardCaseToFocalpoint(models.Model):
         help_text="Auto datetime Create",
         auto_now_add=True,
     )
+
     created_by = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -622,3 +648,6 @@ class ForwardCaseToFocalpoint(models.Model):
         related_name='forwarded_by',
         help_text="User",
     )
+
+    def __str__(self) -> str:
+        return str(self.id)
