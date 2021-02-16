@@ -65,7 +65,7 @@ class Login extends React.Component {
                 <Card className="rounded-0 mb-0 px-2">
                   <CardBody className="d-flex justify-content-between align-items-center">
                     <div className="justify-content-center">
-                      <h4>Welcom to VulaVula - 1458</h4>
+                      <h4>Welcom to Linha 1458</h4>
                       <p>
                         Please wait while you're being redirected to
                         Authentication Page.

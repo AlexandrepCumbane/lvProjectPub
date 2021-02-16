@@ -54,7 +54,7 @@ class Welcome extends React.Component {
       return (
         <CardBody className="d-flex justify-content-between align-items-center">
           <div className="justify-content-center">
-            <h4>VulaVula - 1458</h4>
+            <h4>Linha 1458</h4>
             <p>
               You've reached the attempts limit, please reload the page or
               contact your system manager.
@@ -67,7 +67,7 @@ class Welcome extends React.Component {
       return (
         <CardBody className="d-flex justify-content-between align-items-center">
           <div className="justify-content-center">
-            <h4>VulaVula - 1458</h4>
+            <h4>Linha 1458</h4>
             <p>Welcome, your account is being validated.</p>
             <p>
               Validation attemps <strong>{this.state.times}</strong>
