@@ -251,7 +251,7 @@ class Edit extends Component {
     }
 
     return (
-      <>
+      <Col md="12">
         <div className="divider">
           <div className="divider-text">
             {this.translate("Case Comments History")}
@@ -267,7 +267,7 @@ class Edit extends Component {
             </ListGroupItem>
           ))}
         </ListGroup>
-      </>
+      </Col>
     );
   };
   renderFeedbackComments = () => {
@@ -281,13 +281,9 @@ class Edit extends Component {
     ) {
       return <></>;
     }
-    if (forwardinginstitution) {
-      // && forwardinginstitution["has_feedback"]) {
+    if (forwardinginstitution) { 
       return (
-        <Col md="6">
-          {/* <div className="divider">
-            <div className="divider-text"> Partner Feedback</div>
-          </div> */}
+        <Col md="6"> 
           <ListGroup
             flush
             className="rounded-0 mb-2"
@@ -497,7 +493,7 @@ class Edit extends Component {
               <strong className="ml-2"> {this.translate("Tasks")}</strong>
               {this.renderTasks()}
             </Col>
-            <Col md="12">{this.renderComments()}</Col>
+            {this.renderComments()}
           </>
         );
         break;
@@ -512,8 +508,8 @@ class Edit extends Component {
                 </div>
               </div>
             </Col>
-            <Col md="6">{this.renderFeedbackComments()}</Col>
-            <Col md="12">{this.renderComments()}</Col>
+            {this.renderFeedbackComments()}
+            {this.renderComments()}
             <Col md="6"></Col>
           </>
         );
@@ -524,13 +520,12 @@ class Edit extends Component {
             <Col md="12" className="mt-1 mb-1F">
               <div className="divider">
                 <div className="divider-text">
-                  {" "}
-                  {this.translate("More Details")}{" "}
+                  {this.translate("More Details")}
                 </div>
               </div>
             </Col>
-            <Col md="6">{this.renderFeedbackComments()}</Col>
-            <Col md="12">{this.renderComments()}</Col>
+            {this.renderFeedbackComments()}
+            {this.renderComments()}
             <Col md="6"></Col>
           </>
         );
