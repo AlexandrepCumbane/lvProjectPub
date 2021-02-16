@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext_lazy as _
-from accounts.models import CustomUser
+from .models import ClusterRegion, ClusterSector, CustomUser, ClusterAgency
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 
 # Register your models here.
@@ -27,3 +27,14 @@ class CustomUserAdmin(UserAdmin):
     )
     search_fields = ('email',)
     ordering = ('email',)
+
+@admin.register(ClusterAgency)
+class ClusterAgencyAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(ClusterSector)
+class ClusterSectorAdmin(admin.ModelAdmin):
+    pass
+@admin.register(ClusterRegion)
+class ClusterRegionAdmin(admin.ModelAdmin):
+    pass
