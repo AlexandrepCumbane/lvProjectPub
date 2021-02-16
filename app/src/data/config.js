@@ -67,7 +67,7 @@ export default {
           label: "Referral to",
           hint: "User",
           type: "string",
-          "wq:ForeignKey": "customuser",
+          "wq:ForeignKey": "partner",
         },
       ],
       verbose_name: "forwardinginstitution",
@@ -1476,6 +1476,13 @@ export default {
       verbose_name: "location",
       verbose_name_plural: "locations",
     },
+
+    partners: {
+      name: "partner",
+      url: "users/0/get_partners",
+      list: true,
+      form:[]
+    }
   },
   debug: true,
 };

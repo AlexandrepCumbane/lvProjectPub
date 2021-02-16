@@ -27,7 +27,6 @@ class UserViewSet(ModelViewSet):
 
     @action(detail=True, methods=['get'], url_path="get_focalpoints_list")
     def get_focalpoints(self, request, *args, **kwargs):
-        print("**********************************************")
         try:
             user_data = CustomUserFullSerializer(request.user).data
 
@@ -50,6 +49,21 @@ class UserViewSet(ModelViewSet):
             user_data = CustomUserFullSerializer(request.user).data
             if "manager" in user_data['groups_label']:
                 users = CustomUser.objects.filter(groups__name='focalpoint')
+                page = self.paginate_queryset(users)
+                serializer = self.serializer_class(page, many=True)
+                return self.get_paginated_response(serializer.data)
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        except CustomUser.DoesNotExist as error:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
+    @action(detail=True,
+            methods=['get'],
+            url_path="get_partners")
+    def partners(self, request, *args, **kwargs):
+        try:
+            user_data = CustomUserFullSerializer(request.user).data
+            if "focalpoint" in user_data['groups_label']:
+                users = CustomUser.objects.filter(groups__name='partner')
                 page = self.paginate_queryset(users)
                 serializer = self.serializer_class(page, many=True)
                 return self.get_paginated_response(serializer.data)

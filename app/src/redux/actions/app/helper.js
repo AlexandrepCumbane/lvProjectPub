@@ -106,7 +106,7 @@ const requestSingle = (dispatch) => {
             });
         } else {
           await axios
-            .get(`/${item.url}/`, {
+            .get(`/${item.url}`, {
               headers: {
                 Authorization: `Bearer ${userOauth?.access_token}`,
               },
@@ -127,9 +127,9 @@ const requestSingle = (dispatch) => {
                   return getUser(dispatch);
                 })
                 .catch(() => {
-                  authService.logout().then(() => {
-                    authService.login();
-                  });
+                  // authService.logout().then(() => {
+                  //   authService.login();
+                  // });
                 });
               return response;
             });
