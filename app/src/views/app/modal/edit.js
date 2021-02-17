@@ -181,8 +181,10 @@ class Edit extends React.Component {
     let res = <></>;
     let { data } = this.props;
 
-    if (field.name === "lvform") {
-      return <span key="lvform" />;
+
+    
+    if (field.name === "lvform" || field.name ==="cluster_agency" || field.name === "cluster_region" || field.name === "referall_to" || field.name === "cluster_sector") {
+      return <span key={field.name} />;
     }
 
     switch (field.type) {
