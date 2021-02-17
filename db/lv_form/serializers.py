@@ -17,8 +17,7 @@ class CaseCommentSerializer(patterns.AttachedModelSerializer):
             created_by=self.context['request'].user, **validated_data)
         return form
 
-
-class ForwardingInstitutionSerializer(patterns.AttachedModelSerializer):
+class ForwardingFullInstitutionSerializer(patterns.AttachedModelSerializer):
     class Meta:  #(patterns.AttachmentSerializer.Meta):
         model = ForwardingInstitution
         exclude = ('created_by', )
@@ -29,6 +28,9 @@ class ForwardingInstitutionSerializer(patterns.AttachedModelSerializer):
         form = ForwardingInstitution.objects.create(
             created_by=self.context['request'].user, **validated_data)
         return form
+
+
+
 
 
 class TaskCommentSerializer(patterns.AttachedModelSerializer):
@@ -70,7 +72,7 @@ class LvFormFullSerializer(patterns.AttachedModelSerializer):
     # forwarding_institutions = ForwardingInstitutionSerializer(many=True, required=False)
     task_set = TaskSerializer(required=False, many=True)
     casecomment_set = CaseCommentSerializer(required=False, many=True)
-    forwardinginstitution = ForwardingInstitutionSerializer(required=False)
+    forwardinginstitution = ForwardingFullInstitutionSerializer(required=False)
     casecomment_set = CaseCommentSerializer(required=False, many=True)
     # forwardcasetofocalpoint_set = ForwardCaseToFocalpointSerializer(required=False, many=True)
 
@@ -89,6 +91,19 @@ class LvFormFullSerializer(patterns.AttachedModelSerializer):
         form = LvForm.objects.create(case_number=case_number,
                                      created_by=self.context['request'].user,
                                      **validated_data)
+        return form
+
+class ForwardingInstitutionSerializer(patterns.AttachedModelSerializer):
+    callcase = LvFormFullSerializer(required=False, source='lvform')
+    class Meta:  #(patterns.AttachmentSerializer.Meta):
+        model = ForwardingInstitution
+        exclude = ('created_by', )
+        # exclude = ('lvform',)
+        # object_field = 'lvform'
+
+    def create(self, validated_data):
+        form = ForwardingInstitution.objects.create(
+            created_by=self.context['request'].user, **validated_data)
         return form
 
 class ForwardCaseToFocalpointSerializer(patterns.AttachedModelSerializer):
