@@ -13,6 +13,7 @@ import {
   operator as operatorColumns,
   partner as partnerColumns,
   sent_to_focalpoint,
+  sent_to_partner
 } from "../../data/lvform.config";
 import { IntlContext } from "../../i18n/provider";
 import {
@@ -85,24 +86,10 @@ class List extends Component {
       }
     }
     if (this.props.path === "forwardcasetofocalpoint") {
-      switch (userRole) {
-        case "manager":
           form = sent_to_focalpoint.form;
-          break;
-        case "operator":
-          form = operatorColumns.form;
-          break;
-        case "focalpoint":
-          form = sent_to_focalpoint.form;
-          break;
-        case "partner":
-          form = partnerColumns.form;
-          break;
-
-        default:
-          form = [];
-          break;
-      }
+    }
+    if (this.props.path === "forwardinginstitution") {
+          form = sent_to_partner.form;
     }
 
     return form;
