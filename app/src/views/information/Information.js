@@ -26,7 +26,7 @@ class Information extends Component {
           breadCrumbItems={[
             {
               name: "Add New",
-              link: `${this.state.page}s/new`,
+              link: `${this.props.path}s/new`,
             },
           ]}
           breadCrumbTitle={this.state.pageTitle}

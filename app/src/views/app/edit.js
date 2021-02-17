@@ -899,7 +899,7 @@ class Edit extends Component {
 
       this.setState({ isValid: true, isProcessing: true });
       axios
-        .put(`lvforms/${this.props.data.id}.json/`, this.state.form, {
+        .patch(`lvforms/${this.props.data.id}.json/`, this.state.form, {
           headers: {
             "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
             Authorization: `Bearer ${userOauth.access_token}`,

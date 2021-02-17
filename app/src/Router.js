@@ -197,6 +197,17 @@ class AppRouter extends React.Component {
             )}
           />
           <AppRoute
+            path="/informations/new"
+            component={(props) => (
+              <AppCreate
+                {...props}
+                title="Users"
+                path="article"
+                url="articles"
+              />
+            )}
+          />
+          <AppRoute
             exact
             path="/reports"
             // component={AppList}

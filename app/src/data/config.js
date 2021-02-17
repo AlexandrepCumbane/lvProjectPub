@@ -677,10 +677,6 @@ export default {
               label: "CCCM",
             },
             {
-              name: "11",
-              label: "Resilience",
-            },
-            {
               name: "12",
               label: "INGD",
             },
@@ -1538,6 +1534,173 @@ export default {
       url: "clustersectors",
       list: true,
       form: [],
+    },
+
+    article: {
+      cache: "all",
+      name: "article",
+      url: "articles",
+      list: true,
+      form: [
+        {
+          name: "title",
+          label: "Title",
+          bind: {
+            required: true,
+          },
+          "wq:length": 100,
+          type: "string",
+        },
+        {
+          name: "text",
+          label: "Text",
+          type: "text",
+        },
+        {
+          name: "category",
+          label: "Category",
+          bind: {
+            required: true,
+          },
+          type: "string",
+          "wq:ForeignKey": "category",
+        },
+        {
+          name: "lvform",
+          label: "Lvform",
+          type: "string",
+          "wq:ForeignKey": "lvform",
+        },
+        {
+          name: "language",
+          label: "Language",
+          choices: [
+            {
+              name: "pt",
+              label: "Portuguese",
+            },
+            {
+              name: "en",
+              label: "English",
+            },
+          ],
+          type: "select one",
+        },
+        {
+          name: "file",
+          label: "File",
+          bind: {
+            required: true,
+          },
+          type: "binary",
+        },
+        {
+          name: "aproved_by",
+          label: "Aproved By",
+          bind: {
+            required: true,
+          },
+          type: "string",
+          "wq:ForeignKey": "customuser",
+        },
+        {
+          name: "assigned_to",
+          label: "Assigned To",
+          bind: {
+            required: true,
+          },
+          type: "string",
+          "wq:ForeignKey": "customuser",
+        },
+        {
+          name: "published_date",
+          label: "Published Date",
+          type: "date",
+        },
+        {
+          name: "expiration_date",
+          label: "Expiration Date",
+          type: "date",
+        },
+        {
+          name: "published",
+          label: "Published",
+          choices: [
+            {
+              name: true,
+              label: "Yes",
+            },
+            {
+              name: false,
+              label: "No",
+            },
+          ],
+          type: "select one",
+        },
+        {
+          name: "active_revision",
+          label: "Active Revision",
+          choices: [
+            {
+              name: true,
+              label: "Yes",
+            },
+            {
+              name: false,
+              label: "No",
+            },
+          ],
+          type: "select one",
+        },
+        {
+          name: "external_link",
+          label: "External Link",
+          choices: [
+            {
+              name: true,
+              label: "Yes",
+            },
+            {
+              name: false,
+              label: "No",
+            },
+          ],
+          type: "select one",
+        },
+        {
+          name: "updated_by",
+          label: "Updated By",
+          type: "string",
+          "wq:ForeignKey": "customuser",
+        },
+        {
+          name: "created_by",
+          label: "Created By",
+          bind: {
+            required: true,
+          },
+          type: "string",
+          "wq:ForeignKey": "customuser",
+        },
+      ],
+      verbose_name: "article",
+      verbose_name_plural: "articles",
+    },
+    category: {
+      name: "category",
+      url: "categorys",
+      list: true,
+      form: [
+        {
+          name: "name",
+          label: "Name",
+          hint: "Name",
+          "wq:length": 255,
+          type: "string",
+        },
+      ],
+      verbose_name: "category",
+      verbose_name_plural: "categorys",
     },
   },
   debug: true,
