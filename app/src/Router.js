@@ -100,9 +100,10 @@ class AppRouter extends React.Component {
               <AppListView
                 {...props}
                 title="Fowarded Cases"
-                path="lvform"
+                path="forwardcasetofocalpoint"
                 name="fowarded"
-                url="lvforms/0/fowarded_cases"
+                // url="lvforms/0/fowarded_cases"
+                url="forwardcasetofocalpoints"
               />
             )}
           />

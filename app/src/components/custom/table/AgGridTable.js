@@ -88,6 +88,9 @@ class AggridTable extends React.Component {
                     if (this.props.tableType === "lvform") {
                       this.setState({ showSidebar: true });
                     }
+                    if (this.props.tableType === "forwardcasetofocalpoint") {
+                      this.setState({ showSidebar: true, selectedData: params.data.callcase });
+                    }
                     if (this.props.tableType === "calls") {
                       this.setState({ showCallSidebar: true });
                     }

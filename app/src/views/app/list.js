@@ -9,7 +9,11 @@ import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import AgGridTable from "../../components/custom/table/AgGridTable";
 
 import { default as config } from "../../data/config";
-import { operator as operatorColumns, partner as partnerColumns } from "../../data/lvform.config";
+import {
+  operator as operatorColumns,
+  partner as partnerColumns,
+  sent_to_focalpoint,
+} from "../../data/lvform.config";
 import { IntlContext } from "../../i18n/provider";
 import {
   requestForm,
@@ -64,6 +68,26 @@ class List extends Component {
       switch (userRole) {
         case "manager":
           form = operatorColumns.form;
+          break;
+        case "operator":
+          form = operatorColumns.form;
+          break;
+        case "focalpoint":
+          form = operatorColumns.form;
+          break;
+        case "partner":
+          form = partnerColumns.form;
+          break;
+
+        default:
+          form = [];
+          break;
+      }
+    }
+    if (this.props.path === "forwardcasetofocalpoint") {
+      switch (userRole) {
+        case "manager":
+          form = sent_to_focalpoint.form;
           break;
         case "operator":
           form = operatorColumns.form;

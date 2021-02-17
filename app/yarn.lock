@@ -11096,11 +11096,6 @@ react-numeric-input@~2.2.3:
   resolved "https://registry.yarnpkg.com/react-numeric-input/-/react-numeric-input-2.2.3.tgz#4bf5918c3eafed851a80df1eb992d941002bb552"
   integrity sha1-S/WRjD6v7YUagN8euZLZQQArtVI=
 
-react-oidc-client@^1.0.13:
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/react-oidc-client/-/react-oidc-client-1.0.13.tgz#30477d607c733ee4b59da8f981eb3ea6609047a3"
-  integrity sha512-w1DkquAPN67b1CopP559L4G7qU1xmoaoO1xIG0xlkicPTGw0o8Vv3KQ/jFyQz3YsjzOcZ45nSiU+Nd/14u9aOA==
-
 react-overlays@^2.0.0-0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/react-overlays/-/react-overlays-2.1.1.tgz#ffe2090c4a10da6b8947a1c7b1a67d0457648a0d"
