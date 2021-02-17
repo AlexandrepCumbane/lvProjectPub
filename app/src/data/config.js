@@ -24,12 +24,12 @@ export default {
           },
           {
             name: "partner_feedback",
-            label: "Parceiro Feedback",
+            label: "Partner Feedback",
             type: "text",
           },
           {
             name: "task_feedback",
-            label: "Feedback da tarefa",
+            label: "Focal Point Notes",
             type: "text",
           },
           {
@@ -66,14 +66,14 @@ export default {
           },
           {
             name: "cluster_sector",
-            label: "Cluster Sector",
+            label: "Sector",
             type: "string",
             "wq:ForeignKey": "clustersector",
             children: "cluster_agency",
           },
           {
             name: "cluster_agency",
-            label: "Cluster Agency",
+            label: "Agency",
             type: "string",
             "wq:ForeignKey": "cluster_agency",
             children: "cluster_region",
@@ -81,7 +81,7 @@ export default {
           },
           {
             name: "cluster_region",
-            label: "Cluster Region",
+            label: "Region",
             type: "string",
             "wq:ForeignKey": "cluster_region",
             children: "partners",
@@ -1407,14 +1407,14 @@ export default {
         },
         {
           name: "cluster_sector",
-          label: "Cluster Sector",
+          label: "Sector",
           type: "string",
           "wq:ForeignKey": "clustersector",
           children: "cluster_agency",
         },
         {
           name: "cluster_agency",
-          label: "Cluster Agency",
+          label: "Agency",
           type: "string",
           children: "cluster_region",
           "wq:ForeignKey": "cluster_agency",
@@ -1422,7 +1422,7 @@ export default {
         },
         {
           name: "cluster_region",
-          label: "Cluster Region",
+          label: "Region",
           type: "string",
           has_parent: true,
           children: "focalpoints",

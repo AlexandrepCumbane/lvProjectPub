@@ -93,7 +93,7 @@ class List extends Component {
           form = operatorColumns.form;
           break;
         case "focalpoint":
-          form = operatorColumns.form;
+          form = sent_to_focalpoint.form;
           break;
         case "partner":
           form = partnerColumns.form;

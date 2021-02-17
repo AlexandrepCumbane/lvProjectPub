@@ -10,7 +10,14 @@ const get_pages = () => {
       title: translate("Home"),
       type: "item",
       icon: <Icon.Home size={20} />,
-      permissions: ["operator", "manager", "focalpoint", "partner", "admin", 'user'],
+      permissions: [
+        "operator",
+        "manager",
+        "focalpoint",
+        "partner",
+        "admin",
+        "user",
+      ],
       navLink: "/home",
     },
 
@@ -28,16 +35,43 @@ const get_pages = () => {
           title: translate("Registered"),
           type: "item",
           icon: <Icon.Archive size={12} />,
-          permissions: ["operator", "manager", "focalpoint"],
+          permissions: ["operator", "manager"],
 
           navLink: "/lvforms",
+        },
+        {
+          id: "all_cases_received_fp",
+          title: translate("Received"),
+          type: "item",
+          icon: <Icon.Archive size={12} />,
+          permissions: ["focalpoint"],
+
+          navLink: "/forwardcasetofocalpoints",
+        },
+        {
+          id: "all_cases_forwarded_partner",
+          title: translate("Received"),
+          type: "item",
+          icon: <Icon.Archive size={12} />,
+          permissions: ["partner"],
+
+          navLink: "/forwardinginstitutionspartner",
+        },
+        {
+          id: "all_cases_forwarded_fp",
+          title: translate("Forwarded"),
+          type: "item",
+          icon: <Icon.Archive size={12} />,
+          permissions: ["focalpoint"],
+
+          navLink: "/forwardinginstitutionsfpoint",
         },
         {
           id: "referall_cases",
           title: translate("Forwarded"),
           type: "item",
           icon: <Icon.FileText size={12} />,
-          permissions: ["manager", "focalpoint", "partner"],
+          permissions: ["manager"],
 
           navLink: "/lvforms_fowarded",
         },
@@ -84,7 +118,7 @@ const get_pages = () => {
     },
     {
       id: "information",
-      title:translate ("Knowledge Base"),
+      title: translate("Knowledge Base"),
       type: "item",
       icon: <Icon.Database size={20} />,
       permissions: ["operator", "manager", "focalpoint", "partner"],
@@ -93,7 +127,7 @@ const get_pages = () => {
 
     {
       id: "users",
-      title: translate ("Users"),
+      title: translate("Users"),
       type: "item",
       icon: <Icon.Users size={20} />,
       permissions: ["manager"],

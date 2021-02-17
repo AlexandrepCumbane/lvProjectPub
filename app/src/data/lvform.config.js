@@ -1206,20 +1206,20 @@ export const sent_to_focalpoint = {
     },
     {
       name: "datetime_created",
-      label: "Referred at",
+      label: "Sent at",
       hint: "Created at",
       type: "datetime",
     },
     {
       name: "cluster_sector",
-      label: "Cluster Sector",
+      label: "Sector",
       type: "string",
       "wq:ForeignKey": "clustersector",
       children: "cluster_agency",
     },
     {
       name: "cluster_agency",
-      label: "Cluster Agency",
+      label: "Agency",
       type: "string",
       children: "cluster_region",
       "wq:ForeignKey": "cluster_agency",
@@ -1227,7 +1227,7 @@ export const sent_to_focalpoint = {
     },
     {
       name: "cluster_region",
-      label: "Cluster Region",
+      label: "Region",
       type: "string",
       has_parent: true,
       children: "focalpoints",
@@ -1242,6 +1242,105 @@ export const sent_to_focalpoint = {
       hint: "User",
       type: "string",
       "wq:ForeignKey": "focalpoints",
+      has_parent: true,
+    },
+    {
+      name: "created_by",
+      label: "Forwarded by",
+      type: "string",
+      "wq:ForeignKey": "customuser",
+    },
+  ],
+};
+
+export const sent_to_partner = {
+  form: [
+    {
+      name: "lvform",
+      label: "Lvform",
+      bind: {
+        required: true,
+      },
+      type: "string",
+      "wq:ForeignKey": "lvform",
+    },
+    {
+      name: "datetime_created",
+      label: "Sent at",
+      hint: "Created at",
+      type: "datetime",
+    },
+    {
+      name: "partner_feedback",
+      label: "Partner Feedback",
+      type: "text",
+    },
+    {
+      name: "task_feedback",
+      label: "Focal Point Notes",
+      type: "text",
+    },
+    {
+      name: "has_feedback",
+      label: "Has Feedback",
+      choices: [
+        {
+          name: true,
+          label: "Yes",
+        },
+        {
+          name: false,
+          label: "No",
+        },
+      ],
+      type: "select one",
+      has_boolean_options: true,
+    },
+    {
+      name: "isFeedback_aproved",
+      label: "Isfeedback Aproved",
+      choices: [
+        {
+          name: true,
+          label: "Yes",
+        },
+        {
+          name: false,
+          label: "No",
+        },
+      ],
+      type: "select one",
+      has_boolean_options: true,
+    },
+    {
+      name: "cluster_sector",
+      label: "Sector",
+      type: "string",
+      "wq:ForeignKey": "clustersector",
+      children: "cluster_agency",
+    },
+    {
+      name: "cluster_agency",
+      label: "Agency",
+      type: "string",
+      "wq:ForeignKey": "cluster_agency",
+      children: "cluster_region",
+      has_parent: true,
+    },
+    {
+      name: "cluster_region",
+      label: "Region",
+      type: "string",
+      "wq:ForeignKey": "cluster_region",
+      children: "partners",
+      has_parent: true,
+    },
+    {
+      name: "referall_to",
+      label: "Referral to",
+      hint: "User",
+      type: "string",
+      "wq:ForeignKey": "partners",
       has_parent: true,
     },
     {

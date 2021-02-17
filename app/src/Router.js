@@ -95,15 +95,53 @@ class AppRouter extends React.Component {
           <AppRoute
             exact
             path="/lvforms_fowarded"
-            // component={AppList}
             component={(props) => (
               <AppListView
                 {...props}
                 title="Fowarded Cases"
                 path="forwardcasetofocalpoint"
                 name="fowarded"
-                // url="lvforms/0/fowarded_cases"
                 url="forwardcasetofocalpoints"
+              />
+            )}
+          />
+          <AppRoute
+            exact
+            path="/forwardcasetofocalpoints"
+            component={(props) => (
+              <AppListView
+                {...props}
+                title="Received"
+                path="forwardcasetofocalpoint"
+                name="forwardcasetofocalpoints"
+                url="forwardcasetofocalpoints"
+              />
+            )}
+          />
+          <AppRoute
+            exact
+            path="/forwardinginstitutionsfpoint"
+            component={(props) => (
+              <AppListView
+                {...props}
+                title="Received"
+                path="forwardinginstitution"
+                name="forwardinginstitutions"
+                url="forwardinginstitutions"
+              />
+            )}
+          />
+          <AppRoute
+            exact
+            path="/forwardinginstitutionspartner"
+            // component={AppList}
+            component={(props) => (
+              <AppListView
+                {...props}
+                title="Received Cases"
+                path="forwardinginstitution"
+                name="forwardinginstitutions"
+                url="forwardinginstitutions"
               />
             )}
           />
