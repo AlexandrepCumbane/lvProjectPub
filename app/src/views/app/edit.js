@@ -560,8 +560,6 @@ class Edit extends Component {
       return <span key="case_number" />;
     }
 
-    console.log(this.checkboxValue(field.depends_on));
-
     switch (field.type) {
       case "text":
         res = (
