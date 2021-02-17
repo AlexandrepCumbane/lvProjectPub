@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'location_management',
     'case_tipology',
     'accounts',
+    'blog',
 ]
 
 MIDDLEWARE = [
