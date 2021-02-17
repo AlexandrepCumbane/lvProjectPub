@@ -54,7 +54,8 @@ class ClusterRegion(models.Model):
         related_name='cluster_region',
         help_text="cluster_agency",
     )
-    focalpoints = models.ManyToManyField(CustomUser, blank=True, null=True)
+    focalpoints = models.ManyToManyField(CustomUser, blank=True)
+    partners = models.ManyToManyField(CustomUser, blank=True, related_name='cluster_partner',)
 
     def __str__(self) -> str:
         return self.name
