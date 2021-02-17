@@ -52,7 +52,6 @@ class Edit extends React.Component {
     const { form } = config.pages[this.props.page];
     const { data } = this.props;
 
-    console.log(data);
     let formdata = new FormData();
 
     form.forEach((item) => {
@@ -62,11 +61,12 @@ class Edit extends React.Component {
       );
     });
 
+
     if (
       this.props.user === "partner" &&
       this.props.page === "forwardinginstitution"
     ) {
-      this.updateState("has_feedback", true);
+      formdata.set("has_feedback", true);
     }
 
     if (this.props.page === "customuser") {
