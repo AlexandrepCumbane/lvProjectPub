@@ -424,6 +424,29 @@ class ForwardingInstitution(models.Model):
         blank=True,
         verbose_name="Feedback is approved",
     )
+
+    cluster_sector = models.ForeignKey(
+        ClusterSector,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Cluster Sector",
+    )
+    cluster_agency = models.ForeignKey(
+        ClusterAgency,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Cluster Agency",
+    )
+    cluster_region = models.ForeignKey(
+        ClusterRegion,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Cluster Region",
+    )
+    
     referall_to = models.ForeignKey(
         User,
         on_delete=models.CASCADE,

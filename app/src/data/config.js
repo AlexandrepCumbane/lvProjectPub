@@ -13,63 +13,89 @@ export default {
       url: "forwardinginstitutions",
       list: true,
       form: [
-        {
-          name: "lvform",
-          label: "Lvform",
-          bind: {
-            required: true,
+          {
+            name: "lvform",
+            label: "Lvform",
+            bind: {
+              required: true,
+            },
+            type: "string",
+            "wq:ForeignKey": "lvform",
           },
-          type: "string",
-          "wq:ForeignKey": "lvform",
-        },
-        {
-          name: "partner_feedback",
-          label: "Partner Feedback",
-          type: "text",
-        },
-        {
-          name: "task_feedback",
-          label: "Focal Point Notes",
-          type: "text",
-        },
-        {
-          name: "has_feedback",
-          label: "Has Feedback",
-          choices: [
-            {
-              name: true,
-              label: "Yes",
-            },
-            {
-              name: false,
-              label: "No",
-            },
-          ],
-          type: "select one",
-        },
-        {
-          name: "isFeedback_aproved",
-          label: "Isfeedback Aproved",
-          choices: [
-            {
-              name: true,
-              label: "Yes",
-            },
-            {
-              name: false,
-              label: "No",
-            },
-          ],
-          type: "select one",
-        },
-        {
-          name: "referall_to",
-          label: "Referral to",
-          hint: "User",
-          type: "string",
-          "wq:ForeignKey": "partner",
-        },
-      ],
+          {
+            name: "partner_feedback",
+            label: "Parceiro Feedback",
+            type: "text",
+          },
+          {
+            name: "task_feedback",
+            label: "Feedback da tarefa",
+            type: "text",
+          },
+          {
+            name: "has_feedback",
+            label: "Has Feedback",
+            choices: [
+              {
+                name: true,
+                label: "Yes",
+              },
+              {
+                name: false,
+                label: "No",
+              },
+            ],
+            type: "select one",
+            has_boolean_options: true,
+          },
+          {
+            name: "isFeedback_aproved",
+            label: "Isfeedback Aproved",
+            choices: [
+              {
+                name: true,
+                label: "Yes",
+              },
+              {
+                name: false,
+                label: "No",
+              },
+            ],
+            type: "select one",
+            has_boolean_options: true,
+          },
+          {
+            name: "cluster_sector",
+            label: "Cluster Sector",
+            type: "string",
+            "wq:ForeignKey": "clustersector",
+            children: "cluster_agency",
+          },
+          {
+            name: "cluster_agency",
+            label: "Cluster Agency",
+            type: "string",
+            "wq:ForeignKey": "cluster_agency",
+            children: "cluster_region",
+            has_parent: true,
+          },
+          {
+            name: "cluster_region",
+            label: "Cluster Region",
+            type: "string",
+            "wq:ForeignKey": "cluster_region",
+            children: "partners",
+            has_parent: true,
+          },
+          {
+            name: "referall_to",
+            label: "Referral to",
+            hint: "User",
+            type: "string",
+            "wq:ForeignKey": "partners",
+            has_parent: true,
+          },
+        ],
       verbose_name: "forwardinginstitution",
       verbose_name_plural: "forwardinginstitutions",
     },

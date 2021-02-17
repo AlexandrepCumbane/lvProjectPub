@@ -22,6 +22,7 @@ class CustomUserFullSerializer(patterns.AttachedModelSerializer):
 
 class ClusterRegionFullSerializer(patterns.AttachedModelSerializer):
     focalpoints = CustomUserFullSerializer(required=False, many=True)
+    partners = CustomUserFullSerializer(required=False, many=True)
     class Meta:
         model = ClusterRegion
         fields = '__all__'
