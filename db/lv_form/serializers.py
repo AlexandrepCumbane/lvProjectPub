@@ -97,7 +97,8 @@ class ForwardingInstitutionSerializer(patterns.AttachedModelSerializer):
     callcase = LvFormFullSerializer(required=False, source='lvform')
     class Meta:  #(patterns.AttachmentSerializer.Meta):
         model = ForwardingInstitution
-        exclude = ('created_by', )
+        fields = '__all__'
+        read_only_fields = ('created_by', )
         # exclude = ('lvform',)
         # object_field = 'lvform'
 
