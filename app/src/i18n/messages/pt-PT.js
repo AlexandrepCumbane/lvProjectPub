@@ -348,6 +348,7 @@ export default {
     Agency: "Agência",
     Region: "Região",
     "National Level": "Nível Nacional",
+    "National level": "Nível Nacional",
     Received: "Recebidos",
     "Forwarded by": "Reencaminhado por",
     "Has Feedback": "Tem Feedback",

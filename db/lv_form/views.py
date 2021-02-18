@@ -8,11 +8,63 @@ from django.contrib.auth.models import User
 
 from wq.db.rest.views import ModelViewSet
 from .models import ForwardCaseToFocalpoint, ForwardingInstitution, LvForm, Task
-from .serializers import LvFormSerializer, TaskSerializer
+from .serializers import ForwardCaseToFocalpointSerializer, ForwardingInstitutionSerializer, LvFormSerializer, TaskSerializer
 
 # Create your views here.
 
 
+class ForwardCaseToFocalpointViewSet(ModelViewSet):
+
+    queryset = ForwardCaseToFocalpoint.objects.all().order_by('-id')
+    serializer_class = ForwardCaseToFocalpointSerializer
+
+    def get_queryset_list(self, user) -> list:
+        """
+            This method filter LvForms records from relative user groups/roles 
+        """
+
+        user_data = CustomUserFullSerializer(user).data
+
+        if "focalpoint" in user_data['groups_label']:
+
+            return self.queryset.filter(
+                focalpoint__id=user.id)
+
+        return self.queryset
+
+    def list(self, request, *args, **kwargs):
+        page = self.paginate_queryset(self.get_queryset_list(request.user))
+        serializer = self.serializer_class(page, many=True)
+        return self.get_paginated_response(serializer.data)
+
+class ForwardingInstitutionViewSet(ModelViewSet):
+
+    queryset = ForwardingInstitution.objects.all().order_by('-id')
+    serializer_class = ForwardingInstitutionSerializer
+
+    def get_queryset_list(self, user) -> list:
+        """
+            This method filter LvForms records from relative user groups/roles 
+        """
+
+        user_data = CustomUserFullSerializer(user).data
+
+        if "partner" in user_data['groups_label']:
+
+            return self.queryset.filter(
+                referall_to__id=user.id)
+        
+        if "focalpoint" in user_data['groups_label']:
+
+            return self.queryset.filter(
+                created_by__id=user.id)
+
+        return self.queryset
+
+    def list(self, request, *args, **kwargs):
+        page = self.paginate_queryset(self.get_queryset_list(request.user))
+        serializer = self.serializer_class(page, many=True)
+        return self.get_paginated_response(serializer.data)
 class LvFormViewSet(ModelViewSet):
 
     queryset = LvForm.objects.all().order_by('-id')
