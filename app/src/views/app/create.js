@@ -144,6 +144,25 @@ class Create extends React.Component {
         );
 
         break;
+      case "binary":
+        res = (
+          <Col md="6" key={field.name}>
+            {/* <Label>{this.translate(field.label)}</Label> */}
+            {this.renderLabel(field)}
+            <FormGroup className="form-label-group position-relative has-icon-left">
+              <Input
+                type="file"
+                className="square"
+                placeholder={this.translate(field.label)}
+                onChange={(e) => {
+                  console.log(e.target.files[0])
+                  this.updateState(field.name, e.target.files[0])}}
+              />
+            </FormGroup>
+          </Col>
+        );
+
+        break;
       case "string":
         if (field["wq:ForeignKey"]) {
           res = (
