@@ -18,6 +18,7 @@ class Layout extends React.Component {
     lastLayout: null,
     direction: themeConfig.direction,
     currentPage: "",
+    logout: false,
   };
 
   updateWidth = () => {
@@ -94,6 +95,9 @@ class Layout extends React.Component {
           },
           setPage: (page) => {
             this.setState({ currentPage: page });
+          },
+          setLogout: (val) => {
+            this.setState({ logout: val });
           },
         }}
       >

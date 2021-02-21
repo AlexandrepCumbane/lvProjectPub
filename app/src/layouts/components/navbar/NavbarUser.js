@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { connect } from "react-redux";
 import {
   UncontrolledDropdown,
@@ -15,8 +15,15 @@ import { IntlContext } from "../../../i18n/index";
 import { changeRole } from "../../../redux/actions/auth/loginActions";
 // import { AuthService } from "../../../redux/oidc-config/services/authservice";
 import { history } from "../../../history";
+import { ContextLayout } from "../../../utility/context/Layout";
 
 const UserDropdown = (props) => {
+  const context = useContext(ContextLayout);
+
+  const logout = () => {
+    context.setLogout(true);
+    history.push("/");
+  };
   return (
     <DropdownMenu right>
       {/* <DropdownItem tag="a" href="#">
@@ -29,8 +36,8 @@ const UserDropdown = (props) => {
         onClick={(e) => {
           // props.changeRole("Not-auth");
           // new AuthService().logout();
-
-          history.push("/logout");
+          logout();
+          // history.push("/logout");
         }}
       >
         <Icon.Power size={14} className="mr-50" />

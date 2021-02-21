@@ -14,7 +14,9 @@ import { AuthService } from "../../../../redux/oidc-config/services/authservice"
 import "../../../../assets/scss/pages/authentication.scss";
 
 import { history } from "../../../../history";
+import { ContextLayout } from "../../../../utility/context/Layout";
 class Login extends React.Component {
+  static contextType = ContextLayout;
   state = {
     activeTab: "1",
     email: "",
@@ -33,16 +35,23 @@ class Login extends React.Component {
     }
   };
 
+  logout() {
+    this.context.setLogout(false);
+    this.authService.logout();
+  }
+
   componentDidMount() {
-    this.authService.getUser().then((user) => {
-      if (user) {
-        this.props.requestUpdateUser(user).then(() => {
-          history.push("/welcome");
+    this.context.state.logout
+      ? this.logout()
+      : this.authService.getUser().then((user) => {
+          if (user) {
+            this.props.requestUpdateUser(user).then(() => {
+              history.push("/welcome");
+            });
+          } else {
+            this.login();
+          }
         });
-      } else {
-        this.login();
-      }
-    });
   }
 
   login = () => {
@@ -71,7 +80,7 @@ class Login extends React.Component {
                         Authentication Page.
                       </p>
                     </div>
-                    <Spinner color="primary"  />
+                    <Spinner color="primary" />
                   </CardBody>
                 </Card>
               </Col>
