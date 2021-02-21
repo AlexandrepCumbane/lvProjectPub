@@ -39,7 +39,6 @@ class List extends Component {
 
   componentDidMount() {
     this.formatFields();
-    // this.props.requestDropodowns();
     this.requestMore(false);
   }
 
@@ -114,6 +113,10 @@ class List extends Component {
       case "Completed":
         color = "success";
         break;
+
+      case "Closed":
+        color = "success";
+        break;
       default:
         color = "white";
         break;
@@ -130,22 +133,36 @@ class List extends Component {
   renderStatus = (props, label) => {
     let color = "white";
 
-    switch (props[`${this.props.path}_status_label`]) {
-      case "Not started":
+    let status = props[`${this.props.path}_status_label`];
+
+    if (props.callcase) {
+      status = props["callcase"][`lvform_status_label`];
+    }
+
+    if (this.props.path === "customuser") {
+      if (props.is_active) {
+        color = "success";
+      } else {
         color = "danger";
-        break;
-      case "In Progress":
-        color = "primary";
-        break;
-      case "Completed":
-        color = "success";
-        break;
-      case "Closed":
-        color = "success";
-        break;
-      default:
-        color = "white";
-        break;
+      }
+    } else {
+      switch (status) {
+        case "Not started":
+          color = "danger";
+          break;
+        case "In Progress":
+          color = "primary";
+          break;
+        case "Completed":
+          color = "success";
+          break;
+        case "Closed":
+          color = "success";
+          break;
+        default:
+          color = "white";
+          break;
+      }
     }
     return (
       <div
@@ -171,22 +188,49 @@ class List extends Component {
 
   renderPriority = (props) => {
     let color = "white";
-
     let model = this.props.path === "lvform" ? "case" : this.props.path;
-    switch (props[`${model}_priority_label`]) {
-      case "High":
-        color = "danger";
-        break;
-      case "Medium":
-        color = "warning";
-        break;
-      case "Low":
-        color = "info";
-        break;
-      default:
-        color = "white";
-        break;
+
+    let status = props[`${model}_priority_label`];
+
+    if (props.callcase) {
+      status = props["callcase"][`case_priority_label`];
     }
+
+    if (this.props.path === "customuser") {
+      switch (props["groups_label"][0]) {
+        case "partner":
+          color = "danger";
+          break;
+        case "focalpoint":
+          color = "secondary";
+          break;
+        case "operator":
+          color = "warning";
+          break;
+        case "manager":
+          color = "info";
+          break;
+        default:
+          color = "white";
+          break;
+      }
+    } else {
+      switch (status) {
+        case "High":
+          color = "danger";
+          break;
+        case "Medium":
+          color = "warning";
+          break;
+        case "Low":
+          color = "info";
+          break;
+        default:
+          color = "white";
+          break;
+      }
+    }
+
     return (
       <ArrowUp className={`text-${color} text-center mb-1 mt-1`} size={14} />
     );

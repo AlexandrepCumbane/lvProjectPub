@@ -212,9 +212,7 @@ class AggridTable extends React.Component {
   };
 
   requestMore = async (size, currentPage) => {
-    if (size === currentPage + 1 && size > 1) {
-      console.log("Loading Requesting More")
-      
+    if (size === currentPage + 1 && size > 1) {      
       this.setState({ hasRequestedMore: true });
       const hasRequestedMore = !(await this.props.requestMore());
       this.setState({ hasRequestedMore });
@@ -223,7 +221,6 @@ class AggridTable extends React.Component {
 
   onPaginationChanged = () => {
     if (this.gridApi && !this.state.hasRequestedMore) {
-      console.log("Pagination Loading: ", this.gridApi?.paginationIsLastPageFound())
       this.requestMore(
         this.gridApi?.paginationGetTotalPages(),
         this.gridApi?.paginationGetCurrentPage()
