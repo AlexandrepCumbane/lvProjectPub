@@ -352,5 +352,9 @@ export default {
     Received: "Recebidos",
     "Forwarded by": "Reencaminhado por",
     "Has Feedback": "Tem Feedback",
+    "Total Cases": "Total de Casos",
+    "Referred cases": "Casos encaminhados",
+    "Not referred cases": "Casos não encaminhados",
+    "Cases with Feedback": "Casos com feedback"
   },
 };

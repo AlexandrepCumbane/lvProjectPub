@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useQuery, gql } from "@apollo/client";
 import SimpleAnalipticCard from "../../../../components/custom/statisticCards/Card";
 import { Phone } from "react-feather";
+import { IntlContext } from "../../../../i18n";
 
 const CASES_BY_AGE = gql`
   {
@@ -13,6 +14,7 @@ const CASES_BY_AGE = gql`
 
 export function DailyCases() {
   const { loading, error, data } = useQuery(CASES_BY_AGE);
+  const context = useContext(IntlContext);
 
   if (loading) return <p>Loading...</p>;
   if (error)
@@ -20,7 +22,7 @@ export function DailyCases() {
       <SimpleAnalipticCard
         icon={<Phone className="text-primary" size={15} />}
         stat="0"
-        statTitle="Total Cases"
+        statTitle={context.translate("Total Cases")}
         type="area"
       />
     );
@@ -31,7 +33,7 @@ export function DailyCases() {
     <SimpleAnalipticCard
       icon={<Phone className="text-primary" size={15} />}
       stat={dcount}
-      statTitle="Total Cases"
+      statTitle={context.translate("Total Cases")}
       type="area"
     />
   );
