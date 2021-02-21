@@ -5,8 +5,6 @@ import { state } from "./forms";
 import { store } from "../../storeConfig/store";
 import { getUser } from "../auth/helper";
 
-
-
 const authService = new AuthService();
 
 export const handleForm = (dispatch, payload) =>
@@ -18,47 +16,69 @@ export const handleForm = (dispatch, payload) =>
       loading: true,
     });
 
+    let hasPer = true;
+
     const appState = store.getState();
     const { userOauth } = appState.auth.login;
-    axios
-      .get(`/${payload.url}.json/`, {
-        headers: {
-          Authorization: `Bearer ${userOauth?.access_token}`,
-        },
-      })
-      .then(({ data }) => {
-        dispatch({
-          type: "FORM_SUCCESS",
-          data: {
-            key: payload.name,
-            value: data.list,
-          },
-          success: true,
-          failed: false,
-          loading: false,
-        });
-        resolve();
-      })
-      .catch(({ response }) => {
-        authService
-          .renewToken()
-          .then(() => {
-            return getUser(dispatch);
-          })
-          .catch(() => {
-            authService.logout().then(() => {
-              authService.login();
-            });
-          });
 
-        dispatch({
-          type: "FORM_FAILED",
-          failed: true,
-          success: false,
-          loading: false,
+    let appList = [];
+
+    let url = `/${payload.url}.json/`;
+    if (payload.next) {
+      const postData = appState.app.app_reducer[payload.name];
+      if (postData.page + 1 <= postData.pages) {
+        appList = postData?.list;
+        url = `${payload.url}.json/?page=${postData.page + 1}`;
+      } else {
+        hasPer = false;
+      }
+    }
+
+    if (hasPer) {
+      axios
+        .get(url, {
+          headers: {
+            Authorization: `Bearer ${userOauth?.access_token}`,
+          },
+        })
+        .then(({ data }) => {
+          let value = data;
+          value["list"] = appList.concat(data.list);
+          dispatch({
+            type: "FORM_SUCCESS",
+            data: {
+              key: payload.name,
+              value,
+            },
+            success: true,
+            failed: false,
+            loading: false,
+          });
+          resolve();
+        })
+        .catch(({ response }) => {
+          authService
+            .renewToken()
+            .then(() => {
+              return getUser(dispatch);
+            })
+            .catch(() => {
+              authService.logout().then(() => {
+                authService.login();
+              });
+            });
+
+          dispatch({
+            type: "FORM_FAILED",
+            failed: true,
+            success: false,
+            loading: false,
+          });
+          resolve();
         });
-        resolve();
-      });
+    } else {
+      resolve();
+    }
   });
 
 const requestSingle = (dispatch) => {
@@ -71,10 +91,7 @@ const requestSingle = (dispatch) => {
       item.name !== "logout" &&
       item.name !== "login" &&
       item.url !== undefined
-      ) {
-      
-     
-
+    ) {
       if (dropdowns[item.name] === undefined) {
         if (item.name === "forwardcasetofocalpoint" && userRole === "manager") {
           await axios

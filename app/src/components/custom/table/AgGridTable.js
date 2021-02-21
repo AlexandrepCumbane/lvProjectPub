@@ -41,6 +41,7 @@ class AggridTable extends React.Component {
     modalForm: "",
     page: "",
     showTable: false,
+    hasRequestedMore: false,
     defaultColDef: {
       sortable: true,
       editable: true,
@@ -65,8 +66,6 @@ class AggridTable extends React.Component {
       rowData: this.props.data ?? this.state.rowData,
       page: this.props.tableType,
     });
-
-    // this.setPage(this.props.tableType);
 
     this.setState({
       columnDefs: [
@@ -210,6 +209,26 @@ class AggridTable extends React.Component {
 
   handleModal = () => {
     this.setState({ showTaskDialog: !this.state.showTaskDialog });
+  };
+
+  requestMore = async (size, currentPage) => {
+    if (size === currentPage + 1 && size > 1) {
+      console.log("Loading Requesting More")
+      
+      this.setState({ hasRequestedMore: true });
+      const hasRequestedMore = !(await this.props.requestMore());
+      this.setState({ hasRequestedMore });
+    }
+  };
+
+  onPaginationChanged = () => {
+    if (this.gridApi && !this.state.hasRequestedMore) {
+      console.log("Pagination Loading: ", this.gridApi?.paginationIsLastPageFound())
+      this.requestMore(
+        this.gridApi?.paginationGetTotalPages(),
+        this.gridApi?.paginationGetCurrentPage()
+      );
+    }
   };
 
   render() {
@@ -392,6 +411,7 @@ class AggridTable extends React.Component {
                         onColumnMoved={(params) =>
                           this.onColumnMoved(this.props.tableType, params)
                         }
+                        onPaginationChanged={() => this.onPaginationChanged()}
                       />
                     )}
                   </ContextLayout.Consumer>

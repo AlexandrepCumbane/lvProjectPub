@@ -13,7 +13,7 @@ import {
   operator as operatorColumns,
   partner as partnerColumns,
   sent_to_focalpoint,
-  sent_to_partner
+  sent_to_partner,
 } from "../../data/lvform.config";
 import { IntlContext } from "../../i18n/provider";
 import {
@@ -39,27 +39,34 @@ class List extends Component {
 
   componentDidMount() {
     this.formatFields();
-    this.props.requestDropodowns();
+    // this.props.requestDropodowns();
+    this.requestMore(false);
+  }
+
+  requestMore = (next = true) => {
     this.setState({
-      data: this.props.app_reducer[this.props.path] ?? [],
-      isLoading: true,
+      data: this.props.app_reducer[this.props.path]?.list ?? [],
       show: true,
     });
-
-    this.props
+    return this.props
       .requestForm({
         url: this.props.url,
         name: this.props.name ?? this.props.path,
+        next,
       })
       .then(() => {
         this.setState({
-          data: this.props.app_reducer[this.props.name ?? this.props.path],
+          data: this.props.app_reducer[this.props.name ?? this.props.path].list,
           page: this.props.path,
           pageTitle: `${this.props.title}`,
           isLoading: false,
         });
+
+        if (this.props.app_reducer[this.props.name ?? this.props.path]?.next)
+          return true;
+        else return false;
       });
-  }
+  };
 
   getSpecificields = () => {
     let form = [];
@@ -86,10 +93,10 @@ class List extends Component {
       }
     }
     if (this.props.path === "forwardcasetofocalpoint") {
-          form = sent_to_focalpoint.form;
+      form = sent_to_focalpoint.form;
     }
     if (this.props.path === "forwardinginstitution") {
-          form = sent_to_partner.form;
+      form = sent_to_partner.form;
     }
 
     return form;
@@ -320,6 +327,7 @@ class List extends Component {
 
         {this.state.show ? (
           <AgGridTable
+            requestMore={this.requestMore}
             loading={this.state.isLoading}
             data={this.state.data}
             columnDefs={this.state.columnDefs}
