@@ -81,10 +81,11 @@ class Edit extends Component {
         this.setState({ childrens });
       }
 
-      formdata.append(
-        item["wq:ForeignKey"] ? item.name + "_id" : item.name,
-        data[item["wq:ForeignKey"] ? item.name + "_id" : item.name]
-      );
+      if (data[item["wq:ForeignKey"] ? item.name + "_id" : item.name])
+        formdata.append(
+          item["wq:ForeignKey"] ? item.name + "_id" : item.name,
+          data[item["wq:ForeignKey"] ? item.name + "_id" : item.name]
+        );
     });
 
     formdata.append("id", data["id"]);
@@ -281,9 +282,9 @@ class Edit extends Component {
     ) {
       return <></>;
     }
-    if (forwardinginstitution) { 
+    if (forwardinginstitution) {
       return (
-        <Col md="6"> 
+        <Col md="6">
           <ListGroup
             flush
             className="rounded-0 mb-2"
