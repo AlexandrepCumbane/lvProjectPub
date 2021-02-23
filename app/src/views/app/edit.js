@@ -566,7 +566,7 @@ class Edit extends Component {
         res = (
           <Col md="6" key={field.name}>
             <Label>
-              <strong>{field.label}</strong>
+              <strong>{this.translate(field.label)}</strong>
             </Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Input
@@ -604,7 +604,7 @@ class Edit extends Component {
                     }
                   }}
                 >
-                  <option>Select</option>
+                  <option>{this.translate('Select')}</option>
                   {field["has_parent"] === undefined
                     ? this.renderSelectOptionForeignWQ(
                         this.getForeignFieldDropdown(field["wq:ForeignKey"])
@@ -841,7 +841,7 @@ class Edit extends Component {
   renderSelectOption = (choices) => {
     return choices.map((item) => (
       <option key={item.name} value={item.name}>
-        {item.label}
+        {this.translate(item.label)}
       </option>
     ));
   };
@@ -849,7 +849,7 @@ class Edit extends Component {
   renderSelectOptionForeignWQ = (choices) => {
     return choices.map((item) => (
       <option key={item.id} value={item.id}>
-        {item.label}
+        {this.translate(item.label)}
       </option>
     ));
   };
@@ -940,7 +940,7 @@ class Edit extends Component {
         res = (
           <Col md="6" key={field.name}>
             <Label>
-              <strong>{field.label}</strong>
+              <strong>{this.translate(field.label)}</strong>
             </Label>
 
             <p>{this.translate(data[field.name] ?? "None")}</p>
