@@ -501,7 +501,7 @@ class Task(models.Model):
         blank=True,
         verbose_name="Description",
     )
-    assignee = models.OneToOneField(
+    assignee = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         null=True,

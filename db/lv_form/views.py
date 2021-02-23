@@ -174,8 +174,8 @@ class TaskViewSet(ModelViewSet):
             return self.queryset
 
         if "operator" in user_data['groups_label']:
-
-            return self.queryset.filter(assignee__id=user.id)
+            
+            return self.queryset.filter(assignee__id=user.id).exclude(task_status='3')
 
         return self.queryset
 
