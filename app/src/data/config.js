@@ -566,9 +566,6 @@ export default {
         {
           name: "subcategory",
           label: "Sub-category",
-          bind: {
-            required: true,
-          },
           type: "string",
           "wq:ForeignKey": "subcategory",
           has_parent: true,
