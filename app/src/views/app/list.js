@@ -46,6 +46,7 @@ class List extends Component {
     this.setState({
       data: this.props.app_reducer[this.props.path]?.list ?? [],
       show: true,
+      isLoading: true,
     });
     return this.props
       .requestForm({
