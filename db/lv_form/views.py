@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 
 from wq.db.rest.views import ModelViewSet
 from .models import ForwardCaseToFocalpoint, ForwardingInstitution, LvForm, Task
-from .serializers import ForwardCaseToFocalpointSerializer, ForwardingInstitutionSerializer, LvFormSerializer, TaskSerializer
+from .serializers import ForwardCaseToFocalpointSerializer, ForwardingInstitutionSerializer, LvFormSerializer, TaskFullSerializer, TaskSerializer
 
 # Create your views here.
 
@@ -157,7 +157,7 @@ class LvFormViewSet(ModelViewSet):
 class TaskViewSet(ModelViewSet):
 
     queryset = Task.objects.all().order_by('-id')
-    serializer_class = TaskSerializer
+    serializer_class = TaskFullSerializer
 
     def get_queryset_list(self, user) -> list:
         """

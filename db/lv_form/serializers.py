@@ -47,6 +47,7 @@ class TaskCommentSerializer(patterns.AttachedModelSerializer):
 
 class TaskSerializer(patterns.AttachedModelSerializer):
     taskcomment_set = TaskCommentSerializer(required=False, many=True)
+    # casecall = LvFormSerializer(required=False, many=False, source='lvform') 
 
     class Meta:  #(patterns.AttachmentSerializer.Meta):
         model = Task
@@ -150,4 +151,19 @@ class LvFormSerializer(patterns.AttachedModelSerializer):
         form = LvForm.objects.create(case_number=case_number,
                                      created_by=self.context['request'].user,
                                      **validated_data)
+        return form
+
+class TaskFullSerializer(patterns.AttachedModelSerializer):
+    taskcomment_set = TaskCommentSerializer(required=False, many=True)
+    casecall = LvFormSerializer(required=False, many=False, source='lvform') 
+
+    class Meta:  #(patterns.AttachmentSerializer.Meta):
+        model = Task
+        exclude = ('created_by', )
+        # exclude = ('lvform',)
+        # object_field = 'lvform'
+
+    def create(self, validated_data):
+        form = Task.objects.create(created_by=self.context['request'].user,
+                                   **validated_data)
         return form

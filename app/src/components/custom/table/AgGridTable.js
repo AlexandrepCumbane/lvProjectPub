@@ -1,7 +1,7 @@
 import React from "react";
 import { AgGridReact } from "ag-grid-react";
 import classnames from "classnames";
-import { Edit, ChevronDown } from "react-feather";
+import { Edit, ChevronDown, List } from "react-feather";
 import { ContextLayout } from "../../../utility/context/Layout";
 
 import {
@@ -113,6 +113,21 @@ class AggridTable extends React.Component {
                     }
                   }}
                 />
+
+                {this.props.tableType === "task" ? (
+                  <List
+                    className="cursor-pointer mr-1 text-info"
+                    size={20}
+                    onClick={(e) => {
+                      this.setState({
+                        showSidebar: true,
+                        selectedData: params.data.casecall,
+                      });
+                    }}
+                  />
+                ) : (
+                  <div />
+                )}
               </div>
             );
           },
@@ -212,7 +227,7 @@ class AggridTable extends React.Component {
   };
 
   requestMore = async (size, currentPage) => {
-    if (size === currentPage + 1 && size > 1) {      
+    if (size === currentPage + 1 && size > 1) {
       this.setState({ hasRequestedMore: true });
       const hasRequestedMore = !(await this.props.requestMore());
       this.setState({ hasRequestedMore });
