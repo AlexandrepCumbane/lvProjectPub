@@ -363,5 +363,6 @@ export default {
     "Task Title": "Título da Tarefa",
     "Edit Task": "Editar Tarefa",
     "Task Priority": "Prioridade da Tarefa",
+    "Categories & Articles": "Categorias e Artigos"
   },
 };

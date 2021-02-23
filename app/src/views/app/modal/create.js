@@ -1,6 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { toast, Bounce } from "react-toastify";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
+
 import { requestDropodowns } from "../../../redux/actions/app/actions";
 
 import config from "../../../data/config";
@@ -25,6 +28,7 @@ import { IntlContext } from "../../../i18n";
 class Create extends React.Component {
   static contextType = IntlContext;
   translate = this.context.translate;
+  animatedComponents = makeAnimated();
 
   notifySuccessBounce = (id = "") =>
     toast.success(this.translate(`Transaction completed successfuly!`), {
@@ -34,6 +38,11 @@ class Create extends React.Component {
   notifyErrorBounce = (error) =>
     toast.error(error, {
       transition: Bounce,
+    });
+
+  multipleSelect = (list) =>
+    list.map((item) => {
+      return { value: item.id, label: item.label, color: "#4287f5" };
     });
 
   state = {
@@ -209,33 +218,20 @@ class Create extends React.Component {
             <Label>{this.translate(field.label)}</Label>
 
             <FormGroup className="form-label-group position-relative has-icon-left">
-              <CustomInput
-                className="square"
-                type="select"
-                id={field.name}
-                placeholder={this.translate(field.label)}
+              <Select
                 onChange={(e) => {
-                  this.updateState(`${field.name}_id`, e.target.value);
+                  this.updateState(`${field.name}_id`, e.value);
                   if (field["children"]) {
-                    this.updateChildrenList(field, e.target.value);
+                    this.updateChildrenList(field, e);
                   }
                 }}
-              >
-                {/* <option>{this.translate("Select")}</option>
-                {this.renderSelectOptionForeignWQ(
-                  this.getForeignFieldDropdown(field["wq:ForeignKey"])
-                )} */}
-
-                <option>{this.translate("Select")}</option>
-
-                {field["has_parent"] === undefined
-                  ? this.renderSelectOptionForeignWQ(
-                      this.getForeignFieldDropdown(field["wq:ForeignKey"])
-                    )
-                  : this.renderSelectOptionForeignWQ(
-                      this.state.childrens[field["wq:ForeignKey"]] ?? []
-                    )}
-              </CustomInput>
+                components={this.animatedComponents}
+                options={this.multipleSelect(
+                  field["has_parent"] === undefined
+                    ? this.getForeignFieldDropdown(field["wq:ForeignKey"])
+                    : this.state.childrens[field["wq:ForeignKey"]] ?? []
+                )}
+              />
             </FormGroup>
           </Col>
         );
