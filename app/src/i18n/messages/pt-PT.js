@@ -324,6 +324,7 @@ export default {
     "Without Feedback": "Sem feedback",
     "Case Close Category": "Como foi encerrado?",
     "Is Closed": "Está encerrado?",
+    "Closed": "Fechado",
     "Send as case comment": "Enviar como comentário do caso",
     Comments: "Comentários",
     Comment: "Comentário",
@@ -355,6 +356,9 @@ export default {
     "Total Cases": "Total de Casos",
     "Referred cases": "Casos encaminhados",
     "Not referred cases": "Casos não encaminhados",
-    "Cases with Feedback": "Casos com feedback"
+    "Cases with Feedback": "Casos com feedback",
+    "Task Title": "Título da Tarefa",
+    "Edit Task": "Editar Tarefa",
+    "Task Priority": "Prioridade da Tarefa",
   },
 };
