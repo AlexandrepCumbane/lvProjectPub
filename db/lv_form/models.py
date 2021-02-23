@@ -137,8 +137,11 @@ class LvForm(models.Model):
     )
     subcategory = models.ForeignKey(
         'case_tipology.SubCategory',
+        null=True,
+        blank=True,
         on_delete=models.CASCADE,
         verbose_name="Sub-category",
+        
     )
     subcategory_issue = models.ForeignKey(
         'case_tipology.SubCategoryIssue',
