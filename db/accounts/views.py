@@ -70,6 +70,22 @@ class UserViewSet(ModelViewSet):
             return Response(status=status.HTTP_200_OK)
         except CustomUser.DoesNotExist as error:
             return Response(status=status.HTTP_200_OK)
+    
+    @action(detail=True,
+            methods=['get'],
+            url_name="get_operators",
+            url_path="get_operators")
+    def operators(self, request, *args, **kwargs):
+        try:
+            user_data = CustomUserFullSerializer(request.user).data
+            if "manager" in user_data['groups_label']:
+                users = CustomUser.objects.filter(groups__name='operator')
+                page = self.paginate_queryset(users)
+                serializer = self.serializer_class(page, many=True)
+                return self.get_paginated_response(serializer.data)
+            return Response(status=status.HTTP_200_OK)
+        except CustomUser.DoesNotExist as error:
+            return Response(status=status.HTTP_200_OK)
 
     def list(self, request, *args, **kwargs):
         users = CustomUser.objects.all()

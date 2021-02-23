@@ -1306,7 +1306,7 @@ export default {
           name: "assignee",
           label: "Assigned to",
           type: "string",
-          "wq:ForeignKey": "customuser",
+          "wq:ForeignKey": "operator",
         },
         {
           name: "task_status",
@@ -1699,6 +1699,11 @@ export default {
       verbose_name: "category",
       verbose_name_plural: "categorys",
     },
+    category: {
+      name: "operator",
+      url: "users/0/get_operators",
+      list: true,
+    }
   },
   debug: true,
 };

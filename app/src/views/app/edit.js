@@ -227,7 +227,7 @@ class Edit extends Component {
           return (
             <ListGroupItem onClick={() => this.raiseListData(item)}>
               <div className="d-flex justify-content-between w-100 align-items-center">
-                <h5 className="mb-1">{item.task_title_label}</h5>
+                <h5 className="mb-1">{ this.translate(item.task_title_label)}</h5>
                 {badge}
               </div>
               <p className="mb-1">{item.description} </p>
