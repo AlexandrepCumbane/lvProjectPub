@@ -88,7 +88,7 @@ class Home extends React.Component {
           <SimpleAnalipticCard
             icon={<Phone className="text-success" size={15} />}
             stat="0"
-            statTitle="Week cases"
+            statTitle={this.translate("Week cases")}
             type="area"
           />
         </Col>
@@ -96,7 +96,7 @@ class Home extends React.Component {
           <SimpleAnalipticCard
             icon={<Phone className="text-danger" size={15} />}
             stat="0"
-            statTitle="Month cases"
+            statTitle={this.translate("Month cases")}
             type="area"
           />
         </Col>
@@ -105,7 +105,7 @@ class Home extends React.Component {
           <SimpleAnalipticCard
             icon={<Phone className="text-warning" size={15} />}
             stat="0"
-            statTitle="Year cases"
+            statTitle={this.translate("Year cases")}
             type="area"
           />
         </Col>
@@ -144,7 +144,7 @@ class Home extends React.Component {
             iconBg="success"
             icon={<Icons.ThumbsUp className="text-success" size={15} />}
             stat="0"
-            statTitle="With Feedback Linha Verde"
+            statTitle={this.translate("With Feedback Linha Verde")}
           />
         </Col>
         <Col xl="2" lg="4" sm="6">
@@ -153,7 +153,7 @@ class Home extends React.Component {
             iconBg="danger"
             icon={<Icons.ThumbsDown className="text-danger" size={15} />}
             stat="0"
-            statTitle="Without Feedback Linha Verde"
+            statTitle={this.translate("Without Feedback Linha Verde")}
           />
         </Col>
         <Col xl="2" lg="4" sm="6">
@@ -162,7 +162,7 @@ class Home extends React.Component {
             iconBg="primary"
             icon={<Icons.Archive className="text-primary" size={15} />}
             stat="0"
-            statTitle="Total Linha Verde Cases"
+            statTitle={this.translate("Total Linha Verde Cases")}
           />
         </Col>
         <Col xl="2" lg="4" sm="6">
@@ -171,7 +171,7 @@ class Home extends React.Component {
             iconBg="danger"
             icon={<Icons.ThumbsDown className="text-danger" size={15} />}
             stat="0"
-            statTitle="Cases Without Feedback Partner"
+            statTitle={this.translate("Cases Without Feedback Partner")}
           />
         </Col>
         <Col xl="2" lg="4" sm="6">
@@ -180,7 +180,7 @@ class Home extends React.Component {
             iconBg="success"
             icon={<Icons.Smile className="text-success" size={15} />}
             stat="0"
-            statTitle="With Feedback Partner"
+            statTitle={this.translate("With Feedback Partner")}
           />
         </Col>
         <Col xl="2" lg="4" sm="6">
@@ -189,7 +189,7 @@ class Home extends React.Component {
             iconBg="primary"
             icon={<Icons.Archive className="primary" size={22} />}
             stat="689"
-            statTitle="Total Cases sent Partner"
+            statTitle={this.translate("Total Cases sent Partner")}
           />
         </Col>
 
@@ -207,7 +207,7 @@ class Home extends React.Component {
             iconBg="primary"
             icon={<Icons.ThumbsUp className="text-primary" size={15} />}
             stat="0"
-            statTitle="Referred Cases"
+            statTitle={this.translate("Referred Cases")}
           />
         </Col>
         <Col md="3">
@@ -216,7 +216,7 @@ class Home extends React.Component {
             iconBg="warning"
             icon={<Icons.PhoneMissed className="text-warning" size={15} />}
             stat="0"
-            statTitle="Without Feedback"
+            statTitle={this.translate("Without Feedback")}
           />
         </Col>
         <Col md="3">
@@ -225,7 +225,7 @@ class Home extends React.Component {
             iconBg="success"
             icon={<Icons.ThumbsUp className="text-success" size={15} />}
             stat="0"
-            statTitle="Approved Cases"
+            statTitle={this.translate("Approved Cases")}
           />
         </Col>
         <Col md="3">
@@ -234,7 +234,7 @@ class Home extends React.Component {
             iconBg="danger"
             icon={<Icons.ThumbsDown className="text-danger" size={15} />}
             stat="0"
-            statTitle="Rejected Cases"
+            statTitle={this.translate("Rejected Cases")}
           />
         </Col>
 
