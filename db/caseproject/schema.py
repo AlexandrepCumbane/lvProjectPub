@@ -1,3 +1,11 @@
+from django.utils import timezone
+from django.db.models.functions import (
+    ExtractDay,
+    ExtractMonth,
+    ExtractWeek,
+    ExtractYear,
+)
+
 from django.db.models import Count
 import graphene
 from graphene.types.objecttype import ObjectType
@@ -53,10 +61,12 @@ class HearAboutType(ObjectType):
 class CallFeedbackType(ObjectType):
     call_feedback = String()
     dcount = String()
-
-
 class DcountType(ObjectType):
     dcount = String()
+
+class CountRegType(ObjectType):
+    dcount = String()
+    name = String()
 
 
 class Query(lv_form.schema.Query, graphene.ObjectType):
@@ -74,6 +84,11 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
     total_lvform_no_feedback_records = graphene.Field(DcountType)
     total_lvform_referall_records = graphene.Field(DcountType)
     total_lvform_not_referall_records = graphene.Field(DcountType)
+
+    daily_cases = graphene.Field(CountRegType)
+    weekly_cases = graphene.Field(CountRegType)
+    monthly_cases = graphene.Field(CountRegType)
+    annual_cases = graphene.Field(CountRegType)
 
     def resolve_render_some(root, info):
         return LvForm.objects.all()
@@ -129,6 +144,27 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
             "dcount":
             ForwardingInstitution.objects.filter(has_feedback=False).count()
         }
+
+
+    def resolve_daily_cases(root, info):
+        day = ExtractDay(timezone.now())
+        daily_cases = LvForm.objects.filter(datetime_created__day=day).count()
+        return {"dcount": daily_cases, "name": "daily_cases"}
+    
+    def resolve_weekly_cases(root, info):
+        week = ExtractWeek(timezone.now())
+        weekly_cases = LvForm.objects.filter(datetime_created__week=week).count()
+        return {"dcount": weekly_cases, "name": "weekly_cases"}
+
+    def resolve_monthly_cases(root, info):
+        month = ExtractMonth(timezone.now())
+        monthly_cases = LvForm.objects.filter(datetime_created__month=month).count()
+        return {"dcount": monthly_cases, "name": "monthly_cases"}
+
+    def resolve_annual_cases(root, info):
+        year = ExtractYear(timezone.now())
+        annual_cases = LvForm.objects.filter(datetime_created__year=year).count()
+        return {"dcount": annual_cases, "name": "annual_cases"}
 
 
 schema = graphene.Schema(query=Query)
