@@ -591,6 +591,15 @@ export const operator = {
       type: "select one",
       has_boolean_options: true,
     },
+    {
+      name: "created_by",
+      label: "Created by",
+      bind: {
+        required: true,
+      },
+      type: "string",
+      "wq:ForeignKey": "customuser",
+    },
   ],
   verbose_name: "Case",
   verbose_name_plural: "lvforms",

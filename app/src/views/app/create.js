@@ -121,8 +121,8 @@ class Create extends React.Component {
   renderSingleInput = (field) => {
     let res = <></>;
 
-    if (field.name === "case_number") {
-      return <span key="case_number" />;
+    if (field.name === "case_number" || field.name === "created_by") {
+      return <span key={field.name} />;
     }
 
     switch (field.type) {

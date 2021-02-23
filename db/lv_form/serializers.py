@@ -137,9 +137,9 @@ class LvFormSerializer(patterns.AttachedModelSerializer):
 
     class Meta:
         model = LvForm
-        # fields = "__all__"
-        exclude = ('created_by', )
-        read_only_fields = ('case_number', )
+        fields = "__all__"
+        # exclude = ('created_by', )
+        read_only_fields = ('case_number', 'created_by', )
 
     def create(self, validated_data):
         last = LvForm.objects.last()

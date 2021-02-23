@@ -51,7 +51,7 @@ class Edit extends React.Component {
   componentDidMount() {
     const { form } = config.pages[this.props.page];
     const { data } = this.props;
-
+    this.props.requestDropodowns();
     let formdata = new FormData();
 
     form.forEach((item) => {
