@@ -291,7 +291,7 @@ class Edit extends React.Component {
           res = (
             <Col md="12" key={field.name}>
               <Label>
-                <strong>{field.label}</strong>
+                <strong>{this.translate(field.label)}</strong>
               </Label>
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
@@ -356,7 +356,7 @@ class Edit extends React.Component {
         } else {
           res = (
             <Col md="12" key={field.name}>
-              <Label>{field.label}</Label>
+              <Label>{this.translate(field.label)}</Label>
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <CustomInput
                   className="square"

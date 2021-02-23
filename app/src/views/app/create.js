@@ -73,8 +73,7 @@ class Create extends React.Component {
     return (
       <Row>
         <Col md="12">
-          <h4>Register a new record: {form_.verbose_name}</h4>
-          <p>{form_.verbose_name}.</p>
+          <h4>{this.translate(form_.verbose_name)}</h4>
           <hr />
         </Col>
 

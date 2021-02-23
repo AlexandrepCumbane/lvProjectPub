@@ -348,6 +348,7 @@ export default {
     "Created By": "Criado por",
     "Created by": "Criado por",
     "Updated at": "Actualizado aos",
+    "Case": "Caso",
     Agency: "Agência",
     Region: "Região",
     "National Level": "Nível Nacional",
