@@ -34,6 +34,10 @@ export class AuthService {
     return this.userManager.signinSilent();
   }
 
+  signinRedirectCallback() {
+    return this.userManager.signinRedirectCallback({ response_mode: "query" });
+  }
+
   logout() {
     return this.userManager.signoutRedirect();
   }

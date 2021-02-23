@@ -53,12 +53,14 @@
   </body>
 
   <script src="oidc-client.min.js"></script>
-  <script>
+  <!-- <script>
     new Oidc.UserManager({ response_mode: "query" })
       .signinRedirectCallback()
-      .then(function (e) {})
+      .then(function (e) {
+        // console.log("Result", e)
+      })
       .catch(function (e) {
         console.error(e);
       });
-  </script>
+  </script> -->
 </html>

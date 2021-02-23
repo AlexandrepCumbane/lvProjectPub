@@ -44,13 +44,15 @@ class Login extends React.Component {
     this.context.state.logout
       ? this.logout()
       : this.authService.getUser().then((user) => {
-          if (user) {
-            this.props.requestUpdateUser(user).then(() => {
+          this.authService
+            .signinRedirectCallback()
+            .then((res) => {
               history.push("/welcome");
+            })
+            .catch((err) => {
+              console.log(err);
+              this.login();
             });
-          } else {
-            this.login();
-          }
         });
   }
 

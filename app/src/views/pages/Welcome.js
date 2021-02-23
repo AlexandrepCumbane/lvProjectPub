@@ -40,13 +40,16 @@ class Welcome extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.userOauth === undefined) {
-      this.authService.login();
-    } else {
-      this.props.requestUpdateUser(this.props.userOauth).then(() => {
-        this.test_connection(this.props.userOauth.access_token);
+    this.authService
+      .getUser()
+      .then((res) => {
+        this.props.requestUpdateUser(res).then(() => {
+          this.test_connection(this.props.userOauth.access_token);
+        });
+      })
+      .catch((err) => {
+        this.login();
       });
-    }
   }
 
   renderText = () => {
