@@ -1,3 +1,4 @@
+from django.utils import timezone
 from accounts.serializer import CustomUserFullSerializer
 from django.shortcuts import render
 from rest_framework.decorators import action
@@ -27,8 +28,7 @@ class ForwardCaseToFocalpointViewSet(ModelViewSet):
 
         if "focalpoint" in user_data['groups_label']:
 
-            return self.queryset.filter(
-                focalpoint__id=user.id)
+            return self.queryset.filter(focalpoint__id=user.id)
 
         return self.queryset
 
@@ -36,6 +36,7 @@ class ForwardCaseToFocalpointViewSet(ModelViewSet):
         page = self.paginate_queryset(self.get_queryset_list(request.user))
         serializer = self.serializer_class(page, many=True)
         return self.get_paginated_response(serializer.data)
+
 
 class ForwardingInstitutionViewSet(ModelViewSet):
 
@@ -51,13 +52,11 @@ class ForwardingInstitutionViewSet(ModelViewSet):
 
         if "partner" in user_data['groups_label']:
 
-            return self.queryset.filter(
-                referall_to__id=user.id)
-        
+            return self.queryset.filter(referall_to__id=user.id)
+
         if "focalpoint" in user_data['groups_label']:
 
-            return self.queryset.filter(
-                created_by__id=user.id)
+            return self.queryset.filter(created_by__id=user.id)
 
         return self.queryset
 
@@ -65,6 +64,8 @@ class ForwardingInstitutionViewSet(ModelViewSet):
         page = self.paginate_queryset(self.get_queryset_list(request.user))
         serializer = self.serializer_class(page, many=True)
         return self.get_paginated_response(serializer.data)
+
+
 class LvFormViewSet(ModelViewSet):
 
     queryset = LvForm.objects.all().order_by('-id')
@@ -99,7 +100,9 @@ class LvFormViewSet(ModelViewSet):
 
         if "operator" in user_data['groups_label']:
 
-            return self.queryset.filter(created_by__id=user.id).order_by('-id')
+            day_ = timezone.now().day
+            return self.queryset.filter(
+                created_by__id=user.id,datetime_created__day=day_).order_by('-id')
 
         return self.queryset
 
