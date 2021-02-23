@@ -1699,7 +1699,7 @@ export default {
       verbose_name: "category",
       verbose_name_plural: "categorys",
     },
-    category: {
+    operator: {
       name: "operator",
       url: "users/0/get_operators",
       list: true,
