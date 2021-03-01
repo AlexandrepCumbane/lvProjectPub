@@ -101,8 +101,10 @@ class LvFormViewSet(ModelViewSet):
         if "operator" in user_data['groups_label']:
 
             day_ = timezone.now().day
+            month_ = timezone.now().month
+            year_ = timezone.now().year
             return self.queryset.filter(
-                created_by__id=user.id,datetime_created__day=day_).order_by('-id')
+                created_by__id=user.id,datetime_created__day=day_, datetime_created__month=month_, datetime_created__year=year_).order_by('-id')
 
         return self.queryset
 
