@@ -1550,7 +1550,7 @@ export default {
         },
         {
           name: "text",
-          label: "Text",
+          label: "Article Description",
           type: "text",
         },
         {
@@ -1561,12 +1561,6 @@ export default {
           },
           type: "string",
           "wq:ForeignKey": "category",
-        },
-        {
-          name: "lvform",
-          label: "Lvform",
-          type: "string",
-          "wq:ForeignKey": "lvform",
         },
         {
           name: "language",
@@ -1586,23 +1580,14 @@ export default {
         {
           name: "file",
           label: "File",
-          bind: {
-            required: true,
-          },
+          // bind: {
+          //   required: true,
+          // },
           type: "binary",
         },
         {
           name: "aproved_by",
           label: "Aproved By",
-          bind: {
-            required: true,
-          },
-          type: "string",
-          "wq:ForeignKey": "customuser",
-        },
-        {
-          name: "assigned_to",
-          label: "Assigned To",
           bind: {
             required: true,
           },
@@ -1663,21 +1648,6 @@ export default {
             },
           ],
           type: "select one",
-        },
-        {
-          name: "updated_by",
-          label: "Updated By",
-          type: "string",
-          "wq:ForeignKey": "customuser",
-        },
-        {
-          name: "created_by",
-          label: "Created By",
-          bind: {
-            required: true,
-          },
-          type: "string",
-          "wq:ForeignKey": "customuser",
         },
       ],
       verbose_name: "article",

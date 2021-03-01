@@ -1,3 +1,4 @@
+from accounts.models import ClusterSector
 from lv_form.models import LvForm
 from django.db import models
 from django.conf import settings
@@ -15,12 +16,12 @@ class Category(models.Model):
 
 
 class Article(models.Model):
-    title = models.CharField(max_length=100, unique=True)
+    title = models.CharField(max_length=250, unique=True)
     text = models.TextField(default="")
     category = models.ForeignKey(
-        Category, on_delete=models.CASCADE, related_name="posts"
+        ClusterSector, on_delete=models.CASCADE, related_name="posts"
     )
-    lvform = models.ForeignKey(LvForm, on_delete=models.SET_NULL, null=True, blank=True)
+
     language = models.CharField(
         choices=(("pt", "Portuguese"), ("en", "English")),
         null=True,
@@ -34,11 +35,6 @@ class Article(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name="posts_aprovers",
-    )
-    assigned_to = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name="posts_assignment",
     )
 
     published_date = models.DateField(auto_now=False, null=True)
