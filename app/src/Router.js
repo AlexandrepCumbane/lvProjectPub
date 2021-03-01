@@ -174,6 +174,19 @@ class AppRouter extends React.Component {
           />
           <AppRoute
             exact
+            path="/articles"
+            // component={AppList}
+            component={(props) => (
+              <Information
+                {...props}
+                title="Knowledge Base"
+                path="information"
+                url="informations"
+              />
+            )}
+          />
+          <AppRoute
+            exact
             path="/users"
             // component={AppList}
             component={(props) => (
@@ -185,19 +198,7 @@ class AppRouter extends React.Component {
               />
             )}
           />
-          <AppRoute
-            exact
-            path="/articles"
-            // component={AppList}
-            component={(props) => (
-              <AppListView
-                {...props}
-                title="Posts"
-                path="article"
-                url="articles"
-              />
-            )}
-          />
+         
           <AppRoute
             path="/customusers/new"
             component={(props) => (

@@ -1,52 +1,93 @@
-import React from "react"
-import { Card, CardBody, FormGroup, Input, Row, Col } from "reactstrap"
-import { Search } from "react-feather"
-import KnowledgeCards from "./KnowledgeCards"
+import React from "react";
+import { Card, CardBody, FormGroup, Input, Row, Col } from "reactstrap";
+import { Search } from "react-feather";
+import KnowledgeCards from "./KnowledgeCards";
+import classnames from "classnames";
+
+// import { ContextLayout } from "../../utility/context/Layout";
+import ArticleView from "./ArticleView";
+import "../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
+import "../../assets/scss/pages/users.scss";
+import "../../assets/scss/pages/data-list.scss";
 
 class KnowledgeBaseMain extends React.Component {
   state = {
-    value: ""
-  }
+    value: "",
+    edit: false,
+    data: {},
+  };
 
-  onChange = event => {
-    let searchText = event.target.value.toLowerCase()
+  onChange = (event) => {
+    let searchText = event.target.value.toLowerCase();
     this.setState({
-      value: searchText
-    })
-  }
+      value: searchText,
+    });
+  };
+
+  handleSidebar = (value, prev) => {
+    this.setState({ edit: value });
+  };
+
+  fillSidebar = (data, show) => {
+    this.setState({ data, edit: true });
+  };
+
   render() {
+    const { edit, data } = this.state;
     return (
-      <Row>
-        <Col sm="12">
-          <Card className="knowledge-base-bg">
-            <CardBody>
-              <h1 className="white">Dedicated Source Used on Website</h1>
-              <p className="mb-2 white">
-                Bonbon sesame snaps lemon drops marshmallow ice cream carrot
-                cake croissant wafer.
-              </p>
-              <form>
-                <FormGroup className="position-relative has-icon-left mb-0">
-                  <Input
-                    type="text"
-                    placeholder="Search a topic or a keyword"
-                    bsSize="lg"
-                    value={this.state.value}
-                    onChange={this.onChange}
-                  />
-                  <div className="form-control-position">
-                    <Search size={14} />
-                  </div>
-                </FormGroup>
-              </form>
-            </CardBody>
-          </Card>
-        </Col>
-        <Col sm="12">
-          <KnowledgeCards value={this.state.value} />
-        </Col>
-      </Row>
-    )
+      <React.Fragment>
+        <div className={`data-list thumb-view"`}>
+          {this.state.edit ? (
+            <ArticleView
+              handleSidebar={this.handleSidebar}
+              show={edit}
+              data={data}
+            />
+          ) : (
+            <div />
+          )}
+          <div
+            className={classnames("data-list-overlay", {
+              show: this.state.edit,
+            })}
+          ></div>
+        </div>
+        <Row className="overflow-hidden agGrid-card rounded-0">
+          <Col sm="12">
+            <Card className="knowledge-base-bg rounded-0">
+              <CardBody>
+                <h1 className="white">Dedicated Source Used on Website</h1>
+                <p className="mb-2 white">
+                  Bonbon sesame snaps lemon drops marshmallow ice cream carrot
+                  cake croissant wafer.
+                </p>
+                <form>
+                  <FormGroup className="position-relative has-icon-left mb-0">
+                    <Input
+                      className="rounded-0"
+                      type="text"
+                      placeholder="Search a topic or a keyword"
+                      bsSize="lg"
+                      value={this.state.value}
+                      onChange={this.onChange}
+                    />
+                    <div className="form-control-position">
+                      <Search size={14} />
+                    </div>
+                  </FormGroup>
+                </form>
+              </CardBody>
+            </Card>
+          </Col>
+          <Col sm="12">
+            <KnowledgeCards
+              value={this.state.value}
+              fillSidebar={this.fillSidebar}
+            />
+          </Col>
+        </Row>
+      </React.Fragment>
+    );
   }
 }
-export default KnowledgeBaseMain
+export default KnowledgeBaseMain;

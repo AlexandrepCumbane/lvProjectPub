@@ -126,8 +126,9 @@ class Create extends React.Component {
 
     switch (field.type) {
       case "text":
+        const size = field.name === "text" ? 12 : 6;
         res = (
-          <Col md="6" key={field.name}>
+          <Col md={size} key={field.name}>
             {/* <Label>{this.translate(field.label)}</Label> */}
             {this.renderLabel(field)}
             <FormGroup className="form-label-group position-relative has-icon-left">
@@ -154,8 +155,9 @@ class Create extends React.Component {
                 className="square"
                 placeholder={this.translate(field.label)}
                 onChange={(e) => {
-                  console.log(e.target.files[0])
-                  this.updateState(field.name, e.target.files[0])}}
+                  console.log(e.target.files[0]);
+                  this.updateState(field.name, e.target.files[0]);
+                }}
               />
             </FormGroup>
           </Col>
@@ -512,7 +514,6 @@ class Create extends React.Component {
    */
   handleSubmit = () => {
     const { userOauth } = this.props.state.auth.login;
-
     if (this.state.required_fields.length > 0) {
       this.notifyErrorBounce("Fill all required inputs");
       this.setState({ isValid: false });
