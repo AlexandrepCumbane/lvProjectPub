@@ -82,7 +82,12 @@ class Home extends React.Component {
     return (
       <Row>
         <Col lg="3" md="3" className="text-center align-middle">
-          <DailyCases />
+          <SimpleAnalipticCard
+            icon={<Phone className="text-success" size={15} />}
+            stat="0"
+            statTitle={this.translate("Daily cases")}
+            type="area"
+          />
         </Col>
         <Col lg="3" md="3" className="text-center align-middle">
           <SimpleAnalipticCard
