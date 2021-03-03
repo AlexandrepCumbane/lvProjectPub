@@ -144,6 +144,8 @@ export default {
     "Technical problems": "Problemas técnicos",
     "Person with disability": "Pessoa com dificiência",
     "Child headed household": "Família chefiada por criança",
+    "Children Protection":"Proteção Infantil",
+    "Social Protection":"Proteção Social",
     "Single parent": "Pais solteiros",
     "Pregnant or lactating woman": "Mulher gravida ou lactente",
     "Elderly head of household": "Família chefiada por idosos",
@@ -378,5 +380,7 @@ export default {
     Article: "Artigo",
     Portuguese: "Português",
     English: "Inglês",
+    "Article Description": "Descrição do artigo",
+    article: "Artigo",
   },
 };

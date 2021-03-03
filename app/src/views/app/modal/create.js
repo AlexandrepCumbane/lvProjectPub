@@ -42,7 +42,7 @@ class Create extends React.Component {
 
   multipleSelect = (list) =>
     list.map((item) => {
-      return { value: item.id, label: item.label, color: "#4287f5" };
+      return { value: item.id, label: this.translate(item.label), color: "#4287f5" };
     });
 
   state = {
@@ -86,15 +86,21 @@ class Create extends React.Component {
     let res = [];
     if (field.has_parent) {
       res = this.state.childrens[field["wq:ForeignKey"]].filter((item) => {
-        return Number(item.id) === Number(value);
+        return Number(item.id) === Number(value.value);
       });
+      childrens[field.children] = res[0][`${field.children}`];
+      this.setState({ childrens });
+  
     } else {
-      res = this.state.dropdowns[field["wq:ForeignKey"]].filter((item) => {
-        return Number(item.id) === Number(value);
+      res = this.props.app_reducer.dropdowns[field["wq:ForeignKey"]].filter((item) => {
+        return Number(item.id) === Number(value.value);
       });
+      
+      childrens[field.children] = res[0][`${field.children}`];
+      this.setState({ childrens });
+      
     }
-    childrens[field.children] = res[0][`${field.children}`];
-    this.setState({ childrens });
+
   };
 
   render() {

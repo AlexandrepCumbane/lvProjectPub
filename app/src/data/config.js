@@ -1560,7 +1560,7 @@ export default {
             required: true,
           },
           type: "string",
-          "wq:ForeignKey": "category",
+          "wq:ForeignKey": "clustersector",
         },
         {
           name: "language",

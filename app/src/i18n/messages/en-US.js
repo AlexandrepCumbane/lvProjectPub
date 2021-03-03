@@ -111,6 +111,7 @@ export default {
     false: "No",
     true: "Yes",
     "Case Close Category" : "How it ended?",
-    "Is Closed": "Case closed?"
+    "Is Closed": "Case closed?",
+    article: "Article",
   },
 };
