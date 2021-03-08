@@ -10,6 +10,7 @@ spec:
   - hosts:
     - backend.lv-staging.robobo.org
     - backend.linha1458.moz.wfp.org	
+    - dev.linha1458.moz.wfp.org	
     secretName: linhaverde-staging-tls-secret
   rules:
     - host: backend.lv-staging.robobo.org
@@ -24,5 +25,12 @@ spec:
           paths:
             - backend:
                 serviceName: lv-chart
+                servicePort: 80
+              path: /
+    - host: dev.linha1458.moz.wfp.org	
+      http:
+          paths:
+            - backend:
+                serviceName: lv-staging-chart-lv-chart
                 servicePort: 80
               path: /
