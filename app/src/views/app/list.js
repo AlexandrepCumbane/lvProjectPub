@@ -68,6 +68,34 @@ class List extends Component {
       });
   };
 
+  requestParams = (start, end) => {
+    this.setState({
+      data: this.props.app_reducer[this.props.path]?.list ?? [],
+      show: true,
+      isLoading: true,
+    });
+    return this.props
+      .requestForm({
+        url: `${this.props.url}/?start=${start}&end=${end}`,
+        name: this.props.name ?? this.props.path,
+        next: false,
+      })
+      .then(() => {
+        this.setState({
+          data: this.props.app_reducer[this.props.name ?? this.props.path].list,
+          page: this.props.path,
+          pageTitle: `${this.props.title}`,
+          isLoading: false,
+        });
+
+        if (this.props.app_reducer[this.props.name ?? this.props.path]?.next)
+          return true;
+        else return false;
+      });
+  };
+
+
+
   getSpecificields = () => {
     let form = [];
 
@@ -372,6 +400,7 @@ class List extends Component {
 
         {this.state.show ? (
           <AgGridTable
+            requestParams={this.requestParams}
             requestMore={this.requestMore}
             loading={this.state.isLoading}
             data={this.state.data}

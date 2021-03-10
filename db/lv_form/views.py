@@ -1,18 +1,11 @@
 from django.utils import timezone
-from accounts.serializer import CustomUserFullSerializer
-from django.shortcuts import render
 from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework import status
-from wq.db.patterns import serializers
-from django.contrib.auth.models import User
-
 from wq.db.rest.views import ModelViewSet
+
+from accounts.serializer import CustomUserFullSerializer
 from .models import ForwardCaseToFocalpoint, ForwardingInstitution, LvForm, Task
-from .serializers import ForwardCaseToFocalpointSerializer, ForwardingInstitutionSerializer, LvFormSerializer, TaskFullSerializer, TaskSerializer
-
-# Create your views here.
-
+from .serializers import ForwardCaseToFocalpointSerializer, ForwardingInstitutionSerializer, LvFormSerializer, TaskFullSerializer
+from .utils import filter_queryset_date
 
 class ForwardCaseToFocalpointViewSet(ModelViewSet):
 
@@ -28,9 +21,10 @@ class ForwardCaseToFocalpointViewSet(ModelViewSet):
 
         if "focalpoint" in user_data['groups_label']:
 
-            return self.queryset.filter(focalpoint__id=user.id)
+            qs = self.queryset.filter(focalpoint__id=user.id)
+            return filter_queryset_date(request=self.request, queryset=qs)
 
-        return self.queryset
+        return filter_queryset_date(request=self.request, queryset=self.queryset)
 
     def list(self, request, *args, **kwargs):
         page = self.paginate_queryset(self.get_queryset_list(request.user))
@@ -52,15 +46,18 @@ class ForwardingInstitutionViewSet(ModelViewSet):
 
         if "partner" in user_data['groups_label']:
 
-            return self.queryset.filter(referall_to__id=user.id)
+            qs = self.queryset.filter(referall_to__id=user.id)
+            return filter_queryset_date(request=self.request, queryset=qs)
 
         if "focalpoint" in user_data['groups_label']:
 
-            return self.queryset.filter(created_by__id=user.id)
+            qs = self.queryset.filter(created_by__id=user.id)
+            return filter_queryset_date(request=self.request, queryset=qs)
 
-        return self.queryset
+        return filter_queryset_date(request=self.request, queryset=self.request)
 
     def list(self, request, *args, **kwargs):
+
         page = self.paginate_queryset(self.get_queryset_list(request.user))
         serializer = self.serializer_class(page, many=True)
         return self.get_paginated_response(serializer.data)
@@ -86,7 +83,7 @@ class LvFormViewSet(ModelViewSet):
             lv_forms = LvForm.objects.filter(
                 forwardcasetofocalpoint__in=fowarded_results).order_by('-id')
 
-            return lv_forms
+            return filter_queryset_date(request=self.request, queryset=lv_forms)
 
         if "partner" in user_data['groups_label']:
 
@@ -96,7 +93,7 @@ class LvFormViewSet(ModelViewSet):
             lv_forms = LvForm.objects.filter(
                 forwardinginstitution__in=fowarded_results).order_by('-id')
 
-            return lv_forms
+            return filter_queryset_date(request=self.request, queryset=lv_forms)
 
         if "operator" in user_data['groups_label']:
 
@@ -105,13 +102,13 @@ class LvFormViewSet(ModelViewSet):
             year_ = timezone.now().year
             return self.queryset.filter(
                 created_by__id=user.id,datetime_created__day=day_, datetime_created__month=month_, datetime_created__year=year_).order_by('-id')
-
-        return self.queryset
+        
+        return filter_queryset_date(request=self.request, queryset=self.queryset) 
 
     def get_queryset_fowarded(self, user) -> list:
         """
             This method filter LvForms records from relative user groups/roles 
-        """
+        """        
 
         user_data = CustomUserFullSerializer(user).data
 
@@ -147,7 +144,7 @@ class LvFormViewSet(ModelViewSet):
 
         return self.queryset
 
-    def list(self, request, *args, **kwargs):
+    def list(self, request, *args, **kwargs):        
         page = self.paginate_queryset(self.get_queryset_list(request.user))
         serializer = self.serializer_class(page, many=True)
         return self.get_paginated_response(serializer.data)
@@ -173,13 +170,14 @@ class TaskViewSet(ModelViewSet):
 
         if "manager" in user_data['groups_label']:
 
-            return self.queryset
+            return filter_queryset_date(request=self.request, queryset=self.queryset)
 
         if "operator" in user_data['groups_label']:
             
-            return self.queryset.filter(assignee__id=user.id).exclude(task_status='3')
+            qs = self.queryset.filter(assignee__id=user.id).exclude(task_status='3')
+            return filter_queryset_date(request=self.request, queryset=qs)
 
-        return self.queryset
+        return filter_queryset_date(request=self.request, queryset=self.queryset)
 
     def list(self, request, *args, **kwargs):
         page = self.paginate_queryset(self.get_queryset_list(request.user))

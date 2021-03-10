@@ -382,5 +382,11 @@ export default {
     English: "Inglês",
     "Article Description": "Descrição do artigo",
     article: "Artigo",
+    "Search": "Pesquisar",
+    "From": "De",
+    "To": "A",
+    "Restore Columns": "Restaurar Colunas",
+    "Export Selected": "Exportar Selecionados",
+    "New Record": "Novo Registo",
   },
 };

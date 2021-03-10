@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  Badge,
   Col,
   Row,
   Input,
@@ -9,8 +8,6 @@ import {
   Button,
   CustomInput,
   Label,
-  ListGroup,
-  ListGroupItem,
   Spinner,
 } from "reactstrap";
 
@@ -21,9 +18,6 @@ import {
 } from "../../redux/actions/app/actions";
 
 import { axios } from "../../redux/api";
-
-// import Modal from "./modal/create";
-// import ListModal from "./modal/list";
 
 import { X, Check, Cloud } from "react-feather";
 import PerfectScrollbar from "react-perfect-scrollbar";
@@ -36,7 +30,6 @@ import { IntlContext } from "../../i18n/provider";
 import config from "../../data/config";
 
 import Checkbox from "../../components/@vuexy/checkbox/CheckboxesVuexy";
-import { Link } from "react-router-dom";
 class Edit extends Component {
   static contextType = IntlContext;
   translate = this.context.translate;
@@ -191,8 +184,6 @@ class Edit extends Component {
 
   renderActions = () => {
     const userRole = this.props.user;
-    let { data } = this.props;
-
     let element = <p>No actions Provived</p>;
 
     switch (userRole) {

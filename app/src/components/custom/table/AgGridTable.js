@@ -3,11 +3,18 @@ import { AgGridReact } from "ag-grid-react";
 import classnames from "classnames";
 import { Edit, ChevronDown, List } from "react-feather";
 import { ContextLayout } from "../../../utility/context/Layout";
+import {
+  Button,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+} from "reactstrap";
+import { Search } from "react-feather";
 
 import {
   Card,
   CardBody,
-  Input,
   UncontrolledDropdown,
   DropdownMenu,
   DropdownItem,
@@ -59,6 +66,8 @@ class AggridTable extends React.Component {
         headerCheckboxSelection: true,
       },
     ],
+    start: "",
+    end: "",
   };
 
   componentDidMount() {
@@ -346,9 +355,64 @@ class AggridTable extends React.Component {
                   </div>
                   {this.renderLoading()}
                   <div className="d-flex flex-wrap justify-content-between mb-1">
+                    <div className="table-input mr-1 rounded-0">
+                      <InputGroup className="rounded-0">
+                        <InputGroupAddon
+                          className="rounded-0"
+                          color="primary"
+                          addonType="prepend"
+                        >
+                          <InputGroupText className="rounded-0">
+                          {this.translate("From")}
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          className="rounded-0"
+                          onChange={(e) =>
+                            this.setState({ start: e.target.value })
+                          }
+                          type="date"
+                        />
+                      </InputGroup>
+                    </div>
+                    <div className="table-input mr-1 rounded-0">
+                      <InputGroup className="rounded-0">
+                        <InputGroupAddon
+                          className="rounded-0"
+                          addonType="prepend"
+                        >
+                          <InputGroupText className="rounded-0">
+                            {this.translate("To")}
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          className="rounded-0"
+                          onChange={(e) =>
+                            this.setState({ end: e.target.value })
+                          }
+                          type="date"
+                        />
+                      </InputGroup>
+                    </div>
+                    <div className="table-input mr-5">
+                      <Button.Ripple
+                        className="btn-icon rounded-circle"
+                        color="primary"
+                        onClick={() => {
+                          if (this.state.end !== "" && this.state.start !== "")
+                            this.props.requestParams(
+                              `${this.state.start} 00:00:00`,
+                              `${this.state.end} 23:59:59`
+                            );
+                        }}
+                      >
+                        <Search size={18} color="white" />
+                      </Button.Ripple>
+                    </div>
                     <div className="table-input mr-1">
                       <Input
-                        placeholder="search..."
+                        placeholder={`${this.translate("Search")}...`}
+                        className="rounded-0"
                         onChange={(e) => this.updateSearchQuery(e.target.value)}
                         value={this.state.value}
                       />
@@ -367,7 +431,7 @@ class AggridTable extends React.Component {
                               history.push(`${this.props.tableType}s/new`)
                             }
                           >
-                            Create Record
+                            {this.translate("New Record")}
                           </DropdownItem>
                           <DropdownItem
                             tag="div"
@@ -377,7 +441,7 @@ class AggridTable extends React.Component {
                               })
                             }
                           >
-                            Export Select
+                            {this.translate("Export Selected")}
                           </DropdownItem>
                           <DropdownItem
                             tag="div"
@@ -395,7 +459,8 @@ class AggridTable extends React.Component {
                               });
                             }}
                           >
-                            Restore Columns
+                           
+                            {this.translate("Restore Columns")}
                           </DropdownItem>
                         </DropdownMenu>
                       </UncontrolledDropdown>

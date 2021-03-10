@@ -23,12 +23,12 @@ export const handleForm = (dispatch, payload) =>
 
     let appList = [];
 
-    let url = `/${payload.url}.json/`;
+    let url = `/${payload.url}`;
     if (payload.next) {
       const postData = appState.app.app_reducer[payload.name];
       if (postData.page + 1 <= postData.pages) {
         appList = postData?.list;
-        url = `${payload.url}.json/?page=${postData.page + 1}`;
+        url = `${payload.url}/?page=${postData.page + 1}`;
       } else {
         hasPer = false;
       }
