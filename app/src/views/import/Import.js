@@ -11,7 +11,7 @@ import {
   Button,
 } from "reactstrap";
 import XLSX from "xlsx";
-import { DownloadCloud, Search } from "react-feather";
+import { DownloadCloud } from "react-feather";
 import { useDropzone } from "react-dropzone";
 import { toast, ToastContainer } from "react-toastify";
 

@@ -1,13 +1,5 @@
 export default {
   pages: {
-    login: {
-      url: "login",
-      name: "login",
-    },
-    logout: {
-      url: "logout",
-      name: "logout",
-    },
     forwardinginstitution: {
       name: "forwardinginstitution",
       url: "forwardinginstitutions",
@@ -258,44 +250,7 @@ export default {
       ],
       verbose_name: "province",
       verbose_name_plural: "provinces",
-    },
-    permission: {
-      cache: "all",
-      name: "permission",
-      url: "permissions",
-      list: true,
-      form: [
-        {
-          name: "name",
-          label: "Name",
-          bind: {
-            required: true,
-          },
-          "wq:length": 255,
-          type: "string",
-        },
-        {
-          name: "content_type",
-          label: "Content Type",
-          bind: {
-            required: true,
-          },
-          type: "string",
-          "wq:ForeignKey": "contenttype",
-        },
-        {
-          name: "codename",
-          label: "Codename",
-          bind: {
-            required: true,
-          },
-          "wq:length": 100,
-          type: "string",
-        },
-      ],
-      verbose_name: "permission",
-      verbose_name_plural: "permissions",
-    },
+    }, 
     lvform: {
       name: "lvform",
       url: "lvforms",
@@ -1001,26 +956,7 @@ export default {
       ],
       verbose_name: "taskcomment",
       verbose_name_plural: "taskcomments",
-    },
-    locationtype: {
-      cache: "all",
-      name: "locationtype",
-      url: "locationtypes",
-      list: true,
-      form: [
-        {
-          name: "name",
-          label: "Name",
-          bind: {
-            required: true,
-          },
-          "wq:length": 20,
-          type: "string",
-        },
-      ],
-      verbose_name: "location type",
-      verbose_name_plural: "location types",
-    },
+    }, 
     subcategoryissue: {
       name: "subcategoryissue",
       url: "subcategoryissues",
@@ -1435,35 +1371,7 @@ export default {
       ],
       verbose_name: "forward case to focalpoint",
       verbose_name_plural: "forward case to focalpoints",
-    },
-    contenttype: {
-      cache: "all",
-      name: "contenttype",
-      url: "contenttypes",
-      list: true,
-      form: [
-        {
-          name: "app_label",
-          label: "App Label",
-          bind: {
-            required: true,
-          },
-          "wq:length": 100,
-          type: "string",
-        },
-        {
-          name: "model",
-          label: "Python model class name",
-          bind: {
-            required: true,
-          },
-          "wq:length": 100,
-          type: "string",
-        },
-      ],
-      verbose_name: "content type",
-      verbose_name_plural: "content types",
-    },
+    }, 
     location: {
       cache: "all",
       name: "location",
@@ -1519,7 +1427,6 @@ export default {
       verbose_name: "location",
       verbose_name_plural: "locations",
     },
-
     partners: {
       name: "partner",
       url: "users/0/get_partners",
@@ -1580,9 +1487,9 @@ export default {
         {
           name: "file",
           label: "File",
-          // bind: {
-          //   required: true,
-          // },
+          bind: {
+            required: true,
+          },
           type: "binary",
         },
         {

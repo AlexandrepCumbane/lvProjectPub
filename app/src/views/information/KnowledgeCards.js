@@ -1,15 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Card, CardBody, Row, Col } from "reactstrap";
-import { Link } from "react-router-dom";
-// import { data } from "./cardData";
 import img1 from "../../assets/img/pages/graphic-1.png";
 
 import {
   requestDropodowns,
   requestForm,
 } from "../../redux/actions/app/actions";
+
+import { IntlContext } from "../../i18n/provider";
 class KnowledgeCards extends React.Component {
+  static contextType = IntlContext;
+  translate = this.context.translate;
   state = {
     data: [],
   };
@@ -32,7 +34,9 @@ class KnowledgeCards extends React.Component {
 
   renderCards = () => {
     const { data } = this.state;
+
     let result = data.map((item) => {
+      console.log(item.title.includes(this.props.value));
       if (this.props.value.length < 1) {
         return (
           <Col
@@ -52,18 +56,30 @@ class KnowledgeCards extends React.Component {
                     width="180"
                   />
                   <h4>{item.title.toUpperCase()}</h4>
-                  <small className="text-dark">{item.category_label}</small>
+                  <small className="text-dark">
+                    {this.translate(item.category_label)}
+                  </small>
                 </div>
               </CardBody>
             </Card>
           </Col>
         );
-      } else if (item.title.includes(this.props.value)) {
+      } else if (
+        item.title
+          .toLocaleLowerCase()
+          .includes(this.props.value.toLocaleLowerCase())
+      ) {
         return (
-          <Col md="4" sm="6" className="search-content rounded-0" key={item.id}>
+          <Col
+            md="4"
+            onClick={() => this.props.fillSidebar(item, true)}
+            sm="6"
+            className="search-content rounded-0"
+            key={item.id}
+          >
             <Card className="rounded-0">
               <CardBody className="text-center">
-                <Link to="/pages/knowledge-base/category">
+                <div>
                   <img
                     src={img1}
                     alt={item.title}
@@ -71,8 +87,10 @@ class KnowledgeCards extends React.Component {
                     width="180"
                   />
                   <h4>{item.title.toUpperCase()}</h4>
-                  <small className="text-dark">{item.text}</small>
-                </Link>
+                  <small className="text-dark">
+                    {this.translate(item.category_label)}
+                  </small>
+                </div>
               </CardBody>
             </Card>
           </Col>

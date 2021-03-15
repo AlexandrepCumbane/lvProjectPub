@@ -9,8 +9,12 @@ import ArticleView from "./ArticleView";
 import "../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../assets/scss/pages/users.scss";
 import "../../assets/scss/pages/data-list.scss";
+import { IntlContext } from "../../i18n/provider";
 
 class KnowledgeBaseMain extends React.Component {
+  static contextType = IntlContext;
+  translate = this.context.translate;
+
   state = {
     value: "",
     edit: false,
@@ -56,17 +60,20 @@ class KnowledgeBaseMain extends React.Component {
           <Col sm="12">
             <Card className="knowledge-base-bg rounded-0">
               <CardBody>
-                <h1 className="white">Dedicated Source Used on Website</h1>
+                <h1 className="white">
+                  {this.translate("Dedicated Source Used on Website")}
+                </h1>
                 <p className="mb-2 white">
-                  Bonbon sesame snaps lemon drops marshmallow ice cream carrot
-                  cake croissant wafer.
+                  {this.translate(
+                    "You can find any content by searching for the keyword"
+                  )}
                 </p>
                 <form>
                   <FormGroup className="position-relative has-icon-left mb-0">
                     <Input
                       className="rounded-0"
                       type="text"
-                      placeholder="Search a topic or a keyword"
+                      placeholder={this.translate('Search a topic or a keyword')}
                       bsSize="lg"
                       value={this.state.value}
                       onChange={this.onChange}
