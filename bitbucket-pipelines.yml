@@ -7,7 +7,7 @@ image: node:10.15.3
 
 pipelines:
   branches:
-    staging:
+    '{staging, dev,feature/*}':
       - step:
           name: Build and Test
           deployment: Staging
@@ -41,7 +41,7 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
                 AWS_DEFAULT_REGION: 'eu-west-1'
                 DISTRIBUTION_ID: "E1C66NRLMEV1RM"
-    '{master,dev,feature/*}':
+    '{master}':
       - step:
           name: Build and Test
           caches:
