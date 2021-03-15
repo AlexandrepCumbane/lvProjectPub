@@ -16,6 +16,8 @@ import Logout from "./views/pages/authentication/logout/Logout";
 // Route-based code splitting
 const Home = lazy(() => import("./views/pages/Home"));
 
+const Import = lazy(() => import("./views/import/Import"));
+
 const Welcome = lazy(() => import("./views/pages/Welcome"));
 
 const AppCreate = lazy(() => import("./views/app/create"));
@@ -79,6 +81,7 @@ class AppRouter extends React.Component {
           <AppRoute exact path="/" component={Login} fullLayout />
           <AppRoute exact path="/welcome" component={Welcome} fullLayout />
           <AppRoute exact path="/home" component={Home} />
+          <AppRoute exact path="/import" component={Import} />
           <AppRoute
             exact
             path="/lvforms"

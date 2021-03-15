@@ -252,6 +252,66 @@ class AggridTable extends React.Component {
     }
   };
 
+  renderFilters = () => {
+    let element = (
+      <div className="d-flex flex-wrap">
+        <div className="table-input mr-1 rounded-0">
+          <InputGroup className="rounded-0">
+            <InputGroupAddon
+              className="rounded-0 text-primary"
+              color="primary"
+              addonType="prepend"
+            >
+              <InputGroupText className={`rounded-0`}>
+                {this.translate("From")}
+              </InputGroupText>
+            </InputGroupAddon>
+            <Input
+              className={`rounded-0`}
+              onChange={(e) => this.setState({ start: e.target.value })}
+              type="date"
+            />
+          </InputGroup>
+        </div>
+        <div className="table-input mr-1 rounded-0">
+          <InputGroup className="rounded-0">
+            <InputGroupAddon className="rounded-0" addonType="prepend">
+              <InputGroupText className="rounded-0">
+                {this.translate("To")}
+              </InputGroupText>
+            </InputGroupAddon>
+            <Input
+              className="rounded-0"
+              onChange={(e) => this.setState({ end: e.target.value })}
+              type="date"
+            />
+          </InputGroup>
+        </div>
+        <div className="table-input mr-5">
+          <Button.Ripple
+            className="btn-icon rounded-circle"
+            color="primary"
+            onClick={() => {
+              if (this.state.end !== "" && this.state.start !== "")
+                this.props.requestParams(
+                  `${this.state.start} 00:00:00`,
+                  `${this.state.end} 23:59:59`
+                );
+            }}
+          >
+            <Search size={18} color="white" />
+          </Button.Ripple>
+        </div>
+      </div>
+    );
+
+    if (this.props.tableType === "customuser") {
+      element = <></>;
+    }
+
+    return element;
+  };
+
   render() {
     const {
       rowData,
@@ -346,69 +406,17 @@ class AggridTable extends React.Component {
                         </DropdownItem>
                         <DropdownItem
                           tag="div"
-                          onClick={() => this.filterSize(134)}
+                          onClick={() => this.filterSize(130)}
                         >
-                          134
+                          130
                         </DropdownItem>
                       </DropdownMenu>
                     </UncontrolledDropdown>
                   </div>
                   {this.renderLoading()}
                   <div className="d-flex flex-wrap justify-content-between mb-1">
-                    <div className="table-input mr-1 rounded-0">
-                      <InputGroup className="rounded-0">
-                        <InputGroupAddon
-                          className="rounded-0"
-                          color="primary"
-                          addonType="prepend"
-                        >
-                          <InputGroupText className="rounded-0">
-                          {this.translate("From")}
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input
-                          className="rounded-0"
-                          onChange={(e) =>
-                            this.setState({ start: e.target.value })
-                          }
-                          type="date"
-                        />
-                      </InputGroup>
-                    </div>
-                    <div className="table-input mr-1 rounded-0">
-                      <InputGroup className="rounded-0">
-                        <InputGroupAddon
-                          className="rounded-0"
-                          addonType="prepend"
-                        >
-                          <InputGroupText className="rounded-0">
-                            {this.translate("To")}
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input
-                          className="rounded-0"
-                          onChange={(e) =>
-                            this.setState({ end: e.target.value })
-                          }
-                          type="date"
-                        />
-                      </InputGroup>
-                    </div>
-                    <div className="table-input mr-5">
-                      <Button.Ripple
-                        className="btn-icon rounded-circle"
-                        color="primary"
-                        onClick={() => {
-                          if (this.state.end !== "" && this.state.start !== "")
-                            this.props.requestParams(
-                              `${this.state.start} 00:00:00`,
-                              `${this.state.end} 23:59:59`
-                            );
-                        }}
-                      >
-                        <Search size={18} color="white" />
-                      </Button.Ripple>
-                    </div>
+                    {this.renderFilters()}
+
                     <div className="table-input mr-1">
                       <Input
                         placeholder={`${this.translate("Search")}...`}
@@ -459,7 +467,6 @@ class AggridTable extends React.Component {
                               });
                             }}
                           >
-                           
                             {this.translate("Restore Columns")}
                           </DropdownItem>
                         </DropdownMenu>

@@ -1,3 +1,5 @@
+from rest_framework.response import Response
+from rest_framework import status
 from django.utils import timezone
 from rest_framework.decorators import action
 from wq.db.rest.views import ModelViewSet
@@ -5,7 +7,7 @@ from wq.db.rest.views import ModelViewSet
 from accounts.serializer import CustomUserFullSerializer
 from .models import ForwardCaseToFocalpoint, ForwardingInstitution, LvForm, Task
 from .serializers import ForwardCaseToFocalpointSerializer, ForwardingInstitutionSerializer, LvFormSerializer, TaskFullSerializer
-from .utils import filter_queryset_date
+from .utils import filter_queryset_date, map_case_fields
 
 class ForwardCaseToFocalpointViewSet(ModelViewSet):
 
@@ -154,6 +156,14 @@ class LvFormViewSet(ModelViewSet):
         page = self.paginate_queryset(self.get_queryset_fowarded(request.user))
         serializer = self.serializer_class(page, many=True)
         return self.get_paginated_response(serializer.data)
+
+    @action(detail=True, methods=['post'])
+    def import_cases(self, request, *args, **kwargs):
+
+        template_cases = request.data
+        case_list = map_case_fields(template_cases)
+        # return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 class TaskViewSet(ModelViewSet):
