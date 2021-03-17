@@ -33,10 +33,6 @@ class Home extends React.Component {
     locale: LOCALES.PORTUGUESE,
   };
 
-  componentDidMount() {
-    console.log(this.props.state);
-  }
-
   render() {
     return (
       <div>
@@ -99,7 +95,6 @@ class Home extends React.Component {
         <Col lg="3" md="3" className="text-center align-middle">
           <AnnualCases userInfo={this.props.userInfo} />
         </Col>
-        
       </Row>
     );
   };
@@ -241,7 +236,7 @@ function mapStateToProps(state) {
     config: state.auth.login.config,
     userRole: state.auth.login.userRole,
     app_reducer: state.app.app_reducer,
-    userInfo: state.auth.login.userInfo,
+    userInfo: state.auth.login.userOauth.profile.sub,
   };
 }
 

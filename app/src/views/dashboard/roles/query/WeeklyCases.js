@@ -4,7 +4,7 @@ import SimpleAnalipticCard from "../../../../components/custom/statisticCards/Ca
 import { Cloud } from "react-feather";
 import { IntlContext } from "../../../../i18n";
 
-const CASES_BY_AGE = (id) => gql`
+const QUERY = (id) => gql`
 {
   weeklyCases(id: "${id}"){
       dcount,
@@ -14,7 +14,7 @@ const CASES_BY_AGE = (id) => gql`
 `;
 
 export function WeeklyCases(props) {
-  const { loading, error, data } = useQuery(CASES_BY_AGE(props.userInfo.id));
+  const { loading, error, data } = useQuery(QUERY(props.userInfo ?? ""));
   const context = useContext(IntlContext);
 
   if (loading) return <p>Loading...</p>;

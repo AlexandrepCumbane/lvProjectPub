@@ -74,7 +74,7 @@ export default {
     "Green Line 1458": "Linha Verde 1458",
     "User role not provided": "Função do usuário não fornecida",
     "Dashboard & Analytics": "Painel e análise",
-    Dashboard: "Painél",
+    Dashboard: "Painel",
     "Total Cases Registered": "Total de Casos Registados",
     "Total Feedback Provided": "Feedback total fornecido",
     "CLIENTE PROFILE BY GENDER": "PERFIL DO CLIENTE POR GÊNERO",

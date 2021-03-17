@@ -1,11 +1,4 @@
 from django.utils import timezone
-from django.db.models.functions import (
-    ExtractDay,
-    ExtractMonth,
-    ExtractWeek,
-    ExtractYear,
-)
-
 from django.db.models import Count
 import graphene
 from graphene.types.objecttype import ObjectType
@@ -150,26 +143,28 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
 
     def resolve_daily_cases(root, info, id):
         day = timezone.now().day
+        month = timezone.now().month
         daily_cases = LvForm.objects.filter(datetime_created__day=day,
-                                            created_by__id=id).count()
+                                            datetime_created__month=month,
+                                            created_by__email=id).count()
         return {"dcount": daily_cases, "name": "daily_cases"}
 
     def resolve_weekly_cases(root, info, id):
         week = timezone.now().isocalendar()[1]
         weekly_cases = LvForm.objects.filter(datetime_created__week=week,
-                                             created_by__id=id).count()
-        return {"dcount": weekly_cases, "name": "weekly_cases"}
+                                             created_by__email=id)
+        return {"dcount": weekly_cases.count(), "name": "weekly_cases"}
 
     def resolve_monthly_cases(root, info, id):
         month = timezone.now().month
-        monthly_cases = LvForm.objects.filter(datetime_created__month=month,
-                                              created_by__id=id).count()
-        return {"dcount": monthly_cases, "name": "monthly_cases"}
+        monthly_cases = LvForm.objects.filter(created_by__email=id,
+                                              datetime_created__month=month)
+        return {"dcount": monthly_cases.count(), "name": "monthly_cases"}
 
     def resolve_annual_cases(root, info, id):
         year = timezone.now().year
         annual_cases = LvForm.objects.filter(datetime_created__year=year,
-                                             created_by__id=id).count()
+                                             created_by__email=id).count()
         return {"dcount": annual_cases, "name": "annual_cases"}
 
 
