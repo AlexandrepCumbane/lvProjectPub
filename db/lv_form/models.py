@@ -223,6 +223,7 @@ class LvForm(models.Model):
         ),
         max_length=50,
         verbose_name="Case priority",
+        default="Medium"
     )
     lvform_status = models.CharField(choices=(
         ("Not started", "Not started"),
@@ -233,7 +234,7 @@ class LvForm(models.Model):
                                      null=True,
                                      blank=True,
                                      verbose_name="Status",
-                                     default="1")
+                                     default="Not started")
     is_closed = models.BooleanField(
         default=False,
         verbose_name="Case Closed",
