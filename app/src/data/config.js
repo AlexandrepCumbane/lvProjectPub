@@ -5,89 +5,89 @@ export default {
       url: "forwardinginstitutions",
       list: true,
       form: [
-          {
-            name: "lvform",
-            label: "Lvform",
-            bind: {
-              required: true,
+        {
+          name: "lvform",
+          label: "Lvform",
+          bind: {
+            required: true,
+          },
+          type: "string",
+          "wq:ForeignKey": "lvform",
+        },
+        {
+          name: "partner_feedback",
+          label: "Partner Feedback",
+          type: "text",
+        },
+        {
+          name: "task_feedback",
+          label: "Focal Point Notes",
+          type: "text",
+        },
+        {
+          name: "has_feedback",
+          label: "Has Feedback",
+          choices: [
+            {
+              name: true,
+              label: "Yes",
             },
-            type: "string",
-            "wq:ForeignKey": "lvform",
-          },
-          {
-            name: "partner_feedback",
-            label: "Partner Feedback",
-            type: "text",
-          },
-          {
-            name: "task_feedback",
-            label: "Focal Point Notes",
-            type: "text",
-          },
-          {
-            name: "has_feedback",
-            label: "Has Feedback",
-            choices: [
-              {
-                name: true,
-                label: "Yes",
-              },
-              {
-                name: false,
-                label: "No",
-              },
-            ],
-            type: "select one",
-            has_boolean_options: true,
-          },
-          {
-            name: "isFeedback_aproved",
-            label: "Isfeedback Aproved",
-            choices: [
-              {
-                name: true,
-                label: "Yes",
-              },
-              {
-                name: false,
-                label: "No",
-              },
-            ],
-            type: "select one",
-            has_boolean_options: true,
-          },
-          {
-            name: "cluster_sector",
-            label: "Sector",
-            type: "string",
-            "wq:ForeignKey": "clustersector",
-            children: "cluster_agency",
-          },
-          {
-            name: "cluster_agency",
-            label: "Agency",
-            type: "string",
-            "wq:ForeignKey": "cluster_agency",
-            children: "cluster_region",
-            has_parent: true,
-          },
-          {
-            name: "cluster_region",
-            label: "Region",
-            type: "string",
-            "wq:ForeignKey": "cluster_region",
-            children: "partners",
-            has_parent: true,
-          },
-          {
-            name: "referall_to",
-            label: "Referral to",
-            hint: "User",
-            type: "string",
-            "wq:ForeignKey": "partners",
-            has_parent: true,
-          },
-        ],
+            {
+              name: false,
+              label: "No",
+            },
+          ],
+          type: "select one",
+          has_boolean_options: true,
+        },
+        {
+          name: "isFeedback_aproved",
+          label: "Isfeedback Aproved",
+          choices: [
+            {
+              name: true,
+              label: "Yes",
+            },
+            {
+              name: false,
+              label: "No",
+            },
+          ],
+          type: "select one",
+          has_boolean_options: true,
+        },
+        {
+          name: "cluster_sector",
+          label: "Sector",
+          type: "string",
+          "wq:ForeignKey": "clustersector",
+          children: "cluster_agency",
+        },
+        {
+          name: "cluster_agency",
+          label: "Agency",
+          type: "string",
+          "wq:ForeignKey": "cluster_agency",
+          children: "cluster_region",
+          has_parent: true,
+        },
+        {
+          name: "cluster_region",
+          label: "Region",
+          type: "string",
+          "wq:ForeignKey": "cluster_region",
+          children: "partners",
+          has_parent: true,
+        },
+        {
+          name: "referall_to",
+          label: "Referral to",
+          hint: "User",
+          type: "string",
+          "wq:ForeignKey": "partners",
+          has_parent: true,
+        },
+      ],
       verbose_name: "forwardinginstitution",
       verbose_name_plural: "forwardinginstitutions",
     },
@@ -250,7 +250,7 @@ export default {
       ],
       verbose_name: "province",
       verbose_name_plural: "provinces",
-    }, 
+    },
     lvform: {
       name: "lvform",
       url: "lvforms",
@@ -321,27 +321,27 @@ export default {
           label: "Who is contacting",
           choices: [
             {
-              name: "1",
+              name: "Beneficiary",
               label: "Beneficiary",
             },
             {
-              name: "2",
+              name: "Representative of beneficiary",
               label: "Representative of beneficiary",
             },
             {
-              name: "3",
+              name: "Non beneficiary",
               label: "Non beneficiary",
             },
             {
-              name: "4",
+              name: "Community leader",
               label: "Community leader",
             },
             {
-              name: "5",
+              name: "Humanitarian partner",
               label: "Humanitarian partner",
             },
             {
-              name: "6",
+              name: "Other",
               label: "Other",
             },
           ],
@@ -379,19 +379,19 @@ export default {
           },
           choices: [
             {
-              name: "1",
+              name: "17 and below",
               label: "17 and below",
             },
             {
-              name: "2",
+              name: "18 - 59",
               label: "18 - 59",
             },
             {
-              name: "3",
+              name: "60 and above",
               label: "60 and above",
             },
             {
-              name: "4",
+              name: "Not disclosed",
               label: "Not disclosed",
             },
           ],
@@ -447,35 +447,35 @@ export default {
           hint: "Transfer modality",
           choices: [
             {
-              name: "1",
+              name: "Food",
               label: "Food",
             },
             {
-              name: "2",
+              name: "Value voucher",
               label: "Value voucher",
             },
             {
-              name: "3",
+              name: "Money",
               label: "Money",
             },
             {
-              name: "4",
+              name: "Commodity voucher",
               label: "Commodity voucher",
             },
             {
-              name: "5",
+              name: "NFI",
               label: "Non-food Items",
             },
             {
-              name: "6",
+              name: "Not relevant",
               label: "Not relevant",
             },
             {
-              name: "7",
+              name: "FFA",
               label: "FFA",
             },
             {
-              name: "8",
+              name: "School feeding",
               label: "School feeding",
             },
           ],
@@ -487,15 +487,15 @@ export default {
           hint: "Accommodation or resettlement centre",
           choices: [
             {
-              name: "1",
+              name: "Yes",
               label: "Yes",
             },
             {
-              name: "2",
+              name: "No",
               label: "No",
             },
             {
-              name: "3",
+              name: "Not relevant",
               label: "Not relevant",
             },
           ],
@@ -539,11 +539,11 @@ export default {
           hint: "Person not receiving",
           choices: [
             {
-              name: "1",
+              name: "Individual",
               label: "Individual",
             },
             {
-              name: "2",
+              name: "Community",
               label: "Community",
             },
           ],
@@ -559,19 +559,19 @@ export default {
           hint: "LBL_Individual committing malpractice",
           choices: [
             {
-              name: "1",
+              name: "Local Leader",
               label: "Local Leader",
             },
             {
-              name: "2",
+              name: "Community Member",
               label: "Community Member",
             },
             {
-              name: "3",
+              name: "Humanitarian actor",
               label: "Humanitarian actor",
             },
             {
-              name: "4",
+              name: "Unknown",
               label: "Unknown",
             },
           ],
@@ -589,59 +589,59 @@ export default {
           },
           choices: [
             {
-              name: "1",
+              name: "Shelter",
               label: "Shelter",
             },
             {
-              name: "2",
+              name: "WASH",
               label: "WASH",
             },
             {
-              name: "3",
+              name: "Education",
               label: "Education",
             },
             {
-              name: "4",
+              name: "Food Security",
               label: "Food Security",
             },
             {
-              name: "5",
+              name: "Health",
               label: "Health",
             },
             {
-              name: "6",
+              name: "Child Protection",
               label: "Child Protection",
             },
             {
-              name: "7",
+              name: "Gender-based violence",
               label: "Gender-based violence",
             },
             {
-              name: "8",
+              name: "PSEA",
               label: "Protection from Sexual Exploitation and Abuse",
             },
             {
-              name: "9",
+              name: "Protection",
               label: "Protection",
             },
             {
-              name: "10",
+              name: "CCCM",
               label: "CCCM",
             },
             {
-              name: "12",
+              name: "INGD",
               label: "INGD",
             },
             {
-              name: "13",
+              name: "IDP Registration",
               label: "IDP Registration",
             },
             {
-              name: "14",
+              name: "Social Protection/INAS",
               label: "Social Protection/INAS",
             },
             {
-              name: "15",
+              name: "Other",
               label: "Other",
             },
           ],
@@ -656,35 +656,35 @@ export default {
           hint: "Vulnerability",
           choices: [
             {
-              name: "1",
+              name: "Person with disability",
               label: "Person with disability",
             },
             {
-              name: "2",
+              name: "Child headed household",
               label: "Child headed household",
             },
             {
-              name: "3",
+              name: "Single parent",
               label: "Single parent",
             },
             {
-              name: "4",
+              name: "Pregnant or lactating woman",
               label: "Pregnant or lactating woman",
             },
             {
-              name: "5",
+              name: "Elderly head of household",
               label: "Elderly head of household",
             },
             {
-              name: "6",
+              name: "Chronic patient",
               label: "Chronic patient",
             },
             {
-              name: "7",
+              name: "None",
               label: "None",
             },
             {
-              name: "8",
+              name: "Other",
               label: "Other",
             },
           ],
@@ -711,15 +711,15 @@ export default {
           },
           choices: [
             {
-              name: "1",
+              name: "Medium",
               label: "Medium",
             },
             {
-              name: "2",
+              name: "High",
               label: "High",
             },
             {
-              name: "3",
+              name: "Low",
               label: "Low",
             },
           ],
@@ -730,15 +730,15 @@ export default {
           label: "Status",
           choices: [
             {
-              name: "1",
+              name: "Not started",
               label: "Not started",
             },
             {
-              name: "2",
+              name: "In Progress",
               label: "In Progress",
             },
             {
-              name: "3",
+              name: "Closed",
               label: "Closed",
             },
           ],
@@ -765,11 +765,11 @@ export default {
           label: "Case Close Category",
           choices: [
             {
-              name: "1",
+              name: "With Feedback",
               label: "With Feedback",
             },
             {
-              name: "2",
+              name: "Without Feedback",
               label: "Without Feedback",
             },
           ],
@@ -782,35 +782,35 @@ export default {
           hint: "How did they contact us?",
           choices: [
             {
-              name: "1",
+              name: "Linha verde (own phone)",
               label: "Linha verde (own phone)",
             },
             {
-              name: "2",
+              name: "Linha verde (borrowed phone)",
               label: "Linha verde (borrowed phone)",
             },
             {
-              name: "3",
+              name: "WFP hotline (own phone)",
               label: "WFP hotline (own phone)",
             },
             {
-              name: "4",
+              name: "WFP hotline (borrowed phone)",
               label: "WFP hotline (borrowed phone)",
             },
             {
-              name: "5",
+              name: "Helpdesk",
               label: "Helpdesk",
             },
             {
-              name: "6",
+              name: "SMS",
               label: "SMS",
             },
             {
-              name: "7",
+              name: "Email",
               label: "Email",
             },
             {
-              name: "8",
+              name: "Suggestion box",
               label: "Suggestion box",
             },
           ],
@@ -822,27 +822,27 @@ export default {
           hint: "How did you hear about linha verde?",
           choices: [
             {
-              name: "1",
+              name: "Radio",
               label: "Radio",
             },
             {
-              name: "2",
+              name: "Pamphlet",
               label: "Pamphlet",
             },
             {
-              name: "3",
+              name: "People working in the community",
               label: "People working in the community",
             },
             {
-              name: "4",
+              name: "SMS",
               label: "SMS",
             },
             {
-              name: "5",
+              name: "Posters or other visibility material",
               label: "Posters or other visibility material",
             },
             {
-              name: "6",
+              name: "Suggestion box",
               label: "Suggestion box",
             },
           ],
@@ -854,12 +854,12 @@ export default {
           hint: "How would you like to be contacted?",
           choices: [
             {
-              name: "1",
+              name: "Same phone",
               label: "Same phone",
             },
             {
-              name: "2",
-              label: "Other phone ",
+              name: "Other phone",
+              label: "Other phone",
             },
           ],
           type: "select one",
@@ -956,7 +956,7 @@ export default {
       ],
       verbose_name: "taskcomment",
       verbose_name_plural: "taskcomments",
-    }, 
+    },
     subcategoryissue: {
       name: "subcategoryissue",
       url: "subcategoryissues",
@@ -1223,11 +1223,11 @@ export default {
           label: "Task Title",
           choices: [
             {
-              name: "1",
+              name: "Request for information",
               label: "Request for information",
             },
             {
-              name: "2",
+              name: "Send Feedback",
               label: "Send Feedback",
             },
           ],
@@ -1371,7 +1371,7 @@ export default {
       ],
       verbose_name: "forward case to focalpoint",
       verbose_name_plural: "forward case to focalpoints",
-    }, 
+    },
     location: {
       cache: "all",
       name: "location",
@@ -1580,7 +1580,7 @@ export default {
       name: "operator",
       url: "users/0/get_operators",
       list: true,
-    }
+    },
   },
   debug: true,
 };
