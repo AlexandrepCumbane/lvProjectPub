@@ -39,8 +39,9 @@ class Edit extends Component {
   static contextType = IntlContext;
   translate = this.context.translate;
   notifySuccessBounce = () =>
-    toast.success(`Transaction completed successfuly!`, { transition: Bounce });
-
+    toast.success(this.translate(`Transaction completed successfuly!`), {
+      transition: Bounce,
+    });
   notifyErrorBounce = (error) =>
     toast.error(error, {
       transition: Bounce,
@@ -227,7 +228,9 @@ class Edit extends Component {
           return (
             <ListGroupItem onClick={() => this.raiseListData(item)}>
               <div className="d-flex justify-content-between w-100 align-items-center">
-                <h5 className="mb-1">{ this.translate(item.task_title_label)}</h5>
+                <h5 className="mb-1">
+                  {this.translate(item.task_title_label)}
+                </h5>
                 {badge}
               </div>
               <p className="mb-1">{item.description} </p>
@@ -604,7 +607,7 @@ class Edit extends Component {
                     }
                   }}
                 >
-                  <option>{this.translate('Select')}</option>
+                  <option>{this.translate("Select")}</option>
                   {field["has_parent"] === undefined
                     ? this.renderSelectOptionForeignWQ(
                         this.getForeignFieldDropdown(field["wq:ForeignKey"])
@@ -920,7 +923,7 @@ class Edit extends Component {
         })
         .catch((error) => {
           this.setState({ isProcessing: false });
-          this.notifyErrorBounce("Unable to complete transaction.");
+          this.notifyErrorBounce("Failed to save Object.");
         });
     } else {
       this.setState({ edit_status: true });
