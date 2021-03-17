@@ -225,11 +225,11 @@ class LvForm(models.Model):
         verbose_name="Case priority",
     )
     lvform_status = models.CharField(choices=(
-        ("1", "Not started"),
-        ("2", "In Progress"),
-        ("3", "Closed"),
+        ("Not started", "Not started"),
+        ("In Progress", "In Progress"),
+        ("Closed", "Closed"),
     ),
-                                     max_length=1,
+                                     max_length=100,
                                      null=True,
                                      blank=True,
                                      verbose_name="Status",
