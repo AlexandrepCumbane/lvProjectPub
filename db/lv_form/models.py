@@ -302,13 +302,13 @@ class LvForm(models.Model):
     )
     call_feedback = models.CharField(
         choices=(
-            ("1", "Very satisfied"),
-            ("2", "Satisfied"),
-            ("3", "Neutral"),
-            ("4", "Unsatisfied"),
-            ("5", "Very unsatisfied"),
+            ("Very satisfied", "Very satisfied"),
+            ("Satisfied", "Satisfied"),
+            ("Neutral", "Neutral"),
+            ("Unsatisfied", "Unsatisfied"),
+            ("Very unsatisfied", "Very unsatisfied"),
         ),
-        max_length=1,
+        max_length=20,
         null=True,
         blank=True,
         verbose_name="How do you feel you issue was managed during this call?",
