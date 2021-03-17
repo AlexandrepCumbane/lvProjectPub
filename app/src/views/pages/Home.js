@@ -1,10 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Row, Col } from "reactstrap";
-import { Phone } from "react-feather";
 import * as Icons from "react-feather";
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
-import SimpleAnalipticCard from "../../components/custom/statisticCards/Card";
 import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
 import { LOCALES } from "../../i18n/index";
 import { IntlContext } from "../../i18n/provider";
