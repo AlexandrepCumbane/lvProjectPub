@@ -6,6 +6,7 @@ class ArticleSerializer(patterns.AttachedModelSerializer):
     class Meta:
         model = Article
         fields = '__all__'
+        ordering = ['-id']
         read_only_fields = ('created_by', )
 
     def create(self, validated_data):
