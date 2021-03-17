@@ -141,7 +141,6 @@ class LvForm(models.Model):
         blank=True,
         on_delete=models.CASCADE,
         verbose_name="Sub-category",
-        
     )
     subcategory_issue = models.ForeignKey(
         'case_tipology.SubCategoryIssue',
@@ -241,7 +240,6 @@ class LvForm(models.Model):
         help_text="Case is closed",
         null=True,
         blank=True,
-        
     )
     case_close_category = models.CharField(
         choices=(
@@ -255,16 +253,16 @@ class LvForm(models.Model):
     )
     means_of_communication = models.CharField(
         choices=(
-            ("1", "Linha verde (own phone)"),
-            ("2", "Linha verde (borrowed phone)"),
-            ("3", "WFP hotline (own phone)"),
-            ("4", "WFP hotline (borrowed phone)"),
-            ("5", "Helpdesk"),
-            ("6", "SMS"),
-            ("7", "Email"),
-            ("8", "Suggestion box"),
+            ("Linha verde (own phone)", "Linha verde (own phone)"),
+            ("Linha verde (borrowed phone)", "Linha verde (borrowed phone)"),
+            ("WFP hotline (own phone)", "WFP hotline (own phone)"),
+            ("WFP hotline (borrowed phone)", "WFP hotline (borrowed phone)"),
+            ("Helpdesk", "Helpdesk"),
+            ("SMS", "SMS"),
+            ("Email", "Email"),
+            ("Suggestion box", "Suggestion box"),
         ),
-        max_length=1,
+        max_length=150,
         null=True,
         blank=True,
         verbose_name="How did they contact us?",
@@ -449,7 +447,7 @@ class ForwardingInstitution(models.Model):
         blank=True,
         verbose_name="Cluster Region",
     )
-    
+
     referall_to = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -627,7 +625,7 @@ class ForwardCaseToFocalpoint(models.Model):
         LvForm,
         on_delete=models.CASCADE,
     )
-    
+
     cluster_sector = models.ForeignKey(
         ClusterSector,
         on_delete=models.CASCADE,
@@ -656,7 +654,7 @@ class ForwardCaseToFocalpoint(models.Model):
         verbose_name="Focal Point",
         help_text="User",
     )
-    
+
     datetime_created = models.DateTimeField(
         null=True,
         blank=True,
