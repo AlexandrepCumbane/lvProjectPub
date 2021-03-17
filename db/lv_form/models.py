@@ -270,14 +270,14 @@ class LvForm(models.Model):
     )
     how_knows_lv = models.CharField(
         choices=(
-            ("1", "Radio"),
-            ("2", "Pamphlet"),
-            ("3", "People working in the community"),
-            ("4", "SMS"),
-            ("5", "Posters or other visibility material"),
-            ("6", "Suggestion box"),
+            ("Radio", "Radio"),
+            ("Pamphlet", "Pamphlet"),
+            ("People working in the community", "People working in the community"),
+            ("SMS", "SMS"),
+            ("Posters or other visibility material", "Posters or other visibility material"),
+            ("Suggestion box", "Suggestion box"),
         ),
-        max_length=1,
+        max_length=50,
         null=True,
         blank=True,
         verbose_name="How did you hear about linha verde?",
