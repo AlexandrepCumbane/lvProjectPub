@@ -285,10 +285,10 @@ class LvForm(models.Model):
     )
     how_callback = models.CharField(
         choices=(
-            ("1", "Same phone"),
-            ("2", "Other phone "),
+            ("Same phone", "Same phone"),
+            ("Other phone", "Other phone"),
         ),
-        max_length=1,
+        max_length=20,
         null=True,
         blank=True,
         verbose_name="How would you like to be contacted?",
