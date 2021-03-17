@@ -90,6 +90,12 @@ const requestSingle = (dispatch) => {
     if (
       item.name !== "logout" &&
       item.name !== "login" &&
+      item.name !== "article" &&
+      item.name !== "forwardinginstitution" &&
+      item.name !== "forwardcasetofocalpoint" &&
+      item.name !== "task" &&
+      item.name !== "lvform" &&
+      item.name !== "article" &&
       item.url !== undefined
     ) {
       if (dropdowns[item.name] === undefined) {
@@ -116,9 +122,9 @@ const requestSingle = (dispatch) => {
                   return getUser(dispatch);
                 })
                 .catch(() => {
-                  authService.logout().then(() => {
-                    authService.login();
-                  });
+                  // authService.logout().then(() => {
+                  //   authService.login();
+                  // });
                 });
               return response;
             });
