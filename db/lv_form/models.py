@@ -243,10 +243,10 @@ class LvForm(models.Model):
     )
     case_close_category = models.CharField(
         choices=(
-            ("1", "With Feedback"),
-            ("2", "Without Feedback"),
+            ("With Feedback", "With Feedback"),
+            ("Without Feedback", "Without Feedback"),
         ),
-        max_length=1,
+        max_length=100,
         null=True,
         blank=True,
         verbose_name="Case close category",
