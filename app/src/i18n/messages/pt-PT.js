@@ -366,7 +366,7 @@ export default {
     "Edit Task": "Editar Tarefa",
     "Task Priority": "Prioridade da Tarefa",
     "Categories & Articles": "Categorias & Artigos",
-    "Categories": "Categorias",
+    Categories: "Categorias",
     "Published Date": "Data de Publicação",
     "Expiration Date": "Data de validade",
     Published: "Publicado",
@@ -393,5 +393,9 @@ export default {
     "You can find any content by searching for the keyword":
       "Pode encontrar qualquer conteúdo pesquisando a palavra-chave",
     "Search a topic or a keyword": "Pesquise um tópico ou uma palavra-chave",
+    "Daily Cases": "Casos do Dia",
+    "Weekly Cases": "Casos da Semana",
+    "Monthly Cases": "Casos do Mês",
+    "Annual Cases": "Casos do Ano",
   },
 };

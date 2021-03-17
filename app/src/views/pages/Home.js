@@ -8,7 +8,11 @@ import SimpleAnalipticCard from "../../components/custom/statisticCards/Card";
 import StatisticsCard from "../../components/@vuexy/statisticsCard/StatisticsCard";
 import { LOCALES } from "../../i18n/index";
 import { IntlContext } from "../../i18n/provider";
-import { DailyCases } from "../dashboard/roles/query/TotalCases";
+import { AllCases } from "../dashboard/roles/query/TotalCases";
+import { DailyCases } from "../dashboard/roles/query/DailyCases";
+import { WeeklyCases } from "../dashboard/roles/query/WeeklyCases";
+import { MonthlyCases } from "../dashboard/roles/query/MonthlyCases";
+import { AnnualCases } from "../dashboard/roles/query/AnnualCases";
 import { ReferallCases } from "../dashboard/roles/query/TotalReferall";
 import { FeedbackCases } from "../dashboard/roles/query/TotalReferallFeedback";
 import { NotReferallCases } from "../dashboard/roles/query/TotalNotReferall";
@@ -29,7 +33,9 @@ class Home extends React.Component {
     locale: LOCALES.PORTUGUESE,
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    console.log(this.props.state);
+  }
 
   render() {
     return (
@@ -82,38 +88,18 @@ class Home extends React.Component {
     return (
       <Row>
         <Col lg="3" md="3" className="text-center align-middle">
-          <SimpleAnalipticCard
-            icon={<Phone className="text-success" size={15} />}
-            stat="0"
-            statTitle={this.translate("Daily cases")}
-            type="area"
-          />
+          <DailyCases userInfo={this.props.userInfo} />
         </Col>
         <Col lg="3" md="3" className="text-center align-middle">
-          <SimpleAnalipticCard
-            icon={<Phone className="text-success" size={15} />}
-            stat="0"
-            statTitle={this.translate("Week cases")}
-            type="area"
-          />
+          <WeeklyCases userInfo={this.props.userInfo} />
         </Col>
         <Col lg="3" md="3" className="text-center align-middle">
-          <SimpleAnalipticCard
-            icon={<Phone className="text-danger" size={15} />}
-            stat="0"
-            statTitle={this.translate("Month cases")}
-            type="area"
-          />
+          <MonthlyCases userInfo={this.props.userInfo} />
         </Col>
-
         <Col lg="3" md="3" className="text-center align-middle">
-          <SimpleAnalipticCard
-            icon={<Phone className="text-warning" size={15} />}
-            stat="0"
-            statTitle={this.translate("Year cases")}
-            type="area"
-          />
+          <AnnualCases userInfo={this.props.userInfo} />
         </Col>
+        
       </Row>
     );
   };
@@ -122,7 +108,7 @@ class Home extends React.Component {
     return (
       <Row>
         <Col lg="3" md="3" className="text-center align-middle">
-          <DailyCases />
+          <AllCases />
         </Col>
         <Col lg="3" md="3" className="text-center align-middle">
           <ReferallCases />
@@ -255,6 +241,7 @@ function mapStateToProps(state) {
     config: state.auth.login.config,
     userRole: state.auth.login.userRole,
     app_reducer: state.app.app_reducer,
+    userInfo: state.auth.login.userInfo,
   };
 }
 

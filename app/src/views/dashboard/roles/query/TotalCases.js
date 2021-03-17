@@ -12,7 +12,7 @@ const CASES_BY_AGE = gql`
   }
 `;
 
-export function DailyCases() {
+export function AllCases() {
   const { loading, error, data } = useQuery(CASES_BY_AGE);
   const context = useContext(IntlContext);
 

@@ -61,8 +61,11 @@ class HearAboutType(ObjectType):
 class CallFeedbackType(ObjectType):
     call_feedback = String()
     dcount = String()
+
+
 class DcountType(ObjectType):
     dcount = String()
+
 
 class CountRegType(ObjectType):
     dcount = String()
@@ -85,10 +88,10 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
     total_lvform_referall_records = graphene.Field(DcountType)
     total_lvform_not_referall_records = graphene.Field(DcountType)
 
-    daily_cases = graphene.Field(CountRegType)
-    weekly_cases = graphene.Field(CountRegType)
-    monthly_cases = graphene.Field(CountRegType)
-    annual_cases = graphene.Field(CountRegType)
+    daily_cases = graphene.Field(CountRegType, id=graphene.String())
+    weekly_cases = graphene.Field(CountRegType, id=graphene.String())
+    monthly_cases = graphene.Field(CountRegType, id=graphene.String())
+    annual_cases = graphene.Field(CountRegType, id=graphene.String())
 
     def resolve_render_some(root, info):
         return LvForm.objects.all()
@@ -145,25 +148,28 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
             ForwardingInstitution.objects.filter(has_feedback=False).count()
         }
 
-
-    def resolve_daily_cases(root, info):
-        day = ExtractDay(timezone.now())
-        daily_cases = LvForm.objects.filter(datetime_created__day=day).count()
+    def resolve_daily_cases(root, info, id):
+        day = timezone.now().day
+        daily_cases = LvForm.objects.filter(datetime_created__day=day,
+                                            created_by__id=id).count()
         return {"dcount": daily_cases, "name": "daily_cases"}
-    
-    def resolve_weekly_cases(root, info):
-        week = ExtractWeek(timezone.now())
-        weekly_cases = LvForm.objects.filter(datetime_created__week=week).count()
+
+    def resolve_weekly_cases(root, info, id):
+        week = timezone.now().isocalendar()[1]
+        weekly_cases = LvForm.objects.filter(datetime_created__week=week,
+                                             created_by__id=id).count()
         return {"dcount": weekly_cases, "name": "weekly_cases"}
 
-    def resolve_monthly_cases(root, info):
-        month = ExtractMonth(timezone.now())
-        monthly_cases = LvForm.objects.filter(datetime_created__month=month).count()
+    def resolve_monthly_cases(root, info, id):
+        month = timezone.now().month
+        monthly_cases = LvForm.objects.filter(datetime_created__month=month,
+                                              created_by__id=id).count()
         return {"dcount": monthly_cases, "name": "monthly_cases"}
 
-    def resolve_annual_cases(root, info):
-        year = ExtractYear(timezone.now())
-        annual_cases = LvForm.objects.filter(datetime_created__year=year).count()
+    def resolve_annual_cases(root, info, id):
+        year = timezone.now().year
+        annual_cases = LvForm.objects.filter(datetime_created__year=year,
+                                             created_by__id=id).count()
         return {"dcount": annual_cases, "name": "annual_cases"}
 
 
