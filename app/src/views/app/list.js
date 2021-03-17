@@ -94,8 +94,6 @@ class List extends Component {
       });
   };
 
-
-
   getSpecificields = () => {
     let form = [];
 
@@ -387,12 +385,16 @@ class List extends Component {
     return (
       <div>
         <Breadcrumbs
-          breadCrumbItems={[
-            {
-              name: this.translate("Add New"), // i18n.t('Add New'),
-              link: `${this.state.page}s/new`,
-            },
-          ]}
+          breadCrumbItems={
+            this.props.hasNew
+              ? [
+                  {
+                    name: this.translate("Add New"), // i18n.t('Add New'),
+                    link: `${this.state.page}s/new`,
+                  },
+                ]
+              : []
+          }
           breadCrumbTitle={this.state.pageTitle}
           breadCrumbParent={this.state.pageParent}
           breadCrumbActive={this.state.activePage}

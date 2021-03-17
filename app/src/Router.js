@@ -89,6 +89,7 @@ class AppRouter extends React.Component {
             component={(props) => (
               <AppListView
                 {...props}
+                hasNew={true}
                 title="Registered Cases"
                 path="lvform"
                 url="lvforms"
@@ -105,6 +106,7 @@ class AppRouter extends React.Component {
                 path="forwardcasetofocalpoint"
                 name="fowarded"
                 url="forwardcasetofocalpoints"
+                hasNew={false}
               />
             )}
           />
@@ -198,6 +200,7 @@ class AppRouter extends React.Component {
                 title="Users"
                 path="customuser"
                 url="users"
+                hasNew={true}
               />
             )}
           />
