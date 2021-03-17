@@ -27,7 +27,7 @@ export function CasesByAge() {
   let datas = [];
 
   data.allCasesAge.forEach((element) => {
-    category.push(choices[element.ageGroup]);
+    category.push(element.ageGroup);
     datas.push(Number(element.dcount));
   });
 
