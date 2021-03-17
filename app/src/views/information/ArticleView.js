@@ -76,7 +76,7 @@ class Edit extends Component {
         this.setState({ childrens });
       }
 
-      if (data[item["wq:ForeignKey"] ? item.name + "_id" : item.name])
+      if (data[item["wq:ForeignKey"] ? item.name + "_id" : item.name] && item.name !== "file")
         formdata.append(
           item["wq:ForeignKey"] ? item.name + "_id" : item.name,
           data[item["wq:ForeignKey"] ? item.name + "_id" : item.name]
