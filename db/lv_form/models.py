@@ -486,10 +486,10 @@ class Task(models.Model):
     )
     task_title = models.CharField(
         choices=(
-            ("1", "Request for information"),
-            ("2", "Send Feedback"),
+            ("Request for information", "Request for information"),
+            ("Send Feedback", "Send Feedback"),
         ),
-        max_length=1,
+        max_length=30,
         null=True,
         blank=True,
         verbose_name="Task Title",
