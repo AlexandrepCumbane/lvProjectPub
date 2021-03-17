@@ -96,16 +96,16 @@ class LvForm(models.Model):
     )
     transfermod = models.CharField(
         choices=(
-            ("1", "Food"),
-            ("2", "Value voucher"),
-            ("3", "Money"),
-            ("4", "Commodity voucher"),
-            ("5", "Non-food Items"),
-            ("6", "Not relevant"),
-            ("7", "FFA"),
-            ("8", "School feeding"),
+            ("Food", "Food"),
+            ("Value voucher", "Value voucher"),
+            ("Money", "Money"),
+            ("Commodity voucher", "Commodity voucher"),
+            ("NFI", "Non-food Items"),
+            ("Not relevant", "Not relevant"),
+            ("FFA", "FFA"),
+            ("School feeding", "School feeding"),
         ),
-        max_length=1,
+        max_length=50,
         null=True,
         blank=True,
         verbose_name="Transfer modality",
@@ -113,11 +113,11 @@ class LvForm(models.Model):
     )
     location_type = models.CharField(
         choices=(
-            ("1", "Yes"),
-            ("2", "No"),
-            ("3", "Not relevant"),
+            ("Yes", "Yes"),
+            ("No", "No"),
+            ("Not relevant", "Not relevant"),
         ),
-        max_length=1,
+        max_length=20,
         null=True,
         blank=True,
         verbose_name="Accommodation or resettlement centre",
@@ -151,10 +151,10 @@ class LvForm(models.Model):
     )
     who_not_receiving = models.CharField(
         choices=(
-            ("1", "Individual"),
-            ("2", "Community"),
+            ("Individual", "Individual"),
+            ("Community", "Community"),
         ),
-        max_length=1,
+        max_length=20,
         null=True,
         blank=True,
         verbose_name="Who is not receiving assistance",
@@ -162,12 +162,12 @@ class LvForm(models.Model):
     )
     individual_commiting_malpractice = models.CharField(
         choices=(
-            ("1", "Local Leader"),
-            ("2", "Community Member"),
-            ("3", "Humanitarian actor"),
-            ("4", "Unknown"),
+            ("Local Leader", "Local Leader"),
+            ("Community Member", "Community Member"),
+            ("Humanitarian actor", "Humanitarian actor"),
+            ("Unknown", "Unknown"),
         ),
-        max_length=1,
+        max_length=100,
         null=True,
         blank=True,
         default="",
