@@ -7,7 +7,6 @@ class ArticleSerializer(patterns.AttachedModelSerializer):
         model = Article
         fields = '__all__'
         read_only_fields = ('created_by', )
-        # exclude = ('created_by',)
 
     def create(self, validated_data):
         form = Article.objects.create(created_by=self.context['request'].user,
