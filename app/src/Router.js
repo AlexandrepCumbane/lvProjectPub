@@ -85,7 +85,6 @@ class AppRouter extends React.Component {
           <AppRoute
             exact
             path="/lvforms"
-            // component={AppList}
             component={(props) => (
               <AppListView
                 {...props}
@@ -139,7 +138,6 @@ class AppRouter extends React.Component {
           <AppRoute
             exact
             path="/forwardinginstitutionspartner"
-            // component={AppList}
             component={(props) => (
               <AppListView
                 {...props}
@@ -159,7 +157,6 @@ class AppRouter extends React.Component {
           <AppRoute
             exact
             path="/tasks"
-            // component={AppList}
             component={(props) => (
               <AppListView {...props} title="Tasks" path="task" url="tasks" />
             )}
@@ -167,7 +164,6 @@ class AppRouter extends React.Component {
           <AppRoute
             exact
             path="/information"
-            // component={AppList}
             component={(props) => (
               <Information
                 {...props}
@@ -180,7 +176,6 @@ class AppRouter extends React.Component {
           <AppRoute
             exact
             path="/articles"
-            // component={AppList}
             component={(props) => (
               <Information
                 {...props}
@@ -193,7 +188,6 @@ class AppRouter extends React.Component {
           <AppRoute
             exact
             path="/users"
-            // component={AppList}
             component={(props) => (
               <AppListView
                 {...props}
@@ -230,7 +224,6 @@ class AppRouter extends React.Component {
           <AppRoute
             exact
             path="/reports"
-            // component={AppList}
             component={(props) => (
               <Reports {...props} title="Reports" path="report" url="reports" />
             )}
@@ -238,7 +231,6 @@ class AppRouter extends React.Component {
           <AppRoute
             exact
             path="/advanced"
-            // component={AppList}
             component={(props) => (
               <AdvancedReports
                 {...props}
@@ -248,8 +240,6 @@ class AppRouter extends React.Component {
               />
             )}
           />
-
-          {/* <AppRoute path="/lvforms" component={Page2} /> */}
           <AppRoute path="/pages/login" component={login} fullLayout />
           <AppRoute path="/logout" component={Logout} fullLayout />
         </Switch>
