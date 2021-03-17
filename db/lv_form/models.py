@@ -51,13 +51,13 @@ class LvForm(models.Model):
     )
     age_group = models.CharField(
         choices=(
-            ("1", "17 and below"),
-            ("2", "18 - 59"),
-            ("3", "60 and above"),
-            ("4", "Not disclosed"),
+            ("17 and below", "17 and below"),
+            ("18 - 59", "18 - 59"),
+            ("60 and above", "60 and above"),
+            ("Not disclosed", "Not disclosed"),
         ),
-        default="4",
-        max_length=1,
+        default="Not disclosed",
+        max_length=20,
         verbose_name="Age",
         help_text="Age",
     )
