@@ -27,16 +27,16 @@ class LvForm(models.Model):
                                   null=True)
     contact_group = models.CharField(
         choices=(
-            ("1", "Beneficiary"),
-            ("2", "Representative of beneficiary"),
-            ("3", "Non beneficiary"),
-            ("4", "Community leader"),
-            ("5", "Humanitarian partner"),
-            ("6", "Other"),
+            ("Beneficiary", "Beneficiary"),
+            ("Representative of beneficiary", "Representative of beneficiary"),
+            ("Non beneficiary", "Non beneficiary"),
+            ("Community leader", "Community leader"),
+            ("Humanitarian partner", "Humanitarian partner"),
+            ("Other", "Other"),
         ),
         null=True,
         blank=True,
-        max_length=1,
+        max_length=50,
         verbose_name="Who is contacting",
     )
     gender = models.CharField(
