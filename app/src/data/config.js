@@ -876,23 +876,23 @@ export default {
           hint: "How do you feel you issue was managed during this call? ",
           choices: [
             {
-              name: "1",
+              name: "Very satisfied",
               label: "Very satisfied",
             },
             {
-              name: "2",
+              name: "Satisfied",
               label: "Satisfied",
             },
             {
-              name: "3",
+              name: "Neutral",
               label: "Neutral",
             },
             {
-              name: "4",
+              name: "Unsatisfied",
               label: "Unsatisfied",
             },
             {
-              name: "5",
+              name: "Very unsatisfied",
               label: "Very unsatisfied",
             },
           ],
