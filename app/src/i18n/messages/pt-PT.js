@@ -242,7 +242,7 @@ export default {
     Diversion: "Desvio",
 
     "Never received assistance": "Nunca recebeu assistência",
-    "How did they contact us?": "Meios de comunicação",
+    "How did they contact us?": "Como está a contactar-nos?",
     "How did you hear about linha verde?":
       "Como teve conhecimento sobre o mecanismo de reclamação e feedback?",
     "How would you like to be contacted?": "Como gostaria de ser contactado?",

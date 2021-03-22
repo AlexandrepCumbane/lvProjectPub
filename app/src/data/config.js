@@ -508,6 +508,73 @@ export default {
           "wq:length": 255,
           type: "string",
         },
+
+        {
+          name: "sector",
+          label: "Sector",
+          bind: {
+            required: true,
+          },
+          choices: [
+            {
+              name: "Shelter",
+              label: "Shelter",
+            },
+            {
+              name: "WASH",
+              label: "WASH",
+            },
+            {
+              name: "Education",
+              label: "Education",
+            },
+            {
+              name: "Food Security",
+              label: "Food Security",
+            },
+            {
+              name: "Health",
+              label: "Health",
+            },
+            {
+              name: "Child Protection",
+              label: "Child Protection",
+            },
+            {
+              name: "Gender-based violence",
+              label: "Gender-based violence",
+            },
+            {
+              name: "PSEA",
+              label: "Protection from Sexual Exploitation and Abuse",
+            },
+            {
+              name: "Protection",
+              label: "Protection",
+            },
+            {
+              name: "CCCM",
+              label: "CCCM",
+            },
+            {
+              name: "INGD",
+              label: "INGD",
+            },
+            {
+              name: "IDP Registration",
+              label: "IDP Registration",
+            },
+            {
+              name: "Social Protection/INAS",
+              label: "Social Protection/INAS",
+            },
+            {
+              name: "Other",
+              label: "Other",
+            },
+          ],
+          type: "select one",
+        },
         {
           name: "category",
           label: "Case category",
@@ -580,72 +647,6 @@ export default {
             field: "subcategory",
             value: ["5", "6", "3"],
           },
-        },
-        {
-          name: "sector",
-          label: "Sector",
-          bind: {
-            required: true,
-          },
-          choices: [
-            {
-              name: "Shelter",
-              label: "Shelter",
-            },
-            {
-              name: "WASH",
-              label: "WASH",
-            },
-            {
-              name: "Education",
-              label: "Education",
-            },
-            {
-              name: "Food Security",
-              label: "Food Security",
-            },
-            {
-              name: "Health",
-              label: "Health",
-            },
-            {
-              name: "Child Protection",
-              label: "Child Protection",
-            },
-            {
-              name: "Gender-based violence",
-              label: "Gender-based violence",
-            },
-            {
-              name: "PSEA",
-              label: "Protection from Sexual Exploitation and Abuse",
-            },
-            {
-              name: "Protection",
-              label: "Protection",
-            },
-            {
-              name: "CCCM",
-              label: "CCCM",
-            },
-            {
-              name: "INGD",
-              label: "INGD",
-            },
-            {
-              name: "IDP Registration",
-              label: "IDP Registration",
-            },
-            {
-              name: "Social Protection/INAS",
-              label: "Social Protection/INAS",
-            },
-            {
-              name: "Other",
-              label: "Other",
-            },
-          ],
-          type: "select one",
         },
         {
           name: "vulnerability",
@@ -725,25 +726,25 @@ export default {
           ],
           type: "select one",
         },
-        {
-          name: "lvform_status",
-          label: "Status",
-          choices: [
-            {
-              name: "Not started",
-              label: "Not started",
-            },
-            {
-              name: "In Progress",
-              label: "In Progress",
-            },
-            {
-              name: "Closed",
-              label: "Closed",
-            },
-          ],
-          type: "select one",
-        },
+        // {
+        //   name: "lvform_status",
+        //   label: "Status",
+        //   choices: [
+        //     {
+        //       name: "Not started",
+        //       label: "Not started",
+        //     },
+        //     {
+        //       name: "In Progress",
+        //       label: "In Progress",
+        //     },
+        //     {
+        //       name: "Closed",
+        //       label: "Closed",
+        //     },
+        //   ],
+        //   type: "select one",
+        // },
         {
           name: "is_closed",
           label: "Is Closed",
@@ -790,28 +791,12 @@ export default {
               label: "Linha verde (borrowed phone)",
             },
             {
-              name: "WFP hotline (own phone)",
-              label: "WFP hotline (own phone)",
-            },
-            {
-              name: "WFP hotline (borrowed phone)",
-              label: "WFP hotline (borrowed phone)",
-            },
-            {
-              name: "Helpdesk",
-              label: "Helpdesk",
-            },
-            {
               name: "SMS",
               label: "SMS",
             },
             {
               name: "Email",
               label: "Email",
-            },
-            {
-              name: "Suggestion box",
-              label: "Suggestion box",
             },
           ],
           type: "select one",

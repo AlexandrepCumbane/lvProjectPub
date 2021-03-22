@@ -110,10 +110,40 @@ class Create extends React.Component {
       this.state.required_fields_labels.includes(field.label)
     ) {
       return (
-        <Label className="text-danger"> * {this.translate(field.label)}</Label>
+        <Label className="text-danger">
+          <strong>* {this.translate(field.label)}</strong>
+        </Label>
       );
     } else {
-      return <Label>{this.translate(field.label)}</Label>;
+      if (field.bind !== undefined) {
+        if (field.bind.required === true) {
+          if (this.state.required_fields_labels.includes(field.label))
+            return (
+              <Label className="text-danger">
+                <strong> * {this.translate(field.label)}</strong>
+              </Label>
+            );
+          else {
+            return (
+              <Label>
+                <strong>* {this.translate(field.label)}</strong>
+              </Label>
+            );
+          }
+        } else {
+          return (
+            <Label>
+              <strong> {this.translate(field.label)}</strong>
+            </Label>
+          );
+        }
+      } else {
+        return (
+          <Label>
+            <strong> {this.translate(field.label)}</strong>
+          </Label>
+        );
+      }
     }
   };
 
@@ -298,7 +328,7 @@ class Create extends React.Component {
                   color="primary"
                   className="my-2"
                   icon={<Check className="vx-icon" size={16} />}
-                  label={this.translate(field.label)}
+                  label={<strong>{this.translate(field.label)}</strong>}
                   defaultChecked={false}
                   onChange={(e) =>
                     this.updateState(
@@ -318,7 +348,7 @@ class Create extends React.Component {
                   color="primary"
                   className="my-2"
                   icon={<Check className="vx-icon" size={16} />}
-                  label={this.translate(field.label)}
+                  label={<strong>{this.translate(field.label)}</strong>}
                   defaultChecked={false}
                   onChange={(e) =>
                     this.updateState(
