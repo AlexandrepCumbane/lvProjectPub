@@ -162,10 +162,6 @@ class List extends Component {
 
     let status = props[`${this.props.path}_status_label`];
 
-    if (props.callcase) {
-      status = props["callcase"][`lvform_status_label`];
-    }
-
     if (this.props.path === "customuser") {
       if (props.is_active) {
         color = "success";
@@ -173,22 +169,37 @@ class List extends Component {
         color = "danger";
       }
     } else {
-      switch (status) {
-        case "Not started":
+      if (props.callcase) {
+        if (props["callcase"].is_closed) {
+          color = "success";
+        } else {
           color = "danger";
-          break;
-        case "In Progress":
-          color = "primary";
-          break;
-        case "Completed":
-          color = "success";
-          break;
-        case "Closed":
-          color = "success";
-          break;
-        default:
-          color = "white";
-          break;
+        }
+      } else {
+        if (this.props.path === "lvform") {
+          if (props.is_closed) {
+            color = "success";
+          } else {
+            color = "danger";
+          }
+        } else
+          switch (status) {
+            case "Not started":
+              color = "danger";
+              break;
+            case "In Progress":
+              color = "primary";
+              break;
+            case "Completed":
+              color = "success";
+              break;
+            case "Closed":
+              color = "success";
+              break;
+            default:
+              color = "white";
+              break;
+          }
       }
     }
     return (
@@ -221,6 +232,8 @@ class List extends Component {
 
     if (props.callcase) {
       status = props["callcase"][`case_priority_label`];
+
+      console.log(status)
     }
 
     if (this.props.path === "customuser") {
@@ -242,6 +255,7 @@ class List extends Component {
           break;
       }
     } else {
+
       switch (status) {
         case "High":
           color = "danger";
