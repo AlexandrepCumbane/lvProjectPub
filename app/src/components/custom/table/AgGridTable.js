@@ -325,6 +325,7 @@ class AggridTable extends React.Component {
         <div className={`data-list thumb-view"`}>
           {showSidebar ? (
             <CaseEdit
+              requestData={this.props.requestData}
               show={this.state.showSidebar}
               data={this.state.selectedData}
               updateData={() => {}}

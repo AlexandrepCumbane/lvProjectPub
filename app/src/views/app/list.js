@@ -233,7 +233,7 @@ class List extends Component {
     if (props.callcase) {
       status = props["callcase"][`case_priority_label`];
 
-      console.log(status)
+      console.log(status);
     }
 
     if (this.props.path === "customuser") {
@@ -255,7 +255,6 @@ class List extends Component {
           break;
       }
     } else {
-
       switch (status) {
         case "High":
           color = "danger";
@@ -416,6 +415,7 @@ class List extends Component {
 
         {this.state.show ? (
           <AgGridTable
+            requestData={this.requestMore}
             requestParams={this.requestParams}
             requestMore={this.requestMore}
             loading={this.state.isLoading}

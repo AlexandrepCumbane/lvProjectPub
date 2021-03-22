@@ -910,11 +910,7 @@ class Edit extends Component {
           },
         })
         .then(({ data }) => {
-          this.props.requestForm({
-            url: "lvforms",
-            name: "lvform",
-          });
-
+          this.props.requestData(false);
           this.notifySuccessBounce(data.id);
 
           setTimeout(() => {
