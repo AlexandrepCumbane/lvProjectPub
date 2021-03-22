@@ -202,6 +202,7 @@ class LvForm(models.Model):
             ("Pregnant or lactating woman", "Pregnant or lactating woman"),
             ("Elderly head of household", "Elderly head of household"),
             ("Chronic patient", "Chronic patient"),
+            ("IDP's", "IDP's"),
             ("None", "None"),
             ("Other", "Other"),
         ),
@@ -215,26 +216,15 @@ class LvForm(models.Model):
         null=True,
         blank=True,
     )
-    case_priority = models.CharField(
-        choices=(
-            ("Medium", "Medium"),
-            ("High", "High"),
-            ("Low", "Low"),
-        ),
-        max_length=50,
-        verbose_name="Case priority",
-        default="Medium"
-    )
-    lvform_status = models.CharField(choices=(
-        ("Not started", "Not started"),
-        ("In Progress", "In Progress"),
-        ("Closed", "Closed"),
+    case_priority = models.CharField(choices=(
+        ("Medium", "Medium"),
+        ("High", "High"),
+        ("Low", "Low"),
     ),
-                                     max_length=100,
-                                     null=True,
-                                     blank=True,
-                                     verbose_name="Status",
-                                     default="Not started")
+                                     max_length=50,
+                                     verbose_name="Case priority",
+                                     default="Medium")
+
     is_closed = models.BooleanField(
         default=False,
         verbose_name="Case Closed",
@@ -256,12 +246,8 @@ class LvForm(models.Model):
         choices=(
             ("Linha verde (own phone)", "Linha verde (own phone)"),
             ("Linha verde (borrowed phone)", "Linha verde (borrowed phone)"),
-            ("WFP hotline (own phone)", "WFP hotline (own phone)"),
-            ("WFP hotline (borrowed phone)", "WFP hotline (borrowed phone)"),
-            ("Helpdesk", "Helpdesk"),
             ("SMS", "SMS"),
             ("Email", "Email"),
-            ("Suggestion box", "Suggestion box"),
         ),
         max_length=150,
         null=True,
@@ -273,9 +259,11 @@ class LvForm(models.Model):
         choices=(
             ("Radio", "Radio"),
             ("Pamphlet", "Pamphlet"),
-            ("People working in the community", "People working in the community"),
+            ("People working in the community",
+             "People working in the community"),
             ("SMS", "SMS"),
-            ("Posters or other visibility material", "Posters or other visibility material"),
+            ("Posters or other visibility material",
+             "Posters or other visibility material"),
             ("Suggestion box", "Suggestion box"),
         ),
         max_length=50,

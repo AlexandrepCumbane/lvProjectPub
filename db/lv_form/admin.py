@@ -26,7 +26,7 @@ admin.site.register(
         'location_type', 'ressetlement_name', 'category', 'subcategory',
         'subcategory_issue', 'who_not_receiving',
         'individual_commiting_malpractice', 'sector', 'vulnerability',
-        'call_notes', 'call_solution', 'case_priority', 'lvform_status',
+        'call_notes', 'call_solution', 'case_priority',
         'is_closed', 'case_close_category', 'means_of_communication',
         'how_knows_lv', 'how_callback', 'other_contact', 'call_feedback',
         'callback_required', 'unavailable_contact', 'datetime_created',

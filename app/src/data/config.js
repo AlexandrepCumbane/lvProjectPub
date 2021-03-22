@@ -681,6 +681,10 @@ export default {
               label: "Chronic patient",
             },
             {
+              name: "IDP's",
+              label: "IDP's",
+            },
+            {
               name: "None",
               label: "None",
             },
@@ -725,26 +729,7 @@ export default {
             },
           ],
           type: "select one",
-        },
-        // {
-        //   name: "lvform_status",
-        //   label: "Status",
-        //   choices: [
-        //     {
-        //       name: "Not started",
-        //       label: "Not started",
-        //     },
-        //     {
-        //       name: "In Progress",
-        //       label: "In Progress",
-        //     },
-        //     {
-        //       name: "Closed",
-        //       label: "Closed",
-        //     },
-        //   ],
-        //   type: "select one",
-        // },
+        }, 
         {
           name: "is_closed",
           label: "Is Closed",
