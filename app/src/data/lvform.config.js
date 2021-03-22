@@ -217,25 +217,6 @@ export const operator = {
       type: "select one",
     },
     {
-      name: "lvform_status",
-      label: "Status",
-      choices: [
-        {
-          name: "1",
-          label: "Not started",
-        },
-        {
-          name: "2",
-          label: "In Progress",
-        },
-        {
-          name: "3",
-          label: "Closed",
-        },
-      ],
-      type: "select one",
-    },
-    {
       name: "contact_group",
       label: "Who is contacting",
       choices: [
@@ -818,25 +799,6 @@ export const partner = {
         {
           name: "3",
           label: "Low",
-        },
-      ],
-      type: "select one",
-    },
-    {
-      name: "lvform_status",
-      label: "Status",
-      choices: [
-        {
-          name: "1",
-          label: "Not started",
-        },
-        {
-          name: "2",
-          label: "In Progress",
-        },
-        {
-          name: "3",
-          label: "Closed",
         },
       ],
       type: "select one",
