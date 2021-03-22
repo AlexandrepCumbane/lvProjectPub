@@ -61,7 +61,6 @@ class Edit extends React.Component {
       );
     });
 
-
     if (
       this.props.user === "partner" &&
       this.props.page === "forwardinginstitution"
@@ -181,9 +180,13 @@ class Edit extends React.Component {
     let res = <></>;
     let { data } = this.props;
 
-
-    
-    if (field.name === "lvform" || field.name ==="cluster_agency" || field.name === "cluster_region" || field.name === "referall_to" || field.name === "cluster_sector") {
+    if (
+      field.name === "lvform" ||
+      field.name === "cluster_agency" ||
+      field.name === "cluster_region" ||
+      field.name === "referall_to" ||
+      field.name === "cluster_sector"
+    ) {
       return <span key={field.name} />;
     }
 
@@ -493,6 +496,8 @@ class Edit extends React.Component {
         })
         .then(({ data }) => {
           this.notifySuccessBounce(data.id);
+
+          if (this.props.requestData) this.props.requestData(false);
           setTimeout(() => {
             this.props.toggleModal();
           }, 1000);

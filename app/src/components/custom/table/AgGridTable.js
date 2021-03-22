@@ -348,6 +348,8 @@ class AggridTable extends React.Component {
               toggleModal={this.handleModal}
               data={this.state.selectedData}
               disabled
+              requestData={this.props.requestData}
+              
             />
           ) : (
             <></>
