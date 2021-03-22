@@ -32,11 +32,17 @@ class KnowledgeCards extends React.Component {
       });
   };
 
+  componentDidUpdate() {
+    if (this.props.loadMore) {
+      this.requestMore();
+      this.props.updateLoadMore();
+    }
+  }
+
   renderCards = () => {
     const { data } = this.state;
 
     let result = data.map((item) => {
-      console.log(item.title.includes(this.props.value));
       if (this.props.value.length < 1) {
         return (
           <Col

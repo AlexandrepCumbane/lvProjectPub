@@ -627,6 +627,10 @@ class Edit extends Component {
           this.notifySuccessBounce(data.id);
 
           setTimeout(() => {
+            
+          if (this.props.updateLoadMore) {
+            this.props.updateLoadMore();
+          }
             handleSidebar(false, true);
           }, 1000);
         })

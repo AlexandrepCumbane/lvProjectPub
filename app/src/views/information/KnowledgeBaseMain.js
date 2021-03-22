@@ -19,6 +19,7 @@ class KnowledgeBaseMain extends React.Component {
     value: "",
     edit: false,
     data: {},
+    loadMore: false,
   };
 
   onChange = (event) => {
@@ -26,6 +27,10 @@ class KnowledgeBaseMain extends React.Component {
     this.setState({
       value: searchText,
     });
+  };
+
+  updateLoadMore = () => {
+    this.setState({ loadMore: !this.state.loadMore });
   };
 
   handleSidebar = (value, prev) => {
@@ -46,6 +51,7 @@ class KnowledgeBaseMain extends React.Component {
               handleSidebar={this.handleSidebar}
               show={edit}
               data={data}
+              updateLoadMore={this.updateLoadMore}
             />
           ) : (
             <div />
@@ -73,7 +79,9 @@ class KnowledgeBaseMain extends React.Component {
                     <Input
                       className="rounded-0"
                       type="text"
-                      placeholder={this.translate('Search a topic or a keyword')}
+                      placeholder={this.translate(
+                        "Search a topic or a keyword"
+                      )}
                       bsSize="lg"
                       value={this.state.value}
                       onChange={this.onChange}
@@ -90,6 +98,8 @@ class KnowledgeBaseMain extends React.Component {
             <KnowledgeCards
               value={this.state.value}
               fillSidebar={this.fillSidebar}
+              loadMore={this.state.loadMore}
+              updateLoadMore={this.updateLoadMore}
             />
           </Col>
         </Row>
