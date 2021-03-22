@@ -238,7 +238,7 @@ class SideMenuContent extends React.Component {
           )}
         </li>
       ) : (
-        <></>
+        <div key={item.id}></div>
       );
 
       if (
