@@ -76,7 +76,10 @@ class Edit extends Component {
         this.setState({ childrens });
       }
 
-      if (data[item["wq:ForeignKey"] ? item.name + "_id" : item.name] && item.name !== "file")
+      if (
+        data[item["wq:ForeignKey"] ? item.name + "_id" : item.name] &&
+        item.name !== "file"
+      )
         formdata.append(
           item["wq:ForeignKey"] ? item.name + "_id" : item.name,
           data[item["wq:ForeignKey"] ? item.name + "_id" : item.name]
@@ -665,11 +668,17 @@ class Edit extends Component {
             <br />
             <Button.Ripple
               color="flat-primary"
-              onClick={() => window.location.replace(data[field.name])}
+              onClick={() =>
+                data[field.name]
+                  ? window.location.replace(data[field.name])
+                  : {}
+              }
             >
               <Cloud size={14} />
               <span className="align-middle ml-25">
-                {this.translate("Click here to download file")}
+                {data[field.name]
+                  ? this.translate("Click here to download file")
+                  : this.translate("No file uploaded")}
               </span>
             </Button.Ripple>
           </Col>

@@ -29,7 +29,7 @@ class Article(models.Model):
         max_length=2,
         verbose_name="Language",
     )
-    file = models.FileField(upload_to="documents")
+    file = models.FileField(upload_to="documents", null=True, blank=True)
 
     aproved_by = models.ForeignKey(
         User,

@@ -1457,9 +1457,9 @@ export default {
         {
           name: "file",
           label: "File",
-          bind: {
-            required: true,
-          },
+          // bind: {
+          //   required: true,
+          // },
           type: "binary",
         },
         {
