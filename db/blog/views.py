@@ -23,7 +23,7 @@ class ArticleViewSet(ModelViewSet):
         user_data = CustomUserFullSerializer(user).data
         
         if "manager" in user_data['groups_label']:
-            return self.queryset
+            return Article.objects.all().order_by('-id')
 
         if "operator" in user_data['groups_label']:
             return self.queryset.filter(published=True)
