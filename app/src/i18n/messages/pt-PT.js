@@ -200,6 +200,7 @@ export default {
     "Safety problems": "Problemas de segurança",
     "Child Protection": "Proteção a criança",
     "Gender-based Violence": "Violência baseada no gênero",
+    "Gender-based violence": "Violência baseada no gênero",
     Resilience: "Resiliência",
 
     Entitlement: "Direito de quantidade a receber",
