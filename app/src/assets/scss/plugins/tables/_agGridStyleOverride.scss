@@ -125,6 +125,12 @@ $secondary-font-weight: 600;
     align-items: center;
     height: 105px;
     padding: 0;
+    @media screen and (max-width: 1308px) and (min-width: 941px) {
+      margin-bottom: 30px;
+    }
+    @media screen and (max-width: 940px) and (min-width: 576px) {
+      margin-bottom: 100px;
+    }
     .ag-paging-row-summary-panel {
       display: none;
     }

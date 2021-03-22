@@ -1,12 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Card, CardBody, Row, Col, Spinner } from "reactstrap";
-import {
-  requestLogin,
-  requestUpdateUser,
-  requestGetUser,
-} from "../../../../redux/actions/auth/loginActions";
-
 import { requestDropodowns } from "../../../../redux/actions/app/actions";
 
 import { AuthService } from "../../../../redux/oidc-config/services/authservice";
@@ -100,9 +94,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
-  requestLogin, 
-  requestGetUser,
-  requestUpdateUser,
-  requestDropodowns,
-})(Login);
+export default connect(mapStateToProps, { requestDropodowns })(Login);

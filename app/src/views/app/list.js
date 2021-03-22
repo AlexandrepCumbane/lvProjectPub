@@ -232,8 +232,6 @@ class List extends Component {
 
     if (props.callcase) {
       status = props["callcase"][`case_priority_label`];
-
-      console.log(status);
     }
 
     if (this.props.path === "customuser") {

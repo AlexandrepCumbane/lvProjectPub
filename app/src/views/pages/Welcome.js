@@ -51,6 +51,14 @@ class Welcome extends React.Component {
       });
   }
 
+  updateToken = () => {
+    this.authService.renewToken().then(() => {
+      this.authService
+        .getUser()
+        .then((res) => this.props.requestUpdateUser(res));
+    });
+  };
+
   renderText = () => {
     if (this.state.times >= 10) {
       return (
@@ -94,6 +102,7 @@ class Welcome extends React.Component {
         },
       })
       .then(({ data }) => {
+        this.updateToken();
         this.props.changeRole(data["groups_label"][0]);
         history.push("/home");
       })
@@ -110,6 +119,7 @@ class Welcome extends React.Component {
               })
               .then(({ data }) => {
                 clearInterval(interval);
+                this.updateToken();
                 this.props.changeRole(data["groups_label"][0]);
                 history.push("/home");
               })

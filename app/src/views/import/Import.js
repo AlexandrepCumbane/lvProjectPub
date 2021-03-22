@@ -64,7 +64,6 @@ class Import extends React.Component {
   };
 
   getTableData = (arr, name) => {
-    console.log("Arr: ", arr);
     this.setState({ tableData: arr, name });
   };
 
@@ -105,8 +104,6 @@ class Import extends React.Component {
    */
   handleSubmit = () => {
     const { userOauth } = this.props.state.auth.login;
-
-    console.log("Payload: ",this.state.tableData)
 
     let form = new FormData();
     form.append("data", JSON.stringify(this.state.tableData))

@@ -9,9 +9,11 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/scss/plugins/extensions/toastr.scss";
 
+import { requestUpdateUser } from "./redux/actions/auth/loginActions";
 import AppListView from "./views/app/list";
 import Login from "./views/pages/authentication/login/Login";
 import Logout from "./views/pages/authentication/logout/Logout";
+import { AuthService } from "./redux/oidc-config/services/authservice";
 
 // Route-based code splitting
 const Home = lazy(() => import("./views/pages/Home"));
@@ -73,6 +75,19 @@ const mapStateToProps = (state) => {
 const AppRoute = connect(mapStateToProps)(RouteConfig);
 
 class AppRouter extends React.Component {
+  authService = new AuthService();
+
+  componentDidMount() {
+    setInterval(() => this.updateToken(), 50000);
+  }
+
+  updateToken = () => {
+    this.authService.renewToken().then(() => {
+      this.authService
+        .getUser()
+        .then((res) => this.props.requestUpdateUser(res));
+    });
+  };
   render() {
     return (
       // Set the directory path if you are deploying in sub-folder
@@ -198,7 +213,7 @@ class AppRouter extends React.Component {
               />
             )}
           />
-         
+
           <AppRoute
             path="/customusers/new"
             component={(props) => (
@@ -248,4 +263,7 @@ class AppRouter extends React.Component {
   }
 }
 
-export default AppRouter;
+export default connect(mapStateToProps, {
+  requestUpdateUser,
+})(AppRouter);
+// export default AppRouter;

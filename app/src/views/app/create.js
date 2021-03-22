@@ -185,7 +185,6 @@ class Create extends React.Component {
                 className="square"
                 placeholder={this.translate(field.label)}
                 onChange={(e) => {
-                  console.log(e.target.files[0]);
                   this.updateState(field.name, e.target.files[0]);
                 }}
               />

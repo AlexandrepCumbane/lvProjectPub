@@ -36,7 +36,6 @@ export const login = (state = initialState, action) => {
       return {
         ...state,
         userOauth: action.userOauth,
-        userRole: 'operator'
       };
     }
     case "LOGIN_FAILED": {
