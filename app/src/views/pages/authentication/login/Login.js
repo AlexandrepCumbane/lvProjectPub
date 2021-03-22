@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Card, CardBody, Row, Col, Spinner } from "reactstrap";
 import {
   requestLogin,
-  requestToken,
   requestUpdateUser,
   requestGetUser,
 } from "../../../../redux/actions/auth/loginActions";
@@ -102,8 +101,7 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  requestLogin,
-  requestToken,
+  requestLogin, 
   requestGetUser,
   requestUpdateUser,
   requestDropodowns,

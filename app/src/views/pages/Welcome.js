@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Card, CardBody, Row, Col, Spinner } from "reactstrap";
 import {
   requestLogin,
-  requestToken,
   requestGetUser,
   requestUpdateUser,
   changeRole,
@@ -169,7 +168,6 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   requestLogin,
-  requestToken,
   requestGetUser,
   changeRole,
   requestDropodowns,
