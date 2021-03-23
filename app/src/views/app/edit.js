@@ -961,7 +961,7 @@ class Edit extends Component {
             res = this.checkboxValue(field.depends_on) ? (
               <Col md="6" key={field.name}>
                 {this.renderLabel(field)}
-                <p>{this.translate(data[`${field.name})`] ?? "None")}</p>
+                <p>{this.translate(data[`${field.name}_label`] ?? (data[`${field.name}`] ?? "None"))}</p>
               </Col>
             ) : (
               <div key={field.name} />
@@ -971,6 +971,7 @@ class Edit extends Component {
               <Col md="6" key={field.name}>
                 {this.renderLabel(field)}
                 <p>{this.translate(data[`${field.name}`] ?? "None")}</p>
+                <p>{`${field.name}`}</p>
               </Col>
             );
           }
