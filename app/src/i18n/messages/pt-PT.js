@@ -398,6 +398,7 @@ export default {
     "Weekly Cases": "Casos da Semana",
     "Monthly Cases": "Casos do Mês",
     "Annual Cases": "Casos do Ano",
-    "No file uploaded": "Nenhum ficheiro anexado"
+    "No file uploaded": "Nenhum ficheiro anexado",
+    "IDP's": "PID's",
   },
 };
