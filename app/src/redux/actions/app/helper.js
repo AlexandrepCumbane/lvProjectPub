@@ -81,6 +81,8 @@ const requestSingle = (dispatch) => {
       item.name !== "task" &&
       item.name !== "lvform" &&
       item.name !== "article" &&
+      item.name !== "agencypartner" &&
+      item.name !== "agencyfocalpoint" &&
       item.url !== undefined
     ) {
       if (dropdowns[item.name] === undefined) {

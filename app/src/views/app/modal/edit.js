@@ -117,6 +117,26 @@ class Edit extends React.Component {
             ) : (
               <></>
             )}
+            {this.props.page === "clusterregion" ? (
+              <>
+                <CreateModal
+                  title={this.translate(`Add Focal Point to agency`)}
+                  page="agencyfocalpoint"
+                  label={this.translate("Add Focalpoint")}
+                  color="warning"
+                  task_id={this.props.data["id"]}
+                />
+                <CreateModal
+                  title={this.translate(`Add Partner to agency`)}
+                  page="agencypartner"
+                  label={this.translate("Add Partner")}
+                  color="info"
+                  task_id={this.props.data["id"]}
+                />
+              </>
+            ) : (
+              <></>
+            )}
             {this.props.page === "forwardinginstitution" &&
             this.props.userRole === "manager" ? (
               <CreateModal
@@ -172,8 +192,48 @@ class Edit extends React.Component {
         </Col>
 
         {form_.form.map((field) => this.renderSingleInput(field))}
+
+        {this.renderClusterRegionFocalpointDetails()}
+        {this.renderClusterRegionPartnerDetails()}
       </Row>
     );
+  };
+
+  renderClusterRegionFocalpointDetails = () => {
+    if (this.props.page === "clusterregion") {
+      return (
+        <Col md="12">
+          <div className="divider">
+            <div className="divider-text">{this.translate("Focalpoints")} </div>
+          </div>
+          {this.props.data["focalpoints_set"].map((item, index) => (
+            <FormGroup className="form-label-group position-relative has-icon-left mt-1">
+              <span
+                key={index}
+              >{`${item.first_name} ${item.last_name} - ${item.email} `}</span>
+            </FormGroup>
+          ))}
+        </Col>
+      );
+    }
+  };
+  renderClusterRegionPartnerDetails = () => {
+    if (this.props.page === "clusterregion") {
+      return (
+        <Col md="12">
+          <div className="divider  mt-1">
+            <div className="divider-text">{this.translate("Partners")} </div>
+          </div>
+          {this.props.data["partners_set"].map((item, index) => (
+            <FormGroup className="form-label-group position-relative has-icon-left  mt-1">
+              <span
+                key={index}
+              >{`${item.first_name} ${item.last_name} - ${item.email} `}</span>
+            </FormGroup>
+          ))}
+        </Col>
+      );
+    }
   };
 
   renderSingleInput = (field) => {

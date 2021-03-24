@@ -1403,6 +1403,12 @@ export default {
       list: true,
       form: [],
     },
+    focalpoints: {
+      name: "focalpoint",
+      url: "users/0/get_focalpoints",
+      list: true,
+      form: [],
+    },
 
     article: {
       cache: "all",
@@ -1600,7 +1606,6 @@ export default {
           bind: {
             required: true,
           },
-
         },
         {
           name: "name",
@@ -1610,13 +1615,54 @@ export default {
           bind: {
             required: true,
           },
-
         },
       ],
       verbose_name: "cluster agency",
       verbose_name_plural: "cluster agencys",
     },
 
+    agencypartner: {
+      cache: "all",
+      name: "agencypartner",
+      url: "user/0/agencypartner",
+      list: true,
+      form: [
+        {
+          name: "region",
+          label: "Name",
+          "wq:length": 254,
+          type: "foreign",
+        },
+        {
+          name: "partner",
+          label: "Partners",
+          hint: "User",
+          type: "string",
+          "wq:ForeignKey": "partner",
+        },
+      ],
+    },
+    agencyfocalpoint: {
+      cache: "all",
+      name: "agencyfocalpoint",
+      url: "user/0/agencyfocalpoint",
+      list: true,
+      form: [
+        {
+          name: "region",
+          label: "Name",
+          "wq:length": 254,
+          type: "foreign",
+        },
+        {
+          name: "focalpoint",
+          label: "Focalpoints",
+          hint: "User",
+          type: "string",
+          "wq:ForeignKey": "focalpoint",
+        },
+      ],
+    },
     clustersector: {
       cache: "all",
       name: "clustersector",

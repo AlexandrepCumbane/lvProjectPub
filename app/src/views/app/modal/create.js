@@ -405,8 +405,14 @@ class Create extends React.Component {
       this.setState({ isValid: false });
     } else {
       this.setState({ isValid: true, isLoading: true });
+
+      const url =
+        this.props.page === "agencypartner" ||
+        this.props.page === "agencyfocalpoint"
+          ? `/users/0/${this.props.page}`
+          : `${this.props.page}s/`;
       axios
-        .post(`${this.props.page}s/`, this.state.form, {
+        .post(url, this.state.form, {
           headers: {
             Authorization: `Bearer ${userOauth.access_token}`,
           },
