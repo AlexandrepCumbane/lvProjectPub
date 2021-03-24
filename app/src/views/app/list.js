@@ -422,6 +422,7 @@ class List extends Component {
             tableType={this.props.path}
             dropdowns={[]}
             onColumnMoved={this.onColumnMoved}
+            userRole={this.props.userRole}
           />
         ) : (
           <></>

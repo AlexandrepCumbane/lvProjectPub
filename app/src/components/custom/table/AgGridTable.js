@@ -68,6 +68,7 @@ class AggridTable extends React.Component {
     ],
     start: "",
     end: "",
+    selectedRows: 0,
   };
 
   componentDidMount() {
@@ -252,7 +253,13 @@ class AggridTable extends React.Component {
     }
   };
 
+  onSelectionChanged = () => {
+    console.log(this.gridApi.getSelectedRows().length);
+  };
+
   renderFilters = () => {
+    console.log(this.props.userRole);
+
     let element = (
       <div className="d-flex flex-wrap">
         <div className="table-input mr-1 rounded-0">
@@ -309,6 +316,13 @@ class AggridTable extends React.Component {
       element = <></>;
     }
 
+    if (
+      this.props.userRole === "operator" &&
+      this.props.tableType === "lvform"
+    ) {
+      element = <></>;
+    }
+
     return element;
   };
 
@@ -349,7 +363,6 @@ class AggridTable extends React.Component {
               data={this.state.selectedData}
               disabled
               requestData={this.props.requestData}
-              
             />
           ) : (
             <></>
@@ -499,6 +512,7 @@ class AggridTable extends React.Component {
                           this.onColumnMoved(this.props.tableType, params)
                         }
                         onPaginationChanged={() => this.onPaginationChanged()}
+                        onSelectionChanged={() => this.onSelectionChanged()}
                       />
                     )}
                   </ContextLayout.Consumer>

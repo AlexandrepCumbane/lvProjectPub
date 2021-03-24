@@ -3,6 +3,7 @@ from wq.db.patterns import serializers as patterns
 from .models import LvForm, CaseComment, ForwardingInstitution, Task, TaskComment, ForwardCaseToFocalpoint
 from rest_framework.serializers import ModelSerializer
 
+
 class CaseCommentSerializer(patterns.AttachedModelSerializer):
     class Meta:  #(patterns.AttachmentSerializer.Meta):
         model = CaseComment
@@ -17,6 +18,7 @@ class CaseCommentSerializer(patterns.AttachedModelSerializer):
             created_by=self.context['request'].user, **validated_data)
         return form
 
+
 class ForwardingFullInstitutionSerializer(patterns.AttachedModelSerializer):
     class Meta:  #(patterns.AttachmentSerializer.Meta):
         model = ForwardingInstitution
@@ -28,9 +30,6 @@ class ForwardingFullInstitutionSerializer(patterns.AttachedModelSerializer):
         form = ForwardingInstitution.objects.create(
             created_by=self.context['request'].user, **validated_data)
         return form
-
-
-
 
 
 class TaskCommentSerializer(patterns.AttachedModelSerializer):
@@ -47,7 +46,8 @@ class TaskCommentSerializer(patterns.AttachedModelSerializer):
 
 class TaskSerializer(patterns.AttachedModelSerializer):
     taskcomment_set = TaskCommentSerializer(required=False, many=True)
-    # casecall = LvFormSerializer(required=False, many=False, source='lvform') 
+
+    # casecall = LvFormSerializer(required=False, many=False, source='lvform')
 
     class Meta:  #(patterns.AttachmentSerializer.Meta):
         model = Task
@@ -75,6 +75,7 @@ class LvFormFullSerializer(patterns.AttachedModelSerializer):
     casecomment_set = CaseCommentSerializer(required=False, many=True)
     forwardinginstitution = ForwardingFullInstitutionSerializer(required=False)
     casecomment_set = CaseCommentSerializer(required=False, many=True)
+
     # forwardcasetofocalpoint_set = ForwardCaseToFocalpointSerializer(required=False, many=True)
 
     class Meta:
@@ -94,8 +95,10 @@ class LvFormFullSerializer(patterns.AttachedModelSerializer):
                                      **validated_data)
         return form
 
+
 class ForwardingInstitutionSerializer(patterns.AttachedModelSerializer):
     callcase = LvFormFullSerializer(required=False, source='lvform')
+
     class Meta:  #(patterns.AttachmentSerializer.Meta):
         model = ForwardingInstitution
         ordering = ['-id']
@@ -109,17 +112,21 @@ class ForwardingInstitutionSerializer(patterns.AttachedModelSerializer):
             created_by=self.context['request'].user, **validated_data)
         return form
 
+
 class ForwardCaseToFocalpointSerializer(patterns.AttachedModelSerializer):
     callcase = LvFormFullSerializer(required=False, source='lvform')
+
     class Meta:
         ordering = ['-id']
         model = ForwardCaseToFocalpoint
         fields = "__all__"
 
     def create(self, validated_data):
-        form = ForwardCaseToFocalpoint.objects.create(created_by=self.context['request'].user,
-                                     **validated_data)
+
+        form = ForwardCaseToFocalpoint.objects.create(
+                created_by=self.context['request'].user, **validated_data)
         return form
+
 
 # TODO: Fix iterating/linking through the relationships
 class LvFormSerializer(patterns.AttachedModelSerializer):
@@ -136,14 +143,18 @@ class LvFormSerializer(patterns.AttachedModelSerializer):
     casecomment_set = CaseCommentSerializer(required=False, many=True)
     forwardinginstitution = ForwardingInstitutionSerializer(required=False)
     casecomment_set = CaseCommentSerializer(required=False, many=True)
-    forwardcasetofocalpoint_set = ForwardCaseToFocalpointSerializer(required=False, many=True)
+    forwardcasetofocalpoint_set = ForwardCaseToFocalpointSerializer(
+        required=False, many=True)
 
     class Meta:
         ordering = ['-id']
         model = LvForm
         fields = "__all__"
         # exclude = ('created_by', )
-        read_only_fields = ('case_number', 'created_by', )
+        read_only_fields = (
+            'case_number',
+            'created_by',
+        )
 
     def create(self, validated_data):
         last = LvForm.objects.last()
@@ -156,9 +167,10 @@ class LvFormSerializer(patterns.AttachedModelSerializer):
                                      **validated_data)
         return form
 
+
 class TaskFullSerializer(patterns.AttachedModelSerializer):
     taskcomment_set = TaskCommentSerializer(required=False, many=True)
-    casecall = LvFormSerializer(required=False, many=False, source='lvform') 
+    casecall = LvFormSerializer(required=False, many=False, source='lvform')
 
     class Meta:  #(patterns.AttachmentSerializer.Meta):
         model = Task

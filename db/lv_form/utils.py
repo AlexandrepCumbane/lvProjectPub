@@ -1,18 +1,22 @@
 from django.db import transaction
+from django.utils.datastructures import MultiValueDictKeyError
 from .serializers import LvFormSerializer
 from .helper import mapped_value
 
 
 def filter_queryset_date(request, queryset) -> list:
-    start = request.query_params['start'] if len(
-        request.query_params) > 0 else None
-    end = request.query_params['end'] if len(
-        request.query_params) > 0 else None
 
-    res = queryset.filter(datetime_created__range=[(start), (
-        end)]) if end and start else queryset
-    return res
+    try:
+        start = request.query_params['start'] if len(
+            request.query_params) > 0 else None
+        end = request.query_params['end'] if len(
+            request.query_params) > 0 else None
 
+        res = queryset.filter(datetime_created__range=[(start), (
+            end)]) if end and start else queryset
+        return res
+    except MultiValueDictKeyError:
+        return queryset
 
 def case_switcher_fields(field) -> str:
     """
