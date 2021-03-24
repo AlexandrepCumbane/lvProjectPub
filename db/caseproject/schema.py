@@ -7,6 +7,7 @@ from graphene_django import DjangoObjectType
 
 import lv_form.schema
 
+from lv_form.models import ForwardCaseToFocalpoint
 from lv_form.models import LvForm, ForwardingInstitution
 from case_tipology.models import CaseTipology
 from location_management.models import Province
@@ -54,9 +55,12 @@ class HearAboutType(ObjectType):
 class CallFeedbackType(ObjectType):
     call_feedback = String()
     dcount = String()
+
+
 class PartnerFeedbackType(ObjectType):
     partner_feedback = String()
     dcount = String()
+
 
 class PartnerFeedbackType(ObjectType):
     referall_to = String()
@@ -84,11 +88,25 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
     all_cases_call_feedback_Referall = graphene.List(PartnerFeedbackType)
     all_cases_knowledge_about = graphene.List(HearAboutType)
     all_cases_provinces = graphene.List(ProvinceType)
+
     total_lvform_records = graphene.Field(DcountType)
     total_lvform_with_feedback_records = graphene.Field(DcountType)
     total_lvform_no_feedback_records = graphene.Field(DcountType)
     total_lvform_referall_records = graphene.Field(DcountType)
     total_lvform_not_referall_records = graphene.Field(DcountType)
+
+    # Focal point dashboard
+    without_feedback_fp_manager = graphene.Field(DcountType,
+                                                 id=graphene.String())
+    with_feedback_fp_manager = graphene.Field(DcountType, id=graphene.String())
+    total_received_fp_manager = graphene.Field(DcountType,
+                                               id=graphene.String())
+
+    without_feedback_fp_partner = graphene.Field(DcountType,
+                                                 id=graphene.String())
+    with_feedback_fp_partner = graphene.Field(DcountType, id=graphene.String())
+    total_received_fp_partner = graphene.Field(DcountType,
+                                               id=graphene.String())
 
     daily_cases = graphene.Field(CountRegType, id=graphene.String())
     weekly_cases = graphene.Field(CountRegType, id=graphene.String())
@@ -126,7 +144,6 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
     def resolve_all_cases_call_feedback_Referall(root, info):
         return ForwardingInstitution.objects.values('referall_to').annotate(
             dcount=Count('referall_to'))
-
 
     def resolve_all_cases_provinces(root, info):
         return Province.objects.all()
@@ -184,6 +201,24 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
         annual_cases = LvForm.objects.filter(datetime_created__year=year,
                                              created_by__email=id).count()
         return {"dcount": annual_cases, "name": "annual_cases"}
+
+    def resolve_without_feedback_fp_manager(root, info, id):
+        d1 = ForwardCaseToFocalpoint.objects.filter(focalpoint__id=id).count()
+
+        d2 = ForwardingInstitution.objects.filter(created_by__id=id,
+                                                  isFeedback_aproved=True).count()
+        return {"dcount": d1 - d2, "name": "total_received_manager"}
+
+    def resolve_with_feedback_fp_manager(root, info, id):
+
+        d2 = ForwardingInstitution.objects.filter(created_by__id=id,
+                                                  isFeedback_aproved=True).count()
+        return {"dcount": d2, "name": "total_received_manager"}
+
+    def resolve_total_received_fp_manager(root, info, id):
+        dcount = ForwardCaseToFocalpoint.objects.filter(
+            focalpoint__id=id).count()
+        return {"dcount": dcount, "name": "total_received_manager"}
 
 
 schema = graphene.Schema(query=Query)
