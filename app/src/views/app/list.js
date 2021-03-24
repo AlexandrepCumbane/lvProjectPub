@@ -345,6 +345,16 @@ class List extends Component {
             };
         }
       } else {
+        if (item.type === "select") {
+          return {
+            headerName: this.translate(item.label),
+            field: `${item.name}_label`,
+            minWidth: 250,
+            editable: false,
+            resizable: true,
+            valueGetter: ({ data }) => data[`${item.name}`]?.length ?? ( data[`${item.name}_set`]?.length ?? 0),
+          };
+        }
         if (item.type === "datetime") {
           return {
             headerName: this.translate(item.label),

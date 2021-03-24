@@ -162,11 +162,49 @@ class AppRouter extends React.Component {
                 url="forwardinginstitutions"
               />
             )}
+          />{" "}
+          <AppRoute
+            exact
+            path="/clusterregions"
+            component={(props) => (
+              <AppListView
+                {...props}
+                hasNew={true}
+                title="Regions"
+                path="clusterregion"
+                url="clusterregions"
+              />
+            )}
+          />
+          <AppRoute
+            exact
+            path="/clusteragencys"
+            component={(props) => (
+              <AppListView
+                {...props}
+                hasNew={true}
+                title="Agency"
+                path="clusteragency"
+                url="clusteragencys"
+              />
+            )}
           />
           <AppRoute
             path="/lvforms/new"
             component={(props) => (
               <AppCreate {...props} path="lvform" url="lvforms" />
+            )}
+          />
+          <AppRoute
+            path="/clusteragencys/new"
+            component={(props) => (
+              <AppCreate {...props} path="clusteragency" url="clusteragencys" />
+            )}
+          />
+          <AppRoute
+            path="/clusterregions/new"
+            component={(props) => (
+              <AppCreate {...props} path="clusterregion" url="clusterregions" />
             )}
           />
           <AppRoute
@@ -213,7 +251,6 @@ class AppRouter extends React.Component {
               />
             )}
           />
-
           <AppRoute
             path="/customusers/new"
             component={(props) => (
