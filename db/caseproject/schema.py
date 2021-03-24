@@ -204,21 +204,36 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
 
     def resolve_without_feedback_fp_manager(root, info, id):
         d1 = ForwardCaseToFocalpoint.objects.filter(focalpoint__id=id).count()
-
-        d2 = ForwardingInstitution.objects.filter(created_by__id=id,
-                                                  isFeedback_aproved=True).count()
-        return {"dcount": d1 - d2, "name": "total_received_manager"}
+        d2 = ForwardingInstitution.objects.filter(
+            created_by__id=id, isFeedback_aproved=True).count()
+        return {"dcount": d1 - d2, "name": "without_feedback_fp_manager"}
 
     def resolve_with_feedback_fp_manager(root, info, id):
 
-        d2 = ForwardingInstitution.objects.filter(created_by__id=id,
-                                                  isFeedback_aproved=True).count()
-        return {"dcount": d2, "name": "total_received_manager"}
+        d2 = ForwardingInstitution.objects.filter(
+            created_by__id=id, isFeedback_aproved=True).count()
+        return {"dcount": d2, "name": "with_feedback_fp_manager"}
 
     def resolve_total_received_fp_manager(root, info, id):
         dcount = ForwardCaseToFocalpoint.objects.filter(
             focalpoint__id=id).count()
         return {"dcount": dcount, "name": "total_received_manager"}
+
+    def resolve_without_feedback_fp_partner(root, info, id):
+        d2 = ForwardingInstitution.objects.filter(created_by__id=id,
+                                                  has_feedback=False).count()
+        return {"dcount": d2, "name": "without_feedback_fp_partner"}
+
+    def resolve_with_feedback_fp_partner(root, info, id):
+
+        d2 = ForwardingInstitution.objects.filter(created_by__id=id,
+                                                  has_feedback=True).count()
+        return {"dcount": d2, "name": "with_feedback_fp_partner"}
+
+    def resolve_total_received_fp_partner(root, info, id):
+        dcount = ForwardingInstitution.objects.filter(
+            created_by__id=id).count()
+        return {"dcount": dcount, "name": "total_received_fp_partner"}
 
 
 schema = graphene.Schema(query=Query)
