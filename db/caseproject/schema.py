@@ -54,6 +54,13 @@ class HearAboutType(ObjectType):
 class CallFeedbackType(ObjectType):
     call_feedback = String()
     dcount = String()
+class PartnerFeedbackType(ObjectType):
+    partner_feedback = String()
+    dcount = String()
+
+class PartnerFeedbackType(ObjectType):
+    referall_to = String()
+    dcount = String()
 
 
 class DcountType(ObjectType):
@@ -73,6 +80,8 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
     all_cases_age = graphene.List(AgeType)
     all_cases_gender = graphene.List(GenderType)
     all_cases_call_feedback = graphene.List(CallFeedbackType)
+    all_cases_call_feedback_partner = graphene.List(PartnerFeedbackType)
+    all_cases_call_feedback_Referall = graphene.List(PartnerFeedbackType)
     all_cases_knowledge_about = graphene.List(HearAboutType)
     all_cases_provinces = graphene.List(ProvinceType)
     total_lvform_records = graphene.Field(DcountType)
@@ -109,6 +118,15 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
     def resolve_all_cases_call_feedback(root, info):
         return LvForm.objects.values('call_feedback').annotate(
             dcount=Count('call_feedback'))
+
+    def resolve_all_cases_call_feedback_partner(root, info):
+        return ForwardingInstitution.objects.values('has_feedback').annotate(
+            dcount=Count('has_feedback'))
+
+    def resolve_all_cases_call_feedback_Referall(root, info):
+        return ForwardingInstitution.objects.values('referall_to').annotate(
+            dcount=Count('referall_to'))
+
 
     def resolve_all_cases_provinces(root, info):
         return Province.objects.all()
