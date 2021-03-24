@@ -141,13 +141,7 @@ class Home extends React.Component {
           />
         </Col>
         <Col xl="2" lg="4" sm="6">
-          <StatisticsCard
-            hideChart
-            iconBg="primary"
-            icon={<Icons.Archive className="text-primary" size={15} />}
-            stat="0"
-            statTitle={this.translate("Total Linha Verde Cases")}
-          />
+          <AllCases />
         </Col>
         <Col xl="2" lg="4" sm="6">
           <StatisticsCard
