@@ -6,6 +6,9 @@ import { IntlContext } from "../../i18n/provider";
 import { history } from "../../history";
 import { axios } from "../../redux/api";
 
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
+
 import config from "../../data/config";
 import {
   Button,
@@ -25,6 +28,7 @@ import Checkbox from "../../components/@vuexy/checkbox/CheckboxesVuexy";
 class Create extends React.Component {
   static contextType = IntlContext;
   translate = this.context.translate;
+  animatedComponents = makeAnimated();
 
   notifySuccessBounce = () =>
     toast.success(this.translate(`Transaction completed successfuly!`), {
@@ -200,28 +204,22 @@ class Create extends React.Component {
               {this.renderLabel(field)}
 
               <FormGroup className="form-label-group position-relative has-icon-left">
-                <CustomInput
-                  className="square"
-                  type="select"
-                  id={field.name}
-                  placeholder={this.translate(field.label)}
+                <Select
+                  className="rounded-0"
                   onChange={(e) => {
-                    this.updateState(`${field.name}_id`, e.target.value);
+                    this.updateState(`${field.name}_id`, e.value);
                     if (field["children"]) {
-                      this.updateChildrenList(field, e.target.value);
+                      this.updateChildrenList(field, e);
                     }
                   }}
-                >
-                  <option>{this.translate("Select")}</option>
-
-                  {field["has_parent"] === undefined
-                    ? this.renderSelectOptionForeignWQ(
-                        this.getForeignFieldDropdown(field["wq:ForeignKey"])
-                      )
-                    : this.renderSelectOptionForeignWQ(
-                        this.state.childrens[field["wq:ForeignKey"]] ?? []
-                      )}
-                </CustomInput>
+                  components={this.animatedComponents}
+                  options={this.selectOptions(
+                    field["has_parent"] === undefined
+                      ? this.getForeignFieldDropdown(field["wq:ForeignKey"]) ??
+                          []
+                      : this.state.childrens[field["wq:ForeignKey"]] ?? []
+                  )}
+                />
               </FormGroup>
             </Col>
           );
@@ -531,12 +529,34 @@ class Create extends React.Component {
    */
   updateChildrenList = (field, value) => {
     let childrens = this.state.childrens;
-    const res = this.state.dropdowns[field["wq:ForeignKey"]].filter((item) => {
-      return Number(item.id) === Number(value);
-    });
-    childrens[field.children] = res[0][`${field.children}_set`];
-    this.setState({ childrens });
+    let res = [];
+    if (field.has_parent) {
+      res = this.state.childrens[field["wq:ForeignKey"]].filter((item) => {
+        return Number(item.id) === Number(value.value);
+      });
+      childrens[field.children] = res[0][`${field.children}_set`];
+      this.setState({ childrens });
+    } else {
+      res = this.props.app_reducer.dropdowns[field["wq:ForeignKey"]].filter(
+        (item) => {
+          return Number(item.id) === Number(value.value);
+        }
+      );
+
+      console.log(res[0][`${field.children}_set`]);
+      childrens[field.children] = res[0][`${field.children}_set`];
+      this.setState({ childrens });
+    }
   };
+
+  selectOptions = (list) =>
+    list.map((item) => {
+      return {
+        value: item.id,
+        label: this.translate(item.label),
+        color: "#4287f5",
+      };
+    });
 
   /**
    * Submits the form to post request action

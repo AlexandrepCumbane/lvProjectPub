@@ -2,7 +2,7 @@ from wq.db import rest
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from .models import ClusterSector, ClusterAgency, ClusterRegion, CustomUser
-from .serializer import ClusterSectorFullSerializer, CustomUserSerializer
+from .serializer import ClusterRegionFullSerializer, ClusterRegionSerializer, ClusterSectorFullSerializer, CustomUserSerializer
 from .views import UserViewSet
 # TODO: Filter to only return required fields
 rest.router.register_model(
@@ -46,7 +46,7 @@ rest.router.register_model(
 )
 rest.router.register_model(
     ClusterRegion,
-    # serializer=ClusterSectorFullSerializer,
+    serializer=ClusterRegionSerializer,
     fields="__all__",
     cache="all",
 )

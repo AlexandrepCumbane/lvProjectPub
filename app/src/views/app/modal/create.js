@@ -228,6 +228,7 @@ class Create extends React.Component {
 
             <FormGroup className="form-label-group position-relative has-icon-left">
               <Select
+                className="rounded-0"
                 onChange={(e) => {
                   this.updateState(`${field.name}_id`, e.value);
                   if (field["children"]) {
@@ -419,7 +420,11 @@ class Create extends React.Component {
         })
         .catch(({ response }) => {
           this.setState({ isLoading: false });
-          this.notifyErrorBounce(this.translate(response.data?.description ?? 'Failed to save Object.'));
+          this.notifyErrorBounce(
+            this.translate(
+              response.data?.description ?? "Failed to save Object."
+            )
+          );
         });
     }
   };

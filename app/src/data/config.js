@@ -729,7 +729,7 @@ export default {
             },
           ],
           type: "select one",
-        }, 
+        },
         {
           name: "is_closed",
           label: "Is Closed",
@@ -1402,7 +1402,7 @@ export default {
       url: "users/0/get_partners",
       list: true,
       form: [],
-    }, 
+    },
 
     article: {
       cache: "all",
@@ -1552,17 +1552,23 @@ export default {
       list: true,
       form: [
         {
-          name: "name",
-          label: "Name",
-          "wq:length": 254,
-          type: "string",
-        },
-        {
           name: "cluster_agency",
           label: "Cluster Agency",
           hint: "cluster_agency",
           type: "string",
           "wq:ForeignKey": "clusteragency",
+          bind: {
+            required: true,
+          },
+        },
+        {
+          name: "name",
+          label: "Region Name",
+          "wq:length": 254,
+          type: "string",
+          bind: {
+            required: true,
+          },
         },
         {
           name: "focalpoints",
@@ -1574,45 +1580,37 @@ export default {
           label: "Partners",
           type: "select",
         },
-        {
-          name: "focalpoints_label",
-          label: "Focalpoints Label",
-          bind: {
-            required: true,
-          },
-          type: "select",
-        },
-        {
-          name: "partners_label",
-          label: "Partners Label",
-          bind: {
-            required: true,
-          },
-          type: "select",
-        },
       ],
       verbose_name: "cluster region",
       verbose_name_plural: "cluster regions",
     },
-    
-  clusteragency: {
+
+    clusteragency: {
       cache: "all",
       name: "clusteragency",
       url: "clusteragencys",
       list: true,
       form: [
         {
-          name: "name",
-          label: "Name",
-          "wq:length": 254,
-          type: "string",
-        },
-        {
           name: "cluster_sector",
           label: "Cluster Sector",
           hint: "cluster_sector",
           type: "string",
           "wq:ForeignKey": "clustersector",
+          bind: {
+            required: true,
+          },
+
+        },
+        {
+          name: "name",
+          label: "Name",
+          "wq:length": 254,
+          type: "string",
+          bind: {
+            required: true,
+          },
+
         },
       ],
       verbose_name: "cluster agency",

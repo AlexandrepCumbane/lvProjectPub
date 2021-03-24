@@ -133,6 +133,33 @@ const get_pages = () => {
       permissions: ["manager"],
       navLink: "/users",
     },
+
+    {
+      id: "cluster_sectors",
+      title: translate("Sector"),
+      type: "collapse",
+      icon: <Icon.Disc size={20} />,
+      badge: "warning",
+      permissions: ["manager"],
+      children: [
+        {
+          id: "clusteragencys",
+          title: translate("Agencies"),
+          type: "item",
+          icon: <Icon.Airplay size={20} />,
+          permissions: ["manager"],
+          navLink: "/clusteragencys",
+        },
+        {
+          id: "clusterregions",
+          title: translate("Regions"),
+          type: "item",
+          icon: <Icon.Map size={20} />,
+          permissions: ["manager"],
+          navLink: "/clusterregions",
+        },
+      ],
+    },
   ];
 
   return navConf;

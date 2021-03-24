@@ -110,8 +110,9 @@ export default {
 
     false: "No",
     true: "Yes",
-    "Case Close Category" : "How it ended?",
+    "Case Close Category" : "How did it end",
     "Is Closed": "Case closed?",
     article: "Article",
+    "Cluster Sector": "Cluster Name",
   },
 };
