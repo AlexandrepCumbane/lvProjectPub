@@ -42,7 +42,11 @@ class Create extends React.Component {
 
   multipleSelect = (list) =>
     list.map((item) => {
-      return { value: item.id, label: this.translate(item.label), color: "#4287f5" };
+      return {
+        value: item.id,
+        label: this.translate(item.label),
+        color: "#4287f5",
+      };
     });
 
   state = {
@@ -90,17 +94,16 @@ class Create extends React.Component {
       });
       childrens[field.children] = res[0][`${field.children}`];
       this.setState({ childrens });
-  
     } else {
-      res = this.props.app_reducer.dropdowns[field["wq:ForeignKey"]].filter((item) => {
-        return Number(item.id) === Number(value.value);
-      });
-      
+      res = this.props.app_reducer.dropdowns[field["wq:ForeignKey"]].filter(
+        (item) => {
+          return Number(item.id) === Number(value.value);
+        }
+      );
+
       childrens[field.children] = res[0][`${field.children}`];
       this.setState({ childrens });
-      
     }
-
   };
 
   render() {
@@ -404,19 +407,19 @@ class Create extends React.Component {
       axios
         .post(`${this.props.page}s/`, this.state.form, {
           headers: {
-            // "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
             Authorization: `Bearer ${userOauth.access_token}`,
           },
         })
         .then(({ data }) => {
           this.notifySuccessBounce(data.id);
+          this.setState({ isLoading: false });
           setTimeout(() => {
             this.toggleModal();
           }, 1000);
         })
-        .catch((error) => {
+        .catch(({ response }) => {
           this.setState({ isLoading: false });
-          this.notifyErrorBounce(this.translate("Transaction not completed!"));
+          this.notifyErrorBounce(this.translate(response.data?.description ?? 'Failed to save Object.'));
         });
     }
   };

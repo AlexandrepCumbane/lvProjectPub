@@ -400,5 +400,6 @@ export default {
     "Annual Cases": "Casos do Ano",
     "No file uploaded": "Nenhum ficheiro anexado",
     "IDP's": "PID's",
+    "Record duplication error": "Erro de duplicação de registro",
   },
 };

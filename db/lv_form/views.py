@@ -9,6 +9,7 @@ from .models import ForwardCaseToFocalpoint, ForwardingInstitution, LvForm, Task
 from .serializers import ForwardCaseToFocalpointSerializer, ForwardingInstitutionSerializer, LvFormSerializer, TaskFullSerializer
 from .utils import filter_queryset_date, map_case_fields
 
+
 class ForwardCaseToFocalpointViewSet(ModelViewSet):
 
     queryset = ForwardCaseToFocalpoint.objects.all().order_by('-id')
@@ -26,12 +27,32 @@ class ForwardCaseToFocalpointViewSet(ModelViewSet):
             qs = self.queryset.filter(focalpoint__id=user.id)
             return filter_queryset_date(request=self.request, queryset=qs)
 
-        return filter_queryset_date(request=self.request, queryset=self.queryset)
+        return filter_queryset_date(request=self.request,
+                                    queryset=self.queryset)
 
     def list(self, request, *args, **kwargs):
         page = self.paginate_queryset(self.get_queryset_list(request.user))
         serializer = self.serializer_class(page, many=True)
         return self.get_paginated_response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+
+        payload_data = request.data
+
+        if (ForwardCaseToFocalpoint.objects.filter(
+                focalpoint__id=payload_data['focalpoint_id'],
+                lvform__id=payload_data['lvform_id'])):
+            return Response({"description": "Record duplication error"},
+                            status=status.HTTP_400_BAD_REQUEST)
+        else:
+            case_serializer = self.serializer_class(
+                data=request.data, context={'request': request})
+            if (case_serializer.is_valid()):
+                case_serializer.save()
+                return Response(case_serializer.data,
+                                status=status.HTTP_201_CREATED)
+            return Response(case_serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 class ForwardingInstitutionViewSet(ModelViewSet):
@@ -56,7 +77,8 @@ class ForwardingInstitutionViewSet(ModelViewSet):
             qs = self.queryset.filter(created_by__id=user.id)
             return filter_queryset_date(request=self.request, queryset=qs)
 
-        return filter_queryset_date(request=self.request, queryset=self.request)
+        return filter_queryset_date(request=self.request,
+                                    queryset=self.request)
 
     def list(self, request, *args, **kwargs):
 
@@ -85,7 +107,8 @@ class LvFormViewSet(ModelViewSet):
             lv_forms = LvForm.objects.filter(
                 forwardcasetofocalpoint__in=fowarded_results).order_by('-id')
 
-            return filter_queryset_date(request=self.request, queryset=lv_forms)
+            return filter_queryset_date(request=self.request,
+                                        queryset=lv_forms)
 
         if "partner" in user_data['groups_label']:
 
@@ -95,7 +118,8 @@ class LvFormViewSet(ModelViewSet):
             lv_forms = LvForm.objects.filter(
                 forwardinginstitution__in=fowarded_results).order_by('-id')
 
-            return filter_queryset_date(request=self.request, queryset=lv_forms)
+            return filter_queryset_date(request=self.request,
+                                        queryset=lv_forms)
 
         if "operator" in user_data['groups_label']:
 
@@ -103,14 +127,18 @@ class LvFormViewSet(ModelViewSet):
             month_ = timezone.now().month
             year_ = timezone.now().year
             return self.queryset.filter(
-                created_by__id=user.id,datetime_created__day=day_, datetime_created__month=month_, datetime_created__year=year_).order_by('-id')
-        
-        return filter_queryset_date(request=self.request, queryset=self.queryset) 
+                created_by__id=user.id,
+                datetime_created__day=day_,
+                datetime_created__month=month_,
+                datetime_created__year=year_).order_by('-id')
+
+        return filter_queryset_date(request=self.request,
+                                    queryset=self.queryset)
 
     def get_queryset_fowarded(self, user) -> list:
         """
             This method filter LvForms records from relative user groups/roles 
-        """        
+        """
 
         user_data = CustomUserFullSerializer(user).data
 
@@ -146,7 +174,7 @@ class LvFormViewSet(ModelViewSet):
 
         return self.queryset
 
-    def list(self, request, *args, **kwargs):        
+    def list(self, request, *args, **kwargs):
         page = self.paginate_queryset(self.get_queryset_list(request.user))
         serializer = self.serializer_class(page, many=True)
         return self.get_paginated_response(serializer.data)
@@ -180,14 +208,17 @@ class TaskViewSet(ModelViewSet):
 
         if "manager" in user_data['groups_label']:
 
-            return filter_queryset_date(request=self.request, queryset=self.queryset)
+            return filter_queryset_date(request=self.request,
+                                        queryset=self.queryset)
 
         if "operator" in user_data['groups_label']:
-            
-            qs = self.queryset.filter(assignee__id=user.id).exclude(task_status='3')
+
+            qs = self.queryset.filter(assignee__id=user.id).exclude(
+                task_status='3')
             return filter_queryset_date(request=self.request, queryset=qs)
 
-        return filter_queryset_date(request=self.request, queryset=self.queryset)
+        return filter_queryset_date(request=self.request,
+                                    queryset=self.queryset)
 
     def list(self, request, *args, **kwargs):
         page = self.paginate_queryset(self.get_queryset_list(request.user))
