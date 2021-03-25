@@ -203,37 +203,37 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
         return {"dcount": annual_cases, "name": "annual_cases"}
 
     def resolve_without_feedback_fp_manager(root, info, id):
-        d1 = ForwardCaseToFocalpoint.objects.filter(focalpoint__id=id).count()
+        d1 = ForwardCaseToFocalpoint.objects.filter(focalpoint__email=id).count()
         d2 = ForwardingInstitution.objects.filter(
-            created_by__id=id, isFeedback_aproved=True).count()
-        return {"dcount": d1 - d2, "name": "without_feedback_fp_manager"}
+            created_by__email=id, isFeedback_aproved=True).count()
+        return {"dcount": d1 - d2}
 
     def resolve_with_feedback_fp_manager(root, info, id):
 
         d2 = ForwardingInstitution.objects.filter(
-            created_by__id=id, isFeedback_aproved=True).count()
-        return {"dcount": d2, "name": "with_feedback_fp_manager"}
+            created_by__email=id, isFeedback_aproved=True).count()
+        return {"dcount": d2}
 
     def resolve_total_received_fp_manager(root, info, id):
         dcount = ForwardCaseToFocalpoint.objects.filter(
-            focalpoint__id=id).count()
-        return {"dcount": dcount, "name": "total_received_manager"}
+            focalpoint__email=id).count()
+        return {"dcount": dcount}
 
     def resolve_without_feedback_fp_partner(root, info, id):
-        d2 = ForwardingInstitution.objects.filter(created_by__id=id,
+        d2 = ForwardingInstitution.objects.filter(created_by__email=id,
                                                   has_feedback=False).count()
-        return {"dcount": d2, "name": "without_feedback_fp_partner"}
+        return {"dcount": d2}
 
     def resolve_with_feedback_fp_partner(root, info, id):
 
-        d2 = ForwardingInstitution.objects.filter(created_by__id=id,
+        d2 = ForwardingInstitution.objects.filter(created_by__email=id,
                                                   has_feedback=True).count()
-        return {"dcount": d2, "name": "with_feedback_fp_partner"}
+        return {"dcount": d2}
 
     def resolve_total_received_fp_partner(root, info, id):
         dcount = ForwardingInstitution.objects.filter(
-            created_by__id=id).count()
-        return {"dcount": dcount, "name": "total_received_fp_partner"}
+            created_by__email=id).count()
+        return {"dcount": dcount}
 
 
 schema = graphene.Schema(query=Query)
