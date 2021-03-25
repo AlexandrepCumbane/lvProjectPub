@@ -20,6 +20,10 @@ import { TotalFocalPointManager } from "../dashboard/roles/query/TotalFocalpoint
 import { FeedbackFocalPointPartner } from "../dashboard/roles/query/FeedbackFocalpointPartner";
 import { TotalFocalPointPartner } from "../dashboard/roles/query/TotalFocalpointPartner";
 import { NoFeedbackFocalPointPartner } from "../dashboard/roles/query/NoFeedbackFocalpointPartner";
+import { NoFeedbackPartner } from "../dashboard/roles/query/FeedbackPartner";
+import { TotalPartner } from "../dashboard/roles/query/TotalPartner";
+import { ApprovedPartner } from "../dashboard/roles/query/ApprovedPartner";
+import { NotApprovedPartner } from "../dashboard/roles/query/NotApprovedPartner";
 class Home extends React.Component {
   static contextType = IntlContext;
   translate = this.context.translate;
@@ -154,43 +158,18 @@ class Home extends React.Component {
     return (
       <Row>
         <Col md="3">
-          <StatisticsCard
-            hideChart
-            iconBg="primary"
-            icon={<Icons.ThumbsUp className="text-primary" size={15} />}
-            stat="0"
-            statTitle={this.translate("Referred Cases")}
-          />
+          <TotalPartner userInfo={this.props.userInfo} />
         </Col>
         <Col md="3">
-          <StatisticsCard
-            hideChart
-            iconBg="warning"
-            icon={<Icons.PhoneMissed className="text-warning" size={15} />}
-            stat="0"
-            statTitle={this.translate("Without Feedback")}
-          />
+          <NoFeedbackPartner userInfo={this.props.userInfo} />
         </Col>
         <Col md="3">
-          <StatisticsCard
-            hideChart
-            iconBg="success"
-            icon={<Icons.ThumbsUp className="text-success" size={15} />}
-            stat="0"
-            statTitle={this.translate("Approved Cases")}
-          />
+          <ApprovedPartner userInfo={this.props.userInfo} />
         </Col>
         <Col md="3">
-          <StatisticsCard
-            hideChart
-            iconBg="danger"
-            icon={<Icons.ThumbsDown className="text-danger" size={15} />}
-            stat="0"
-            statTitle={this.translate("Rejected Cases")}
-          />
+          <NotApprovedPartner userInfo={this.props.userInfo} />
         </Col>
 
-        {/* TODO: Show diference between closed and opened cases */}
       </Row>
     );
   };

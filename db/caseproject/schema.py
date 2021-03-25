@@ -89,6 +89,7 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
     all_cases_knowledge_about = graphene.List(HearAboutType)
     all_cases_provinces = graphene.List(ProvinceType)
 
+    # Manager Dashboard
     total_lvform_records = graphene.Field(DcountType)
     total_lvform_with_feedback_records = graphene.Field(DcountType)
     total_lvform_no_feedback_records = graphene.Field(DcountType)
@@ -108,6 +109,16 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
     total_received_fp_partner = graphene.Field(DcountType,
                                                id=graphene.String())
 
+    # partner Dashboard
+    total_received_partner = graphene.Field(DcountType,
+                                               id=graphene.String())
+    without_feedback_partner = graphene.Field(DcountType,
+                                               id=graphene.String())
+    approved_partner = graphene.Field(DcountType,
+                                               id=graphene.String())
+    not_aproved_partner = graphene.Field(DcountType,
+                                               id=graphene.String())
+    # Operator dashboard
     daily_cases = graphene.Field(CountRegType, id=graphene.String())
     weekly_cases = graphene.Field(CountRegType, id=graphene.String())
     monthly_cases = graphene.Field(CountRegType, id=graphene.String())
@@ -176,6 +187,8 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
             ForwardingInstitution.objects.filter(has_feedback=False).count()
         }
 
+
+    # Operator resolve methods
     def resolve_daily_cases(root, info, id):
         day = timezone.now().day
         month = timezone.now().month
@@ -202,6 +215,9 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
                                              created_by__email=id).count()
         return {"dcount": annual_cases, "name": "annual_cases"}
 
+
+
+    # Focalpoint resolve methods
     def resolve_without_feedback_fp_manager(root, info, id):
         d1 = ForwardCaseToFocalpoint.objects.filter(focalpoint__email=id).count()
         d2 = ForwardingInstitution.objects.filter(
@@ -234,6 +250,30 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
         dcount = ForwardingInstitution.objects.filter(
             created_by__email=id).count()
         return {"dcount": dcount}
+
+
+    # Partners Resolve Methods
+    def resolve_total_received_partner(root, info, id):
+        dcount = ForwardingInstitution.objects.filter(
+            referall_to__email=id).count()
+        return {"dcount": dcount}
+
+    def resolve_without_feedback_partner(root, info, id):
+        d2 = ForwardingInstitution.objects.filter(referall_to__email=id,
+                                                  has_feedback=False).count()
+        return {"dcount": d2}
+
+    def resolve_approved_partner(root, info, id):
+
+        d2 = ForwardingInstitution.objects.filter(
+            referall_to__email=id, isFeedback_aproved=True).count()
+        return {"dcount": d2}
+    
+    def resolve_not_aproved_partner(root, info, id):
+
+        d2 = ForwardingInstitution.objects.filter(
+            referall_to__email=id, isFeedback_aproved=False).count()
+        return {"dcount": d2}
 
 
 schema = graphene.Schema(query=Query)

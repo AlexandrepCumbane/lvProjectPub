@@ -421,5 +421,8 @@ export default {
     "All Cases - Partner": "Todos os Casos - Parceiro",
     "With Feedback - Partner": "Casos com Feedback - Parceiro",
     "Without Feedback - Partner": "Casos sem Feedback - Parceiro",
+    "All Cases": "Todos os casos",
+    "Approved Cases": "Casos Aprovados",
+    "Unapproved Cases": "Casos Não Aprovados",
   },
 };
