@@ -971,7 +971,6 @@ class Edit extends Component {
               <Col md="6" key={field.name}>
                 {this.renderLabel(field)}
                 <p>{this.translate(data[`${field.name}`] ?? "None")}</p>
-                <p>{`${field.name}`}</p>
               </Col>
             );
           }
