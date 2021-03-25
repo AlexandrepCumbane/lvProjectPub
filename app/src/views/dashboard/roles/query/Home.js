@@ -17,9 +17,6 @@ import { NotReferallCases } from "../dashboard/roles/query/TotalNotReferall";
 import { FeedbackFocalPointManager } from "../dashboard/roles/query/FeedbackFocalpointManager";
 import { NoFeedbackFocalPointManager } from "../dashboard/roles/query/NoFeedbackFocalpointManager";
 import { TotalFocalPointManager } from "../dashboard/roles/query/TotalFocalpointManager";
-import { FeedbackFocalPointPartner } from "../dashboard/roles/query/FeedbackFocalpointPartner";
-import { TotalFocalPointPartner } from "../dashboard/roles/query/TotalFocalpointPartner";
-import { NoFeedbackFocalPointPartner } from "../dashboard/roles/query/NoFeedbackFocalpointPartner";
 class Home extends React.Component {
   static contextType = IntlContext;
   translate = this.context.translate;
@@ -136,15 +133,6 @@ class Home extends React.Component {
         </Col>
         <Col md="4">
           <NoFeedbackFocalPointManager userInfo={this.props.userInfo} />
-        </Col>
-        <Col md="4">
-          <TotalFocalPointPartner userInfo={this.props.userInfo} />
-        </Col>
-        <Col md="4">
-          <FeedbackFocalPointPartner userInfo={this.props.userInfo} />
-        </Col>
-        <Col md="4">
-          <NoFeedbackFocalPointPartner userInfo={this.props.userInfo} />
         </Col>
       </Row>
     );

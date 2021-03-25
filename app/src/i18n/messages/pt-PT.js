@@ -415,5 +415,11 @@ export default {
     "No file uploaded": "Nenhum ficheiro anexado",
     "IDP's": "PID's",
     "Record duplication error": "Erro de duplicação de registro",
+    "All Cases - Manager": "Todos os Casos - Gestor",
+    "With Feedback - Manager": "Casos com Feedback - Gestor",
+    "Without Feedback - Manager": "Casos sem Feedback - Gestor",
+    "All Cases - Partner": "Todos os Casos - Parceiro",
+    "With Feedback - Partner": "Casos com Feedback - Parceiro",
+    "Without Feedback - Partner": "Casos sem Feedback - Parceiro",
   },
 };
