@@ -15,7 +15,7 @@ const QUERY = (id) => gql`
 
 export function MonthlyCases(props) {
   const { loading, error, data } = useQuery(QUERY(props.userInfo ?? ""), {
-    pollInterval: 5000,
+    pollInterval: 1500,
   });
   const context = useContext(IntlContext);
 
