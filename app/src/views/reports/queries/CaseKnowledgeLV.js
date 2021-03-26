@@ -20,7 +20,9 @@ const CASES_BY_KNOWLEDGE = gql`
 `;
 
 export function CasesByKnowLedge() {
-  const { loading, error, data } = useQuery(CASES_BY_KNOWLEDGE);
+  const { loading, error, data } = useQuery(CASES_BY_KNOWLEDGE, {
+    pollInterval: 50000,
+  });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error </p>;

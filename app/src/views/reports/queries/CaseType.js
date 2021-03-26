@@ -15,7 +15,9 @@ const CASES_BY_CATEGORY = gql`
 `;
 
 export function CasesByCategory() {
-  const { loading, error, data } = useQuery(CASES_BY_CATEGORY);
+  const { loading, error, data } = useQuery(CASES_BY_CATEGORY, {
+    pollInterval: 50000,
+  });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error </p>;

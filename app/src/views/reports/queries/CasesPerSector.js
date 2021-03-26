@@ -28,7 +28,9 @@ const CASES_BY_SECTOR = gql`
 `;
 
 export function CasesBySector() {
-  const { loading, error, data } = useQuery(CASES_BY_SECTOR);
+  const { loading, error, data } = useQuery(CASES_BY_SECTOR, {
+    pollInterval: 50000,
+  });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error </p>;

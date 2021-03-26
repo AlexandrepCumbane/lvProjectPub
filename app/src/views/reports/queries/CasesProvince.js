@@ -15,7 +15,9 @@ const CASES_BY_PROVINCE = gql`
 `;
 
 export function CasesByProvince() {
-  const { loading, error, data } = useQuery(CASES_BY_PROVINCE);
+  const { loading, error, data } = useQuery(CASES_BY_PROVINCE, {
+    pollInterval: 50000,
+  });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error </p>;

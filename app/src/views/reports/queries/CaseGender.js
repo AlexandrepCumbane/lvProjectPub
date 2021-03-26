@@ -17,7 +17,9 @@ const CASES_BY_AGE = gql`
 `;
 
 export function CasesByGender() {
-  const { loading, error, data } = useQuery(CASES_BY_AGE);
+  const { loading, error, data } = useQuery(CASES_BY_AGE, {
+    pollInterval: 50000,
+  });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error </p>;

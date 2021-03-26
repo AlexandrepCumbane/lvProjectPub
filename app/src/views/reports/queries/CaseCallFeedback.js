@@ -19,7 +19,9 @@ const CASES_BY_CALL_FEEDBACK = gql`
 `;
 
 export function CasesByCallFeedback() {
-  const { loading, error, data } = useQuery(CASES_BY_CALL_FEEDBACK);
+  const { loading, error, data } = useQuery(CASES_BY_CALL_FEEDBACK, {
+    pollInterval: 50000,
+  });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error </p>;
