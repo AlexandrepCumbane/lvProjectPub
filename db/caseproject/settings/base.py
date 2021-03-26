@@ -55,6 +55,10 @@ INSTALLED_APPS = [
     'case_tipology',
     'accounts',
     'blog',
+
+    #Channels
+    'chat',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -87,8 +91,18 @@ from wq.db.default_settings import (
 )
 
 WSGI_APPLICATION = 'caseproject.wsgi.application'
+ASGI_APPLICATION = "caseproject.asgi.application"
 
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+        'ROUTING': 'example_channels.routing.channel_routing',
+    },
+}
 # wq: DATABASES is defined in dev.py/prod.py
 
 # Password validation
