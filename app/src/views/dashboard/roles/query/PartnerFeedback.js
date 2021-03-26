@@ -6,15 +6,17 @@ import { IntlContext } from "../../../../i18n";
 import { useContext } from "react";
 
 const CASES_BY_AGE = gql`
-{
-    allCasesCallFeedbackPartner{
+  {
+    allCasesCallFeedbackPartner {
       dcount
     }
-    }
+  }
 `;
 
 export function FeedbackPartner() {
-  const { loading, error, data } = useQuery(CASES_BY_AGE);
+  const { loading, error, data } = useQuery(CASES_BY_AGE, {
+    pollInterval: 50000,
+  });
   const context = useContext(IntlContext);
 
   if (loading) return <p>Loading...</p>;

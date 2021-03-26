@@ -13,7 +13,9 @@ const QUERY = (id) => gql`
 `;
 
 export function TotalFocalPointPartner(props) {
-  const { loading, error, data } = useQuery(QUERY(props.userInfo ?? ""));
+  const { loading, error, data } = useQuery(QUERY(props.userInfo ?? ""), {
+    pollInterval: 50000,
+  });
   const context = useContext(IntlContext);
 
   if (loading) return <p>Loading...</p>;
