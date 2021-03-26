@@ -14,7 +14,7 @@ const CASES_BY_AGE = gql`
 
 export function AllCases() {
   const { loading, error, data } = useQuery(CASES_BY_AGE, {
-    pollInterval: 50000,
+    pollInterval: 5000,
   });
   const context = useContext(IntlContext);
 

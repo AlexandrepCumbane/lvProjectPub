@@ -14,7 +14,7 @@ const QUERY = (id) => gql`
 
 export function TotalPartner(props) {
   const { loading, error, data } = useQuery(QUERY(props.userInfo ?? ""), {
-    pollInterval: 50000,
+    pollInterval: 5000,
   });
   const context = useContext(IntlContext);
 
