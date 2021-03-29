@@ -2,6 +2,9 @@
 # from rest_framework import status
 # from django.utils import timezone
 # from rest_framework.decorators import action
+from django.utils import timezone
+from django.db.models import Q
+
 from wq.db.rest.views import ModelViewSet
 
 from accounts.serializer import CustomUserFullSerializer
@@ -19,20 +22,17 @@ class ArticleViewSet(ModelViewSet):
         """
             This method filter LvForms records from relative user groups/roles 
         """
-        
+
         user_data = CustomUserFullSerializer(user).data
-        
+
         if "manager" in user_data['groups_label']:
-            return Article.objects.all().order_by('-id')
+            return self.queryset.order_by('-id')
 
-        if "operator" in user_data['groups_label']:
-            return self.queryset.filter(published=True)
+        return self.queryset.filter(
+            Q(published_date__isnull=True)
+            | Q(published_date__gte=timezone.now())).exclude(published=False).order_by('-id')
 
-        if "focalpoint" in user_data['groups_label']:
-            return self.queryset.filter(published=True)
-        
-        else:
-            []
+        #
 
     def list(self, request, *args, **kwargs):
         page = self.paginate_queryset(self.get_queryset_list(request.user))
