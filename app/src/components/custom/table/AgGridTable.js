@@ -544,7 +544,6 @@ class AggridTable extends React.Component {
                         colResizeDefault={"shift"}
                         animateRows={true}
                         floatingFilter={true}
-                        rowSelection="multiple"
                         pagination={true}
                         paginationPageSize={this.state.paginationPageSize}
                         pivotPanelShow="always"

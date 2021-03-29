@@ -582,7 +582,7 @@ class Create extends React.Component {
             history.push(`/${this.props.url}`);
           }, 1000);
         })
-        .catch((error) => {
+        .catch(({ error }) => {
           this.notifyErrorBounce("Failed to save Object.");
         });
     }

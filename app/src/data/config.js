@@ -109,6 +109,9 @@ export default {
           name: "feedback",
           label: "Feedback",
           type: "text",
+          bind: {
+            required: true,
+          },
         },
       ],
       verbose_name: "casecomment",

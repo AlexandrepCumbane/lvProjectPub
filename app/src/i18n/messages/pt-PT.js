@@ -288,6 +288,7 @@ export default {
     "Comment Your task": "Comente sua tarefa",
     "Transaction completed successfuly.": "Transação concluída com sucesso.",
     "Transaction completed successfuly!": "Transação concluída com sucesso.",
+    "Failed to save Object.": "Falhou em guardar o registo.",
     false: "Näo",
     true: "Sim",
 

@@ -7,11 +7,16 @@ from .models import LvForm, CaseComment, ForwardingInstitution, Task, TaskCommen
 class CaseCommentSerializer(patterns.AttachedModelSerializer):
 
     author = CustomUserFullSerializer(source="created_by", required=False)
+    # owner = patterns.IntegerField(required=True)
+
 
     class Meta:  #(patterns.AttachmentSerializer.Meta):
         model = CaseComment
         fields = '__all__'
         read_only_fields = ('created_by', 'author')
+        extra_kwargs = {"feedback": {"required": True, "allow_null": False}}
+
+        
 
         # exclude = ('lvform',)
         # object_field = 'lvform'

@@ -362,8 +362,9 @@ class CaseComment(models.Model):
         on_delete=models.CASCADE,
     )
     feedback = models.TextField(
-        null=True,
-        blank=True,
+        null=False,
+        blank=False,
+        default="",
         verbose_name="Feedback",
     )
     created_by = models.ForeignKey(
