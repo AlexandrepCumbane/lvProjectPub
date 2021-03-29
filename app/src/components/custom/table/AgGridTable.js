@@ -1,7 +1,7 @@
 import React from "react";
 import { AgGridReact } from "ag-grid-react";
 import classnames from "classnames";
-import { Edit, ChevronDown, List } from "react-feather";
+import { Edit, ChevronDown, List, Delete } from "react-feather";
 import { ContextLayout } from "../../../utility/context/Layout";
 import {
   Button,
@@ -83,8 +83,8 @@ class AggridTable extends React.Component {
         {
           headerName: this.translate("Action"),
           field: "company",
-          width: 100,
-          pinned: window.innerWidth > 992 ? "right" : false,
+          width: 130,
+          pinned: window.innerWidth > 512 ? "right" : false,
           cellRendererFramework: (params) => {
             return (
               <div className="data-list-action">
@@ -148,7 +148,22 @@ class AggridTable extends React.Component {
                     }}
                   />
                 ) : (
-                  <div />
+                  <></>
+                )}
+
+                {this.props.userRole === "manager" ? (
+                  <Delete
+                    className="cursor-pointer mr-1 text-danger"
+                    size={20}
+                    onClick={(e) => {
+                      this.setState({
+                        showSidebar: true,
+                        selectedData: params.data.casecall,
+                      });
+                    }}
+                  />
+                ) : (
+                  <></>
                 )}
               </div>
             );
