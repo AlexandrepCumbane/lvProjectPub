@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { toast, Bounce } from "react-toastify";
 
 import { Badge } from "reactstrap";
+import { axios } from "../../redux/api";
+
 
 import { Circle, Octagon, ArrowUp } from "react-feather";
 
@@ -23,6 +26,16 @@ import {
 class List extends Component {
   static contextType = IntlContext;
   translate = this.context.translate;
+
+  notifySuccessBounce = () =>
+    toast.success(this.translate(`Transaction completed successfuly!`), {
+      transition: Bounce,
+    });
+
+  notifyErrorBounce = (error) =>
+    toast.error(error, {
+      transition: Bounce,
+    });
 
   state = {
     pageTitle: this.translate("Pages"),
@@ -91,6 +104,25 @@ class List extends Component {
         if (this.props.app_reducer[this.props.name ?? this.props.path]?.next)
           return true;
         else return false;
+      });
+  };
+
+  handleDelete = (id) => {
+    const { userOauth } = this.props.state.auth.login;
+
+    axios
+      .delete(`${this.props.url}/${id}.json/`, {
+        headers: {
+          "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
+          Authorization: `Bearer ${userOauth.access_token}`,
+        },
+      })
+      .then(({ data }) => {
+        this.requestMore(false);
+        this.notifySuccessBounce(data.id);
+      })
+      .catch((error) => {
+        this.notifyErrorBounce("Unable to complete transaction.");
       });
   };
 
@@ -352,7 +384,10 @@ class List extends Component {
             minWidth: 250,
             editable: false,
             resizable: true,
-            valueGetter: ({ data }) => data[`${item.name}`]?.length ?? ( data[`${item.name}_set`]?.length ?? 0),
+            valueGetter: ({ data }) =>
+              data[`${item.name}`]?.length ??
+              data[`${item.name}_set`]?.length ??
+              0,
           };
         }
         if (item.type === "datetime") {
@@ -433,6 +468,7 @@ class List extends Component {
             dropdowns={[]}
             onColumnMoved={this.onColumnMoved}
             userRole={this.props.userRole}
+            deleteAction={this.handleDelete}
           />
         ) : (
           <></>

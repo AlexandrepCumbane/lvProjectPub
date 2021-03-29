@@ -156,10 +156,7 @@ class AggridTable extends React.Component {
                     className="cursor-pointer mr-1 text-danger"
                     size={20}
                     onClick={(e) => {
-                      this.setState({
-                        showSidebar: true,
-                        selectedData: params.data.casecall,
-                      });
+                      this.props.deleteAction(params.data.id);
                     }}
                   />
                 ) : (
