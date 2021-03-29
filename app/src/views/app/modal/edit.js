@@ -8,7 +8,6 @@ import * as Icon from "react-feather";
 import { axios } from "../../../redux/api";
 import {
   Alert,
-  Badge,
   Button,
   Modal,
   ModalHeader,
@@ -23,6 +22,7 @@ import {
   Spinner,
   ListGroup,
   ListGroupItem,
+  Form,
 } from "reactstrap";
 import { IntlContext } from "../../../i18n/provider";
 import config from "../../../data/config";
@@ -130,6 +130,7 @@ class Edit extends React.Component {
                   label={this.translate("Add Focalpoint")}
                   color="warning"
                   task_id={this.props.data["id"]}
+                  toggleModal={this.props.toggleModal}
                 />
                 <CreateModal
                   title={this.translate(`Add Partner to agency`)}
@@ -137,6 +138,7 @@ class Edit extends React.Component {
                   label={this.translate("Add Partner")}
                   color="info"
                   task_id={this.props.data["id"]}
+                  toggleModal={this.props.toggleModal}
                 />
               </>
             ) : (
@@ -222,7 +224,19 @@ class Edit extends React.Component {
                 </span>
                 <span>{`${item.first_name} ${item.last_name}: ${item.email}`}</span>
                 <span>
-                  <Button.Ripple className="btn-icon" color="flat-warning">
+                  <Button.Ripple
+                    onClick={() => {
+                      let payload = new FormData();
+                      payload.append("task_id", this.props.data.id);
+                      payload.append("focalpoint_id", item.id);
+                      this.removeFromAgency(
+                        "remove_focalpoint_from_agency",
+                        payload
+                      );
+                    }}
+                    className="btn-icon"
+                    color="flat-warning"
+                  >
                     <Icon.Trash2 size={16} />
                   </Button.Ripple>
                 </span>
@@ -250,7 +264,19 @@ class Edit extends React.Component {
                 </span>
                 <span>{`${item.first_name} ${item.last_name}: ${item.email}`}</span>
                 <span>
-                  <Button.Ripple className="btn-icon" color="flat-warning">
+                  <Button.Ripple
+                    onClick={() => {
+                      let payload = new FormData();
+                      payload.append("task_id", this.props.data.id);
+                      payload.append("partner_id", item.id);
+                      this.removeFromAgency(
+                        "remove_partner_from_agency",
+                        payload
+                      );
+                    }}
+                    className="btn-icon"
+                    color="flat-warning"
+                  >
                     <Icon.Trash2 size={16} />
                   </Button.Ripple>
                 </span>
@@ -560,6 +586,30 @@ class Edit extends React.Component {
     }
 
     this.setState({ form });
+  };
+
+  removeFromAgency = (endpoint, data) => {
+    const { userOauth } = this.props.state.auth.login;
+
+    axios
+      .post(`users/0/${endpoint}.json/`, data, {
+        headers: {
+          "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
+          Authorization: `Bearer ${userOauth.access_token}`,
+        },
+      })
+      .then(({ data }) => {
+        this.notifySuccessBounce(data.id);
+
+        if (this.props.requestData) this.props.requestData(false);
+        setTimeout(() => {
+          this.props.toggleModal();
+        }, 1000);
+      })
+      .catch((error) => {
+        this.setState({ isLoading: false });
+        this.notifyErrorBounce(this.translate("Transaction process failed"));
+      });
   };
 
   /**

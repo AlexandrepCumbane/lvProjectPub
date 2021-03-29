@@ -167,6 +167,20 @@ class UserViewSet(ModelViewSet):
         except Exception as error:
             return Response({"error": str(error)},
                             status=status.HTTP_400_BAD_REQUEST)
+   
+    @action(detail=True, methods=['post'], url_path="remove_partner_from_agency")
+    def remove_cluster_agency(self, request, *args, **kwargs):
+
+        try:
+            qs = ClusterRegion.objects.get(id=request.data['task_id'])
+            qs.partners.remove(request.data['partner_id'])
+            qs.save()
+            us = self.queryset.get(id=request.data['partner_id'])
+            return Response(self.serializer_class(us).data,
+                            status=status.HTTP_201_CREATED)
+        except Exception as error:
+            return Response({"error": str(error)},
+                            status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=True, methods=['post'], url_path="agencyfocalpoint")
     def save_cluster_agency_fs(self, request, *args, **kwargs):
@@ -179,5 +193,20 @@ class UserViewSet(ModelViewSet):
             return Response(self.serializer_class(us).data,
                             status=status.HTTP_201_CREATED)
         except Exception as error:
+            return Response({"error": str(error)},
+                            status=status.HTTP_400_BAD_REQUEST)
+   
+    @action(detail=True, methods=['post'], url_path="remove_focalpoint_from_agency")
+    def remove_cluster_agency_fs(self, request, *args, **kwargs):
+
+        try:
+            qs = ClusterRegion.objects.get(id=request.data['task_id'])
+            qs.focalpoints.remove(request.data['focalpoint_id'])
+            qs.save()
+            us = self.queryset.get(id=request.data['focalpoint_id'])
+            return Response(self.serializer_class(us).data,
+                            status=status.HTTP_201_CREATED)
+        except Exception as error:
+            print(error)
             return Response({"error": str(error)},
                             status=status.HTTP_400_BAD_REQUEST)
