@@ -425,5 +425,9 @@ export default {
     "Approved Cases": "Casos Aprovados",
     "Unapproved Cases": "Casos Não Aprovados",
     Delete: "Apagar",
+    Published: "Publicado",
+    "Not published": "Não Publicado",
+    "Not Published": "Não Publicado",
+    Expired: "Expirado",
   },
 };

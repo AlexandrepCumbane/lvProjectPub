@@ -39,6 +39,40 @@ class KnowledgeCards extends React.Component {
     }
   }
 
+  renderExpiration = (item) => {
+    const today = new Date();
+    const current = new Date(item.published_date);
+
+    if (
+      this.props.userRole === "manager" &&
+      (today <= current || item.published_date === null)
+    ) {
+      return item.published ? (
+        <small className="text-success">
+          <strong>{this.translate("Published")}</strong>
+        </small>
+      ) : (
+        <small className="text-warning">
+          <strong> {this.translate("Not Published")}</strong>
+        </small>
+      );
+    } else {
+      if (this.props.userRole === "manager") {
+        return (
+          <small className="text-danger">
+            <strong>{this.translate("Expired")}</strong>
+          </small>
+        );
+      }
+    }
+
+    return (
+      <small className="text-success">
+        <strong>{this.translate("Published")}</strong>
+      </small>
+    );
+  };
+
   renderCards = () => {
     const { data } = this.state;
 
@@ -65,6 +99,8 @@ class KnowledgeCards extends React.Component {
                   <small className="text-dark">
                     {this.translate(item.category_label)}
                   </small>
+                  <br />
+                  {this.renderExpiration(item)}
                 </div>
               </CardBody>
             </Card>
@@ -96,6 +132,8 @@ class KnowledgeCards extends React.Component {
                   <small className="text-dark">
                     {this.translate(item.category_label)}
                   </small>
+                  <br />
+                  {this.renderExpiration(item)}
                 </div>
               </CardBody>
             </Card>
