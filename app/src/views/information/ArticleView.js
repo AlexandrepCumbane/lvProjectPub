@@ -205,6 +205,29 @@ class Edit extends Component {
               )}
               {this.translate(this.state.edit_status ? "Update" : "Edit")}
             </Button>
+
+            {this.state.edit_status ? (
+              <></>
+            ) : (
+              <Button
+                color={"warning"}
+                className="mr-1 square"
+                onClick={() => this.handleDelete()}
+              >
+                {this.state.isProcessing ? (
+                  <Spinner
+                    color="white"
+                    className="mr-1"
+                    size="sm"
+                    type="grow"
+                  />
+                ) : (
+                  <></>
+                )}
+                {this.translate("Delete")}
+              </Button>
+            )}
+
             {this.state.edit_status ? (
               <Button
                 color="danger"
@@ -605,6 +628,41 @@ class Edit extends Component {
   /**
    * Submits the form to post request action
    */
+  handleDelete = () => {
+    let { handleSidebar } = this.props;
+    const { userOauth } = this.props.state.auth.login;
+
+    axios
+      .delete(`articles/${this.props.data.id}.json/`, {
+        headers: {
+          "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
+          Authorization: `Bearer ${userOauth.access_token}`,
+        },
+      })
+      .then(({ data }) => {
+        this.props.requestForm({
+          url: "articles",
+          name: "article",
+        });
+
+        this.notifySuccessBounce(data.id);
+
+        setTimeout(() => {
+          if (this.props.updateLoadMore) {
+            this.props.updateLoadMore();
+          }
+          handleSidebar(false, true);
+        }, 1000);
+      })
+      .catch((error) => {
+        this.setState({ isProcessing: false });
+        this.notifyErrorBounce("Unable to complete transaction.");
+      });
+  };
+
+  /**
+   * Submits the form to post request action
+   */
   handleSubmit = () => {
     if (this.state.edit_status) {
       let { handleSidebar } = this.props;
@@ -627,10 +685,9 @@ class Edit extends Component {
           this.notifySuccessBounce(data.id);
 
           setTimeout(() => {
-            
-          if (this.props.updateLoadMore) {
-            this.props.updateLoadMore();
-          }
+            if (this.props.updateLoadMore) {
+              this.props.updateLoadMore();
+            }
             handleSidebar(false, true);
           }, 1000);
         })

@@ -424,5 +424,6 @@ export default {
     "All Cases": "Todos os casos",
     "Approved Cases": "Casos Aprovados",
     "Unapproved Cases": "Casos Não Aprovados",
+    Delete: "Apagar",
   },
 };
