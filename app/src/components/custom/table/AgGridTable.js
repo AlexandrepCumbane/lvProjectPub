@@ -190,6 +190,20 @@ class AggridTable extends React.Component {
     return res;
   };
 
+  renderSelection = () => {
+    let res = <></>;
+    if (!this.props.loading)
+      res = (
+        <div className="d-flex justify-content-center align-items-center mb-1">
+          <strong className="ml-1 text-primary">
+            {this.translate("Selected")}: <span id="selectedRows">0</span>
+          </strong>
+        </div>
+      );
+
+    return res;
+  };
+
   onColumnMoved(name, params) {
     var columnState = JSON.stringify(params.columnApi.getColumnState());
     localStorage.setItem(name, columnState);
@@ -278,12 +292,13 @@ class AggridTable extends React.Component {
   };
 
   onSelectionChanged = () => {
-    console.log(this.gridApi.getSelectedRows().length);
+    // this.setState({ selectedRows: this.gridApi.getSelectedRows().length });
+
+    const selected = this.gridApi.getSelectedRows();
+    document.querySelector("#selectedRows").innerHTML = selected.length;
   };
 
   renderFilters = () => {
-    console.log(this.props.userRole);
-
     let element = (
       <div className="d-flex flex-wrap">
         <div className="table-input mr-1 rounded-0">
@@ -453,6 +468,7 @@ class AggridTable extends React.Component {
                       </DropdownMenu>
                     </UncontrolledDropdown>
                   </div>
+                  {this.renderSelection()}
                   {this.renderLoading()}
                   <div className="d-flex flex-wrap justify-content-between mb-1">
                     {this.renderFilters()}
@@ -528,6 +544,7 @@ class AggridTable extends React.Component {
                         colResizeDefault={"shift"}
                         animateRows={true}
                         floatingFilter={true}
+                        rowSelection="multiple"
                         pagination={true}
                         paginationPageSize={this.state.paginationPageSize}
                         pivotPanelShow="always"
@@ -536,7 +553,7 @@ class AggridTable extends React.Component {
                           this.onColumnMoved(this.props.tableType, params)
                         }
                         onPaginationChanged={() => this.onPaginationChanged()}
-                        onSelectionChanged={() => this.onSelectionChanged()}
+                        onSelectionChanged={this.onSelectionChanged.bind(this)}
                       />
                     )}
                   </ContextLayout.Consumer>

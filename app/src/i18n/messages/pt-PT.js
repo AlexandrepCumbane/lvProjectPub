@@ -255,6 +255,7 @@ export default {
     operator: "Operador",
     focalpoint: "Ponto Focal",
     partner: "Parceiro",
+    Selected: "Selecionado(s)",
 
     "Is Active": "Está activo",
     "Email address": "Email",
