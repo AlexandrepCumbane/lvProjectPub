@@ -59,6 +59,8 @@ class Edit extends Component {
     modal_list: false,
     modal_list_data: {},
     isProcessing: false,
+    casecomment_set: [],
+    task_set: [],
   };
 
   componentDidMount() {
@@ -68,6 +70,9 @@ class Edit extends Component {
     const { data } = this.props;
 
     let formdata = new FormData();
+
+    this.setState({ casecomment_set: data.casecomment_set.reverse() ?? [] });
+    this.setState({ task_set: data.task_set.reverse() ?? [] });
 
     form.forEach((item) => {
       /**
@@ -202,48 +207,61 @@ class Edit extends Component {
   }
 
   renderTasks = () => {
-    const { task_set } = this.props.data;
+    const { task_set } = this.state;
+
+    if (task_set.length === 0) {
+      return <div />;
+    }
 
     return (
-      <ListGroup flush className="rounded-0">
-        {this.state.modal_list ? (
-          <ListModal
-            modal={this.state.modal_list}
-            toggleModal={this.toggleListModal}
-            data={this.state.modal_list_data}
-          />
-        ) : (
-          <></>
-        )}
-        {task_set.map((item) => {
-          let badge = <></>;
+      <Col md="12">
+        <div className="divider">
+          <div className="divider-text">
+            <strong className="ml-2"> {this.translate("Tasks")}</strong>
+          </div>
+        </div>
+        <ListGroup flush className="rounded-0">
+          {this.state.modal_list ? (
+            <ListModal
+              modal={this.state.modal_list}
+              toggleModal={this.toggleListModal}
+              data={this.state.modal_list_data}
+            />
+          ) : (
+            <></>
+          )}
+          {task_set.map((item) => {
+            let badge = <></>;
 
-          if (item.taskcomment_set.length > 0) {
-            badge = (
-              <Badge className="mb-1" color="primary" pill>
-                {item.taskcomment_set.length}
-              </Badge>
+            if (item.taskcomment_set.length > 0) {
+              badge = (
+                <Badge className="mb-1" color="primary" pill>
+                  {item.taskcomment_set.length}
+                </Badge>
+              );
+            }
+            return (
+              <ListGroupItem onClick={() => this.raiseListData(item)}>
+                <div className="d-flex justify-content-between w-100 align-items-center">
+                  <h5 className="mb-1">
+                    <strong>{this.translate(item.task_title_label)}</strong>
+                  </h5>
+                  {badge}
+                </div>
+                <p className="mb-1">{item.description} </p>
+                <div className="d-flex justify-content-between w-100">
+                  <small>
+                    <strong>{item.assignee_label}</strong>
+                  </small>
+                  <small className="text-primary" style={{ cursor: "pointer" }}>
+                    <strong>{this.translate("Read Comments")} ...</strong>
+                  </small>
+                </div>
+              </ListGroupItem>
             );
-          }
-          return (
-            <ListGroupItem onClick={() => this.raiseListData(item)}>
-              <div className="d-flex justify-content-between w-100 align-items-center">
-                <h5 className="mb-1">
-                  {this.translate(item.task_title_label)}
-                </h5>
-                {badge}
-              </div>
-              <p className="mb-1">{item.description} </p>
-              <div className="d-flex justify-content-between w-100">
-                <small>{item.assignee_label}</small>{" "}
-                <small className="text-primary" style={{ cursor: "pointer" }}>
-                  {this.translate("Read Comments")}
-                </small>
-              </div>
-            </ListGroupItem>
-          );
-        })}
-      </ListGroup>
+          })}
+        </ListGroup>
+      </Col>
     );
   };
 
@@ -271,7 +289,7 @@ class Edit extends Component {
   };
 
   renderComments = () => {
-    const { casecomment_set } = this.props.data;
+    const { casecomment_set } = this.state;
 
     if (casecomment_set.length === 0) {
       return <div />;
@@ -306,6 +324,20 @@ class Edit extends Component {
         </ListGroup>
       </Col>
     );
+  };
+
+  addMoreComments = (comments) => {
+    let { casecomment_set } = this.state;
+
+    casecomment_set.unshift(comments);
+    this.setState({ casecomment_set });
+  };
+
+  addMoreTasks = (comments) => {
+    let { task_set } = this.state;
+
+    task_set.unshift(comments);
+    this.setState({ task_set });
   };
 
   renderFeedbackComments = () => {
@@ -410,6 +442,7 @@ class Edit extends Component {
                   label={this.translate("Task")}
                   color="success"
                   lvform_id={data.id}
+                  addMore={this.addMoreTasks}
                 />
                 <Modal
                   title={this.translate(`Send to Focal Point`)}
@@ -423,6 +456,7 @@ class Edit extends Component {
                   label={this.translate("Comment")}
                   color="primary"
                   lvform_id={data["id"]}
+                  addMore={this.addMoreComments}
                 />
               </>
             )}
@@ -527,19 +561,8 @@ class Edit extends Component {
       case "manager":
         element = (
           <>
-            <Col md="12" className="mt-1 mb-1F">
-              <div className="divider">
-                <div className="divider-text">
-                  {this.translate("More Details")}{" "}
-                </div>
-              </div>
-            </Col>
-            <Col md="12">
-              <strong className="ml-2"> {this.translate("Tasks")}</strong>
-              {this.renderTasks()}
-            </Col>
+            {this.renderTasks()}
             {this.renderFeedbackComments()}
-
             {this.renderComments()}
           </>
         );

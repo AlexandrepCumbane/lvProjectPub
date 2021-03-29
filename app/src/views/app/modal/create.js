@@ -194,7 +194,7 @@ class Create extends React.Component {
       field.name === "call_attempts" ||
       field.name === "isFeedback_aproved"
     ) {
-      return <span key="lvform" />;
+      return <span key={field.name} />;
     }
     switch (field.type) {
       case "text":
@@ -420,6 +420,11 @@ class Create extends React.Component {
         .then(({ data }) => {
           this.notifySuccessBounce(data.id);
           this.setState({ isLoading: false });
+
+          if (this.props.addMore) {
+            this.props.addMore(data);
+          }
+
           setTimeout(() => {
             this.toggleModal();
           }, 1000);
