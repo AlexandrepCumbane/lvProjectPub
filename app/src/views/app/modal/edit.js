@@ -22,7 +22,6 @@ import {
   Spinner,
   ListGroup,
   ListGroupItem,
-  Form,
 } from "reactstrap";
 import { IntlContext } from "../../../i18n/provider";
 import config from "../../../data/config";
