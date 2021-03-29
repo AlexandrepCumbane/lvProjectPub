@@ -3,9 +3,12 @@ import { connect } from "react-redux";
 import { toast, Bounce } from "react-toastify";
 import { requestDropodowns } from "../../../redux/actions/app/actions";
 
+import * as Icon from "react-feather";
+
 import { axios } from "../../../redux/api";
 import {
   Alert,
+  Badge,
   Button,
   Modal,
   ModalHeader,
@@ -18,6 +21,8 @@ import {
   Input,
   Label,
   Spinner,
+  ListGroup,
+  ListGroupItem,
 } from "reactstrap";
 import { IntlContext } from "../../../i18n/provider";
 import config from "../../../data/config";
@@ -204,15 +209,26 @@ class Edit extends React.Component {
       return (
         <Col md="12">
           <div className="divider">
-            <div className="divider-text">{this.translate("Focalpoints")} </div>
+            <div className="divider-text">
+              <strong>{this.translate("Focalpoints")}</strong>{" "}
+            </div>
           </div>
-          {this.props.data["focalpoints_set"].map((item, index) => (
-            <FormGroup className="form-label-group position-relative has-icon-left mt-1">
-              <span
-                key={index}
-              >{`${item.first_name} ${item.last_name} - ${item.email} `}</span>
-            </FormGroup>
-          ))}
+
+          <ListGroup flush>
+            {this.props.data["focalpoints_set"].map((item, index) => (
+              <ListGroupItem className="d-flex justify-content-between align-items-center">
+                <span className="mr-1">
+                  <Icon.User size={16} />
+                </span>
+                <span>{`${item.first_name} ${item.last_name}: ${item.email}`}</span>
+                <span>
+                  <Button.Ripple className="btn-icon" color="flat-warning">
+                    <Icon.Trash2 size={16} />
+                  </Button.Ripple>
+                </span>
+              </ListGroupItem>
+            ))}
+          </ListGroup>
         </Col>
       );
     }
@@ -222,15 +238,25 @@ class Edit extends React.Component {
       return (
         <Col md="12">
           <div className="divider  mt-1">
-            <div className="divider-text">{this.translate("Partners")} </div>
+            <div className="divider-text">
+              <strong>{this.translate("Partners")} </strong>
+            </div>
           </div>
-          {this.props.data["partners_set"].map((item, index) => (
-            <FormGroup className="form-label-group position-relative has-icon-left  mt-1">
-              <span
-                key={index}
-              >{`${item.first_name} ${item.last_name} - ${item.email} `}</span>
-            </FormGroup>
-          ))}
+          <ListGroup flush>
+            {this.props.data["partners_set"].map((item, index) => (
+              <ListGroupItem className="d-flex justify-content-between align-items-center">
+                <span className="mr-1">
+                  <Icon.User size={16} />
+                </span>
+                <span>{`${item.first_name} ${item.last_name}: ${item.email}`}</span>
+                <span>
+                  <Button.Ripple className="btn-icon" color="flat-warning">
+                    <Icon.Trash2 size={16} />
+                  </Button.Ripple>
+                </span>
+              </ListGroupItem>
+            ))}
+          </ListGroup>
         </Col>
       );
     }
