@@ -292,8 +292,6 @@ class AggridTable extends React.Component {
   };
 
   onSelectionChanged = () => {
-    // this.setState({ selectedRows: this.gridApi.getSelectedRows().length });
-
     const selected = this.gridApi.getSelectedRows();
     document.querySelector("#selectedRows").innerHTML = selected.length ?? 0;
   };
