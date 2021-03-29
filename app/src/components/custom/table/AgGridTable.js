@@ -84,7 +84,7 @@ class AggridTable extends React.Component {
           headerName: this.translate("Action"),
           field: "company",
           width: 130,
-          pinned: window.innerWidth > 512 ? "right" : false,
+          pinned: window.innerWidth > 800 ? "right" : false,
           cellRendererFramework: (params) => {
             return (
               <div className="data-list-action">
