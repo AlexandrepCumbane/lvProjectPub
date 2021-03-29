@@ -73,6 +73,12 @@ class KnowledgeCards extends React.Component {
     );
   };
 
+  verifyLabel = (item) => { 
+    return this.translate(item ?? "None")
+      .toLocaleLowerCase()
+      .includes(this.props.value.toLocaleLowerCase());
+  };
+
   renderCards = () => {
     const { data } = this.state;
 
@@ -107,9 +113,11 @@ class KnowledgeCards extends React.Component {
           </Col>
         );
       } else if (
-        item.title
-          .toLocaleLowerCase()
-          .includes(this.props.value.toLocaleLowerCase())
+        this.verifyLabel(item.title) ||
+        this.verifyLabel(item.category_label) ||
+        this.verifyLabel(item.aproved_by_label) ||
+        this.verifyLabel(item.created_by_label) ||
+        this.verifyLabel(item.file)
       ) {
         return (
           <Col
