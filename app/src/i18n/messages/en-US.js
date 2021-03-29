@@ -110,9 +110,14 @@ export default {
 
     false: "No",
     true: "Yes",
-    "Case Close Category" : "How did it end",
+    "Case Close Category": "How did it end",
     "Is Closed": "Case closed?",
     article: "Article",
     "Cluster Sector": "Cluster Name",
+
+    manager: "Manager",
+    operator: "Operator",
+    focalpoint: "Focalpoint",
+    partner: "Partner",
   },
 };

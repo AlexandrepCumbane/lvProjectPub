@@ -247,6 +247,29 @@ class Edit extends Component {
     );
   };
 
+  getCommentColor = (user) => {
+    const userRole = user.groups_label[0] ?? "None";
+
+    let color = "white";
+
+    switch (userRole) {
+      case "manager":
+        color = "success";
+        break;
+      case "focalpoint":
+        color = "info";
+        break;
+      case "partner":
+        color = "primary";
+        break;
+
+      default:
+        color = "secondary";
+    }
+
+    return color;
+  };
+
   renderComments = () => {
     const { casecomment_set } = this.props.data;
 
@@ -263,17 +286,31 @@ class Edit extends Component {
         </div>
         <ListGroup flush className="rounded-0">
           {casecomment_set.map((item) => (
-            <ListGroupItem>
+            <ListGroupItem
+              className={`bg-white`}
+              color={this.getCommentColor(item.author)}
+            >
               <p className="mb-1">{item.feedback}</p>
-              <small>
-                {item.created_by_label} {`  |  ${item.datetime_created_label}`}
-              </small>
+
+              <div className="d-flex justify-content-between align-items-center">
+                <small>
+                  <strong>{item.created_by_label}</strong>
+                </small>
+                <small>
+                  <strong>
+                    {`@${this.translate(item.author.groups_label[0])} . ${
+                      item.datetime_created_label
+                    }`}
+                  </strong>
+                </small>
+              </div>
             </ListGroupItem>
           ))}
         </ListGroup>
       </Col>
     );
   };
+
   renderFeedbackComments = () => {
     const { forwardinginstitution } = this.props.data;
 
@@ -287,7 +324,7 @@ class Edit extends Component {
     }
     if (forwardinginstitution) {
       return (
-        <Col md="6">
+        <Col md="12">
           <ListGroup
             flush
             className="rounded-0 mb-2"
@@ -302,7 +339,13 @@ class Edit extends Component {
             <ListGroupItem>
               <div className="d-flex justify-content-between w-100">
                 <div className="mb-1">
-                  <h6>{this.translate("Partner Feedback")} </h6>
+                  <h6>
+                    <strong>
+                      {userRole === "partner"
+                        ? this.translate("My Feedback")
+                        : this.translate("Partner Feedback")}
+                    </strong>
+                  </h6>
                   <small>{forwardinginstitution.datetime_created_label}</small>
                 </div>
                 <small>{`${this.translate("Aproved")}: ${this.translate(
@@ -312,9 +355,11 @@ class Edit extends Component {
               <p className="mb-1">{forwardinginstitution.partner_feedback} </p>
 
               <div className="d-flex justify-content-between w-100">
-                <small>{forwardinginstitution.referall_to_label}</small>{" "}
+                <small>
+                  <strong>{forwardinginstitution.referall_to_label}</strong>
+                </small>
                 <small className="text-primary" style={{ cursor: "pointer" }}>
-                  {this.translate("Read more")} ...
+                  <strong>{this.translate("Read more")} ...</strong>
                 </small>
               </div>
             </ListGroupItem>
@@ -492,11 +537,12 @@ class Edit extends Component {
                 </div>
               </div>
             </Col>
-            {this.renderFeedbackComments()}
-            <Col md="6">
+            <Col md="12">
               <strong className="ml-2"> {this.translate("Tasks")}</strong>
               {this.renderTasks()}
             </Col>
+            {this.renderFeedbackComments()}
+
             {this.renderComments()}
           </>
         );

@@ -1,14 +1,17 @@
 import random
 from wq.db.patterns import serializers as patterns
+from accounts.serializer import CustomUserFullSerializer
 from .models import LvForm, CaseComment, ForwardingInstitution, Task, TaskComment, ForwardCaseToFocalpoint
-from rest_framework.serializers import ModelSerializer
 
 
 class CaseCommentSerializer(patterns.AttachedModelSerializer):
+
+    author = CustomUserFullSerializer(source="created_by", required=False)
+
     class Meta:  #(patterns.AttachmentSerializer.Meta):
         model = CaseComment
         fields = '__all__'
-        read_only_fields = ('created_by', )
+        read_only_fields = ('created_by', 'author')
 
         # exclude = ('lvform',)
         # object_field = 'lvform'
@@ -124,7 +127,7 @@ class ForwardCaseToFocalpointSerializer(patterns.AttachedModelSerializer):
     def create(self, validated_data):
 
         form = ForwardCaseToFocalpoint.objects.create(
-                created_by=self.context['request'].user, **validated_data)
+            created_by=self.context['request'].user, **validated_data)
         return form
 
 

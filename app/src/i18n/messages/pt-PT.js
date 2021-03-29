@@ -270,6 +270,7 @@ export default {
     "17 and bellow": "17 e menos",
 
     "Partner Feedback": "Feedback do Parceiro",
+    "My Feedback": "Meu Feedback",
     Save: "Guardar",
     Cancel: "Abortar",
     Submit: "Submeter",
