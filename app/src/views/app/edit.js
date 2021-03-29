@@ -286,10 +286,7 @@ class Edit extends Component {
         </div>
         <ListGroup flush className="rounded-0">
           {casecomment_set.map((item) => (
-            <ListGroupItem
-              className={`bg-white`}
-              color={this.getCommentColor(item.author)}
-            >
+            <ListGroupItem>
               <p className="mb-1">{item.feedback}</p>
 
               <div className="d-flex justify-content-between align-items-center">
