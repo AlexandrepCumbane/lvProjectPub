@@ -560,8 +560,12 @@ class Edit extends Component {
     let res = <></>;
     let { data } = this.props;
 
-    if (field.name === "case_number") {
-      return <span key="case_number" />;
+    if (
+      field.name === "case_number" ||
+      field.name === "consent_pi" ||
+      field.name === "consent_share_pi"
+    ) {
+      return <span key={field.name} />;
     }
 
     switch (field.type) {
@@ -961,7 +965,13 @@ class Edit extends Component {
             res = this.checkboxValue(field.depends_on) ? (
               <Col md="6" key={field.name}>
                 {this.renderLabel(field)}
-                <p>{this.translate(data[`${field.name}_label`] ?? (data[`${field.name}`] ?? "None"))}</p>
+                <p>
+                  {this.translate(
+                    data[`${field.name}_label`] ??
+                      data[`${field.name}`] ??
+                      "None"
+                  )}
+                </p>
               </Col>
             ) : (
               <div key={field.name} />
