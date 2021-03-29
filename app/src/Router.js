@@ -78,7 +78,7 @@ class AppRouter extends React.Component {
   authService = new AuthService();
 
   componentDidMount() {
-    setInterval(() => this.updateToken(), 50000);
+    // setInterval(() => this.updateToken(), 50000);
   }
 
   updateToken = () => {
