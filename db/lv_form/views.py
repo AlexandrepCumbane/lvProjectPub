@@ -87,6 +87,24 @@ class ForwardingInstitutionViewSet(ModelViewSet):
         serializer = self.serializer_class(page, many=True)
         return self.get_paginated_response(serializer.data)
 
+    def create(self, request, *args, **kwargs):
+
+        payload_data = request.data
+
+        if (ForwardingInstitution.objects.filter(
+                referall_to__id=payload_data['referall_to_id'],
+                lvform__id=payload_data['lvform_id'])):
+            return Response({"description": "Record duplication error"},
+                            status=status.HTTP_400_BAD_REQUEST)
+        else:
+            case_serializer = self.serializer_class(
+                data=request.data, context={'request': request})
+            if (case_serializer.is_valid()):
+                case_serializer.save()
+                return Response(case_serializer.data,
+                                status=status.HTTP_201_CREATED)
+            return Response(case_serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
 class LvFormViewSet(ModelViewSet):
 
