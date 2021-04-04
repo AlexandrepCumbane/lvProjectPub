@@ -15,6 +15,7 @@ export const app_reducer = (state = initialState, action) => {
         success: false,
         failed: false,
         loading: false,
+        error: "",
       };
     }
     case "FORM_SUCCESS": {
@@ -37,6 +38,7 @@ export const app_reducer = (state = initialState, action) => {
         failed: true,
         loading: false,
         list: [],
+        error: action.error,
       };
     }
     case "DROPDOWNS": {

@@ -5,7 +5,6 @@ import { toast, Bounce } from "react-toastify";
 import { Badge } from "reactstrap";
 import { axios } from "../../redux/api";
 
-
 import { Circle, Octagon, ArrowUp } from "react-feather";
 
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
@@ -33,7 +32,7 @@ class List extends Component {
     });
 
   notifyErrorBounce = (error) =>
-    toast.error(error, {
+    toast.error(this.translate(error), {
       transition: Bounce,
     });
 
@@ -51,6 +50,7 @@ class List extends Component {
   };
 
   componentDidMount() {
+    console.log(this.props.app_reducer);
     this.formatFields();
     this.requestMore(false);
   }
@@ -74,6 +74,12 @@ class List extends Component {
           pageTitle: `${this.props.title}`,
           isLoading: false,
         });
+
+        if (this.props.app_reducer.error === "session") {
+          this.notifyErrorBounce(
+            "Your session has expired, please login again!"
+          );
+        }
 
         if (this.props.app_reducer[this.props.name ?? this.props.path]?.next)
           return true;
@@ -110,8 +116,12 @@ class List extends Component {
   handleDelete = (id) => {
     const { userOauth } = this.props.state.auth.login;
 
+    let formData = new FormData();
+
+    formData.append("is_deleted", true);
+
     axios
-      .delete(`${this.props.url}/${id}.json/`, {
+      .patch(`${this.props.url}/${id}.json/`, formData, {
         headers: {
           "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
           Authorization: `Bearer ${userOauth.access_token}`,
@@ -321,6 +331,7 @@ class List extends Component {
           headerName: this.translate(item.label),
           field: `${item.name}_label`,
           minWidth: 250,
+          resizable: true,
           hide: true,
         };
       }

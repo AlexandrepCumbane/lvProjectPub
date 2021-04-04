@@ -53,11 +53,21 @@ export const handleForm = (dispatch, payload) =>
           resolve();
         })
         .catch(({ response }) => {
+          let error = "";
+          if (
+            response.data.detail ===
+            "Invalid Authorization header. Unable to verify bearer token"
+          ) {
+            error = "session";
+          } else {
+            error = response.data.detail;
+          }
           dispatch({
             type: "FORM_FAILED",
             failed: true,
             success: false,
             loading: false,
+            error,
           });
           resolve();
         });

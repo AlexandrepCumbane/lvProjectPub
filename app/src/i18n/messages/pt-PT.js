@@ -431,5 +431,6 @@ export default {
     "Not published": "Não Publicado",
     "Not Published": "Não Publicado",
     Expired: "Expirado",
+    "Your session has expired, please login again!": "Sua sessäo expirou, por favor inicie novamente!"
   },
 };
