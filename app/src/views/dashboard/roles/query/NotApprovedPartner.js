@@ -25,7 +25,7 @@ export function NotApprovedPartner(props) {
         iconBg="danger"
         icon={<Icon.X className="text-danger" size={15} />}
         stat="0"
-        statTitle={context.translate("Unapproved Cases")}
+        statTitle={context.translate("Unapproved Feedback")}
         type="area"
       />
     );
@@ -37,7 +37,7 @@ export function NotApprovedPartner(props) {
       iconBg="danger"
       icon={<Icon.X className="text-danger" size={15} />}
       stat={dcount}
-      statTitle={context.translate("Unapproved Cases")}
+      statTitle={context.translate("Unapproved Feedback")}
       type="area"
     />
   );

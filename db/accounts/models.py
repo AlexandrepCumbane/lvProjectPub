@@ -28,8 +28,14 @@ class ClusterSector(models.Model):
     def __str__(self) -> str:
         return self.name
 
+
 class ClusterAgency(models.Model):
-    name = models.CharField(max_length=254, blank=True, null=True)
+    name = models.CharField(
+        max_length=254,
+        blank=True,
+        null=True,
+        unique=True,
+    )
     cluster_sector = models.ForeignKey(
         ClusterSector,
         on_delete=models.CASCADE,
@@ -43,6 +49,7 @@ class ClusterAgency(models.Model):
     def __str__(self) -> str:
         return self.name
 
+
 class ClusterRegion(models.Model):
     name = models.CharField(max_length=254, blank=True, null=True)
     cluster_agency = models.ForeignKey(
@@ -55,7 +62,11 @@ class ClusterRegion(models.Model):
         help_text="cluster_agency",
     )
     focalpoints = models.ManyToManyField(CustomUser, blank=True)
-    partners = models.ManyToManyField(CustomUser, blank=True, related_name='cluster_partner',)
+    partners = models.ManyToManyField(
+        CustomUser,
+        blank=True,
+        related_name='cluster_partner',
+    )
 
     def __str__(self) -> str:
         return self.name

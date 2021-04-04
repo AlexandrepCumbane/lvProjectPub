@@ -30,6 +30,7 @@ import { IntlContext } from "../../../i18n/provider";
 import "../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../assets/scss/pages/users.scss";
 import "../../../assets/scss/pages/data-list.scss";
+import ArticleView from "../../../views/information/ArticleView";
 
 class AggridTable extends React.Component {
   static contextType = IntlContext;
@@ -55,6 +56,7 @@ class AggridTable extends React.Component {
       resizable: true,
       suppressMenu: true,
     },
+    showArticleView: false,
     columnDefs: [
       {
         headerName: "First Name",
@@ -96,6 +98,9 @@ class AggridTable extends React.Component {
 
                     if (this.props.tableType === "lvform") {
                       this.setState({ showSidebar: true });
+                    }
+                    if (this.props.tableType === "article") {
+                      this.setState({ showArticleView: true });
                     }
                     if (
                       this.props.tableType === "forwardcasetofocalpoint" ||
@@ -247,6 +252,7 @@ class AggridTable extends React.Component {
   handleSidebar = (value, prev) => {
     this.setState({ showSidebar: this.props.showSidebar });
     this.setState({ showCallSidebar: false });
+    this.setState({ showArticleView: false });
   };
 
   toggleModal = () => {
@@ -370,6 +376,7 @@ class AggridTable extends React.Component {
       showCallSidebar,
       showTaskDialog,
       modalForm,
+      showArticleView,
     } = this.state;
     return (
       <React.Fragment>
@@ -391,15 +398,22 @@ class AggridTable extends React.Component {
             <></>
           ) : showTaskDialog ? (
             <ModalEdit
-              title={`Edit Task`}
+              title={`Edit`}
               page={modalForm}
-              label="Edit Task"
+              label="Edit"
               color="info"
               modal={showTaskDialog}
               toggleModal={this.handleModal}
               data={this.state.selectedData}
               disabled
               requestData={this.props.requestData}
+            />
+          ) : showArticleView ? (
+            <ArticleView
+              handleSidebar={this.handleSidebar}
+              show={this.state.showArticleView}
+              data={this.state.selectedData}
+              updateLoadMore={this.props.requestData}
             />
           ) : (
             <></>
@@ -487,24 +501,30 @@ class AggridTable extends React.Component {
                           <ChevronDown className="ml-50" size={15} />
                         </DropdownToggle>
                         <DropdownMenu right>
-                          <DropdownItem
+                          {/* <DropdownItem
                             tag="div"
                             onClick={() =>
                               history.push(`${this.props.tableType}s/new`)
                             }
                           >
                             {this.translate("New Record")}
-                          </DropdownItem>
-                          <DropdownItem
-                            tag="div"
-                            onClick={() =>
-                              this.gridApi.exportDataAsCsv({
-                                onlySelected: true,
-                              })
-                            }
-                          >
-                            {this.translate("Export Selected")}
-                          </DropdownItem>
+                          </DropdownItem> */}
+
+                          {this.props.userRole === "manager" ||
+                          this.props.userRole === "focalpoint" ? (
+                            <DropdownItem
+                              tag="div"
+                              onClick={() =>
+                                this.gridApi.exportDataAsCsv({
+                                  onlySelected: true,
+                                })
+                              }
+                            >
+                              {this.translate("Export Selected")}
+                            </DropdownItem>
+                          ) : (
+                            <></>
+                          )}
                           <DropdownItem
                             tag="div"
                             onClick={() => {

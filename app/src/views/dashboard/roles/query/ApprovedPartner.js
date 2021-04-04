@@ -25,7 +25,7 @@ export function ApprovedPartner(props) {
         iconBg="success"
         icon={<Icon.Check className="text-success" size={15} />}
         stat="0"
-        statTitle={context.translate("Approved Cases")}
+        statTitle={context.translate("Approved Feedback")}
         type="area"
       />
     );
@@ -37,7 +37,7 @@ export function ApprovedPartner(props) {
       iconBg="success"
       icon={<Icon.Check className="text-success" size={15} />}
       stat={dcount}
-      statTitle={context.translate("Approved Cases")}
+      statTitle={context.translate("Approved Feedback")}
       type="area"
     />
   );

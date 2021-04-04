@@ -293,10 +293,10 @@ class Edit extends React.Component {
 
     if (
       field.name === "lvform" ||
-      field.name === "cluster_agency" ||
+      // field.name === "cluster_agency" ||
       field.name === "cluster_region" ||
-      field.name === "referall_to" ||
-      field.name === "cluster_sector"
+      field.name === "referall_to"
+      // field.name === "cluster_sector"
     ) {
       return <span key={field.name} />;
     }
@@ -346,7 +346,9 @@ class Edit extends React.Component {
                   (field.name === "referall_to" &&
                     (this.props.user === "partner" ||
                       this.props.user === "manager")) ||
-                  field.name === "assignee"
+                  field.name === "assignee" ||
+                  (this.props.user === "operator" &&
+                    field.name === "task_title")
                 }
                 onChange={(e) =>
                   this.updateState(`${field.name}_id`, e.target.value)
@@ -434,6 +436,12 @@ class Edit extends React.Component {
                 type="date"
                 className="square"
                 defaultValue={data[field.name]}
+                disabled={
+                  (this.props.user === "operator" &&
+                    field.name === "start_date") ||
+                  (this.props.user === "operator" &&
+                    field.name === "end_date")
+                }
                 placeholder={this.translate(field.label)}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
               />
@@ -483,7 +491,11 @@ class Edit extends React.Component {
                         this.props.user === "manager")) ||
                     (field.name === "referall_to" &&
                       (this.props.user === "partner" ||
-                        this.props.user === "manager"))
+                        this.props.user === "manager")) ||
+                    (this.props.user === "operator" &&
+                      field.name === "task_title") ||
+                    (this.props.user === "operator" &&
+                      field.name === "task_priority")
                   }
                   placeholder={field.label}
                   onChange={(e) => this.updateState(field.name, e.target.value)}

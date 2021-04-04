@@ -211,10 +211,17 @@ class AppRouter extends React.Component {
             exact
             path="/tasks"
             component={(props) => (
-              <AppListView {...props} title="Tasks" path="task" url="tasks" />
+              <AppListView {...props} hasNew={false} title="Tasks" path="task" url="tasks" />
             )}
           />
           <AppRoute
+            exact
+            path="/information"
+            component={(props) => (
+              <AppListView {...props} hasNew={false} title="Knowledge Base" path="article" url="articles" />
+            )}
+          />
+          {/* <AppRoute
             exact
             path="/information"
             component={(props) => (
@@ -225,7 +232,7 @@ class AppRouter extends React.Component {
                 url="informations"
               />
             )}
-          />
+          /> */}
           <AppRoute
             exact
             path="/articles"

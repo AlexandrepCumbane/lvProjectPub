@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { toast, Bounce } from "react-toastify";
 
-import { Badge } from "reactstrap";
+import { Badge, Button } from "reactstrap";
 import { axios } from "../../redux/api";
 
-import { Circle, Octagon, ArrowUp } from "react-feather";
+import { Circle, Octagon, ArrowUp, Cloud } from "react-feather";
 
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import AgGridTable from "../../components/custom/table/AgGridTable";
@@ -50,7 +50,6 @@ class List extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.app_reducer);
     this.formatFields();
     this.requestMore(false);
   }
@@ -224,24 +223,39 @@ class List extends Component {
           } else {
             color = "danger";
           }
-        } else
-          switch (status) {
-            case "Not started":
+        } else {
+          if (this.props.path === "article") {
+            const today = new Date();
+            const current = new Date(`${props.expiration_date} 23:59:59`);
+
+            console.log(`${props.title}: `, today <= current  || props.expiration_date === null);
+            if (
+              props.published &&
+              (today <= current || props.expiration_date === null)
+            ) {
+              color = "success";
+            } else {
               color = "danger";
-              break;
-            case "In Progress":
-              color = "primary";
-              break;
-            case "Completed":
-              color = "success";
-              break;
-            case "Closed":
-              color = "success";
-              break;
-            default:
-              color = "white";
-              break;
-          }
+            }
+          } else
+            switch (status) {
+              case "Not started":
+                color = "danger";
+                break;
+              case "In Progress":
+                color = "primary";
+                break;
+              case "Completed":
+                color = "success";
+                break;
+              case "Closed":
+                color = "success";
+                break;
+              default:
+                color = "white";
+                break;
+            }
+        }
       }
     }
     return (
@@ -408,6 +422,34 @@ class List extends Component {
             minWidth: 250,
             editable: false,
             resizable: true,
+          };
+        }
+        if (item.type === "binary") {
+          return {
+            headerName: this.translate(item.label),
+            field: `${item.name}_label`,
+            minWidth: 250,
+            editable: false,
+            resizable: true,
+            cellRendererFramework: ({ data }) => {
+              return (
+                <Button.Ripple
+                  color="flat-primary"
+                  onClick={() =>
+                    data[item.name]
+                      ? window.location.replace(data[item.name])
+                      : {}
+                  }
+                >
+                  <Cloud size={14} />
+                  <span className="align-middle ml-25">
+                    {data[item.name]
+                      ? this.translate("Click here to download file")
+                      : this.translate("No file uploaded")}
+                  </span>
+                </Button.Ripple>
+              );
+            },
           };
         }
         if (index === 0) {

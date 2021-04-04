@@ -1192,6 +1192,12 @@ export default {
           "wq:ForeignKey": "lvform",
         },
         {
+          name: "datetime_created",
+          label: "Created at",
+          hint: "Created at",
+          type: "datetime",
+        },
+        {
           name: "task_title",
           label: "Task Title",
           choices: [
