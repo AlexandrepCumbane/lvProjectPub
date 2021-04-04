@@ -12,7 +12,8 @@ from .utils import filter_queryset_date, map_case_fields
 
 class ForwardCaseToFocalpointViewSet(ModelViewSet):
 
-    queryset = ForwardCaseToFocalpoint.objects.all().order_by('-id')
+    queryset = ForwardCaseToFocalpoint.objects.filter(
+        lvform__is_deleted=False).order_by('-id')
     serializer_class = ForwardCaseToFocalpointSerializer
 
     def get_queryset_list(self, user) -> list:
@@ -57,7 +58,7 @@ class ForwardCaseToFocalpointViewSet(ModelViewSet):
 
 class ForwardingInstitutionViewSet(ModelViewSet):
 
-    queryset = ForwardingInstitution.objects.all().order_by('-id')
+    queryset = ForwardingInstitution.objects.filter(lvform__is_deleted=False).order_by('-id')
     serializer_class = ForwardingInstitutionSerializer
 
     def get_queryset_list(self, user) -> list:
@@ -89,7 +90,7 @@ class ForwardingInstitutionViewSet(ModelViewSet):
 
 class LvFormViewSet(ModelViewSet):
 
-    queryset = LvForm.objects.all().order_by('-id')
+    queryset = LvForm.objects.all().exclude(is_deleted=True).order_by('-id')
     serializer_class = LvFormSerializer
 
     def get_queryset_list(self, user) -> list:
@@ -196,7 +197,7 @@ class LvFormViewSet(ModelViewSet):
 
 class TaskViewSet(ModelViewSet):
 
-    queryset = Task.objects.all().order_by('-id')
+    queryset = Task.objects.filter(lvform__is_deleted=False).order_by('-id')
     serializer_class = TaskFullSerializer
 
     def get_queryset_list(self, user) -> list:

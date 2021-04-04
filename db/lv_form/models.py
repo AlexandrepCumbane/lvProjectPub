@@ -347,6 +347,13 @@ class LvForm(models.Model):
     )
 
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    is_deleted = models.BooleanField(
+        default=False,
+        verbose_name="Is Deleted",
+        help_text="Is Deleted",
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         verbose_name = "Case"
