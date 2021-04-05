@@ -25,7 +25,6 @@ import {
 import CaseEdit from "../../../views/app/edit";
 import ModalEdit from "../../../views/app/modal/edit";
 
-import { history } from "../../../history";
 import { IntlContext } from "../../../i18n/provider";
 import "../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../assets/scss/pages/users.scss";
