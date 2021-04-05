@@ -23,6 +23,7 @@ import {
   requestForm,
   requestDropodowns,
 } from "../../redux/actions/app/actions";
+
 class List extends Component {
   static contextType = IntlContext;
   translate = this.context.translate;
@@ -73,7 +74,9 @@ class List extends Component {
       })
       .then(() => {
         this.setState({
-          data: this.props.app_reducer[this.props.name ?? this.props.path]?.list ?? [],
+          data:
+            this.props.app_reducer[this.props.name ?? this.props.path]?.list ??
+            [],
           page: this.props.path,
           pageTitle: `${this.props.title}`,
           isLoading: false,
@@ -83,6 +86,8 @@ class List extends Component {
           this.notifyErrorBounce(
             "Your session has expired, please login again!"
           );
+
+          this.setState({ data: [] });
         }
 
         if (this.props.app_reducer[this.props.name ?? this.props.path]?.next)
@@ -105,12 +110,13 @@ class List extends Component {
       })
       .then(() => {
         this.setState({
-          data: this.props.app_reducer[this.props.name ?? this.props.path]?.list?? [],
+          data:
+            this.props.app_reducer[this.props.name ?? this.props.path]?.list ??
+            [],
           page: this.props.path,
           pageTitle: `${this.props.title}`,
           isLoading: false,
         });
-        
 
         if (this.props.app_reducer[this.props.name ?? this.props.path]?.next)
           return true;
