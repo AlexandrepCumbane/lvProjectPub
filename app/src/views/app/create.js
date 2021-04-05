@@ -205,10 +205,11 @@ class Create extends React.Component {
 
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Select
+                  isClearable={true}
                   className="rounded-0"
                   onChange={(e) => {
-                    this.updateState(`${field.name}_id`, e.value);
-                    if (field["children"]) {
+                    this.updateState(`${field.name}_id`, e?.value);
+                    if (field["children"] && e) {
                       this.updateChildrenList(field, e);
                     }
                   }}
@@ -509,7 +510,7 @@ class Create extends React.Component {
   updateState = (field_name, value) => {
     let form = this.state.form;
 
-    if (value !== "") {
+    if (value !== "" || value) {
       if (form.has(field_name)) {
         form.set(field_name, value);
       } else {
@@ -517,6 +518,10 @@ class Create extends React.Component {
       }
 
       this.removeFromRequired(field_name);
+    }
+
+    if (!value && form.has(field_name)) {
+      form.delete(field_name);
     }
 
     this.setState({ form });
@@ -536,6 +541,10 @@ class Create extends React.Component {
       });
       childrens[field.children] = res[0][`${field.children}_set`];
       this.setState({ childrens });
+
+      const a = document.getElementsByName(`${field.name}`).value;
+
+      console.log(a);
     } else {
       res = this.props.app_reducer.dropdowns[field["wq:ForeignKey"]].filter(
         (item) => {
@@ -543,7 +552,6 @@ class Create extends React.Component {
         }
       );
 
-      console.log(res[0][`${field.children}_set`]);
       childrens[field.children] = res[0][`${field.children}_set`];
       this.setState({ childrens });
     }
