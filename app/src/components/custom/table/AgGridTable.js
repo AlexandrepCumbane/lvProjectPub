@@ -299,7 +299,8 @@ class AggridTable extends React.Component {
 
   onSelectionChanged = () => {
     const selected = this.gridApi.getSelectedRows();
-    document.querySelector("#selectedRows").innerHTML = selected.length ?? 0;
+    if (!this.props.loading)
+      document.querySelector("#selectedRows").innerHTML = selected.length ?? 0;
   };
 
   renderFilters = () => {

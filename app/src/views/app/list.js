@@ -9,6 +9,7 @@ import { Circle, Octagon, ArrowUp, Cloud } from "react-feather";
 
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import AgGridTable from "../../components/custom/table/AgGridTable";
+import Prompt from "../../components/custom/dialog/Prompt";
 
 import { default as config } from "../../data/config";
 import {
@@ -47,6 +48,10 @@ class List extends Component {
     page: "lvform",
     isLoading: false,
     hidden: true,
+
+    showModal: false,
+    recordId: 0,
+    message: "Do you want to delete that record?",
   };
 
   componentDidMount() {
@@ -112,7 +117,7 @@ class List extends Component {
       });
   };
 
-  handleDelete = (id) => {
+  handleDelete = () => {
     const { userOauth } = this.props.state.auth.login;
 
     let formData = new FormData();
@@ -120,7 +125,7 @@ class List extends Component {
     formData.append("is_deleted", true);
 
     axios
-      .patch(`${this.props.url}/${id}.json/`, formData, {
+      .patch(`${this.props.url}/${this.state.recordId}.json/`, formData, {
         headers: {
           "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
           Authorization: `Bearer ${userOauth.access_token}`,
@@ -128,6 +133,8 @@ class List extends Component {
       })
       .then(({ data }) => {
         this.requestMore(false);
+
+        this.setState({ showModal: false });
         this.notifySuccessBounce(data.id);
       })
       .catch((error) => {
@@ -228,7 +235,10 @@ class List extends Component {
             const today = new Date();
             const current = new Date(`${props.expiration_date} 23:59:59`);
 
-            console.log(`${props.title}: `, today <= current  || props.expiration_date === null);
+            console.log(
+              `${props.title}: `,
+              today <= current || props.expiration_date === null
+            );
             if (
               props.published &&
               (today <= current || props.expiration_date === null)
@@ -509,6 +519,17 @@ class List extends Component {
           breadCrumbActive={this.state.activePage}
         />
 
+        {this.state.showModal ? (
+          <Prompt
+            translate={this.translate}
+            showModal={this.state.showModal}
+            action={() => this.handleDelete()}
+            toggleModal={() => this.setState({ showModal: false })}
+            message={this.state.message}
+          />
+        ) : (
+          <></>
+        )}
         {this.state.show ? (
           <AgGridTable
             requestData={this.requestMore}
@@ -521,7 +542,9 @@ class List extends Component {
             dropdowns={[]}
             onColumnMoved={this.onColumnMoved}
             userRole={this.props.userRole}
-            deleteAction={this.handleDelete}
+            deleteAction={(id) => {
+              this.setState({ recordId: id, showModal: true });
+            }}
           />
         ) : (
           <></>

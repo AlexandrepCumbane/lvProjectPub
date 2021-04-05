@@ -153,6 +153,7 @@ export default {
     None: "Nenhum(a)",
 
     CCCM: "CCCM",
+    Information: "Informação",
     Education: "Educação",
     ETC: "ETC",
     "Food Security": "Segurança Alimentar",
@@ -432,6 +433,9 @@ export default {
     "Not published": "Não Publicado",
     "Not Published": "Não Publicado",
     Expired: "Expirado",
-    "Your session has expired, please login again!": "Sua sessäo expirou, por favor inicie novamente!"
+    "Your session has expired, please login again!":
+      "Sua sessäo expirou, por favor inicie novamente!",
+    "Do you want to delete that record?":
+      "Tem certeza que deseja apagar esse registo?",
   },
 };
