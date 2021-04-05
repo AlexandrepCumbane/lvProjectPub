@@ -128,25 +128,25 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
         return LvForm.objects.all()
 
     def resolve_all_lvforms(root, info):
-        return LvForm.objects.all()
+        return LvForm.objects.all().exclude(is_deleted=True)
 
     def resolve_all_cases_sector(root, info):
-        return LvForm.objects.values('sector').annotate(dcount=Count('sector'))
+        return LvForm.objects.values('sector').annotate(dcount=Count('sector')).exclude(is_deleted=True)
 
     def resolve_all_cases_age(root, info):
         return LvForm.objects.values('age_group').annotate(
-            dcount=Count('age_group'))
+            dcount=Count('age_group')).exclude(is_deleted=True)
 
     def resolve_all_cases_gender(root, info):
-        return LvForm.objects.values('gender').annotate(dcount=Count('gender'))
+        return LvForm.objects.values('gender').annotate(dcount=Count('gender')).exclude(is_deleted=True)
 
     def resolve_all_cases_knowledge_about(root, info):
         return LvForm.objects.values('how_knows_lv').annotate(
-            dcount=Count('how_knows_lv'))
+            dcount=Count('how_knows_lv')).exclude(is_deleted=True)
 
     def resolve_all_cases_call_feedback(root, info):
         return LvForm.objects.values('call_feedback').annotate(
-            dcount=Count('call_feedback'))
+            dcount=Count('call_feedback')).exclude(is_deleted=True)
 
     def resolve_all_cases_call_feedback_partner(root, info):
         return ForwardingInstitution.objects.values('has_feedback').annotate(
@@ -163,7 +163,7 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
         return CaseTipology.objects.all()
 
     def resolve_total_lvform_records(root, info):
-        return {"dcount": LvForm.objects.all().count()}
+        return {"dcount": LvForm.objects.all().exclude(is_deleted=True).count()}
 
     def resolve_total_lvform_with_feedback_records(root, info):
         return {
@@ -194,25 +194,25 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
         month = timezone.now().month
         daily_cases = LvForm.objects.filter(datetime_created__day=day,
                                             datetime_created__month=month,
-                                            created_by__email=id).count()
+                                            created_by__email=id).exclude(is_deleted=True).count()
         return {"dcount": daily_cases, "name": "daily_cases"}
 
     def resolve_weekly_cases(root, info, id):
         week = timezone.now().isocalendar()[1]
         weekly_cases = LvForm.objects.filter(datetime_created__week=week,
-                                             created_by__email=id)
+                                             created_by__email=id).exclude(is_deleted=True)
         return {"dcount": weekly_cases.count(), "name": "weekly_cases"}
 
     def resolve_monthly_cases(root, info, id):
         month = timezone.now().month
         monthly_cases = LvForm.objects.filter(created_by__email=id,
-                                              datetime_created__month=month)
+                                              datetime_created__month=month).exclude(is_deleted=True)
         return {"dcount": monthly_cases.count(), "name": "monthly_cases"}
 
     def resolve_annual_cases(root, info, id):
         year = timezone.now().year
         annual_cases = LvForm.objects.filter(datetime_created__year=year,
-                                             created_by__email=id).count()
+                                             created_by__email=id).exclude(is_deleted=True).count()
         return {"dcount": annual_cases, "name": "annual_cases"}
 
 
