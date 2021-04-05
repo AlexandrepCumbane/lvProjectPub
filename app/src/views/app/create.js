@@ -110,8 +110,10 @@ class Create extends React.Component {
 
   renderLabel = (field) => {
     if (
-      !this.state.isValid &&
-      this.state.required_fields_labels.includes(field.label)
+      (!this.state.isValid &&
+        this.state.required_fields_labels.includes(field.label)) ||
+      (!this.state.isValid &&
+        this.state.required_fields.includes(`${field.name}_id`))
     ) {
       return (
         <Label className="text-danger">
@@ -503,6 +505,14 @@ class Create extends React.Component {
   }
 
   /**
+   * Add field from required array if is the value is null
+   * @param {*} field
+   */
+  addFromRequired(field) {
+    this.state.required_fields.push(field);
+  }
+
+  /**
    * Update each dynamic field state value
    * @param {*} field_name
    * @param {*} value
@@ -522,6 +532,7 @@ class Create extends React.Component {
 
     if (!value && form.has(field_name)) {
       form.delete(field_name);
+      this.addFromRequired(field_name);
     }
 
     this.setState({ form });
@@ -541,10 +552,6 @@ class Create extends React.Component {
       });
       childrens[field.children] = res[0][`${field.children}_set`];
       this.setState({ childrens });
-
-      const a = document.getElementsByName(`${field.name}`).value;
-
-      console.log(a);
     } else {
       res = this.props.app_reducer.dropdowns[field["wq:ForeignKey"]].filter(
         (item) => {
