@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Card, CardBody, Row, Col, Spinner } from "reactstrap";
 import { requestDropodowns } from "../../../../redux/actions/app/actions";
+import { requestRemoveUser } from "../../../../redux/actions/auth/loginActions";
 
 import { AuthService } from "../../../../redux/oidc-config/services/authservice";
 import "../../../../assets/scss/pages/authentication.scss";
@@ -30,6 +31,7 @@ class Login extends React.Component {
 
   logout() {
     this.context.setLogout(false);
+    this.props.requestRemoveUser();
     this.authService.logout();
   }
 
@@ -43,7 +45,6 @@ class Login extends React.Component {
               history.push("/welcome");
             })
             .catch((err) => {
-              console.log(err);
               this.login();
             });
         });
@@ -94,4 +95,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { requestDropodowns })(Login);
+export default connect(mapStateToProps, {
+  requestDropodowns,
+  requestRemoveUser,
+})(Login);

@@ -54,6 +54,9 @@ export const login = (state = initialState, action) => {
     case "UPDATE_TOKEN": {
       return { ...state, csrftoken: action.csrftoken };
     }
+    case "REMOVE_USER": {
+      return { ...state, userRole: "Not-auth", userOauth: undefined };
+    }
     default: {
       return state;
     }

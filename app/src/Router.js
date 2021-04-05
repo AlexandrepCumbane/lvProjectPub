@@ -15,6 +15,8 @@ import Login from "./views/pages/authentication/login/Login";
 import Logout from "./views/pages/authentication/logout/Logout";
 import { AuthService } from "./redux/oidc-config/services/authservice";
 
+import { axios } from "./redux/api";
+
 // Route-based code splitting
 const Home = lazy(() => import("./views/pages/Home"));
 
@@ -69,6 +71,7 @@ const RouteConfig = ({
 const mapStateToProps = (state) => {
   return {
     user: state.auth.login.userRole,
+    userOauth: state.auth.login.userOauth,
   };
 };
 
@@ -78,9 +81,41 @@ class AppRouter extends React.Component {
   authService = new AuthService();
 
   componentDidMount() {
-    // setInterval(() => this.updateToken(), 50000);
+    this.test_connection(this.props.userOauth?.access_token);
   }
 
+  /**
+   *
+   * @param {*} token
+   *
+   * Verifies if user has role base access
+   */
+  test_connection = (token) => {
+    axios
+      .get(`users/0/get_user_info`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(({ data }) => {})
+      .catch(({ response }) => {
+        this.validate_error(response.data.detail);
+      });
+  };
+
+  validate_error = (text) => {
+    if (text === "You do not have permission to perform this action.") {
+      console.log("Test: ", text);
+
+      return;
+    } else {
+      if (
+        text === "Invalid Authorization header. Unable to verify bearer token"
+      ) {
+        console.log("Test: ", text);
+      }
+    }
+  };
   updateToken = () => {
     this.authService.renewToken().then(() => {
       this.authService
@@ -211,14 +246,26 @@ class AppRouter extends React.Component {
             exact
             path="/tasks"
             component={(props) => (
-              <AppListView {...props} hasNew={false} title="Tasks" path="task" url="tasks" />
+              <AppListView
+                {...props}
+                hasNew={false}
+                title="Tasks"
+                path="task"
+                url="tasks"
+              />
             )}
           />
           <AppRoute
             exact
             path="/information"
             component={(props) => (
-              <AppListView {...props} hasNew={false} title="Knowledge Base" path="article" url="articles" />
+              <AppListView
+                {...props}
+                hasNew={false}
+                title="Knowledge Base"
+                path="article"
+                url="articles"
+              />
             )}
           />
           {/* <AppRoute

@@ -73,7 +73,7 @@ class List extends Component {
       })
       .then(() => {
         this.setState({
-          data: this.props.app_reducer[this.props.name ?? this.props.path].list,
+          data: this.props.app_reducer[this.props.name ?? this.props.path]?.list ?? [],
           page: this.props.path,
           pageTitle: `${this.props.title}`,
           isLoading: false,
@@ -105,11 +105,12 @@ class List extends Component {
       })
       .then(() => {
         this.setState({
-          data: this.props.app_reducer[this.props.name ?? this.props.path].list,
+          data: this.props.app_reducer[this.props.name ?? this.props.path]?.list?? [],
           page: this.props.path,
           pageTitle: `${this.props.title}`,
           isLoading: false,
         });
+        
 
         if (this.props.app_reducer[this.props.name ?? this.props.path]?.next)
           return true;

@@ -50,6 +50,12 @@ export const handleCsrftoken = (dispatch) => {
   });
 };
 
+export const handleRemoveUser = (dispatch) => {
+  dispatch({
+    type: "REMOVE_USER",
+  });
+};
+
 export const logout = (dispatch) => {
   dispatch({
     type: "CHANGE_ROLE",
