@@ -5,14 +5,12 @@ class Avatar extends React.Component {
   getInitials = () => {
     const fullName = this.props.content.split(" ");
 
-    console.log(fullName)
-    console.log(fullName.length)
     if (fullName.length > 1) {
       const initials = fullName.shift().charAt(0) + fullName.pop().charAt(0);
       return initials.toUpperCase();
     }
 
-    return 'US'
+    return "US";
   };
   render() {
     return (
