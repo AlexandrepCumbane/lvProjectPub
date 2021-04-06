@@ -270,6 +270,19 @@ class AppRouter extends React.Component {
               />
             )}
           />
+          <AppRoute
+            exact
+            path="/articles"
+            component={(props) => (
+              <AppListView
+                {...props}
+                hasNew={true}
+                title="Knowledge Base"
+                path="article"
+                url="articles"
+              />
+            )}
+          />
           {/* <AppRoute
             exact
             path="/information"
@@ -319,7 +332,7 @@ class AppRouter extends React.Component {
             )}
           />
           <AppRoute
-            path="/informations/new"
+            path="/articles/new"
             component={(props) => (
               <AppCreate
                 {...props}

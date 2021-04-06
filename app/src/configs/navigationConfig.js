@@ -121,8 +121,16 @@ const get_pages = () => {
       title: translate("Knowledge Base"),
       type: "item",
       icon: <Icon.Database size={20} />,
-      permissions: ["operator", "manager", "focalpoint", "partner"],
+      permissions: ["operator", "focalpoint", "partner"],
       navLink: "/information",
+    },
+    {
+      id: "articles",
+      title: translate("Knowledge Base"),
+      type: "item",
+      icon: <Icon.Database size={20} />,
+      permissions: ["manager"],
+      navLink: "/articles",
     },
 
     {

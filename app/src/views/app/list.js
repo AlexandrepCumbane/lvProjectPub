@@ -452,8 +452,8 @@ class List extends Component {
               return (
                 <Button.Ripple color="flat-primary">
                   <span className="align-middle">
-                    {data[item.name].substring(
-                      data[item.name].lastIndexOf("/") + 1
+                    {data[item.name]?.substring(
+                      data[item.name]?.lastIndexOf("/") + 1
                     )}
                   </span>
                 </Button.Ripple>
