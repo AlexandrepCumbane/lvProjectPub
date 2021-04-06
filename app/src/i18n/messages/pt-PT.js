@@ -437,5 +437,6 @@ export default {
       "Sua sessäo expirou, por favor inicie novamente!",
     "Do you want to delete that record?":
       "Tem certeza que deseja apagar esse registo?",
+    "Sign Out": "Sair",
   },
 };

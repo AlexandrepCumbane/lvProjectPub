@@ -12,6 +12,8 @@ import * as Icon from "react-feather";
 
 import { IntlContext } from "../../../i18n/index";
 
+import Avatar from "../../../components/@vuexy/avatar/AvatarComponent";
+
 import { changeRole } from "../../../redux/actions/auth/loginActions";
 // import { AuthService } from "../../../redux/oidc-config/services/authservice";
 import { history } from "../../../history";
@@ -34,14 +36,11 @@ const UserDropdown = (props) => {
         tag="a"
         href="#"
         onClick={(e) => {
-          // props.changeRole("Not-auth");
-          // new AuthService().logout();
           logout();
-          // history.push("/logout");
         }}
       >
         <Icon.Power size={14} className="mr-50" />
-        <span className="align-middle">Log Out</span>
+        <span className="align-middle">{props.translate("Sign Out")}</span>
       </DropdownItem>
     </DropdownMenu>
   );
@@ -76,8 +75,8 @@ class NavbarUser extends React.PureComponent {
         <IntlContext.Consumer>
           {(context) => {
             let langArr = {
-              en: "English",
-              pt: "Portuguese",
+              en: "EN",
+              pt: "PT",
             };
             return (
               <Dropdown
@@ -111,7 +110,7 @@ class NavbarUser extends React.PureComponent {
                       countryCode="us"
                       svg
                     />
-                    <span className="ml-1">English</span>
+                    <span className="ml-1">{this.translate("EN")}</span>
                   </DropdownItem>
                   <DropdownItem
                     tag="a"
@@ -122,7 +121,7 @@ class NavbarUser extends React.PureComponent {
                       countryCode="pt"
                       svg
                     />
-                    <span className="ml-1">Portuguese</span>
+                    <span className="ml-1">{this.translate("PT")}</span>
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
@@ -137,17 +136,19 @@ class NavbarUser extends React.PureComponent {
               </span>
               <span className="user-status">{this.translate("Available")}</span>
             </div>
-            {/* <span data-tour="user">
-              <img
+            <span data-tour="user">
+              {/* <img
                 src={this.props.userImg}
                 className="round"
                 height="40"
                 width="40"
                 alt="avatar"
-              />
-            </span> */}
+              /> */}
+
+              <Avatar color="primary" content={this.props.userName} initials />
+            </span>
           </DropdownToggle>
-          <UserDropdown {...this.props} />
+          <UserDropdown {...this.props} translate={this.translate} />
         </UncontrolledDropdown>
       </ul>
     );
