@@ -183,7 +183,7 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
         return {
             "dcount":
             LvForm.objects.select_related('forwardinginstitution').filter(
-                forwardinginstitution=None, lvform__is_deleted=False).count()
+                forwardinginstitution=None, is_deleted=False).count()
         }
 
     def resolve_total_lvform_no_feedback_records(root, info):
