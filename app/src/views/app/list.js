@@ -450,19 +450,11 @@ class List extends Component {
             resizable: true,
             cellRendererFramework: ({ data }) => {
               return (
-                <Button.Ripple
-                  color="flat-primary"
-                  onClick={() =>
-                    data[item.name]
-                      ? window.location.replace(data[item.name])
-                      : {}
-                  }
-                >
-                  <Cloud size={14} />
-                  <span className="align-middle ml-25">
-                    {data[item.name]
-                      ? this.translate("Click here to download file")
-                      : this.translate("No file uploaded")}
+                <Button.Ripple color="flat-primary">
+                  <span className="align-middle">
+                    {data[item.name].substring(
+                      data[item.name].lastIndexOf("/") + 1
+                    )}
                   </span>
                 </Button.Ripple>
               );
