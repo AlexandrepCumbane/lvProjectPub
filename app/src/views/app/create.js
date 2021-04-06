@@ -36,12 +36,13 @@ class Create extends React.Component {
     });
 
   notifyErrorBounce = (error) =>
-    toast.error(error, {
+    toast.error(this.translate(error), {
       transition: Bounce,
     });
 
   state = {
     form: new FormData(),
+    required_fields_hs: [],
     required_fields: [],
     required_fields_labels: [],
     isValid: true,
@@ -486,7 +487,11 @@ class Create extends React.Component {
       if (field.bind.required === true && index <= 0) {
         if (field.type === "string" && field["wq:ForeignKey"]) {
           this.state.required_fields.push(`${field.name}_id`);
-        } else this.state.required_fields.push(field.name);
+          this.state.required_fields_hs.push(`${field.name}_id`);
+        } else {
+          this.state.required_fields.push(field.name);
+          this.state.required_fields_hs.push(field.name);
+        }
         this.state.required_fields_labels.push(field.label);
       }
     }
@@ -532,7 +537,9 @@ class Create extends React.Component {
 
     if (!value && form.has(field_name)) {
       form.delete(field_name);
-      this.addFromRequired(field_name);
+
+      if (this.state.required_fields_hs.includes(field_name))
+        this.addFromRequired(field_name);
     }
 
     this.setState({ form });
