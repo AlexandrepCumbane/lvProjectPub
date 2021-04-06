@@ -9,9 +9,12 @@ const ThemeNavbar = (props) => {
 
   const verifyUserInfo = () => {
     const { userOauth } = props;
+
     if (userOauth) {
-      const { family_name } = userOauth.profile;
-      return family_name !== "" ? family_name : "User";
+      const { family_name, given_name } = userOauth.profile;
+      return family_name !== "" && given_name !== ""
+        ? `${given_name} ${family_name}`
+        : "User";
     }
     return "User";
   };
@@ -65,10 +68,8 @@ const ThemeNavbar = (props) => {
               </div>
               {props.horizontal ? (
                 <div className="logo d-flex align-items-center">
-                  {/* <div className="brand-logo mr-50"></div> */}
-                  <h2 className="text-primary brand-text mb-0">
-                    Linha 1458
-                  </h2>
+                  <div className="brand-logo mr-50"></div>
+                  <h2 className="text-primary brand-text mb-0">Linha 1458</h2>
                 </div>
               ) : null}
               <NavbarUser

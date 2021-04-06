@@ -1,7 +1,12 @@
-import React from "react"
-import classnames from "classnames"
-import { Badge } from "reactstrap"
+import React from "react";
+import classnames from "classnames";
+import { Badge } from "reactstrap";
 class Avatar extends React.Component {
+  getInitials = () => {
+    const fullName = this.props.content.split(" ");
+    const initials = fullName.shift().charAt(0) + fullName.pop().charAt(0);
+    return initials.toUpperCase();
+  };
   render() {
     return (
       <div
@@ -12,17 +17,19 @@ class Avatar extends React.Component {
           {
             "avatar-sm": this.props.size && this.props.size === "sm",
             "avatar-lg": this.props.size && this.props.size === "lg",
-            "avatar-xl": this.props.size && this.props.size === "xl"
+            "avatar-xl": this.props.size && this.props.size === "xl",
           }
         )}
       >
         {this.props.img === false || this.props.img === undefined ? (
           <span
             className={classnames("avatar-content", {
-              "position-relative": this.props.badgeUp
+              "position-relative": this.props.badgeUp,
             })}
           >
-            {this.props.content ? this.props.content : null}
+            <strong>
+              {this.props.content ? this.getInitials(this.props.content) : null}
+            </strong>
 
             {this.props.icon ? (
               <div className="avatar-icon">{this.props.icon}</div>
@@ -57,7 +64,7 @@ class Avatar extends React.Component {
           <span className={`avatar-status-${this.props.status}`}></span>
         ) : null}
       </div>
-    )
+    );
   }
 }
-export default Avatar
+export default Avatar;
