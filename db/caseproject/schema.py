@@ -110,14 +110,10 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
                                                id=graphene.String())
 
     # partner Dashboard
-    total_received_partner = graphene.Field(DcountType,
-                                               id=graphene.String())
-    without_feedback_partner = graphene.Field(DcountType,
-                                               id=graphene.String())
-    approved_partner = graphene.Field(DcountType,
-                                               id=graphene.String())
-    not_aproved_partner = graphene.Field(DcountType,
-                                               id=graphene.String())
+    total_received_partner = graphene.Field(DcountType, id=graphene.String())
+    without_feedback_partner = graphene.Field(DcountType, id=graphene.String())
+    approved_partner = graphene.Field(DcountType, id=graphene.String())
+    not_aproved_partner = graphene.Field(DcountType, id=graphene.String())
     # Operator dashboard
     daily_cases = graphene.Field(CountRegType, id=graphene.String())
     weekly_cases = graphene.Field(CountRegType, id=graphene.String())
@@ -131,14 +127,16 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
         return LvForm.objects.all().exclude(is_deleted=True)
 
     def resolve_all_cases_sector(root, info):
-        return LvForm.objects.values('sector').annotate(dcount=Count('sector')).exclude(is_deleted=True)
+        return LvForm.objects.values('sector').annotate(
+            dcount=Count('sector')).exclude(is_deleted=True)
 
     def resolve_all_cases_age(root, info):
         return LvForm.objects.values('age_group').annotate(
             dcount=Count('age_group')).exclude(is_deleted=True)
 
     def resolve_all_cases_gender(root, info):
-        return LvForm.objects.values('gender').annotate(dcount=Count('gender')).exclude(is_deleted=True)
+        return LvForm.objects.values('gender').annotate(
+            dcount=Count('gender')).exclude(is_deleted=True)
 
     def resolve_all_cases_knowledge_about(root, info):
         return LvForm.objects.values('how_knows_lv').annotate(
@@ -163,71 +161,85 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
         return CaseTipology.objects.all()
 
     def resolve_total_lvform_records(root, info):
-        return {"dcount": LvForm.objects.all().exclude(is_deleted=True).count()}
+        return {
+            "dcount": LvForm.objects.all().exclude(is_deleted=True).count()
+        }
 
     def resolve_total_lvform_with_feedback_records(root, info):
         return {
             "dcount":
-            ForwardingInstitution.objects.filter(has_feedback=True).count()
+            ForwardingInstitution.objects.filter(
+                has_feedback=True, lvform__is_deleted=False).count()
         }
 
     def resolve_total_lvform_referall_records(root, info):
-        return {"dcount": ForwardingInstitution.objects.all().count()}
+        return {
+            "dcount":
+            ForwardingInstitution.objects.filter(
+                lvform__is_deleted=False).count()
+        }
 
     def resolve_total_lvform_not_referall_records(root, info):
         return {
             "dcount":
             LvForm.objects.select_related('forwardinginstitution').filter(
-                forwardinginstitution=None).count()
+                forwardinginstitution=None, lvform__is_deleted=False).count()
         }
 
     def resolve_total_lvform_no_feedback_records(root, info):
         return {
             "dcount":
-            ForwardingInstitution.objects.filter(has_feedback=False).count()
+            ForwardingInstitution.objects.filter(
+                has_feedback=False, lvform__is_deleted=False).count()
         }
-
 
     # Operator resolve methods
     def resolve_daily_cases(root, info, id):
         day = timezone.now().day
         month = timezone.now().month
-        daily_cases = LvForm.objects.filter(datetime_created__day=day,
-                                            datetime_created__month=month,
-                                            created_by__email=id).exclude(is_deleted=True).count()
+        daily_cases = LvForm.objects.filter(
+            datetime_created__day=day,
+            datetime_created__month=month,
+            created_by__email=id).exclude(is_deleted=True).count()
         return {"dcount": daily_cases, "name": "daily_cases"}
 
     def resolve_weekly_cases(root, info, id):
         week = timezone.now().isocalendar()[1]
-        weekly_cases = LvForm.objects.filter(datetime_created__week=week,
-                                             created_by__email=id).exclude(is_deleted=True)
+        weekly_cases = LvForm.objects.filter(
+            datetime_created__week=week,
+            created_by__email=id).exclude(is_deleted=True)
         return {"dcount": weekly_cases.count(), "name": "weekly_cases"}
 
     def resolve_monthly_cases(root, info, id):
         month = timezone.now().month
-        monthly_cases = LvForm.objects.filter(created_by__email=id,
-                                              datetime_created__month=month).exclude(is_deleted=True)
+        monthly_cases = LvForm.objects.filter(
+            created_by__email=id,
+            datetime_created__month=month).exclude(is_deleted=True)
         return {"dcount": monthly_cases.count(), "name": "monthly_cases"}
 
     def resolve_annual_cases(root, info, id):
         year = timezone.now().year
-        annual_cases = LvForm.objects.filter(datetime_created__year=year,
-                                             created_by__email=id).exclude(is_deleted=True).count()
+        annual_cases = LvForm.objects.filter(
+            datetime_created__year=year,
+            created_by__email=id).exclude(is_deleted=True).count()
         return {"dcount": annual_cases, "name": "annual_cases"}
-
-
 
     # Focalpoint resolve methods
     def resolve_without_feedback_fp_manager(root, info, id):
-        d1 = ForwardCaseToFocalpoint.objects.filter(focalpoint__email=id).count()
+        d1 = ForwardCaseToFocalpoint.objects.filter(
+            focalpoint__email=id, lvform__is_deleted=False).count()
         d2 = ForwardingInstitution.objects.filter(
-            created_by__email=id, isFeedback_aproved=True).count()
+            created_by__email=id,
+            isFeedback_aproved=True,
+            lvform__is_deleted=False).count()
         return {"dcount": d1 - d2}
 
     def resolve_with_feedback_fp_manager(root, info, id):
 
         d2 = ForwardingInstitution.objects.filter(
-            created_by__email=id, isFeedback_aproved=True).count()
+            created_by__email=id,
+            isFeedback_aproved=True,
+            lvform__is_deleted=False).count()
         return {"dcount": d2}
 
     def resolve_total_received_fp_manager(root, info, id):
@@ -236,43 +248,50 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
         return {"dcount": dcount}
 
     def resolve_without_feedback_fp_partner(root, info, id):
-        d2 = ForwardingInstitution.objects.filter(created_by__email=id,
-                                                  has_feedback=False).count()
+        d2 = ForwardingInstitution.objects.filter(
+            created_by__email=id, has_feedback=False,
+            lvform__is_deleted=False).count()
         return {"dcount": d2}
 
     def resolve_with_feedback_fp_partner(root, info, id):
 
-        d2 = ForwardingInstitution.objects.filter(created_by__email=id,
-                                                  has_feedback=True).count()
+        d2 = ForwardingInstitution.objects.filter(
+            created_by__email=id, has_feedback=True,
+            lvform__is_deleted=False).count()
         return {"dcount": d2}
 
     def resolve_total_received_fp_partner(root, info, id):
         dcount = ForwardingInstitution.objects.filter(
-            created_by__email=id).count()
+            created_by__email=id, lvform__is_deleted=False).count()
         return {"dcount": dcount}
-
 
     # Partners Resolve Methods
     def resolve_total_received_partner(root, info, id):
         dcount = ForwardingInstitution.objects.filter(
-            referall_to__email=id).count()
+            referall_to__email=id, lvform__is_deleted=False).count()
         return {"dcount": dcount}
 
     def resolve_without_feedback_partner(root, info, id):
-        d2 = ForwardingInstitution.objects.filter(referall_to__email=id,
-                                                  has_feedback=False).count()
+        d2 = ForwardingInstitution.objects.filter(
+            referall_to__email=id,
+            has_feedback=False,
+            lvform__is_deleted=False).count()
         return {"dcount": d2}
 
     def resolve_approved_partner(root, info, id):
 
         d2 = ForwardingInstitution.objects.filter(
-            referall_to__email=id, isFeedback_aproved=True).count()
+            referall_to__email=id,
+            isFeedback_aproved=True,
+            lvform__is_deleted=False).count()
         return {"dcount": d2}
-    
+
     def resolve_not_aproved_partner(root, info, id):
 
         d2 = ForwardingInstitution.objects.filter(
-            referall_to__email=id, isFeedback_aproved=False).count()
+            referall_to__email=id,
+            isFeedback_aproved=False,
+            lvform__is_deleted=False).count()
         return {"dcount": d2}
 
 
