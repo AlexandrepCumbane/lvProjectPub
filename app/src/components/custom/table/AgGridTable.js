@@ -517,6 +517,7 @@ class AggridTable extends React.Component {
                               onClick={() =>
                                 this.gridApi.exportDataAsCsv({
                                   onlySelected: true,
+                                  allColumns: true,
                                 })
                               }
                             >

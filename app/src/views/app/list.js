@@ -14,6 +14,7 @@ import Prompt from "../../components/custom/dialog/Prompt";
 import { default as config } from "../../data/config";
 import {
   operator as operatorColumns,
+  manager as managerColumns,
   partner as partnerColumns,
   sent_to_focalpoint,
   sent_to_partner,
@@ -156,7 +157,7 @@ class List extends Component {
     if (this.props.path === "lvform") {
       switch (userRole) {
         case "manager":
-          form = operatorColumns.form;
+          form = managerColumns.form;
           break;
         case "operator":
           form = operatorColumns.form;
@@ -360,7 +361,7 @@ class List extends Component {
       ) {
         return {
           headerName: this.translate(item.label),
-          field: `${item.name}_label`,
+          field: `${item.name}`,
           minWidth: 250,
           resizable: true,
           hide: true,
