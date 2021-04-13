@@ -82,8 +82,10 @@ class AppRouter extends React.Component {
 
   componentDidMount() {
     this.test_connection(this.props.userOauth?.access_token);
-    this.updateToken();
-    setInterval(() => this.updateToken(), 600000);
+
+    setTimeout(() => this.updateToken(), 1500);
+
+    setInterval(() => this.updateToken(), 900000);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -114,17 +116,15 @@ class AppRouter extends React.Component {
 
   validate_error = (text) => {
     if (text === "You do not have permission to perform this action.") {
-      console.log("Test: ", text);
-
       return;
     } else {
       if (
         text === "Invalid Authorization header. Unable to verify bearer token"
       ) {
-        console.log("Test: ", text);
       }
     }
   };
+
   updateToken = () => {
     this.authService.renewToken().then(() => {
       this.authService

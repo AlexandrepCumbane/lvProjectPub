@@ -3,12 +3,12 @@ from .models import LvForm, CaseComment, ForwardingInstitution, Task, ForwardCas
 from .serializers import LvFormSerializer, CaseCommentSerializer, ForwardingInstitutionSerializer, TaskSerializer, TaskCommentSerializer, ForwardCaseToFocalpointSerializer
 from .views import ForwardCaseToFocalpointViewSet, ForwardingInstitutionViewSet, LvFormViewSet, TaskViewSet
 
-rest.router.register_model(
-    LvForm,
-    serializer=LvFormSerializer,
-    viewset=LvFormViewSet,
-    fields="__all__",
-)
+
+rest.router.register_model(LvForm,
+                           serializer=LvFormSerializer,
+                           viewset=LvFormViewSet,
+                           fields="__all__",
+                           per_page="500")
 
 rest.router.register_model(
     CaseComment,
@@ -30,12 +30,10 @@ rest.router.register_model(
     fields="__all__",
 )
 
-rest.router.register_model(
-    Task,
-    serializer=TaskSerializer,
-    fields="__all__",
-    viewset=TaskViewSet
-)
+rest.router.register_model(Task,
+                           serializer=TaskSerializer,
+                           fields="__all__",
+                           viewset=TaskViewSet)
 
 rest.router.register_model(
     TaskComment,

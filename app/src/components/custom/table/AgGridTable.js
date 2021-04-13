@@ -1,7 +1,7 @@
 import React from "react";
 import { AgGridReact } from "ag-grid-react";
 import classnames from "classnames";
-import { Edit, ChevronDown, List, Delete } from "react-feather";
+import { Edit, ChevronDown, List, Delete, X } from "react-feather";
 import { ContextLayout } from "../../../utility/context/Layout";
 import {
   Button,
@@ -317,7 +317,8 @@ class AggridTable extends React.Component {
               </InputGroupText>
             </InputGroupAddon>
             <Input
-              className={`rounded-0`}
+              className={`rounded-0 start-date`}
+              value={this.state.start}
               onChange={(e) => this.setState({ start: e.target.value })}
               type="date"
             />
@@ -331,7 +332,8 @@ class AggridTable extends React.Component {
               </InputGroupText>
             </InputGroupAddon>
             <Input
-              className="rounded-0"
+              className="rounded-0 end-date"
+              value={this.state.end}
               onChange={(e) => this.setState({ end: e.target.value })}
               type="date"
             />
@@ -340,6 +342,16 @@ class AggridTable extends React.Component {
         <div className="table-input mr-5">
           <Button.Ripple
             className="btn-icon rounded-circle"
+            color="danger"
+            onClick={() => {
+              this.setState({ end: "", start: "" });
+              this.props.requestMore(false);
+            }}
+          >
+            <X size={18} color="white" />
+          </Button.Ripple>
+          <Button.Ripple
+            className="btn-icon rounded-circle ml-1"
             color="primary"
             onClick={() => {
               if (this.state.end !== "" && this.state.start !== "")
