@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { toast, Bounce } from "react-toastify";
 
-import { Badge, Button } from "reactstrap";
+import { Button } from "reactstrap";
 import { axios } from "../../redux/api";
 
-import { Circle, Octagon, ArrowUp } from "react-feather";
+import { Circle, ArrowUp } from "react-feather";
 
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import AgGridTable from "../../components/custom/table/AgGridTable";
@@ -24,6 +24,8 @@ import {
   requestForm,
   requestDropodowns,
 } from "../../redux/actions/app/actions";
+
+import { renderStatusLabel } from "../../utility/list/util";
 
 class List extends Component {
   static contextType = IntlContext;
@@ -183,35 +185,35 @@ class List extends Component {
 
     return form;
   };
-  renderStatusLabel = (props, label) => {
-    let color = "white";
+  // renderStatusLabel = (props, label) => {
+  //   let color = "white";
 
-    switch (props[`${this.props.path}_status_label`]) {
-      case "Not started":
-        color = "danger";
-        break;
-      case "In Progress":
-        color = "primary";
-        break;
-      case "Completed":
-        color = "success";
-        break;
+  //   switch (props[`${this.props.path}_status_label`]) {
+  //     case "Not started":
+  //       color = "danger";
+  //       break;
+  //     case "In Progress":
+  //       color = "primary";
+  //       break;
+  //     case "Completed":
+  //       color = "success";
+  //       break;
 
-      case "Closed":
-        color = "success";
-        break;
-      default:
-        color = "white";
-        break;
-    }
+  //     case "Closed":
+  //       color = "success";
+  //       break;
+  //     default:
+  //       color = "white";
+  //       break;
+  //   }
 
-    return (
-      <Badge color={color} className="mr-1 mb-1 badge-square">
-        <Octagon size={12} />
-        <span>{this.translate(label)}</span>
-      </Badge>
-    );
-  };
+  //   return (
+  //     <Badge color={color} className="mr-1 mb-1 badge-square">
+  //       <Octagon size={12} />
+  //       <span>{this.translate(label)}</span>
+  //     </Badge>
+  //   );
+  // };
 
   renderStatus = (props, label) => {
     let color = "white";
@@ -400,7 +402,11 @@ class List extends Component {
                 return this.translate(data[`${item.name}_label`] ?? "None");
               },
               cellRendererFramework: ({ data }) => {
-                return this.renderStatusLabel(data, data[`${item.name}_label`]);
+                return renderStatusLabel(
+                  this.props,
+                  data,
+                  this.translate(data[`${item.name}_label`])
+                );
               },
             };
           else
