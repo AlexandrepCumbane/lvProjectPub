@@ -25,7 +25,11 @@ import {
   requestDropodowns,
 } from "../../redux/actions/app/actions";
 
-import { renderStatusLabel } from "../../utility/list/util";
+import {
+  renderStatusLabel,
+  renderPriority,
+  renderStatus,
+} from "../../utility/list/util";
 
 class List extends Component {
   static contextType = IntlContext;
@@ -185,170 +189,6 @@ class List extends Component {
 
     return form;
   };
-  // renderStatusLabel = (props, label) => {
-  //   let color = "white";
-
-  //   switch (props[`${this.props.path}_status_label`]) {
-  //     case "Not started":
-  //       color = "danger";
-  //       break;
-  //     case "In Progress":
-  //       color = "primary";
-  //       break;
-  //     case "Completed":
-  //       color = "success";
-  //       break;
-
-  //     case "Closed":
-  //       color = "success";
-  //       break;
-  //     default:
-  //       color = "white";
-  //       break;
-  //   }
-
-  //   return (
-  //     <Badge color={color} className="mr-1 mb-1 badge-square">
-  //       <Octagon size={12} />
-  //       <span>{this.translate(label)}</span>
-  //     </Badge>
-  //   );
-  // };
-
-  renderStatus = (props, label) => {
-    let color = "white";
-
-    let status = props[`${this.props.path}_status_label`];
-
-    if (this.props.path === "customuser") {
-      if (props.is_active) {
-        color = "success";
-      } else {
-        color = "danger";
-      }
-    } else {
-      if (props.callcase) {
-        if (props["callcase"].is_closed) {
-          color = "success";
-        } else {
-          color = "danger";
-        }
-      } else {
-        if (this.props.path === "lvform") {
-          if (props.is_closed) {
-            color = "success";
-          } else {
-            color = "danger";
-          }
-        } else {
-          if (this.props.path === "article") {
-            const today = new Date();
-            const current = new Date(`${props.expiration_date} 23:59:59`);
-
-            console.log(
-              `${props.title}: `,
-              today <= current || props.expiration_date === null
-            );
-            if (
-              props.published &&
-              (today <= current || props.expiration_date === null)
-            ) {
-              color = "success";
-            } else {
-              color = "danger";
-            }
-          } else
-            switch (status) {
-              case "Not started":
-                color = "danger";
-                break;
-              case "In Progress":
-                color = "primary";
-                break;
-              case "Completed":
-                color = "success";
-                break;
-              case "Closed":
-                color = "success";
-                break;
-              default:
-                color = "white";
-                break;
-            }
-        }
-      }
-    }
-    return (
-      <div
-        style={{
-          flexDirection: "row",
-          alignContent: "center",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <span>
-          {this.renderPriority(props)}
-          <Circle
-            className={`text-${color} text-center bg-${color} rounded m-1`}
-            size={12}
-          />
-
-          {` ${this.translate(label)}`}
-        </span>
-      </div>
-    );
-  };
-
-  renderPriority = (props) => {
-    let color = "white";
-    let model = this.props.path === "lvform" ? "case" : this.props.path;
-
-    let status = props[`${model}_priority_label`];
-
-    if (props.callcase) {
-      status = props["callcase"][`case_priority_label`];
-    }
-
-    if (this.props.path === "customuser") {
-      switch (props["groups_label"][0]) {
-        case "partner":
-          color = "danger";
-          break;
-        case "focalpoint":
-          color = "secondary";
-          break;
-        case "operator":
-          color = "warning";
-          break;
-        case "manager":
-          color = "info";
-          break;
-        default:
-          color = "white";
-          break;
-      }
-    } else {
-      switch (status) {
-        case "High":
-          color = "danger";
-          break;
-        case "Medium":
-          color = "warning";
-          break;
-        case "Low":
-          color = "info";
-          break;
-        default:
-          color = "white";
-          break;
-      }
-    }
-
-    return (
-      <ArrowUp className={`text-${color} text-center mb-1 mt-1`} size={14} />
-    );
-  };
 
   formatFields = () => {
     let colm = this.getSpecificields();
@@ -384,7 +224,11 @@ class List extends Component {
             checkboxSelection: true,
             headerCheckboxSelection: true,
             cellRendererFramework: ({ data }) => {
-              return this.renderStatus(data, data[`${item.name}_label`]);
+              return renderStatus(
+                this.props,
+                data,
+                this.translate(data[`${item.name}_label`])
+              );
             },
           };
         } else {
@@ -478,7 +322,11 @@ class List extends Component {
             checkboxSelection: true,
             headerCheckboxSelection: true,
             cellRendererFramework: ({ data }) => {
-              return this.renderStatus(data, data[`${item.name}`]);
+              return renderStatus(
+                this.props,
+                data,
+                this.translate(data[`${item.name}`])
+              );
             },
           };
         }
