@@ -304,9 +304,9 @@ class AggridTable extends React.Component {
 
   renderFilters = () => {
     let element = (
-      <div className="d-flex flex-wrap">
-        <div className="table-input mr-1 rounded-0">
-          <InputGroup className="rounded-0">
+      <div className="d-flex flex-wrap flex-row row">
+        <div className="col-sm-12 col-md-4 table-input rounded-0">
+          <InputGroup className="rounded-0 mb-1">
             <InputGroupAddon
               className="rounded-0 text-primary"
               color="primary"
@@ -324,8 +324,8 @@ class AggridTable extends React.Component {
             />
           </InputGroup>
         </div>
-        <div className="table-input mr-1 rounded-0">
-          <InputGroup className="rounded-0">
+        <div className="col-sm-12 col-md-5 table-input rounded-0">
+          <InputGroup className="rounded-0 mb-1">
             <InputGroupAddon className="rounded-0" addonType="prepend">
               <InputGroupText className="rounded-0">
                 {this.translate("To")}
@@ -339,7 +339,7 @@ class AggridTable extends React.Component {
             />
           </InputGroup>
         </div>
-        <div className="table-input mr-5">
+        <div className="col-sm-12 col-md-3 table-input mb-1">
           <Button.Ripple
             className="btn-icon rounded-circle"
             color="danger"
@@ -487,7 +487,19 @@ class AggridTable extends React.Component {
                           tag="div"
                           onClick={() => this.filterSize(130)}
                         >
-                          130
+                          150
+                        </DropdownItem>
+                        <DropdownItem
+                          tag="div"
+                          onClick={() => this.filterSize(130)}
+                        >
+                          250
+                        </DropdownItem>
+                        <DropdownItem
+                          tag="div"
+                          onClick={() => this.filterSize(130)}
+                        >
+                          500
                         </DropdownItem>
                       </DropdownMenu>
                     </UncontrolledDropdown>

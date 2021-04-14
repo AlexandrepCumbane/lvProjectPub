@@ -27,8 +27,8 @@ import {
 
 import {
   renderStatusLabel,
-  renderPriority,
   renderStatus,
+  getFieldWith,
 } from "../../utility/list/util";
 
 class List extends Component {
@@ -199,14 +199,16 @@ class List extends Component {
       if (
         item.name === "fullname" ||
         item.name === "contact" ||
+        item.name === "file" ||
         item.name === "other_contact"
       ) {
         return {
           headerName: this.translate(item.label),
           field: `${item.name}`,
-          minWidth: 250,
+          // minWidth: 250,
           resizable: true,
           hide: true,
+          width: getFieldWith(item.name),
         };
       }
 
@@ -217,8 +219,8 @@ class List extends Component {
         if (index === 0) {
           return {
             headerName: this.translate(item.label),
-            field: `${item.name}_label`,
-            minWidth: 250,
+            field: `${item.name}_label`, 
+            width: getFieldWith(item.name),
             editable: false,
             resizable: true,
             checkboxSelection: true,
@@ -235,8 +237,8 @@ class List extends Component {
           if (`${item.name}_label` === `${this.props.path}_status_label`)
             return {
               headerName: this.translate(item.label),
-              field: this.translate(`${item.name}_label`),
-              width: 250,
+              field: this.translate(`${item.name}_label`), 
+              width: getFieldWith(item.name),
               editable: false,
               resizable: true,
               valueGetter: ({ data }) => {
@@ -257,7 +259,8 @@ class List extends Component {
             return {
               headerName: this.translate(item.label),
               field: `${item.name}_label`,
-              width: 250,
+              // width: 250,
+              width: getFieldWith(item.name),
               editable: false,
               resizable: true,
               valueGetter: ({ data }) => {
@@ -274,7 +277,8 @@ class List extends Component {
           return {
             headerName: this.translate(item.label),
             field: `${item.name}_label`,
-            minWidth: 250,
+            // minWidth: 250,
+            width: getFieldWith(item.name),
             editable: false,
             resizable: true,
             valueGetter: ({ data }) =>
@@ -287,7 +291,8 @@ class List extends Component {
           return {
             headerName: this.translate(item.label),
             field: `${item.name}_label`,
-            minWidth: 250,
+            // minWidth: 250,
+            width: getFieldWith(item.name),
             editable: false,
             resizable: true,
           };
@@ -296,7 +301,8 @@ class List extends Component {
           return {
             headerName: this.translate(item.label),
             field: `${item.name}_label`,
-            minWidth: 250,
+            // minWidth: 250,
+            width: getFieldWith(item.name),
             editable: false,
             resizable: true,
             cellRendererFramework: ({ data }) => {
@@ -316,7 +322,8 @@ class List extends Component {
           return {
             headerName: this.translate(item.label),
             field: `${item.name}`,
-            minWidth: 250,
+            // minWidth: 250,
+            width: getFieldWith(item.name),
             editable: false,
             resizable: true,
             checkboxSelection: true,
@@ -334,7 +341,8 @@ class List extends Component {
         return {
           headerName: this.translate(item.label),
           field: this.translate(`${item.name}`),
-          width: 250,
+          // width: 250,
+          width: getFieldWith(item.name),
           resizable: true,
           editable: false,
           valueGetter: ({ data }) => {

@@ -19,7 +19,7 @@
   display: table-cell;
   height: 100%;
   overflow: hidden;
-  width: 260px;
+  width: 230px;
   transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   &.menu-light {
     @include menu-theme($body-color, $white);
@@ -78,6 +78,7 @@
   }
 
   .navbar-header {
+    
     height: 100%;
     width: $menu-expanded-width;
     height: $navbar-height;
@@ -90,15 +91,16 @@
       align-items: center;
       margin-top: 1.35rem;
       .brand-logo {
-        background: url("../../../img/logo/vuesax-logo.png") no-repeat;
+        background: url("../../../img/logo/lv.svg") no-repeat;
         background-position: -65px -54px;
         height: 24px;
         width: 35px;
+        margin-top: -2px;
       }
 
       .brand-text {
         color: $primary;
-        padding-left: 1rem;
+        padding-left: 0.3rem;
         font-weight: 500;
         letter-spacing: 0.01rem;
         font-size: 1.57rem;
@@ -165,7 +167,6 @@
   &:not(.hide-sidebar) {
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
-
 }
 
 // Main Navigation
@@ -275,12 +276,12 @@
 // Navigation Themes
 
 .horizontal-layout,
-.vertical-layout{
+.vertical-layout {
   &.theme-primary {
     .navbar-container,
     .navbar-header {
       .brand-logo {
-        background-position: -65px -54px !important;
+        background-position: -18px -6px !important;
       }
     }
   }
@@ -415,8 +416,6 @@ body {
     }
   }
 }
-
-
 
 // for collapsed static layout
 body.menu-collapsed {

@@ -19,7 +19,7 @@
 @import "~bootstrap/scss/_variables.scss";
 @import "variables";
 
-$base-font-size: 14px;
+$base-font-size: 13px;
 $body-direction: ltr; // Default ltr, change it to rtl for Right To Left support.
 $content-padding: 2.2rem;
 
@@ -75,13 +75,13 @@ $menu-third-level-padding: 10px 15px 10px 20px;
 $menu-forth-level-padding: 10px 15px 10px 30px;
 
 // vertical menu
-$menu-expanded-width: 260px;
+$menu-expanded-width: 230px;
 $menu-collapsed-width: 80px;
 
 //  ------------------------------
 //    Sidebar
 //  -------------------------------
-$sidebar-width: 260px;
+$sidebar-width: 200px;
 $chat-sidebar-width: 400px;
 //  -------------------------------
 //    Avatar

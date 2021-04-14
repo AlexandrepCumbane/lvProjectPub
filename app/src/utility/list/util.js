@@ -185,3 +185,38 @@ export const renderStatus = (props, data, label) => {
     </div>
   );
 };
+
+export const getFieldWith = (field_name) => {
+  let width = 230;
+  switch (field_name) {
+    case "case_number":
+      width = 210;
+      break;
+
+    case "datetime_created":
+      width = 180;
+      break;
+
+    case "provincia":
+      width = 180;
+      break;
+
+    case "distrito":
+      width = 200;
+      break;
+
+    case "localidade":
+      width = 200;
+      break;
+
+      case "case_priority":
+      width = 150;
+      break;
+
+    default:
+      width = 240;
+      break;
+  }
+
+  return width;
+};
