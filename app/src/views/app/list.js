@@ -5,8 +5,6 @@ import { toast, Bounce } from "react-toastify";
 import { Button } from "reactstrap";
 import { axios } from "../../redux/api";
 
-import { Circle, ArrowUp } from "react-feather";
-
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import AgGridTable from "../../components/custom/table/AgGridTable";
 import Prompt from "../../components/custom/dialog/Prompt";
