@@ -76,6 +76,7 @@ class List extends Component {
         url: this.props.url,
         name: this.props.name ?? this.props.path,
         next,
+        has_params: false,
       })
       .then(() => {
         this.setState({
@@ -112,6 +113,7 @@ class List extends Component {
         url: `${this.props.url}/?start=${start}&end=${end}`,
         name: this.props.name ?? this.props.path,
         next: false,
+        has_params: true,
       })
       .then(() => {
         this.setState({

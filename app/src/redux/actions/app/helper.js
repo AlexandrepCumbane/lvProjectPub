@@ -22,22 +22,26 @@ export const handleForm = (dispatch, payload) =>
     let url = `/${payload.url}`;
     if (payload.next) {
       const postData = appState.app.app_reducer[payload.name];
+
       if (postData.page + 1 <= postData.pages) {
         appList = postData?.list;
-        url = `${payload.url}/?page=${postData.page + 1}`;
+        url = postData.next;
       } else {
         hasPer = false;
       }
     }
 
     if (hasPer) {
+      if (payload.has_params) url = `${url}&limit=250`;
+      else if (!payload.next) url = `${url}/?limit=250`;
       axios
-        .get(url, {
+        .get(`${url}`, {
           headers: {
             Authorization: `Bearer ${userOauth?.access_token}`,
           },
         })
         .then(({ data }) => {
+          console.log(data);
           let value = data;
           value["list"] = appList.concat(data.list);
           dispatch({
@@ -45,6 +49,7 @@ export const handleForm = (dispatch, payload) =>
             data: {
               key: payload.name,
               value,
+              next: data.next,
             },
             success: true,
             failed: false,

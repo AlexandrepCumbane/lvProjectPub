@@ -36,6 +36,7 @@ class AggridTable extends React.Component {
   translate = this.context.translate;
 
   state = {
+    filters: false,
     gridReady: false,
     showSidebar: false,
     showTaskDialog: false,
@@ -183,28 +184,29 @@ class AggridTable extends React.Component {
 
   renderLoading = () => {
     let res = (
-      <div className="d-flex justify-content-center align-items-center mb-1">
+      <div className="mb-1">
         <Spinner color="warning" type="grow" size="sm" />
         <strong className="ml-1">Loading...</strong>
       </div>
     );
 
-    if (!this.props.loading) res = <></>;
-
-    return res;
-  };
-
-  renderSelection = () => {
-    let res = <></>;
     if (!this.props.loading)
       res = (
-        <div className="d-flex justify-content-center align-items-center mb-1">
-          <strong className="ml-1 text-primary">
-            {this.translate("Selected")}: <span id="selectedRows">0</span>
-          </strong>
+        // <div className="mb-1">
+        //   <strong className="text-primary">
+        //     {this.translate("Selected")}: <span id="selectedRows">0</span>
+        //   </strong>
+        // </div>
+        <div className="mb-1">
+          <UncontrolledDropdown className="p-1 ag-dropdown-no-border">
+            <DropdownToggle tag="div">
+              <strong>
+                {this.translate("Selected")}: <span id="selectedRows">0</span>
+              </strong>
+            </DropdownToggle>
+          </UncontrolledDropdown>
         </div>
       );
-
     return res;
   };
 
@@ -304,8 +306,8 @@ class AggridTable extends React.Component {
 
   renderFilters = () => {
     let element = (
-      <div className="d-flex flex-wrap flex-row row">
-        <div className="col-sm-12 col-md-4 table-input rounded-0">
+      <div className="d-flex flex-row">
+        <div className="col-sm-12 col-md-5 table-input rounded-0">
           <InputGroup className="rounded-0 mb-1">
             <InputGroupAddon
               className="rounded-0 text-primary"
@@ -351,7 +353,7 @@ class AggridTable extends React.Component {
             <X size={18} color="white" />
           </Button.Ripple>
           <Button.Ripple
-            className="btn-icon rounded-circle ml-1"
+            className="btn-icon rounded-circle ml-1 mr-1"
             color="primary"
             onClick={() => {
               if (this.state.end !== "" && this.state.start !== "")
@@ -368,6 +370,9 @@ class AggridTable extends React.Component {
     );
 
     if (this.props.tableType === "customuser") {
+      element = <></>;
+    }
+    if (!this.state.filters) {
       element = <></>;
     }
 
@@ -447,68 +452,75 @@ class AggridTable extends React.Component {
           <CardBody className="py-0">
             {this.state.rowData === null ? null : (
               <div className="ag-theme-material w-100 my-3 ag-grid-table">
-                <div className="d-flex flex-wrap justify-content-between align-items-center">
-                  <div className="mb-1">
-                    <UncontrolledDropdown className="p-1 ag-dropdown">
-                      <DropdownToggle tag="div">
-                        {this.gridApi
-                          ? this.state.currenPageSize
-                          : "" * this.state.getPageSize -
-                            (this.state.getPageSize - 1)}{" "}
-                        -{" "}
-                        {this.state.rowData.length -
-                          this.state.currenPageSize * this.state.getPageSize >
-                        0
-                          ? this.state.currenPageSize * this.state.getPageSize
-                          : this.state.rowData.length}{" "}
-                        of {this.state.rowData.length}
-                        <ChevronDown className="ml-50" size={15} />
-                      </DropdownToggle>
-                      <DropdownMenu right>
-                        <DropdownItem
-                          tag="div"
-                          onClick={() => this.filterSize(20)}
-                        >
-                          20
-                        </DropdownItem>
-                        <DropdownItem
-                          tag="div"
-                          onClick={() => this.filterSize(50)}
-                        >
-                          50
-                        </DropdownItem>
-                        <DropdownItem
-                          tag="div"
-                          onClick={() => this.filterSize(100)}
-                        >
-                          100
-                        </DropdownItem>
-                        <DropdownItem
-                          tag="div"
-                          onClick={() => this.filterSize(130)}
-                        >
-                          150
-                        </DropdownItem>
-                        <DropdownItem
-                          tag="div"
-                          onClick={() => this.filterSize(130)}
-                        >
-                          250
-                        </DropdownItem>
-                        <DropdownItem
-                          tag="div"
-                          onClick={() => this.filterSize(130)}
-                        >
-                          500
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </UncontrolledDropdown>
+                <div className="d-flex flex-row justify-content-between align-items-center">
+                  <div className="d-flex flex-row align-items-center">
+                    <div className="mb-1 mr-2">
+                      <UncontrolledDropdown className="p-1 ag-dropdown">
+                        <DropdownToggle tag="div">
+                          {this.gridApi
+                            ? this.state.currenPageSize
+                            : "" * this.state.getPageSize -
+                              (this.state.getPageSize - 1)}{" "}
+                          -{" "}
+                          {this.state.rowData.length -
+                            this.state.currenPageSize * this.state.getPageSize >
+                          0
+                            ? this.state.currenPageSize * this.state.getPageSize
+                            : this.state.rowData.length}{" "}
+                          of {this.state.rowData.length}
+                          <ChevronDown className="ml-50" size={15} />
+                        </DropdownToggle>
+                        <DropdownMenu right>
+                          <DropdownItem
+                            tag="div"
+                            onClick={() => this.filterSize(20)}
+                          >
+                            20
+                          </DropdownItem>
+                          <DropdownItem
+                            tag="div"
+                            onClick={() => this.filterSize(50)}
+                          >
+                            50
+                          </DropdownItem>
+                          <DropdownItem
+                            tag="div"
+                            onClick={() => this.filterSize(100)}
+                          >
+                            100
+                          </DropdownItem>
+                          <DropdownItem
+                            tag="div"
+                            onClick={() => this.filterSize(150)}
+                          >
+                            150
+                          </DropdownItem>
+                          <DropdownItem
+                            tag="div"
+                            onClick={() => this.filterSize(250)}
+                          >
+                            250
+                          </DropdownItem>
+                          <DropdownItem
+                            tag="div"
+                            onClick={() => this.filterSize(500)}
+                          >
+                            500
+                          </DropdownItem>
+                          <DropdownItem
+                            tag="div"
+                            onClick={() => this.filterSize(1000)}
+                          >
+                            1000
+                          </DropdownItem>
+                        </DropdownMenu>
+                      </UncontrolledDropdown>
+                    </div>
+                    {this.renderLoading()}
                   </div>
-                  {this.renderSelection()}
-                  {this.renderLoading()}
-                  <div className="d-flex flex-wrap justify-content-between mb-1">
-                    {this.renderFilters()}
+                  {this.renderFilters()}
 
+                  <div className="d-flex flex-row justify-content-between mb-1">
                     <div className="table-input mr-1">
                       <Input
                         placeholder={`${this.translate("Search")}...`}
@@ -525,15 +537,6 @@ class AggridTable extends React.Component {
                           <ChevronDown className="ml-50" size={15} />
                         </DropdownToggle>
                         <DropdownMenu right>
-                          {/* <DropdownItem
-                            tag="div"
-                            onClick={() =>
-                              history.push(`${this.props.tableType}s/new`)
-                            }
-                          >
-                            {this.translate("New Record")}
-                          </DropdownItem> */}
-
                           {this.props.userRole === "manager" ||
                           this.props.userRole === "focalpoint" ? (
                             <DropdownItem
@@ -550,6 +553,16 @@ class AggridTable extends React.Component {
                           ) : (
                             <></>
                           )}
+                          <DropdownItem
+                            tag="div"
+                            onClick={() => {
+                              this.setState({
+                                filters: !this.state.filters,
+                              });
+                            }}
+                          >
+                            {this.translate("Date Filters")}
+                          </DropdownItem>
                           <DropdownItem
                             tag="div"
                             onClick={() => {
