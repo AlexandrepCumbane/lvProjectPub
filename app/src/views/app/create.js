@@ -28,17 +28,6 @@ import Checkbox from "../../components/@vuexy/checkbox/CheckboxesVuexy";
 class Create extends React.Component {
   static contextType = IntlContext;
   translate = this.context.translate;
-  animatedComponents = makeAnimated();
-
-  notifySuccessBounce = () =>
-    toast.success(this.translate(`Transaction completed successfuly!`), {
-      transition: Bounce,
-    });
-
-  notifyErrorBounce = (error) =>
-    toast.error(this.translate(error), {
-      transition: Bounce,
-    });
 
   state = {
     form: new FormData(),
@@ -49,6 +38,7 @@ class Create extends React.Component {
     dropdowns: [],
     childrens: {},
   };
+
   componentDidMount() {
     this.props.requestDropodowns(); // Request dropdown lists and place in a map
     const { form } = config.pages[this.props.path]; // loads lvform to be rendered on view
@@ -101,6 +91,11 @@ class Create extends React.Component {
     );
   };
 
+  /**
+   * get checkbox field value from a formdata object
+   * @param {*} field_name 
+   * @returns 
+   */
   checkboxValue = (field_name) => {
     const { form } = this.state;
     if (form.get(field_name) === "true") {
@@ -109,6 +104,11 @@ class Create extends React.Component {
     return false;
   };
 
+  /**
+   * Render a input label verifying it's required bind value and filled value
+   * @param {*} field 
+   * @returns 
+   */
   renderLabel = (field) => {
     if (
       (!this.state.isValid &&
@@ -154,6 +154,11 @@ class Create extends React.Component {
     }
   };
 
+  /**
+   * Filter and matchs input type and render it's matching components settings
+   * @param {*} field 
+   * @returns 
+   */
   renderSingleInput = (field) => {
     let res = <></>;
 
@@ -447,6 +452,11 @@ class Create extends React.Component {
     return res;
   };
 
+  /**
+   * Reender a simple select option from a list  
+   * @param {*} choices 
+   * @returns 
+   */
   renderSelectOption = (choices) => {
     return choices.map((item) => (
       <option key={item.name} value={item.name}>
@@ -455,6 +465,11 @@ class Create extends React.Component {
     ));
   };
 
+  /**
+   * Render a foreign key field dropdowns options on select component
+   * @param {*} choices 
+   * @returns 
+   */
   renderSelectOptionForeignWQ = (choices) => {
     return choices.map((item) => (
       <option key={item.id} value={item.id}>
@@ -463,6 +478,11 @@ class Create extends React.Component {
     ));
   };
 
+  /**
+   * Get foreign dropdowns from field_name on app dropdowns state
+   * @param {*} field_name
+   * @returns
+   */
   getForeignFieldDropdown = (field_name) => {
     return this.props.app_reducer.dropdowns[field_name] ?? [];
   };
@@ -571,6 +591,12 @@ class Create extends React.Component {
     }
   };
 
+  /**
+   * Format Select lib options from a list
+   *
+   * @param {*} list
+   * @returns
+   */
   selectOptions = (list) =>
     list.map((item) => {
       return {
@@ -609,6 +635,27 @@ class Create extends React.Component {
         });
     }
   };
+
+  animatedComponents = makeAnimated();
+
+  /**
+   * Success alert function - shows an alert with success background
+   * @returns
+   */
+  notifySuccessBounce = () =>
+    toast.success(this.translate(`Transaction completed successfuly!`), {
+      transition: Bounce,
+    });
+
+  /**
+   * Error alert function - shows an alert with danger background
+   * @param {*} error - string message
+   * @returns
+   */
+  notifyErrorBounce = (error) =>
+    toast.error(this.translate(error), {
+      transition: Bounce,
+    });
 }
 
 function mapStateToProps(state) {
