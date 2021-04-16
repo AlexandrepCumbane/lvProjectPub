@@ -100,35 +100,6 @@ class Edit extends Component {
     this.setState({ dropdowns, form: formdata });
   }
 
-  checkboxValue = (field_name) => {
-    const { form } = this.state;
-    return form.get(field_name) === "true";
-  };
-
-  renderLabel = (field) => {
-    if (
-      !this.state.isValid &&
-      this.state.required_fields_labels.includes(field.label)
-    ) {
-      return (
-        <Label className="text-danger">
-          <strong> * {this.translate(field.label)}</strong>
-        </Label>
-      );
-    } else {
-      return (
-        <Label>
-          {" "}
-          <strong>{this.translate(field.label)}</strong>
-        </Label>
-      );
-    }
-  };
-
-  handleModal = () => {
-    this.setState({ showModal: !this.state.showModal });
-  };
-
   render() {
     let { show, handleSidebar, data } = this.props;
 
@@ -195,17 +166,71 @@ class Edit extends Component {
     );
   }
 
+  /**
+   * get checkbox field value from a formdata object
+   * @param {*} field_name
+   * @returns
+   */
+  checkboxValue = (field_name) => {
+    const { form } = this.state;
+    return form.get(field_name) === "true";
+  };
+
+  /**
+   * Render a input label verifying it's required bind value and filled value
+   * @param {*} field
+   * @returns
+   */
+  renderLabel = (field) => {
+    if (
+      !this.state.isValid &&
+      this.state.required_fields_labels.includes(field.label)
+    ) {
+      return (
+        <Label className="text-danger">
+          <strong> * {this.translate(field.label)}</strong>
+        </Label>
+      );
+    } else {
+      return (
+        <Label>
+          {" "}
+          <strong>{this.translate(field.label)}</strong>
+        </Label>
+      );
+    }
+  };
+
+  /**
+   * ToggleModal function - update toggle state to true or false to show the modal
+   */
+  handleModal = () => {
+    this.setState({ showModal: !this.state.showModal });
+  };
+
+  /**
+   * ToggleModal function - update toggle state to true or false to show the modalList view component
+   */
+
   toggleListModal = () => {
     this.setState((prevState) => ({
       modal_list: !prevState.modal_list,
     }));
   };
 
+  /**
+   * Updates list data to be rendered on modalList View component and show modal
+   * @param {*} item
+   */
   raiseListData(item) {
     this.setState({ modal_list_data: item });
     this.toggleListModal();
   }
 
+  /**
+   * Render Task list on view
+   * @returns
+   */
   renderTasks = () => {
     const { task_set } = this.state;
 
@@ -265,29 +290,9 @@ class Edit extends Component {
     );
   };
 
-  getCommentColor = (user) => {
-    const userRole = user.groups_label[0] ?? "None";
-
-    let color = "white";
-
-    switch (userRole) {
-      case "manager":
-        color = "success";
-        break;
-      case "focalpoint":
-        color = "info";
-        break;
-      case "partner":
-        color = "primary";
-        break;
-
-      default:
-        color = "secondary";
-    }
-
-    return color;
-  };
-
+  /**
+   * Render comments list on view
+   */
   renderComments = () => {
     const { casecomment_set } = this.state;
 
@@ -326,6 +331,11 @@ class Edit extends Component {
     );
   };
 
+  /**
+   * Appen added comment to the comments list on view
+   *
+   * @param {*} comments
+   */
   addMoreComments = (comments) => {
     let { casecomment_set } = this.state;
 
@@ -333,13 +343,19 @@ class Edit extends Component {
     this.setState({ casecomment_set });
   };
 
-  addMoreTasks = (comments) => {
+  /**
+   * Append added task to the task list on view
+   */
+  addMoreTasks = (tasks) => {
     let { task_set } = this.state;
 
-    task_set.unshift(comments);
+    task_set.unshift(tasks);
     this.setState({ task_set });
   };
 
+  /**
+   * Render Partner Feedback object data on view
+   */
   renderFeedbackComments = () => {
     const { forwardinginstitution } = this.props.data;
 
@@ -403,7 +419,6 @@ class Edit extends Component {
   /**
    * Action and helper functions
    */
-
   renderActions = () => {
     const userRole = this.props.user;
     let { data } = this.props;
@@ -548,6 +563,9 @@ class Edit extends Component {
     return element;
   };
 
+  /**
+   * Render other details on form view
+   */
   renderDetails = () => {
     if (this.state.edit_status) {
       return <></>;
@@ -608,6 +626,9 @@ class Edit extends Component {
     return element;
   };
 
+  /**
+   * Render lvform form on view
+   */
   renderForm = () => {
     const form_ = config.pages.lvform;
     return (
@@ -622,6 +643,11 @@ class Edit extends Component {
     );
   };
 
+  /**
+   * Filter and matchs input type and render it's matching components settings
+   * @param {*} field
+   * @returns
+   */
   renderSingleInput = (field) => {
     let res = <></>;
     let { data } = this.props;
@@ -911,6 +937,11 @@ class Edit extends Component {
     return res;
   };
 
+  /**
+   * Reender a simple select option from a list
+   * @param {*} choices
+   * @returns
+   */
   renderSelectOption = (choices) => {
     return choices.map((item) => (
       <option key={item.name} value={item.name}>
@@ -919,6 +950,11 @@ class Edit extends Component {
     ));
   };
 
+  /**
+   * Render a foreign key field dropdowns options on select component
+   * @param {*} choices
+   * @returns
+   */
   renderSelectOptionForeignWQ = (choices) => {
     return choices.map((item) => (
       <option key={item.id} value={item.id}>
@@ -927,6 +963,11 @@ class Edit extends Component {
     ));
   };
 
+  /**
+   * Get foreign dropdowns from field_name on app dropdowns state
+   * @param {*} field_name
+   * @returns
+   */
   getForeignFieldDropdown = (field_name) => {
     return this.props.app_reducer.dropdowns[field_name] ?? [];
   };
@@ -996,6 +1037,11 @@ class Edit extends Component {
     }
   };
 
+  /**
+   * Filter and matchs input type and render it's matching components settings as Label if edit satus is disabled
+   * @param {*} field
+   * @returns
+   */
   renderSingleRead = (field) => {
     let res = <></>;
     let { data } = this.props;
