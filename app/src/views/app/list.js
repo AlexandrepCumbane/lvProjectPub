@@ -33,16 +33,6 @@ class List extends Component {
   static contextType = IntlContext;
   translate = this.context.translate;
 
-  notifySuccessBounce = () =>
-    toast.success(this.translate(`Transaction completed successfuly!`), {
-      transition: Bounce,
-    });
-
-  notifyErrorBounce = (error) =>
-    toast.error(this.translate(error), {
-      transition: Bounce,
-    });
-
   state = {
     pageTitle: this.translate("Pages"),
     pageParent: this.translate("Lists & Forms"),
@@ -164,10 +154,10 @@ class List extends Component {
 
   /**
    * Requests a list of data based on path props - uses the args to appens them as query_string
-   * 
-   * @param {*} start 
-   * @param {*} end 
-   * @returns 
+   *
+   * @param {*} start
+   * @param {*} end
+   * @returns
    */
   requestParams = (start, end) => {
     this.setState({
@@ -200,7 +190,7 @@ class List extends Component {
 
   /**
    * Delete method - deletes the record based on the recordId state prop
-   * 
+   *
    */
   handleDelete = () => {
     const { userOauth } = this.props.state.auth.login;
@@ -227,10 +217,9 @@ class List extends Component {
       });
   };
 
-
   /**
    * Filter specific fields for each userRole
-   * @returns 
+   * @returns
    */
   getSpecificields = () => {
     let form = [];
@@ -440,6 +429,26 @@ class List extends Component {
     });
     this.setState({ columnDefs });
   };
+
+  /**
+   * Success alert function - shows an alert with success background
+   * @returns
+   */
+  notifySuccessBounce = () =>
+    toast.success(this.translate(`Transaction completed successfuly!`), {
+      transition: Bounce,
+    });
+
+  /**
+   * Error alert function - shows an alert with danger background
+   * @param {*} error - string message
+   * @returns
+   */
+
+  notifyErrorBounce = (error) =>
+    toast.error(this.translate(error), {
+      transition: Bounce,
+    });
 }
 
 function mapStateToProps(state) {
