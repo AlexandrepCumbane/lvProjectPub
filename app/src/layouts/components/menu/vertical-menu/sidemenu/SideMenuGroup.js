@@ -118,7 +118,7 @@ class SideMenuGroup extends React.Component {
                       <div className="menu-text">
                         {child.icon}
                         <span className="menu-item menu-title">
-                          {child.title}
+                          {this.props.translate(child.title)}
                         </span>
                       </div>
                       {child.badge ? (

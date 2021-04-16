@@ -8,7 +8,6 @@ import * as serviceWorker from "./serviceWorker";
 import { store, persistor } from "./redux/storeConfig/store";
 import Spinner from "./components/@vuexy/spinner/Fallback-spinner";
 import "./index.scss";
-import "./@fake-db";
 import { PersistGate } from "redux-persist/integration/react";
 
 import { graphClient } from "./configs/apolloConfig";

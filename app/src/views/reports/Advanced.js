@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import { LOCALES } from "../../i18n/index";
 
-import translate from "../../i18n/translate";
 import {
   Label,
   FormGroup,
@@ -41,7 +40,7 @@ class Advanced extends Component {
           breadCrumbActive={this.state.activePage}
         />
 
-        <Row>
+        {/* <Row>
           <Col md="12">
             <Card className="rounded-0 mb-0 my-2">
               <CardHeader>
@@ -135,7 +134,7 @@ class Advanced extends Component {
               ]}
             />
           </Col>
-        </Row>
+        </Row> */}
       </div>
     );
   }

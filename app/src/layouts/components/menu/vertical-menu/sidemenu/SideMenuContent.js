@@ -6,8 +6,19 @@ import SideMenuGroup from "./SideMenuGroup";
 import { Badge } from "reactstrap";
 import { ChevronRight } from "react-feather";
 import { history } from "../../../../../history";
+import { IntlContext } from "../../../../../i18n/provider";
 
 class SideMenuContent extends React.Component {
+  static contextType = IntlContext;
+  // translate =  this.context.translate;
+  translate = (e) => {
+    if (this.context) {
+      return this.context.translate(e);
+    }
+    return e;
+  };
+  // console.log(this.context);
+
   constructor(props) {
     super(props);
 
@@ -105,6 +116,7 @@ class SideMenuContent extends React.Component {
 
   componentDidMount() {
     this.initRender(this.parentArr[0] ? this.parentArr[0] : []);
+    // console.log(this.context);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -194,7 +206,9 @@ class SideMenuContent extends React.Component {
           >
             <div className="menu-text">
               {item.icon}
-              <span className="menu-item menu-title">{item.title}</span>
+              <span className="menu-item menu-title">
+                {this.translate(item.title)}
+              </span>
             </div>
 
             {item.badge ? (
@@ -232,6 +246,7 @@ class SideMenuContent extends React.Component {
               collapsedMenuPaths={this.props.collapsedMenuPaths}
               toggleMenu={this.props.toggleMenu}
               deviceWidth={this.props.deviceWidth}
+              translate={this.translate}
             />
           ) : (
             ""

@@ -1,13 +1,11 @@
 import React from "react";
 import * as Icon from "react-feather";
 
-import translate from "../i18n/translate";
-
 const get_pages = () => {
   let navConf = [
     {
       id: "home",
-      title: translate("Home"),
+      title: "Home",
       type: "item",
       icon: <Icon.Home size={20} />,
       permissions: [
@@ -23,7 +21,7 @@ const get_pages = () => {
 
     {
       id: "cases",
-      title: translate("Cases"),
+      title: "Cases",
       type: "collapse",
       icon: <Icon.File size={20} />,
       badge: "warning",
@@ -32,7 +30,7 @@ const get_pages = () => {
       children: [
         {
           id: "all_cases",
-          title: translate("Registered"),
+          title: "Registered",
           type: "item",
           icon: <Icon.Archive size={12} />,
           permissions: ["operator", "manager"],
@@ -41,7 +39,7 @@ const get_pages = () => {
         },
         {
           id: "all_cases_received_fp",
-          title: translate("Received"),
+          title: "Received",
           type: "item",
           icon: <Icon.Archive size={12} />,
           permissions: ["focalpoint"],
@@ -50,7 +48,7 @@ const get_pages = () => {
         },
         {
           id: "all_cases_forwarded_partner",
-          title: translate("Received"),
+          title: "Received",
           type: "item",
           icon: <Icon.Archive size={12} />,
           permissions: ["partner"],
@@ -59,7 +57,7 @@ const get_pages = () => {
         },
         {
           id: "all_cases_forwarded_fp",
-          title: translate("Forwarded"),
+          title: "Forwarded",
           type: "item",
           icon: <Icon.Archive size={12} />,
           permissions: ["focalpoint"],
@@ -68,7 +66,7 @@ const get_pages = () => {
         },
         {
           id: "referall_cases",
-          title: translate("Forwarded"),
+          title: "Forwarded",
           type: "item",
           icon: <Icon.FileText size={12} />,
           permissions: ["manager"],
@@ -80,7 +78,7 @@ const get_pages = () => {
 
     {
       id: "tasks",
-      title: translate("Tasks"),
+      title: "Tasks",
       type: "item",
       icon: <Icon.Activity size={20} />,
       permissions: ["operator", "manager"],
@@ -89,7 +87,7 @@ const get_pages = () => {
 
     {
       id: "reports",
-      title: translate("Reports"),
+      title: "Reports",
       type: "collapse",
       icon: <Icon.PieChart size={20} />,
       badge: "warning",
@@ -98,7 +96,7 @@ const get_pages = () => {
       children: [
         {
           id: "general",
-          title: translate("General"),
+          title: "General",
           type: "item",
           icon: <Icon.BarChart size={12} />,
           permissions: ["manager"],
@@ -118,7 +116,7 @@ const get_pages = () => {
     },
     {
       id: "information",
-      title: translate("Knowledge Base"),
+      title: "Knowledge Base",
       type: "item",
       icon: <Icon.Database size={20} />,
       permissions: ["operator", "focalpoint", "partner"],
@@ -126,7 +124,7 @@ const get_pages = () => {
     },
     {
       id: "articles",
-      title: translate("Knowledge Base"),
+      title: "Knowledge Base",
       type: "item",
       icon: <Icon.Database size={20} />,
       permissions: ["manager"],
@@ -135,7 +133,7 @@ const get_pages = () => {
 
     {
       id: "users",
-      title: translate("Users"),
+      title: "Users",
       type: "item",
       icon: <Icon.Users size={20} />,
       permissions: ["manager"],
@@ -144,7 +142,7 @@ const get_pages = () => {
 
     {
       id: "cluster_sectors",
-      title: translate("Sector"),
+      title: "Sector",
       type: "collapse",
       icon: <Icon.Disc size={20} />,
       badge: "warning",
@@ -152,7 +150,7 @@ const get_pages = () => {
       children: [
         {
           id: "clusteragencys",
-          title: translate("Agencies"),
+          title: "Agencies",
           type: "item",
           icon: <Icon.Airplay size={20} />,
           permissions: ["manager"],
@@ -160,7 +158,7 @@ const get_pages = () => {
         },
         {
           id: "clusterregions",
-          title: translate("Regions"),
+          title: "Regions",
           type: "item",
           icon: <Icon.Map size={20} />,
           permissions: ["manager"],
