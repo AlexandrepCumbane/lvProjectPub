@@ -3,18 +3,18 @@ import { connect } from "react-redux";
 import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import { LOCALES } from "../../i18n/index";
 
-import {
-  Label,
-  FormGroup,
-  Col,
-  Row,
-  CustomInput,
-  Card,
-  CardBody,
-  CardHeader,
-  CardTitle,
-} from "reactstrap";
-import DistributedCharts from "./charts/Distributed";
+// import {
+//   Label,
+//   FormGroup,
+//   Col,
+//   Row,
+//   CustomInput,
+//   Card,
+//   CardBody,
+//   CardHeader,
+//   CardTitle,
+// } from "reactstrap";
+// import DistributedCharts from "./charts/Distributed";
 
 class Advanced extends Component {
   state = {
