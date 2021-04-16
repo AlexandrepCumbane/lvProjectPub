@@ -65,12 +65,72 @@ class List extends Component {
     this.requestMore(false);
   }
 
+  render() {
+    return (
+      <div>
+        <Breadcrumbs
+          breadCrumbItems={
+            this.props.hasNew
+              ? [
+                  {
+                    name: this.translate("Add New"),
+                    link: `${this.state.page}s/new`,
+                  },
+                ]
+              : []
+          }
+          breadCrumbTitle={this.state.pageTitle}
+          breadCrumbParent={this.state.pageParent}
+          breadCrumbActive={this.state.activePage}
+        />
+
+        {this.state.showModal ? (
+          <Prompt
+            translate={this.translate}
+            showModal={this.state.showModal}
+            action={() => this.handleDelete()}
+            toggleModal={() => this.setState({ showModal: false })}
+            message={this.state.message}
+          />
+        ) : (
+          <></>
+        )}
+        {this.state.show ? (
+          <AgGridTable
+            requestData={this.requestMore}
+            requestParams={this.requestParams}
+            requestMore={this.requestMore}
+            loading={this.state.isLoading}
+            data={this.state.data}
+            columnDefs={this.state.columnDefs}
+            tableType={this.props.path}
+            dropdowns={[]}
+            onColumnMoved={this.onColumnMoved}
+            userRole={this.props.userRole}
+            deleteAction={(id) => {
+              this.setState({ recordId: id, showModal: true });
+            }}
+          />
+        ) : (
+          <></>
+        )}
+      </div>
+    );
+  }
+
+  /**
+   * Requests a list of data based on path props - requests new data if next is false and request next page e next is true
+   *
+   * @param {*} next
+   * @returns
+   */
   requestMore = (next = true) => {
     this.setState({
       data: this.props.app_reducer[this.props.path]?.list ?? [],
       show: true,
       isLoading: true,
     });
+
     return this.props
       .requestForm({
         url: this.props.url,
@@ -102,6 +162,13 @@ class List extends Component {
       });
   };
 
+  /**
+   * Requests a list of data based on path props - uses the args to appens them as query_string
+   * 
+   * @param {*} start 
+   * @param {*} end 
+   * @returns 
+   */
   requestParams = (start, end) => {
     this.setState({
       data: this.props.app_reducer[this.props.path]?.list ?? [],
@@ -131,6 +198,10 @@ class List extends Component {
       });
   };
 
+  /**
+   * Delete method - deletes the record based on the recordId state prop
+   * 
+   */
   handleDelete = () => {
     const { userOauth } = this.props.state.auth.login;
 
@@ -156,6 +227,11 @@ class List extends Component {
       });
   };
 
+
+  /**
+   * Filter specific fields for each userRole
+   * @returns 
+   */
   getSpecificields = () => {
     let form = [];
 
@@ -190,6 +266,9 @@ class List extends Component {
     return form;
   };
 
+  /**
+   * Format fields form a form object in config file
+   */
   formatFields = () => {
     let colm = this.getSpecificields();
 
@@ -219,7 +298,7 @@ class List extends Component {
         if (index === 0) {
           return {
             headerName: this.translate(item.label),
-            field: `${item.name}_label`, 
+            field: `${item.name}_label`,
             width: getFieldWith(item.name),
             editable: false,
             resizable: true,
@@ -237,7 +316,7 @@ class List extends Component {
           if (`${item.name}_label` === `${this.props.path}_status_label`)
             return {
               headerName: this.translate(item.label),
-              field: this.translate(`${item.name}_label`), 
+              field: this.translate(`${item.name}_label`),
               width: getFieldWith(item.name),
               editable: false,
               resizable: true,
@@ -361,59 +440,6 @@ class List extends Component {
     });
     this.setState({ columnDefs });
   };
-
-  render() {
-    return (
-      <div>
-        <Breadcrumbs
-          breadCrumbItems={
-            this.props.hasNew
-              ? [
-                  {
-                    name: this.translate("Add New"), // i18n.t('Add New'),
-                    link: `${this.state.page}s/new`,
-                  },
-                ]
-              : []
-          }
-          breadCrumbTitle={this.state.pageTitle}
-          breadCrumbParent={this.state.pageParent}
-          breadCrumbActive={this.state.activePage}
-        />
-
-        {this.state.showModal ? (
-          <Prompt
-            translate={this.translate}
-            showModal={this.state.showModal}
-            action={() => this.handleDelete()}
-            toggleModal={() => this.setState({ showModal: false })}
-            message={this.state.message}
-          />
-        ) : (
-          <></>
-        )}
-        {this.state.show ? (
-          <AgGridTable
-            requestData={this.requestMore}
-            requestParams={this.requestParams}
-            requestMore={this.requestMore}
-            loading={this.state.isLoading}
-            data={this.state.data}
-            columnDefs={this.state.columnDefs}
-            tableType={this.props.path}
-            dropdowns={[]}
-            onColumnMoved={this.onColumnMoved}
-            userRole={this.props.userRole}
-            deleteAction={(id) => {
-              this.setState({ recordId: id, showModal: true });
-            }}
-          />
-        ) : (
-          <></>
-        )}
-      </div>
-    );
-  }
 }
 
 function mapStateToProps(state) {
