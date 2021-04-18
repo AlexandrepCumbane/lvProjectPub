@@ -1,8 +1,7 @@
 import React from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
-const Prompt = (props) => {
-  console.log(props);
+const Prompt = (props) => { 
   return (
     <div className="demo-inline-spacing ">
       <div className="theme-modal-danger rounded-0">
