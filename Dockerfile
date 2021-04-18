@@ -7,17 +7,20 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Add yarn 
-RUN apt-get update \
-    && apt-get install curl gnupg2 apt-utils -y
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+# RUN apt-get update \
+#     && apt-get install curl gnupg2 apt-utils -y
+# RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+# RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
 # Add dependencies nescessary to run postgres library for the project
+# RUN apt-get update \
+#     && apt-get install gcc libpq-dev nodejs python3-venv npm yarn -y \
+#     && apt-get clean
 RUN apt-get update \
-    && apt-get install gcc libpq-dev nodejs python3-venv npm yarn -y \
+    && apt-get install gcc libpq-dev python3-venv -y \
     && apt-get clean
 
-RUN npm install -g npm@latest
+# RUN npm install -g npm@latest
 
 # Create a directory in the container for the code
 RUN mkdir /code
@@ -35,8 +38,8 @@ RUN pip install --upgrade pip \
 # RUN ./manage.py migrate
 
 # Install npm dependencies
-WORKDIR /code/app
-RUN yarn install
+# WORKDIR /code/app
+# RUN yarn install
 
 # Permission to correct user
 RUN chown -R 1000:1000 /code
@@ -45,7 +48,7 @@ WORKDIR /code
 
 # Expose the running port for the container
 EXPOSE 8000
-EXPOSE 3000
+# EXPOSE 3000
 
 # RUN ./deploy.sh 0.0.2
 
