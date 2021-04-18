@@ -438,5 +438,8 @@ export default {
     "Do you want to delete that record?":
       "Tem certeza que deseja apagar esse registo?",
     "Sign Out": "Sair",
+    "Select All": "Seleccionar Todos",
+    "Filter": "Filtro",
+    "Filters": "Filtros"
   },
 };

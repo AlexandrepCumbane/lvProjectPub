@@ -30,6 +30,7 @@ import "../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../assets/scss/pages/users.scss";
 import "../../../assets/scss/pages/data-list.scss";
 import ArticleView from "../../../views/information/ArticleView";
+import { getFilterComponent } from "./filterComponent";
 
 class AggridTable extends React.Component {
   static contextType = IntlContext;
@@ -299,9 +300,13 @@ class AggridTable extends React.Component {
   };
 
   onSelectionChanged = () => {
-    const selected = this.gridApi.getSelectedRows();
+    let selectedCount = 0;
+    this.gridApi.forEachNodeAfterFilter((node) => {
+      if (node.isSelected()) selectedCount += 1;
+    });
+
     if (!this.props.loading)
-      document.querySelector("#selectedRows").innerHTML = selected.length ?? 0;
+      document.querySelector("#selectedRows").innerHTML = selectedCount ?? 0;
   };
 
   renderFilters = () => {
@@ -603,12 +608,17 @@ class AggridTable extends React.Component {
                         pagination={true}
                         paginationPageSize={this.state.paginationPageSize}
                         pivotPanelShow="always"
+                        translate={this.translate}
                         enableRtl={context.state.direction === "rtl"}
                         onColumnMoved={(params) =>
                           this.onColumnMoved(this.props.tableType, params)
                         }
                         onPaginationChanged={() => this.onPaginationChanged()}
                         onSelectionChanged={this.onSelectionChanged.bind(this)}
+                        components={{
+                          customFilter: getFilterComponent(),
+                        }}
+                        dropdowns={this.props.dropdowns}
                       />
                     )}
                   </ContextLayout.Consumer>
@@ -623,5 +633,6 @@ class AggridTable extends React.Component {
     );
   }
 }
+
 
 export default AggridTable;

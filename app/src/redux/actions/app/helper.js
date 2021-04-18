@@ -40,8 +40,7 @@ export const handleForm = (dispatch, payload) =>
             Authorization: `Bearer ${userOauth?.access_token}`,
           },
         })
-        .then(({ data }) => {
-          console.log(data);
+        .then(({ data }) => { 
           let value = data;
           value["list"] = appList.concat(data.list);
           dispatch({

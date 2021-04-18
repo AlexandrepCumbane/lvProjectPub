@@ -94,7 +94,7 @@ class List extends Component {
             data={this.state.data}
             columnDefs={this.state.columnDefs}
             tableType={this.props.path}
-            dropdowns={[]}
+            dropdowns={[this.props.app_reducer.dropdowns]}
             onColumnMoved={this.onColumnMoved}
             userRole={this.props.userRole}
             deleteAction={(id) => {
@@ -139,11 +139,10 @@ class List extends Component {
         });
 
         if (this.props.app_reducer.error === "session") {
-          this.notifyErrorBounce(
-            "Your session has expired, please login again!"
-          );
-
-          this.setState({ data: [] });
+          // this.notifyErrorBounce(
+          //   "Your session has expired, please login again!"
+          // );
+          // this.setState({ data: [] });
         }
 
         if (this.props.app_reducer[this.props.name ?? this.props.path]?.next)
@@ -273,7 +272,6 @@ class List extends Component {
         return {
           headerName: this.translate(item.label),
           field: `${item.name}`,
-          // minWidth: 250,
           resizable: true,
           hide: true,
           width: getFieldWith(item.name),
@@ -291,6 +289,7 @@ class List extends Component {
             width: getFieldWith(item.name),
             editable: false,
             resizable: true,
+            filter: "customFilter",
             checkboxSelection: true,
             headerCheckboxSelection: true,
             cellRendererFramework: ({ data }) => {
@@ -309,6 +308,7 @@ class List extends Component {
               width: getFieldWith(item.name),
               editable: false,
               resizable: true,
+              filter: "customFilter",
               valueGetter: ({ data }) => {
                 if (item.name === "groups")
                   return this.translate(data["groups_label"][0] ?? "None");
@@ -327,9 +327,9 @@ class List extends Component {
             return {
               headerName: this.translate(item.label),
               field: `${item.name}_label`,
-              // width: 250,
               width: getFieldWith(item.name),
               editable: false,
+              filter: "customFilter",
               resizable: true,
               valueGetter: ({ data }) => {
                 if (item.name === "groups")
@@ -345,9 +345,9 @@ class List extends Component {
           return {
             headerName: this.translate(item.label),
             field: `${item.name}_label`,
-            // minWidth: 250,
             width: getFieldWith(item.name),
             editable: false,
+            filter: "customFilter",
             resizable: true,
             valueGetter: ({ data }) =>
               data[`${item.name}`]?.length ??
@@ -359,9 +359,9 @@ class List extends Component {
           return {
             headerName: this.translate(item.label),
             field: `${item.name}_label`,
-            // minWidth: 250,
             width: getFieldWith(item.name),
             editable: false,
+            filter: "customFilter",
             resizable: true,
           };
         }
@@ -369,9 +369,9 @@ class List extends Component {
           return {
             headerName: this.translate(item.label),
             field: `${item.name}_label`,
-            // minWidth: 250,
             width: getFieldWith(item.name),
             editable: false,
+            filter: "customFilter",
             resizable: true,
             cellRendererFramework: ({ data }) => {
               return (
@@ -390,9 +390,9 @@ class List extends Component {
           return {
             headerName: this.translate(item.label),
             field: `${item.name}`,
-            // minWidth: 250,
             width: getFieldWith(item.name),
             editable: false,
+            filter: "customFilter",
             resizable: true,
             checkboxSelection: true,
             headerCheckboxSelection: true,
@@ -409,9 +409,9 @@ class List extends Component {
         return {
           headerName: this.translate(item.label),
           field: this.translate(`${item.name}`),
-          // width: 250,
           width: getFieldWith(item.name),
           resizable: true,
+          filter: "customFilter",
           editable: false,
           valueGetter: ({ data }) => {
             if (

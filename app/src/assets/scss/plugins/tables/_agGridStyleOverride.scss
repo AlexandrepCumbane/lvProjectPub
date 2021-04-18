@@ -35,6 +35,14 @@ $secondary-font-weight: 600;
     }
   }
 
+  .ag-menu {
+    max-height: 60%;
+
+    .ag-filter {
+      max-height: 60%;
+    }
+  }
+
   // style select of column header filter
   .ag-dropdown {
     padding: 0.3rem;
