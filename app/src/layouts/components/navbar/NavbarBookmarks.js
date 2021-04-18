@@ -60,14 +60,14 @@ class NavbarBookmarks extends React.PureComponent {
   componentDidMount() {
     let {
       bookmarks: { suggestions, starred },
-      loadSuggestions,
+      // loadSuggestions,
     } = this.props;
     this.setState(
       {
         suggestions: suggestions,
         starredItems: starred,
       },
-      loadSuggestions()
+      // loadSuggestions()
     );
   }
 
