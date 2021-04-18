@@ -566,7 +566,7 @@ class AggridTable extends React.Component {
                               });
                             }}
                           >
-                            {this.translate("Date Filters")}
+                            {this.translate("Date range filters")}
                           </DropdownItem>
                           <DropdownItem
                             tag="div"

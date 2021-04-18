@@ -439,7 +439,8 @@ export default {
       "Tem certeza que deseja apagar esse registo?",
     "Sign Out": "Sair",
     "Select All": "Seleccionar Todos",
-    "Filter": "Filtro",
-    "Filters": "Filtros"
+    Filter: "Filtro",
+    Filters: "Filtros",
+    "Date range filters": "Filtros de intervalo de datas",
   },
 };
