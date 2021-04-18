@@ -83,7 +83,7 @@ class AppRouter extends React.Component {
   componentDidMount() {
     this.test_connection(this.props.userOauth?.access_token);
 
-    setTimeout(() => this.updateToken(), 1500);
+    setTimeout(() => this.updateToken(), 15500);
 
     setInterval(() => this.updateToken(), 900000);
   }

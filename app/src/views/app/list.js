@@ -139,9 +139,9 @@ class List extends Component {
         });
 
         if (this.props.app_reducer.error === "session") {
-          // this.notifyErrorBounce(
-          //   "Your session has expired, please login again!"
-          // );
+          this.notifyErrorBounce(
+            "Your session has expired, please login again!"
+          );
           // this.setState({ data: [] });
         }
 
