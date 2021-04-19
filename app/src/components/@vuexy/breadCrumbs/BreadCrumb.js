@@ -9,8 +9,13 @@ import {
 } from "reactstrap";
 import { Home, MoreVertical } from "react-feather";
 import { NavLink } from "react-router-dom";
-import { FormattedMessage } from "react-intl";
+import { IntlContext } from "../../../i18n";
+// import { FormattedMessage } from "react-intl";
 class BreadCrumbs extends React.Component {
+
+  static contextType = IntlContext;
+  translate = this.context.translate;
+
   render() {
     return (
       <div className="content-header row">
@@ -19,11 +24,11 @@ class BreadCrumbs extends React.Component {
             <div className="col-12">
               {this.props.breadCrumbTitle ? (
                 <h2 className="content-header-title float-left mb-0">
-                  {/* {} */}
-                  <FormattedMessage
+                  {/* {} */ this.translate(this.props.breadCrumbTitle)}
+                  {/* <FormattedMessage
                     id={this.props.breadCrumbTitle}
                     values={{ ...{} }}
-                  />
+                  /> */}
                 </h2>
               ) : (
                 ""
