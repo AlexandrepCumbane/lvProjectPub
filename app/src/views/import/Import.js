@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { Bounce } from "react-toastify";
 import {
   Row,
   Col,
@@ -9,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
   Button,
+  Spinner,
 } from "reactstrap";
 import XLSX from "xlsx";
 import { DownloadCloud } from "react-feather";
@@ -18,15 +20,13 @@ import { toast, ToastContainer } from "react-toastify";
 import PT from "../../i18n/messages/pt-PT";
 
 import { axios } from "../../redux/api";
-import {
-  requestForm,
-  requestDropodowns,
-} from "../../redux/actions/app/actions";
+import { requestDropodowns } from "../../redux/actions/app/actions";
 
 import "react-toastify/dist/ReactToastify.css";
 import "../../assets/scss/plugins/extensions/toastr.scss";
 import "../../assets/scss/plugins/extensions/dropzone.scss";
 import config from "../../data/config";
+import { IntlContext } from "../../i18n";
 
 function Uploader(props) {
   const Keys = PT.pt;
@@ -154,8 +154,7 @@ function Uploader(props) {
     let kObject = {};
 
     entries.forEach((key) => {
-
-      if(handleMapKey(key[0]) === "gender") return;
+      if (handleMapKey(key[0]) === "gender") return;
       if (
         handleMapKey(key[0]) === "provincia" ||
         handleMapKey(key[0]) === "distrito" ||
@@ -251,11 +250,15 @@ function Uploader(props) {
 }
 
 class Import extends React.Component {
+  static contextType = IntlContext;
+  translate = this.context.translate;
+
   state = {
     tableData: [],
     filteredData: [],
     value: "",
     name: "",
+    uploading: false,
   };
 
   componentDidMount() {
@@ -303,6 +306,7 @@ class Import extends React.Component {
   handleSubmit = () => {
     const { userOauth } = this.props.state.auth.login;
 
+    this.setState({ uploading: true });
     let form = new FormData();
     form.append("data", JSON.stringify(this.state.tableData));
     axios
@@ -313,10 +317,15 @@ class Import extends React.Component {
         },
       })
       .then(({ data }) => {
+        this.setState({ uploading: false });
         console.log(data);
+
+        this.notifySuccessBounce("");
       })
       .catch((error) => {
+        this.setState({ uploading: false });
         console.error(error);
+        this.notifyErrorBounce("Failed to save Object.");
       });
   };
 
@@ -333,15 +342,17 @@ class Import extends React.Component {
       ? this.state.tableData
       : null;
     let renderTableBody =
-      dataArr !== null && dataArr.length
-        ? dataArr.map((col, index) => {
-            let keys = Object.keys(col);
-            let renderTd = keys.map((key, index) => (
-              <td key={index}>{col[key]}</td>
-            ));
-            return <tr key={index}>{renderTd}</tr>;
-          })
-        : null;
+      dataArr !== null && dataArr.length ? (
+        dataArr.map((col, index) => {
+          let keys = Object.keys(col);
+          let renderTd = keys.map((key, index) => (
+            <td key={index}>{col[key]}</td>
+          ));
+          return <tr key={index}>{renderTd}</tr>;
+        })
+      ) : (
+        <tr></tr>
+      );
 
     let renderTableHead = headArr.length
       ? headArr[0].map((head, index) => {
@@ -378,6 +389,9 @@ class Import extends React.Component {
                       className="rounded-0 mr-1"
                       color="primary"
                     >
+                      {this.state.uploading ? (
+                        <Spinner type="grow" size="sm" className="mr-1" />
+                      ) : null}
                       Upload Data
                     </Button.Ripple>
 
@@ -409,6 +423,25 @@ class Import extends React.Component {
       </React.Fragment>
     );
   }
+
+  /**
+   * Success alert function - shows an alert with success background
+   * @returns
+   */
+  notifySuccessBounce = () =>
+    toast.success(this.translate(`Transaction completed successfuly!`), {
+      transition: Bounce,
+    });
+
+  /**
+   * Error alert function - shows an alert with danger background
+   * @param {*} error - string message
+   * @returns
+   */
+  notifyErrorBounce = (error) =>
+    toast.error(this.translate(error), {
+      transition: Bounce,
+    });
 }
 
 // export default Import;
