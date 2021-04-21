@@ -208,6 +208,7 @@ class LvFormViewSet(ModelViewSet):
     def import_cases(self, request, *args, **kwargs):
 
         template_cases = request.data
+        print(template_cases)
         case_list = map_case_fields(template_cases)
         # return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
         return Response(status=status.HTTP_404_NOT_FOUND)

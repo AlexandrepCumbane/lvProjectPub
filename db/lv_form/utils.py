@@ -1,6 +1,7 @@
 from django.db import transaction
 from django.utils.datastructures import MultiValueDictKeyError
 from .serializers import LvFormSerializer
+from .models import LvForm
 from .helper import mapped_value
 
 
@@ -76,8 +77,10 @@ def map_case_fields(template_cases) -> dict:
     serializer = {}
     with transaction.atomic():
         for i in range(len(template_cases)):
-            formated_case = format_cases_fields(template_cases[i])
-            serializer = LvFormSerializer(data=formated_case)
+            qs = LvForm.objects.get(case_number=template_cases[i]['case_number'])
+
+            serializer = LvFormSerializer(instance=qs, data=template_cases[i], partial=True)
             serializer.is_valid(raise_exception=True)
+            serializer.save()
 
     return serializer
