@@ -245,6 +245,7 @@ export default {
     Fraud: "Fráude",
     Corruption: "Corrupção",
     Diversion: "Desvio",
+    Import: "Importar",
 
     "Never received assistance": "Nunca recebeu assistência",
     "How did they contact us?": "Como está a contactar-nos?",

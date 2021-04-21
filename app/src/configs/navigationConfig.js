@@ -65,6 +65,15 @@ const get_pages = () => {
           navLink: "/forwardinginstitutionsfpoint",
         },
         {
+          id: "import_cases",
+          title: "Import",
+          type: "item",
+          icon: <Icon.UploadCloud size={12} />,
+          permissions: ["manager"],
+
+          navLink: "/import",
+        },
+        {
           id: "referall_cases",
           title: "Forwarded",
           type: "item",
