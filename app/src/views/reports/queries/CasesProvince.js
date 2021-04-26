@@ -14,7 +14,7 @@ const CASES_BY_PROVINCE = gql`
   }
 `;
 
-export function CasesByProvince() {
+export function CasesByProvince(props) {
   const { loading, error, data } = useQuery(CASES_BY_PROVINCE, {
     pollInterval: 50000,
   });
@@ -26,7 +26,7 @@ export function CasesByProvince() {
   let datas = [];
 
   data.allCasesProvinces.forEach((element) => {
-    category.push(element.name);
+    category.push(props.translate(element.name));
     datas.push(element.lvformSet.length);
   });
 

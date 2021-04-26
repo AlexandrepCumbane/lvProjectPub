@@ -60,6 +60,8 @@ export default {
     "How have you come to know about the complaints and feedback mechanism?":
       "Como você ficou sabendo do mecanismo de reclamações e feedback?",
     SATISFATION: "SATISFAÇÃO",
+    "CALLER PROFILE BY AGE": "PERFIL DO CONTACTANTE POR IDADE",
+    "CALLER PROFILE BY GENDER": "PERFIL DO CONTACTANTE POR SEXO",
     "Callback Required": "Ligação de volta",
     "Case Number": "Numero do Caso",
     "CASES BY PROVINCES": "CASOS POR PROVINCIA",
@@ -74,6 +76,7 @@ export default {
     "Green Line 1458": "Linha Verde 1458",
     "User role not provided": "Função do usuário não fornecida",
     "Dashboard & Analytics": "Painel e análise",
+    "Analysis and Reporting": "Análise e Relatórios",
     Dashboard: "Painel",
     "Total Cases Registered": "Total de Casos Registados",
     "Total Feedback Provided": "Feedback total fornecido",
@@ -185,8 +188,7 @@ export default {
     Neutral: "Neutro",
     Unsatisfied: "Insatisfeito",
     "Very unsatisfied": "Muito insatisfeito",
-    "PSEA":
-      "Proteção contra exploração e abuso sexual",
+    PSEA: "Proteção contra exploração e abuso sexual",
     "Protection from Sexual Exploitation and Abuse":
       "Proteção contra exploração e abuso sexual",
 
@@ -203,7 +205,7 @@ export default {
     "Safety problems": "Problemas de segurança",
     "Child Protection": "Proteção a criança",
     "Gender-based violence": "Violência baseada no gênero",
-    "GBV": "Violência baseada no gênero",
+    GBV: "Violência baseada no gênero",
     "Gender-based Violence": "Violência baseada no gênero",
     Resilience: "Resiliência",
 

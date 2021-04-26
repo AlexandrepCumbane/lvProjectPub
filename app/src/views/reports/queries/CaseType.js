@@ -14,7 +14,7 @@ const CASES_BY_CATEGORY = gql`
   }
 `;
 
-export function CasesByCategory() {
+export function CasesByCategory(props) {
   const { loading, error, data } = useQuery(CASES_BY_CATEGORY, {
     pollInterval: 50000,
   });
@@ -26,7 +26,7 @@ export function CasesByCategory() {
   let datas = [];
 
   data.allCaseTypologies.forEach((element) => {
-    category.push(element.category);
+    category.push(props.translate(element.category));
     datas.push(element.lvformSet.length);
   });
 

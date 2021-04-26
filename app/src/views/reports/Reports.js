@@ -16,14 +16,13 @@ import { CasesByKnowLedge } from "./queries/CaseKnowledgeLV";
 import { CasesByCallFeedback } from "./queries/CaseCallFeedback";
 import { CasesByGender } from "./queries/CaseGender";
 class Information extends Component {
-
   static contextType = IntlContext;
   translate = this.context.translate;
 
   state = {
-    pageTitle: "Reports",
-    pageParent: "Analyptics & Reports",
-    activePage: "Reports",
+    pageTitle: this.translate("Reports"),
+    pageParent: this.translate("Analysis and Reporting"),
+    activePage: this.translate("Reports"),
     items: [],
     columnDefs: [],
     show: false,
@@ -66,40 +65,40 @@ class Information extends Component {
         <Row>
           <Col md="6">
             <h5>{this.translate("CALLER PROFILE BY AGE")}</h5>
-            <CasesByAge />
+            <CasesByAge translate={this.translate} />
           </Col>
           <Col md="6">
             <h5> {this.translate("CALLER PROFILE BY GENDER")}</h5>
 
-            <CasesByGender />
+            <CasesByGender translate={this.translate} />
           </Col>
           <Col md="6">
             <h5 className=""> {this.translate("KOWLEDGE ABOUT LV")}</h5>
-            <CasesByKnowLedge />
+            <CasesByKnowLedge translate={this.translate} />
           </Col>
 
           <Col md="6">
             <h5>{this.translate("SATISFATION")}</h5>
-            <CasesByCallFeedback />
+            <CasesByCallFeedback translate={this.translate} />
           </Col>
         </Row>
 
         <Row>
           <Col md="12">
             <h5>{this.translate("CASES BY PROVINCES")}</h5>
-            <CasesByProvince />
+            <CasesByProvince translate={this.translate} />
           </Col>
 
           <Col md="12">
             <h5> {this.translate("CASE TYPE")}</h5>
-            <CasesByCategory />
+            <CasesByCategory translate={this.translate} />
           </Col>
         </Row>
 
         <Row>
           <Col md="12">
             <h5>{this.translate("CASES PER SECTOR")}</h5>
-            <CasesBySector />
+            <CasesBySector translate={this.translate} />
           </Col>
         </Row>
       </div>

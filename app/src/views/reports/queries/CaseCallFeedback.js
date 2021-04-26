@@ -2,13 +2,6 @@ import React from "react";
 import { useQuery, gql } from "@apollo/client";
 import PieChart from "../charts/Pie";
 
-const choices = {
-  1: "Muito Satisfeito",
-  2: "Satisfeito",
-  3: "Neutro",
-  4: "Insatisfeito",
-  5: "Muito insatisfeito",
-};
 const CASES_BY_CALL_FEEDBACK = gql`
   {
     allCasesCallFeedback {
@@ -18,7 +11,7 @@ const CASES_BY_CALL_FEEDBACK = gql`
   }
 `;
 
-export function CasesByCallFeedback() {
+export function CasesByCallFeedback(props) {
   const { loading, error, data } = useQuery(CASES_BY_CALL_FEEDBACK, {
     pollInterval: 50000,
   });
@@ -31,7 +24,7 @@ export function CasesByCallFeedback() {
 
   data.allCasesCallFeedback.forEach((element) => {
     if (element.callFeedback) {
-      category.push(choices[element.callFeedback]);
+      category.push(props.translate(element.callFeedback));
       datas.push(Number(element.dcount));
     }
   });

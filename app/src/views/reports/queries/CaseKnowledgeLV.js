@@ -1,15 +1,7 @@
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
-import PieChart from "../charts/Pie";
+import DountChart from "../charts/Dounts";
 
-const choices = {
-  1: "Radio",
-  2: "Panfletos",
-  3: "Pessoas trabalhando na comunidade",
-  4: "SMS",
-  5: "Cartazes ou material de visibilidade",
-  6: "Caixa de sugestoes",
-};
 const CASES_BY_KNOWLEDGE = gql`
   {
     allCasesKnowledgeAbout {
@@ -19,7 +11,7 @@ const CASES_BY_KNOWLEDGE = gql`
   }
 `;
 
-export function CasesByKnowLedge() {
+export function CasesByKnowLedge(props) {
   const { loading, error, data } = useQuery(CASES_BY_KNOWLEDGE, {
     pollInterval: 50000,
   });
@@ -31,11 +23,11 @@ export function CasesByKnowLedge() {
   let datas = [];
 
   data.allCasesKnowledgeAbout.forEach((element) => {
-    if (element.howKnowsLv) {
-      category.push(choices[element.howKnowsLv]);
+    if (element.howKnowsLv && element.dcount) {
+      category.push(props.translate(element.howKnowsLv));
       datas.push(Number(element.dcount));
     }
   });
 
-  return <PieChart series={datas} labels={category} />;
+  return <DountChart series={datas} labels={category} />;
 }

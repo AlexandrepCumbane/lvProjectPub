@@ -11,7 +11,7 @@ const CASES_BY_AGE = gql`
   }
 `;
 
-export function CasesByAge() {
+export function CasesByAge(props) {
   const { loading, error, data } = useQuery(CASES_BY_AGE, {
     pollInterval: 50000,
   });
@@ -23,7 +23,7 @@ export function CasesByAge() {
   let datas = [];
 
   data.allCasesAge.forEach((element) => {
-    category.push(element.ageGroup);
+    category.push(props.translate(element.ageGroup));
     datas.push(Number(element.dcount));
   });
 
