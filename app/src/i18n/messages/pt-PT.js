@@ -139,7 +139,6 @@ export default {
 
     "Complaint/Negative Feedback": "Reclamação / Feedback Negativo",
     "Positive feedback": "Feedback Positivo",
-    // "Request for information": "Pedido de Informação",
     "Request for assistance": "Pedidos de Assistência",
     "Request for Information": "Pedido de Informação",
     "Request for Assistance": "Pedidos de Assistência",
@@ -163,7 +162,7 @@ export default {
     Health: "Saúde",
     Logistics: "Logistica",
     Nutrition: "Nutrição",
-    Protection: "Protecao",
+    Protection: "Proteção",
     Shelter: "Abrigo",
     WASH: "Agua, saneamento e Higiene",
     Government: "Governo",

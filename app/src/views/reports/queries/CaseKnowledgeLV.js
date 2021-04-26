@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
-import DountChart from "../charts/Dounts";
+import PieChart from "../charts/Pie";
 
 const CASES_BY_KNOWLEDGE = gql`
   {
@@ -29,5 +29,5 @@ export function CasesByKnowLedge(props) {
     }
   });
 
-  return <DountChart series={datas} labels={category} />;
+  return <PieChart series={datas} labels={category} />;
 }
