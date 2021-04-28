@@ -30,9 +30,6 @@ import { IntlContext } from "../../i18n";
 
 function Uploader(props) {
   const Keys = PT.pt;
-
-  const [val, setVal] = useState(0);
-  // let v1 = 0;
   const handleMapKey = (key) => {
     let mappedKey = "";
     switch (key) {
@@ -80,19 +77,19 @@ function Uploader(props) {
         mappedKey = "contact_group";
         break;
       case "Consentimento para coletar informações pessoais":
-        mappedKey = "case_type";
+        mappedKey = "consent_pi";
         break;
       case "Consentimento para compartilhar com parceiro":
-        mappedKey = "case_type";
+        mappedKey = "consent_share_pi";
         break;
       case "Nome Completo":
-        mappedKey = "case_type";
+        mappedKey = "fullname";
         break;
       case "Contacto":
         mappedKey = "case_type";
         break;
       case "Gênero":
-        mappedKey = "gender";
+        mappedKey = "contact";
         break;
       case "Idade":
         mappedKey = "age_group";
@@ -128,18 +125,18 @@ function Uploader(props) {
         mappedKey = "how_callback";
         break;
       case "Como é que você sente que seu assunto foi tratado durante esta chamada?":
-        mappedKey = "case_type";
+        mappedKey = "call_feedback";
         break;
       case "Ligação de volta":
-        mappedKey = "call_feedback";
+        mappedKey = "callback_required";
       case "Outro contacto":
         mappedKey = "other_contact";
         break;
       case "Chamador não encontrado para feedback":
-        mappedKey = "callback_required";
+        mappedKey = "unavailable_contact";
         break;
       case "Criado por":
-        mappedKey = "created_by";
+        mappedKey = "created_by__label";
         break;
 
       default:
@@ -154,6 +151,7 @@ function Uploader(props) {
     let kObject = {};
 
     entries.forEach((key) => {
+      console.log(handleMapKey(key[0]));
       if (handleMapKey(key[0]) === "gender") return;
       if (
         handleMapKey(key[0]) === "provincia" ||
@@ -183,7 +181,10 @@ function Uploader(props) {
             (item) => item.name === handleMapKey(key[0])
           )[0];
 
-          if (ks[0][0] === "None") return;
+          if (ks[0][0] === "None") {
+            kObject[handleMapKey(key[0])] = undefined;
+            return;
+          }
           if (field && field.type === "string" && field["wq:ForeignKey"]) {
             const val = props.app_reducer.dropdowns[
               field["wq:ForeignKey"]
