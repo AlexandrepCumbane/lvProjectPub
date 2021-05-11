@@ -59,6 +59,7 @@ class AggridTable extends React.Component {
     selectedData: {},
     modalForm: "",
     page: "",
+    editCase: false,
     showTable: false,
     hasRequestedMore: false,
     defaultColDef: {
@@ -106,8 +107,8 @@ class AggridTable extends React.Component {
                     this.setState({ selectedData: params.data });
 
                     if (this.props.tableType === "lvform") {
-                      // this.setState({ showSidebar: true });
-
+                      this.setState({ editCase: true });
+                      // this.setState({ showSidebar: true, editCase: true });
                       this.props.handleShowCaseSidebar(params.data);
                     }
                     if (this.props.tableType === "article") {
@@ -193,7 +194,6 @@ class AggridTable extends React.Component {
       ],
     });
 
-
     this.setState({
       showSidebar: this.props.showSidebar ?? false,
       showTable: true,
@@ -201,8 +201,19 @@ class AggridTable extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    // console.log(this.props)
-    if (this.props.tableType === "lvform" && nextProps.data === this.props.data && this.state.showTable && !nextProps.loading) {
+    if (
+      this.state.filters !== nextState.filters ||
+      this.state.start !== nextState.start ||
+      this.state.end !== nextState.end
+    )
+      return true;
+
+    if (
+      this.props.tableType === "lvform" &&
+      nextProps.data === this.props.data &&
+      this.state.showTable &&
+      !nextProps.loading
+    ) {
       return false;
     }
 
@@ -219,16 +230,11 @@ class AggridTable extends React.Component {
 
     if (!this.props.loading)
       res = (
-        // <div className="mb-1">
-        //   <strong className="text-primary">
-        //     {this.translate("Selected")}: <span id="selectedRows">0</span>
-        //   </strong>
-        // </div>
         <div className="mb-1">
           <UncontrolledDropdown className="p-1 ag-dropdown-no-border">
             <DropdownToggle tag="div">
               <strong>
-                {this.translate("Selected")}: <span id="selectedRows">0</span>
+                <span id="selectedRows">0</span>
               </strong>
             </DropdownToggle>
           </UncontrolledDropdown>
