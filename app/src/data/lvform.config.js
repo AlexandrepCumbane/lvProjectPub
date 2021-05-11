@@ -604,6 +604,12 @@ export const manager = {
       type: "datetime",
     },
     {
+      name: "month",
+      label: "Month",
+      hint: "Other number",
+      type: "string",
+    },
+    {
       name: "provincia",
       label: "Province",
       bind: {
@@ -704,6 +710,11 @@ export const manager = {
       type: "select one",
     },
     {
+      name: "response",
+      label: "Response",
+      type: "string",
+    },
+    {
       name: "category",
       label: "Case category",
       bind: {
@@ -712,6 +723,11 @@ export const manager = {
       type: "string",
       "wq:ForeignKey": "casetipology",
       children: "subcategory",
+    },
+    {
+      name: "othercategory",
+      label: "Other category",
+      type: "string",
     },
     {
       name: "subcategory",
