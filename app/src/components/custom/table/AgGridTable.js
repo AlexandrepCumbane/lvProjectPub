@@ -204,7 +204,8 @@ class AggridTable extends React.Component {
     if (
       this.state.filters !== nextState.filters ||
       this.state.start !== nextState.start ||
-      this.state.end !== nextState.end
+      this.state.end !== nextState.end ||
+      this.props.loading
     )
       return true;
 
@@ -606,9 +607,7 @@ class AggridTable extends React.Component {
                           this.gridApi.setColumnDefs(this.props.columnDefs);
                           localStorage.removeItem(this.props.tableType);
 
-                          this.setState({
-                            showTable: true,
-                          });
+                          window.location.reload(1);
                         }}
                         className="btn-icon"
                         color="flat-primary rounded-0"
