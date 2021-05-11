@@ -142,6 +142,12 @@ class LvForm(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Sub-category",
     )
+    othercategory = models.CharField(max_length=255,
+                                     blank=True,
+                                     verbose_name="Other category",
+                                     help_text="Other category",
+                                     null=True)
+
     subcategory_issue = models.ForeignKey(
         'case_tipology.SubCategoryIssue',
         on_delete=models.CASCADE,
@@ -149,6 +155,7 @@ class LvForm(models.Model):
         blank=True,
         verbose_name="Sub-category issue",
     )
+
     who_not_receiving = models.CharField(
         choices=(
             ("Individual", "Individual"),
@@ -210,6 +217,13 @@ class LvForm(models.Model):
         verbose_name="Vulnerability",
         help_text="Vulnerability",
     )
+
+    response = models.CharField(max_length=255,
+                                blank=True,
+                                verbose_name="Response",
+                                help_text="Response",
+                                null=True)
+
     call_notes = models.TextField(verbose_name="Call notes", )
     call_solution = models.TextField(
         verbose_name="Call solution",

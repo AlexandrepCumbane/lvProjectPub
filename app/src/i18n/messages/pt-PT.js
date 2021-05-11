@@ -296,7 +296,7 @@ export default {
     "Transaction completed successfuly!": "Transação concluída com sucesso.",
     "Transaction process failed": "Transação falhou.",
     "Failed to save Object.": "Falhou em guardar o registo.",
-    false: "Näo",
+    false: "Não",
     true: "Sim",
 
     INGD: "INGD",
@@ -447,5 +447,8 @@ export default {
     Filter: "Filtro",
     Filters: "Filtros",
     "Date range filters": "Filtros de intervalo de datas",
+    Response: "Resposta",
+    "Other category": "Outra categoria",
+    Month: "Mês"
   },
 };

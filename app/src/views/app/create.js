@@ -93,8 +93,8 @@ class Create extends React.Component {
 
   /**
    * get checkbox field value from a formdata object
-   * @param {*} field_name 
-   * @returns 
+   * @param {*} field_name
+   * @returns
    */
   checkboxValue = (field_name) => {
     const { form } = this.state;
@@ -106,8 +106,8 @@ class Create extends React.Component {
 
   /**
    * Render a input label verifying it's required bind value and filled value
-   * @param {*} field 
-   * @returns 
+   * @param {*} field
+   * @returns
    */
   renderLabel = (field) => {
     if (
@@ -156,13 +156,19 @@ class Create extends React.Component {
 
   /**
    * Filter and matchs input type and render it's matching components settings
-   * @param {*} field 
-   * @returns 
+   * @param {*} field
+   * @returns
    */
   renderSingleInput = (field) => {
     let res = <></>;
 
-    if (field.name === "case_number" || field.name === "created_by") {
+    if (
+      field.name === "case_number" ||
+      field.name === "created_by" ||
+      field.name === "othercategory" ||
+      field.name === "month" ||
+      field.name === "response"
+    ) {
       return <span key={field.name} />;
     }
 
@@ -219,6 +225,10 @@ class Create extends React.Component {
                     this.updateState(`${field.name}_id`, e?.value);
                     if (field["children"] && e) {
                       this.updateChildrenList(field, e);
+                    }
+
+                    if (field["children"] && e === null) {
+                      this.clearChildrenList(field);
                     }
                   }}
                   components={this.animatedComponents}
@@ -453,9 +463,9 @@ class Create extends React.Component {
   };
 
   /**
-   * Reender a simple select option from a list  
-   * @param {*} choices 
-   * @returns 
+   * Reender a simple select option from a list
+   * @param {*} choices
+   * @returns
    */
   renderSelectOption = (choices) => {
     return choices.map((item) => (
@@ -467,8 +477,8 @@ class Create extends React.Component {
 
   /**
    * Render a foreign key field dropdowns options on select component
-   * @param {*} choices 
-   * @returns 
+   * @param {*} choices
+   * @returns
    */
   renderSelectOptionForeignWQ = (choices) => {
     return choices.map((item) => (
@@ -589,6 +599,13 @@ class Create extends React.Component {
       childrens[field.children] = res[0][`${field.children}_set`];
       this.setState({ childrens });
     }
+  };
+
+  clearChildrenList = (field) => {
+    let { childrens } = this.state;
+    childrens[field.children] = [];
+    this.updateState(`${field.children}_id`, "");
+    this.setState({ childrens });
   };
 
   /**

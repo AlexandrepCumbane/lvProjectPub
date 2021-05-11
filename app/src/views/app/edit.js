@@ -1050,6 +1050,8 @@ class Edit extends Component {
       return <span key="case_number" />;
     }
 
+    // if(this.props.user === "")
+
     switch (field.type) {
       case "text":
         res = (

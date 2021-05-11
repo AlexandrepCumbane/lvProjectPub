@@ -589,6 +589,11 @@ export default {
           children: "subcategory",
         },
         {
+          name: "othercategory",
+          label: "Other category",
+          type: "string",
+        },
+        {
           name: "subcategory",
           label: "Sub-category",
           type: "string",
@@ -697,6 +702,11 @@ export default {
             },
           ],
           type: "select one",
+        },
+        {
+          name: "response",
+          label: "Response",
+          type: "string",
         },
         {
           name: "call_notes",
@@ -902,6 +912,12 @@ export default {
           ],
           type: "select one",
           has_boolean_options: true,
+        },
+        {
+          name: "month",
+          label: "Month",
+          hint: "Other number",
+          type: "string",
         },
       ],
       verbose_name: "Case",

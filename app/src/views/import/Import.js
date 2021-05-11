@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Bounce } from "react-toastify";
 import {
@@ -67,74 +67,99 @@ function Uploader(props) {
       case "Vulnerabilidade":
         mappedKey = "vulnerability";
         break;
+        
       case "Notas da Chamada":
         mappedKey = "call_notes";
         break;
+
       case "Prioridade de Caso":
         mappedKey = "case_priority";
         break;
+
       case "Quem está a comunicar?":
         mappedKey = "contact_group";
         break;
+
       case "Consentimento para coletar informações pessoais":
         mappedKey = "consent_pi";
         break;
+
       case "Consentimento para compartilhar com parceiro":
         mappedKey = "consent_share_pi";
         break;
+
       case "Nome Completo":
         mappedKey = "fullname";
         break;
+
       case "Contacto":
         mappedKey = "case_type";
         break;
+
       case "Gênero":
         mappedKey = "contact";
         break;
+
       case "Idade":
         mappedKey = "age_group";
         break;
+
       case "Comunidade":
         mappedKey = "community";
         break;
+
       case "Ponto de Distribuição":
         mappedKey = "distribution_point";
         break;
+
       case "Modalidade de Transferencia":
         mappedKey = "transfermod";
         break;
+
       case "Acomodação ou Centro de Reassentamento":
         mappedKey = "location_type";
         break;
+
       case "Nome de Reassentamento":
         mappedKey = "ressetlement_name";
         break;
+
       case "Solução da Chamada":
         mappedKey = "call_solution";
         break;
+
       case "Está encerrado?":
         mappedKey = "is_closed";
         break;
+
       case "Como está a contactar-nos?":
         mappedKey = "means_of_communication";
         break;
+
       case "Como teve conhecimento sobre o mecanismo de reclamação e feedback?":
         mappedKey = "how_knows_lv";
         break;
+
       case "Como gostaria de ser contactado?":
         mappedKey = "how_callback";
         break;
+
       case "Como é que você sente que seu assunto foi tratado durante esta chamada?":
         mappedKey = "call_feedback";
         break;
+
       case "Ligação de volta":
         mappedKey = "callback_required";
+        break;
+
       case "Outro contacto":
         mappedKey = "other_contact";
         break;
+
       case "Chamador não encontrado para feedback":
         mappedKey = "unavailable_contact";
         break;
+
       case "Criado por":
         mappedKey = "created_by__label";
         break;
