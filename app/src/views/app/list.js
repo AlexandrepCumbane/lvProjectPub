@@ -29,6 +29,10 @@ import {
   getFieldWith,
 } from "../../utility/list/util";
 
+import CaseEdit from "./edit";
+import "../../assets/scss/pages/users.scss";
+import "../../assets/scss/pages/data-list.scss";
+
 class List extends Component {
   static contextType = IntlContext;
   translate = this.context.translate;
@@ -44,7 +48,87 @@ class List extends Component {
     page: "lvform",
     isLoading: false,
     hidden: true,
-
+    showSidebar: false,
+    sidebarData: {
+      age_group: "60 and above",
+      age_group_label: "60 and above",
+      call_feedback: null,
+      call_feedback_label: null,
+      call_notes: "Lorem",
+      call_solution: null,
+      callback_required: false,
+      callback_required_label: "No",
+      case_close_category: null,
+      case_close_category_label: null,
+      case_number: 3746905,
+      case_priority: "High",
+      case_priority_label: "High",
+      casecomment_set: [],
+      category_id: 2,
+      category_label: "Positive feedback",
+      community: null,
+      consent_pi: false,
+      consent_pi_label: "No",
+      consent_share_pi: false,
+      consent_share_pi_label: "No",
+      contact: null,
+      contact_group: null,
+      contact_group_label: null,
+      created_by_id: 1,
+      created_by_label: "obadias.pelembe@robobo.org",
+      datetime_created: "2021-05-05T10:19:49.458642+02:00",
+      datetime_created_label: "2021-05-05 10:19 AM",
+      datetime_updated: "2021-05-11T16:00:58.352364+02:00",
+      datetime_updated_label: "2021-05-11 04:00 PM",
+      distribution_point: null,
+      distrito_id: 20,
+      distrito_label: "Kamaxaqueni",
+      forwardcasetofocalpoint_set: [],
+      forwardinginstitution: null,
+      fullname: null,
+      gender: "female",
+      gender_label: "Female",
+      how_callback: null,
+      how_callback_label: null,
+      how_knows_lv: null,
+      how_knows_lv_label: null,
+      id: 221,
+      individual_commiting_malpractice: "",
+      individual_commiting_malpractice_label: "",
+      is_closed: false,
+      is_closed_label: "No",
+      is_deleted: false,
+      is_deleted_label: "No",
+      label: "3746905",
+      localidade_id: null,
+      localidade_label: null,
+      location_type: null,
+      location_type_label: null,
+      means_of_communication: null,
+      means_of_communication_label: null,
+      other_contact: null,
+      othercategory: null,
+      provincia_id: 2,
+      provincia_label: "Maputo Provincia",
+      response: null,
+      ressetlement_name: null,
+      sector: "PSEA",
+      sector_label: "Protection from Sexual Exploitation and Abuse",
+      subcategory_id: null,
+      subcategory_issue_id: null,
+      subcategory_issue_label: null,
+      subcategory_label: null,
+      task_set: [],
+      transfermod: null,
+      transfermod_label: null,
+      unavailable_contact: false,
+      unavailable_contact_label: "No",
+      uuid: "19501024-9509-468e-94e0-72d841a980ed",
+      vulnerability: "Elderly head of household",
+      vulnerability_label: "Elderly head of household",
+      who_not_receiving: null,
+      who_not_receiving_label: null,
+    },
     showModal: false,
     recordId: 0,
     message: "Do you want to delete that record?",
@@ -52,59 +136,88 @@ class List extends Component {
 
   componentDidMount() {
     this.formatFields();
-    this.requestMore(false);
+    if (!this.props.app_reducer[this.props.path]?.list.length) {
+      this.requestMore(false);
+    } else {
+      this.setState({
+        data: this.props.app_reducer[this.props.path]?.list ?? [],
+        show: true,
+        pageTitle: this.translate(this.props.title),
+      });
+    }
   }
+
+  handleShowCaseSidebar = (data) => {
+    this.setState({
+      sidebarData: data,
+      showSidebar: true,
+    });
+  };
 
   render() {
     return (
-      <div>
-        <Breadcrumbs
-          breadCrumbItems={
-            this.props.hasNew
-              ? [
-                  {
-                    name: this.translate("Add New"),
-                    link: `${this.state.page}s/new`,
-                  },
-                ]
-              : []
-          }
-          breadCrumbTitle={this.state.pageTitle}
-          breadCrumbParent={this.state.pageParent}
-          breadCrumbActive={this.state.activePage}
-        />
+      <React.Fragment>
+        {this.state.showSidebar ? (
+          <div className={`data-list thumb-view"`}>
+            <CaseEdit
+              show={this.state.showSidebar}
+              data={this.state.sidebarData}
+              handleSidebar={() => this.setState({ showSidebar: false })}
+            />
+          </div>
+        ) : (
+          <></>
+        )}
+        <div>
+          <Breadcrumbs
+            breadCrumbItems={
+              this.props.hasNew
+                ? [
+                    {
+                      name: this.translate("Add New"),
+                      link: `${this.state.page}s/new`,
+                    },
+                  ]
+                : []
+            }
+            breadCrumbTitle={this.state.pageTitle}
+            breadCrumbParent={this.state.pageParent}
+            breadCrumbActive={this.state.activePage}
+          />
 
-        {this.state.showModal ? (
-          <Prompt
-            translate={this.translate}
-            showModal={this.state.showModal}
-            action={() => this.handleDelete()}
-            toggleModal={() => this.setState({ showModal: false })}
-            message={this.state.message}
-          />
-        ) : (
-          <></>
-        )}
-        {this.state.show ? (
-          <AgGridTable
-            requestData={this.requestMore}
-            requestParams={this.requestParams}
-            requestMore={this.requestMore}
-            loading={this.state.isLoading}
-            data={this.state.data}
-            columnDefs={this.state.columnDefs}
-            tableType={this.props.path}
-            dropdowns={[this.props.app_reducer.dropdowns]}
-            onColumnMoved={this.onColumnMoved}
-            userRole={this.props.userRole}
-            deleteAction={(id) => {
-              this.setState({ recordId: id, showModal: true });
-            }}
-          />
-        ) : (
-          <></>
-        )}
-      </div>
+          {this.state.showModal ? (
+            <Prompt
+              translate={this.translate}
+              showModal={this.state.showModal}
+              action={() => this.handleDelete()}
+              toggleModal={() => this.setState({ showModal: false })}
+              message={this.state.message}
+            />
+          ) : (
+            <></>
+          )}
+          {this.state.show ? (
+            <AgGridTable
+              requestData={this.requestMore}
+              requestParams={this.requestParams}
+              requestMore={this.requestMore}
+              loading={this.state.isLoading}
+              data={this.state.data}
+              columnDefs={this.state.columnDefs}
+              tableType={this.props.path}
+              dropdowns={[this.props.app_reducer.dropdowns]}
+              onColumnMoved={this.onColumnMoved}
+              userRole={this.props.userRole}
+              handleShowCaseSidebar={this.handleShowCaseSidebar}
+              deleteAction={(id) => {
+                this.setState({ recordId: id, showModal: true });
+              }}
+            />
+          ) : (
+            <></>
+          )}
+        </div>
+      </React.Fragment>
     );
   }
 
@@ -119,6 +232,7 @@ class List extends Component {
       data: this.props.app_reducer[this.props.path]?.list ?? [],
       show: true,
       isLoading: true,
+      pageTitle: this.translate(this.props.title),
     });
 
     return this.props
@@ -142,7 +256,6 @@ class List extends Component {
           this.notifyErrorBounce(
             "Your session has expired, please login again!"
           );
-          // this.setState({ data: [] });
         }
 
         if (this.props.app_reducer[this.props.name ?? this.props.path]?.next)

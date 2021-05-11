@@ -12,7 +12,6 @@ import { NavLink } from "react-router-dom";
 import { IntlContext } from "../../../i18n";
 // import { FormattedMessage } from "react-intl";
 class BreadCrumbs extends React.Component {
-
   static contextType = IntlContext;
   translate = this.context.translate;
 
@@ -24,11 +23,7 @@ class BreadCrumbs extends React.Component {
             <div className="col-12">
               {this.props.breadCrumbTitle ? (
                 <h2 className="content-header-title float-left mb-0">
-                  {/* {} */ this.translate(this.props.breadCrumbTitle)}
-                  {/* <FormattedMessage
-                    id={this.props.breadCrumbTitle}
-                    values={{ ...{} }}
-                  /> */}
+                  {this.translate(this.props.breadCrumbTitle)}
                 </h2>
               ) : (
                 ""
@@ -67,7 +62,10 @@ class BreadCrumbs extends React.Component {
         </div>
 
         <div className="content-header-right text-md-right col-md-3 col-12 d-md-block d-none">
-          <div className="form-group breadcrum-right dropdown">
+          <div
+            className="form-group breadcrum-right dropdown"
+            style={{ marginBottom: 0 }}
+          >
             <UncontrolledButtonDropdown>
               {this.props.breadCrumbItems.length > 0 ? (
                 <DropdownToggle

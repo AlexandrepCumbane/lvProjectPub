@@ -1021,7 +1021,6 @@ class Edit extends Component {
           },
         })
         .then(({ data }) => {
-          this.props.requestData(false);
           this.notifySuccessBounce(data.id);
 
           setTimeout(() => {

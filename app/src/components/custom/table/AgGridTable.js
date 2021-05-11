@@ -1,7 +1,17 @@
 import React from "react";
 import { AgGridReact } from "ag-grid-react";
 import classnames from "classnames";
-import { Edit, ChevronDown, List, Delete, X } from "react-feather";
+import {
+  Edit,
+  ChevronDown,
+  List,
+  Delete,
+  X,
+  Filter,
+  RefreshCw,
+  Columns,
+  DownloadCloud,
+} from "react-feather";
 import { ContextLayout } from "../../../utility/context/Layout";
 import {
   Button,
@@ -85,20 +95,20 @@ class AggridTable extends React.Component {
         ...(this.props.columnDefs ?? this.state.columnDefs),
         {
           headerName: this.translate("Action"),
-          field: "company",
-          width: 130,
-          pinned: window.innerWidth > 800 ? "right" : false,
+          field: "none",
+          width: 123,
+          pinned: window.innerWidth > 512 ? "right" : false,
           cellRendererFramework: (params) => {
             return (
-              <div className="data-list-action">
-                <Edit
-                  className="cursor-pointer mr-1"
-                  size={20}
+              <div className="justify-content-end">
+                <Button.Ripple
                   onClick={(e) => {
                     this.setState({ selectedData: params.data });
 
                     if (this.props.tableType === "lvform") {
-                      this.setState({ showSidebar: true });
+                      // this.setState({ showSidebar: true });
+
+                      this.props.handleShowCaseSidebar(params.data);
                     }
                     if (this.props.tableType === "article") {
                       this.setState({ showArticleView: true });
@@ -140,31 +150,39 @@ class AggridTable extends React.Component {
                       });
                     }
                   }}
-                />
+                  className="btn-icon rounded-0"
+                  color="flat-primary"
+                >
+                  <Edit size={16} />
+                </Button.Ripple>
 
                 {this.props.tableType === "task" ? (
-                  <List
-                    className="cursor-pointer mr-1 text-info"
-                    size={20}
+                  <Button.Ripple
                     onClick={(e) => {
                       this.setState({
                         showSidebar: true,
                         selectedData: params.data.casecall,
                       });
                     }}
-                  />
+                    className="btn-icon rounded-0"
+                    color="flat-secondary"
+                  >
+                    <List size={16} />
+                  </Button.Ripple>
                 ) : (
                   <></>
                 )}
 
                 {this.props.userRole === "manager" ? (
-                  <Delete
-                    className="cursor-pointer mr-1 text-danger"
-                    size={20}
+                  <Button.Ripple
+                    className="btn-icon rounded-0"
+                    color="flat-danger"
                     onClick={(e) => {
                       this.props.deleteAction(params.data.id);
                     }}
-                  />
+                  >
+                    <Delete size={16} />
+                  </Button.Ripple>
                 ) : (
                   <></>
                 )}
@@ -175,12 +193,20 @@ class AggridTable extends React.Component {
       ],
     });
 
-    // this.gridApi.setColumnDefs(this.props.columnDefs);
 
     this.setState({
       showSidebar: this.props.showSidebar ?? false,
       showTable: true,
     });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // console.log(this.props)
+    if (this.props.tableType === "lvform" && nextProps.data === this.props.data && this.state.showTable && !nextProps.loading) {
+      return false;
+    }
+
+    return true;
   }
 
   renderLoading = () => {
@@ -312,7 +338,7 @@ class AggridTable extends React.Component {
   renderFilters = () => {
     let element = (
       <div className="d-flex flex-row">
-        <div className="col-sm-12 col-md-5 table-input rounded-0">
+        <div>
           <InputGroup className="rounded-0 mb-1">
             <InputGroupAddon
               className="rounded-0 text-primary"
@@ -331,7 +357,7 @@ class AggridTable extends React.Component {
             />
           </InputGroup>
         </div>
-        <div className="col-sm-12 col-md-5 table-input rounded-0">
+        <div>
           <InputGroup className="rounded-0 mb-1">
             <InputGroupAddon className="rounded-0" addonType="prepend">
               <InputGroupText className="rounded-0">
@@ -346,19 +372,9 @@ class AggridTable extends React.Component {
             />
           </InputGroup>
         </div>
-        <div className="col-sm-12 col-md-3 table-input mb-1">
+        <div>
           <Button.Ripple
-            className="btn-icon rounded-circle"
-            color="danger"
-            onClick={() => {
-              this.setState({ end: "", start: "" });
-              this.props.requestMore(false);
-            }}
-          >
-            <X size={18} color="white" />
-          </Button.Ripple>
-          <Button.Ripple
-            className="btn-icon rounded-circle ml-1 mr-1"
+            className="btn-icon rounded-0 py-1"
             color="primary"
             onClick={() => {
               if (this.state.end !== "" && this.state.start !== "")
@@ -369,6 +385,16 @@ class AggridTable extends React.Component {
             }}
           >
             <Search size={18} color="white" />
+          </Button.Ripple>
+          <Button.Ripple
+            className="btn-icon rounded-0 py-1"
+            color="danger"
+            onClick={() => {
+              this.setState({ end: "", start: "" });
+              this.props.requestMore(false);
+            }}
+          >
+            <X size={18} color="white" />
           </Button.Ripple>
         </div>
       </div>
@@ -405,16 +431,9 @@ class AggridTable extends React.Component {
         <div className={`data-list thumb-view"`}>
           {showSidebar ? (
             <CaseEdit
-              requestData={this.props.requestData}
               show={this.state.showSidebar}
               data={this.state.selectedData}
-              updateData={() => {}}
-              addData={() => {}}
               handleSidebar={this.handleSidebar}
-              thumbView={this.props.thumbView}
-              getData={this.props.getData}
-              dataParams={this.props.parsedFilter}
-              addNew={this.state.addNew}
             />
           ) : showCallSidebar ? (
             <></>
@@ -456,7 +475,7 @@ class AggridTable extends React.Component {
         <Card className="overflow-hidden agGrid-card rounded-0">
           <CardBody className="py-0">
             {this.state.rowData === null ? null : (
-              <div className="ag-theme-material w-100 my-3 ag-grid-table">
+              <div className="ag-theme-material w-100 my-2 ag-grid-table">
                 <div className="d-flex flex-row justify-content-between align-items-center">
                   <div className="d-flex flex-row align-items-center">
                     <div className="mb-1 mr-2">
@@ -535,59 +554,61 @@ class AggridTable extends React.Component {
                       />
                     </div>
 
-                    <div className="export-btn">
-                      <UncontrolledDropdown className="p-1 ag-dropdown">
-                        <DropdownToggle tag="div">
-                          {this.translate("Action")}
-                          <ChevronDown className="ml-50" size={15} />
-                        </DropdownToggle>
-                        <DropdownMenu right>
-                          {this.props.userRole === "manager" ||
-                          this.props.userRole === "focalpoint" ? (
-                            <DropdownItem
-                              tag="div"
-                              onClick={() =>
-                                this.gridApi.exportDataAsCsv({
-                                  onlySelected: true,
-                                  allColumns: true,
-                                })
-                              }
-                            >
-                              {this.translate("Export Selected")}
-                            </DropdownItem>
-                          ) : (
-                            <></>
-                          )}
-                          <DropdownItem
-                            tag="div"
-                            onClick={() => {
-                              this.setState({
-                                filters: !this.state.filters,
-                              });
-                            }}
-                          >
-                            {this.translate("Date range filters")}
-                          </DropdownItem>
-                          <DropdownItem
-                            tag="div"
-                            onClick={() => {
-                              this.setState({
-                                columnDefs: this.props.columnDefs,
-                                showTable: false,
-                              });
+                    <div>
+                      {this.props.userRole === "manager" ||
+                      this.props.userRole === "focalpoint" ? (
+                        <Button.Ripple
+                          className="btn-icon"
+                          color="flat-primary rounded-0"
+                          onClick={() =>
+                            this.gridApi.exportDataAsCsv({
+                              onlySelected: true,
+                              allColumns: true,
+                            })
+                          }
+                        >
+                          <DownloadCloud size={16} />
+                        </Button.Ripple>
+                      ) : (
+                        <></>
+                      )}
+                      <Button.Ripple
+                        onClick={() => {
+                          this.setState({
+                            filters: !this.state.filters,
+                          });
+                        }}
+                        className="btn-icon rounded-0"
+                        color="flat-primary"
+                      >
+                        <Filter size={16} />
+                      </Button.Ripple>
+                      <Button.Ripple
+                        className="btn-icon rounded-0"
+                        color="flat-primary"
+                        onClick={() => this.props.requestMore(false)}
+                      >
+                        <RefreshCw size={16} />
+                      </Button.Ripple>
+                      <Button.Ripple
+                        onClick={() => {
+                          this.setState({
+                            columnDefs: this.props.columnDefs,
+                            showTable: false,
+                          });
 
-                              this.gridApi.setColumnDefs(this.props.columnDefs);
-                              localStorage.removeItem(this.props.tableType);
+                          this.gridApi.setColumnDefs(this.props.columnDefs);
+                          localStorage.removeItem(this.props.tableType);
 
-                              this.setState({
-                                showTable: true,
-                              });
-                            }}
-                          >
-                            {this.translate("Restore Columns")}
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
+                          this.setState({
+                            showTable: true,
+                          });
+                        }}
+                        className="btn-icon"
+                        color="flat-primary rounded-0"
+                      >
+                        <Columns size={16} />
+                      </Button.Ripple>
                     </div>
                   </div>
                 </div>
@@ -633,6 +654,5 @@ class AggridTable extends React.Component {
     );
   }
 }
-
 
 export default AggridTable;

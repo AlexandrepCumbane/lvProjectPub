@@ -187,34 +187,49 @@ export const renderStatus = (props, data, label) => {
 };
 
 export const getFieldWith = (field_name) => {
-  let width = 230;
+  let width = 150;
   switch (field_name) {
     case "case_number":
       width = 210;
       break;
-
-    case "datetime_created":
-      width = 180;
+    case "email":
+      width = 310;
       break;
 
-    case "provincia":
-      width = 180;
+    case "is_active":
+      width = 240;
       break;
 
-    case "distrito":
-      width = 200;
+    case "first_name":
+      width = 250;
       break;
 
-    case "localidade":
-      width = 200;
+    case "last_name":
+      width = 250;
       break;
 
-      case "case_priority":
-      width = 150;
-      break;
+    // case "datetime_created":
+    //   width = 180;
+    //   break;
+
+    // case "provincia":
+    //   width = 180;
+    //   break;
+
+    // case "distrito":
+    //   width = 200;
+    //   break;
+
+    // case "localidade":
+    //   width = 200;
+    //   break;
+
+    //   case "case_priority":
+    //   width = 150;
+    //   break;
 
     default:
-      width = 240;
+      width = 160;
       break;
   }
 

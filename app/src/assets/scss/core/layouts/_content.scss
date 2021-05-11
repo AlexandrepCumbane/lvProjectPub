@@ -71,11 +71,11 @@ html {
         }
       }
       .content-wrapper {
-        padding: calc(#{$content-padding} - 0.4rem) #{$content-padding} 0;
+        padding: calc(#{$content-padding} - 0.2rem) #{$content-padding} 0;
         margin-top: $navbar-height + 1;
         min-height: calc(100vh - 9.75rem);
         .content-header-title {
-          font-weight: 500;
+          font-weight: 400;
           color: $gray-400;
           margin-right: $spacer;
         }
