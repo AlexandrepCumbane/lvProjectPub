@@ -205,7 +205,8 @@ class AggridTable extends React.Component {
       this.state.filters !== nextState.filters ||
       this.state.start !== nextState.start ||
       this.state.end !== nextState.end ||
-      this.props.loading
+      this.props.loading !== nextProps.loading ||
+      this.props.data !== nextProps.data
     )
       return true;
 
@@ -493,12 +494,12 @@ class AggridTable extends React.Component {
                             : "" * this.state.getPageSize -
                               (this.state.getPageSize - 1)}{" "}
                           -{" "}
-                          {this.state.rowData.length -
+                          {this.props.data.length -
                             this.state.currenPageSize * this.state.getPageSize >
                           0
                             ? this.state.currenPageSize * this.state.getPageSize
-                            : this.state.rowData.length}{" "}
-                          of {this.state.rowData.length}
+                            : this.props.data.length}{" "}
+                          of {this.props.data.length}
                           <ChevronDown className="ml-50" size={15} />
                         </DropdownToggle>
                         <DropdownMenu right>
