@@ -141,6 +141,7 @@ export default {
     "Positive feedback": "Feedback Positivo",
     "Request for assistance": "Pedidos de Assistência",
     "Request for Information": "Pedido de Informação",
+    "Request for information": "Pedido de informação",
     "Request for Assistance": "Pedidos de Assistência",
     "Data amendment": "Alteração de dados",
     "Technical problems": "Problemas técnicos",
@@ -298,6 +299,7 @@ export default {
     "Failed to save Object.": "Falhou em guardar o registo.",
     false: "Não",
     true: "Sim",
+    "Register form for task": "Formulário de registro para tarefa",
 
     INGD: "INGD",
     "IDP Registration": "Registo de Deslocados",
@@ -449,6 +451,6 @@ export default {
     "Date range filters": "Filtros de intervalo de datas",
     Response: "Resposta",
     "Other category": "Outra categoria",
-    Month: "Mês"
+    Month: "Mês",
   },
 };
