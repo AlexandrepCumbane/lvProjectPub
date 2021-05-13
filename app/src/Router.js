@@ -110,7 +110,7 @@ class AppRouter extends React.Component {
       })
       .then(({ data }) => {})
       .catch(({ response }) => {
-        this.validate_error(response.data.detail);
+        this.validate_error(response?.data?.detail);
       });
   };
 
