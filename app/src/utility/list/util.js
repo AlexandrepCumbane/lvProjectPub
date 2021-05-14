@@ -192,6 +192,11 @@ export const getFieldWith = (field_name) => {
     case "case_number":
       width = 210;
       break;
+    case "lvform_label":
+      width = 210;
+    case "lvform":
+      width = 210;
+      break;
     case "email":
       width = 310;
       break;
