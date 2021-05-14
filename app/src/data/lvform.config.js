@@ -603,12 +603,7 @@ export const manager = {
       hint: "Created at",
       type: "datetime",
     },
-    {
-      name: "month",
-      label: "Month",
-      hint: "Other number",
-      type: "string",
-    },
+
     {
       name: "provincia",
       label: "Province",
@@ -1232,6 +1227,12 @@ export const manager = {
       },
       type: "string",
       "wq:ForeignKey": "customuser",
+    },
+    {
+      name: "month",
+      label: "Month",
+      hint: "Other number",
+      type: "string",
     },
   ],
   verbose_name: "Case",
