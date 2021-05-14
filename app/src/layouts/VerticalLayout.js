@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react";
 import classnames from "classnames";
+import { toast, Bounce } from "react-toastify";
 import Customizer from "../components/@vuexy/customizer/Customizer";
 import Sidebar from "./components/menu/vertical-menu/Sidebar";
 import Navbar from "./components/navbar/Navbar";
@@ -14,8 +15,12 @@ import {
   changeMenuColor,
   hideScrollToTop,
 } from "../redux/actions/customizer/index";
+import { IntlContext } from "../i18n";
 
 class VerticalLayout extends PureComponent {
+  static contextType = IntlContext;
+  translate = this.context.translate;
+
   state = {
     width: window.innerWidth,
     sidebarState: this.props.app.customizer.sidebarCollapsed,
@@ -26,6 +31,8 @@ class VerticalLayout extends PureComponent {
     appOverlay: false,
     customizer: false,
     currRoute: this.props.location.pathname,
+    internet_alert: false,
+    internet_alert_online: false,
   };
   collapsedPaths = [];
   mounted = false;
@@ -44,6 +51,7 @@ class VerticalLayout extends PureComponent {
   };
 
   componentDidMount() {
+    this.verifyNetwork();
     this.mounted = true;
     let {
       location: { pathname },
@@ -189,7 +197,45 @@ class VerticalLayout extends PureComponent {
     });
   };
 
+  /**
+   * Warning alert function - shows an alert with warning background
+   * @param {*} error - string message
+   * @returns
+   */
+
+  notifyWarnBounce = (warn) =>
+    toast.warn(`*  ${this.translate(warn)}`, {
+      transition: Bounce,
+      autoClose: false,
+    });
+
+  /**
+   * Success alert function - shows an alert with success background
+   * @returns
+   */
+  notifySuccessBounce = (message) =>
+    toast.success(this.translate(message), {
+      transition: Bounce,
+      autoClose: false,
+    });
+
+  verifyNetwork = () => {
+    if (!navigator.onLine && !this.state.internet_alert) {
+      this.setState({ internet_alert: true, internet_alert_online: false });
+      this.notifyWarnBounce("No internet connection available");
+    } else {
+      if (
+        navigator.onLine &&
+        !this.state.internet_alert_online &&
+        this.state.internet_alert
+      ) {
+        this.setState({ internet_alert: false, internet_alert_online: true });
+        this.notifySuccessBounce("Internet connection established");
+      }
+    }
+  };
   render() {
+    this.verifyNetwork();
     let appProps = this.props.app.customizer;
     let menuThemeArr = [
       "primary",
@@ -249,6 +295,7 @@ class VerticalLayout extends PureComponent {
       scrollToTop: appProps.hideScrollToTop,
       sidebarState: appProps.sidebarCollapsed,
     };
+
     return (
       <div
         className={classnames(

@@ -453,5 +453,7 @@ export default {
     Response: "Resposta",
     "Other category": "Outra categoria",
     Month: "Mês",
+    "No internet connection available": "Conexão à internet indisponível",
+    "Internet connection established": "Conexão à internet reestabelecida",
   },
 };
