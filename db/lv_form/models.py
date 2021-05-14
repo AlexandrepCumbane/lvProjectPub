@@ -223,6 +223,12 @@ class LvForm(models.Model):
                                 verbose_name="Response",
                                 help_text="Response",
                                 null=True)
+                                
+    month = models.CharField(max_length=255,
+                                blank=True,
+                                verbose_name="Month",
+                                help_text="Month",
+                                null=True)
 
     call_notes = models.TextField(verbose_name="Call notes", )
     call_solution = models.TextField(
