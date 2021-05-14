@@ -19,6 +19,7 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
+  UncontrolledTooltip,
 } from "reactstrap";
 import { Search } from "react-feather";
 
@@ -566,6 +567,7 @@ class AggridTable extends React.Component {
                       {this.props.userRole === "manager" ||
                       this.props.userRole === "focalpoint" ? (
                         <Button.Ripple
+                          id="download"
                           className="btn-icon"
                           color="flat-primary rounded-0"
                           onClick={() =>
@@ -581,6 +583,7 @@ class AggridTable extends React.Component {
                         <></>
                       )}
                       <Button.Ripple
+                        id="date-filter"
                         onClick={() => {
                           this.setState({
                             filters: !this.state.filters,
@@ -592,6 +595,7 @@ class AggridTable extends React.Component {
                         <Filter size={16} />
                       </Button.Ripple>
                       <Button.Ripple
+                        id="refresh-list"
                         className="btn-icon rounded-0"
                         color="flat-primary"
                         onClick={() => this.props.requestMore(false)}
@@ -599,6 +603,7 @@ class AggridTable extends React.Component {
                         <RefreshCw size={16} />
                       </Button.Ripple>
                       <Button.Ripple
+                        id="unset-column"
                         onClick={() => {
                           this.setState({
                             columnDefs: this.props.columnDefs,
@@ -615,6 +620,19 @@ class AggridTable extends React.Component {
                       >
                         <Columns size={16} />
                       </Button.Ripple>
+
+                      <UncontrolledTooltip placement="top" target="download">
+                        {this.translate("Export Selected")}
+                      </UncontrolledTooltip>
+                      <UncontrolledTooltip placement="top" target="date-filter">
+                        {this.translate("Date range filters")}
+                      </UncontrolledTooltip>
+                      <UncontrolledTooltip placement="top" target="refresh-list">
+                        {this.translate("Update list")}
+                      </UncontrolledTooltip>
+                      <UncontrolledTooltip placement="top" target="unset-column">
+                        {this.translate("Restore Columns")}
+                      </UncontrolledTooltip>
                     </div>
                   </div>
                 </div>

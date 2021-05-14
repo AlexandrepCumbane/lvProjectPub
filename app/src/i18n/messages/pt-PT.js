@@ -414,6 +414,7 @@ export default {
     From: "De",
     To: "A",
     "Restore Columns": "Restaurar Colunas",
+    "Update list": "Actualizar Lista",
     "Export Selected": "Exportar Selecionados",
     "New Record": "Novo Registo",
     "Dedicated Source Used on Website": "Fonte Dedicada Usada no Site",
