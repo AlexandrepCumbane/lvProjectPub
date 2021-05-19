@@ -18,6 +18,7 @@ import { useDropzone } from "react-dropzone";
 import { toast, ToastContainer } from "react-toastify";
 
 import PT from "../../i18n/messages/pt-PT";
+import EN from "../../i18n/messages/en-US";
 
 import { axios } from "../../redux/api";
 import { requestDropodowns } from "../../redux/actions/app/actions";
@@ -30,8 +31,11 @@ import { IntlContext } from "../../i18n";
 
 function Uploader(props) {
   const Keys = PT.pt;
+ 
   const handleMapKey = (key) => {
+
     let mappedKey = "";
+
     switch (key) {
       case "Numero do Caso":
         mappedKey = "case_number";
@@ -48,8 +52,21 @@ function Uploader(props) {
       case "Localidade":
         mappedKey = "localidade";
         break;
+
       case "Sector":
         mappedKey = "sector";
+        break;
+
+      case "Resposta":
+        mappedKey = "response";
+        break;
+
+      case "Outra categoria":
+        mappedKey = "othercategory";
+        break;
+
+      case "Mês":
+        mappedKey = "month";
         break;
 
       case "Tipo de Caso":
@@ -67,7 +84,7 @@ function Uploader(props) {
       case "Vulnerabilidade":
         mappedKey = "vulnerability";
         break;
-        
+
       case "Notas da Chamada":
         mappedKey = "call_notes";
         break;
@@ -93,11 +110,11 @@ function Uploader(props) {
         break;
 
       case "Contacto":
-        mappedKey = "case_type";
+        mappedKey = "contact";
         break;
 
       case "Gênero":
-        mappedKey = "contact";
+        mappedKey = "gender";
         break;
 
       case "Idade":
@@ -164,6 +181,141 @@ function Uploader(props) {
         mappedKey = "created_by__label";
         break;
 
+        /**
+         * English Fields
+         */
+      case "Case Number":
+        mappedKey = "case_number";
+        break;
+
+      case "Province":
+        mappedKey = "provincia";
+        break;
+
+      case "District":
+        mappedKey = "distrito";
+        break;
+
+      case "Locality":
+        mappedKey = "localidade";
+        break;
+
+      case "Response":
+        mappedKey = "response";
+        break;
+
+      case "Other category":
+        mappedKey = "othercategory";
+        break;
+
+      case "Month":
+        mappedKey = "month";
+        break;
+
+      case "Case category":
+        mappedKey = "category";
+        break;
+
+      case "Sub-category":
+        mappedKey = "subcategory";
+        break;
+
+      case "Sub-category issue":
+        mappedKey = "subcategory_issue";
+        break;
+
+      case "Vulnerability":
+        mappedKey = "vulnerability";
+        break;
+
+      case "Call Notes":
+        mappedKey = "case_priority";
+        break;
+
+      case "Who is contacting":
+        mappedKey = "contact_group";
+        break;
+
+      case "Consent to Collect Personal Information":
+        mappedKey = "consent_pi";
+        break;
+
+      case "Consent to share Personal Information":
+        mappedKey = "consent_share_pi";
+        break;
+
+      case "Full Name":
+        mappedKey = "fullname";
+        break;
+
+      case "Contact":
+        mappedKey = "contact";
+        break;
+
+      case "Gender":
+        mappedKey = "gender";
+        break;
+
+      case "Age":
+        mappedKey = "age_group";
+        break;
+
+      case "Community":
+        mappedKey = "community";
+        break;
+
+      case "Distribution Point":
+        mappedKey = "distribution_point";
+        break;
+
+      case "Transfer modality":
+        mappedKey = "transfermod";
+        break;
+
+      case "Accommodation or resettlement centre":
+        mappedKey = "location_type";
+        break;
+
+      case "Resettlement name":
+        mappedKey = "ressetlement_name";
+        break;
+
+      case "Call Solution":
+        mappedKey = "call_solution";
+        break;
+
+      case "Case closed?":
+        mappedKey = "is_closed";
+        break;
+
+      case "How did they contact us?":
+        mappedKey = "means_of_communication";
+        break;
+
+      case "How did you hear about linha verde?":
+        mappedKey = "how_knows_lv";
+        break;
+
+      case "How would you like to be contacted?":
+        mappedKey = "how_callback";
+        break;
+
+      case "How do you feel you issue was managed during this call?":
+        mappedKey = "call_feedback";
+        break;
+
+      case "Callback Required":
+        mappedKey = "callback_required";
+        break;
+
+      case "Other number":
+        mappedKey = "other_contact";
+        break;
+
+      case "Created by":
+        mappedKey = "created_by__label";
+        break;
+
       default:
         mappedKey = key;
     }
@@ -176,18 +328,19 @@ function Uploader(props) {
     let kObject = {};
 
     entries.forEach((key) => {
-      console.log(handleMapKey(key[0]));
       if (handleMapKey(key[0]) === "gender") return;
       if (
         handleMapKey(key[0]) === "provincia" ||
         handleMapKey(key[0]) === "distrito" ||
         handleMapKey(key[0]) === "localidade"
       ) {
+
+        console.log(key)
         const field = form.filter(
           (item) => item.name === handleMapKey(key[0])
         )[0];
 
-        if (field && field.type === "string" && field["wq:ForeignKey"]) {
+         if (field && field.type === "string" && field["wq:ForeignKey"]) {
           if (key[1] === "None") return;
           const val = props.app_reducer.dropdowns[
             field["wq:ForeignKey"]
@@ -199,8 +352,12 @@ function Uploader(props) {
           kObject[`${handleMapKey(key[0])}`] = key[1];
         }
       } else {
-        const ks = Object.entries(Keys).filter((item) => item[1] === key[1]);
 
+     
+        let ks = Object.entries(Keys).filter((item) => item[1] === key[1]);
+        
+        if(ks.length ===  0) ks = Object.entries(EN.en).filter((item) => item[1] === key[1]);
+        
         if (ks.length > 0) {
           const field = form.filter(
             (item) => item.name === handleMapKey(key[0])
@@ -301,6 +458,7 @@ class Import extends React.Component {
     this.setState({ value });
 
     if (value.length) {
+
       filteredData = data.filter((col) => {
         let keys = Object.keys(col);
 
@@ -320,6 +478,7 @@ class Import extends React.Component {
           return col[includesCondition];
         else return null;
       });
+
       this.setState({ value, filteredData });
     } else {
       return null;
