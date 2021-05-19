@@ -29,7 +29,7 @@ export const renderStatusLabel = (props, data, label) => {
       break;
     default:
       color = "white";
-      break;
+    // break;
   }
 
   return (
@@ -73,7 +73,7 @@ export const renderPriority = (props, data) => {
         break;
       default:
         color = "white";
-        break;
+      // break;
     }
   } else {
     switch (status) {
@@ -88,7 +88,7 @@ export const renderPriority = (props, data) => {
         break;
       default:
         color = "white";
-        break;
+      // break;
     }
   }
 
@@ -159,7 +159,7 @@ export const renderStatus = (props, data, label) => {
               break;
             default:
               color = "white";
-              break;
+            // break;
           }
       }
     }
@@ -192,11 +192,15 @@ export const getFieldWith = (field_name) => {
     case "case_number":
       width = 210;
       break;
+
     case "lvform_label":
       width = 210;
+      break;
+      
     case "lvform":
       width = 210;
       break;
+
     case "email":
       width = 310;
       break;
@@ -235,7 +239,7 @@ export const getFieldWith = (field_name) => {
 
     default:
       width = 160;
-      break;
+    // break;
   }
 
   return width;
