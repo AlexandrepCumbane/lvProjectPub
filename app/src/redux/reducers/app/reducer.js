@@ -5,6 +5,11 @@ const initialState = {
   success: false,
   failed: false,
   loading: false,
+
+  updated_lvforms: false,
+  updated_articles: false,
+  updated_tasks: false,
+  updated_users: false,
 };
 
 export const app_reducer = (state = initialState, action) => {
@@ -53,6 +58,25 @@ export const app_reducer = (state = initialState, action) => {
     }
     case "UPDATE_TOKEN": {
       return { ...state, csrftoken: action.csrftoken };
+    }
+
+    case "UPDATE_LOAD_STATE": {
+      let stateBk = {
+        ...state,
+      };
+
+      stateBk[`updated_${action.payload.key}`] = action.payload.data;
+      return stateBk;
+    }
+
+    case "RESTORE_LOAD": {
+      return {
+        ...state,
+        updated_lvforms: false,
+        updated_articles: false,
+        updated_tasks: false,
+        updated_users: false,
+      };
     }
 
     default: {

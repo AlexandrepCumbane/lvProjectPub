@@ -21,6 +21,7 @@ import { IntlContext } from "../../i18n/provider";
 import {
   requestForm,
   requestDropodowns,
+  updateListLoad,
 } from "../../redux/actions/app/actions";
 
 import {
@@ -57,8 +58,12 @@ class List extends Component {
 
   componentDidMount() {
     this.formatFields();
-    if (!this.props.app_reducer[this.props.path]?.list.length) {
+    if (
+      !this.props.app_reducer[this.props.path]?.list.length ||
+      !this.props.app_reducer[`updated_${this.props.url}`]
+    ) {
       this.requestMore(false);
+      this.props.updateListLoad({ key: this.props.url, data: true });
     } else {
       this.setState({
         data: this.props.app_reducer[this.props.path]?.list ?? [],
@@ -494,6 +499,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { requestForm, requestDropodowns })(
-  List
-);
+export default connect(mapStateToProps, {
+  requestForm,
+  requestDropodowns,
+  updateListLoad,
+})(List);

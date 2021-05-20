@@ -1,7 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Card, CardBody, Row, Col, Spinner } from "reactstrap";
-import { requestDropodowns } from "../../../../redux/actions/app/actions";
+import {
+  requestDropodowns,
+  restoreLoadList,
+} from "../../../../redux/actions/app/actions";
 import { requestRemoveUser } from "../../../../redux/actions/auth/loginActions";
 
 import { AuthService } from "../../../../redux/oidc-config/services/authservice";
@@ -36,6 +39,9 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
+    
+    this.props.restoreLoadList();
+
     this.context.state.logout
       ? this.logout()
       : this.authService.getUser().then((user) => {
@@ -98,4 +104,5 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   requestDropodowns,
   requestRemoveUser,
+  restoreLoadList,
 })(Login);
