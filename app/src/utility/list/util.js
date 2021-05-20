@@ -196,7 +196,27 @@ export const getFieldWith = (field_name) => {
     case "lvform_label":
       width = 210;
       break;
-      
+
+    case "cluster_sector":
+      width = 310;
+      break;
+
+    case "cluster_agency":
+      width = 210;
+      break;
+
+    case "cluster_region":
+      width = 210;
+      break;
+
+    case "name":
+      width = 210;
+      break;
+
+    case "title":
+      width = 310;
+      break;
+
     case "lvform":
       width = 210;
       break;
