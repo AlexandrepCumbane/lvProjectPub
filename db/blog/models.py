@@ -31,6 +31,14 @@ class Article(models.Model):
     )
     file = models.FileField(upload_to="documents", null=True, blank=True)
 
+    is_deleted = models.BooleanField(
+        default=False,
+        verbose_name="Is Deleted",
+        help_text="Is Deleted",
+        null=True,
+        blank=True,
+    )
+
     aproved_by = models.ForeignKey(
         User,
         on_delete=models.CASCADE,

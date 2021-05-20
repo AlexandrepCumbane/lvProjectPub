@@ -15,7 +15,7 @@ from .serializers import ArticleSerializer
 class ArticleViewSet(ModelViewSet):
 
     ordering = ['-id']
-    queryset = Article.objects.all()
+    queryset = Article.objects.filter(is_deleted=False)
     serializer_class = ArticleSerializer
 
     def get_queryset_list(self, user) -> list:
