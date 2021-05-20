@@ -448,7 +448,5 @@ export default {
     "Access/Distance": "Acesso/Distância",
     "Mosquito Nets": "Rede Mosquiteira",
     "Water Cleaning Products": "Produtos de tratamento de Água",
-    Forecast: "Previsão",
-    "Cyclone confirmation": "Confirmação de ciclone",
   },
 };
