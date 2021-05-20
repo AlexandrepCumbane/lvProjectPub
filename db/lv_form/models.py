@@ -474,6 +474,13 @@ class ForwardingInstitution(models.Model):
         related_name='referral_to',
         help_text="User",
     )
+    is_deleted = models.BooleanField(
+        default=False,
+        verbose_name="Is Deleted",
+        help_text="Is Deleted",
+        null=True,
+        blank=True,
+    )
     created_by = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -559,6 +566,13 @@ class Task(models.Model):
         null=True,
         blank=True,
         verbose_name="Number of attempts to reach the other person",
+    )
+    is_deleted = models.BooleanField(
+        default=False,
+        verbose_name="Is Deleted",
+        help_text="Is Deleted",
+        null=True,
+        blank=True,
     )
     created_by = models.ForeignKey(
         User,
@@ -688,6 +702,14 @@ class ForwardCaseToFocalpoint(models.Model):
         verbose_name="Created By",
         related_name='forwarded_by',
         help_text="User",
+    )
+
+    is_deleted = models.BooleanField(
+        default=False,
+        verbose_name="Is Deleted",
+        help_text="Is Deleted",
+        null=True,
+        blank=True,
     )
 
     def __str__(self) -> str:
