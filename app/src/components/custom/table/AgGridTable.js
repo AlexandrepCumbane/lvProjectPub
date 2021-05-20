@@ -566,19 +566,27 @@ class AggridTable extends React.Component {
                     <div>
                       {this.props.userRole === "manager" ||
                       this.props.userRole === "focalpoint" ? (
-                        <Button.Ripple
-                          id="download"
-                          className="btn-icon"
-                          color="flat-primary rounded-0"
-                          onClick={() =>
-                            this.gridApi.exportDataAsCsv({
-                              onlySelected: true,
-                              allColumns: true,
-                            })
-                          }
-                        >
-                          <DownloadCloud size={16} />
-                        </Button.Ripple>
+                        <>
+                          <Button.Ripple
+                            id="download"
+                            className="btn-icon"
+                            color="flat-primary rounded-0"
+                            onClick={() =>
+                              this.gridApi.exportDataAsCsv({
+                                onlySelected: true,
+                                allColumns: true,
+                              })
+                            }
+                          >
+                            <DownloadCloud size={16} />
+                          </Button.Ripple>
+                          <UncontrolledTooltip
+                            placement="top"
+                            target="download"
+                          >
+                            {this.translate("Export Selected")}
+                          </UncontrolledTooltip>
+                        </>
                       ) : (
                         <></>
                       )}
@@ -621,16 +629,19 @@ class AggridTable extends React.Component {
                         <Columns size={16} />
                       </Button.Ripple>
 
-                      <UncontrolledTooltip placement="top" target="download">
-                        {this.translate("Export Selected")}
-                      </UncontrolledTooltip>
                       <UncontrolledTooltip placement="top" target="date-filter">
                         {this.translate("Date range filters")}
                       </UncontrolledTooltip>
-                      <UncontrolledTooltip placement="top" target="refresh-list">
+                      <UncontrolledTooltip
+                        placement="top"
+                        target="refresh-list"
+                      >
                         {this.translate("Update list")}
                       </UncontrolledTooltip>
-                      <UncontrolledTooltip placement="top" target="unset-column">
+                      <UncontrolledTooltip
+                        placement="top"
+                        target="unset-column"
+                      >
                         {this.translate("Restore Columns")}
                       </UncontrolledTooltip>
                     </div>
