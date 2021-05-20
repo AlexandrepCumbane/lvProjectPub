@@ -301,7 +301,7 @@ class List extends Component {
 
     const form = colm.length > 0 ? colm : config.pages[this.props.path].form;
 
-    const columnDefs = form.map((item, index) => {
+    let columnDefs = form.map((item, index) => {
       if (
         item.name === "fullname" ||
         item.name === "contact" ||
@@ -466,6 +466,163 @@ class List extends Component {
         };
       }
     });
+
+    if (this.props.path === "forwardcasetofocalpoint" || this.props.path === "forwardinginstitution") {
+      columnDefs = columnDefs.concat(
+        config.pages.lvform.form.map((item, index) => {
+          if (
+            item.name === "fullname" ||
+            item.name === "contact" ||
+            item.name === "file" ||
+            item.name === "case_number" ||
+            item.name === "other_contact"
+          ) {
+            return {
+              headerName: this.translate(item.label),
+              field: `callcase.${item.name}`,
+              resizable: true,
+              hide: true,
+              width: getFieldWith(item.name),
+            };
+          }
+
+          if (
+            item.type === "select one" ||
+            (item.type === "string" && item["wq:ForeignKey"])
+          ) {
+            if (index === 0) {
+              return {
+                headerName: this.translate(item.label),
+                field: `callcase.${item.name}_label`,
+                width: getFieldWith(item.name),
+                editable: false,
+                resizable: true,
+                filter: "customFilter",
+                checkboxSelection: true,
+                headerCheckboxSelection: true,
+                cellRendererFramework: ({ data }) => {
+                  return renderStatus(
+                    this.props,
+                    data,
+                    this.translate(data["callcase"][`${item.name}_label`])
+                  );
+                },
+              };
+            } else {
+              if (`${item.name}_label` === `${this.props.path}_status_label`)
+                return {
+                  headerName: this.translate(item.label),
+                  field: this.translate(`${item.name}_label`),
+                  width: getFieldWith(item.name),
+                  editable: false,
+                  resizable: true,
+                  filter: "customFilter",
+                  valueGetter: ({ data }) => {
+                    return this.translate(
+                      data["callcase"][`${item.name}_label`] ?? "None"
+                    );
+                  },
+                  cellRendererFramework: ({ data }) => {
+                    return renderStatusLabel(
+                      this.props,
+                      data,
+                      this.translate(data[`${item.name}_label`])
+                    );
+                  },
+                };
+              else
+                return {
+                  headerName: this.translate(item.label),
+                  field: `${item.name}_label`,
+                  width: getFieldWith(item.name),
+                  editable: false,
+                  filter: "customFilter",
+                  resizable: true,
+                  valueGetter: ({ data }) => {
+                    return this.translate(
+                      data["callcase"][`${item.name}_label`] ??
+                        data["callcase"][`${item.name}`] ??
+                        "None"
+                    );
+                  },
+                };
+            }
+          } else {
+            if (item.type === "datetime") {
+              return {
+                headerName: this.translate(item.label),
+                field: `callcase.${item.name}_label`,
+                width: getFieldWith(item.name),
+                editable: false,
+                filter: "customFilter",
+                resizable: true,
+              };
+            }
+            if (item.type === "binary") {
+              return {
+                headerName: this.translate(item.label),
+                field: `callcase.${item.name}_label`,
+                width: getFieldWith(item.name),
+                editable: false,
+                filter: "customFilter",
+                resizable: true,
+                cellRendererFramework: ({ data }) => {
+                  return (
+                    <Button.Ripple color="flat-primary">
+                      <span className="align-middle">
+                        {data["callcase"][item.name]?.substring(
+                          data["callcase"][item.name]?.lastIndexOf("/") + 1
+                        )}
+                      </span>
+                    </Button.Ripple>
+                  );
+                },
+              };
+            }
+            if (index === 0) {
+              return {
+                headerName: this.translate(item.label),
+                field: `callcase.${item.name}`,
+                width: getFieldWith(item.name),
+                editable: false,
+                filter: "customFilter",
+                resizable: true,
+                checkboxSelection: true,
+                headerCheckboxSelection: true,
+                cellRendererFramework: ({ data }) => {
+                  return renderStatus(
+                    this.props,
+                    data,
+                    this.translate(data["callcase"][`${item.name}`])
+                  );
+                },
+              };
+            }
+
+            return {
+              headerName: this.translate(item.label),
+              field: this.translate(`callcase.${item.name}`),
+              width: getFieldWith(item.name),
+              resizable: true,
+              filter: "customFilter",
+              editable: false,
+              valueGetter: ({ data }) => {
+                if (
+                  data["callcase"][`${item.name}`] === "" ||
+                  data["callcase"][`${item.name}`] === undefined ||
+                  data["callcase"][`${item.name}`] === null
+                ) {
+                  return this.translate("None");
+                }
+
+                return this.translate(data["callcase"][`${item.name}`]);
+              },
+            };
+          }
+        })
+      );
+    }
+
     this.setState({ columnDefs });
   };
 
