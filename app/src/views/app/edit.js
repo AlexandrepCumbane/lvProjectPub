@@ -78,15 +78,9 @@ class Edit extends Component {
       /**
        * Add all children dropdowns fiels in a map
        */
-      if (item["children"]) {
-        let childrens = this.state.childrens;
-        childrens[item["children"]] = this.getForeignFieldDropdown(
-          item["children"]
-        );
-
-        this.setState({ childrens });
+      if (item["children"] && data[`${item.name}_id`]) {
+        this.updateChildrenList(item, data[`${item.name}_id`]);
       }
-
       if (data[item["wq:ForeignKey"] ? item.name + "_id" : item.name])
         formdata.append(
           item["wq:ForeignKey"] ? item.name + "_id" : item.name,
@@ -423,7 +417,7 @@ class Edit extends Component {
     const userRole = this.props.user;
     let { data } = this.props;
 
-    let element = <p>No actions Provived</p>;
+    let element = <p />;
 
     switch (userRole) {
       case "manager":
@@ -996,11 +990,13 @@ class Edit extends Component {
    */
   updateChildrenList = (field, value) => {
     let childrens = this.state.childrens;
-    const res = this.state.dropdowns[field["wq:ForeignKey"]].filter((item) => {
-      return Number(item.id) === Number(value);
-    });
-    childrens[field.children] = res[0][`${field.children}_set`];
+    const res = this.getForeignFieldDropdown(field["wq:ForeignKey"]).filter(
+      (item) => {
+        return Number(item.id) === Number(value);
+      }
+    );
 
+    if (res.length) childrens[field.children] = res[0][`${field.children}_set`];
     this.setState({ childrens });
   };
 
