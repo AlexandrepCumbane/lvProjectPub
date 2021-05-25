@@ -697,7 +697,7 @@ class Edit extends Component {
                     }
                   }}
                 >
-                  <option>{this.translate("Select")}</option>
+                  <option value={null}>{this.translate("Select")}</option>
                   {field["has_parent"] === undefined
                     ? this.renderSelectOptionForeignWQ(
                         this.getForeignFieldDropdown(field["wq:ForeignKey"])
@@ -974,11 +974,17 @@ class Edit extends Component {
   updateState = (field_name, value) => {
     let form = this.state.form;
 
-    if (value !== "") {
+    if (value !== "" && value !== "Seleccionar" && value !== "Select") {
       if (form.has(field_name)) {
         form.set(field_name, value);
       } else {
         form.append(field_name, value);
+      }
+    } else {
+      if (form.has(field_name)) {
+        form.set(field_name, '');
+      } else {
+        form.append(field_name, '');
       }
     }
   };
