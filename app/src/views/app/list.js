@@ -101,7 +101,7 @@ class List extends Component {
                 ? [
                     {
                       name: this.translate("Add New"),
-                      link: `${this.state.page}s/new`,
+                      link: `${this.props.path}s/new`,
                     },
                   ]
                 : []
