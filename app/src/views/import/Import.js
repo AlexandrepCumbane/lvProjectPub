@@ -228,7 +228,7 @@ function Uploader(props) {
         break;
 
       case "Call Notes":
-        mappedKey = "case_priority";
+        mappedKey = "call_notes";
         break;
 
       case "Who is contacting":
@@ -363,8 +363,10 @@ function Uploader(props) {
       } else {
         let ks = Object.entries(Keys).filter((item) => item[1] === key[1]);
 
-        if (ks.length === 0)
-          ks = Object.entries(EN.en).filter((item) => item[1] === key[1]);
+        // if (ks.length === 0)
+        //   ks = Object.entries(EN.en).filter((item) => item[1] === key[1]);
+
+        // console.log(ks);
 
         if (ks.length > 0) {
           const field = form.filter(
@@ -385,7 +387,8 @@ function Uploader(props) {
           }
 
           if (ks[0][0] === "None") {
-            kObject[handleMapKey(key[0])] = undefined;
+            kObject[handleMapKey(key[0])] = "";
+            kObject[`${handleMapKey(key[0])}_id`] = "";
             return;
           }
 
