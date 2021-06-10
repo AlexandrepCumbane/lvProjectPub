@@ -6,10 +6,8 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 
 import { Editor } from "react-draft-wysiwyg";
-import { EditorState, ContentState } from "draft-js";
-
+import { EditorState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
-import htmlToDraft from "html-to-draftjs";
 
 import { requestDropodowns } from "../../redux/actions/app/actions";
 import { IntlContext } from "../../i18n/provider";
