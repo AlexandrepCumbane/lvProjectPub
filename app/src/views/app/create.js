@@ -1,13 +1,23 @@
 import React from "react";
 import { connect } from "react-redux";
 import { toast, Bounce } from "react-toastify";
+
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
+
+import { Editor } from "react-draft-wysiwyg";
+import { EditorState, ContentState } from "draft-js";
+
+import draftToHtml from "draftjs-to-html";
+import htmlToDraft from "html-to-draftjs";
+
 import { requestDropodowns } from "../../redux/actions/app/actions";
 import { IntlContext } from "../../i18n/provider";
 import { history } from "../../history";
 import { axios } from "../../redux/api";
 
-import Select from "react-select";
-import makeAnimated from "react-select/animated";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import "../../assets/scss/plugins/extensions/editor.scss";
 
 import config from "../../data/config";
 import {
@@ -29,11 +39,14 @@ class Create extends React.Component {
   static contextType = IntlContext;
   translate = this.context.translate;
 
+  animatedComponents = makeAnimated();
+
   state = {
     form: new FormData(),
     required_fields_hs: [],
     required_fields: [],
     required_fields_labels: [],
+    editorState: EditorState.createEmpty(),
     isValid: true,
     dropdowns: [],
     childrens: {},
@@ -58,6 +71,10 @@ class Create extends React.Component {
       </div>
     );
   }
+
+  onEditorStateChange = (editorState) => {
+    this.setState({ editorState });
+  };
 
   /**
    * Action and helper functions
@@ -162,6 +179,8 @@ class Create extends React.Component {
   renderSingleInput = (field) => {
     let res = <></>;
 
+    console.log(this.props.path)
+
     if (
       field.name === "case_number" ||
       field.name === "created_by" ||
@@ -174,22 +193,55 @@ class Create extends React.Component {
 
     switch (field.type) {
       case "text":
-        const size = field.name === "text" ? 12 : 6;
-        res = (
-          <Col md={size} key={field.name}>
-            {/* <Label>{this.translate(field.label)}</Label> */}
-            {this.renderLabel(field)}
-            <FormGroup className="form-label-group position-relative has-icon-left">
-              <Input
-                type="textarea"
-                rows={7}
-                className="square"
-                placeholder={this.translate(field.label)}
-                onChange={(e) => this.updateState(field.name, e.target.value)}
+        if (field.name === "text" && this.props.path === "article") {
+          res = (
+            <Col md="12" key={field.name}>
+              {this.renderLabel(field)}
+
+              <Editor
+                wrapperClassName="demo-wrapper"
+                editorClassName="demo-editor"
+                editorState={this.state.editorState}
+                onEditorStateChange={this.onEditorStateChange}
+                onChange={(e) => this.updateState(field.name, draftToHtml(e))}
+                toolbar={{
+                  options: [
+                    "inline",
+                    "blockType",
+                    "fontSize",
+                    "fontFamily",
+                    "list",
+                    "textAlign",
+                    "colorPicker",
+                    "link",
+                    "embedded",
+                    "emoji",
+                    "image",
+                    "remove",
+                    "history",
+                  ],
+                }}
               />
-            </FormGroup>
-          </Col>
-        );
+            </Col>
+          );
+        } else {
+          const size = field.name === "text" ? 12 : 6;
+          res = (
+            <Col md={size} key={field.name}>
+              {/* <Label>{this.translate(field.label)}</Label> */}
+              {this.renderLabel(field)}
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <Input
+                  type="textarea"
+                  rows={7}
+                  className="square"
+                  placeholder={this.translate(field.label)}
+                  onChange={(e) => this.updateState(field.name, e.target.value)}
+                />
+              </FormGroup>
+            </Col>
+          );
+        }
 
         break;
       case "binary":
