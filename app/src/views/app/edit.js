@@ -15,6 +15,11 @@ import {
 } from "reactstrap";
 
 import { toast, Bounce } from "react-toastify";
+
+import { X, Check } from "react-feather";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import classnames from "classnames";
+
 import {
   requestDropodowns,
   requestForm,
@@ -25,16 +30,12 @@ import { axios } from "../../redux/api";
 import Modal from "./modal/create";
 import ListModal from "./modal/list";
 
-import { X, Check } from "react-feather";
-import PerfectScrollbar from "react-perfect-scrollbar";
-import classnames from "classnames";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import "../../assets/scss/plugins/extensions/editor.scss";
 import ModalEdit from "./modal/edit";
 import { IntlContext } from "../../i18n/provider";
 
 import config from "../../data/config";
 import Checkbox from "../../components/@vuexy/checkbox/CheckboxesVuexy";
+
 class Edit extends Component {
   static contextType = IntlContext;
   translate = this.context.translate;
