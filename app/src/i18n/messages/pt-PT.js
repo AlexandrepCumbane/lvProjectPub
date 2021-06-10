@@ -222,7 +222,7 @@ export default {
     "Physical vulnerability": "Vulnerabilidade Física",
     Resources: "Recursos",
 
-    "Political issue": "Motivos Politicos",
+    // "Political issue": "Motivos Politicos",
     "Political reasons": "Motivos Politicos",
     Fraud: "Fráude",
     Corruption: "Corrupção",
