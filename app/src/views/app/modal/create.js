@@ -138,7 +138,10 @@ class Create extends React.Component {
             <Button
               color="primary"
               className="square"
-              onClick={() => this.handleSubmit()}
+              // onClick={() => this.handleSubmit()}
+              onClick={() =>
+                this.context.sendNotification("Loram", "task", "USER")
+              }
             >
               {this.state.isLoading ? (
                 <Spinner className="mr-1" color="white" size="sm" type="grow" />

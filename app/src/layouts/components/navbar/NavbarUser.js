@@ -6,9 +6,12 @@ import {
   DropdownItem,
   DropdownToggle,
   Dropdown,
+  Media,
+  Badge,
 } from "reactstrap";
 import ReactCountryFlag from "react-country-flag";
 import * as Icon from "react-feather";
+import PerfectScrollbar from "react-perfect-scrollbar";
 
 import { IntlContext } from "../../../i18n/index";
 
@@ -53,13 +56,23 @@ class NavbarUser extends React.PureComponent {
     navbarSearch: false,
     suggestions: [],
     langDropdown: false,
+    currentBadgeNot: 0,
+    currentMessage: {},
+    taskNot: 0,
+    casesNot: 0,
   };
 
-  componentDidMount() {
-    // axios.get("/api/main-search/data").then(({ data }) => {
-    //   this.setState({ suggestions: data.searchResult })
-    // })
+  componentDidUpdate() {
+    const { newEvent, hasNewEvent } = this.context.getEvent();
+    console.log(this.context.getEvent());
+
+    if (this.state.currentMessage !== newEvent && hasNewEvent)
+      this.setState({
+        currentMessage: newEvent,
+        currentBadgeNot: this.state.currentBadgeNot + 1,
+      });
   }
+
   handleLangDropdown = () =>
     this.setState({ langDropdown: !this.state.langDropdown });
 
@@ -128,6 +141,145 @@ class NavbarUser extends React.PureComponent {
             );
           }}
         </IntlContext.Consumer>
+        <UncontrolledDropdown
+          className="dropdown-notification nav-item rounded-0"
+          tag="li"
+        >
+          <DropdownToggle
+            tag="a"
+            data-toggle="dropdown"
+            aria-expanded={this.state.dropdownNotification}
+            className="nav-link nav-link-label rounded-0"
+          >
+            <Icon.Bell size={21} />
+            <Badge pill color="primary" className="badge-up">
+              {" "}
+              {`${this.state.currentBadgeNot} `}
+            </Badge>
+          </DropdownToggle>
+          <DropdownMenu
+            tag="ul"
+            right
+            className="dropdown-menu-media rounded-0"
+          >
+            <li className="dropdown-menu-header">
+              <div className="dropdown-header mt-0">
+                <h3 className="text-white">5 New</h3>
+                <span className="notification-title">App Notifications</span>
+              </div>
+            </li>
+            <PerfectScrollbar
+              className="media-list overflow-hidden position-relative"
+              options={{
+                wheelPropagation: false,
+              }}
+            >
+              <div className="d-flex justify-content-between">
+                <Media className="d-flex align-items-start">
+                  <Media left href="#">
+                    <Icon.Activity
+                      className="font-medium-5 success"
+                      size={21}
+                    />
+                  </Media>
+                  <Media body>
+                    <Media heading className="success media-heading" tag="h6">
+                      New Tasks
+                    </Media>
+                    <small className="notification-text">
+                      You got new order of goods?
+                    </small>
+                  </Media>
+                  <h4 className="text-success">
+                    <strong>{`${this.state.taskNot} `}</strong>
+                  </h4>
+                </Media>
+              </div>
+              <div className="d-flex justify-content-between">
+                <Media className="d-flex align-items-start">
+                  <Media left href="#">
+                    <Icon.AlertTriangle
+                      className="font-medium-5 danger"
+                      size={21}
+                    />
+                  </Media>
+                  <Media body>
+                    <Media heading className="danger media-heading" tag="h6">
+                      Warning Notification
+                    </Media>
+                    <small className="notification-text">
+                      Server has used 99% of CPU
+                    </small>
+                  </Media>
+                  <small>
+                    <time
+                      className="media-meta"
+                      dateTime="2015-06-11T18:29:20+08:00"
+                    >
+                      Today
+                    </time>
+                  </small>
+                </Media>
+              </div>
+              <div className="d-flex justify-content-between">
+                <Media className="d-flex align-items-start">
+                  <Media left href="#">
+                    <Icon.CheckCircle
+                      className="font-medium-5 info"
+                      size={21}
+                    />
+                  </Media>
+                  <Media body>
+                    <Media heading className="info media-heading" tag="h6">
+                      Complete the task
+                    </Media>
+                    <small className="notification-text">
+                      One of your task is pending.
+                    </small>
+                  </Media>
+                  <small>
+                    <time
+                      className="media-meta"
+                      dateTime="2015-06-11T18:29:20+08:00"
+                    >
+                      Last week
+                    </time>
+                  </small>
+                </Media>
+              </div>
+              <div className="d-flex justify-content-between">
+                <Media className="d-flex align-items-start">
+                  <Media left href="#">
+                    <Icon.File className="font-medium-5 warning" size={21} />
+                  </Media>
+                  <Media body>
+                    <Media heading className="warning media-heading" tag="h6">
+                      Generate monthly report
+                    </Media>
+                    <small className="notification-text">
+                      Reminder to generate monthly report
+                    </small>
+                  </Media>
+                  <small>
+                    <time
+                      className="media-meta"
+                      dateTime="2015-06-11T18:29:20+08:00"
+                    >
+                      Last month
+                    </time>
+                  </small>
+                </Media>
+              </div>
+            </PerfectScrollbar>
+            {/* <li className="dropdown-menu-footer">
+              <DropdownItem tag="a" className="p-1 text-center">
+                {" "}
+                Read all notifications{" "}
+              </DropdownItem>
+            </li> */}
+          </DropdownMenu>
+        </UncontrolledDropdown>
+
         <UncontrolledDropdown tag="li" className="dropdown-user nav-item">
           <DropdownToggle tag="a" className="nav-link dropdown-user-link">
             <div className="user-nav d-sm-flex d-none">

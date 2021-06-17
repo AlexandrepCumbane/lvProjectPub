@@ -1,13 +1,20 @@
 import logging
 import time
 
+
 import requests
 from authlib.jose import JsonWebKey, jwt
 from authlib.jose.errors import (BadSignatureError, DecodeError,
                                  ExpiredTokenError, JoseError)
 from authlib.oidc.core.claims import IDToken
 from authlib.oidc.discovery import get_well_known_url
+
+from channels.auth import AuthMiddlewareStack
+
+
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AnonymousUser
+
 from django.utils.encoding import smart_str
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
@@ -222,3 +229,27 @@ class JSONWebTokenAuthentication(BaseOidcAuthentication):
 
     def authenticate_header(self, request):
         return 'JWT realm="{0}"'.format(self.www_authenticate_realm)
+
+class TokenAuthMiddleware:
+    """
+    Token authorization middleware for Django Channels 2
+    """
+
+    def __init__(self, inner):
+        self.inner = inner
+
+    def __call__(self, scope):
+        headers = dict(scope['headers'])
+        if b'authorization' in headers:
+            try:
+                token_name, token_key = headers[b'authorization'].decode().split()
+                if token_name == 'Token':
+                    # token = Token.objects.get(key=token_key)
+                    # scope['user'] = token.user
+                    print(token_key)
+            except Exception:
+                scope['user'] = AnonymousUser()
+        return self.inner(scope)
+
+
+TokenAuthMiddlewareStack = lambda inner: TokenAuthMiddleware(AuthMiddlewareStack(inner))
