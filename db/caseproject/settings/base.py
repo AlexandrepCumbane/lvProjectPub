@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'case_tipology',
     'accounts',
     'blog',
+    'notifications',
 
     #Channels
     'chat',
