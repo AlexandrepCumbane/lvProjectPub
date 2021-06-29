@@ -238,18 +238,21 @@ class TokenAuthMiddleware:
     def __init__(self, inner):
         self.inner = inner
 
-    def __call__(self, scope):
-        headers = dict(scope['headers'])
-        if b'authorization' in headers:
-            try:
-                token_name, token_key = headers[b'authorization'].decode().split()
-                if token_name == 'Token':
-                    # token = Token.objects.get(key=token_key)
-                    # scope['user'] = token.user
-                    print(token_key)
-            except Exception:
-                scope['user'] = AnonymousUser()
-        return self.inner(scope)
+    def __call__(self, scope, receive, send):
+
+        print("Scope: ", scope)
+
+        # headers = dict(scope['headers'])
+        # if b'authorization' in headers:
+        #     try:
+        #         token_name, token_key = headers[b'authorization'].decode().split()
+        #         if token_name == 'Token':
+        #             # token = Token.objects.get(key=token_key)
+        #             # scope['user'] = token.user
+        #             print(token_key)
+        #     except Exception:
+        #         scope['user'] = AnonymousUser()
+        return self.app(scope, receive, send)
 
 
 TokenAuthMiddlewareStack = lambda inner: TokenAuthMiddleware(AuthMiddlewareStack(inner))
