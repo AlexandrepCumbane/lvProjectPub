@@ -4,6 +4,7 @@ import { LOCALES } from "./locales";
 
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import { store } from "../redux/storeConfig/store";
 
 import messages_lan from "./messages";
 
@@ -31,7 +32,9 @@ class IntlProviderWrapper extends React.Component {
     hasNewEvent: false,
   };
 
-  socketIo = new WebSocket(`${process.env.REACT_APP_WS_URL}chat/looby/`);
+  appState = store.getState();
+
+  socketIo = new WebSocket(`${process.env.REACT_APP_WS_URL}chat/looby/?access_token=${this.appState.auth.login.userOauth?.access_token}`);
 
   setLanguage = (lang) => {
     localStorage.setItem("lang", lang);
