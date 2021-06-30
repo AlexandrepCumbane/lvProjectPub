@@ -1,7 +1,6 @@
 import logging
 import time
 
-
 import requests
 from authlib.jose import JsonWebKey, jwt
 from authlib.jose.errors import (BadSignatureError, DecodeError,
@@ -10,6 +9,7 @@ from authlib.oidc.core.claims import IDToken
 from authlib.oidc.discovery import get_well_known_url
 
 from channels.auth import AuthMiddlewareStack
+from channels.db import database_sync_to_async
 
 
 from django.contrib.auth import get_user_model
@@ -31,37 +31,45 @@ logging.basicConfig()
 logger = logging.getLogger(__name__)
 
 
+@database_sync_to_async
+def get_user(payload):
+    try:
+        User = get_user_model()
+        return User.objects.get_by_natural_key(payload.get('sub'))
+    except Exception:
+        return AnonymousUser()
+
+
 def get_user_by_id(request, id_token):
     User = get_user_model()
     try:
         user = User.objects.get_by_natural_key(id_token.get('sub'))
-       
+
     except User.DoesNotExist:
         # check if these fields exist or are filled
         try:
-            first_name=id_token.get('given_name')
+            first_name = id_token.get('given_name')
         except:
-            first_name=''
+            first_name = ''
         try:
-            last_name=id_token.get('family_name')
+            last_name = id_token.get('family_name')
         except:
-            last_name=''
-        # We create the new user with inactive state - admin to provide role and activate 
+            last_name = ''
+        # We create the new user with inactive state - admin to provide role and activate
         user = User.objects.create_user(email=id_token.get('sub'),
                                         is_active=False,
                                         first_name=first_name,
                                         last_name=last_name,
                                         password='')
 
-        print("created temporary user for: " + id_token.get('sub')
-                + " and Name: " + id_token.get('name') )
+        print("created temporary user for: " + id_token.get('sub') +
+              " and Name: " + id_token.get('name'))
         #msg = _('Invalid Authorization header. User not found.')
         #raise AuthenticationFailed(msg)
     return user
 
 
 class DRFIDToken(IDToken):
-
     def validate_exp(self, now, leeway):
         super(DRFIDToken, self).validate_exp(now, leeway)
         if now > self['exp']:
@@ -80,11 +88,8 @@ class BaseOidcAuthentication(BaseAuthentication):
     @cache(ttl=api_settings.OIDC_BEARER_TOKEN_EXPIRATION_TIME)
     def oidc_config(self):
         return requests.get(
-            get_well_known_url(
-                api_settings.OIDC_ENDPOINT,
-                external=True
-            )
-        ).json()
+            get_well_known_url(api_settings.OIDC_ENDPOINT,
+                               external=True)).json()
 
 
 class BearerTokenAuthentication(BaseOidcAuthentication):
@@ -98,7 +103,8 @@ class BearerTokenAuthentication(BaseOidcAuthentication):
         try:
             userinfo = self.get_userinfo(bearer_token)
         except HTTPError:
-            msg = _('Invalid Authorization header. Unable to verify bearer token')
+            msg = _(
+                'Invalid Authorization header. Unable to verify bearer token')
             raise AuthenticationFailed(msg)
 
         user = api_settings.OIDC_RESOLVE_USER_FUNCTION(request, userinfo)
@@ -116,20 +122,19 @@ class BearerTokenAuthentication(BaseOidcAuthentication):
             raise AuthenticationFailed(msg)
         elif len(auth) > 2:
             msg = _(
-                'Invalid Authorization header. Credentials string should not contain spaces.')
+                'Invalid Authorization header. Credentials string should not contain spaces.'
+            )
             raise AuthenticationFailed(msg)
 
         return auth[1]
 
     @cache(ttl=api_settings.OIDC_BEARER_TOKEN_EXPIRATION_TIME)
     def get_userinfo(self, token):
-        response = requests.get(
-            self.oidc_config['userinfo_endpoint'],
-            headers={'Authorization': 'Bearer {0}'.format(
-                token.decode('ascii')
-            )
-            }
-        )
+        response = requests.get(self.oidc_config['userinfo_endpoint'],
+                                headers={
+                                    'Authorization':
+                                    'Bearer {0}'.format(token.decode('ascii'))
+                                })
         response.raise_for_status()
 
         return response.json()
@@ -142,12 +147,7 @@ class JSONWebTokenAuthentication(BaseOidcAuthentication):
 
     @property
     def claims_options(self):
-        _claims_options = {
-            'iss': {
-                'essential': True,
-                'values': [self.issuer]
-            }
-        }
+        _claims_options = {'iss': {'essential': True, 'values': [self.issuer]}}
         for key, value in api_settings.OIDC_CLAIMS_OPTIONS.items():
             _claims_options[key] = value
         return _claims_options
@@ -175,7 +175,8 @@ class JSONWebTokenAuthentication(BaseOidcAuthentication):
             raise AuthenticationFailed(msg)
         elif len(auth) > 2:
             msg = _(
-                'Invalid Authorization header. Credentials string should not contain spaces.')
+                'Invalid Authorization header. Credentials string should not contain spaces.'
+            )
             raise AuthenticationFailed(msg)
 
         return auth[1]
@@ -195,15 +196,14 @@ class JSONWebTokenAuthentication(BaseOidcAuthentication):
 
     def decode_jwt(self, jwt_value):
         try:
-            id_token = jwt.decode(
-                jwt_value.decode('ascii'),
-                self.jwks(),
-                claims_cls=DRFIDToken,
-                claims_options=self.claims_options
-            )
+            id_token = jwt.decode(jwt_value.decode('ascii'),
+                                  self.jwks(),
+                                  claims_cls=DRFIDToken,
+                                  claims_options=self.claims_options)
         except (BadSignatureError, DecodeError):
             msg = _(
-                'Invalid Authorization header. JWT Signature verification failed.')
+                'Invalid Authorization header. JWT Signature verification failed.'
+            )
             logger.exception(msg)
             raise AuthenticationFailed(msg)
         except AssertionError:
@@ -216,10 +216,9 @@ class JSONWebTokenAuthentication(BaseOidcAuthentication):
 
     def validate_claims(self, id_token):
         try:
-            id_token.validate(
-                now=int(time.time()),
-                leeway=int(time.time()-api_settings.OIDC_LEEWAY)
-            )
+            id_token.validate(now=int(time.time()),
+                              leeway=int(time.time() -
+                                         api_settings.OIDC_LEEWAY))
         except ExpiredTokenError:
             msg = _('Invalid Authorization header. JWT has expired.')
             raise AuthenticationFailed(msg)
@@ -230,29 +229,34 @@ class JSONWebTokenAuthentication(BaseOidcAuthentication):
     def authenticate_header(self, request):
         return 'JWT realm="{0}"'.format(self.www_authenticate_realm)
 
+
 class TokenAuthMiddleware:
     """
     Token authorization middleware for Django Channels 2
     """
-
     def __init__(self, inner):
         self.inner = inner
 
-    def __call__(self, scope, receive, send):
+    async def __call__(self, scope, receive, send):
 
-        print("Scope: ", scope)
+        try:
+            key, access_token = (scope["query_string"]).decode().split('=')
 
-        # headers = dict(scope['headers'])
-        # if b'authorization' in headers:
-        #     try:
-        #         token_name, token_key = headers[b'authorization'].decode().split()
-        #         if token_name == 'Token':
-        #             # token = Token.objects.get(key=token_key)
-        #             # scope['user'] = token.user
-        #             print(token_key)
-        #     except Exception:
-        #         scope['user'] = AnonymousUser()
-        return self.app(scope, receive, send)
+            oidc_config = requests.get(
+                get_well_known_url(api_settings.OIDC_ENDPOINT,
+                                external=True)).json()
+
+            response = requests.get(oidc_config['userinfo_endpoint'],
+                                    headers={
+                                        'Authorization':
+                                        'Bearer {0}'.format(access_token)})
+            response.raise_for_status()
+            scope['user'] = await get_user(response.json())
+        except ValueError:
+            scope['user'] = AnonymousUser()
+            
+        return await self.inner(scope, receive, send)
 
 
-TokenAuthMiddlewareStack = lambda inner: TokenAuthMiddleware(AuthMiddlewareStack(inner))
+TokenAuthMiddlewareStack = lambda inner: TokenAuthMiddleware(
+    AuthMiddlewareStack(inner))
