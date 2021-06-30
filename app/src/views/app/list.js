@@ -36,13 +36,9 @@ import CaseEdit from "./edit";
 import "../../assets/scss/pages/users.scss";
 import "../../assets/scss/pages/data-list.scss";
 
-const NEW_CHAT_MESSAGE_EVENT = "newChatMessage"; // Name of the event
-const SOCKET_SERVER_URL = "ws://localhost:8000/ws/chat/looby/";
-// const
 class List extends Component {
   static contextType = IntlContext;
   translate = this.context.translate;
-  // getEvent = ;
 
   state = {
     pageTitle: this.translate("Pages"),
