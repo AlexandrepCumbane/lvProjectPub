@@ -1,5 +1,6 @@
 from .base import *
 import environ
+import os
 env = environ.Env()
 
 
@@ -140,3 +141,12 @@ sentry_sdk.init(
     # django.contrib.auth) you may enable sending PII data.
     send_default_pii=True
 )
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": os.getenv('REDIS_URL'),
+        },
+    },
+}
