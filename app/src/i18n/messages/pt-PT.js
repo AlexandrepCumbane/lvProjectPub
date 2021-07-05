@@ -124,6 +124,7 @@ export default {
     "Request for Information": "Pedido de Informação",
     "Request for Assistance": "Pedido de Assistência",
     "Data amendment": "Alteração de Dados",
+    "Request for information": "Pedido De Informação",
     "Technical problems": "Problemas Técnicos",
     "Person with disability": "Pessoa com Deficiência",
     "Child headed household": "Família Chefiada por Criança",
@@ -435,7 +436,19 @@ export default {
     Month: "Mês",
     "No internet connection available": "Conexão à internet indisponível",
     "Internet connection established": "Conexão à internet reestabelecida",
-
+    New: "Novo",
+    "App Notifications": "Notificações da app",
+    "You received a new Case": "Recebeu um novo caso",
+    "You received a new Case Comment": "Recebeu um novo comentário de caso",
+    "New Task Received": "Nova Tarefa Recebida",
+    "New Case Received": "Novo Caso Recebido",
+    "Case Feedback": "Feedback do caso",
+    "New Article": "Novo Artigo",
+    "New Task Comment": "Novo Comentário de Tarefa",
+    "New Task Received": "Nova Tarefa Recebida",
+    "New Task": "Nova Tarefa",
+    "New Case Comment": "Novo Comentário de Caso",
+    "Case Forwarding": "Encaminhamento de Caso",
     /**
      * New records
      */

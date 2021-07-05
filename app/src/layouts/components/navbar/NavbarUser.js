@@ -144,10 +144,10 @@ class NavbarUser extends React.PureComponent {
     let message = "";
     switch (title) {
       case "New Task":
-        message = "You have a new task assignment";
+        message = "You have a new task assigned to you";
         break;
       case "Case Forwarding":
-        message = "You received a new Case Forwarding";
+        message = "You received a new Case";
         break;
       case "New Case Comment":
         message = "You received a new Case Comment";
@@ -157,7 +157,7 @@ class NavbarUser extends React.PureComponent {
         message = "";
     }
 
-    return message;
+    return this.translate(message);
   };
 
   getNotificationCount = () => {
@@ -248,10 +248,11 @@ class NavbarUser extends React.PureComponent {
             <li className="dropdown-menu-header">
               <div className="dropdown-header mt-0">
                 <h3 className="text-white">
-                  {`${this.getNotificationCount()} `}
-                  New
+                  {`${this.getNotificationCount()} ${this.translate("New")}`}
                 </h3>
-                <span className="notification-title">App Notifications</span>
+                <span className="notification-title">
+                  {this.translate("App Notifications")}
+                </span>
               </div>
             </li>
             <PerfectScrollbar
@@ -291,7 +292,7 @@ class NavbarUser extends React.PureComponent {
                         } media-heading`}
                         tag="h6"
                       >
-                        {item.label}
+                        {this.translate(item.label)}
                       </Media>
                       <small className="notification-text">
                         {`${this.getMessageText(item.title)}`}
