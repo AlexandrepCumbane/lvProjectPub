@@ -41,12 +41,13 @@ class IntlProviderWrapper extends React.Component {
     this.setState({ newEvent, hasNewEvent });
   }
 
-  sendMessage = (message, model, target) => {
+  sendMessage = (message, model, target, id) => {
     this.socketIo.send(
       JSON.stringify({
         message: message,
         model: model,
         target: target,
+        model_id: id,
       })
     );
   };
@@ -110,8 +111,8 @@ class IntlProviderWrapper extends React.Component {
               newEvent,
             };
           },
-          sendNotification: (message, model, target) =>
-            this.sendMessage(message, model, target),
+          sendNotification: (message, model, target, id) =>
+            this.sendMessage(message, model, target, id),
         }}
       >
         <IntlProvider

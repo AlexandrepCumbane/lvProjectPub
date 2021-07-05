@@ -138,10 +138,7 @@ class Create extends React.Component {
             <Button
               color="primary"
               className="square"
-              // onClick={() => this.handleSubmit()}
-              onClick={() =>
-                this.context.sendNotification("Loram", "task", "USER")
-              }
+              onClick={() => this.handleSubmit()}
             >
               {this.state.isLoading ? (
                 <Spinner className="mr-1" color="white" size="sm" type="grow" />
@@ -397,6 +394,44 @@ class Create extends React.Component {
     this.setState({ form });
   };
 
+  filterNotificationAction = (item) => {
+    switch (this.props.page) {
+      case "forwardinginstitution":
+        this.context.sendNotification(
+          "Create",
+          `new_${this.props.page}`,
+          this.state.form.get("referall_to_id"),
+          `${item.lvform_label}`
+        );
+        break;
+      // case "casecomment":
+      //   this.context.sendNotification("Loram", `new_${this.props.page}`, this.state.form.get('referall_to_id'));
+      //   break;
+      // case "taskcomment":
+      //   this.context.sendNotification("Loram", `new_${this.props.page}`, this.state.form.get('referall_to_id'));
+      //   break;
+      case "task":
+        this.context.sendNotification(
+          "Create",
+          `new_${this.props.page}`,
+          this.state.form.get("assignee_id"),
+          `${item.lvform_label}-${item.id}`
+        );
+        break;
+      case "forwardcasetofocalpoint":
+        this.context.sendNotification(
+          "Create",
+          `new_${this.props.page}`,
+          this.state.form.get("focalpoint_id"),
+          `${item.lvform_label}`
+        );
+        break;
+      default:
+        // TODO
+        console.log("a");
+    }
+  };
+
   /**
    * Submits the form to post request action
    */
@@ -424,6 +459,7 @@ class Create extends React.Component {
           this.notifySuccessBounce(data.id);
           this.setState({ isLoading: false });
 
+          this.filterNotificationAction(data)
           if (this.props.addMore) {
             this.props.addMore(data);
           }

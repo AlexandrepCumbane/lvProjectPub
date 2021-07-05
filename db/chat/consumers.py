@@ -8,9 +8,11 @@ from notifications.models import Notification
 
 def notification_title(model):
     switcher = {
-        'new_task': 'New Task',
+        'new_task': 'New Task Received',
         'new_case': 'Case Forwarding',
-        'new_task_comment': 'New Task Comment',
+        'new_taskcomment': 'New Task Comment',
+        'new_forwardinginstitution': 'New Case Received',
+        'new_forwardcasetofocalpoint': 'New Case Received',
         'new_feedback': 'Case Feedback',
         'new_article': 'New Article'
     }
@@ -21,14 +23,13 @@ def notification_title(model):
 def create_notification(scope, event):
 
     creator = scope['user']
-
-    print(event['target'])
     target = CustomUser.objects.get(id=int(event['target']))
 
     notification = Notification.objects.create(title=notification_title(
         event['model']),
                                                created_by=creator,
-                                               user_target=target)
+                                               user_target=target,
+                                               model_id=event['model_id'])
     notification.save()
 
 
@@ -68,11 +69,12 @@ class ChatConsumer(WebsocketConsumer):
     # Receive message from room group
     def chat_message(self, event):
         message = event['message']
+
         model = event['model']
         target = CustomUser.objects.get(id=event['target']).email
 
         self.send(text_data=json.dumps({
             'message': message,
             'model': model,
-            'target': target,
+            'target': target
         }))

@@ -7,6 +7,7 @@ class Notification(models.Model):
     choices=(
             ("New Case Comment", "New Case Comment"),
             ("Case Forwarding", "Case Forwarding"),
+            ("New Case Received", "New Case Received"),
             ("New Task", "New Task"),
             ("New Task Comment", "New Task Comment"),
             ("Case Feedback", "Case Feedback"),
