@@ -48,6 +48,7 @@ urlpatterns = [
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('', include(rest.router.urls)), 
     path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True))),
+    path('chat/', include('chat.urls')),
 ]
 
 if settings.ADMIN_ENABLED:

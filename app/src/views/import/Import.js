@@ -18,7 +18,7 @@ import { useDropzone } from "react-dropzone";
 import { toast, ToastContainer } from "react-toastify";
 
 import PT from "../../i18n/messages/pt-PT";
-import EN from "../../i18n/messages/en-US";
+// import EN from "../../i18n/messages/en-US";
 
 import { axios } from "../../redux/api";
 import { requestDropodowns } from "../../redux/actions/app/actions";
@@ -31,9 +31,8 @@ import { IntlContext } from "../../i18n";
 
 function Uploader(props) {
   const Keys = PT.pt;
- 
-  const handleMapKey = (key) => {
 
+  const handleMapKey = (key) => {
     let mappedKey = "";
 
     switch (key) {
@@ -181,9 +180,9 @@ function Uploader(props) {
         mappedKey = "created_by__label";
         break;
 
-        /**
-         * English Fields
-         */
+      /**
+       * English Fields
+       */
       case "Case Number":
         mappedKey = "case_number";
         break;
@@ -229,7 +228,7 @@ function Uploader(props) {
         break;
 
       case "Call Notes":
-        mappedKey = "case_priority";
+        mappedKey = "call_notes";
         break;
 
       case "Who is contacting":
@@ -322,25 +321,34 @@ function Uploader(props) {
 
     return mappedKey;
   };
+
+  /**
+   * Receives a uploaded single row and match keys to the API required specifications (Post Payload)
+   *
+   * @param {*} item
+   * @returns
+   */
   const mappItemProps = (item) => {
-    const entries = Object.entries(item);
+    const entries = Object.entries(item); // Gets item object as bi-dimensional array
+
     const { form } = config.pages.lvform;
+
     let kObject = {};
 
     entries.forEach((key) => {
       if (handleMapKey(key[0]) === "gender") return;
+
+      // Specific known keys matching
       if (
         handleMapKey(key[0]) === "provincia" ||
         handleMapKey(key[0]) === "distrito" ||
         handleMapKey(key[0]) === "localidade"
       ) {
-
-        console.log(key)
         const field = form.filter(
           (item) => item.name === handleMapKey(key[0])
         )[0];
 
-         if (field && field.type === "string" && field["wq:ForeignKey"]) {
+        if (field && field.type === "string" && field["wq:ForeignKey"]) {
           if (key[1] === "None") return;
           const val = props.app_reducer.dropdowns[
             field["wq:ForeignKey"]
@@ -348,25 +356,18 @@ function Uploader(props) {
 
           if (val?.length > 0)
             kObject[`${handleMapKey(key[0])}_id`] = val[0].id;
+          else kObject[`${handleMapKey(key[0])}_id`] = "";
 
           kObject[`${handleMapKey(key[0])}`] = key[1];
         }
       } else {
-
-     
         let ks = Object.entries(Keys).filter((item) => item[1] === key[1]);
-        
-        if(ks.length ===  0) ks = Object.entries(EN.en).filter((item) => item[1] === key[1]);
-        
+
         if (ks.length > 0) {
           const field = form.filter(
             (item) => item.name === handleMapKey(key[0])
           )[0];
 
-          if (ks[0][0] === "None") {
-            kObject[handleMapKey(key[0])] = undefined;
-            return;
-          }
           if (field && field.type === "string" && field["wq:ForeignKey"]) {
             const val = props.app_reducer.dropdowns[
               field["wq:ForeignKey"]
@@ -374,8 +375,15 @@ function Uploader(props) {
 
             if (val.length > 0)
               kObject[`${handleMapKey(key[0])}_id`] = val[0].id;
+            else kObject[`${handleMapKey(key[0])}_id`] = "";
 
             kObject[`${handleMapKey(key[0])}`] = ks[0][0];
+          }
+
+          if (ks[0][0] === "None") {
+            kObject[handleMapKey(key[0])] = "";
+            kObject[`${handleMapKey(key[0])}_id`] = "";
+            return;
           }
 
           if (
@@ -390,7 +398,54 @@ function Uploader(props) {
             kObject[`${handleMapKey(key[0])}`] =
               ks[0][0] === "Yes" ? true : false;
           }
-        } else kObject[handleMapKey(key[0])] = item[key[0]];
+        } else {
+          kObject[handleMapKey(key[0])] = item[key[0]];
+
+          const field = form.filter(
+            (item) => item.name === handleMapKey(key[0])
+          )[0];
+          if (field && field.type === "string" && field["wq:ForeignKey"]) {
+            const val = props.app_reducer.dropdowns[
+              field["wq:ForeignKey"]
+            ]?.filter((item) => {
+              return item.label === key[1];
+            });
+
+            if (val?.length > 0)
+              kObject[`${handleMapKey(key[0])}_id`] = val[0].id;
+            else kObject[`${handleMapKey(key[0])}_id`] = "";
+
+            kObject[`${handleMapKey(key[0])}`] = item[key[0]];
+          }
+
+          if (item[key[0]] === "None") {
+            if (field) {
+              if (field?.type === "int") {
+                kObject[handleMapKey(key[0])] = 0;
+                return;
+              }
+              if (field["wq:ForeignKey"])
+                kObject[`${handleMapKey(key[0])}_id`] = "";
+            }
+
+            kObject[handleMapKey(key[0])] = "";
+
+            return;
+          }
+
+          if (
+            field &&
+            field.type === "select one" &&
+            !field.has_boolean_options
+          ) {
+            kObject[`${handleMapKey(key[0])}`] = item[key[0]];
+          }
+
+          if (field && field.has_boolean_options) {
+            kObject[`${handleMapKey(key[0])}`] =
+              item[key[0]] === "Yes" ? true : false;
+          }
+        }
       }
     });
 
@@ -447,6 +502,7 @@ class Import extends React.Component {
   componentDidMount() {
     this.props.requestDropodowns();
   }
+
   getTableData = (arr, name) => {
     this.setState({ tableData: arr, name });
   };
@@ -458,7 +514,6 @@ class Import extends React.Component {
     this.setState({ value });
 
     if (value.length) {
-
       filteredData = data.filter((col) => {
         let keys = Object.keys(col);
 
@@ -503,8 +558,6 @@ class Import extends React.Component {
       })
       .then(({ data }) => {
         this.setState({ uploading: false });
-        console.log(data);
-
         this.notifySuccessBounce("");
       })
       .catch((error) => {
@@ -531,7 +584,7 @@ class Import extends React.Component {
         dataArr.map((col, index) => {
           let keys = Object.keys(col);
           let renderTd = keys.map((key, index) => (
-            <td key={index}>{col[key]}</td>
+            <td key={index}>{this.translate(col[key])}</td>
           ));
           return <tr key={index}>{renderTd}</tr>;
         })
@@ -549,8 +602,8 @@ class Import extends React.Component {
       <React.Fragment>
         <Row className="import-component">
           <Col sm="12">
-            <Card>
-              <CardBody>
+            <Card className="rounded-0">
+              <CardBody className="rounded-0">
                 <Row>
                   <Col sm="12">
                     <Uploader
@@ -564,8 +617,8 @@ class Import extends React.Component {
           </Col>
           {this.state.tableData.length ? (
             <Col sm="12">
-              <Card>
-                <CardHeader className="justify-content-between flex-wrap">
+              <Card className="rounded-0">
+                <CardHeader className="justify-content-between flex-wrap rounded-0">
                   <CardTitle>{this.state.name}</CardTitle>
 
                   <div className="flex-wrap">
@@ -577,7 +630,7 @@ class Import extends React.Component {
                       {this.state.uploading ? (
                         <Spinner type="grow" size="sm" className="mr-1" />
                       ) : null}
-                      Upload Data
+                      {this.translate("Upload Data")}
                     </Button.Ripple>
 
                     {/* <div className=" rounded-0 filter position-relative has-icon-left">
@@ -592,7 +645,7 @@ class Import extends React.Component {
                     </div> */}
                   </div>
                 </CardHeader>
-                <CardBody>
+                <CardBody className="rounded-0">
                   <Table className="table-hover-animation" responsive>
                     <thead>
                       <tr>{renderTableHead}</tr>

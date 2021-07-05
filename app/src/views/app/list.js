@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { toast, Bounce } from "react-toastify";
 
+// import socketIOClient, { protocol } from "socket.io-client";
+
 import { Button } from "reactstrap";
 import { axios } from "../../redux/api";
 
@@ -52,9 +54,12 @@ class List extends Component {
     showSidebar: false,
     sidebarData: {},
     showModal: false,
+    socketIo: {},
     recordId: 0,
     message: "Do you want to delete that record?",
   };
+
+  // socketIo = new WebSocket(SOCKET_SERVER_URL);
 
   componentDidMount() {
     this.formatFields();
@@ -71,6 +76,13 @@ class List extends Component {
         pageTitle: this.translate(this.props.title),
       });
     }
+  }
+
+  componentDidUpdate() {
+    // // console.log(this.getEvent())
+    // if (this.context.getEvent().hasNewEvent) {
+    //   alert("Nova mensagem");
+    // }
   }
 
   handleShowCaseSidebar = (data) => {
@@ -101,7 +113,7 @@ class List extends Component {
                 ? [
                     {
                       name: this.translate("Add New"),
-                      link: `${this.state.page}s/new`,
+                      link: `${this.props.path}s/new`,
                     },
                   ]
                 : []
@@ -467,7 +479,10 @@ class List extends Component {
       }
     });
 
-    if (this.props.path === "forwardcasetofocalpoint" || this.props.path === "forwardinginstitution") {
+    if (
+      this.props.path === "forwardcasetofocalpoint" ||
+      this.props.path === "forwardinginstitution"
+    ) {
       columnDefs = columnDefs.concat(
         config.pages.lvform.form.map((item, index) => {
           if (

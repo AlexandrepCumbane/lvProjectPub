@@ -15,6 +15,11 @@ import {
 } from "reactstrap";
 
 import { toast, Bounce } from "react-toastify";
+
+import { X, Check } from "react-feather";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import classnames from "classnames";
+
 import {
   requestDropodowns,
   requestForm,
@@ -25,16 +30,12 @@ import { axios } from "../../redux/api";
 import Modal from "./modal/create";
 import ListModal from "./modal/list";
 
-import { X, Check } from "react-feather";
-import PerfectScrollbar from "react-perfect-scrollbar";
-import classnames from "classnames";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import "../../assets/scss/plugins/extensions/editor.scss";
 import ModalEdit from "./modal/edit";
 import { IntlContext } from "../../i18n/provider";
 
 import config from "../../data/config";
 import Checkbox from "../../components/@vuexy/checkbox/CheckboxesVuexy";
+
 class Edit extends Component {
   static contextType = IntlContext;
   translate = this.context.translate;
@@ -693,6 +694,7 @@ class Edit extends Component {
                   onChange={(e) => {
                     this.updateState(`${field.name}_id`, e.target.value);
                     if (field["children"]) {
+                      this.clearParentFields(field);
                       this.updateChildrenList(field, e.target.value);
                     }
                   }}
@@ -966,6 +968,37 @@ class Edit extends Component {
     return this.props.app_reducer.dropdowns[field_name] ?? [];
   };
 
+  clearParentFields = (field) => {
+    switch (field.name) {
+      case "category":
+        this.updateState("subcategory_id", "");
+        this.updateState("subcategory_issue_id", "");
+        this.updateState("who_not_receiving", "");
+        this.updateState("individual_commiting_malpractice", "");
+
+        this.updateChildrenList(
+          config.pages.lvform.form.filter(
+            (item) => item.name === "subcategory"
+          )[0],
+          -1
+        );
+
+        console.log("Entered Here");
+
+        break;
+
+      case "subcategory":
+        this.updateState("subcategory_issue_id", "");
+        this.updateState("who_not_receiving", "");
+        this.updateState("individual_commiting_malpractice", "");
+
+        break;
+
+      default:
+        return;
+    }
+  };
+
   /**
    * Update each dynamic field state value
    * @param {*} field_name
@@ -974,11 +1007,17 @@ class Edit extends Component {
   updateState = (field_name, value) => {
     let form = this.state.form;
 
-    if (value !== "") {
+    if (value !== "" && value !== "Seleccionar" && value !== "Select") {
       if (form.has(field_name)) {
         form.set(field_name, value);
       } else {
         form.append(field_name, value);
+      }
+    } else {
+      if (form.has(field_name)) {
+        form.set(field_name, "");
+      } else {
+        form.append(field_name, "");
       }
     }
   };
@@ -997,6 +1036,7 @@ class Edit extends Component {
     );
 
     if (res.length) childrens[field.children] = res[0][`${field.children}_set`];
+    else childrens[field.children] = [];
     this.setState({ childrens });
   };
 

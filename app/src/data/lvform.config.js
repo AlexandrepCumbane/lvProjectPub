@@ -603,7 +603,11 @@ export const manager = {
       hint: "Created at",
       type: "datetime",
     },
-
+    {
+      name: "response",
+      label: "Response",
+      type: "string",
+    },
     {
       name: "provincia",
       label: "Province",
@@ -633,6 +637,47 @@ export const manager = {
       type: "string",
       "wq:ForeignKey": "location",
       has_parent: true,
+    },
+    {
+      name: "community",
+      label: "Community",
+      hint: "Community",
+      "wq:length": 255,
+      type: "string",
+    },
+    {
+      name: "distribution_point",
+      label: "Distribution Point",
+      hint: "Distribution Point",
+      "wq:length": 255,
+      type: "string",
+    },
+    {
+      name: "location_type",
+      label: "Accommodation or resettlement centre",
+      hint: "Accommodation or resettlement centre",
+      choices: [
+        {
+          name: "1",
+          label: "Yes",
+        },
+        {
+          name: "2",
+          label: "No",
+        },
+        {
+          name: "3",
+          label: "Not relevant",
+        },
+      ],
+      type: "select one",
+    },
+    {
+      name: "ressetlement_name",
+      label: "Resettlement name",
+      hint: "Resettlement name",
+      "wq:length": 255,
+      type: "string",
     },
     {
       name: "sector",
@@ -704,11 +749,7 @@ export const manager = {
       ],
       type: "select one",
     },
-    {
-      name: "response",
-      label: "Response",
-      type: "string",
-    },
+  
     {
       name: "category",
       label: "Case category",
@@ -741,6 +782,34 @@ export const manager = {
       type: "string",
       "wq:ForeignKey": "subcategoryissue",
       has_parent: true,
+    },
+    {
+      name: "individual_commiting_malpractice",
+      label: "LBL_Individual committing malpractice",
+      hint: "LBL_Individual committing malpractice",
+      choices: [
+        {
+          name: "Local Leader",
+          label: "Local Leader",
+        },
+        {
+          name: "Community Member",
+          label: "Community Member",
+        },
+        {
+          name: "Humanitarian actor",
+          label: "Humanitarian actor",
+        },
+        {
+          name: "Unknown",
+          label: "Unknown",
+        },
+      ],
+      type: "select one",
+      depend_on_value: {
+        field: "subcategory",
+        value: ["5", "6", "3"],
+      },
     },
     {
       name: "vulnerability",
@@ -944,21 +1013,6 @@ export const manager = {
       ],
       type: "select one",
     },
-
-    {
-      name: "community",
-      label: "Community",
-      hint: "Community",
-      "wq:length": 255,
-      type: "string",
-    },
-    {
-      name: "distribution_point",
-      label: "Distribution Point",
-      hint: "Distribution Point",
-      "wq:length": 255,
-      type: "string",
-    },
     {
       name: "transfermod",
       label: "Transfer modality",
@@ -998,33 +1052,6 @@ export const manager = {
         },
       ],
       type: "select one",
-    },
-    {
-      name: "location_type",
-      label: "Accommodation or resettlement centre",
-      hint: "Accommodation or resettlement centre",
-      choices: [
-        {
-          name: "1",
-          label: "Yes",
-        },
-        {
-          name: "2",
-          label: "No",
-        },
-        {
-          name: "3",
-          label: "Not relevant",
-        },
-      ],
-      type: "select one",
-    },
-    {
-      name: "ressetlement_name",
-      label: "Resettlement name",
-      hint: "Resettlement name",
-      "wq:length": 255,
-      type: "string",
     },
 
     {
@@ -1382,6 +1409,34 @@ export const partner = {
       type: "string",
       "wq:ForeignKey": "subcategoryissue",
       has_parent: true,
+    },
+    {
+      name: "individual_commiting_malpractice",
+      label: "LBL_Individual committing malpractice",
+      hint: "LBL_Individual committing malpractice",
+      choices: [
+        {
+          name: "Local Leader",
+          label: "Local Leader",
+        },
+        {
+          name: "Community Member",
+          label: "Community Member",
+        },
+        {
+          name: "Humanitarian actor",
+          label: "Humanitarian actor",
+        },
+        {
+          name: "Unknown",
+          label: "Unknown",
+        },
+      ],
+      type: "select one",
+      depend_on_value: {
+        field: "subcategory",
+        value: ["5", "6", "3"],
+      },
     },
     {
       name: "vulnerability",

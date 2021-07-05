@@ -29,7 +29,7 @@ class ColumnCharts extends React.Component {
           bar: {
             dataLabels: {
               position: "top", // top, center, bottom
-              columnWidth: "70%",
+              columnWidth: "50%",
               barHeight: "70%",
             },
           },
@@ -53,7 +53,7 @@ class ColumnCharts extends React.Component {
           //     "Sofala",
           //   ],
           categories: this.props.options.categories,
-          position: "top",
+          position: "bottom",
           axisBorder: {
             show: false,
           },

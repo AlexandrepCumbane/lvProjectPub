@@ -12,6 +12,17 @@ import {
 } from "reactstrap";
 
 import { toast, Bounce } from "react-toastify";
+
+import { X, Check, Cloud } from "react-feather";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import classnames from "classnames";
+import makeAnimated from "react-select/animated";
+
+import { Editor } from "react-draft-wysiwyg";
+import { EditorState, ContentState } from "draft-js";
+import draftToHtml from "draftjs-to-html";
+import htmlToDraft from "html-to-draftjs";
+
 import {
   requestDropodowns,
   requestForm,
@@ -19,17 +30,15 @@ import {
 
 import { axios } from "../../redux/api";
 
-import { X, Check, Cloud } from "react-feather";
-import PerfectScrollbar from "react-perfect-scrollbar";
-import classnames from "classnames";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import "../../assets/scss/plugins/extensions/editor.scss";
-
 import { IntlContext } from "../../i18n/provider";
 
 import config from "../../data/config";
 
 import Checkbox from "../../components/@vuexy/checkbox/CheckboxesVuexy";
+
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import "../../assets/scss/plugins/extensions/editor.scss";
+
 class Edit extends Component {
   static contextType = IntlContext;
   translate = this.context.translate;
@@ -40,6 +49,8 @@ class Edit extends Component {
     toast.error(error, {
       transition: Bounce,
     });
+
+  animatedComponents = makeAnimated();
 
   state = {
     form: new FormData(),
@@ -53,6 +64,7 @@ class Edit extends Component {
     modal_list: false,
     modal_list_data: {},
     isProcessing: false,
+    editorState: EditorState.createEmpty(),
   };
 
   componentDidMount() {
@@ -62,6 +74,15 @@ class Edit extends Component {
     const { data } = this.props;
 
     let formdata = new FormData();
+
+    if (this.props.data["text"]) {
+      const contentBlock = htmlToDraft(this.props.data["text"] ?? "");
+      const contentState = ContentState.createFromBlockArray(
+        contentBlock.contentBlocks
+      );
+      const editorState = EditorState.createWithContent(contentState);
+      this.setState({ editorState });
+    }
 
     form.forEach((item) => {
       /**
@@ -285,21 +306,35 @@ class Edit extends Component {
     switch (field.type) {
       case "text":
         res = (
-          <Col md="12" key={field.name}>
+          <Col md="12" className="my-1" key={field.name}>
             <Label>
-              <strong>{this.translate(field.label)}</strong>
+              <strong>{field.label}</strong>
             </Label>
-            <FormGroup className="form-label-group position-relative has-icon-left">
-              <Input
-                type="textarea"
-                rows={7}
-                className="square"
-                disabled={!this.state.edit_status}
-                placeholder={field.label}
-                defaultValue={data[field.name]}
-                onChange={(e) => this.updateState(field.name, e.target.value)}
-              />
-            </FormGroup>
+            <Editor
+              readOnly={false}
+              wrapperClassName="demo-wrapper"
+              editorClassName="demo-editor"
+              editorState={this.state.editorState}
+              onEditorStateChange={this.onEditorStateChange}
+              onChange={(e) => this.updateState(field.name, draftToHtml(e))}
+              toolbar={{
+                options: [
+                  "inline",
+                  "blockType",
+                  "fontSize",
+                  "fontFamily",
+                  "list",
+                  "textAlign",
+                  "colorPicker",
+                  "link",
+                  "embedded",
+                  "emoji",
+                  "image",
+                  "remove",
+                  "history",
+                ],
+              }}
+            />
           </Col>
         );
 
@@ -711,12 +746,35 @@ class Edit extends Component {
     switch (field.type) {
       case "text":
         res = (
-          <Col md="12" key={field.name}>
+          <Col md="12" className="my-1" key={field.name}>
             <Label>
-              <strong>{this.translate(field.label)}</strong>
+              <strong>{field.label}</strong>
             </Label>
-
-            <p>{this.translate(data[field.name] ?? "None")}</p>
+            <Editor
+              readOnly={true}
+              wrapperClassName="demo-wrapper"
+              editorClassName="demo-editor"
+              editorState={this.state.editorState}
+              onEditorStateChange={this.onEditorStateChange}
+              onChange={(e) => this.updateState(field.name, draftToHtml(e))}
+              toolbar={{
+                options: [
+                  "inline",
+                  "blockType",
+                  "fontSize",
+                  "fontFamily",
+                  "list",
+                  "textAlign",
+                  "colorPicker",
+                  "link",
+                  "embedded",
+                  "emoji",
+                  "image",
+                  "remove",
+                  "history",
+                ],
+              }}
+            />
           </Col>
         );
         break;
@@ -867,6 +925,10 @@ class Edit extends Component {
     }
 
     return res;
+  };
+
+  onEditorStateChange = (editorState) => {
+    this.setState({ editorState });
   };
 }
 

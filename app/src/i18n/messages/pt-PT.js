@@ -113,8 +113,8 @@ export default {
     "Value voucher": "Senha de dinheiro",
     Money: "Dinheiro",
     "Commodity voucher": "Senha de bens",
-    "Non-food Items": "Bens não alimentares",
     NFI: "Bens não alimentares",
+    "Non-food Items": "Bens não alimentares",
     "Not relevant": "Irrelevante",
     FFA: "FFA",
     "School feeding": "Alimentação escolar",
@@ -222,7 +222,7 @@ export default {
     "Physical vulnerability": "Vulnerabilidade Física",
     Resources: "Recursos",
 
-    "Political issue": "Motivos Politicos",
+    // "Political issue": "Motivos Politicos",
     "Political reasons": "Motivos Politicos",
     Fraud: "Fráude",
     Corruption: "Corrupção",
