@@ -1,7 +1,35 @@
 import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
-from django.contrib.auth.models import AnonymousUser
+from accounts.models import CustomUser
+
+from notifications.models import Notification
+
+
+def notification_title(model):
+    switcher = {
+        'new_task': 'New Task',
+        'new_case': 'Case Forwarding',
+        'new_task_comment': 'New Task Comment',
+        'new_feedback': 'Case Feedback',
+        'new_article': 'New Article'
+    }
+
+    return switcher.get(model, None)
+
+
+def create_notification(scope, event):
+
+    creator = scope['user']
+
+    print(event['target'])
+    target = CustomUser.objects.get(id=int(event['target']))
+
+    notification = Notification.objects.create(title=notification_title(
+        event['model']),
+                                               created_by=creator,
+                                               user_target=target)
+    notification.save()
 
 
 class ChatConsumer(WebsocketConsumer):
@@ -27,8 +55,9 @@ class ChatConsumer(WebsocketConsumer):
         message = text_data_json['message']
         model = text_data_json['model']
         target = text_data_json['target']
-
         # Send message to room group
+        create_notification(self.scope, text_data_json)
+
         async_to_sync(self.channel_layer.group_send)(self.room_group_name, {
             'type': 'chat_message',
             'message': message,
@@ -40,9 +69,8 @@ class ChatConsumer(WebsocketConsumer):
     def chat_message(self, event):
         message = event['message']
         model = event['model']
-        target = event['target']
+        target = CustomUser.objects.get(id=event['target']).email
 
-        # Send message to WebSocket
         self.send(text_data=json.dumps({
             'message': message,
             'model': model,

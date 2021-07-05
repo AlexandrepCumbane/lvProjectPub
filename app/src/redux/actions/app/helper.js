@@ -94,6 +94,7 @@ const requestSingle = (dispatch) => {
       item.name !== "forwardcasetofocalpoint" &&
       item.name !== "task" &&
       item.name !== "lvform" &&
+      item.name !== "notification" &&
       item.name !== "article" &&
       item.name !== "agencypartner" &&
       item.name !== "agencyfocalpoint" &&

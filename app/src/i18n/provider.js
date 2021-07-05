@@ -18,11 +18,6 @@ const resources = {
     translation: messages_lan[LOCALES.PORTUGUESE],
   },
 };
-
-// const socketIo = new WebSocket(
-//   `${process.env.REACT_APP_API_URL}/ws/chat/looby`
-// );
-
 class IntlProviderWrapper extends React.Component {
   state = {
     locale: localStorage.getItem("lang") ?? LOCALES.PORTUGUESE,
@@ -34,7 +29,9 @@ class IntlProviderWrapper extends React.Component {
 
   appState = store.getState();
 
-  socketIo = new WebSocket(`${process.env.REACT_APP_WS_URL}chat/looby/?access_token=${this.appState.auth.login.userOauth?.access_token}`);
+  socketIo = new WebSocket(
+    `${process.env.REACT_APP_WS_URL}chat/looby/?access_token=${this.appState.auth.login.userOauth?.access_token}`
+  );
 
   setLanguage = (lang) => {
     localStorage.setItem("lang", lang);
@@ -56,21 +53,18 @@ class IntlProviderWrapper extends React.Component {
 
   componentDidMount() {
     this.askNotificationPermission();
-    // this.socketIo.
+
     this.socketIo.onopen = () => {
       // on connecting, do nothing but log it to the console
-      console.log("connected");
     };
 
     this.socketIo.onmessage = (evt) => {
-      console.log(evt);
-      // on receiving a message, add it to the list of messages
       const message = JSON.parse(evt.data);
-      // this.addMessage(message);
-      // console.log(message);
 
-      this.setEvent(message, true);
-      new Notification("Linha 1458", { body: "Your have new notification!" });
+      if (this.appState.auth.login.userOauth.profile.sub === message.target) {
+        this.setEvent(message, true);
+        new Notification("Linha 1458", { body: "Your have new notification!" });
+      }
     };
   }
 
@@ -103,8 +97,8 @@ class IntlProviderWrapper extends React.Component {
               locale: language,
               messages: messages_lan[language],
               resources,
-              // hasNewEvent,
-              // newEvent,
+              hasNewEvent,
+              newEvent,
             });
           },
           translate: (text) => {
