@@ -54,4 +54,4 @@ EXPOSE 8000
 
 # Run container code
 #CMD ["gunicorn", "-w 4", "-b 0.0.0.0:8000", "--chdir db", "caseproject.wsgi:application", "&", "sleep 10", "cd app", "yarn start"]
-CMD gunicorn -w 4 -b 0.0.0.0:8000 --chdir db caseproject.wsgi:application
+CMD gunicorn -w 4 -b 0.0.0.0:8000 --chdir db caseproject.asgi:application
