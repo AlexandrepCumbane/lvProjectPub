@@ -39,12 +39,21 @@ spec:
           command: ["/bin/sh", "-c"]
           args: ["python db/manage.py migrate 
                   && python db/manage.py collectstatic --noinput 
-                  && python /usr/local/bin/gunicorn -b 0.0.0.0:8000 --limit-request-line 0 --timeout 60 --limit-request-field_size 0 --chdir db caseproject.wsgi:application"]
+                  && python db/manage.py runserver 0.0.0.0:8000"]
+                  # && python /usr/local/bin/gunicorn -b 0.0.0.0:8000 --limit-request-line 0 --timeout 60 --limit-request-field_size 0 --chdir db caseproject.asgi:application"]
           ports:
             - name: http
               containerPort: 8000
               protocol: TCP
           env:
+            {{- if .Values.redis.enabled }}
+            - name: REDIS_URL
+              value: "redis://{{ template "redis.fullname" . }}-master:{{ .Values.redis.master.service.port }}"
+            - name: REDIS_HOST
+              value: {{ template "redis.fullname" . }}-master
+            - name: REDIS_PORT
+              value: "{{ .Values.redis.master.service.port }}"
+            {{- end }}
             {{- if .Values.extraEnv }}
             {{- range $key, $value := .Values.extraEnv }}
             - name: "{{ $key }}"
