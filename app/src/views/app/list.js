@@ -362,9 +362,9 @@ class List extends Component {
               filter: "customFilter",
               valueGetter: ({ data }) => {
                 if (item.name === "groups")
-                  return this.translate(data["groups_label"][0] ?? "None");
+                  return this.translate(data["groups_label"][0] ?? "Null");
 
-                return this.translate(data[`${item.name}_label`] ?? "None");
+                return this.translate(data[`${item.name}_label`] ?? "Null");
               },
               cellRendererFramework: ({ data }) => {
                 return renderStatusLabel(
@@ -384,9 +384,9 @@ class List extends Component {
               resizable: true,
               valueGetter: ({ data }) => {
                 if (item.name === "groups")
-                  return this.translate(data["groups_label"][0] ?? "None");
+                  return this.translate(data["groups_label"][0] ?? "Null");
                 return this.translate(
-                  data[`${item.name}_label`] ?? data[`${item.name}`] ?? "None"
+                  data[`${item.name}_label`] ?? data[`${item.name}`] ?? "Null"
                 );
               },
             };
@@ -470,7 +470,7 @@ class List extends Component {
               data[`${item.name}`] === undefined ||
               data[`${item.name}`] === null
             ) {
-              return this.translate("None");
+              return this.translate("Null");
             }
 
             return this.translate(data[`${item.name}`]);
@@ -534,7 +534,7 @@ class List extends Component {
                   filter: "customFilter",
                   valueGetter: ({ data }) => {
                     return this.translate(
-                      data["callcase"][`${item.name}_label`] ?? "None"
+                      data["callcase"][`${item.name}_label`] ?? "Null"
                     );
                   },
                   cellRendererFramework: ({ data }) => {
@@ -557,7 +557,7 @@ class List extends Component {
                     return this.translate(
                       data["callcase"][`${item.name}_label`] ??
                         data["callcase"][`${item.name}`] ??
-                        "None"
+                        "Null"
                     );
                   },
                 };
@@ -627,7 +627,7 @@ class List extends Component {
                   data["callcase"][`${item.name}`] === undefined ||
                   data["callcase"][`${item.name}`] === null
                 ) {
-                  return this.translate("None");
+                  return this.translate("Null");
                 }
 
                 return this.translate(data["callcase"][`${item.name}`]);

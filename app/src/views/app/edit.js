@@ -452,6 +452,7 @@ class Edit extends Component {
                   label={this.translate("Task")}
                   color="success"
                   lvform_id={data.id}
+                  lvform={data}
                   addMore={this.addMoreTasks}
                 />
                 <Modal
@@ -459,6 +460,7 @@ class Edit extends Component {
                   page="forwardcasetofocalpoint"
                   label={this.translate("Send")}
                   lvform_id={data["id"]}
+                  lvform={data}
                 />
                 <Modal
                   title={this.translate(`Add your comment`)}
@@ -466,6 +468,7 @@ class Edit extends Component {
                   label={this.translate("Comment")}
                   color="primary"
                   lvform_id={data["id"]}
+                  lvform={data}
                   addMore={this.addMoreComments}
                 />
               </>
@@ -482,6 +485,7 @@ class Edit extends Component {
               label={this.translate("Comment")}
               color="primary"
               lvform_id={data["id"]}
+              lvform={data}
             />
           </div>
         );
@@ -512,6 +516,7 @@ class Edit extends Component {
                   page="forwardinginstitution"
                   label={this.translate("Send")}
                   lvform_id={data["id"]}
+                  lvform={data}
                 />
                 <Modal
                   title={this.translate(`Add your feedback`)}
@@ -519,6 +524,7 @@ class Edit extends Component {
                   label={this.translate("Feedback")}
                   color="primary"
                   lvform_id={data["id"]}
+                  lvform={data}
                 />
               </>
             )}

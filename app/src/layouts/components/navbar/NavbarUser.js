@@ -265,7 +265,12 @@ class NavbarUser extends React.PureComponent {
                 <div
                   key={item?.id}
                   className="d-flex justify-content-between"
-                  onClick={() => this.handleSubmit(item.id)}
+                  onClick={() => {
+                    console.log(item);
+
+                    history.push("/AppView", { item: item });
+                    // this.handleSubmit(item.id);
+                  }}
                 >
                   <Media className="d-flex align-items-start">
                     {item.watched ? (

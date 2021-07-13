@@ -349,7 +349,7 @@ function Uploader(props) {
         )[0];
 
         if (field && field.type === "string" && field["wq:ForeignKey"]) {
-          if (key[1] === "None") return;
+          if (key[1] === "Null") return;
           const val = props.app_reducer.dropdowns[
             field["wq:ForeignKey"]
           ]?.filter((item) => item.label === key[1]);
@@ -380,7 +380,7 @@ function Uploader(props) {
             kObject[`${handleMapKey(key[0])}`] = ks[0][0];
           }
 
-          if (ks[0][0] === "None") {
+          if (ks[0][0] === "Null") {
             kObject[handleMapKey(key[0])] = "";
             kObject[`${handleMapKey(key[0])}_id`] = "";
             return;
@@ -418,7 +418,7 @@ function Uploader(props) {
             kObject[`${handleMapKey(key[0])}`] = item[key[0]];
           }
 
-          if (item[key[0]] === "None") {
+          if (item[key[0]] === "Null") {
             if (field) {
               if (field?.type === "int") {
                 kObject[handleMapKey(key[0])] = 0;

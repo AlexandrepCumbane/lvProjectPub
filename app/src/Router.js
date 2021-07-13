@@ -26,6 +26,8 @@ const Welcome = lazy(() => import("./views/pages/Welcome"));
 
 const AppCreate = lazy(() => import("./views/app/create"));
 
+const AppView = lazy(() => import("./views/app/view"));
+
 const Information = lazy(() => import("./views/information/Information"));
 
 const Reports = lazy(() => import("./views/reports/Reports"));
@@ -237,6 +239,12 @@ class AppRouter extends React.Component {
             path="/lvforms/new"
             component={(props) => (
               <AppCreate {...props} path="lvform" url="lvforms" />
+            )}
+          />
+          <AppRoute
+            path="/AppView/"
+            component={(props) => (
+              <AppView {...props} />
             )}
           />
           <AppRoute
