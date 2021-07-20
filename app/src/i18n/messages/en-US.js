@@ -50,6 +50,7 @@ export default {
     Male: "Male",
     No: "No",
     Select: "Select",
+    Lvform: "Case",
     "Start Date": "Start Data",
     "End Date": "End Date",
     "Number of attempts to reach the other person":
@@ -72,7 +73,6 @@ export default {
     "Full Name": " Full Name",
     Contact: "Contact",
     "Add New": "Add New",
-    Lvform: "Lvform",
     Age: "Age",
     Female: "Female",
     "Not specified": "Not specified",
