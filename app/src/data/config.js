@@ -467,7 +467,7 @@ export default {
             },
             {
               name: "NFI",
-              label: "Non-food Items",
+              label: "NFI",
             },
             {
               name: "Not relevant",
