@@ -24,6 +24,7 @@ import {
   requestForm,
   requestDropodowns,
   updateListLoad,
+  requestIndex,
 } from "../../redux/actions/app/actions";
 
 import {
@@ -38,30 +39,39 @@ import "../../assets/scss/pages/data-list.scss";
 
 class List extends Component {
   static contextType = IntlContext;
-  translate = this.context.translate;
+  translate ; //= this.context.translate
+  child; // = React.createRef();
 
-  state = {
-    pageTitle: this.translate("Pages"),
-    pageParent: this.translate("Lists & Forms"),
-    activePage: this.translate("Lists"),
-    items: [],
-    columnDefs: [],
-    show: false,
-    data: [],
-    page: "lvform",
-    isLoading: false,
-    hidden: true,
-    showSidebar: false,
-    sidebarData: {},
-    showModal: false,
-    socketIo: {},
-    recordId: 0,
-    message: "Do you want to delete that record?",
-  };
+  constructor(props, context) {
+    super(props, context);
+    this.child = React.createRef();
+    this.translate = context.translate;
+
+    this.state = {
+      pageTitle: this.translate("Pages"),
+      pageParent: this.translate("Lists & Forms"),
+      activePage: this.translate("Lists"),
+      items: [],
+      columnDefs: [],
+      show: false,
+      data: [],
+      page: "lvform",
+      isLoading: false,
+      hidden: true,
+      showSidebar: false,
+      sidebarData: {},
+      showModal: false,
+      socketIo: {},
+      recordId: 0,
+      message: "Do you want to delete that record?",
+    };
+  }
 
   // socketIo = new WebSocket(SOCKET_SERVER_URL);
 
   componentDidMount() {
+
+    console.log(this.child)
     this.formatFields();
     if (
       !this.props.app_reducer[this.props.path]?.list.length ||
@@ -92,6 +102,20 @@ class List extends Component {
     });
   };
 
+  handleSidebar = (value, prev) => {
+    console.log("Handle side: ", value);
+
+    let payload = value;
+    payload["name"] = this.props.path;
+    this.props.requestIndex(payload);
+
+    this.child.updateRow(payload);
+    this.setState({ showSidebar: this.props.showSidebar });
+
+    // this.setState({ showCallSidebar: false });
+    // this.setState({ showArticleView: false });
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -100,7 +124,7 @@ class List extends Component {
             <CaseEdit
               show={this.state.showSidebar}
               data={this.state.sidebarData}
-              handleSidebar={() => this.setState({ showSidebar: false })}
+              handleSidebar={this.handleSidebar}
             />
           </div>
         ) : (
@@ -136,6 +160,8 @@ class List extends Component {
           )}
           {this.state.show ? (
             <AgGridTable
+              // ref={this.child}
+              ref={instance => { this.child = instance; }}
               requestData={this.requestMore}
               requestParams={this.requestParams}
               requestMore={this.requestMore}
@@ -675,4 +701,5 @@ export default connect(mapStateToProps, {
   requestForm,
   requestDropodowns,
   updateListLoad,
+  requestIndex,
 })(List);

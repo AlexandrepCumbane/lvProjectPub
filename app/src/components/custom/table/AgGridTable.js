@@ -1,5 +1,7 @@
 import React from "react";
 import { AgGridReact } from "ag-grid-react";
+// import { AllCommunityModules } from '@ag-grid-community/all-modules';
+
 import classnames from "classnames";
 import {
   Edit,
@@ -69,7 +71,12 @@ class AggridTable extends React.Component {
       resizable: true,
       suppressMenu: true,
     },
+
+    // modules: AllCommunityModules,
     showArticleView: false,
+    getRowNodeId: function (data) {
+      return data.id;
+    },
     columnDefs: [
       {
         headerName: "First Name",
@@ -105,6 +112,9 @@ class AggridTable extends React.Component {
               <div className="justify-content-end">
                 <Button.Ripple
                   onClick={(e) => {
+                    let selectedData = params.data;
+                    selectedData["index"] = params.node.id;
+
                     this.setState({ selectedData: params.data });
 
                     if (this.props.tableType === "lvform") {
@@ -287,9 +297,11 @@ class AggridTable extends React.Component {
   };
 
   handleSidebar = (value, prev) => {
-    this.setState({ showSidebar: this.props.showSidebar });
-    this.setState({ showCallSidebar: false });
-    this.setState({ showArticleView: false });
+    console.log("Handle side: ", value);
+
+    // this.setState({ showSidebar: this.props.showSidebar });
+    // this.setState({ showCallSidebar: false });
+    // this.setState({ showArticleView: false });
   };
 
   toggleModal = () => {
@@ -297,6 +309,15 @@ class AggridTable extends React.Component {
       showTaskDialog: !prevState.showTaskDialog,
     }));
   };
+
+
+  updateRow = (row) => {
+    var rowNode = this.gridApi.getRowNode(row.id);
+    rowNode.setData(row);
+
+    console.log(rowNode)
+  };
+
 
   componentDidUpdate(previousProps, previousState) {
     if (this.state.gridReady) {
@@ -442,7 +463,8 @@ class AggridTable extends React.Component {
             <CaseEdit
               show={this.state.showSidebar}
               data={this.state.selectedData}
-              handleSidebar={this.handleSidebar}
+              // handleSidebar={this.handleSidebar}
+              handleSidebar={(d1, d2) => console.log(d1)}
             />
           ) : showCallSidebar ? (
             <></>
@@ -669,6 +691,8 @@ class AggridTable extends React.Component {
                         onColumnMoved={(params) =>
                           this.onColumnMoved(this.props.tableType, params)
                         }
+                        // modules={this.state.modules}
+                        getRowNodeId={this.state.getRowNodeId}
                         onPaginationChanged={() => this.onPaginationChanged()}
                         onSelectionChanged={this.onSelectionChanged.bind(this)}
                         components={{

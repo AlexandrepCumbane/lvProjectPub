@@ -132,7 +132,7 @@ class Edit extends Component {
           <X
             className="text-white"
             size={20}
-            onClick={() => handleSidebar(false, true)}
+            onClick={() => handleSidebar(this.state.data, true)}
           />
         </div>
         <PerfectScrollbar
@@ -159,7 +159,11 @@ class Edit extends Component {
         },
       })
       .then(({ data }) => {
+        let payload = data;
+        payload["index"] = this.props.data.index;
+
         this.initComponent(data);
+
         this.setState({ data, blocking: false });
       })
       .catch((error) => {
@@ -1102,8 +1106,12 @@ class Edit extends Component {
         .then(({ data }) => {
           this.notifySuccessBounce(data.id);
 
+          let payload = data;
+
+          payload["index"] = this.props.data.index;
+
           setTimeout(() => {
-            handleSidebar(false, true);
+            handleSidebar(payload, true);
           }, 1000);
         })
         .catch((error) => {
