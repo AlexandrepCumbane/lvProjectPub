@@ -136,7 +136,7 @@ export default {
     "Chronically patient": "Doente Crónico",
     None: "Nenhum(a)",
     Null: "Indefinido",
-
+    "Please wait":"Por favor aguarde",
     CCCM: "CCCM",
     Information: "Informação",
     Education: "Educação",

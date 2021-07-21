@@ -20,6 +20,8 @@ import { X, Check } from "react-feather";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import classnames from "classnames";
 
+import BlockUi from "react-block-ui";
+
 import {
   requestDropodowns,
   requestForm,
@@ -62,47 +64,32 @@ class Edit extends Component {
     isProcessing: false,
     casecomment_set: [],
     task_set: [],
+    data: {},
+    blocking: true,
   };
 
   componentDidMount() {
-    this.props.requestDropodowns();
-    const { form } = config.pages.lvform;
-
-    const { data } = this.props;
-
-    let formdata = new FormData();
-
-    this.setState({ casecomment_set: data.casecomment_set.reverse() ?? [] });
-    this.setState({ task_set: data.task_set.reverse() ?? [] });
-
-    form.forEach((item) => {
-      /**
-       * Add all children dropdowns fiels in a map
-       */
-      if (item["children"] && data[`${item.name}_id`]) {
-        this.updateChildrenList(item, data[`${item.name}_id`]);
-      }
-      if (data[item["wq:ForeignKey"] ? item.name + "_id" : item.name])
-        formdata.append(
-          item["wq:ForeignKey"] ? item.name + "_id" : item.name,
-          data[item["wq:ForeignKey"] ? item.name + "_id" : item.name]
-        );
-    });
-
-    formdata.append("id", data["id"]);
-
-    const { dropdowns } = this.props.app_reducer;
-    this.setState({ dropdowns, form: formdata });
+    this.getObjectValue();
   }
 
   render() {
     let { show, handleSidebar, data } = this.props;
 
     return (
-      <div
+      <BlockUi
         className={classnames("data-list-sidebar pb-1", {
           show: show,
         })}
+        tag="div"
+        loader={
+          <div className="d-flex flex-column row justify-content-center align-items-center text-center">
+            <Spinner color="white" />
+            <span className="text-white">
+              <strong>{this.translate("Please wait")} ...</strong>
+            </span>
+          </div>
+        }
+        blocking={this.state.blocking}
       >
         <div className="data-list-sidebar-header bg-primary p-2 d-flex justify-content-between">
           <h4 className="text-white">
@@ -157,9 +144,59 @@ class Edit extends Component {
         <div className="data-list-sidebar-footer px-2 d-flex justify-content-start align-items-center mt-1 mb-1">
           {this.renderActions()}
         </div>
-      </div>
+      </BlockUi>
     );
   }
+
+  getObjectValue = () => {
+    const { userOauth } = this.props.state.auth.login;
+
+    axios
+      .get(`lvforms/${this.props.data.id}.json/`, {
+        headers: {
+          "X-CSRFTOKEN": this.props.state.auth.login.csrftoken,
+          Authorization: `Bearer ${userOauth.access_token}`,
+        },
+      })
+      .then(({ data }) => {
+        this.initComponent(data);
+        this.setState({ data, blocking: false });
+      })
+      .catch((error) => {
+        const { data } = this.props;
+        this.initComponent(data);
+        this.setState({ data, blocking: false });
+      });
+  };
+
+  initComponent = (data) => {
+    this.props.requestDropodowns();
+    const { form } = config.pages.lvform;
+
+    let formdata = new FormData();
+
+    this.setState({ casecomment_set: data.casecomment_set.reverse() ?? [] });
+    this.setState({ task_set: data.task_set.reverse() ?? [] });
+
+    form.forEach((item) => {
+      /**
+       * Add all children dropdowns fiels in a map
+       */
+      if (item["children"] && data[`${item.name}_id`]) {
+        this.updateChildrenList(item, data[`${item.name}_id`]);
+      }
+      if (data[item["wq:ForeignKey"] ? item.name + "_id" : item.name])
+        formdata.append(
+          item["wq:ForeignKey"] ? item.name + "_id" : item.name,
+          data[item["wq:ForeignKey"] ? item.name + "_id" : item.name]
+        );
+    });
+
+    formdata.append("id", data["id"]);
+
+    const { dropdowns } = this.props.app_reducer;
+    this.setState({ dropdowns, form: formdata });
+  };
 
   /**
    * get checkbox field value from a formdata object
@@ -651,7 +688,7 @@ class Edit extends Component {
    */
   renderSingleInput = (field) => {
     let res = <></>;
-    let { data } = this.props;
+    let { data } = this.state;
 
     if (
       field.name === "case_number" ||
@@ -1085,7 +1122,7 @@ class Edit extends Component {
    */
   renderSingleRead = (field) => {
     let res = <></>;
-    let { data } = this.props;
+    let { data } = this.state;
 
     if (field.name === "case_number") {
       return <span key="case_number" />;
