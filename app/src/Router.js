@@ -8,6 +8,7 @@ import { ContextLayout } from "./utility/context/Layout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/scss/plugins/extensions/toastr.scss";
+import "./assets/scss/plugins/extensions/react-block-ui.scss";
 
 import { requestUpdateUser } from "./redux/actions/auth/loginActions";
 import AppListView from "./views/app/list";
