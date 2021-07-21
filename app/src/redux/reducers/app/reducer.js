@@ -36,6 +36,17 @@ export const app_reducer = (state = initialState, action) => {
 
       return stat;
     }
+    case "INDEX_SUCCESS": {
+      let stat = {
+        ...state,
+      };
+
+      stat[action.data.key]['list'] = action.data.value;
+
+      console.log(stat)
+
+      return stat;
+    }
     case "FORM_FAILED": {
       return {
         ...state,

@@ -40,7 +40,7 @@ export const handleForm = (dispatch, payload) =>
             Authorization: `Bearer ${userOauth?.access_token}`,
           },
         })
-        .then(({ data }) => { 
+        .then(({ data }) => {
           let value = data;
           value["list"] = appList.concat(data.list);
           dispatch({
@@ -151,3 +151,19 @@ export const handleDropdowns = (dispatch) =>
 
     resolve();
   });
+
+export const updateIndex = (dispatch, payload) => {
+  const appState = store.getState();
+  let appList = appState.app.app_reducer[payload.name].list;
+  appList[payload.index] = payload;
+
+  console.log(appList)
+
+  dispatch({
+    type: "INDEX_SUCCESS",
+    data: {
+      key: payload.name,
+      value: appList,
+    },
+  });
+};
