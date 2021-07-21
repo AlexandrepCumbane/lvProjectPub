@@ -21,7 +21,6 @@ import config from "../../data/config";
 import {
   Button,
   Card,
-  CardBody,
   Row,
   Col,
   FormGroup,
@@ -67,11 +66,16 @@ class Create extends React.Component {
     const { userOauth } = this.props.state.auth.login;
 
     axios
-      .get(`${this.getPath()}s/?case_number=${this.props.location.state.item.model_id}`, {
-        headers: {
-          Authorization: `Bearer ${userOauth.access_token}`,
-        },
-      })
+      .get(
+        `${this.getPath()}s/?case_number=${
+          this.props.location.state.item.model_id
+        }`,
+        {
+          headers: {
+            Authorization: `Bearer ${userOauth.access_token}`,
+          },
+        }
+      )
       .then((response) => {
         this.setState({ currentData: response.data });
       });
@@ -86,6 +90,9 @@ class Create extends React.Component {
         return "task";
       case "New Article":
         return "article";
+
+      default:
+        path = "lvform";
     }
     return path;
   }
