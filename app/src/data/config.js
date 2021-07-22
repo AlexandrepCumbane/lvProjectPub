@@ -162,8 +162,7 @@ export default {
         {
           name: "groups",
           label: "Groups",
-          hint:
-            "The groups this user belongs to. A user will get all permissions granted to each of their groups.",
+          hint: "The groups this user belongs to. A user will get all permissions granted to each of their groups.",
           type: "string",
           "wq:ForeignKey": "group",
         },
@@ -1555,6 +1554,25 @@ export default {
       verbose_name: "article",
       verbose_name_plural: "articles",
     },
+    articlefile: {
+      name: "articlefile",
+      url: "articlefiles",
+      list: true,
+      form: [
+        {
+          name: "title",
+          label: "Title",
+          type: "string",
+        },
+        {
+          name: "file",
+          label: "File",
+          type: "binary",
+        },
+      ],
+      verbose_name: "article file",
+      verbose_name_plural: "article files",
+    },
     category: {
       name: "category",
       url: "categorys",
@@ -1796,8 +1814,7 @@ export default {
                     {
                       name: "groups",
                       label: "Groups",
-                      hint:
-                        "The groups this user belongs to. A user will get all permissions granted to each of their groups.",
+                      hint: "The groups this user belongs to. A user will get all permissions granted to each of their groups.",
                       type: "string",
                     },
                     {
@@ -1854,8 +1871,7 @@ export default {
                     {
                       name: "groups",
                       label: "Groups",
-                      hint:
-                        "The groups this user belongs to. A user will get all permissions granted to each of their groups.",
+                      hint: "The groups this user belongs to. A user will get all permissions granted to each of their groups.",
                       type: "string",
                     },
                     {

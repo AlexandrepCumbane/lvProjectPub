@@ -74,6 +74,7 @@ class Create extends React.Component {
 
     formdata.append("lvform_id", this.props.lvform_id);
     formdata.append("task_id", this.props.task_id);
+    formdata.append("article_id", this.props.lvform_id);
 
     this.setState({ form: formdata, modal: this.props.modal ?? false });
     const { dropdowns } = this.props.app_reducer;
@@ -188,6 +189,7 @@ class Create extends React.Component {
 
     if (
       field.name === "lvform" ||
+      field.name === "article" ||
       field.name === "task" ||
       field.name === "has_feedback" ||
       field.name === "partner_feedback" ||
@@ -221,32 +223,69 @@ class Create extends React.Component {
         );
 
         break;
-      case "string":
-        res = (
-          <Col md="12" key={field.name}>
-            <Label>{this.translate(field.label)}</Label>
 
+      case "binary":
+        res = (
+          <Col md="6" key={field.name}>
+            <Label>{this.translate(field.label)}</Label>
             <FormGroup className="form-label-group position-relative has-icon-left">
-              <Select
-                className="rounded-0"
+              <Input
+                type="file"
+                className="square"
+                placeholder={this.translate(field.label)}
                 onChange={(e) => {
-                  this.updateState(`${field.name}_id`, e.value);
-                  if (field["children"]) {
-                    this.updateChildrenList(field, e);
-                  }
+                  this.updateState(field.name, e.target.files[0]);
                 }}
-                components={this.animatedComponents}
-                options={this.multipleSelect(
-                  field["has_parent"] === undefined
-                    ? this.getForeignFieldDropdown(field["wq:ForeignKey"])
-                    : this.state.childrens[field["wq:ForeignKey"]] ?? []
-                )}
               />
             </FormGroup>
           </Col>
         );
+        break;
+
+      case "string":
+        if (field["wq:ForeignKey"]) {
+          res = (
+            <Col md="12" key={field.name}>
+              <Label>{this.translate(field.label)}</Label>
+
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <Select
+                  className="rounded-0"
+                  onChange={(e) => {
+                    this.updateState(`${field.name}_id`, e.value);
+                    if (field["children"]) {
+                      this.updateChildrenList(field, e);
+                    }
+                  }}
+                  components={this.animatedComponents}
+                  options={this.multipleSelect(
+                    field["has_parent"] === undefined
+                      ? this.getForeignFieldDropdown(field["wq:ForeignKey"])
+                      : this.state.childrens[field["wq:ForeignKey"]] ?? []
+                  )}
+                />
+              </FormGroup>
+            </Col>
+          );
+        } else {
+          res = (
+            <Col md="12" key={field.name}>
+              <Label>{this.translate(field.label)}</Label>
+
+              <FormGroup className="form-label-group position-relative has-icon-left">
+                <Input
+                  type="text"
+                  className="square"
+                  placeholder={this.translate(field.label)}
+                  onChange={(e) => this.updateState(field.name, e.target.value)}
+                />
+              </FormGroup>
+            </Col>
+          );
+        }
 
         break;
+
       case "date":
         res = (
           <Col md="6" key={field.name}>
@@ -459,7 +498,7 @@ class Create extends React.Component {
           this.notifySuccessBounce(data.id);
           this.setState({ isLoading: false });
 
-          this.filterNotificationAction(data)
+          this.filterNotificationAction(data);
           if (this.props.addMore) {
             this.props.addMore(data);
           }

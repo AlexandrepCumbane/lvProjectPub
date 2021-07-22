@@ -1,5 +1,6 @@
+import uuid
+
 from accounts.models import ClusterSector
-from lv_form.models import LvForm
 from django.db import models
 from django.conf import settings
 
@@ -7,9 +8,11 @@ User = settings.AUTH_USER_MODEL
 
 
 class Category(models.Model):
-    name = models.CharField(
-        max_length=255, blank=True, verbose_name="Name", help_text="Name", null=True
-    )
+    name = models.CharField(max_length=255,
+                            blank=True,
+                            verbose_name="Name",
+                            help_text="Name",
+                            null=True)
 
     def __str__(self) -> str:
         return self.name
@@ -18,9 +21,9 @@ class Category(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=250, unique=True)
     text = models.TextField(default="")
-    category = models.ForeignKey(
-        ClusterSector, on_delete=models.CASCADE, related_name="posts"
-    )
+    category = models.ForeignKey(ClusterSector,
+                                 on_delete=models.CASCADE,
+                                 related_name="posts")
 
     language = models.CharField(
         choices=(("pt", "Portuguese"), ("en", "English")),
@@ -53,14 +56,28 @@ class Article(models.Model):
     external_link = models.BooleanField(default=False)
 
     updated_at = models.DateTimeField(auto_now=True)
-    updated_by = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, related_name="post_editor"
-    )
+    updated_by = models.ForeignKey(User,
+                                   on_delete=models.SET_NULL,
+                                   null=True,
+                                   related_name="post_editor")
 
     created_at = models.DateField(auto_now_add=True)
-    created_by = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="post_author"
-    )
+    created_by = models.ForeignKey(User,
+                                   on_delete=models.CASCADE,
+                                   related_name="post_author")
 
+    def __str__(self) -> str:
+        return self.title
+
+
+class ArticleFile(models.Model):
+    title = models.CharField(max_length=250,  null=True, blank=True)
+    file = models.FileField(upload_to="documents", null=True, blank=True)
+    article = models.ForeignKey(
+        Article,
+        on_delete=models.CASCADE,
+    )
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    
     def __str__(self) -> str:
         return self.title

@@ -297,11 +297,11 @@ class AggridTable extends React.Component {
   };
 
   handleSidebar = (value, prev) => {
-    console.log("Handle side: ", value);
+    // console.log("Handle side: ", value);
 
-    // this.setState({ showSidebar: this.props.showSidebar });
-    // this.setState({ showCallSidebar: false });
-    // this.setState({ showArticleView: false });
+    this.setState({ showSidebar: this.props.showSidebar });
+    this.setState({ showCallSidebar: false });
+    this.setState({ showArticleView: false });
   };
 
   toggleModal = () => {
@@ -463,8 +463,8 @@ class AggridTable extends React.Component {
             <CaseEdit
               show={this.state.showSidebar}
               data={this.state.selectedData}
-              // handleSidebar={this.handleSidebar}
-              handleSidebar={(d1, d2) => console.log(d1)}
+              handleSidebar={this.handleSidebar}
+              // handleSidebar={(d1, d2) => console.log(d1)}
             />
           ) : showCallSidebar ? (
             <></>

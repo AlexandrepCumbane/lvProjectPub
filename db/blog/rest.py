@@ -1,5 +1,5 @@
 from wq.db import rest
-from .models import Article, Category
+from .models import Article, ArticleFile, Category
 from .serializers import ArticleSerializer
 from .views import ArticleViewSet
 rest.router.register_model(
@@ -15,4 +15,8 @@ rest.router.register_model(
     # serializer=ProvinceSerializer,
     fields="__all__",
     # cache="all",
+)
+rest.router.register_model(
+    ArticleFile,
+    fields="__all__",
 )

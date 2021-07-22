@@ -36,6 +36,7 @@ import config from "../../data/config";
 
 import Checkbox from "../../components/@vuexy/checkbox/CheckboxesVuexy";
 
+import Modal from "../app/modal/create";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "../../assets/scss/plugins/extensions/editor.scss";
 
@@ -72,6 +73,8 @@ class Edit extends Component {
     const { form } = config.pages.article;
 
     const { data } = this.props;
+
+    console.log(data);
 
     let formdata = new FormData();
 
@@ -175,7 +178,7 @@ class Edit extends Component {
           <X
             className="text-white"
             size={20}
-            onClick={() => handleSidebar(false, true)}
+            onClick={() => handleSidebar(this.props.data, true)}
           />
         </div>
         <PerfectScrollbar
@@ -226,6 +229,23 @@ class Edit extends Component {
               )}
               {this.translate(this.state.edit_status ? "Update" : "Edit")}
             </Button>
+            {/* <Button
+              color="primary"
+              className="mr-1 square"
+              onClick={() => this.handleSubmit()}
+            >
+              {this.translate("Add File")}
+            </Button> */}
+
+            <Modal
+              title={this.translate(`New File`)}
+              page="articlefile"
+              label={this.translate("Add File")}
+              color="primary"
+              lvform_id={this.props.data.id}
+              lvform={this.props.data}
+              addMore={this.addMoreTasks}
+            />
 
             {this.state.edit_status ? (
               <></>
@@ -295,6 +315,8 @@ class Edit extends Component {
             ? this.renderSingleInput(field)
             : this.renderSingleRead(field)
         )}
+
+        {this.state.edit_status ? <></> : this.renderFiles()}
       </Row>
     );
   };
@@ -686,7 +708,7 @@ class Edit extends Component {
           if (this.props.updateLoadMore) {
             this.props.updateLoadMore();
           }
-          handleSidebar(false, true);
+          handleSidebar(this.props.data, true);
         }, 1000);
       })
       .catch((error) => {
@@ -723,7 +745,7 @@ class Edit extends Component {
             if (this.props.updateLoadMore) {
               this.props.updateLoadMore();
             }
-            handleSidebar(false, true);
+            handleSidebar(data, true);
           }, 1000);
         })
         .catch((error) => {
@@ -778,31 +800,7 @@ class Edit extends Component {
           </Col>
         );
         break;
-      case "binary":
-        res = (
-          <Col md="6" key={field.name}>
-            <Label>
-              <strong>{this.translate(field.label)}</strong>
-            </Label>
-            <br />
-            <Button.Ripple
-              color="flat-primary"
-              onClick={() =>
-                data[field.name]
-                  ? window.location.replace(data[field.name])
-                  : {}
-              }
-            >
-              <Cloud size={14} />
-              <span className="align-middle ml-25">
-                {data[field.name]
-                  ? this.translate("Click here to download file")
-                  : this.translate("No file uploaded")}
-              </span>
-            </Button.Ripple>
-          </Col>
-        );
-        break;
+
       case "string":
         if (field["wq:ForeignKey"]) {
           res = (
@@ -927,8 +925,70 @@ class Edit extends Component {
     return res;
   };
 
+  renderFiles = () => {
+    let res = <></>;
+    let articles = <></>;
+    if (this.props.data.file) {
+      res = (
+        <Col md="12">
+          <Button.Ripple
+            className="rounded-0"
+            color="flat-primary"
+            onClick={() =>
+              this.props.data.file
+                ? window.open(
+                    this.props.data.file,
+                    "_blank",
+                    "toolbar=0,location=0,menubar=0"
+                  )
+                : {}
+            }
+          >
+            <Cloud size={14} />
+            <span className="align-middle ml-25">{this.props.data.file}</span>
+          </Button.Ripple>
+        </Col>
+      );
+    }
+
+    articles = this.props.data?.articlefile_set?.map((item) => (
+      <Col md="12" key={item.uuid}>
+        <Button.Ripple
+          className="rounded-0"
+          color="flat-primary"
+          onClick={() =>
+            item.file
+              ? window.open(
+                  item.file,
+                  "_blank",
+                  "toolbar=0,location=0,menubar=0"
+                )
+              : {}
+          }
+        >
+          <Cloud size={14} />
+          <span className="align-middle ml-25">
+            {this.translate(item.title ?? this.getFilename(item.file))}
+          </span>
+        </Button.Ripple>
+      </Col>
+    ));
+
+    return (
+      <>
+        {res}
+
+        {articles}
+      </>
+    );
+  };
+
   onEditorStateChange = (editorState) => {
     this.setState({ editorState });
+  };
+
+  getFilename = (url) => {
+    return url.substring(url.lastIndexOf("/") + 1);
   };
 }
 

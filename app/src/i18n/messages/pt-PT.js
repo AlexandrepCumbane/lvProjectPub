@@ -87,6 +87,7 @@ export default {
     "Add New": "Adicionar novo",
     Yes: "Sim",
     No: "Não",
+    "Add File": "Adicionar Arquivo",
     Select: "Seleccionar",
 
     _comment: "_____ Case tipology Section _____",
@@ -136,7 +137,7 @@ export default {
     "Chronically patient": "Doente Crónico",
     None: "Nenhum(a)",
     Null: "Indefinido",
-    "Please wait":"Por favor aguarde",
+    "Please wait": "Por favor aguarde",
     CCCM: "CCCM",
     Information: "Informação",
     Education: "Educação",
