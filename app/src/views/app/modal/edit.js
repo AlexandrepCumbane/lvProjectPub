@@ -55,6 +55,7 @@ class Edit extends React.Component {
   componentDidMount() {
     const { form } = config.pages[this.props.page];
     const { data } = this.props;
+    
     this.props.requestDropodowns();
     let formdata = new FormData();
 
@@ -293,10 +294,11 @@ class Edit extends React.Component {
 
     if (
       field.name === "lvform" ||
-      // field.name === "cluster_agency" ||
+      field.name === "cluster_agency" ||
       field.name === "cluster_region" ||
-      field.name === "referall_to"
-      // field.name === "cluster_sector"
+      field.name === "partners" ||
+      field.name === "referall_to" ||
+      field.name === "cluster_sector"
     ) {
       return <span key={field.name} />;
     }
@@ -439,8 +441,7 @@ class Edit extends React.Component {
                 disabled={
                   (this.props.user === "operator" &&
                     field.name === "start_date") ||
-                  (this.props.user === "operator" &&
-                    field.name === "end_date")
+                  (this.props.user === "operator" && field.name === "end_date")
                 }
                 placeholder={this.translate(field.label)}
                 onChange={(e) => this.updateState(field.name, e.target.value)}
