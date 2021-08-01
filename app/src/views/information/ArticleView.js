@@ -330,7 +330,7 @@ class Edit extends Component {
         res = (
           <Col md="12" className="my-1" key={field.name}>
             <Label>
-              <strong>{field.label}</strong>
+              <strong>{this.translate(field.label)}</strong>
             </Label>
             <Editor
               readOnly={false}

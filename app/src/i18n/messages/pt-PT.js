@@ -40,7 +40,7 @@ export default {
     Vulnerability: "Vulnerabilidade",
     "Call Notes": "Notas da Chamada",
     "Call Solution": "Solução da Chamada",
-    "Start Date": "Date de Inicio",
+    "Start Date": "Data de Inicio",
     "End Date": "Data de Termino",
     "Number of attempts to reach the other person":
       "Número de tentativas para entrar em contato com a outra pessoa",
@@ -191,12 +191,12 @@ export default {
     GBV: "Violência Baseada no Gênero",
     "Gender-based Violence": "Violência Baseada no Gênero",
     Resilience: "Resiliência",
-
+    "Quantity of mosquito nets": "Quantidade de redes mosquiteiras",
     Entitlement: "Direito de Quantidade a Receber",
     "Distribution timing": "Horario de Distribuição",
     "Duration of assistance": "Duração da Assistência",
-    "Use of personal data - who, what, how":
-      "Uso de Dados Pessoais - Quem, o Quê, Como",
+    "Use of personal data":
+      "Uso de Dados Pessoais",
     "Beneficiary card": "Carta de Apoio",
     "FFA Activity": "FFA Actividades",
     "Targeting criteria": "Critérios de Seleção",
@@ -214,6 +214,7 @@ export default {
     "Assistance card not working": "O Cartão de Apoio não Funciona",
     "Flood assistance": "Assistência a Inundações",
     "Lost card": "Perda de Cartão de Apoio",
+    "Loss of card/phone": "Perda de Cartão/Telefon",
     "Update HH, personal details": "Atualização de Endereço, Dados Pessoais",
     "Delete personal information": "Eliminar Dados Pessoais",
 
