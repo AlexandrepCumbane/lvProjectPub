@@ -9,7 +9,7 @@ from .serializers import NotificationSerializer
 
 
 class NotificationViewSet(ModelViewSet):
-    queryset = Notification.objects.all().order_by('watched', '-id')
+    queryset = Notification.objects.filter(watched=False).order_by('-id')
     serializer_class = NotificationSerializer
 
     def list(self, request, *args, **kwargs):

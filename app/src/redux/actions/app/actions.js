@@ -1,4 +1,4 @@
-import { updateIndex, handleForm, handleDropdowns } from "./helper";
+import { updateIndex, handleForm, handleDropdowns, addCase } from "./helper";
 
 export const requestForm = (payload) => {
   return (dispatch) => handleForm(dispatch, payload);
@@ -10,6 +10,10 @@ export const requestIndex = (payload) => {
 
 export const requestDropodowns = (payload) => {
   return (dispatch) => handleDropdowns(dispatch);
+};
+
+export const requestAddCase = (payload) => {
+  return (dispatch) => addCase(dispatch, payload);
 };
 
 export const updateListLoad = (payload) => {

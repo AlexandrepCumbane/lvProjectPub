@@ -206,6 +206,12 @@ class LvFormViewSet(ModelViewSet):
         serializer = self.serializer_class(page, many=True)
         return self.get_paginated_response(serializer.data)
 
+    @action(detail=True, methods=['get'])
+    def search_case(self, request, *args, **kwargs):
+        instance = self.queryset.get(case_number=request.GET['case_number'])
+        serializer = self.serializer_class(instance)
+        return Response(serializer.data)
+
     @action(detail=True, methods=['post'])
     def import_cases(self, request, *args, **kwargs):
         template_cases = request.data

@@ -32,8 +32,8 @@ export const handleForm = (dispatch, payload) =>
     }
 
     if (hasPer) {
-      if (payload.has_params) url = `${url}&limit=250`;
-      else if (!payload.next) url = `${url}/?limit=250`;
+      if (payload.has_params) url = `${url}&limit=50`;
+      else if (!payload.next) url = `${url}/?limit=50`;
       axios
         .get(`${url}`, {
           headers: {
@@ -155,9 +155,8 @@ export const handleDropdowns = (dispatch) =>
 export const updateIndex = (dispatch, payload) => {
   const appState = store.getState();
   let appList = appState.app.app_reducer[payload.name].list;
+  console.log(payload)
   appList[payload.index] = payload;
-
-  console.log(appList)
 
   dispatch({
     type: "INDEX_SUCCESS",
@@ -167,3 +166,38 @@ export const updateIndex = (dispatch, payload) => {
     },
   });
 };
+
+export const addCase = (dispatch, payload) =>
+  new Promise((resolve, reject) => {
+    const appState = store.getState();
+
+    const { userOauth } = appState.auth.login;
+    console.log(payload)
+    let appList = appState.app.app_reducer[payload.name].list;
+
+    axios
+      .get(`lvforms/0/search_case.json?case_number=${payload.case_number}`, {
+        headers: {
+          Authorization: `Bearer ${userOauth?.access_token}`,
+        },
+      })
+      .then(({ data }) => {
+        let value = data;
+
+        const index = appList.length;
+
+        appList[index] = value;
+        console.log(appList)
+        dispatch({
+          type: "INDEX_SUCCESS",
+          data: {
+            key: payload.name,
+            value: appList,
+          },
+        });
+        resolve();
+      })
+      .catch(({ response }) => {
+        resolve();
+      });
+  });

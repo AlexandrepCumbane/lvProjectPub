@@ -1,5 +1,6 @@
 import React from "react";
 import { AgGridReact } from "ag-grid-react";
+import { connect } from "react-redux";
 // import { AllCommunityModules } from '@ag-grid-community/all-modules';
 
 import classnames from "classnames";
@@ -61,6 +62,7 @@ class AggridTable extends React.Component {
     getPageSize: "",
     selectedData: {},
     modalForm: "",
+    loading: false,
     page: "",
     editCase: false,
     showTable: false,
@@ -75,7 +77,7 @@ class AggridTable extends React.Component {
     // modules: AllCommunityModules,
     showArticleView: false,
     getRowNodeId: function (data) {
-      return data.id;
+      return data.label;
     },
     columnDefs: [
       {
@@ -113,8 +115,8 @@ class AggridTable extends React.Component {
                 <Button.Ripple
                   onClick={(e) => {
                     let selectedData = params.data;
-                    selectedData["index"] = params.node.id;
 
+                    selectedData["index"] = params.rowIndex;
                     this.setState({ selectedData: params.data });
 
                     if (this.props.tableType === "lvform") {
@@ -286,6 +288,22 @@ class AggridTable extends React.Component {
     this.gridApi.setQuickFilter(val);
   };
 
+  requestNode = (val) => {
+    if (!this.gridApi.getRowNode(val) && val !== "" && !this.state.loading) {
+      this.setState({ loading: true });
+      this.props
+        .searchCase({
+          name: this.props.tableType,
+          case_number: val,
+        })
+        .then(() => {
+          this.gridApi.setRowData(this.props.data);
+          this.setState({ loading: false });
+        });
+      this.setState({ loading: false });
+    }
+  };
+
   filterSize = (val) => {
     if (this.gridApi) {
       this.gridApi.paginationSetPageSize(Number(val));
@@ -297,8 +315,6 @@ class AggridTable extends React.Component {
   };
 
   handleSidebar = (value, prev) => {
-    // console.log("Handle side: ", value);
-
     this.setState({ showSidebar: this.props.showSidebar });
     this.setState({ showCallSidebar: false });
     this.setState({ showArticleView: false });
@@ -310,14 +326,10 @@ class AggridTable extends React.Component {
     }));
   };
 
-
   updateRow = (row) => {
-    var rowNode = this.gridApi.getRowNode(row.id);
+    var rowNode = this.gridApi.getRowNode(row.label);
     rowNode.setData(row);
-
-    console.log(rowNode)
   };
-
 
   componentDidUpdate(previousProps, previousState) {
     if (this.state.gridReady) {
@@ -361,7 +373,7 @@ class AggridTable extends React.Component {
       if (node.isSelected()) selectedCount += 1;
     });
 
-    if (!this.props.loading)
+    if (!this.props.loading || !this.props.loading)
       document.querySelector("#selectedRows").innerHTML = selectedCount ?? 0;
   };
 
@@ -464,7 +476,6 @@ class AggridTable extends React.Component {
               show={this.state.showSidebar}
               data={this.state.selectedData}
               handleSidebar={this.handleSidebar}
-              // handleSidebar={(d1, d2) => console.log(d1)}
             />
           ) : showCallSidebar ? (
             <></>
@@ -582,6 +593,7 @@ class AggridTable extends React.Component {
                         className="rounded-0"
                         onChange={(e) => this.updateSearchQuery(e.target.value)}
                         value={this.state.value}
+                        onBlur={(e) => this.requestNode(e.target.value)}
                       />
                     </div>
 

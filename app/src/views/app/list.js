@@ -25,6 +25,7 @@ import {
   requestDropodowns,
   updateListLoad,
   requestIndex,
+  requestAddCase,
 } from "../../redux/actions/app/actions";
 
 import {
@@ -39,19 +40,24 @@ import "../../assets/scss/pages/data-list.scss";
 
 class List extends Component {
   static contextType = IntlContext;
-  translate ; //= this.context.translate
-  child; // = React.createRef();
+  translate; //= this.context.translate
+  // child; // = React.createRef();
 
   constructor(props, context) {
     super(props, context);
     this.child = React.createRef();
     this.translate = context.translate;
 
+    this.setChild = (ref) => {
+      this.child = ref;
+    };
+
     this.state = {
       pageTitle: this.translate("Pages"),
       pageParent: this.translate("Lists & Forms"),
       activePage: this.translate("Lists"),
       items: [],
+      child: React.createRef(),
       columnDefs: [],
       show: false,
       data: [],
@@ -70,8 +76,6 @@ class List extends Component {
   // socketIo = new WebSocket(SOCKET_SERVER_URL);
 
   componentDidMount() {
-
-    console.log(this.child)
     this.formatFields();
     if (
       !this.props.app_reducer[this.props.path]?.list.length ||
@@ -88,13 +92,6 @@ class List extends Component {
     }
   }
 
-  componentDidUpdate() {
-    // // console.log(this.getEvent())
-    // if (this.context.getEvent().hasNewEvent) {
-    //   alert("Nova mensagem");
-    // }
-  }
-
   handleShowCaseSidebar = (data) => {
     this.setState({
       sidebarData: data,
@@ -103,17 +100,12 @@ class List extends Component {
   };
 
   handleSidebar = (value, prev) => {
-    console.log("Handle side: ", value);
-
     let payload = value;
     payload["name"] = this.props.path;
     this.props.requestIndex(payload);
 
     this.child.updateRow(payload);
     this.setState({ showSidebar: this.props.showSidebar });
-
-    // this.setState({ showCallSidebar: false });
-    // this.setState({ showArticleView: false });
   };
 
   render() {
@@ -130,7 +122,7 @@ class List extends Component {
         ) : (
           <></>
         )}
-        <div>
+        <div onClick={() => console.log(this.child)}>
           <Breadcrumbs
             breadCrumbItems={
               this.props.hasNew
@@ -161,7 +153,10 @@ class List extends Component {
           {this.state.show ? (
             <AgGridTable
               // ref={this.child}
-              ref={instance => { this.child = instance; }}
+              ref={(instance) => {
+                this.child = instance;
+              }}
+              // ref={this.setChild}
               requestData={this.requestMore}
               requestParams={this.requestParams}
               requestMore={this.requestMore}
@@ -176,6 +171,7 @@ class List extends Component {
               deleteAction={(id) => {
                 this.setState({ recordId: id, showModal: true });
               }}
+              searchCase={this.requestAddCase}
             />
           ) : (
             <></>
@@ -226,6 +222,27 @@ class List extends Component {
           return true;
         else return false;
       });
+  };
+
+  /**
+   * Requests a a data by search field
+   *
+   * @param {*} payload
+   * @returns
+   */
+  requestAddCase = (payload) => {
+    return this.props.requestAddCase(payload).then(() => {
+      this.setState({
+        data:
+          this.props.app_reducer[this.props.name ?? this.props.path]?.list ??
+          [],
+        page: this.props.path,
+        pageTitle: `${this.props.title}`,
+        isLoading: false,
+      });
+
+      console.log("`1");
+    });
   };
 
   /**
@@ -702,4 +719,5 @@ export default connect(mapStateToProps, {
   requestDropodowns,
   updateListLoad,
   requestIndex,
+  requestAddCase,
 })(List);

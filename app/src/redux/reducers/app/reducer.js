@@ -41,9 +41,7 @@ export const app_reducer = (state = initialState, action) => {
         ...state,
       };
 
-      stat[action.data.key]['list'] = action.data.value;
-
-      console.log(stat)
+      stat[action.data.key]["list"] = action.data.value;
 
       return stat;
     }

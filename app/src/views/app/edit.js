@@ -1030,8 +1030,6 @@ class Edit extends Component {
           -1
         );
 
-        console.log("Entered Here");
-
         break;
 
       case "subcategory":
