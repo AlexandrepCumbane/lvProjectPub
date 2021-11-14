@@ -70,6 +70,8 @@ class List extends Component {
       socketIo: {},
       recordId: 0,
       message: "Do you want to delete that record?",
+      requestMoreInterval: null,
+      requestMoreWaiting: false
     };
   }
 
@@ -122,16 +124,16 @@ class List extends Component {
         ) : (
           <></>
         )}
-        <div onClick={() => console.log(this.child)}>
+        <div>
           <Breadcrumbs
             breadCrumbItems={
               this.props.hasNew
                 ? [
-                    {
-                      name: this.translate("Add New"),
-                      link: `${this.props.path}s/new`,
-                    },
-                  ]
+                  {
+                    name: this.translate("Add New"),
+                    link: `${this.props.path}s/new`,
+                  },
+                ]
                 : []
             }
             breadCrumbTitle={this.state.pageTitle}
@@ -159,6 +161,7 @@ class List extends Component {
               // ref={this.setChild}
               requestData={this.requestMore}
               requestParams={this.requestParams}
+              requestMoreFiltered={this.requestMoreFiltered}
               requestMore={this.requestMore}
               loading={this.state.isLoading}
               data={this.state.data}
@@ -192,6 +195,7 @@ class List extends Component {
       data: this.props.app_reducer[this.props.path]?.list ?? [],
       show: true,
       isLoading: true,
+      requestMoreWaiting: true,
       pageTitle: this.translate(this.props.title),
     });
 
@@ -209,7 +213,8 @@ class List extends Component {
             [],
           page: this.props.path,
           pageTitle: `${this.props.title}`,
-          isLoading: false,
+          isLoading: this.state.requestMoreInterval !== null,
+          requestMoreWaiting:false
         });
 
         if (this.props.app_reducer.error === "session") {
@@ -240,8 +245,6 @@ class List extends Component {
         pageTitle: `${this.props.title}`,
         isLoading: false,
       });
-
-      console.log("`1");
     });
   };
 
@@ -266,20 +269,50 @@ class List extends Component {
         has_params: true,
       })
       .then(() => {
+
+
         this.setState({
           data:
             this.props.app_reducer[this.props.name ?? this.props.path]?.list ??
             [],
           page: this.props.path,
           pageTitle: `${this.props.title}`,
-          isLoading: false,
+          requestMoreWaiting: false,
         });
+
+        const requestMoreInterval = setInterval(this.requestMoreFiltered, 3500);
+
+        this.setState({ requestMoreInterval });
+
 
         if (this.props.app_reducer[this.props.name ?? this.props.path]?.next)
           return true;
         else return false;
       });
   };
+
+
+  requestMoreFiltered = () => {
+
+    let page = this.props.app_reducer[this.props.name ?? this.props.path]?.page;
+    let pages = this.props.app_reducer[this.props.name ?? this.props.path]?.pages;
+
+    if (this.state.requestMoreWaiting) {
+      return;
+    }
+
+    if (pages === page) {
+
+      clearInterval(this.state.requestMoreInterval);
+      this.setState({ requestMoreInterval: null, isLoading: false });
+      return;
+    }
+
+
+    this.requestMore();
+
+
+  }
 
   /**
    * Delete method - deletes the record based on the recordId state prop
@@ -599,8 +632,8 @@ class List extends Component {
                   valueGetter: ({ data }) => {
                     return this.translate(
                       data["callcase"][`${item.name}_label`] ??
-                        data["callcase"][`${item.name}`] ??
-                        "Null"
+                      data["callcase"][`${item.name}`] ??
+                      "Null"
                     );
                   },
                 };
