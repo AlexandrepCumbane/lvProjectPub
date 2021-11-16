@@ -28,10 +28,10 @@ class IntlProviderWrapper extends React.Component {
   };
 
   appState = store.getState();
-
-  socketIo = new WebSocket(
-    `${process.env.REACT_APP_WS_URL}chat/looby/?access_token=${this.appState.auth.login.userOauth?.access_token}`
-  );
+  socketIo = null;
+  // socketIo = new WebSocket(
+  //   `${process.env.REACT_APP_WS_URL}ws/chat/looby/?access_token=${this.appState.auth.login.userOauth?.access_token}`
+  // );
 
   setLanguage = (lang) => {
     localStorage.setItem("lang", lang);
@@ -52,8 +52,19 @@ class IntlProviderWrapper extends React.Component {
     );
   };
 
+
   componentDidMount() {
     this.askNotificationPermission();
+    this.initSocket(this.appState.auth.login.userOauth?.access_token);
+  }
+
+  initSocket = (access_token) => {
+
+    this.socketIo = new WebSocket(
+      `${process.env.REACT_APP_WS_URL}ws/chat/looby/?access_token=${access_token}`
+    );
+
+    this.appState = store.getState();
 
     this.socketIo.onopen = () => {
       // on connecting, do nothing but log it to the console
@@ -67,7 +78,7 @@ class IntlProviderWrapper extends React.Component {
         new Notification("Linha 1458", { body: "Your have new notification!" });
       }
     };
-  }
+  };
 
   askNotificationPermission = () => {
     Notification.requestPermission();
@@ -113,6 +124,7 @@ class IntlProviderWrapper extends React.Component {
           },
           sendNotification: (message, model, target, id) =>
             this.sendMessage(message, model, target, id),
+          initSocket: (access_token) => this.initSocket(access_token)
         }}
       >
         <IntlProvider

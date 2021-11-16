@@ -64,6 +64,8 @@ class ModalForm extends React.Component {
                   });
                   this.toggleModal();
                 }}
+
+                key={item.id}
               >
                 <div className="d-flex justify-content-between w-100 mb-2">
                   <small>{item.created_by_label}</small>

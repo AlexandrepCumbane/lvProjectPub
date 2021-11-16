@@ -302,7 +302,7 @@ class Edit extends Component {
               );
             }
             return (
-              <ListGroupItem onClick={() => this.raiseListData(item)}>
+              <ListGroupItem key={item.id} onClick={() => this.raiseListData(item)}>
                 <div className="d-flex justify-content-between w-100 align-items-center">
                   <h5 className="mb-1">
                     <strong>{this.translate(item.task_title_label)}</strong>
@@ -345,7 +345,7 @@ class Edit extends Component {
         </div>
         <ListGroup flush className="rounded-0">
           {casecomment_set.map((item) => (
-            <ListGroupItem>
+            <ListGroupItem key={item.id}>
               <p className="mb-1">{item.feedback}</p>
 
               <div className="d-flex justify-content-between align-items-center">
@@ -417,7 +417,7 @@ class Edit extends Component {
               });
             }}
           >
-            <ListGroupItem>
+            <ListGroupItem key={forwardinginstitution.id}>
               <div className="d-flex justify-content-between w-100">
                 <div className="mb-1">
                   <h6>

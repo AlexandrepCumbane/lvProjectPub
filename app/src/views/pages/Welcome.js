@@ -13,11 +13,15 @@ import { requestDropodowns } from "../../redux/actions/app/actions";
 import { axios } from "../../redux/api";
 
 import { AuthService } from "../../redux/oidc-config/services/authservice";
+import { IntlContext } from "../../i18n/provider";
+import { history } from "../../history";
 import "../../assets/scss/pages/authentication.scss";
 
-import { history } from "../../history";
 
 class Welcome extends React.Component {
+
+  static contextType = IntlContext;
+
   state = {
     activeTab: "1",
     email: "",
@@ -27,6 +31,12 @@ class Welcome extends React.Component {
     times: 0,
     initialText: "",
   };
+  // this.context.sendNotification(
+  //   "Create",
+  //   `new_${this.props.page}`,
+  //   this.state.form.get("referall_to_id"),
+  //   `${item.lvform_label}`
+  // );
 
   authService = new AuthService();
 
@@ -55,7 +65,11 @@ class Welcome extends React.Component {
     this.authService.renewToken().then(() => {
       this.authService
         .getUser()
-        .then((res) => this.props.requestUpdateUser(res));
+        .then((res) => {
+          this.context.initSocket(res.access_token);
+          this.props.requestUpdateUser(res) 
+          }
+        );
     });
   };
 
