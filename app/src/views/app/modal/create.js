@@ -59,6 +59,10 @@ class Create extends React.Component {
     isValid: true,
     dropdowns: [],
     childrens: {},
+
+    showAlert: false,
+    alertFields: [],
+    alertData: {}
   };
   componentDidMount() {
     this.updateState("lvform_id", this.props.lvform_id);
@@ -133,7 +137,12 @@ class Create extends React.Component {
             {this.translate(this.props.title)}
           </ModalHeader>
 
-          <ModalBody>{this.renderForm()}</ModalBody>
+          <ModalBody>
+            <div>
+              {this.renderFieldAlert()}
+            </div>
+            {this.renderForm()}
+            </ModalBody>
 
           <ModalFooter>
             <Button
@@ -514,9 +523,33 @@ class Create extends React.Component {
               response.data?.description ?? "Failed to save Object."
             )
           );
+
+          this.setState({
+            alertFields: Object.keys(response.data) ?? [],
+            alertData: response.data,
+            showAlert: true
+          })
         });
     }
   };
+
+
+  renderFieldAlert = () => {
+
+    const { showAlert, alertData, alertFields } = this.state;
+    const { form } = config.pages[this.props.page];
+  
+    return <Alert className="rounded-0" ref="alertFocus" color='danger' isOpen={ showAlert} toggle={() => this.setState({ showAlert: false })}>
+        { alertFields?.map((item, index) => {
+  
+          const field = form.find(el => el.name === item)
+          return (<div className='alert-body' key={index}>
+            {`${this.translate(field?.label ?? item )}: ${this.translate(alertData[field?.name ?? item])}` }
+          </div>)
+  
+        })}
+      </Alert>
+    }
 }
 
 function mapStateToProps(state) {

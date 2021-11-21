@@ -19,6 +19,7 @@ import "../../assets/scss/plugins/extensions/editor.scss";
 
 import config from "../../data/config";
 import {
+  Alert,
   Button,
   Card,
   CardBody,
@@ -48,6 +49,10 @@ class Create extends React.Component {
     isValid: true,
     dropdowns: [],
     childrens: {},
+
+    showAlert: false,
+    alertFields: [],
+    alertData: {}
   };
 
   componentDidMount() {
@@ -64,11 +69,33 @@ class Create extends React.Component {
     return (
       <div>
         <Card className="rounded-0 mb-0 px-2">
-          <CardBody>{this.renderForm()}</CardBody>
+          <CardBody>
+            <div>
+                {this.renderFieldAlert()}
+            </div>
+            {this.renderForm()}
+            </CardBody>
         </Card>
       </div>
     );
   }
+
+  renderFieldAlert = () => {
+
+    const { showAlert, alertData, alertFields } = this.state;
+    const { form } = config.pages[this.props.path];
+  
+    return <Alert className="rounded-0" ref="alertFocus" color='danger' isOpen={ showAlert} toggle={() => this.setState({ showAlert: false })}>
+        { alertFields?.map((item, index) => {
+  
+          const field = form.find(el => el.name === item)
+          return (<div className='alert-body' key={index}>
+            {`${this.translate(field?.label ?? item )}: ${this.translate(alertData[field?.name ?? item])}` }
+          </div>)
+  
+        })}
+      </Alert>
+    }
 
   onEditorStateChange = (editorState) => {
     this.setState({ editorState });
@@ -697,8 +724,14 @@ class Create extends React.Component {
             history.push(`/${this.props.url}`);
           }, 1000);
         })
-        .catch(({ error }) => {
+        .catch(({ response }) => {
           this.notifyErrorBounce("Failed to save Object.");
+
+          this.setState({
+            alertFields: Object.keys(response.data) ?? [],
+            alertData: response.data,
+            showAlert: true
+          })
         });
     }
   };

@@ -375,6 +375,8 @@ export default {
     "Categories & Articles": "Categorias & Artigos",
     Categories: "Categorias",
     "Published Date": "Data de Publicação",
+    "description": "Descrição",
+    "This field is required.": "Este campo é obrigatório.",
     "Expiration Date": "Data de validade",
     Published: "Publicado",
     "Active Revision": "Revisão Ativa",

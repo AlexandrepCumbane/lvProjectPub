@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
+  Alert,
   Badge,
   Col,
   Row,
@@ -66,6 +67,9 @@ class Edit extends Component {
     task_set: [],
     data: {},
     blocking: true,
+    showAlert: false,
+    alertFields: [],
+    alertData: {}
   };
 
   componentDidMount() {
@@ -139,6 +143,7 @@ class Edit extends Component {
           className="data-list-fields px-2 mt-3"
           options={{ wheelPropagation: false }}
         >
+          {this.renderFieldAlert()}
           <div>{this.renderForm()}</div>
         </PerfectScrollbar>
         <div className="data-list-sidebar-footer px-2 d-flex justify-content-start align-items-center mt-1 mb-1">
@@ -354,9 +359,8 @@ class Edit extends Component {
                 </small>
                 <small>
                   <strong>
-                    {`@${this.translate(item.author.groups_label[0])} . ${
-                      item.datetime_created_label
-                    }`}
+                    {`@${this.translate(item.author.groups_label[0])} . ${item.datetime_created_label
+                      }`}
                   </strong>
                 </small>
               </div>
@@ -749,11 +753,11 @@ class Edit extends Component {
                   <option>{this.translate("Select")}</option>
                   {field["has_parent"] === undefined
                     ? this.renderSelectOptionForeignWQ(
-                        this.getForeignFieldDropdown(field["wq:ForeignKey"])
-                      )
+                      this.getForeignFieldDropdown(field["wq:ForeignKey"])
+                    )
                     : this.renderSelectOptionForeignWQ(
-                        this.state.childrens[field["wq:ForeignKey"]] ?? []
-                      )}
+                      this.state.childrens[field["wq:ForeignKey"]] ?? []
+                    )}
                 </CustomInput>
               </FormGroup>
             </Col>
@@ -1112,9 +1116,17 @@ class Edit extends Component {
             handleSidebar(payload, true);
           }, 1000);
         })
-        .catch((error) => {
+        .catch(({ response }) => {
           this.setState({ isProcessing: false });
+          console.log("Errror", Object.keys(response.data))
+
+
           this.notifyErrorBounce("Failed to save Object.");
+          this.setState({
+            alertFields: Object.keys(response.data) ?? [],
+            alertData: response.data,
+            showAlert: true
+          })
         });
     } else {
       this.setState({ edit_status: true });
@@ -1164,8 +1176,8 @@ class Edit extends Component {
                 <p>
                   {this.translate(
                     data[`${field.name}_label`] ??
-                      data[`${field.name}`] ??
-                      "None"
+                    data[`${field.name}`] ??
+                    "None"
                   )}
                 </p>
               </Col>
@@ -1275,6 +1287,23 @@ class Edit extends Component {
 
     return res;
   };
+
+  renderFieldAlert = () => {
+
+  const { showAlert, alertData, alertFields } = this.state;
+  const { form } = config.pages.lvform;
+
+  return <Alert className="rounded-0" ref="alertFocus" color='danger' isOpen={ showAlert} toggle={() => this.setState({ showAlert: false })}>
+      { alertFields?.map((item, index) => {
+
+        const field = form.find(el => el.name === item)
+        return (<div className='alert-body' key={index}>
+          {`${this.translate(field.label)}: ${alertData[field.name]}` }
+        </div>)
+
+      })}
+    </Alert>
+  }
 }
 
 function mapStateToProps(state) {
