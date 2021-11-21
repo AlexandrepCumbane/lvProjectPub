@@ -16,7 +16,7 @@ from .serializer import CustomUserFullSerializer, CustomUserSerializer
 
 class UserViewSet(ModelViewSet):
 
-    queryset = CustomUser.objects.all().order_by('-id')
+    queryset = CustomUser.objects.all().exclude(is_deleted=True).order_by('-id')
     serializer_class = CustomUserFullSerializer
 
     @action(detail=True, methods=['get'], url_path="get_user_info")

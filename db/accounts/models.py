@@ -18,6 +18,14 @@ class CustomUser(AbstractUser):
 
     objects = CustomUserManager()
 
+    is_deleted = models.BooleanField(
+        default=False,
+        verbose_name="Is Deleted",
+        help_text="Is Deleted",
+        null=True,
+        blank=True,
+    )
+
     def __str__(self):
         return self.email
 
@@ -46,6 +54,14 @@ class ClusterAgency(models.Model):
         help_text="cluster_sector",
     )
 
+    is_deleted = models.BooleanField(
+        default=False,
+        verbose_name="Is Deleted",
+        help_text="Is Deleted",
+        null=True,
+        blank=True,
+    )
+
     def __str__(self) -> str:
         return self.name
 
@@ -66,6 +82,13 @@ class ClusterRegion(models.Model):
         CustomUser,
         blank=True,
         related_name='cluster_partner',
+    )
+    is_deleted = models.BooleanField(
+        default=False,
+        verbose_name="Is Deleted",
+        help_text="Is Deleted",
+        null=True,
+        blank=True,
     )
 
     def __str__(self) -> str:
