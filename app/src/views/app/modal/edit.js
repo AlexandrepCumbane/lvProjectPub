@@ -50,12 +50,16 @@ class Edit extends React.Component {
     isValid: true,
     dropdowns: [],
     commentsShow: false,
+
+    showAlert: false,
+    alertFields: [],
+    alertData: {}
   };
 
   componentDidMount() {
     const { form } = config.pages[this.props.page];
     const { data } = this.props;
-    
+
     this.props.requestDropodowns();
     let formdata = new FormData();
 
@@ -108,7 +112,9 @@ class Edit extends React.Component {
             {this.translate(this.props.title)}
           </ModalHeader>
 
-          <ModalBody>{this.renderForm()}</ModalBody>
+          <ModalBody>
+            <div>          {this.renderFieldAlert()}</div>
+            {this.renderForm()}</ModalBody>
 
           <ModalFooter>
             {this.props.page === "task" ? (
@@ -118,6 +124,7 @@ class Edit extends React.Component {
                 label={this.translate("Comment")}
                 color="warning"
                 task_id={this.props.data["id"]}
+                task={this.props.data}
               />
             ) : (
               <></>
@@ -145,7 +152,7 @@ class Edit extends React.Component {
               <></>
             )}
             {this.props.page === "forwardinginstitution" &&
-            this.props.userRole === "manager" ? (
+              this.props.userRole === "manager" ? (
               <CreateModal
                 title={this.translate(`Add new task`)}
                 page="task"
@@ -397,11 +404,11 @@ class Edit extends React.Component {
 
                   {field["has_parent"] === undefined
                     ? this.renderSelectOptionForeignWQ(
-                        this.getForeignFieldDropdown(field["wq:ForeignKey"])
-                      )
+                      this.getForeignFieldDropdown(field["wq:ForeignKey"])
+                    )
                     : this.renderSelectOptionForeignWQ(
-                        this.state.childrens[field["wq:ForeignKey"]] ?? []
-                      )}
+                      this.state.childrens[field["wq:ForeignKey"]] ?? []
+                    )}
                 </CustomInput>
               </FormGroup>
             </Col>
@@ -651,12 +658,35 @@ class Edit extends React.Component {
             this.props.toggleModal();
           }, 1000);
         })
-        .catch((error) => {
+        .catch(({response}) => {
           this.setState({ isLoading: false });
           this.notifyErrorBounce(this.translate("Transaction process failed"));
+          this.setState({
+            alertFields: Object.keys(response.data) ?? [],
+            alertData: response.data,
+            showAlert: true
+          })
         });
     }
   };
+
+
+  renderFieldAlert = () => {
+
+    const { showAlert, alertData, alertFields } = this.state;
+    const { form } = config.pages.lvform;
+
+    return <Alert className="rounded-0" ref="alertFocus" color='danger' isOpen={showAlert} toggle={() => this.setState({ showAlert: false })}>
+      {alertFields?.map((item, index) => {
+
+        const field = form.find(el => el.name === item)
+        return (<div className='alert-body' key={index}>
+          {`${this.translate(field?.label ?? item )}: ${this.translate(alertData[field?.name ?? item])}` }
+        </div>)
+
+      })}
+    </Alert>
+  }
 }
 
 function mapStateToProps(state) {

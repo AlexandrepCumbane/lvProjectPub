@@ -444,6 +444,7 @@ class Create extends React.Component {
   };
 
   filterNotificationAction = (item) => {
+    console.log(this.props.task);
     switch (this.props.page) {
       case "forwardinginstitution":
         this.context.sendNotification(
@@ -456,9 +457,12 @@ class Create extends React.Component {
       // case "casecomment":
       //   this.context.sendNotification("Loram", `new_${this.props.page}`, this.state.form.get('referall_to_id'));
       //   break;
-      // case "taskcomment":
-      //   this.context.sendNotification("Loram", `new_${this.props.page}`, this.state.form.get('referall_to_id'));
-      //   break;
+      case "taskcomment":
+        this.context.sendNotification("Create", 
+        `new_${this.props.page}`, 
+        this.props.task['created_by_id'],
+        `${this.props.task['lvform_label']}-${this.props.task['id']}`);
+        break;
       case "task":
         this.context.sendNotification(
           "Create",

@@ -44,10 +44,13 @@ export default {
     "End Date": "Data de Termino",
     "Number of attempts to reach the other person":
       "Número de tentativas para entrar em contato com a outra pessoa",
+    "call_attempts":
+      "Número de tentativas para entrar em contato com a outra pessoa",
     "Send Feedback": "Enviar Comentarios",
     "Not started": "Não foi iniciado",
     "In Progress": "Em Progresso",
     Completed: "Encerrado",
+    "A valid integer is required.":"É necessário um número válido",
     "Case Priority": "Prioridade de Caso",
     "Case closed": "Caso Encerrado",
     "Means of Communication": "Meios de Comunicação",

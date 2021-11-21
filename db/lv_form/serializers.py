@@ -183,7 +183,9 @@ class TaskFullSerializer(patterns.AttachedModelSerializer):
     class Meta:  #(patterns.AttachmentSerializer.Meta):
         model = Task
         ordering = ['-id']
-        exclude = ('created_by', )
+        # exclude = ('created_by', )
+        fields = '__all__'
+        read_only_fields = ('created_by', )
         # exclude = ('lvform',)
         # object_field = 'lvform'
 

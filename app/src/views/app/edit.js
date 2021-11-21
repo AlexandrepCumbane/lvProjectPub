@@ -1298,7 +1298,7 @@ class Edit extends Component {
 
         const field = form.find(el => el.name === item)
         return (<div className='alert-body' key={index}>
-          {`${this.translate(field.label)}: ${alertData[field.name]}` }
+          {`${this.translate(field?.label ?? item )}: ${this.translate(alertData[field?.name ?? item])}` }
         </div>)
 
       })}
