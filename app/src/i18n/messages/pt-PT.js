@@ -363,6 +363,7 @@ export default {
     "National Level": "Nível Nacional",
     "National level": "Nível Nacional",
     Received: "Recebidos",
+    'Task #': "Tarefa #",
     "Forwarded by": "Reencaminhado por",
     "Has Feedback": "Tem Feedback",
     "Total Cases": "Total de Casos",

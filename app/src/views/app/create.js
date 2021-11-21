@@ -211,6 +211,7 @@ class Create extends React.Component {
       field.name === "created_by" ||
       field.name === "othercategory" ||
       field.name === "month" ||
+      field.name === "id" ||
       field.name === "response"
     ) {
       return <span key={field.name} />;

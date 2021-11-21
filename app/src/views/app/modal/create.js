@@ -203,6 +203,7 @@ class Create extends React.Component {
       field.name === "has_feedback" ||
       field.name === "partner_feedback" ||
       field.name === "call_attempts" ||
+      field.name === "id" ||
       field.name === "isFeedback_aproved"
     ) {
       return <span key={field.name} />;

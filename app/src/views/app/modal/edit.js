@@ -298,6 +298,7 @@ class Edit extends React.Component {
       field.name === "cluster_region" ||
       field.name === "partners" ||
       field.name === "referall_to" ||
+      field.name === "id" ||
       field.name === "cluster_sector"
     ) {
       return <span key={field.name} />;
