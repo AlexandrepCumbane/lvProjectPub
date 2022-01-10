@@ -161,6 +161,7 @@ LOGIN_URL = '/accounts/login/'
 REST_FRAMEWORK['DEFAULT_PERMISSION_CLASSES'] = ('caseproject.rest.permissions.ModelPermissions',) 
 REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] = ('oidc_auth.authentication.JSONWebTokenAuthentication',
                                                     'oidc_auth.authentication.BearerTokenAuthentication',)
+REST_FRAMEWORK['PAGE_SIZE'] = 250
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
