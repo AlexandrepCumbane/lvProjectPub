@@ -12,11 +12,12 @@ services:
     build: .
     # image: roboboinc/linhaverde
     container_name: case_management_app
+    # platform: linux/x86_64    # Building on M1 Chip
     command: bash -c "
         python db/manage.py migrate 
-        && python db/manage.py runserver
-        "
-    #    && bash deploy.sh 0.0.3 
+        && python db/manage.py runserver 0.0.0.0:8000"
+        # && cd app/ && npm i -f && cd ..
+        # && bash deploy.sh 0.0.3
       
     hostname: ${HOSTNAME}
     volumes:

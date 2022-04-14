@@ -20,6 +20,19 @@ RUN apt-get update \
     && apt-get install gcc libpq-dev python3-venv -y \
     && apt-get clean
 
+# setup dependencies
+# RUN apt-get update
+# RUN apt-get install xz-utils
+# RUN apt-get -y install curl
+
+# # Download latest nodejs binary
+# RUN curl https://nodejs.org/dist/v14.15.4/node-v14.15.4-linux-x64.tar.xz -O
+
+# # Extract & install
+# RUN tar -xf node-v14.15.4-linux-x64.tar.xz
+# RUN ln -s /node-v14.15.4-linux-x64/bin/node /usr/local/bin/node
+# RUN ln -s /node-v14.15.4-linux-x64/bin/npm /usr/local/bin/npm
+
 # RUN npm install -g npm@latest
 
 # Create a directory in the container for the code

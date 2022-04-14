@@ -10,6 +10,15 @@ _data.json '''
  Django project template for wq framework
 =========================================
 
+## Running the Project:
+1 - Ensure that you copy and rename the settings dev template:
+`cp db/caseproject/settings/dev.py.template db/caseproject/settings/dev.py`
+2 - Export environment variable or create a .env file with the following:
+`DJANGO_SETTINGS_MODULE=db.caseproject.settings.dev`
+3 - Using Docker is recommended, using: 
+`docker-compose up`
+
+
 This is the recommended Django project template for projects utilizing the [wq framework].  It uses [wq.app] for the front end and [wq.db] as the backend component.   This template is meant to be used together with [wq.start].  See wq's [Getting Started] docs for more information.
 
 This template provides two alternatives for managing JavaScript dependencies ([@wq/app] & [wq.app]).  The alternatives can be selected by passing the `--with-npm` or `--without-npm` arguments to the `wq start` command.
