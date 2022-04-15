@@ -17,3 +17,8 @@ db/~$lv_form.xlsx
 app_template/.eslintcache
 .env
 case_mgmnt.code-workspace
+
+
+# Ignore DevSpace cache and log folder
+.devspace/
+helm/values.yaml
