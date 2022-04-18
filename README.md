@@ -10,6 +10,14 @@ _data.json '''
  Django project template for wq framework
 =========================================
 
+## Running or deploying using devspace:
+-- Ensure that the Docker env configuration is set on local env
+1 - `devspace use namespace linhaverde`
+2 - To run development environment:
+    + `devspace dev`
+2.1 - To run a production deployment: Ensure that values.yaml is correctly set
+    + `devspace deploy -p production`
+
 ## Running the Project:
 1 - Ensure that you copy and rename the settings dev template:
 `cp db/caseproject/settings/dev.py.template db/caseproject/settings/dev.py`

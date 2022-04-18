@@ -1,5 +1,5 @@
 # Pull the image container from docker repository
-FROM python:3.7-slim-buster
+FROM python:3.7
 
 # Prevents python from writing pyc files to disc
 ENV PYTHONDONTWRITEBYTECODE 1

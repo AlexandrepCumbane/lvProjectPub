@@ -1,34 +1,76 @@
 version: '3'
-    
+
+x-service-volumes: &service-volumes
+  - .:/code
+
+x-database-variables: &database-variables
+  DB_HOST: db
+  DB_NAME: postgres
+  DB_USER: postgres
+  DB_PASS: postgres
+
+x-app-variables-env: &app-variables-env
+  DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+  DATABASE_URL: ${DATABASE_URL}
+  ALLOWED_HOSTS: ("*",)
+  DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
+
+x-app-variables-local: &app-variables-local
+  <<: *database-variables
+  DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+  ALLOWED_HOSTS: ("*",)
+  DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
+
+x-app-variables: &app-variables
+  <<: *database-variables
+  POSTGRES_HOST: postgres
+
 services:
   db:
     image: postgres:12-alpine
     container_name: casemangmnt_db
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+    environment: *database-variables
+    # volumes:
+    #   - db-data:/var/lib/postgresql/data
+  db_migrate:
+    build: .
+    # image: roboboinc/linhaverde
+    command: python db/manage.py migrate
+    volumes: *service-volumes
+    environment: *app-variables-local
+    depends_on:
+      - db
   web:
     build: .
     # image: roboboinc/linhaverde
     container_name: case_management_app
     # platform: linux/x86_64    # Building on M1 Chip
-    command: bash -c "
-        python db/manage.py migrate 
-        && python db/manage.py runserver 0.0.0.0:8000"
+    command: python db/manage.py runserver 0.0.0.0:8000
         # && cd app/ && npm i -f && cd ..
         # && bash deploy.sh 0.0.3
       
     hostname: ${HOSTNAME}
-    volumes:
-      - .:/code
+    volumes: *service-volumes
     ports:
       - "3002:3000"
       - "8001:8000"
-    environment:
-        - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
-        - DATABASE_URL=${DATABASE_URL}
-        - ALLOWED_HOSTS=("*",)
-        - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+    environment: *app-variables-local
     depends_on:
-      - db
+      - db_migrate
+      - redis
+  redis:
+    image: redis:alpine
+  # celery:
+  #   restart: always
+  #   build:
+  #     context: .
+  #   command: ['celery', '-A', 'web', 'worker', '-l', 'INFO']
+  #   volumes: *service-volumes
+  #   environment: *app-variables-env
+  #   depends_on:
+  #     - db
+  #     - redis
+  #     - web
+
+# volumes:
+#   - db-data:/var/lib/postgresql/data
