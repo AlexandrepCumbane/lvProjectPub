@@ -3,6 +3,11 @@ version: '3'
 x-service-volumes: &service-volumes
   - .:/code
 
+x-service-volumes-node: &service-volumes-node
+  - .:/code
+  - /app/node_modules
+  - ./app:/app
+
 x-database-variables: &database-variables
   DB_HOST: db
   DB_NAME: postgres
@@ -20,6 +25,8 @@ x-app-variables-local: &app-variables-local
   DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
   ALLOWED_HOSTS: ("*",)
   DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
+  CHOKIDAR_USEPOLLING: "true"
+
 
 x-app-variables: &app-variables
   <<: *database-variables
@@ -40,19 +47,35 @@ services:
     environment: *app-variables-local
     depends_on:
       - db
+  frontend:
+    build: ./app
+    # image: roboboinc/linhaverde
+    container_name: case_management_app_frontend
+    command: npm start
+    hostname: ${HOSTNAME}
+    volumes: *service-volumes-node
+
+    ports:
+      - "3002:3000"
+    stdin_open: true
+    environment: *app-variables-local
+    depends_on:
+      - db_migrate
+      - redis
+      - web
   web:
     build: .
     # image: roboboinc/linhaverde
     container_name: case_management_app
     # platform: linux/x86_64    # Building on M1 Chip
-    command: python db/manage.py runserver 0.0.0.0:8000
+    command: python db/manage.py runserver 0.0.0.0:8000 
+        # 
         # && cd app/ && npm i -f && cd ..
         # && bash deploy.sh 0.0.3
       
     hostname: ${HOSTNAME}
     volumes: *service-volumes
     ports:
-      - "3002:3000"
       - "8001:8000"
     environment: *app-variables-local
     depends_on:
