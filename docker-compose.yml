@@ -56,7 +56,7 @@ services:
     volumes: *service-volumes-node
 
     ports:
-      - "3002:3000"
+      - "3000:3000"
     stdin_open: true
     environment: *app-variables-local
     depends_on:
@@ -76,7 +76,7 @@ services:
     hostname: ${HOSTNAME}
     volumes: *service-volumes
     ports:
-      - "8001:8000"
+      - "8000:8000"
     environment: *app-variables-local
     depends_on:
       - db_migrate
