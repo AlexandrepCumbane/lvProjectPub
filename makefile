@@ -6,7 +6,7 @@ build:
     docker build --force-rm $(options) -t lv-app:latest .
 
 build-prod:
-    $(MAKE) build options="--target production"
+	$(MAKE) build options="--target production"
 
 push:
 	docker tag $(image):latest $(organization)/$(image):$(tag)
