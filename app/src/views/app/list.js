@@ -79,9 +79,13 @@ class List extends Component {
 
   componentDidMount() {
     this.formatFields();
+
+    const updateList = this.props.location.state && this.props.location.state.updateList;
+
     if (
       !this.props.app_reducer[this.props.path]?.list.length ||
-      !this.props.app_reducer[`updated_${this.props.url}`]
+      !this.props.app_reducer[`updated_${this.props.url}`] ||
+      updateList
     ) {
       this.requestMore(false);
       this.props.updateListLoad({ key: this.props.url, data: true });
