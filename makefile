@@ -22,10 +22,16 @@ compose-manage-py:
 	docker-compose run --rm $(options) web python db/manage.py $(cmd)
 
 compose-loadfixtures:
-	docker-compose run web python db/manage.py loaddata seed_group_data.json
+	docker-compose run web python db/manage.py loaddata db_seed.json
 
 compose-bash:
 	docker-compose exec web sh
 
 start-server:
 	python db/manage.py runserver 0.0.0.0:8000
+
+devspace-prod:
+	devspace deploy -p production
+
+devspace-dev:
+	devspace dev
