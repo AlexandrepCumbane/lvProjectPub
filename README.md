@@ -2,21 +2,12 @@
 Important for getting the project running:
 1 - Run migrations 
 2 - Import the data dump for locations with the following command from the db directory:
-    ''' python manage.py loaddata dumped_location
-_data.json '''
+    ''' python manage.py loaddata dumped_location_data.json '''
     ''' python manage.py loaddata seed_case_tipology.json '''
 
 
  Django project template for wq framework
 =========================================
-
-## Running or deploying using devspace:
--- Ensure that the Docker env configuration is set on local env
-1 - `devspace use namespace linhaverde`
-2 - To run development environment:
-    + `devspace dev`
-2.1 - To run a production deployment: Ensure that values.yaml is correctly set
-    + `devspace deploy -p production`
 
 ## Running the Project:
 1 - Ensure that you copy and rename the settings dev template:

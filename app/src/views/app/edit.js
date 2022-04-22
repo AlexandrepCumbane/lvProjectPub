@@ -69,7 +69,8 @@ class Edit extends Component {
     blocking: true,
     showAlert: false,
     alertFields: [],
-    alertData: {}
+    alertData: {},
+    blockSubmit: false
   };
 
   componentDidMount() {
@@ -1098,6 +1099,9 @@ class Edit extends Component {
       const { userOauth } = this.props.state.auth.login;
 
       this.setState({ isValid: true, isProcessing: true });
+      if(!this.state.blockSubmit){
+        this.setState({blockSubmit : true});
+      
       axios
         .patch(`lvforms/${this.props.data.id}.json/`, this.state.form, {
           headers: {
@@ -1111,12 +1115,14 @@ class Edit extends Component {
           let payload = data;
 
           payload["index"] = this.props.data.index;
+          this.setState({blockSubmit: false})
 
           setTimeout(() => {
             handleSidebar(payload, true);
           }, 1000);
         })
         .catch(({ response }) => {
+          this.setState({blockSubmit: false})
           this.setState({ isProcessing: false });
           console.log("Errror", Object.keys(response.data))
 
@@ -1128,6 +1134,7 @@ class Edit extends Component {
             showAlert: true
           })
         });
+      }
     } else {
       this.setState({ edit_status: true });
     }
