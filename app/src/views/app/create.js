@@ -49,10 +49,10 @@ class Create extends React.Component {
     isValid: true,
     dropdowns: [],
     childrens: {},
-
     showAlert: false,
     alertFields: [],
-    alertData: {}
+    alertData: {},
+    blockSubmit: false
   };
 
   componentDidMount() {
@@ -713,6 +713,9 @@ class Create extends React.Component {
       this.setState({ isValid: true });
 
       const url = this.props.path === "customuser" ? "user" : this.props.path;
+      if(!this.state.blockSubmit){
+
+        this.setState({blockSubmit : true});
       axios
         .post(`${url}s.json`, this.state.form, {
           headers: {
@@ -721,11 +724,18 @@ class Create extends React.Component {
         })
         .then(({ data }) => {
           this.notifySuccessBounce(data.id);
+          // block button action
+          this.setState({blockSubmit: false})
+
           setTimeout(() => {
             history.push(`/${this.props.url}`);
           }, 1000);
         })
         .catch(({ response }) => {
+
+          // block button action
+          this.setState({blockSubmit: false})
+          
           this.notifyErrorBounce("Failed to save Object.");
 
           this.setState({
@@ -734,7 +744,7 @@ class Create extends React.Component {
             showAlert: true
           })
         });
-    }
+    }}
   };
 
   animatedComponents = makeAnimated();
