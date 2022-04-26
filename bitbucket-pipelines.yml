@@ -28,6 +28,7 @@ pipelines:
               variables:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_SESSION_TOKEN: $AWS_SESSION_TOKEN
                 AWS_DEFAULT_REGION: 'eu-west-1'
                 S3_BUCKET: 'staging.linha1458.moz.wfp.org'
                 LOCAL_PATH: 'app/build'
@@ -39,6 +40,7 @@ pipelines:
               variables:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_SESSION_TOKEN: $AWS_SESSION_TOKEN
                 AWS_DEFAULT_REGION: 'eu-west-1'
                 DISTRIBUTION_ID: "E1C66NRLMEV1RM"
     '{master}':
@@ -62,6 +64,7 @@ pipelines:
               variables:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_SESSION_TOKEN: $AWS_SESSION_TOKEN
                 AWS_DEFAULT_REGION: 'eu-west-1'
                 S3_BUCKET: 'vulavula1458.co.mz'
                 LOCAL_PATH: 'app/build'
@@ -73,6 +76,7 @@ pipelines:
               variables:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_SESSION_TOKEN: $AWS_SESSION_TOKEN
                 AWS_DEFAULT_REGION: 'eu-west-1'
                 DISTRIBUTION_ID: "E2L9NWMRKCT11T"
     '{dev, feature/*}':
