@@ -3,8 +3,16 @@ organization=Robobo
 image=linhaverde
 
 build:
-    docker build --force-rm $(options) -t lv-app:latest .
+    docker build --force-rm $(options) -t $(image):$(tag) .
 
+# Build and push the image
+buildx:
+	docker buildx build \
+	--platform linux/amd64,linux/arm64,linux/arm/v7 \
+	-t $(organization)/$(image):$(tag) \
+	--push \
+	.
+	
 build-prod:
 	$(MAKE) build options="--target production"
 
