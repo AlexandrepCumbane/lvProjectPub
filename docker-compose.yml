@@ -26,7 +26,12 @@ x-app-variables-local: &app-variables-local
   ALLOWED_HOSTS: ("*",)
   DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
   CHOKIDAR_USEPOLLING: "true"
-
+  $REACT_APP_API_URL: ${REACT_APP_API_URL}
+  REACT_APP_CIAM_CLIENT_ID: ${REACT_APP_CIAM_CLIENT_ID}
+  REACT_APP_CIAM_STS_AUTH: ${REACT_APP_CIAM_STS_AUTH}
+  REACT_APP_CIAM_ROOT_API: ${REACT_APP_CIAM_ROOT_API}
+  REACT_APP_PUBLIC_URL: ${REACT_APP_PUBLIC_URL}
+  REACT_APP_WS_URL: ${REACT_APP_WS_URL}
 
 x-app-variables: &app-variables
   <<: *database-variables
@@ -81,6 +86,7 @@ services:
     depends_on:
       - db_migrate
       - redis
+      - db
   redis:
     image: redis:alpine
   # celery:
