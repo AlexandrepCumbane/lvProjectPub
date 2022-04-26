@@ -35,6 +35,9 @@ compose-loadfixtures:
 compose-bash:
 	docker-compose exec web sh
 
+compose-bash-frontend:
+	docker-compose exec frontend sh
+
 start-server:
 	python db/manage.py runserver 0.0.0.0:8000
 
