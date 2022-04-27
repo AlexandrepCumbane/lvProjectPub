@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState, Fragment } from "react";
 import { connect } from "react-redux";
 import {
   Col,
@@ -22,6 +22,7 @@ import { Editor } from "react-draft-wysiwyg";
 import { EditorState, ContentState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
+import DocPreviewModal from "../app/modal/DocPreviewModal";
 
 import {
   requestDropodowns,
@@ -953,31 +954,14 @@ class Edit extends Component {
 
     articles = this.props.data?.articlefile_set?.map((item) => (
       <Col md="12" key={item.uuid}>
-        <Button.Ripple
-          className="rounded-0"
-          color="flat-primary"
-          onClick={() =>
-            item.file
-              ? window.open(
-                  item.file,
-                  "_blank",
-                  "toolbar=0,location=0,menubar=0"
-                )
-              : {}
-          }
-        >
-          <Cloud size={14} />
-          <span className="align-middle ml-25">
-            {this.translate(item.title ?? this.getFilename(item.file))}
-          </span>
-        </Button.Ripple>
+        <DocPreviewModal docUri = { validURL(item.file) }/>
       </Col>
     ));
 
     return (
       <>
         {res}
-
+        
         {articles}
       </>
     );
@@ -990,6 +974,22 @@ class Edit extends Component {
   getFilename = (url) => {
     return url.substring(url.lastIndexOf("/") + 1);
   };
+}
+
+// Debug function : Mainly for localhost
+function validURL(str) {
+  var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    console.log(!!pattern.test(str));
+    if (!!pattern.test(str)){
+      return str;
+    } else {
+      return "http://localhost:8000" + str;
+    }
 }
 
 function mapStateToProps(state) {

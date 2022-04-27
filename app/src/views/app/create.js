@@ -728,7 +728,10 @@ class Create extends React.Component {
           this.setState({blockSubmit: false})
 
           setTimeout(() => {
-            history.push(`/${this.props.url}`);
+            history.push({
+              pathname: `/${this.props.url}`, 
+              state: { updateList: true }   // Maybe the same can be achieved with: this.setState({ updateList: true });
+            });
           }, 1000);
         })
         .catch(({ response }) => {
