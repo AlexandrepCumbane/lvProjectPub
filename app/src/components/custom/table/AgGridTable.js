@@ -14,6 +14,7 @@ import {
   RefreshCw,
   Columns,
   DownloadCloud,
+  ArrowRightCircle
 } from "react-feather";
 import { ContextLayout } from "../../../utility/context/Layout";
 import {
@@ -36,6 +37,9 @@ import {
   Spinner,
 } from "reactstrap";
 
+import Modal from "../../../views/app/modal/create";
+import ListModal from "../../../views/app/modal/list";
+
 import CaseEdit from "../../../views/app/edit";
 import ModalEdit from "../../../views/app/modal/edit";
 
@@ -52,6 +56,8 @@ class AggridTable extends React.Component {
 
   state = {
     filters: false,
+    openModal: false,
+    forwardCaseData: "",
     gridReady: false,
     showSidebar: false,
     showTaskDialog: false,
@@ -216,6 +222,7 @@ class AggridTable extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (
       this.state.filters !== nextState.filters ||
+      this.state.openModal !== nextState.openModal ||
       this.state.start !== nextState.start ||
       this.state.end !== nextState.end ||
       this.props.loading !== nextProps.loading ||
@@ -620,6 +627,33 @@ class AggridTable extends React.Component {
                           >
                             {this.translate("Export Selected")}
                           </UncontrolledTooltip>
+                          <Button.Ripple
+                            id="forward"
+                            className="btn-icon"
+                            color="flat-primary rounded-0"
+                            onClick={() =>
+                              this.forwardSelectedCases()
+                            }
+                          >
+                            <ArrowRightCircle size={16} />
+                          </Button.Ripple>
+                          <UncontrolledTooltip
+                            placement="top"
+                            target="forward"
+                          >
+                            {this.translate("Referral to")}
+                            test
+                            {this.state.openModal}
+                          </UncontrolledTooltip>                          
+                          {this.state.openModal ? (<Modal
+                                  title={this.translate(`Send to Focal Point`)}
+                                  page="forwardcasetofocalpoint"
+                                  label={this.translate("Send")}
+                                  lvform_id={this.state.forwardCaseData["id"]}
+                                  lvform={this.state.forwardCaseData}
+                                />) : (
+                                <></>
+                                )}
                         </>
                       ) : (
                         <></>
@@ -724,6 +758,35 @@ class AggridTable extends React.Component {
       </React.Fragment>
     );
   }
+
+  /**
+   * Forwarding to Inctitutions Action and helper functions
+   */
+  forwardSelectedCases = () => {
+    console.log('You clicked to select forward cases.');
+    let selectedNodes = this.gridApi.getSelectedNodes();
+    let selectedData = selectedNodes.map(node => node.data);
+    // alert(`Selected Nodes:\n${JSON.stringify(selectedData)}`);
+    console.log("The state of openModal is = " + this.state.openModal);
+    this.setState({
+      openModal: !this.state.openModal,
+      showModal: true,
+      forwardCaseData: selectedData, // TODO: load for more than selection
+      modal_form: "forwardinginstitution",
+    }, () => {
+      console.log("The state of openModal is = ");
+      // console.log(this.state.forwardCaseData);
+    });
+
+    // <Modal
+    //               title={this.translate(`Send to Focal Point`)}
+    //               page="forwardcasetofocalpoint"
+    //               label={this.translate("Send")}
+    //               lvform_id={selectedData["id"]}
+    //               lvform={selectedData}
+    //             />
+    return selectedData;
+  };
 }
 
 export default AggridTable;
