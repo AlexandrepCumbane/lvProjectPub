@@ -7,11 +7,13 @@ build:
 
 # Build and push the image
 buildx:
+	docker buildx install
 	docker buildx build \
 	--platform linux/amd64,linux/arm64,linux/arm/v7 \
 	-t $(organization)/$(image):$(tag) \
 	--push \
 	.
+	docker buildx uninstall
 	
 build-prod:
 	$(MAKE) build options="--target production"
