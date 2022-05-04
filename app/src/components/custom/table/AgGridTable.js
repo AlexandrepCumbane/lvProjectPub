@@ -37,7 +37,7 @@ import {
   Spinner,
 } from "reactstrap";
 
-import Modal from "../../../views/app/modal/create";
+import Modal from "../../../views/app/modal/forwardCaseModal";
 import ListModal from "../../../views/app/modal/list";
 
 import CaseEdit from "../../../views/app/edit";
@@ -642,9 +642,9 @@ class AggridTable extends React.Component {
                             target="forward"
                           >
                             {this.translate("Referral to")}
-                            test
-                            {this.state.openModal}
-                          </UncontrolledTooltip>                          
+                          </UncontrolledTooltip>
+                          {/* {console.log(this.gridApi.getSelectedNodes().map(node => node.data))} */}
+                          
                           {this.state.openModal ? (<Modal
                                   title={this.translate(`Send to Focal Point`)}
                                   page="forwardcasetofocalpoint"
