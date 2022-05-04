@@ -643,7 +643,6 @@ class AggridTable extends React.Component {
                           >
                             {this.translate("Referral to")}
                           </UncontrolledTooltip>
-                          {/* {console.log(this.gridApi.getSelectedNodes().map(node => node.data))} */}
                           
                           {this.state.openModal ? (<Modal
                                   title={this.translate(`Send to Focal Point`)}
@@ -767,24 +766,17 @@ class AggridTable extends React.Component {
     let selectedNodes = this.gridApi.getSelectedNodes();
     let selectedData = selectedNodes.map(node => node.data);
     // alert(`Selected Nodes:\n${JSON.stringify(selectedData)}`);
-    console.log("The state of openModal is = " + this.state.openModal);
+    // console.log("The state of openModal is = " + this.state.openModal);
     this.setState({
       openModal: !this.state.openModal,
       showModal: true,
-      forwardCaseData: selectedData, // TODO: load for more than selection
+      forwardCaseData: selectedData, 
       modal_form: "forwardinginstitution",
     }, () => {
-      console.log("The state of openModal is = ");
+      // console.log("The state of openModal is = ");
       // console.log(this.state.forwardCaseData);
     });
 
-    // <Modal
-    //               title={this.translate(`Send to Focal Point`)}
-    //               page="forwardcasetofocalpoint"
-    //               label={this.translate("Send")}
-    //               lvform_id={selectedData["id"]}
-    //               lvform={selectedData}
-    //             />
     return selectedData;
   };
 }
