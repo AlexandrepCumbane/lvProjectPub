@@ -68,9 +68,7 @@ class Create extends React.Component {
   componentDidMount() {
     this.props.requestDropodowns(); // Request dropdown lists and place in a map
 
-    /// TODO: Create array of for data to be handled in bulk here:
     this.updateState("lvform_id", this.props.lvform_id);
-    console.log(this.props.lvform_id)
     let formsdata= []
 
     this.props.lvform.forEach((form)=>{
@@ -510,12 +508,6 @@ class Create extends React.Component {
   handleSubmit = () => {
     const { userOauth } = this.props.state.auth.login;
 
-    // console.log(this.state.forms);
-    // this.state.forms.forEach((form, idx, array) => {
-    //     if (idx === array.length - 1){ 
-    //         console.log("Last callback call at index " + idx + " with value "  ); 
-    //     }
-    // })
     if (this.state.required_fields.length > 0) {
       this.notifyErrorBounce(this.translate("Fill all required inputs"));
       this.setState({ isValid: false });
