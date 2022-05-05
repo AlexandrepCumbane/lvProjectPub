@@ -65,6 +65,8 @@ class Create extends React.Component {
     alertData: {}
   };
   componentDidMount() {
+    this.props.requestDropodowns(); // Request dropdown lists and place in a map
+    
     this.updateState("lvform_id", this.props.lvform_id);
 
     let formdata = new FormData();
