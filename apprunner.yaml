@@ -1,0 +1,12 @@
+version: 1.0
+runtime: python3
+build:
+ commands:
+  build:
+  - yum install -y pycairo
+  - pip install --upgrade pip
+  - pip install -r requirements.txt
+run:
+ command: gunicorn -b 0.0.0.0:8000 --limit-request-line 0 --timeout 60 --limit-request-field_size 0 --chdir db caseproject.wsgi:application
+ network:
+   port: 8000
