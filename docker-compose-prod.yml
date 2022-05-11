@@ -73,12 +73,14 @@ services:
     restart: always
     image: "nginx:latest"
     ports:
-      - "80:80"
+      - 80:80
       - 443:443
     volumes:
       - ./nginx:/etc/nginx/conf.d
-      - ./certbot/www:/var/www/certbot/:ro
-      - ./certbot/conf/:/etc/nginx/ssl/:ro
+      - ./nginx/dhparam:/etc/nginx/dhparam
+      - ./certbot/www:/var/www/certbot/
+      - ./certbot/conf/:/etc/nginx/ssl/
+      - ./certbot/data:/usr/share/nginx/html/letsencrypt
     networks:
       - web_network
     depends_on: 
@@ -86,9 +88,11 @@ services:
 
   certbot:
     image: certbot/certbot:latest
+    command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email it@robobo.org --agree-tos --no-eff-email -d backend.linha1458.moz.wfp.org
     volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
+       - ./certbot/conf/:/etc/letsencrypt
+       - ./certbot/logs/:/var/log/letsencrypt
+       - ./certbot/data:/usr/share/nginx/html/letsencrypt
   # celery:
   #   restart: always
   #   build:
