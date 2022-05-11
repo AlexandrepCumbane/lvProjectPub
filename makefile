@@ -1,5 +1,5 @@
 tag=latest
-organization=Robobo
+organization=roboboinc
 image=linhaverde
 
 build:
@@ -19,7 +19,8 @@ build-prod:
 	$(MAKE) build options="--target production"
 
 push:
-	docker tag $(image):latest $(organization)/$(image):$(tag)
+	docker build --force-rm $(options) -t $(image):$(tag) .
+	docker tag $(image):$(tag) $(organization)/$(image):$(tag)
 	docker push $(organization)/$(image):$(tag)
 
 compose-start:
