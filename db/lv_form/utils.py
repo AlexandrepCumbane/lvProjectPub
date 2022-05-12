@@ -1,3 +1,5 @@
+from attr import validate
+from coreapi import Object
 from django.db import transaction
 from django.utils.datastructures import MultiValueDictKeyError
 from .serializers import LvFormSerializer
@@ -76,11 +78,18 @@ def map_case_fields(template_cases) -> dict:
 
     serializer = {}
     with transaction.atomic():
+        print(template_cases)
         for i in range(len(template_cases)):
-            qs = LvForm.objects.get(case_number=template_cases[i]['case_number'])
+            try:
+                qs = LvForm.objects.get(case_number=template_cases[i]['case_number'])
 
-            serializer = LvFormSerializer(instance=qs, data=template_cases[i], partial=True)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
+                serializer = LvFormSerializer(instance=qs, data=template_cases[i], partial=True)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+            except LvForm.DoesNotExist:
+                print("object does not exist")
+                serializer = LvFormSerializer(data=template_cases[i])
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
 
     return serializer
