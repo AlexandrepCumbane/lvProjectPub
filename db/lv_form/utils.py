@@ -2,10 +2,13 @@ from attr import validate
 from coreapi import Object
 from django.db import transaction
 from django.utils.datastructures import MultiValueDictKeyError
+
+from case_tipology.models import CaseTipology
+from location_management.models import Province
 from .serializers import LvFormSerializer
 from .models import LvForm
 from .helper import mapped_value
-
+from django.contrib.auth import get_user_model
 
 def filter_queryset_date(request, queryset) -> list:
 
@@ -72,24 +75,43 @@ def format_cases_fields(template_case) -> dict:
     case_result['case_priority'] = '2'
     return case_result
 
+def map_relational_key(field, data, model, model_key, data_value_to_search):
+    try:
+        if field not in data:
+            data[field] = model.objects.get(**{model_key:data[data_value_to_search]}).id
+            return data
+        else:
+            return data[field]
+    except:
+        pass    # for now we continue without handling the error
 
 def map_case_fields(template_cases) -> dict:
     case_list = []
+    User = get_user_model()
+    keys_to_check = [
+                        #[key in response dict, DB Model, model_key, key to append/modify to response]
+                        # ['category_id', CaseTipology, 'category', 'category_id'],
+                        # ['distrito_id', Province, 'name', 'distrito_id'],
+                        ['created_by', User, 'email', 'created_by__label']
+                    ]
 
     serializer = {}
     with transaction.atomic():
-        print(template_cases)
         for i in range(len(template_cases)):
-            try:
-                qs = LvForm.objects.get(case_number=template_cases[i]['case_number'])
+            # print(template_cases)
+            # # add/map in missing items on form:
+            for key in keys_to_check:
+                map_relational_key(key[0], template_cases[i], key[1], key[2], key[3])
 
-                serializer = LvFormSerializer(instance=qs, data=template_cases[i], partial=True)
-                serializer.is_valid(raise_exception=True)
-                serializer.save()
-            except LvForm.DoesNotExist:
-                print("object does not exist")
-                serializer = LvFormSerializer(data=template_cases[i])
-                serializer.is_valid(raise_exception=True)
+            # Now write changes to the model
+            serializer = LvFormSerializer(data=template_cases[i], partial=True)
+            serializer.is_valid(raise_exception=True)
+
+            # We have to handle submiossions with empty user = defaults to null?
+            try:
+                user = User.objects.get(id=template_cases[i]['created_by'])
+                serializer.save(created_by=user)
+            except:
                 serializer.save()
 
     return serializer
