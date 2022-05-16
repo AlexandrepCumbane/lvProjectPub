@@ -5,6 +5,50 @@ from accounts.models import ClusterSector, ClusterAgency, ClusterRegion
 User = settings.AUTH_USER_MODEL
 
 
+CONTACT_GROUP_CHOICES = (
+            ("Beneficiary", "Beneficiary"),
+            ("Representative of beneficiary", "Representative of beneficiary"),
+            ("Non beneficiary", "Non beneficiary"),
+            ("Community leader", "Community leader"),
+            ("Humanitarian partner", "Humanitarian partner"),
+            ("Other", "Other"),
+        )
+
+MEANS_OF_COMMUNICATION_CHOICES = (
+            ("Linha verde (own phone)", "Linha verde (own phone)"),
+            ("Linha verde (borrowed phone)", "Linha verde (borrowed phone)"),
+            ("SMS", "SMS"),
+            ("Email", "Email"),
+        )
+
+HOW_KNOWS_LV_CHOICES = (
+            ("Radio", "Radio"),
+            ("Pamphlet", "Pamphlet"),
+            ("People working in the community",
+             "People working in the community"),
+            ("SMS", "SMS"),
+            ("Posters or other visibility material",
+             "Posters or other visibility material"),
+            ("Suggestion box", "Suggestion box"),
+        )
+
+SECTOR_CHOICES = (
+            ("Shelter", "Shelter"),
+            ("WASH", "WASH"),
+            ("Education", "Education"),
+            ("Food Security", "Food Security"),
+            ("Health", "Health"),
+            ("Child Protection", "Child Protection"),
+            ("Gender-based violence", "Gender-based violence"),
+            ("PSEA", "Protection from Sexual Exploitation and Abuse"),
+            ("Protection", "Protection"),
+            ("CCCM", "CCCM"),
+            ("INGD", "INGD"),
+            ("IDP Registration", "IDP Registration"),
+            ("Social Protection/INAS", "Social Protection/INAS"),
+            ("Other", "Other"),
+        )
+
 class LvForm(models.Model):
     consent_pi = models.BooleanField(
         default=False,
@@ -26,14 +70,7 @@ class LvForm(models.Model):
                                   blank=True,
                                   null=True)
     contact_group = models.CharField(
-        choices=(
-            ("Beneficiary", "Beneficiary"),
-            ("Representative of beneficiary", "Representative of beneficiary"),
-            ("Non beneficiary", "Non beneficiary"),
-            ("Community leader", "Community leader"),
-            ("Humanitarian partner", "Humanitarian partner"),
-            ("Other", "Other"),
-        ),
+        choices = CONTACT_GROUP_CHOICES,
         null=True,
         blank=True,
         max_length=50,
@@ -182,22 +219,7 @@ class LvForm(models.Model):
         help_text="LBL_Individual committing malpractice",
     )
     sector = models.CharField(
-        choices=(
-            ("Shelter", "Shelter"),
-            ("WASH", "WASH"),
-            ("Education", "Education"),
-            ("Food Security", "Food Security"),
-            ("Health", "Health"),
-            ("Child Protection", "Child Protection"),
-            ("Gender-based violence", "Gender-based violence"),
-            ("PSEA", "Protection from Sexual Exploitation and Abuse"),
-            ("Protection", "Protection"),
-            ("CCCM", "CCCM"),
-            ("INGD", "INGD"),
-            ("IDP Registration", "IDP Registration"),
-            ("Social Protection/INAS", "Social Protection/INAS"),
-            ("Other", "Other"),
-        ),
+        choices= SECTOR_CHOICES,
         max_length=100,
         verbose_name="Sector",
     )
@@ -263,12 +285,7 @@ class LvForm(models.Model):
         verbose_name="Case close category",
     )
     means_of_communication = models.CharField(
-        choices=(
-            ("Linha verde (own phone)", "Linha verde (own phone)"),
-            ("Linha verde (borrowed phone)", "Linha verde (borrowed phone)"),
-            ("SMS", "SMS"),
-            ("Email", "Email"),
-        ),
+        choices= MEANS_OF_COMMUNICATION_CHOICES,
         max_length=150,
         null=True,
         blank=True,
@@ -276,16 +293,7 @@ class LvForm(models.Model):
         help_text="How did they contact us?",
     )
     how_knows_lv = models.CharField(
-        choices=(
-            ("Radio", "Radio"),
-            ("Pamphlet", "Pamphlet"),
-            ("People working in the community",
-             "People working in the community"),
-            ("SMS", "SMS"),
-            ("Posters or other visibility material",
-             "Posters or other visibility material"),
-            ("Suggestion box", "Suggestion box"),
-        ),
+        choices = HOW_KNOWS_LV_CHOICES,
         max_length=50,
         null=True,
         blank=True,

@@ -2,6 +2,7 @@ import random
 from wq.db.patterns import serializers as patterns
 from accounts.serializer import CustomUserFullSerializer
 from .models import LvForm, CaseComment, ForwardingInstitution, Task, TaskComment, ForwardCaseToFocalpoint
+from django.contrib.auth import get_user_model
 
 
 class CaseCommentSerializer(patterns.AttachedModelSerializer):
@@ -166,14 +167,26 @@ class LvFormSerializer(patterns.AttachedModelSerializer):
 
     def create(self, validated_data):
         last = LvForm.objects.last()
-        case_number = random.randint(10283, 112398)
-        if (last):
-            case_number = last.case_number + 1
 
-        form = LvForm.objects.create(case_number=case_number,
+        # print(self.context)
+        # TODO: Handle existing case_numbers
+        data = validated_data.copy()
+        
+        # TODO: This must be reviewed both in term of model int field and the case number assignment!
+        if "case_number" not in data:
+            case_number = random.randint(10283, 112398)
+            if (last):
+                data["case_number"] = last.case_number + 1
+
+        try:
+            if 'request' in self.context:
+                form, created = LvForm.objects.update_or_create(
                                      created_by=self.context['request'].user,
-                                     **validated_data)
-        return form
+                                     **data)
+            return form
+        except:
+            form, created = LvForm.objects.update_or_create(**data)
+            return form
 
 
 class TaskFullSerializer(patterns.AttachedModelSerializer):
