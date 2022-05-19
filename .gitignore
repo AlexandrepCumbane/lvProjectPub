@@ -22,6 +22,6 @@ case_mgmnt.code-workspace
 # Ignore DevSpace cache and log folder
 .devspace/
 helm/values.yaml
-.vscode/dryrun.log
 .vscode/targets.log
+.vscode/dryrun.log
 .vscode/configurationCache.log

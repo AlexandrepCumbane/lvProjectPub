@@ -51,6 +51,8 @@ services:
       - db_migrate
       - redis
       - web
+    networks:
+      - web_network
   web:
     build: .
     # image: roboboinc/linhaverde
@@ -78,18 +80,6 @@ services:
   redis:
     image: redis:alpine
 
-  nginx:
-    container_name: nginx
-    restart: always
-    image: "nginx:latest"
-    ports:
-      - "85:80"
-    volumes:
-      - ./nginx:/etc/nginx/conf.d
-    networks:
-      - web_network
-    depends_on: 
-      - web
   # celery:
   #   restart: always
   #   build:
