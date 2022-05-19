@@ -719,9 +719,9 @@ class Create extends React.Component {
       const url = this.props.path === "customuser" ? "user" : this.props.path;
       
       if(!this.state.blockSubmit){
-        
         // block button action
         this.setState({blockSubmit : true});
+      }
       axios
         .post(`${url}s.json`, this.state.form, {
           headers: {
@@ -732,7 +732,10 @@ class Create extends React.Component {
           this.notifySuccessBounce(data.id);
           
           setTimeout(() => {
-            history.push(`/${this.props.url}`);
+            history.push({
+              pathname: `/${this.props.url}`, 
+              state: { updateList: true }   // Maybe the same can be achieved with: this.setState({ updateList: true });
+            });
           }, 1000);
         })
         .catch(({ response }) => {
@@ -749,7 +752,7 @@ class Create extends React.Component {
             showAlert: true
           })
         });
-    }}
+    }
   };
 
   animatedComponents = makeAnimated();
