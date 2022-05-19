@@ -1,9 +1,13 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "lv-chart.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
-{{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+{{- $ingressPathType := .Values.ingress.pathType | default "" -}}
+{{- $newAPI := .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" -}}
+{{- if $newAPI -}}
+apiVersion: networking.k8s.io/v1
+{{- else if .Capabilities.APIVersions.Has "networking.k8s.io/v1beta1/Ingress" }}
 apiVersion: networking.k8s.io/v1beta1
-{{- else -}}
+{{- else }}
 apiVersion: extensions/v1beta1
 {{- end }}
 kind: Ingress
@@ -13,6 +17,9 @@ metadata:
     {{- include "lv-chart.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
+    nginx.ingress.kubernetes.io/websocket-services: {{ $fullName }}
+    nginx.org/websocket-services: {{ $fullName }}
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: {{ $fullName }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
@@ -34,8 +41,16 @@ spec:
           {{- range .paths }}
           - path: {{ . }}
             backend:
+              {{- if $newAPI }}
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ $svcPort }}
+            pathType: {{ $ingressPathType }}
+              {{- else }}
               serviceName: {{ $fullName }}
               servicePort: {{ $svcPort }}
+              {{- end }}
           {{- end }}
     {{- end }}
   {{- end }}

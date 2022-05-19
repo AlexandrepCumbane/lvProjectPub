@@ -1,6 +1,8 @@
 tag=latest
 organization=roboboinc
 image=linhaverde
+helm_dir=callcenter-helm-chart
+helm_app=lv
 
 build:
     docker build --force-rm $(options) -t $(image):$(tag) .
@@ -22,6 +24,21 @@ push:
 	docker build --force-rm $(options) -t $(image):$(tag) .
 	docker tag $(image):$(tag) $(organization)/$(image):$(tag)
 	docker push $(organization)/$(image):$(tag)
+
+helmx:
+	cd $(helm_dir) && \
+	echo  "Running Helm command from " $(helm_dir) && \
+	helm upgrade --install --force --set=image.tag=$(tag) $(image)-production-chart . 
+
+helmx-staging:
+	cd $(helm_dir) && \
+	echo  "Running Helm command from " $(helm_dir) && \
+	helm upgrade --install --force --set=image.tag=$(tag) --values=./staging-values.yaml $(helm_app)-staging-chart . 
+
+helmx-staging-dryrun:
+	cd $(helm_dir) && \
+	echo  "Running Helm command from " $(helm_dir) && \
+	helm upgrade --install --dry-run --debug --set=image.tag=$(tag) --values=./staging-values.yaml $(helm_app)-staging-chart . 
 
 compose-start:
 	docker-compose up --remove-orphans $(options)
@@ -49,3 +66,6 @@ devspace-prod:
 
 devspace-dev:
 	devspace dev
+
+aws-kubeconfig:
+	aws eks update-kubeconfig --name linhaverde --region eu-west-1 --profile wfp
