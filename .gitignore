@@ -15,7 +15,7 @@ conf/*.sqlite3
 app/.eslintcache
 db/~$lv_form.xlsx
 app_template/.eslintcache
-.env
+.env*
 case_mgmnt.code-workspace
 
 
