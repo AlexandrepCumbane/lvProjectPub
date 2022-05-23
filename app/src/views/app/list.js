@@ -398,7 +398,8 @@ class List extends Component {
         item.name === "fullname" ||
         item.name === "contact" ||
         item.name === "file" ||
-        item.name === "other_contact"
+        item.name === "other_contact" //||
+        // item.name === "casecomment_set"  // TO-DO: Validate if we need to keep it in the list or simply the exported file
       ) {
         return {
           headerName: this.translate(item.label),
@@ -551,6 +552,10 @@ class List extends Component {
               data[`${item.name}`] === null
             ) {
               return this.translate("Null");
+            }
+            // If it is a case Comment field, we handle it here
+            if ( item.label === "Comments" ) {
+                return data[`${item.name}`].map((comment, index) => `${comment.id} - ${comment.feedback}`).join('; \n');
             }
 
             return this.translate(data[`${item.name}`]);
