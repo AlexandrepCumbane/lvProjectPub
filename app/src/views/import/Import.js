@@ -336,17 +336,37 @@ function Uploader(props) {
     let kObject = {};
 
     entries.forEach((key) => {
-      if (handleMapKey(key[0]) === "gender") return;
 
       // Specific known keys matching
       if (
         handleMapKey(key[0]) === "provincia" ||
         handleMapKey(key[0]) === "distrito" ||
-        handleMapKey(key[0]) === "localidade"
+        handleMapKey(key[0]) === "localidade" ||
+        handleMapKey(key[0]) === "gender" 
       ) {
         const field = form.filter(
           (item) => item.name === handleMapKey(key[0])
         )[0];
+
+        // Handle parsing of select one for gender field
+
+        if (
+          field &&
+          field.name === "gender" &&
+          field.type === "select one" 
+        ) {
+            switch (item[key[0]]){
+              case 'Male':
+                kObject[`${handleMapKey(key[0])}`] = "male";
+                break;
+              case 'Female':
+                kObject[`${handleMapKey(key[0])}`] = "female";
+                break;
+              default:
+                console.log(`Handle gender with ${item[key[0]]}`);
+                kObject[`${handleMapKey(key[0])}`] = "other";
+            }
+        }
 
         if (field && field.type === "string" && field["wq:ForeignKey"]) {
           if (key[1] === "Null") return;

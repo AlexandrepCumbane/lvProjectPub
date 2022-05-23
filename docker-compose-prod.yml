@@ -19,12 +19,6 @@ x-app-variables: &app-variables
   POSTGRES_HOST: postgres
 
 services:
-  db:
-    image: postgres:12-alpine
-    container_name: casemangmnt_db
-    environment: *database-variables
-    # volumes:
-    #   - db-data:/var/lib/postgresql/data
   db_migrate:
     build: .
     # image: roboboinc/linhaverde
@@ -32,8 +26,6 @@ services:
     volumes: *service-volumes
     env_file:
       - .env
-    depends_on:
-      - db
   frontend:
     build: ./app
     # image: roboboinc/linhaverde
@@ -51,8 +43,6 @@ services:
       - db_migrate
       - redis
       - web
-    networks:
-      - web_network
   web:
     build: .
     # image: roboboinc/linhaverde
@@ -73,13 +63,35 @@ services:
     depends_on:
       - db_migrate
       - redis
-      - db
     networks:
-      - db_network
       - web_network
   redis:
     image: redis:alpine
 
+  nginx:
+    container_name: nginx
+    restart: always
+    image: "nginx:latest"
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./nginx/dhparam:/etc/nginx/dhparam
+      - ./certbot/conf/:/etc/nginx/ssl/
+      - ./certbot/data:/usr/share/nginx/html/letsencrypt
+    networks:
+      - web_network
+    depends_on: 
+      - web
+
+  certbot:
+    image: certbot/certbot:latest
+    command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email it@robobo.org --agree-tos --no-eff-email -d backend.linha1458.moz.wfp.org
+    volumes:
+       - ./certbot/conf/:/etc/letsencrypt
+       - ./certbot/logs/:/var/log/letsencrypt
+       - ./certbot/data:/usr/share/nginx/html/letsencrypt
   # celery:
   #   restart: always
   #   build:

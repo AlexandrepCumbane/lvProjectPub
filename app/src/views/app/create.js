@@ -52,8 +52,9 @@ class Create extends React.Component {
     showAlert: false,
     alertFields: [],
     alertData: {},
-    blockSubmit: false
-  };
+    blockSubmit: false,
+    disabled: false,
+    };
 
   componentDidMount() {
     this.props.requestDropodowns(); // Request dropdown lists and place in a map
@@ -120,6 +121,7 @@ class Create extends React.Component {
           <div className="d-flex justify-content-between">
             <div />
             <Button.Ripple
+              disabled={this.state.disabled}
               className="square"
               color="primary"
               type="submit"
@@ -712,10 +714,14 @@ class Create extends React.Component {
     } else {
       this.setState({ isValid: true });
 
+      // block button action
+      this.setState({disabled: true});
       const url = this.props.path === "customuser" ? "user" : this.props.path;
+      
       if(!this.state.blockSubmit){
-
+        // block button action
         this.setState({blockSubmit : true});
+      }
       axios
         .post(`${url}s.json`, this.state.form, {
           headers: {
@@ -724,9 +730,7 @@ class Create extends React.Component {
         })
         .then(({ data }) => {
           this.notifySuccessBounce(data.id);
-          // block button action
-          this.setState({blockSubmit: false})
-
+          
           setTimeout(() => {
             history.push({
               pathname: `/${this.props.url}`, 
@@ -738,6 +742,7 @@ class Create extends React.Component {
 
           // block button action
           this.setState({blockSubmit: false})
+          this.setState({disabled: false});
           
           this.notifyErrorBounce("Failed to save Object.");
 
@@ -747,7 +752,7 @@ class Create extends React.Component {
             showAlert: true
           })
         });
-    }}
+    }
   };
 
   animatedComponents = makeAnimated();

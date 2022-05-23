@@ -1,4 +1,4 @@
 dependencies:
-  - name: redis
-    version: 13.0.x
-    repository: https://charts.bitnami.com/bitnami
+- name: redis
+  repository: https://charts.bitnami.com/bitnami
+  version: 16.9.6
