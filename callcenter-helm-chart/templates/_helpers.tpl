@@ -65,3 +65,34 @@ Create the name of the service account to use
 {{- define "redis.fullname" -}}
 {{- printf "%s-redis" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Set redis host
+*/}}
+{{- define "redis.host" -}}
+{{- if .Values.redis.enabled -}}
+{{- template "redis.fullname" . -}}-redis-master
+{{- else -}}
+{{- .Values.redis.host | quote -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Set redis url
+*/}}
+{{- define "redis.url" -}}
+{{- if .Values.redis.enabled -}}
+redis://:{{ .Values.redis.auth.password }}@{{- template "redis.fullname" . -}}:{{- template "redis.port" . -}}/0
+{{- end -}}
+{{- end -}}
+
+{{/*
+Set redis port
+*/}}
+{{- define "redis.port" -}}
+{{- if .Values.redis.enabled -}}
+    6379
+{{- else -}}
+{{- default "6379" .Values.redis.port -}}
+{{- end -}}
+{{- end -}}
