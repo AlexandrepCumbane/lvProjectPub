@@ -546,6 +546,12 @@ class List extends Component {
           filter: "customFilter",
           editable: false,
           valueGetter: ({ data }) => {
+            if ( item.name === "text" ){
+              // Here we clean the html on article/Base de Conhecimentos view 
+              var htmlString = data[`${item.name}`]
+              var plainString = htmlString.replace(/<[^>]+>/g, '');
+              return this.translate(plainString);
+            }
             if (
               data[`${item.name}`] === "" ||
               data[`${item.name}`] === undefined ||
