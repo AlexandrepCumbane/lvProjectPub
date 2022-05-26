@@ -555,7 +555,7 @@ class List extends Component {
             }
             // If it is a case Comment field, we handle it here
             if ( item.label === "Comments" ) {
-                return data[`${item.name}`].map((comment, index) => `${comment.id} - ${comment.feedback}`).join('; \n');
+                return data[`${item.name}`].map((comment, index) => `${comment.id} - ${comment.feedback} - ${comment.created_by_label}`).join('; \n');
             }
 
             return this.translate(data[`${item.name}`]);
