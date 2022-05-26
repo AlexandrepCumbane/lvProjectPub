@@ -546,6 +546,12 @@ class List extends Component {
           filter: "customFilter",
           editable: false,
           valueGetter: ({ data }) => {
+            if ( item.name === "text" ){
+              // Here we clean the html on article/Base de Conhecimentos view 
+              var htmlString = data[`${item.name}`]
+              var plainString = htmlString.replace(/<[^>]+>/g, '');
+              return this.translate(plainString);
+            }
             if (
               data[`${item.name}`] === "" ||
               data[`${item.name}`] === undefined ||
@@ -555,7 +561,7 @@ class List extends Component {
             }
             // If it is a case Comment field, we handle it here
             if ( item.label === "Comments" ) {
-                return data[`${item.name}`].map((comment, index) => `${comment.id} - ${comment.feedback}`).join('; \n');
+                return data[`${item.name}`].map((comment, index) => `${comment.id} - ${comment.feedback} - ${comment.created_by_label}`).join('; \n');
             }
 
             return this.translate(data[`${item.name}`]);
