@@ -16,9 +16,11 @@ import {
   operator as operatorColumns,
   manager as managerColumns,
   partner as partnerColumns,
+} from "../../data/lvform.config";
+import {
   sent_to_focalpoint,
   sent_to_partner,
-} from "../../data/lvform.config";
+} from "../../data/forwarding.lvform.config";
 import { IntlContext } from "../../i18n/provider";
 import {
   requestForm,
@@ -575,7 +577,7 @@ class List extends Component {
       this.props.path === "forwardinginstitution"
     ) {
       columnDefs = columnDefs.concat(
-        config.pages.lvform.form.map((item, index) => {
+        config.pages.lvform_forwarding.form.map((item, index) => {
           if (
             item.name === "fullname" ||
             item.name === "contact" ||
@@ -645,6 +647,10 @@ class List extends Component {
                   filter: "customFilter",
                   resizable: true,
                   valueGetter: ({ data }) => {
+                    // If it is a case Comment field, we handle it here
+                    if ( item.label === "Comments" ) {
+                      return data["callcase"][`${item.name}`].map((comment, index) => `${comment.id} - ${comment.feedback} - ${comment.created_by_label}`).join('; \n');
+                    }
                     return this.translate(
                       data["callcase"][`${item.name}_label`] ??
                       data["callcase"][`${item.name}`] ??

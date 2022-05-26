@@ -1,3 +1,4 @@
+import { forwarding_lvform} from "./forwarding.lvform.config"
 export default {
   pages: {
     forwardinginstitution: {
@@ -927,6 +928,7 @@ export default {
       verbose_name: "Case",
       verbose_name_plural: "lvforms",
     },
+    lvform_forwarding: forwarding_lvform,
     taskcomment: {
       name: "taskcomment",
       url: "taskcomments",
