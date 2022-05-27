@@ -265,13 +265,35 @@ class Create extends React.Component {
 
       case "string":
         if (field["wq:ForeignKey"]) {
+          console.log(field.name);
           res = (
             <Col md="12" key={field.name}>
               <Label>{this.translate(field.label)}</Label>
 
               <FormGroup className="form-label-group position-relative has-icon-left">
+                { field.name === "focalpoint" &&
+                  <Select
+                    className="react-select"
+                    classNamePrefix='select'
+                    isMulti
+                    onChange={(e) => {
+                      this.updateState(`${field.name}_id`, e.value);
+                      if (field["children"]) {
+                        this.updateChildrenList(field, e);
+                      }
+                    }}
+                    components={this.animatedComponents}
+                    options={this.multipleSelect(
+                      field["has_parent"] === undefined
+                        ? this.getForeignFieldDropdown(field["wq:ForeignKey"])
+                        : this.state.childrens[field["wq:ForeignKey"]] ?? []
+                    )}
+                  />
+                }
+                { field.name !== "focalpoint" &&
                 <Select
-                  className="rounded-0"
+                  className="react-select"
+                  classNamePrefix='select'
                   onChange={(e) => {
                     this.updateState(`${field.name}_id`, e.value);
                     if (field["children"]) {
@@ -285,6 +307,7 @@ class Create extends React.Component {
                       : this.state.childrens[field["wq:ForeignKey"]] ?? []
                   )}
                 />
+                }
               </FormGroup>
             </Col>
           );
