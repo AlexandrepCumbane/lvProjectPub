@@ -62,9 +62,12 @@ class Create extends React.Component {
 
     showAlert: false,
     alertFields: [],
-    alertData: {}
+    alertData: {},
+    disabled: false,
   };
   componentDidMount() {
+    this.props.requestDropodowns(); // Request dropdown lists and place in a map
+    
     this.updateState("lvform_id", this.props.lvform_id);
 
     let formdata = new FormData();
@@ -146,6 +149,7 @@ class Create extends React.Component {
 
           <ModalFooter>
             <Button
+              disabled={this.state.disabled}
               color="primary"
               className="square"
               onClick={() => this.handleSubmit()}
@@ -481,7 +485,7 @@ class Create extends React.Component {
         break;
       default:
         // TODO
-        console.log("a");
+
     }
   };
 
@@ -489,6 +493,10 @@ class Create extends React.Component {
    * Submits the form to post request action
    */
   handleSubmit = () => {
+
+    // desabilitar a acao do butao 
+    this.state.disabled=true;
+
     const { userOauth } = this.props.state.auth.login;
 
     if (this.state.required_fields.length > 0) {
@@ -522,6 +530,9 @@ class Create extends React.Component {
           }, 1000);
         })
         .catch(({ response }) => {
+
+          // desabilitar a acao do butao 
+          this.state.disabled=false;
           this.setState({ isLoading: false });
           this.notifyErrorBounce(
             this.translate(
