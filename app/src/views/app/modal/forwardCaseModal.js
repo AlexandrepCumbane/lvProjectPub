@@ -594,12 +594,12 @@ class Create extends React.Component {
               showAlert: true
             })
           });
-
-          setTimeout(() => {
-            this.toggleModal();
-          }, 1000);
         });
-    });
+      });
+
+      setTimeout(() => {
+        this.toggleModal();
+      }, 1000);
     }
   };
 
