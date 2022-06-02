@@ -1,8 +1,10 @@
 tag=latest
+tag_staging=1.0.1
 organization=roboboinc
 image=linhaverde
 helm_dir=callcenter-helm-chart
-helm_app=lv
+helm_app=linhaverde
+helm_app_staging=lv
 
 build:
     docker build --force-rm $(options) -t $(image):$(tag) .
@@ -33,12 +35,12 @@ helmx:
 helmx-staging:
 	cd $(helm_dir) && \
 	echo  "Running Helm command from " $(helm_dir) && \
-	helm upgrade --install --force --set=image.tag=$(tag) --values=./staging-values.yaml $(helm_app)-staging-chart . 
+	helm upgrade --install --force --set=image.tag=$(tag_staging) --values=./staging-values.yaml $(helm_app_staging)-staging-chart . 
 
 helmx-staging-dryrun:
 	cd $(helm_dir) && \
 	echo  "Running Helm command from " $(helm_dir) && \
-	helm upgrade --install --dry-run --debug --set=image.tag=$(tag) --values=./staging-values.yaml $(helm_app)-staging-chart . 
+	helm upgrade --install --dry-run --debug --set=image.tag=$(tag) --values=./staging-values.yaml $(helm_app_staging)-staging-chart . 
 
 compose-start:
 	docker-compose up --remove-orphans $(options)
