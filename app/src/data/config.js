@@ -161,11 +161,6 @@ export default {
           type: "string",
         },
         {
-            "name": "comment",
-            "label": "Comment",
-            "type": "text"
-        },
-        {
           name: "groups",
           label: "Groups",
           hint: "The groups this user belongs to. A user will get all permissions granted to each of their groups.",
@@ -1824,11 +1819,6 @@ export default {
                       type: "string",
                     },
                     {
-                        "name": "comment",
-                        "label": "Comment",
-                        "type": "text"
-                    },
-                    {
                       name: "groups",
                       label: "Groups",
                       hint: "The groups this user belongs to. A user will get all permissions granted to each of their groups.",
@@ -1884,11 +1874,6 @@ export default {
                       label: "Last Name",
                       "wq:length": 30,
                       type: "string",
-                    },
-                    {
-                        "name": "comment",
-                        "label": "Comment",
-                        "type": "text"
                     },
                     {
                       name: "groups",
