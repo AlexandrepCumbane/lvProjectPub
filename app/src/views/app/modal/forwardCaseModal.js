@@ -71,22 +71,39 @@ class Create extends React.Component {
     this.updateState("lvform_id", this.props.lvform_id);
     let formsdata= []
 
-    this.props.lvform.forEach((form)=>{
+    // Handle single forward modal
+    if(Array.isArray(this.props.lvform)){
+      this.props.lvform.forEach((form)=>{
 
-    let formdata = new FormData();
-
-    if (form["description"]) {
-      formdata.append("description", form["description"]);
+        let formdata = new FormData();
+  
+        if (form["description"]) {
+          formdata.append("description", form["description"]);
+        }
+        if (form["feedback"]) {
+          formdata.append("feedback", form["feedback"]);
+        }
+  
+        formdata.append("lvform_id", form["id"]);
+        formdata.append("task_id", this.props.task_id);
+        formdata.append("article_id", form["id"]);
+        formsdata.push(formdata);
+      });
+    } else {
+      let formdata = new FormData();
+        
+      if (this.props.description) {
+        formdata.append("description", this.props["description"]);
+      }
+      if (this.props.feedback) {
+        formdata.append("feedback", this.props["feedback"]);
+      }
+  
+      formdata.append("lvform_id", this.props.lvform_id);
+      formdata.append("task_id", this.props.task_id);
+      formdata.append("article_id", this.props.lvform_id);
+      formsdata.push(formdata);
     }
-    if (form["feedback"]) {
-      formdata.append("feedback", form["feedback"]);
-    }
-
-    formdata.append("lvform_id", form["id"]);
-    formdata.append("task_id", this.props.task_id);
-    formdata.append("article_id", form["id"]);
-    formsdata.push(formdata);
-    });
 
 
     this.setState({ forms: formsdata, modal: this.props.modal ?? false });
