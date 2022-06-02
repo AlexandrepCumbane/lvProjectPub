@@ -27,6 +27,11 @@ push:
 	docker tag $(image):$(tag) $(organization)/$(image):$(tag)
 	docker push $(organization)/$(image):$(tag)
 
+push-staging:
+	docker build --force-rm $(options) -t $(image):$(tag_staging) .
+	docker tag $(image):$(tag_staging) $(organization)/$(image):$(tag_staging)
+	docker push $(organization)/$(image):$(tag_staging)
+
 helmx:
 	cd $(helm_dir) && \
 	echo  "Running Helm command from " $(helm_dir) && \
