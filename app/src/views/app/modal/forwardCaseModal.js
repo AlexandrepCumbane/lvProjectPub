@@ -478,7 +478,11 @@ class Create extends React.Component {
             form.set(field_name, value);
           }
         } else {
+          if (field_name === "focalpoint_id"){
+            form.append(field_name, value[0].value);
+          } else {
             form.append(field_name, value);
+          }
         }
 
           this.removeFromRequired(field_name);
@@ -574,10 +578,6 @@ class Create extends React.Component {
                   if (this.props.addMore) {
                       this.props.addMore(data);
                   }
-
-                  setTimeout(() => {
-                      this.toggleModal();
-                  }, 1000);
               }
           })
           .catch(({ response }) => {
@@ -594,6 +594,10 @@ class Create extends React.Component {
               showAlert: true
             })
           });
+
+          setTimeout(() => {
+            this.toggleModal();
+          }, 1000);
         });
     });
     }
