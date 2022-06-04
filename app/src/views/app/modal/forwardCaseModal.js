@@ -72,25 +72,40 @@ class Create extends React.Component {
     this.updateState("lvform_id", this.props.lvform_id);
     let formsdata= []
 
-    this.props.lvform.forEach((form)=>{
-        console.log(form);
+    // Handle single forward modal
+    if(Array.isArray(this.props.lvform)){
+      this.props.lvform.forEach((form)=>{
 
-    let formdata = new FormData();
-
-    if (form["description"]) {
-      formdata.append("description", form["description"]);
+        let formdata = new FormData();
+  
+        if (form["description"]) {
+          formdata.append("description", form["description"]);
+        }
+        if (form["feedback"]) {
+          formdata.append("feedback", form["feedback"]);
+        }
+  
+        formdata.append("lvform_id", form["id"]);
+        formdata.append("task_id", this.props.task_id);
+        formdata.append("article_id", form["id"]);
+        formsdata.push(formdata);
+      });
+    } else {
+      let formdata = new FormData();
+        
+      if (this.props.description) {
+        formdata.append("description", this.props["description"]);
+      }
+      if (this.props.feedback) {
+        formdata.append("feedback", this.props["feedback"]);
+      }
+  
+      formdata.append("lvform_id", this.props.lvform_id);
+      formdata.append("task_id", this.props.task_id);
+      formdata.append("article_id", this.props.lvform_id);
+      formsdata.push(formdata);
     }
-    if (form["feedback"]) {
-      formdata.append("feedback", form["feedback"]);
-    }
 
-    formdata.append("lvform_id", form["id"]);
-    formdata.append("task_id", this.props.task_id);
-    formdata.append("article_id", form["id"]);
-    formsdata.push(formdata);
-    });
-
-    console.log(formsdata);
 
     this.setState({ forms: formsdata, modal: this.props.modal ?? false });
     const { dropdowns } = this.props.app_reducer;
@@ -272,8 +287,26 @@ class Create extends React.Component {
               <Label>{this.translate(field.label)}</Label>
 
               <FormGroup className="form-label-group position-relative has-icon-left">
+                { field.name === "focalpoint" &&
+                  <Select
+                    className="react-select"
+                    classNamePrefix='select'
+                    isMulti
+                    onChange={(e) => {
+                      this.updateState(`${field.name}_id`, e);
+                    }}
+                    components={this.animatedComponents}
+                    options={this.multipleSelect(
+                      field["has_parent"] === undefined
+                        ? this.getForeignFieldDropdown(field["wq:ForeignKey"])
+                        : this.state.childrens[field["wq:ForeignKey"]] ?? []
+                    )}
+                  />
+                }
+                { field.name !== "focalpoint" &&
                 <Select
-                  className="rounded-0"
+                  className="react-select"
+                  classNamePrefix='select'
                   onChange={(e) => {
                     this.updateState(`${field.name}_id`, e.value);
                     if (field["children"]) {
@@ -287,6 +320,7 @@ class Create extends React.Component {
                       : this.state.childrens[field["wq:ForeignKey"]] ?? []
                   )}
                 />
+                }
               </FormGroup>
             </Col>
           );
@@ -442,28 +476,43 @@ class Create extends React.Component {
    */
   updateState = (field_name, value) => {
     let forms = this.state.forms;
-    console.log(this.props.page);
     let updatedForms = []
 
     forms.forEach((form) => {
         if (value !== "") {
         if (form.has(field_name)) {
+          if (field_name === "focalpoint_id"){
+            const fp_ids = []
+            if(value !== null){
+              value.forEach((item) => {
+                fp_ids.push(item.value);
+              });
+              form.set(field_name, fp_ids);
+            } else{
+              form.set(field_name, null);
+              this.addToRequired(field_name);
+            }
+            
+          } else {
             form.set(field_name, value);
+          }
         } else {
+          if (field_name === "focalpoint_id"){
+            form.append(field_name, value[0].value);
+          } else {
             form.append(field_name, value);
+          }
         }
 
-        this.removeFromRequired(field_name);
+          this.removeFromRequired(field_name);
         }
 
         updatedForms.push(form);
     })
-
     this.setState({ forms: updatedForms });
   };
 
   filterNotificationAction = (item) => {
-    console.log(this.props.task);
     switch (this.props.page) {
       case "forwardinginstitution":
         this.context.sendNotification(
@@ -491,6 +540,7 @@ class Create extends React.Component {
         );
         break;
       case "forwardcasetofocalpoint":
+        // TODO: Make this handle multiple values to submit to
         this.context.sendNotification(
           "Create",
           `new_${this.props.page}`,
@@ -526,49 +576,52 @@ class Create extends React.Component {
           : `${this.props.page}s/`;
     
     this.state.forms.forEach((form, idx, array) => {
-      axios
-        .post(url, form, {
-          headers: {
-            Authorization: `Bearer ${userOauth.access_token}`,
-          },
-        })
-        .then(({ data }) => {
-            // if(this.state.forms.slice(-1)) 
-            if (idx === array.length - 1){ 
-                console.log("Last callback call at index " + idx + " with value "  ); 
-                    
-                this.notifySuccessBounce(data.id);
-                this.setState({ isLoading: false });
+      // Unwrap and submit individually for each ID in Array
+      const focal_points = form.get("focalpoint_id").split(',');
 
-                this.filterNotificationAction(data);
-                console.log(data);
-                if (this.props.addMore) {
-                    this.props.addMore(data);
-                }
+      focal_points.forEach((focal_point_id, idx, array) => {
+        form.set("focalpoint_id", focal_point_id);
 
-                setTimeout(() => {
-                    this.toggleModal();
-                }, 1000);
-            }
-        })
-        .catch(({ response }) => {
-          this.setState({ isLoading: false });
-          this.notifyErrorBounce(
-            this.translate(
-              response.data?.description ?? "Failed to save Object."
-            )
-          );
-      
-          // Habilitar a acao do butao 
-          this.state.disabled=false;
-
-          this.setState({
-            alertFields: Object.keys(response.data) ?? [],
-            alertData: response.data,
-            showAlert: true
+        axios
+          .post(url, form, {
+            headers: {
+              Authorization: `Bearer ${userOauth.access_token}`,
+            },
           })
+          .then(({ data }) => {
+              // if(this.state.forms.slice(-1)) 
+              if (idx === array.length - 1){ 
+                  // console.log("Last callback call at index " + idx + " with value "  ); 
+                      
+                  this.notifySuccessBounce(data.id);
+                  this.setState({ isLoading: false });
+
+                  this.filterNotificationAction(data);
+                  if (this.props.addMore) {
+                      this.props.addMore(data);
+                  }
+              }
+          })
+          .catch(({ response }) => {
+            this.setState({ isLoading: false });
+            this.notifyErrorBounce(
+              this.translate(
+                response.data?.description ?? "Failed to save Object."
+              )
+            );
+
+            this.setState({
+              alertFields: Object.keys(response.data) ?? [],
+              alertData: response.data,
+              showAlert: true
+            })
+          });
         });
-    });
+      });
+
+      setTimeout(() => {
+        this.toggleModal();
+      }, 1000);
     }
   };
 

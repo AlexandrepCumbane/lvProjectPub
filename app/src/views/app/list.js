@@ -16,9 +16,11 @@ import {
   operator as operatorColumns,
   manager as managerColumns,
   partner as partnerColumns,
+} from "../../data/lvform.config";
+import {
   sent_to_focalpoint,
   sent_to_partner,
-} from "../../data/lvform.config";
+} from "../../data/forwarding.lvform.config";
 import { IntlContext } from "../../i18n/provider";
 import {
   requestForm,
@@ -398,7 +400,8 @@ class List extends Component {
         item.name === "fullname" ||
         item.name === "contact" ||
         item.name === "file" ||
-        item.name === "other_contact"
+        item.name === "other_contact" //||
+        // item.name === "casecomment_set"  // TO-DO: Validate if we need to keep it in the list or simply the exported file
       ) {
         return {
           headerName: this.translate(item.label),
@@ -545,12 +548,22 @@ class List extends Component {
           filter: "customFilter",
           editable: false,
           valueGetter: ({ data }) => {
+            if ( item.name === "text" ){
+              // Here we clean the html on article/Base de Conhecimentos view 
+              var htmlString = data[`${item.name}`]
+              var plainString = htmlString.replace(/<[^>]+>/g, '');
+              return this.translate(plainString);
+            }
             if (
               data[`${item.name}`] === "" ||
               data[`${item.name}`] === undefined ||
               data[`${item.name}`] === null
             ) {
               return this.translate("Null");
+            }
+            // If it is a case Comment field, we handle it here
+            if ( item.label === "Comments" ) {
+                return data[`${item.name}`].map((comment, index) => `${comment.id} - ${comment.feedback} - ${comment.created_by_label}`).join('; \n');
             }
 
             return this.translate(data[`${item.name}`]);
@@ -564,7 +577,7 @@ class List extends Component {
       this.props.path === "forwardinginstitution"
     ) {
       columnDefs = columnDefs.concat(
-        config.pages.lvform.form.map((item, index) => {
+        config.pages.lvform_forwarding.form.map((item, index) => {
           if (
             item.name === "fullname" ||
             item.name === "contact" ||
@@ -634,6 +647,10 @@ class List extends Component {
                   filter: "customFilter",
                   resizable: true,
                   valueGetter: ({ data }) => {
+                    // If it is a case Comment field, we handle it here
+                    if ( item.label === "Comments" ) {
+                      return data["callcase"][`${item.name}`].map((comment, index) => `${comment.id} - ${comment.feedback} - ${comment.created_by_label}`).join('; \n');
+                    }
                     return this.translate(
                       data["callcase"][`${item.name}_label`] ??
                       data["callcase"][`${item.name}`] ??

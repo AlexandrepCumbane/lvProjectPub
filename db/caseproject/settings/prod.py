@@ -164,7 +164,7 @@ OIDC_AUTH = {
     # Specify OpenID Connect endpoint. Configuration will be
     # automatically done based on the discovery document found
     # at <endpoint>/.well-known/openid-configuration
-    'OIDC_ENDPOINT': env('OIDC_ENDPOINT', 'https://ciam.auth.wfp.org/oauth2/oidcdiscovery/'),
+    'OIDC_ENDPOINT': env.str("OIDC_ENDPOINT", 'https://ciam.auth.wfp.org/oauth2/oidcdiscovery/'),
 
     # Accepted audiences the ID Tokens can be issued to
     'OIDC_CLAIMS_OPTIONS': {

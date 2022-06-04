@@ -48,11 +48,11 @@ spec:
           env:
             {{- if .Values.redis.enabled }}
             - name: REDIS_URL
-              value: "redis://{{ template "redis.fullname" . }}-master:{{ .Values.redis.master.service.port }}"
+              value: "{{ include "redis.url" . }}"
             - name: REDIS_HOST
-              value: {{ template "redis.fullname" . }}-master
+              value: "{{ include "redis.host" . }}"
             - name: REDIS_PORT
-              value: "{{ .Values.redis.master.service.port }}"
+              value: "{{ include "redis.port" . }}"
             {{- end }}
             {{- if .Values.extraEnv }}
             {{- range $key, $value := .Values.extraEnv }}

@@ -1,0 +1,96 @@
+apiVersion: v1
+data:
+  haproxy.cfg: |-
+    global
+    defaults
+        timeout client          30s
+        timeout server          30s
+        timeout connect         30s
+ 
+    frontend frontend
+        bind    0.0.0.0:5432
+        default_backend backend
+ 
+    backend backend
+        mode                    tcp
+        server upstream 172.31.23.202:5432
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: postgres-haproxy-port-forward
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: postgres-forward-pod
+  name: postgres-forward-pod
+spec:
+  containers:
+    - command:
+      - haproxy
+      - -f
+      - /usr/local/etc/haproxy/haproxy.cfg
+      - -V
+      image: haproxy:1.7-alpine
+      name: postgres-forward-pod
+      resources: {}
+      volumeMounts:
+        - mountPath: /usr/local/etc/haproxy/
+          name: postgres-haproxy-port-forward
+      ports:
+        - containerPort: 5432
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+  volumes:
+    - name: postgres-haproxy-port-forward
+      configMap:
+        name: postgres-haproxy-port-forward
+status: {}
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tcp-services
+  namespace: ingress-nginx
+data:
+  5432: "default/postgres-forward-pod:5432"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-forward-service
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  ports:
+    - name: tcp-port
+      port: 31432
+      targetPort: 5432
+      protocol: TCP
+  type: ClusterIP
+  selector:
+    run: postgres-forward-pod
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-tcp-svc
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+spec:
+  type: LoadBalancer
+  selector:
+    run: postgres-forward-pod
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432

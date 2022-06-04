@@ -9,13 +9,20 @@
     <input id="chat-message-input" type="text" size="100" /><br />
     <input id="chat-message-submit" type="button" value="Send" />
     {{ room_name|json_script:"room-name" }}
+    {{ ws_protocol|json_script:"ws-protocol" }}
     <script>
       const roomName = JSON.parse(
         document.getElementById("room-name").textContent
       );
 
+      const wsProtocol = JSON.parse(
+        document.getElementById("ws-protocol").textContent
+      );
+
+      console.log(wsProtocol);
+
       const chatSocket = new WebSocket(
-        "ws://" + window.location.host + "/ws/chat/" + roomName + "/"
+        wsProtocol + window.location.host + "/ws/chat/" + roomName + "/"
       );
 
       chatSocket.onmessage = function (e) {

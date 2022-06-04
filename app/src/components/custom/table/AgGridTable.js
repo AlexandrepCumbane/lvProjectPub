@@ -627,6 +627,8 @@ class AggridTable extends React.Component {
                           >
                             {this.translate("Export Selected")}
                           </UncontrolledTooltip>
+                          { this.props.tableType === "lvform" &&
+                          
                           <Button.Ripple
                             id="forward"
                             className="btn-icon"
@@ -637,13 +639,15 @@ class AggridTable extends React.Component {
                           >
                             <ArrowRightCircle size={16} />
                           </Button.Ripple>
+                          }
+                          { this.props.tableType === "lvform" &&
                           <UncontrolledTooltip
                             placement="top"
                             target="forward"
                           >
                             {this.translate("Referral to")}
                           </UncontrolledTooltip>
-                          
+                          }
                           {this.state.openModal ? (<Modal
                                   title={this.translate(`Send to Focal Point`)}
                                   page="forwardcasetofocalpoint"
