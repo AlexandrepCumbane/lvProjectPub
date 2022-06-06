@@ -63,7 +63,8 @@ class Create extends React.Component {
 
     showAlert: false,
     alertFields: [],
-    alertData: {}
+    alertData: {},
+    disabled: false,
   };
   componentDidMount() {
     this.props.requestDropodowns(); // Request dropdown lists and place in a map
@@ -172,6 +173,7 @@ class Create extends React.Component {
 
           <ModalFooter>
             <Button
+              disabled={this.state.disabled}
               color="primary"
               className="square"
               onClick={() => this.handleSubmit()}
@@ -562,6 +564,9 @@ class Create extends React.Component {
       this.notifyErrorBounce(this.translate("Fill all required inputs"));
       this.setState({ isValid: false });
     } else {
+
+      // desabilitar a acao do butao 
+      this.state.disabled=true;
       this.setState({ isValid: true, isLoading: true });
 
       const url =
