@@ -175,6 +175,34 @@ const get_pages = () => {
         },
       ],
     },
+    {
+      id: "case_tipology",
+      title: "case-tipology",
+      type: "collapse",
+      icon: <Icon.File size={20} />,
+      badge: "warning",
+      permissions: ["manager"],
+      children: [
+        {
+          id: "tipology",
+          title: "tipology",
+          type: "item",
+          icon: <Icon.Airplay size={20} />,
+          permissions: ["manager"],
+          navLink: "/clusteragencys",
+        },
+        {
+          id: "subcategoryissue",
+          title: "subcategoryissue",
+          type: "item",
+          icon: <Icon.Map size={20} />,
+          permissions: ["manager"],
+          navLink: "/clusterregions",
+        },
+      ],
+    },
+
+
   ];
 
   return navConf;
