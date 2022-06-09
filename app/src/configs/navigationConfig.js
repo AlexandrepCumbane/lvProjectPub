@@ -177,19 +177,19 @@ const get_pages = () => {
     },
     {
       id: "case_tipology",
-      title: "case-tipology",
+      title: "Case tipology",
       type: "collapse",
       icon: <Icon.File size={20} />,
       badge: "warning",
       permissions: ["manager"],
       children: [
         {
-          id: "tipology",
+          id: "Tipology",
           title: "tipology",
           type: "item",
           icon: <Icon.Airplay size={20} />,
           permissions: ["manager"],
-          navLink: "/clusteragencys",
+          navLink: "/casetipology",
         },
         {
           id: "subcategoryissue",
@@ -197,7 +197,7 @@ const get_pages = () => {
           type: "item",
           icon: <Icon.Map size={20} />,
           permissions: ["manager"],
-          navLink: "/clusterregions",
+          navLink: "/subcategoryissue",
         },
       ],
     },
