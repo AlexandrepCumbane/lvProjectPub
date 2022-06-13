@@ -37,6 +37,7 @@ export default {
     "Sub-category issue": "Problema de Subcategoria",
     "Who is not receiving assistance": "Quem não está recebendo assistência",
     Sector: "Sector",
+    'Case tipology':'Tipo de Caso',
     Vulnerability: "Vulnerabilidade",
     "Call Notes": "Notas da Chamada",
     "Call Solution": "Solução da Chamada",
