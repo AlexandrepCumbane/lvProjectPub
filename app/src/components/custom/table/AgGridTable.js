@@ -169,6 +169,12 @@ class AggridTable extends React.Component {
                         modalForm: "customuser",
                       });
                     }
+                    if (this.props.tableType === "subcategoryissue") {
+                      this.setState({
+                        showTaskDialog: true,
+                        modalForm: "subcategoryissue",
+                      });
+                    }
                   }}
                   className="btn-icon rounded-0"
                   color="flat-primary"
