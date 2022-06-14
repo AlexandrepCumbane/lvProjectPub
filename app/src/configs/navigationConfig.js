@@ -176,7 +176,7 @@ const get_pages = () => {
       ],
     },
     {
-      id: "case_tipology",
+      id: "casetipology",
       title: "Case tipology",
       type: "collapse",
       icon: <Icon.File size={20} />,
@@ -184,20 +184,20 @@ const get_pages = () => {
       permissions: ["manager"],
       children: [
         {
-          id: "Tipology",
-          title: "tipology",
-          type: "item",
-          icon: <Icon.Airplay size={20} />,
-          permissions: ["manager"],
-          navLink: "/casetipology",
-        },
-        {
           id: "subcategoryissue",
-          title: "subcategoryissue",
+          title: "Sub-category issue",
           type: "item",
           icon: <Icon.Map size={20} />,
           permissions: ["manager"],
           navLink: "/subcategoryissue",
+        },
+        {
+          id: "subcategory",
+          title: "subcategory",
+          type: "item",
+          icon: <Icon.Map size={20} />,
+          permissions: ["manager"],
+          navLink: "/subcategory",
         },
       ],
     },

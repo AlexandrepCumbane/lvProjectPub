@@ -251,17 +251,17 @@ class AppRouter extends React.Component {
           />
           <AppRoute
             exact
-            path="/casetipology"
+            path="/subcategory"
             component={(props) => (
               <AppListView
                 {...props}
                 hasNew={true}
-                title="casetipology"
-                path="casetipology"
-                url="casetipologys"
+                title="subcategory"
+                path="subcategory"
+                url="subcategorys"
               />
             )}
-          />         
+          />
           <AppRoute
             path="/lvforms/new"
             component={(props) => (
@@ -284,6 +284,12 @@ class AppRouter extends React.Component {
             path="/subcategoryissues/new"
             component={(props) => (
               <AppCreate {...props} path="subcategoryissue" url="subcategoryissues" />
+            )}
+          />
+         <AppRoute
+            path="/subcategorys/new"
+            component={(props) => (
+              <AppCreate {...props} path="subcategory" url="subcategory" />
             )}
           />
           <AppRoute
