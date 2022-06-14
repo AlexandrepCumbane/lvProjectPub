@@ -181,6 +181,12 @@ class AggridTable extends React.Component {
                         modalForm: "subcategory",
                       });
                     }
+                    if (this.props.tableType === "casetipology") {
+                      this.setState({
+                        showTaskDialog: true,
+                        modalForm: "casetipology",
+                      });
+                    }
                   }}
                   className="btn-icon rounded-0"
                   color="flat-primary"

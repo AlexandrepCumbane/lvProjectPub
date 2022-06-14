@@ -199,6 +199,14 @@ const get_pages = () => {
           permissions: ["manager"],
           navLink: "/subcategory",
         },
+        {
+          id: "casetipology",
+          title: "casetipology",
+          type: "item",
+          icon: <Icon.Map size={20} />,
+          permissions: ["manager"],
+          navLink: "/casetipology",
+        },
       ],
     },
 
