@@ -954,7 +954,7 @@ export default {
       form: [
         {
           name: "subcategory",
-          label: "Subcategory",
+          label: "Other category",
           bind: {
             required: true,
           },
@@ -963,7 +963,7 @@ export default {
         },
         {
           name: "subcategory_issue",
-          label: "Sub Category Issue",
+          label: "Sub-category issue",
           bind: {
             required: true,
           },
@@ -981,7 +981,7 @@ export default {
       form: [
         {
           name: "category",
-          label: "Case Category",
+          label: "Case category",
           bind: {
             required: true,
           },
@@ -1099,7 +1099,7 @@ export default {
       form: [
         {
           name: "casetipology",
-          label: "Casetipology",
+          label: "Case category",
           bind: {
             required: true,
           },
@@ -1108,7 +1108,7 @@ export default {
         },
         {
           name: "subcategory",
-          label: "Sub Category",
+          label: "Other category",
           bind: {
             required: true,
           },

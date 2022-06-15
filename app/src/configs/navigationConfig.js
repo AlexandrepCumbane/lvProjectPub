@@ -177,7 +177,7 @@ const get_pages = () => {
     },
     {
       id: "casetipology",
-      title: "Case tipology",
+      title: "Case category",
       type: "collapse",
       icon: <Icon.File size={20} />,
       badge: "warning",
@@ -193,7 +193,7 @@ const get_pages = () => {
         },
         {
           id: "subcategory",
-          title: "subcategory",
+          title: "Other category",
           type: "item",
           icon: <Icon.Map size={20} />,
           permissions: ["manager"],
@@ -201,7 +201,7 @@ const get_pages = () => {
         },
         {
           id: "casetipology",
-          title: "casetipology",
+          title: "Case category",
           type: "item",
           icon: <Icon.Map size={20} />,
           permissions: ["manager"],

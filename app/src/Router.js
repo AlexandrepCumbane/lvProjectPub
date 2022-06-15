@@ -269,7 +269,7 @@ class AppRouter extends React.Component {
               <AppListView
                 {...props}
                 hasNew={true}
-                title="casetipology"
+                title="Case category"
                 path="casetipology"
                 url="casetipologys"
               />
