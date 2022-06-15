@@ -988,56 +988,6 @@ export default {
           hint: "Case Category",
           type: "text",
         },
-        {
-          name: "subcategory_set",
-          label: "Subcategory Set",
-          type: "repeat",
-          children: [
-            {
-              name: "casetipology",
-              label: "Casetipology",
-              bind: {
-                required: true,
-              },
-              type: "string",
-              "wq:ForeignKey": "casetipology",
-            },
-            {
-              name: "subcategory",
-              label: "Sub Category",
-              bind: {
-                required: true,
-              },
-              hint: "Sub Category",
-              type: "text",
-            },
-            {
-              name: "subcategoryissue_set",
-              label: "Subcategoryissue Set",
-              type: "repeat",
-              children: [
-                {
-                  name: "subcategory",
-                  label: "Subcategory",
-                  bind: {
-                    required: true,
-                  },
-                  type: "string",
-                  "wq:ForeignKey": "subcategory",
-                },
-                {
-                  name: "subcategory_issue",
-                  label: "Sub Category Issue",
-                  bind: {
-                    required: true,
-                  },
-                  hint: "Sub Category Issue",
-                  type: "text",
-                },
-              ],
-            },
-          ],
-        },
       ],
       verbose_name: "linha verde case tipology",
       verbose_name_plural: "casetipologys",
@@ -1164,32 +1114,7 @@ export default {
           },
           hint: "Sub Category",
           type: "text",
-        },
-        {
-          name: "subcategoryissue_set",
-          label: "Subcategoryissue Set",
-          type: "repeat",
-          children: [
-            {
-              name: "subcategory",
-              label: "Subcategory",
-              bind: {
-                required: true,
-              },
-              type: "string",
-              "wq:ForeignKey": "subcategory",
-            },
-            {
-              name: "subcategory_issue",
-              label: "Sub Category Issue",
-              bind: {
-                required: true,
-              },
-              hint: "Sub Category Issue",
-              type: "text",
-            },
-          ],
-        },
+        }
       ],
       verbose_name: "subcategory",
       verbose_name_plural: "subcategorys",

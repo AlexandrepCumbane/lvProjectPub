@@ -235,6 +235,45 @@ class AppRouter extends React.Component {
                 url="clusteragencys"
               />
             )}
+          />  
+          <AppRoute
+            exact
+            path="/subcategoryissue"
+            component={(props) => (
+              <AppListView
+                {...props}
+                hasNew={true}
+                title="subcategoryissue"
+                path="subcategoryissue"
+                url="subcategoryissues"
+              />
+            )}
+          />
+          <AppRoute
+            exact
+            path="/subcategory"
+            component={(props) => (
+              <AppListView
+                {...props}
+                hasNew={true}
+                title="subcategory"
+                path="subcategory"
+                url="subcategorys"
+              />
+            )}
+          />
+          <AppRoute
+            exact
+            path="/casetipology"
+            component={(props) => (
+              <AppListView
+                {...props}
+                hasNew={true}
+                title="casetipology"
+                path="casetipology"
+                url="casetipologys"
+              />
+            )}
           />
           <AppRoute
             path="/lvforms/new"
@@ -254,6 +293,24 @@ class AppRouter extends React.Component {
               <AppCreate {...props} path="clusteragency" url="clusteragencys" />
             )}
           />
+          <AppRoute
+            path="/subcategoryissues/new"
+            component={(props) => (
+              <AppCreate {...props} path="subcategoryissue" url="subcategoryissues" />
+            )}
+          />
+         <AppRoute
+            path="/subcategorys/new"
+            component={(props) => (
+              <AppCreate {...props} path="subcategory" url="subcategory" />
+            )}
+          />
+          <AppRoute
+            path="/casetipologys/new"
+            component={(props) => (
+              <AppCreate {...props} path="casetipology" url="casetipology" />
+            )}
+          />         
           <AppRoute
             path="/clusterregions/new"
             component={(props) => (

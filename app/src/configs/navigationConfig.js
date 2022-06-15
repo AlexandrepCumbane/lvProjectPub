@@ -175,6 +175,42 @@ const get_pages = () => {
         },
       ],
     },
+    {
+      id: "casetipology",
+      title: "Case tipology",
+      type: "collapse",
+      icon: <Icon.File size={20} />,
+      badge: "warning",
+      permissions: ["manager"],
+      children: [
+        {
+          id: "subcategoryissue",
+          title: "Sub-category issue",
+          type: "item",
+          icon: <Icon.Map size={20} />,
+          permissions: ["manager"],
+          navLink: "/subcategoryissue",
+        },
+        {
+          id: "subcategory",
+          title: "subcategory",
+          type: "item",
+          icon: <Icon.Map size={20} />,
+          permissions: ["manager"],
+          navLink: "/subcategory",
+        },
+        {
+          id: "casetipology",
+          title: "casetipology",
+          type: "item",
+          icon: <Icon.Map size={20} />,
+          permissions: ["manager"],
+          navLink: "/casetipology",
+        },
+      ],
+    },
+
+
   ];
 
   return navConf;
