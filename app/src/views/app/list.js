@@ -355,7 +355,7 @@ class List extends Component {
    */
   getSpecificields = () => {
     let form = [];
-
+console.log(form);
     const { userRole } = this.props;
     if (this.props.path === "lvform") {
       switch (userRole) {
@@ -392,7 +392,7 @@ class List extends Component {
    */
   formatFields = () => {
     let colm = this.getSpecificields();
-
+    console.log(colm);
     const form = colm.length > 0 ? colm : config.pages[this.props.path].form;
 
     let columnDefs = form.map((item, index) => {
@@ -564,7 +564,9 @@ class List extends Component {
             // If it is a case Comment field, we handle it here
             if ( item.label === "Comments" ) {
                 return data[`${item.name}`].map((comment, index) => `${comment.id} - ${comment.feedback} - ${comment.created_by_label}`).join('; \n');
+                
             }
+            console.log(`${item.name}`)
 
             return this.translate(data[`${item.name}`]);
           },
