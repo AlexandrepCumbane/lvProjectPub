@@ -173,6 +173,14 @@ const get_pages = () => {
           permissions: ["manager"],
           navLink: "/clusterregions",
         },
+        {
+          id: "clustersector",
+          title: "Sector",
+          type: "item",
+          icon: <Icon.Map size={20} />,
+          permissions: ["manager"],
+          navLink: "/clustersectors",
+        },
       ],
     },
     {
