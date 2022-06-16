@@ -217,6 +217,41 @@ const get_pages = () => {
         },
       ],
     },
+    {
+      id: "location",
+      title: "location",
+      type: "collapse",
+      icon: <Icon.File size={20} />,
+      badge: "warning",
+      permissions: ["manager"],
+      children: [
+        {
+          id: "locations",
+          title: "location",
+          type: "item",
+          icon: <Icon.Map size={20} />,
+          permissions: ["manager"],
+          navLink: "/location",
+        },
+        {
+          id: "locationclassification",
+          title: "location classification",
+          type: "item",
+          icon: <Icon.Map size={20} />,
+          permissions: ["manager"],
+          navLink: "/locationclassification",
+        },
+        {
+          id: "district",
+          title: "district",
+          type: "item",
+          icon: <Icon.Map size={20} />,
+          permissions: ["manager"],
+          navLink: "/district",
+        },
+
+      ],
+    },
 
 
   ];

@@ -193,6 +193,24 @@ class AggridTable extends React.Component {
                         modalForm: "casetipology",
                       });
                     }
+                    if (this.props.tableType === "location") {
+                      this.setState({
+                        showTaskDialog: true,
+                        modalForm: "location",
+                      });
+                    }
+                    if (this.props.tableType === "locationclassification") {
+                      this.setState({
+                        showTaskDialog: true,
+                        modalForm: "locationclassification",
+                      });
+                    }
+                    if (this.props.tableType === "district") {
+                      this.setState({
+                        showTaskDialog: true,
+                        modalForm: "district",
+                      });
+                    }
                   }}
                   className="btn-icon rounded-0"
                   color="flat-primary"
