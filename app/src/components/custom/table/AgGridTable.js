@@ -163,6 +163,12 @@ class AggridTable extends React.Component {
                         modalForm: "clusteragency",
                       });
                     }
+                    if (this.props.tableType === "clustersector") {
+                      this.setState({
+                        showTaskDialog: true,
+                        modalForm: "clustersector",
+                      });
+                    }
                     if (this.props.tableType === "customuser") {
                       this.setState({
                         showTaskDialog: true,

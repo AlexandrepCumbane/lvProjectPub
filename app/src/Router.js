@@ -238,6 +238,19 @@ class AppRouter extends React.Component {
           />  
           <AppRoute
             exact
+            path="/clustersectors"
+            component={(props) => (
+              <AppListView
+                {...props}
+                hasNew={true}
+                title="Agency"
+                path="clustersector"
+                url="clustersectors"
+              />
+            )}
+          />  
+          <AppRoute
+            exact
             path="/subcategoryissue"
             component={(props) => (
               <AppListView
@@ -293,6 +306,12 @@ class AppRouter extends React.Component {
               <AppCreate {...props} path="clusteragency" url="clusteragencys" />
             )}
           />
+          <AppRoute
+            path="/clustersectors/new"
+            component={(props) => (
+              <AppCreate {...props} path="clustersector" url="clustersector" />
+            )}
+          />         
           <AppRoute
             path="/subcategoryissues/new"
             component={(props) => (
