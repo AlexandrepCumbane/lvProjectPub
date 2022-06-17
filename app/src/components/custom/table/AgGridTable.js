@@ -211,6 +211,12 @@ class AggridTable extends React.Component {
                         modalForm: "district",
                       });
                     }
+                    if (this.props.tableType === "province") {
+                      this.setState({
+                        showTaskDialog: true,
+                        modalForm: "province",
+                      });
+                    }
                   }}
                   className="btn-icon rounded-0"
                   color="flat-primary"

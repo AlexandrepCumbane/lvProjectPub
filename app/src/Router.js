@@ -323,7 +323,20 @@ class AppRouter extends React.Component {
                 hasNew={true}
                 title="district"
                 path="district"
-                url="districts"s
+                url="districts"
+              />
+            )}
+          />
+          <AppRoute
+            exact
+            path="/province"
+            component={(props) => (
+              <AppListView
+                {...props}
+                hasNew={true}
+                title="province"
+                path="province"
+                url="provinces"
               />
             )}
           />
@@ -380,7 +393,13 @@ class AppRouter extends React.Component {
             component={(props) => (
               <AppCreate {...props} path="district" url="district" />
             )}
-          />        
+          />  
+         <AppRoute
+            path="/provinces/new"
+            component={(props) => (
+              <AppCreate {...props} path="province" url="province" />
+            )}
+          />          
           <AppRoute
             path="/casetipologys/new"
             component={(props) => (

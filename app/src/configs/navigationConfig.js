@@ -208,7 +208,7 @@ const get_pages = () => {
           navLink: "/subcategory",
         },
         {
-          id: "casetipology",
+          id: "casetipologys",
           title: "Case category",
           type: "item",
           icon: <Icon.Map size={20} />,
@@ -248,6 +248,14 @@ const get_pages = () => {
           icon: <Icon.Map size={20} />,
           permissions: ["manager"],
           navLink: "/district",
+        },
+        {
+          id: "province",
+          title: "province",
+          type: "item",
+          icon: <Icon.Map size={20} />,
+          permissions: ["manager"],
+          navLink: "/province",
         },
 
       ],
