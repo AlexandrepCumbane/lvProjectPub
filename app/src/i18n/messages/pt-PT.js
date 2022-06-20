@@ -2,7 +2,11 @@ import { LOCALES } from "../locales";
 
 export default {
   [LOCALES.PORTUGUESE]: {
+    Classification: "Classificação",
+    Locations:"Localizações",
+    'location classification':"Classificação do Local",
     Province: "Provincia",
+    province: "Provincia",
     District: "Distrito",
     Locality: "Localidade",
     "Cases per province": "Casos por Provincia",

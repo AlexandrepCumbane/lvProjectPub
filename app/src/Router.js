@@ -289,6 +289,58 @@ class AppRouter extends React.Component {
             )}
           />
           <AppRoute
+            exact
+            path="/location"
+            component={(props) => (
+              <AppListView
+                {...props}
+                hasNew={true}
+                title="Locality"
+                path="location"
+                url="locations"
+              />
+            )}
+          />
+          <AppRoute
+            exact
+            path="/locationclassification"
+            component={(props) => (
+              <AppListView
+                {...props}
+                hasNew={true}
+                title="Classification"
+                path="locationclassification"
+                url="locationclassifications"
+              />
+            )}
+          />
+          <AppRoute
+            exact
+            path="/district"
+            component={(props) => (
+              <AppListView
+                {...props}
+                hasNew={true}
+                title="district"
+                path="district"
+                url="districts"
+              />
+            )}
+          />
+          <AppRoute
+            exact
+            path="/province"
+            component={(props) => (
+              <AppListView
+                {...props}
+                hasNew={true}
+                title="province"
+                path="province"
+                url="provinces"
+              />
+            )}
+          />
+          <AppRoute
             path="/lvforms/new"
             component={(props) => (
               <AppCreate {...props} path="lvform" url="lvforms" />
@@ -324,6 +376,30 @@ class AppRouter extends React.Component {
               <AppCreate {...props} path="subcategory" url="subcategory" />
             )}
           />
+         <AppRoute
+            path="/locationclassifications/new"
+            component={(props) => (
+              <AppCreate {...props} path="locationclassification" url="locationclassification" />
+            )}
+          />  
+         <AppRoute
+            path="/locations/new"
+            component={(props) => (
+              <AppCreate {...props} path="location" url="location" />
+            )}
+          />   
+         <AppRoute
+            path="/districts/new"
+            component={(props) => (
+              <AppCreate {...props} path="district" url="district" />
+            )}
+          />  
+         <AppRoute
+            path="/provinces/new"
+            component={(props) => (
+              <AppCreate {...props} path="province" url="province" />
+            )}
+          />          
           <AppRoute
             path="/casetipologys/new"
             component={(props) => (

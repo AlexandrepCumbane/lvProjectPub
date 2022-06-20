@@ -185,71 +185,6 @@ export default {
           "wq:length": 25,
           type: "string",
         },
-        {
-          name: "district_set",
-          label: "District Set",
-          type: "repeat",
-          children: [
-            {
-              name: "name",
-              label: "Name",
-              bind: {
-                required: true,
-              },
-              "wq:length": 25,
-              type: "string",
-            },
-            {
-              name: "province",
-              label: "Province",
-              type: "string",
-              "wq:ForeignKey": "province",
-            },
-            {
-              name: "postoadministrativo_set",
-              label: "Postoadministrativo Set",
-              bind: {
-                required: true,
-              },
-              type: "repeat",
-              children: [
-                {
-                  name: "name",
-                  label: "Name",
-                  bind: {
-                    required: true,
-                  },
-                  "wq:length": 25,
-                  type: "string",
-                },
-                {
-                  name: "district",
-                  label: "District",
-                  type: "string",
-                  "wq:ForeignKey": "district",
-                },
-                {
-                  name: "codigo",
-                  label: "Codigo",
-                  bind: {
-                    required: true,
-                  },
-                  "wq:length": 25,
-                  type: "string",
-                },
-                {
-                  name: "parent_code",
-                  label: "Parent Code",
-                  bind: {
-                    required: true,
-                  },
-                  "wq:length": 25,
-                  type: "string",
-                },
-              ],
-            },
-          ],
-        },
       ],
       verbose_name: "province",
       verbose_name_plural: "provinces",
@@ -1044,49 +979,6 @@ export default {
           label: "Province",
           type: "string",
           "wq:ForeignKey": "province",
-        },
-        {
-          name: "postoadministrativo_set",
-          label: "Postoadministrativo Set",
-          bind: {
-            required: true,
-          },
-          type: "repeat",
-          children: [
-            {
-              name: "name",
-              label: "Name",
-              bind: {
-                required: true,
-              },
-              "wq:length": 25,
-              type: "string",
-            },
-            {
-              name: "district",
-              label: "District",
-              type: "string",
-              "wq:ForeignKey": "district",
-            },
-            {
-              name: "codigo",
-              label: "Codigo",
-              bind: {
-                required: true,
-              },
-              "wq:length": 25,
-              type: "string",
-            },
-            {
-              name: "parent_code",
-              label: "Parent Code",
-              bind: {
-                required: true,
-              },
-              "wq:length": 25,
-              type: "string",
-            },
-          ],
         },
       ],
       verbose_name: "district",

@@ -210,7 +210,7 @@ export const getFieldWith = (field_name) => {
       break;
 
     case "name":
-      width = 210;
+      width = 310;
       break;
 
     case "title":
@@ -241,24 +241,36 @@ export const getFieldWith = (field_name) => {
     //   width = 180;
     //   break;
 
-    // case "provincia":
-    //   width = 180;
-    //   break;
+    case "province":
+      width = 180;
+      break;
 
-    // case "distrito":
-    //   width = 200;
-    //   break;
+    case "distrito":
+      width = 200;
+      break;
 
-    // case "localidade":
-    //   width = 200;
-    //   break;
+    case "localidade":
+      width = 200;
+      break;
 
-    //   case "case_priority":
-    //   width = 150;
-    //   break;
-
+    case "case_priority":
+      width = 150;
+      break;
+    case "category":
+      width = 370;
+      break;
+    case "subcategory":
+      width = 350;
+      break;
+    case "casetipology":
+      width = 370;
+      break;
+    case "subcategory_issue":
+        width = 370;
+        break;
+    
     default:
-      width = 160;
+      width = 200;
     // break;
   }
 
