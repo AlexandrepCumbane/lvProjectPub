@@ -295,7 +295,7 @@ class AppRouter extends React.Component {
               <AppListView
                 {...props}
                 hasNew={true}
-                title="location"
+                title="Locality"
                 path="location"
                 url="locations"
               />
@@ -308,7 +308,7 @@ class AppRouter extends React.Component {
               <AppListView
                 {...props}
                 hasNew={true}
-                title="locationclassification"
+                title="Classification"
                 path="locationclassification"
                 url="locationclassifications"
               />

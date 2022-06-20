@@ -219,7 +219,7 @@ const get_pages = () => {
     },
     {
       id: "location",
-      title: "location",
+      title: "Locations",
       type: "collapse",
       icon: <Icon.File size={20} />,
       badge: "warning",
@@ -227,7 +227,7 @@ const get_pages = () => {
       children: [
         {
           id: "locations",
-          title: "location",
+          title: "Locality",
           type: "item",
           icon: <Icon.Map size={20} />,
           permissions: ["manager"],
@@ -235,7 +235,7 @@ const get_pages = () => {
         },
         {
           id: "locationclassification",
-          title: "location classification",
+          title: "Classification",
           type: "item",
           icon: <Icon.Map size={20} />,
           permissions: ["manager"],
@@ -243,7 +243,7 @@ const get_pages = () => {
         },
         {
           id: "district",
-          title: "district",
+          title: "District",
           type: "item",
           icon: <Icon.Map size={20} />,
           permissions: ["manager"],
@@ -251,7 +251,7 @@ const get_pages = () => {
         },
         {
           id: "province",
-          title: "province",
+          title: "Province",
           type: "item",
           icon: <Icon.Map size={20} />,
           permissions: ["manager"],

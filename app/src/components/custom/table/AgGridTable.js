@@ -74,10 +74,7 @@ class AggridTable extends React.Component {
     showTable: false,
     hasRequestedMore: false,
     defaultColDef: {
-      sortable: true,
-      editable: true,
-      resizable: true,
-      suppressMenu: true,
+
     },
 
     // modules: AllCommunityModules,
@@ -89,7 +86,6 @@ class AggridTable extends React.Component {
       {
         headerName: "First Name",
         field: "firstname",
-        width: 175,
         filter: true,
         checkboxSelection: true,
         headerCheckboxSelectionFilteredOnly: true,
