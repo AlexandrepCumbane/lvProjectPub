@@ -35,10 +35,19 @@ class Create extends React.Component {
       transition: Bounce,
     });
 
-  notifyErrorBounce = (error) =>
-    toast.error(error, {
-      transition: Bounce,
-    });
+    toastId = null;
+    /**
+     * Error alert function - shows an alert with danger background
+     * @param {*} error - string message
+     * @returns
+     */
+     notifyErrorBounce = (error) =>{
+      if(!toast.isActive(this.toastId)){
+        this.toastId= toast.error(error, {
+            transition: Bounce,
+          });
+      }
+    }
 
   multipleSelect = (list) =>
     list.map((item) => {
