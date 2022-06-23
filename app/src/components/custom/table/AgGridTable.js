@@ -74,10 +74,7 @@ class AggridTable extends React.Component {
     showTable: false,
     hasRequestedMore: false,
     defaultColDef: {
-      sortable: true,
-      editable: true,
-      resizable: true,
-      suppressMenu: true,
+
     },
 
     // modules: AllCommunityModules,
@@ -89,7 +86,6 @@ class AggridTable extends React.Component {
       {
         headerName: "First Name",
         field: "firstname",
-        width: 175,
         filter: true,
         checkboxSelection: true,
         headerCheckboxSelectionFilteredOnly: true,
@@ -191,6 +187,30 @@ class AggridTable extends React.Component {
                       this.setState({
                         showTaskDialog: true,
                         modalForm: "casetipology",
+                      });
+                    }
+                    if (this.props.tableType === "location") {
+                      this.setState({
+                        showTaskDialog: true,
+                        modalForm: "location",
+                      });
+                    }
+                    if (this.props.tableType === "locationclassification") {
+                      this.setState({
+                        showTaskDialog: true,
+                        modalForm: "locationclassification",
+                      });
+                    }
+                    if (this.props.tableType === "district") {
+                      this.setState({
+                        showTaskDialog: true,
+                        modalForm: "district",
+                      });
+                    }
+                    if (this.props.tableType === "province") {
+                      this.setState({
+                        showTaskDialog: true,
+                        modalForm: "province",
                       });
                     }
                   }}
