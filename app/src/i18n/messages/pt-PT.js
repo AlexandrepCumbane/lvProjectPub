@@ -470,5 +470,6 @@ export default {
     "Access/Distance": "Acesso/Distância",
     "Mosquito Nets": "Rede Mosquiteira",
     "Water Cleaning Products": "Produtos de tratamento de Água",
+    "Some records were not saved as they have already been assigned to the selected user(s).": "Um ou mais registo(s) n\ao foi gravdado por já estar encaminhado ao utilizador(s).",
   },
 };
