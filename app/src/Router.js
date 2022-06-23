@@ -361,7 +361,7 @@ class AppRouter extends React.Component {
           <AppRoute
             path="/clustersectors/new"
             component={(props) => (
-              <AppCreate {...props} path="clustersector" url="clustersectors" />
+              <AppCreate {...props} path="clustersector" url="clustersector" />
             )}
           />         
           <AppRoute
