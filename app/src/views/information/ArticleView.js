@@ -67,6 +67,8 @@ class Edit extends Component {
     modal_list_data: {},
     isProcessing: false,
     editorState: EditorState.createEmpty(),
+    disabled: false,
+    blockSubmit: false,
   };
 
   componentDidMount() {
@@ -219,6 +221,7 @@ class Edit extends Component {
         element = (
           <div>
             <Button
+              disabled={this.state.disabled}
               color={this.state.edit_status ? "primary" : "success"}
               className="mr-1 square"
               onClick={() => this.handleSubmit()}
@@ -727,6 +730,10 @@ class Edit extends Component {
       const { userOauth } = this.props.state.auth.login;
 
       this.setState({ isValid: true, isProcessing: true });
+      if(!this.state.blockSubmit){
+        this.setState({blockSubmit : true});
+        this.setState({disabled: true});
+      }
       axios
         .patch(`articles/${this.props.data.id}.json/`, this.state.form, {
           headers: {
@@ -750,6 +757,8 @@ class Edit extends Component {
           }, 1000);
         })
         .catch((error) => {
+          this.setState({blockSubmit: false});
+          this.setState({disabled: false});
           this.setState({ isProcessing: false });
           this.notifyErrorBounce("Unable to complete transaction.");
         });
