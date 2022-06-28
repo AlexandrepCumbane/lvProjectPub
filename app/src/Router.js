@@ -367,7 +367,7 @@ class AppRouter extends React.Component {
           <AppRoute
             path="/subcategoryissues/new"
             component={(props) => (
-              <AppCreate {...props} path="subcategoryissue" url="subcategoryissues" />
+              <AppCreate {...props} path="subcategoryissue" url="subcategoryissue" />
             )}
           />
          <AppRoute
