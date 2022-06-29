@@ -782,31 +782,6 @@ class Edit extends Component {
             <Label>
               <strong>{field.label}</strong>
             </Label>
-            <Editor
-              readOnly={true}
-              wrapperClassName="demo-wrapper"
-              editorClassName="demo-editor"
-              editorState={this.state.editorState}
-              onEditorStateChange={this.onEditorStateChange}
-              onChange={(e) => this.updateState(field.name, draftToHtml(e))}
-              toolbar={{
-                options: [
-                  "inline",
-                  "blockType",
-                  "fontSize",
-                  "fontFamily",
-                  "list",
-                  "textAlign",
-                  "colorPicker",
-                  "link",
-                  "embedded",
-                  "emoji",
-                  "image",
-                  "remove",
-                  "history",
-                ],
-              }}
-            />
           </Col>
         );
         break;
