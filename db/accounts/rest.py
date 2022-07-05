@@ -43,7 +43,7 @@ rest.router.register_model(
     # serializer=ClusterSectorFullSerializer,
     fields="__all__",
     cache="all",
-    queryset=ClusterAgency.objects.all().exclude(is_deleted=True)
+    queryset=ClusterAgency.objects.all().exclude(is_deleted=True).order_by('-id')
 )
 rest.router.register_model(
     ClusterRegion,
