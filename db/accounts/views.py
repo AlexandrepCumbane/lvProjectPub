@@ -108,7 +108,7 @@ class UserViewSet(ModelViewSet):
             return Response(status=status.HTTP_200_OK)
 
     def list(self, request, *args, **kwargs):
-        users = CustomUser.objects.all()
+        users = CustomUser.objects.all().order_by('-id')
         page = self.paginate_queryset(users)
         serializer = CustomUserFullSerializer(page, many=True)
         return self.get_paginated_response(serializer.data)
