@@ -1,0 +1,20 @@
+version: '3.4'
+
+x-service-volumes-node: &service-volumes-node
+  - .:/code
+  - /node_modules
+
+services:
+  frontend:
+    build: .
+    # image: roboboinc/linhaverde
+    container_name: case_management_app_frontend-only
+    command: npm start
+    hostname: ${HOSTNAME}
+    volumes: *service-volumes-node
+
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    env_file:
+      - .env
