@@ -12,7 +12,6 @@ import { Badge } from "reactstrap";
  */
 export const renderStatusLabel = (props, data, label) => {
   let color = "white";
-
   switch (data[`${props.path}_status_label`]) {
     case "Not started":
       color = "danger";
@@ -118,6 +117,7 @@ export const renderStatus = (props, data, label) => {
     }
   } else {
     if (data.callcase) {
+      console.log(data.callcase)
       if (data["callcase"].is_closed) {
         color = "success";
       } else {
@@ -179,7 +179,11 @@ export const renderStatus = (props, data, label) => {
           className={`text-${color} text-center bg-${color} rounded m-1`}
           size={12}
         />
-
+        <Circle
+          className={`text-${color} text-center bg-${color} rounded m-1`}
+          size={12}
+        />
+        {console.log(`${color}`)}
         {` ${label}`}
       </span>
     </div>
