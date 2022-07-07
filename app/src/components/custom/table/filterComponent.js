@@ -6,7 +6,6 @@ export function getFilterComponent() {
   function CustomFilter() {}
   CustomFilter.prototype.init = function (params) {
     this.valueGetter = params.valueGetter;
-    this.filterText = null;
     this.params = params;
     this.setupGui();
   };

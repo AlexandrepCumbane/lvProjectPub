@@ -574,8 +574,12 @@ class Create extends React.Component {
         this.props.page === "agencyfocalpoint"
           ? `/users/0/${this.props.page}`
           : `${this.props.page}s/`;
+
+      const failedCases = [];
     
     this.state.forms.forEach((form, idx, array) => {
+      console.log(form)
+
       // Unwrap and submit individually for each ID in Array
       const focal_points = form.get("focalpoint_id").split(',');
 
@@ -603,21 +607,35 @@ class Create extends React.Component {
               }
           })
           .catch(({ response }) => {
-            this.setState({ isLoading: false });
-            this.notifyErrorBounce(
-              this.translate(
-                response.data?.description ?? "Failed to save Object."
-              )
-            );
-
-            this.setState({
-              alertFields: Object.keys(response.data) ?? [],
-              alertData: response.data,
-              showAlert: true
-            })
+            failedCases.push({"id": form.get("lvform_id"), "response": response});
           });
         });
       });
+
+      this.setState({ isLoading: false });
+      
+      // Make an array to store all cases with error and store their IDs
+      const response = {data: "Record duplication"}
+      // list of failed:
+      failedCases.forEach(element => {
+        const failedString = response.data;        
+      });
+      
+      this.notifyErrorBounce(
+        this.translate(
+          response.data?.description ?? "Some records were not saved as they have already been assigned to the selected user(s)."
+        )
+      );
+
+      this.setState({
+        alertFields: Object.keys(response.data) ?? [],
+        alertData: response.data ?? "Already assigned",
+        showAlert: true
+      });
+
+                  // desabilitar a acao do butao 
+      this.state.disabled=false;
+      this.setState({ isLoading: false });
 
       setTimeout(() => {
         this.toggleModal();
