@@ -33,7 +33,7 @@ const get_pages = () => {
           title: "Registered",
           type: "item",
           icon: <Icon.Archive size={9} />,
-          permissions: ["operator", "manager"],
+          permissions: ["operator", "manager", "focalpoint"],
 
           navLink: "/lvforms",
         },
