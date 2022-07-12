@@ -12,7 +12,6 @@ import { Badge } from "reactstrap";
  */
 export const renderStatusLabel = (props, data, label) => {
   let color = "white";
-
   switch (data[`${props.path}_status_label`]) {
     case "Not started":
       color = "danger";
@@ -50,7 +49,7 @@ export const renderStatusLabel = (props, data, label) => {
 export const renderPriority = (props, data) => {
   let color = "white";
   let model = props.path === "lvform" ? "case" : props.path;
-
+  console.log(model);
   let status = data[`${model}_priority_label`];
 
   if (data.callcase) {
@@ -98,6 +97,27 @@ export const renderPriority = (props, data) => {
 };
 
 /**
+ * returns feedback case icon rendered based on icon color
+ *
+ * @param {*} props
+ * @param {*} data
+ * @returns
+ */
+ export const commentCase = (props, data) => {
+  let color = "white";
+  if (props.path === "lvform") {
+    if (Object.keys(data.casecomment_set).length!==0) {
+      color = "success";
+    } else {
+      color = "danger";
+    }
+  }
+  return (
+    <Octagon className={`text-${color} text-center mb-1 mt-1`} size={14} />
+  );
+};
+
+/**
  * returns a component with priority icon, status icons and given label
  *
  * @param {*} props
@@ -118,6 +138,7 @@ export const renderStatus = (props, data, label) => {
     }
   } else {
     if (data.callcase) {
+      console.log(data.callcase)
       if (data["callcase"].is_closed) {
         color = "success";
       } else {
@@ -175,11 +196,12 @@ export const renderStatus = (props, data, label) => {
     >
       <span>
         {renderPriority(props, data)}
+        {commentCase(props, data)}
         <Circle
           className={`text-${color} text-center bg-${color} rounded m-1`}
           size={12}
         />
-
+        {console.log(`${color}`)}
         {` ${label}`}
       </span>
     </div>
