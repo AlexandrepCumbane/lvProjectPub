@@ -49,7 +49,7 @@ export const renderStatusLabel = (props, data, label) => {
 export const renderPriority = (props, data) => {
   let color = "white";
   let model = props.path === "lvform" ? "case" : props.path;
-
+  console.log(model);
   let status = data[`${model}_priority_label`];
 
   if (data.callcase) {
@@ -93,6 +93,27 @@ export const renderPriority = (props, data) => {
 
   return (
     <ArrowUp className={`text-${color} text-center mb-1 mt-1`} size={14} />
+  );
+};
+
+/**
+ * returns feedback case icon rendered based on icon color
+ *
+ * @param {*} props
+ * @param {*} data
+ * @returns
+ */
+ export const commentCase = (props, data) => {
+  let color = "white";
+  if (props.path === "lvform") {
+    if (Object.keys(data.casecomment_set).length!==0) {
+      color = "success";
+    } else {
+      color = "danger";
+    }
+  }
+  return (
+    <Octagon className={`text-${color} text-center mb-1 mt-1`} size={14} />
   );
 };
 
@@ -175,10 +196,7 @@ export const renderStatus = (props, data, label) => {
     >
       <span>
         {renderPriority(props, data)}
-        <Circle
-          className={`text-${color} text-center bg-${color} rounded m-1`}
-          size={12}
-        />
+        {commentCase(props, data)}
         <Circle
           className={`text-${color} text-center bg-${color} rounded m-1`}
           size={12}
