@@ -176,7 +176,7 @@ class LvFormSerializer(patterns.AttachedModelSerializer):
         if "case_number" not in data:
             case_number = random.randint(10283, 112398)
             if (last):
-                data["case_number"] = last.case_number + 1
+                data["case_number"] = last.case_number 
 
         try:
             if 'request' in self.context:
