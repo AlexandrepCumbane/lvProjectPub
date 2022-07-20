@@ -21,6 +21,7 @@ import PT from "../../i18n/messages/pt-PT";
 // import EN from "../../i18n/messages/en-US";
 
 import { axios } from "../../redux/api";
+import { history } from "../../history";
 import { requestDropodowns } from "../../redux/actions/app/actions";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -579,6 +580,9 @@ class Import extends React.Component {
       .then(({ data }) => {
         this.setState({ uploading: false });
         this.notifySuccessBounce("");
+        setTimeout(() => {
+          history.push('/lvforms');
+        }, 1000);
       })
       .catch((error) => {
         this.setState({ uploading: false });
