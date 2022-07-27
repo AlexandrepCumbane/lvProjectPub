@@ -43,7 +43,7 @@ pipelines:
                 AWS_SESSION_TOKEN: $AWS_SESSION_TOKEN
                 AWS_DEFAULT_REGION: 'eu-west-1'
                 DISTRIBUTION_ID: "E1C66NRLMEV1RM"
-    '{production}':
+    '{production, release/production}':
       - step:
           name: Build and Test
           caches:
