@@ -8,7 +8,7 @@ from graphene_django import DjangoObjectType
 import lv_form.schema
 
 from lv_form.models import ForwardCaseToFocalpoint
-from lv_form.models import LvForm, ForwardingInstitution
+from lv_form.models import LvForm, ForwardingInstitution, CaseComment
 from case_tipology.models import CaseTipology
 from location_management.models import Province
 
@@ -167,24 +167,20 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
 
     def resolve_total_lvform_with_feedback_records(root, info):
         return {
-            "dcount":
-            ForwardingInstitution.objects.filter(
-                has_feedback=True, lvform__is_deleted=False).count()
+            "dcount": CaseComment.objects.all().count()
         }
 
     def resolve_total_lvform_referall_records(root, info):
         return {
             "dcount":
-            ForwardingInstitution.objects.filter(
+            ForwardCaseToFocalpoint.objects.filter(
                 lvform__is_deleted=False).count()
         }
 
     def resolve_total_lvform_not_referall_records(root, info):
-        return {
-            "dcount":
-            LvForm.objects.select_related('forwardinginstitution').filter(
-                forwardinginstitution=None, is_deleted=False).count()
-        }
+        d1 = LvForm.objects.all().exclude(is_deleted=True).count()
+        d2 =  ForwardCaseToFocalpoint.objects.filter(lvform__is_deleted=False).count()
+        return {"dcount": d1 - d2}
 
     def resolve_total_lvform_no_feedback_records(root, info):
         return {
