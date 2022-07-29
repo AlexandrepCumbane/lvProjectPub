@@ -2,7 +2,6 @@
 .venv
 venv
 env
-/htdocs
 lib
 themes.css
 *.appcache
