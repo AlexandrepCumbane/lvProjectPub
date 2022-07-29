@@ -1,4 +1,4 @@
-tag=1.0.2
+tag=1.0.3
 tag_staging=1.0.1
 organization=roboboinc
 image=linhaverde
