@@ -18,7 +18,7 @@ compass-stylesheets==0.12.6
 constantly==15.1.0
 coreapi==2.3.3
 coreschema==0.0.4
-cryptography
+cryptography==37.0.2
 daphne==3.0.1
 defusedxml==0.6.0
 diff-match-patch==20200713
@@ -27,6 +27,7 @@ django-cors-headers==3.6.0
 django-environ==0.4.5
 django-filter==2.4.0
 django-graphql-jwt==0.3.1
+django-health-check==3.16.5
 django-import-export==2.4.0
 django-mustache==1.1.2
 django-redis==5.0.0
@@ -69,7 +70,7 @@ pyasn1-modules==0.2.8
 PyBabeljs==0.0.8
 pycparser==2.20
 PyJWT==2.0.0
-# pyOpenSSL==20.0.1
+pyOpenSSL==22.0.0
 pyparsing==2.4.7
 pyScss==1.3.7
 pystache==0.5.4
