@@ -22,9 +22,9 @@ $secondary-font-weight: 600;
 @import "~ag-grid-community/src/styles/ag-theme-material/sass/ag-theme-material.scss";
 
 .ag-grid-table {
-  height: calc(100vh - 15rem);
+  height: calc(100vh - 1rem);
   @media screen and (max-height: 800px) {
-    height: 620px;
+    height: 900px;
   }
 
   .ag-header-cell {
