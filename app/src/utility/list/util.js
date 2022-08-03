@@ -209,90 +209,90 @@ export const renderStatus = (props, data, label) => {
 };
 
 export const getFieldWith = (field_name) => {
-  let width = 150;
+  let width = 100;
   switch (field_name) {
-    case "case_number":
-      width = 210;
+    case "case_number": 
+      width = 150;
       break;
 
     case "lvform_label":
-      width = 210;
+      width = 100;
       break;
 
     case "cluster_sector":
-      width = 310;
+      width = 100;
       break;
 
     case "cluster_agency":
-      width = 210;
+      width = 100;
       break;
 
     case "cluster_region":
-      width = 210;
+      width = 100;
       break;
 
     case "name":
-      width = 310;
+      width = 100;
       break;
 
     case "title":
-      width = 310;
+      width = 100;
       break;
 
     case "lvform":
-      width = 210;
+      width = 100;
       break;
 
     case "email":
-      width = 310;
+      width = 100;
       break;
 
     case "is_active":
-      width = 240;
+      width = 100;
       break;
 
     case "first_name":
-      width = 250;
+      width = 100;
       break;
 
     case "last_name":
-      width = 250;
+      width = 100;
       break;
 
-    // case "datetime_created":
-    //   width = 180;
-    //   break;
+    case "datetime_created":
+      width = 100;
+      break;
 
     case "province":
-      width = 180;
+      width = 100;
       break;
 
     case "distrito":
-      width = 200;
+      width = 100;
       break;
 
     case "localidade":
-      width = 200;
+      width = 100;
       break;
 
     case "case_priority":
-      width = 150;
+      width = 100;
       break;
     case "category":
-      width = 370;
+      width = 100;
       break;
     case "subcategory":
-      width = 350;
+      width = 100;
       break;
     case "casetipology":
-      width = 370;
+      width = 100;
       break;
     case "subcategory_issue":
-        width = 370;
+        width = 100;
         break;
     
     default:
-      width = 200;
+      width = 100;
     // break;
   }
 
