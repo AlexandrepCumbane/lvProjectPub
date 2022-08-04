@@ -185,71 +185,6 @@ export default {
           "wq:length": 25,
           type: "string",
         },
-        {
-          name: "district_set",
-          label: "District Set",
-          type: "repeat",
-          children: [
-            {
-              name: "name",
-              label: "Name",
-              bind: {
-                required: true,
-              },
-              "wq:length": 25,
-              type: "string",
-            },
-            {
-              name: "province",
-              label: "Province",
-              type: "string",
-              "wq:ForeignKey": "province",
-            },
-            {
-              name: "postoadministrativo_set",
-              label: "Postoadministrativo Set",
-              bind: {
-                required: true,
-              },
-              type: "repeat",
-              children: [
-                {
-                  name: "name",
-                  label: "Name",
-                  bind: {
-                    required: true,
-                  },
-                  "wq:length": 25,
-                  type: "string",
-                },
-                {
-                  name: "district",
-                  label: "District",
-                  type: "string",
-                  "wq:ForeignKey": "district",
-                },
-                {
-                  name: "codigo",
-                  label: "Codigo",
-                  bind: {
-                    required: true,
-                  },
-                  "wq:length": 25,
-                  type: "string",
-                },
-                {
-                  name: "parent_code",
-                  label: "Parent Code",
-                  bind: {
-                    required: true,
-                  },
-                  "wq:length": 25,
-                  type: "string",
-                },
-              ],
-            },
-          ],
-        },
       ],
       verbose_name: "province",
       verbose_name_plural: "provinces",
@@ -954,7 +889,7 @@ export default {
       form: [
         {
           name: "subcategory",
-          label: "Subcategory",
+          label: "Other category",
           bind: {
             required: true,
           },
@@ -963,7 +898,7 @@ export default {
         },
         {
           name: "subcategory_issue",
-          label: "Sub Category Issue",
+          label: "Sub-category issue",
           bind: {
             required: true,
           },
@@ -981,62 +916,12 @@ export default {
       form: [
         {
           name: "category",
-          label: "Case Category",
+          label: "Case category",
           bind: {
             required: true,
           },
           hint: "Case Category",
           type: "text",
-        },
-        {
-          name: "subcategory_set",
-          label: "Subcategory Set",
-          type: "repeat",
-          children: [
-            {
-              name: "casetipology",
-              label: "Casetipology",
-              bind: {
-                required: true,
-              },
-              type: "string",
-              "wq:ForeignKey": "casetipology",
-            },
-            {
-              name: "subcategory",
-              label: "Sub Category",
-              bind: {
-                required: true,
-              },
-              hint: "Sub Category",
-              type: "text",
-            },
-            {
-              name: "subcategoryissue_set",
-              label: "Subcategoryissue Set",
-              type: "repeat",
-              children: [
-                {
-                  name: "subcategory",
-                  label: "Subcategory",
-                  bind: {
-                    required: true,
-                  },
-                  type: "string",
-                  "wq:ForeignKey": "subcategory",
-                },
-                {
-                  name: "subcategory_issue",
-                  label: "Sub Category Issue",
-                  bind: {
-                    required: true,
-                  },
-                  hint: "Sub Category Issue",
-                  type: "text",
-                },
-              ],
-            },
-          ],
         },
       ],
       verbose_name: "linha verde case tipology",
@@ -1095,49 +980,6 @@ export default {
           type: "string",
           "wq:ForeignKey": "province",
         },
-        {
-          name: "postoadministrativo_set",
-          label: "Postoadministrativo Set",
-          bind: {
-            required: true,
-          },
-          type: "repeat",
-          children: [
-            {
-              name: "name",
-              label: "Name",
-              bind: {
-                required: true,
-              },
-              "wq:length": 25,
-              type: "string",
-            },
-            {
-              name: "district",
-              label: "District",
-              type: "string",
-              "wq:ForeignKey": "district",
-            },
-            {
-              name: "codigo",
-              label: "Codigo",
-              bind: {
-                required: true,
-              },
-              "wq:length": 25,
-              type: "string",
-            },
-            {
-              name: "parent_code",
-              label: "Parent Code",
-              bind: {
-                required: true,
-              },
-              "wq:length": 25,
-              type: "string",
-            },
-          ],
-        },
       ],
       verbose_name: "district",
       verbose_name_plural: "districts",
@@ -1149,7 +991,7 @@ export default {
       form: [
         {
           name: "casetipology",
-          label: "Casetipology",
+          label: "Case category",
           bind: {
             required: true,
           },
@@ -1158,38 +1000,13 @@ export default {
         },
         {
           name: "subcategory",
-          label: "Sub Category",
+          label: "Other category",
           bind: {
             required: true,
           },
           hint: "Sub Category",
           type: "text",
-        },
-        {
-          name: "subcategoryissue_set",
-          label: "Subcategoryissue Set",
-          type: "repeat",
-          children: [
-            {
-              name: "subcategory",
-              label: "Subcategory",
-              bind: {
-                required: true,
-              },
-              type: "string",
-              "wq:ForeignKey": "subcategory",
-            },
-            {
-              name: "subcategory_issue",
-              label: "Sub Category Issue",
-              bind: {
-                required: true,
-              },
-              hint: "Sub Category Issue",
-              type: "text",
-            },
-          ],
-        },
+        }
       ],
       verbose_name: "subcategory",
       verbose_name_plural: "subcategorys",
@@ -1721,179 +1538,9 @@ export default {
       form: [
         {
           name: "name",
-          label: "Name",
+          label: "Cluster Name",
           "wq:length": 254,
           type: "string",
-        },
-        {
-          name: "cluster_agency",
-          label: "Cluster Agency",
-          type: "repeat",
-          children: [
-            {
-              name: "name",
-              label: "Name",
-              "wq:length": 254,
-              type: "string",
-            },
-            {
-              name: "cluster_sector",
-              label: "Cluster Sector",
-              hint: "cluster_sector",
-              type: "string",
-              "wq:ForeignKey": "clustersector",
-            },
-            {
-              name: "cluster_region",
-              label: "Cluster Region",
-              type: "repeat",
-              children: [
-                {
-                  name: "name",
-                  label: "Name",
-                  "wq:length": 254,
-                  type: "string",
-                },
-                {
-                  name: "cluster_agency",
-                  label: "Cluster Agency",
-                  hint: "cluster_agency",
-                  type: "string",
-                  "wq:ForeignKey": "clusteragency",
-                },
-                {
-                  name: "focalpoints_label",
-                  label: "Focalpoints Label",
-                  bind: {
-                    required: true,
-                  },
-                  type: "string",
-                },
-                {
-                  name: "partners_label",
-                  label: "Partners Label",
-                  bind: {
-                    required: true,
-                  },
-                  type: "string",
-                },
-                {
-                  name: "focalpoints",
-                  label: "Focalpoints",
-                  type: "repeat",
-                  children: [
-                    {
-                      name: "is_active",
-                      label: "Is Active",
-                      choices: [
-                        {
-                          name: true,
-                          label: "Yes",
-                        },
-                        {
-                          name: false,
-                          label: "No",
-                        },
-                      ],
-                      type: "select one",
-                    },
-                    {
-                      name: "email",
-                      label: "Email address",
-                      bind: {
-                        required: true,
-                      },
-                      "wq:length": 254,
-                      type: "string",
-                    },
-                    {
-                      name: "first_name",
-                      label: "First Name",
-                      "wq:length": 254,
-                      type: "string",
-                    },
-                    {
-                      name: "last_name",
-                      label: "Last Name",
-                      "wq:length": 30,
-                      type: "string",
-                    },
-                    {
-                      name: "groups",
-                      label: "Groups",
-                      hint: "The groups this user belongs to. A user will get all permissions granted to each of their groups.",
-                      type: "string",
-                    },
-                    {
-                      name: "groups_label",
-                      label: "Groups Label",
-                      bind: {
-                        required: true,
-                      },
-                      type: "string",
-                    },
-                  ],
-                },
-                {
-                  name: "partners",
-                  label: "Partners",
-                  type: "repeat",
-                  children: [
-                    {
-                      name: "is_active",
-                      label: "Is Active",
-                      choices: [
-                        {
-                          name: true,
-                          label: "Yes",
-                        },
-                        {
-                          name: false,
-                          label: "No",
-                        },
-                      ],
-                      type: "select one",
-                    },
-                    {
-                      name: "email",
-                      label: "Email address",
-                      bind: {
-                        required: true,
-                      },
-                      "wq:length": 254,
-                      type: "string",
-                    },
-                    {
-                      name: "first_name",
-                      label: "First Name",
-                      "wq:length": 254,
-                      type: "string",
-                    },
-                    {
-                      name: "last_name",
-                      label: "Last Name",
-                      "wq:length": 30,
-                      type: "string",
-                    },
-                    {
-                      name: "groups",
-                      label: "Groups",
-                      hint: "The groups this user belongs to. A user will get all permissions granted to each of their groups.",
-                      type: "string",
-                    },
-                    {
-                      name: "groups_label",
-                      label: "Groups Label",
-                      bind: {
-                        required: true,
-                      },
-                      type: "string",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
         },
       ],
       verbose_name: "cluster sector",

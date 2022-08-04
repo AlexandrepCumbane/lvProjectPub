@@ -35,10 +35,19 @@ class Edit extends React.Component {
       transition: Bounce,
     });
 
-  notifyErrorBounce = (error) =>
-    toast.error(error, {
-      transition: Bounce,
-    });
+    toastId = null;
+    /**
+     * Error alert function - shows an alert with danger background
+     * @param {*} error - string message
+     * @returns
+     */
+     notifyErrorBounce = (error) =>{
+      if(!toast.isActive(this.toastId)){
+        this.toastId= toast.error(error, {
+            transition: Bounce,
+          });
+      }
+    }
 
   state = {
     modal: this.props.modal ?? false,
@@ -53,7 +62,8 @@ class Edit extends React.Component {
 
     showAlert: false,
     alertFields: [],
-    alertData: {}
+    alertData: {},
+    disabled: false,
   };
 
   componentDidMount() {
@@ -165,6 +175,7 @@ class Edit extends React.Component {
               <></>
             )}
             <Button
+              disabled={this.state.disabled}
               color="primary"
               className="square"
               onClick={() => this.handleSubmit()}
@@ -641,6 +652,10 @@ class Edit extends React.Component {
       this.notifyErrorBounce(this.translate("Fill all required inputs"));
       this.setState({ isValid: false });
     } else {
+
+      // block button action
+      this.setState({disabled: true});
+
       this.setState({ isValid: true, isLoading: true });
       const url = this.props.page === "customuser" ? "user" : this.props.page;
       axios
@@ -659,6 +674,9 @@ class Edit extends React.Component {
           }, 1000);
         })
         .catch(({response}) => {
+          // active button action
+          this.setState({disabled: false});
+
           this.setState({ isLoading: false });
           this.notifyErrorBounce(this.translate("Transaction process failed"));
           this.setState({

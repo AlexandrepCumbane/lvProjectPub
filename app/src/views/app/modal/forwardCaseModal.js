@@ -63,7 +63,8 @@ class Create extends React.Component {
 
     showAlert: false,
     alertFields: [],
-    alertData: {}
+    alertData: {},
+    disabled: false,
   };
   componentDidMount() {
     this.props.requestDropodowns(); // Request dropdown lists and place in a map
@@ -71,22 +72,39 @@ class Create extends React.Component {
     this.updateState("lvform_id", this.props.lvform_id);
     let formsdata= []
 
-    this.props.lvform.forEach((form)=>{
+    // Handle single forward modal
+    if(Array.isArray(this.props.lvform)){
+      this.props.lvform.forEach((form)=>{
 
-    let formdata = new FormData();
-
-    if (form["description"]) {
-      formdata.append("description", form["description"]);
+        let formdata = new FormData();
+  
+        if (form["description"]) {
+          formdata.append("description", form["description"]);
+        }
+        if (form["feedback"]) {
+          formdata.append("feedback", form["feedback"]);
+        }
+  
+        formdata.append("lvform_id", form["id"]);
+        formdata.append("task_id", this.props.task_id);
+        formdata.append("article_id", form["id"]);
+        formsdata.push(formdata);
+      });
+    } else {
+      let formdata = new FormData();
+        
+      if (this.props.description) {
+        formdata.append("description", this.props["description"]);
+      }
+      if (this.props.feedback) {
+        formdata.append("feedback", this.props["feedback"]);
+      }
+  
+      formdata.append("lvform_id", this.props.lvform_id);
+      formdata.append("task_id", this.props.task_id);
+      formdata.append("article_id", this.props.lvform_id);
+      formsdata.push(formdata);
     }
-    if (form["feedback"]) {
-      formdata.append("feedback", form["feedback"]);
-    }
-
-    formdata.append("lvform_id", form["id"]);
-    formdata.append("task_id", this.props.task_id);
-    formdata.append("article_id", form["id"]);
-    formsdata.push(formdata);
-    });
 
 
     this.setState({ forms: formsdata, modal: this.props.modal ?? false });
@@ -155,6 +173,7 @@ class Create extends React.Component {
 
           <ModalFooter>
             <Button
+              disabled={this.state.disabled}
               color="primary"
               className="square"
               onClick={() => this.handleSubmit()}
@@ -545,6 +564,9 @@ class Create extends React.Component {
       this.notifyErrorBounce(this.translate("Fill all required inputs"));
       this.setState({ isValid: false });
     } else {
+
+      // desabilitar a acao do butao 
+      this.state.disabled=true;
       this.setState({ isValid: true, isLoading: true });
 
       const url =
@@ -552,8 +574,12 @@ class Create extends React.Component {
         this.props.page === "agencyfocalpoint"
           ? `/users/0/${this.props.page}`
           : `${this.props.page}s/`;
+
+      const failedCases = [];
     
     this.state.forms.forEach((form, idx, array) => {
+      console.log(form)
+
       // Unwrap and submit individually for each ID in Array
       const focal_points = form.get("focalpoint_id").split(',');
 
@@ -581,21 +607,35 @@ class Create extends React.Component {
               }
           })
           .catch(({ response }) => {
-            this.setState({ isLoading: false });
-            this.notifyErrorBounce(
-              this.translate(
-                response.data?.description ?? "Failed to save Object."
-              )
-            );
-
-            this.setState({
-              alertFields: Object.keys(response.data) ?? [],
-              alertData: response.data,
-              showAlert: true
-            })
+            failedCases.push({"id": form.get("lvform_id"), "response": response});
           });
         });
       });
+
+      this.setState({ isLoading: false });
+      
+      // Make an array to store all cases with error and store their IDs
+      const response = {data: "Record duplication"}
+      // list of failed:
+      failedCases.forEach(element => {
+        const failedString = response.data;        
+      });
+      
+      this.notifyErrorBounce(
+        this.translate(
+          response.data?.description ?? "Some records were not saved as they have already been assigned to the selected user(s)."
+        )
+      );
+
+      this.setState({
+        alertFields: Object.keys(response.data) ?? [],
+        alertData: response.data ?? "Already assigned",
+        showAlert: true
+      });
+
+                  // desabilitar a acao do butao 
+      this.state.disabled=false;
+      this.setState({ isLoading: false });
 
       setTimeout(() => {
         this.toggleModal();

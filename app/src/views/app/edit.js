@@ -31,6 +31,7 @@ import {
 import { axios } from "../../redux/api";
 
 import Modal from "./modal/create";
+import FwdModal from "./modal/forwardCaseModal";
 import ListModal from "./modal/list";
 
 import ModalEdit from "./modal/edit";
@@ -46,10 +47,20 @@ class Edit extends Component {
     toast.success(this.translate(`Transaction completed successfuly!`), {
       transition: Bounce,
     });
-  notifyErrorBounce = (error) =>
-    toast.error(error, {
-      transition: Bounce,
-    });
+
+  toastId = null;
+  /**
+   * Error alert function - shows an alert with danger background
+   * @param {*} error - string message
+   * @returns
+   */
+   notifyErrorBounce = (error) =>{
+    if(!toast.isActive(this.toastId)){
+      this.toastId= toast.error(error, {
+          transition: Bounce,
+        });
+    }
+  }
 
   state = {
     form: new FormData(),
@@ -503,7 +514,7 @@ class Edit extends Component {
                   lvform={data}
                   addMore={this.addMoreTasks}
                 />
-                <Modal
+                <FwdModal
                   title={this.translate(`Send to Focal Point`)}
                   page="forwardcasetofocalpoint"
                   label={this.translate("Send")}

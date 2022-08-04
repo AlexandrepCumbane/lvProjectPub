@@ -2,7 +2,11 @@ import { LOCALES } from "../locales";
 
 export default {
   [LOCALES.PORTUGUESE]: {
+    Classification: "Classificação",
+    Locations:"Localizações",
+    'location classification':"Classificação do Local",
     Province: "Provincia",
+    province: "Provincia",
     District: "Distrito",
     Locality: "Localidade",
     "Cases per province": "Casos por Provincia",
@@ -37,6 +41,7 @@ export default {
     "Sub-category issue": "Problema de Subcategoria",
     "Who is not receiving assistance": "Quem não está recebendo assistência",
     Sector: "Sector",
+    'Case tipology':'Tipo de Caso',
     Vulnerability: "Vulnerabilidade",
     "Call Notes": "Notas da Chamada",
     "Call Solution": "Solução da Chamada",
@@ -469,5 +474,6 @@ export default {
     "Access/Distance": "Acesso/Distância",
     "Mosquito Nets": "Rede Mosquiteira",
     "Water Cleaning Products": "Produtos de tratamento de Água",
+    "Some records were not saved as they have already been assigned to the selected user(s).": "Um ou mais registo(s) n\ao foi gravdado por já estar encaminhado ao utilizador(s).",
   },
 };
