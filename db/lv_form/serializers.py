@@ -3,6 +3,7 @@ from wq.db.patterns import serializers as patterns
 from accounts.serializer import CustomUserFullSerializer
 from .models import LvForm, CaseComment, ForwardingInstitution, Task, TaskComment, ForwardCaseToFocalpoint
 from django.contrib.auth import get_user_model
+from .signals import lvform_pre_save
 
 
 class CaseCommentSerializer(patterns.AttachedModelSerializer):
@@ -169,18 +170,18 @@ class LvFormSerializer(patterns.AttachedModelSerializer):
         
         # TODO: This must be reviewed both in term of model int field and the case number assignment!
         if "case_number" not in data:
-            case_number = random.randint(10283, 112398)
+            # case_number = random.randint(10283, 112398)
             if (last):
                 data["case_number"] = last.case_number 
 
         try:
             if 'request' in self.context:
-                form, created = LvForm.objects.update_or_create(
+                form = LvForm.objects.update_or_create(
                                      created_by=self.context['request'].user,
                                      **data)
             return form
         except:
-            form, created = LvForm.objects.update_or_create(**data)
+            form = LvForm.objects.update_or_create(**data)
             return form
 
 

@@ -1,16 +1,13 @@
 from django.dispatch import receiver  # receiver are signals
-from django.db.models.signals import pre_save; # import the prev method sign
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save; # import the prev method sign
 from .models import LvForm;
 
 
-@receiver(pre_save, sender=LvForm)
-def ensure_casenumber_exists(sender, **kwargs):
-    exit
+def lvform_pre_save(*args, **kwargs):
+    print('lvform_pre_save')
+    print(args,kwargs)
+
+pre_save.connect(lvform_pre_save, sender=LvForm)
 
 
 
-def ensure_casenumber_exists(sender, instance,created, **kwargs):
-    if created== False:
-        instance.lvform.save()
-        print('case_number')
