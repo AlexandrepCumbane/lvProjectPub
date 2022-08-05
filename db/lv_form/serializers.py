@@ -94,12 +94,7 @@ class LvFormFullSerializer(patterns.AttachedModelSerializer):
         read_only_fields = ('case_number', )
 
     def create(self, validated_data):
-        last = LvForm.objects.last()
-        case_number = random.randint(10283, 112398)
-        if (last):
-            case_number = last.case_number + 1
-
-        form = LvForm.objects.create(case_number=case_number,
+        form = LvForm.objects.create(
                                      created_by=self.context['request'].user,
                                      **validated_data)
         return form
