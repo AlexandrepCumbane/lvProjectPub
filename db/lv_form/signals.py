@@ -6,13 +6,8 @@ from .models import LvForm;
 def lvform_pre_save(sender, instance,*args, **kwargs):
     print('lvform_pre_save')
     # !gerar o numero de casos ( case_number)
-    numero = instance.case_number
-    # case_number_verifiy = LvForm.objects.get(case_number=numero)
-    # if case_number_verifiy:
-    #     print('Novo caso: '+ instance)
-    # else:
-    #     print('Caso: '+ instance)
-
+    instance.case_number = instance.uuid.time
+    print(instance.uuid.time)
     if instance._state.adding:
         print ('Instance created!')
         print (instance)
