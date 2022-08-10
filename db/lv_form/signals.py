@@ -1,5 +1,5 @@
 from django.dispatch import receiver  # receiver are signals
-from django.db.models.signals import pre_save, post_save; # import the prev method sign
+from django.db.models.signals import pre_save # import the prev method sign
 from .models import LvForm;
 from datetime import date
 
