@@ -212,7 +212,7 @@ export const getFieldWith = (field_name) => {
   let width = 100;
   switch (field_name) {
     case "case_number": 
-      width = 150;
+      width = 230;
       break;
 
     case "lvform_label":
@@ -220,31 +220,48 @@ export const getFieldWith = (field_name) => {
       break;
 
     case "cluster_sector":
-      width = 100;
+      width = 300;
       break;
 
     case "cluster_agency":
-      width = 100;
+      width = 300;
       break;
 
     case "cluster_region":
-      width = 100;
+      width = 300;
       break;
 
     case "name":
-      width = 100;
+      width = 300;
       break;
 
+    case "age":
+      width = 120;
+      break;
+
+
     case "title":
-      width = 100;
+      width = 300;
       break;
 
     case "lvform":
-      width = 100;
+      width = 150;
+      break;
+
+    case "response":
+      width = 120;
+      break;
+
+    case "community":
+      width = 150;
+      break;
+
+    case "gender":
+      width = 120;
       break;
 
     case "email":
-      width = 100;
+      width = 350;
       break;
 
     case "is_active":
@@ -252,23 +269,23 @@ export const getFieldWith = (field_name) => {
       break;
 
     case "first_name":
-      width = 100;
+      width = 200;
       break;
 
     case "last_name":
-      width = 100;
+      width = 200;
       break;
 
     case "datetime_created":
-      width = 100;
+      width = 180;
       break;
 
-    case "province":
-      width = 100;
+    case "provincia":
+      width = 120;
       break;
 
     case "distrito":
-      width = 100;
+      width = 120;
       break;
 
     case "localidade":
@@ -279,20 +296,20 @@ export const getFieldWith = (field_name) => {
       width = 100;
       break;
     case "category":
-      width = 100;
+      width = 200;
       break;
     case "subcategory":
-      width = 100;
+      width = 150;
       break;
     case "casetipology":
-      width = 100;
+      width = 150;
       break;
     case "subcategory_issue":
-        width = 100;
+        width = 150;
         break;
     
     default:
-      width = 100;
+      width = 180;
     // break;
   }
 
