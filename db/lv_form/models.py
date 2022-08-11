@@ -367,7 +367,7 @@ class LvForm(models.Model):
         verbose_name="Created By",
         help_text="User",
     )
-    case_number = models.IntegerField(
+    case_number = models.BigIntegerField(
         null=True,
         blank=True,
         verbose_name="Case number",
