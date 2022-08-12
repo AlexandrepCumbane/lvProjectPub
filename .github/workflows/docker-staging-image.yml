@@ -37,7 +37,7 @@ jobs:
       run: aws eks update-kubeconfig --name linhaverde
 
     - name: Setting KUBE_CONFIG environment variable
-      run: echo "KUBE_CONFIG=$(cat $HOME/.kube/config | base64)" >> $GITHUB_ENV
+      run: echo "KUBE_CONFIG=$(cat $HOME/.kube/config | base64 --wrap=0)" >> $GITHUB_ENV
       
     - name: Deploy
       uses: WyriHaximus/github-action-helm3@v2
