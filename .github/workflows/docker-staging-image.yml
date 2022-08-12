@@ -45,3 +45,4 @@ jobs:
         exec: |
           echo '${{ env.KUBE_CONFIG }}' | base64 -d > ${KUBECONFIG}
           helm ls
+        kubeconfig: echo '${{ env.KUBE_CONFIG }}' | base64 -d
