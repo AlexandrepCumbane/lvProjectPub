@@ -33,12 +33,14 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
     
-    - name: check is aws is setup
-      run: |
-        aws s3 ls
+    - name: Create kubeconfig
+      run: aws eks update-kubeconfig --name production
+
+    - name: Setting KUBE_CONFIG environment variable
+      run: echo "KUBE_CONFIG=$(cat $HOME/.kube/config | base64 --wrap=0)" >> $GITHUB_ENV
       
     - name: Deploy
       uses: WyriHaximus/github-action-helm3@v2
       with:
         exec: helm ls
-        kubeconfig: '${{ secrets.KUBECONFIG }}'
+        kubeconfig: '${{ env.KUBE_CONFIG }}'
