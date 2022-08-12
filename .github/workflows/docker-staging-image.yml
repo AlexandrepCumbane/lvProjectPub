@@ -34,7 +34,7 @@ jobs:
         aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
     
     - name: Create kubeconfig
-      run: aws eks update-kubeconfig --name production
+      run: aws eks update-kubeconfig --name linhaverde
 
     - name: Setting KUBE_CONFIG environment variable
       run: echo "KUBE_CONFIG=$(cat $HOME/.kube/config | base64 --wrap=0)" >> $GITHUB_ENV
