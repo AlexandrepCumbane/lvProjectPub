@@ -43,4 +43,4 @@ jobs:
       uses: WyriHaximus/github-action-helm3@v2
       with:
         exec: helm ls
-        kubeconfig: '${{ env.KUBE_CONFIG }}'
+        kubeconfig: '${{ env.KUBE_CONFIG | base64 -d }}'
