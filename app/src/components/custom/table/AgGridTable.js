@@ -650,7 +650,9 @@ class AggridTable extends React.Component {
 
                     <div>
                       {this.props.userRole === "manager" ||
-                      this.props.userRole === "focalpoint" ? (
+                      this.props.userRole === "focalpoint" ||
+                      this.props.userRole === "partner" ?
+                       (
                         <>
                           <Button.Ripple
                             id="download"
