@@ -224,8 +224,8 @@ class List extends Component {
         });
 
         if (this.props.app_reducer.error === "session") {
-          this.notifyErrorBounce(
-            "Your session has expired, please login again!"
+          this.notifyErrorBounce(this.translate(
+            `Your session has expired, please login again!`)
           );
         }
 
@@ -345,7 +345,7 @@ class List extends Component {
         this.notifySuccessBounce(data.id);
       })
       .catch((error) => {
-        this.notifyErrorBounce("Unable to complete transaction.");
+        this.notifyErrorBounce(this.translate(`Unable to complete transaction.`));
       });
   };
 

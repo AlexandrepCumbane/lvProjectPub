@@ -73,7 +73,7 @@ class Page2 extends React.Component {
 
   handleSubmit = () => {
     if (this.state.required_fields.length > 0) {
-      this.notifyErrorBounce("Fill all required inputs");
+      this.notifyErrorBounce(this.translate(`Submission was not possible due to not filling the required fields.`));
       this.setState({ isValid: false });
     } else {
       this.setState({ isValid: true });
@@ -83,7 +83,7 @@ class Page2 extends React.Component {
           this.notifySuccessBounce(data.id);
         })
         .catch((error) => {
-          this.notifyErrorBounce("Failed to save Object.");
+          this.notifyErrorBounce(this.translate(`Failed to save Object.`));
         });
     }
   };

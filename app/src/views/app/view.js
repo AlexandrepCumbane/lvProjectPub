@@ -716,7 +716,7 @@ class Create extends React.Component {
   handleSubmit = () => {
     const { userOauth } = this.props.state.auth.login;
     if (this.state.required_fields.length > 0) {
-      this.notifyErrorBounce("Fill all required inputs");
+      this.notifyErrorBounce(this.translate(`Submission was not possible due to not filling the required fields.`));
       this.setState({ isValid: false });
     } else {
       this.setState({ isValid: true });
@@ -735,7 +735,7 @@ class Create extends React.Component {
           }, 1000);
         })
         .catch(({ error }) => {
-          this.notifyErrorBounce("Failed to save Object.");
+          this.notifyErrorBounce(this.translate(`Failed to save Object.`));
         });
     }
   };
@@ -757,7 +757,7 @@ class Create extends React.Component {
    * @returns
    */
   notifyErrorBounce = (error) =>
-    toast.error(this.translate(error), {
+    toast.error(this.translate(`Submission was not possible due to not filling the required fields.`), {
       transition: Bounce,
     });
 }

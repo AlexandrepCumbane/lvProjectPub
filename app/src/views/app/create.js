@@ -709,7 +709,7 @@ class Create extends React.Component {
   handleSubmit = () => {
     const { userOauth } = this.props.state.auth.login;
     if (this.state.required_fields.length > 0) {
-      this.notifyErrorBounce("Fill all required inputs");
+      this.notifyErrorBounce(this.translate(`Submission was not possible due to not filling the required fields.`));
       this.setState({ isValid: false });
     } else {
       this.setState({ isValid: true });
@@ -744,7 +744,7 @@ class Create extends React.Component {
           this.setState({blockSubmit: false})
           this.setState({disabled: false});
           
-          this.notifyErrorBounce("Failed to save Object.");
+          this.notifyErrorBounce(this.translate(`Failed to create this user`));
 
           this.setState({
             alertFields: Object.keys(response.data) ?? [],
@@ -762,7 +762,7 @@ class Create extends React.Component {
    * @returns
    */
   notifySuccessBounce = () =>
-    toast.success(this.translate(`Transaction completed successfuly!`), {
+    toast.success(this.translate(`User created successfully`), {
       transition: Bounce,
     });
 
