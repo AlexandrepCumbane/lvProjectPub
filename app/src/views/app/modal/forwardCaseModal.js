@@ -576,18 +576,30 @@ class Create extends React.Component {
           : `${this.props.page}s/`;
 
       const failedCases = [];
-    
-    this.state.forms.forEach((form, idx, array) => {
+    this.state.forms.forEach(function (form) {
       console.log(form)
 
       // Unwrap and submit individually for each ID in Array
       const focal_points = form.get("focalpoint_id").split(',');
 
       focal_points.forEach((focal_point_id, idx, array) => {
+        // set focalpoint_id 
         form.set("focalpoint_id", focal_point_id);
+       
+        // new form data do add set values
+        const formData = new FormData();
+        
+        // get values 
+        for (let [key, val] of form.entries()) 
+        {
+          // add setter values on form data
+          formData.append(key,val);
+          formData.get('')
+        }
 
+        // send promise
         axios
-          .post(url, form, {
+          .post(url, formData, {
             headers: {
               Authorization: `Bearer ${userOauth.access_token}`,
             },
@@ -610,7 +622,10 @@ class Create extends React.Component {
             failedCases.push({"id": form.get("lvform_id"), "response": response});
           });
         });
-      });
+    })
+    // this.state.forms.forEach((form, idx, array) => {
+
+    //   });
 
       this.setState({ isLoading: false });
       
