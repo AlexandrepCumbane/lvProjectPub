@@ -587,7 +587,7 @@ class Import extends React.Component {
       .catch((error) => {
         this.setState({ uploading: false });
         console.error(error);
-        this.notifyErrorBounce("Failed to save Object.");
+        this.notifyErrorBounce(this.translate(`Failed to record case`));
       });
   };
 
