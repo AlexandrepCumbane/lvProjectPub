@@ -34,6 +34,11 @@ class Create extends React.Component {
     toast.success(this.translate(`Transaction completed successfuly!`), {
       transition: Bounce,
     });
+  notifySuccess = (success) =>
+  toast.success(success, {
+    transition: Bounce,
+    autoClose: false,
+  });
 
   notifyErrorBounce = (error) =>
     toast.error(error, {
@@ -575,8 +580,8 @@ class Create extends React.Component {
           ? `/users/0/${this.props.page}`
           : `${this.props.page}s/`;
 
-      const failedCases = [];
-    this.state.forms.forEach(function (form) {
+    const failedCases = [];
+    this.state.forms.forEach((form, idx, array) => {
       console.log(form)
 
       // Unwrap and submit individually for each ID in Array
@@ -594,7 +599,6 @@ class Create extends React.Component {
         {
           // add setter values on form data
           formData.append(key,val);
-          formData.get('')
         }
 
         // send promise
@@ -605,11 +609,13 @@ class Create extends React.Component {
             },
           })
           .then(({ data }) => {
-              // if(this.state.forms.slice(-1)) 
+
+            this.notifySuccess(this.translate(`Forwarded to:`)+`${data.focalpoint_label}`)
+
               if (idx === array.length - 1){ 
                   // console.log("Last callback call at index " + idx + " with value "  ); 
                       
-                  this.notifySuccessBounce(data.id);
+                  // this.notifySuccessBounce(data.id);
                   this.setState({ isLoading: false });
 
                   this.filterNotificationAction(data);
@@ -620,12 +626,14 @@ class Create extends React.Component {
           })
           .catch(({ response }) => {
             failedCases.push({"id": form.get("lvform_id"), "response": response});
+            this.notifyErrorBounce(
+              this.translate(
+                response.data?.description ?? "Some records were not saved as they have already been assigned to the selected user(s)."
+              )
+            );
           });
         });
-    })
-    // this.state.forms.forEach((form, idx, array) => {
-
-    //   });
+      });
 
       this.setState({ isLoading: false });
       
@@ -636,11 +644,7 @@ class Create extends React.Component {
         const failedString = response.data;        
       });
       
-      this.notifyErrorBounce(
-        this.translate(
-          response.data?.description ?? "Some records were not saved as they have already been assigned to the selected user(s)."
-        )
-      );
+
 
       this.setState({
         alertFields: Object.keys(response.data) ?? [],
