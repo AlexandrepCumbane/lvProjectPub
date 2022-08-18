@@ -177,7 +177,7 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
         return {
             "dcount": d2
         }
-
+# ! revise this method
     def resolve_total_lvform_not_referall_records(root, info):
         d1 = LvForm.objects.all().exclude(is_deleted=True).count()
         d2 = ForwardCaseToFocalpoint.objects.select_related('lvform').all().exclude(is_deleted=True).count()
@@ -186,6 +186,7 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
             "dcount": d3
             
         }
+
 
     def resolve_total_lvform_no_feedback_records(root, info):
         return {
