@@ -795,14 +795,7 @@ class Create extends React.Component {
       });
     
       break;
-      case "clusterregion":
-
-        toast.success(this.translate(`clusterregion  created successfully`), 
-        {
-          transition: Bounce,
-        });
-      
-        break;    
+    
       case "clustersector":
 
       toast.success(this.translate(`clustersector  created successfully`), 
@@ -811,22 +804,14 @@ class Create extends React.Component {
       });
     
       break;
-      case "clusterregion":
+      case "subcategoryissue":
 
-        toast.success(this.translate(`clusterregion  created successfully`), 
+        toast.success(this.translate(`subcategory issue  created successfully`), 
         {
           transition: Bounce,
         });
       
         break;
-        case "subcategoryissue":
-
-          toast.success(this.translate(`subcategory issue  created successfully`), 
-          {
-            transition: Bounce,
-          });
-        
-          break;
         case "subcategory":
 
           toast.success(this.translate(`subcategory  created successfully`), 
@@ -838,30 +823,6 @@ class Create extends React.Component {
         case "casetipology":
 
           toast.success(this.translate(`case typology  created successfully`), 
-          {
-            transition: Bounce,
-          });
-        
-          break;
-        case "clusterregion":
-
-          toast.success(this.translate(`clusterregion  created successfully`), 
-          {
-            transition: Bounce,
-          });
-        
-          break;  
-        case "clusterregion":
-
-          toast.success(this.translate(`clusterregion  created successfully`), 
-          {
-            transition: Bounce,
-          });
-        
-          break;    
-        case "clusterregion":
-
-          toast.success(this.translate(`clusterregion  created successfully`), 
           {
             transition: Bounce,
           });
