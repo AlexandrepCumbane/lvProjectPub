@@ -761,10 +761,142 @@ class Create extends React.Component {
    * Success alert function - shows an alert with success background
    * @returns
    */
-  notifySuccessBounce = () =>
-    toast.success(this.translate(`User created successfully`), {
-      transition: Bounce,
-    });
+  notifySuccessBounce = () =>{
+  switch (this.props.path) {
+    case "customuser":
+      //
+      toast.success(this.translate(`User created successfully`), 
+      {
+        transition: Bounce,
+      });
+
+      break;
+    case "lvform":
+
+      toast.success(this.translate(`Case created successfully`), 
+      {
+        transition: Bounce,
+      });
+
+      break;
+    case "clusteragency":
+
+      toast.success(this.translate(`clusteragency  created successfully`), 
+      {
+        transition: Bounce,
+      });
+
+      break;
+    case "clusterregion":
+
+      toast.success(this.translate(`clusterregion  created successfully`), 
+      {
+        transition: Bounce,
+      });
+    
+      break;
+      case "clusterregion":
+
+        toast.success(this.translate(`clusterregion  created successfully`), 
+        {
+          transition: Bounce,
+        });
+      
+        break;    
+      case "clustersector":
+
+      toast.success(this.translate(`clustersector  created successfully`), 
+      {
+        transition: Bounce,
+      });
+    
+      break;
+      case "clusterregion":
+
+        toast.success(this.translate(`clusterregion  created successfully`), 
+        {
+          transition: Bounce,
+        });
+      
+        break;
+        case "subcategoryissue":
+
+          toast.success(this.translate(`subcategory issue  created successfully`), 
+          {
+            transition: Bounce,
+          });
+        
+          break;
+        case "subcategory":
+
+          toast.success(this.translate(`subcategory  created successfully`), 
+          {
+            transition: Bounce,
+          });
+        
+          break;  
+        case "casetipology":
+
+          toast.success(this.translate(`case typology  created successfully`), 
+          {
+            transition: Bounce,
+          });
+        
+          break;
+        case "clusterregion":
+
+          toast.success(this.translate(`clusterregion  created successfully`), 
+          {
+            transition: Bounce,
+          });
+        
+          break;  
+        case "clusterregion":
+
+          toast.success(this.translate(`clusterregion  created successfully`), 
+          {
+            transition: Bounce,
+          });
+        
+          break;    
+        case "clusterregion":
+
+          toast.success(this.translate(`clusterregion  created successfully`), 
+          {
+            transition: Bounce,
+          });
+        
+          break;
+        case"location":
+          toast.success(this.translate(`location  created successfully`), 
+          {
+            transition: Bounce,
+          });
+          break; 
+        case "locationclassification":
+          toast.success(this.translate(`location classification  created successfully`), 
+          {
+            transition: Bounce,
+          });
+          break; 
+        case "district":
+          toast.success(this.translate(`district created successfully`), 
+          {
+            transition: Bounce,
+          });
+          break;
+        case "province":
+          toast.success(this.translate(`province created successfully`), 
+          {
+            transition: Bounce,
+          });
+          break;
+    default:
+
+
+  }
+
+  }
 
   toastId = null;
   /**
