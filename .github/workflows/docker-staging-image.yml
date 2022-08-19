@@ -18,31 +18,31 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Login to DockerHub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: Build and push the Docker image
-      run: make push-staging
+#    - name: Login to DockerHub
+#      uses: docker/login-action@v2
+#      with:
+#        username: ${{ secrets.DOCKERHUB_USERNAME }}
+#        password: ${{ secrets.DOCKERHUB_TOKEN }}
+#    - name: Build and push the Docker image
+#      run: make push-staging
 
-#    - name: Configure AWS credentials
-#      uses: aws-actions/configure-aws-credentials@v1
-#      with:
-#        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#        aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
-#    
-#    - name: Create kubeconfig
-#      run: aws eks update-kubeconfig --name linhaverde
-#
-#    - name: Setting KUBE_CONFIG environment variable
-#      run: echo "KUBE_CONFIG=$(cat $HOME/.kube/config | base64 --wrap=0)" >> $GITHUB_ENV
-#      
-#    - name: Deploy
-#      uses: WyriHaximus/github-action-helm3@v2
-#      with:
-#        exec: |
-#          echo '${{ env.KUBE_CONFIG }}' | base64 -d > ${KUBECONFIG}
-#          helm ls
-#        kubeconfig: echo '${{ env.KUBE_CONFIG }}' | base64 -d
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+    
+    - name: Create kubeconfig
+      run: aws eks update-kubeconfig --name linhaverde
+
+    - name: Setting KUBE_CONFIG environment variable
+      run: echo "KUBE_CONFIG=$(cat $HOME/.kube/config | base64 --wrap=0)" >> $GITHUB_ENV
+      
+    - name: Deploy
+      uses: WyriHaximus/github-action-helm3@v2
+      with:
+        exec: |
+          echo '${{ env.KUBE_CONFIG }}' | base64 -d > ${KUBECONFIG}
+          helm ls
+        kubeconfig: cat '${{ env.KUBE_CONFIG }}' | base64 -d
