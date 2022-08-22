@@ -744,7 +744,7 @@ class Create extends React.Component {
           this.setState({blockSubmit: false})
           this.setState({disabled: false});
           
-          this.notifyErrorBounce(this.translate(`Failed to create this user`));
+          this.notifyErrorBounce(this.translate(`Failed to save this record! Try again!`));
 
           this.setState({
             alertFields: Object.keys(response.data) ?? [],
@@ -781,7 +781,7 @@ class Create extends React.Component {
       break;
     case "clusteragency":
 
-      toast.success(this.translate(`clusteragency  created successfully`), 
+      toast.success(this.translate(`Cluster agency created successfully`), 
       {
         transition: Bounce,
       });
@@ -789,7 +789,7 @@ class Create extends React.Component {
       break;
     case "clusterregion":
 
-      toast.success(this.translate(`clusterregion  created successfully`), 
+      toast.success(this.translate(`Cluster region created successfully`), 
       {
         transition: Bounce,
       });
@@ -798,7 +798,7 @@ class Create extends React.Component {
     
       case "clustersector":
 
-      toast.success(this.translate(`clustersector  created successfully`), 
+      toast.success(this.translate(`Cluster sector created successfully`), 
       {
         transition: Bounce,
       });
@@ -806,7 +806,7 @@ class Create extends React.Component {
       break;
       case "subcategoryissue":
 
-        toast.success(this.translate(`subcategory issue  created successfully`), 
+        toast.success(this.translate(`Subcategory issue created successfully`), 
         {
           transition: Bounce,
         });
@@ -814,7 +814,7 @@ class Create extends React.Component {
         break;
         case "subcategory":
 
-          toast.success(this.translate(`subcategory  created successfully`), 
+          toast.success(this.translate(`Subcategory created successfully`), 
           {
             transition: Bounce,
           });
@@ -822,32 +822,32 @@ class Create extends React.Component {
           break;  
         case "casetipology":
 
-          toast.success(this.translate(`case typology  created successfully`), 
+          toast.success(this.translate(`Case typology created successfully`), 
           {
             transition: Bounce,
           });
         
           break;
         case"location":
-          toast.success(this.translate(`location  created successfully`), 
+          toast.success(this.translate(`Location created successfully`), 
           {
             transition: Bounce,
           });
           break; 
         case "locationclassification":
-          toast.success(this.translate(`location classification  created successfully`), 
+          toast.success(this.translate(`Location classification created successfully`), 
           {
             transition: Bounce,
           });
           break; 
         case "district":
-          toast.success(this.translate(`district created successfully`), 
+          toast.success(this.translate(`District created successfully`), 
           {
             transition: Bounce,
           });
           break;
         case "province":
-          toast.success(this.translate(`province created successfully`), 
+          toast.success(this.translate(`Province created successfully`), 
           {
             transition: Bounce,
           });
