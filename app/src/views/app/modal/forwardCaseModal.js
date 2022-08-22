@@ -37,12 +37,13 @@ class Create extends React.Component {
   notifySuccess = (success) =>
   toast.success(success, {
     transition: Bounce,
-    autoClose: false,
+    autoClose: 12000,
   });
 
   notifyErrorBounce = (error) =>
     toast.error(error, {
       transition: Bounce,
+      autoClose: 12000,
     });
 
   multipleSelect = (list) =>
@@ -609,8 +610,8 @@ class Create extends React.Component {
             },
           })
           .then(({ data }) => {
-
-            this.notifySuccess(this.translate(`Forwarded to:`)+`${data.focalpoint_label}`)
+            console.log(data);
+            this.notifySuccess(this.translate(`Case forwarded to `)+data.focalpoint_label)
 
               if (idx === array.length - 1){ 
                   // console.log("Last callback call at index " + idx + " with value "  ); 
@@ -625,11 +626,12 @@ class Create extends React.Component {
               }
           })
           .catch(({ response }) => {
+            console.log(response.data[0].focalpoint_label)
             failedCases.push({"id": form.get("lvform_id"), "response": response});
             this.notifyErrorBounce(
               this.translate(
-                response.data?.description ?? "Some records were not saved as they have already been assigned to the selected user(s)."
-              )
+                response.data?.description ?? `This case has already been sent to `
+              )+ response.data[0].focalpoint_label
             );
           });
         });

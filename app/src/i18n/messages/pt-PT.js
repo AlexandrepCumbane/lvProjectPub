@@ -462,6 +462,8 @@ export default {
     "New Task": "Nova Tarefa",
     "New Case Comment": "Novo Comentário de Caso",
     "Case Forwarding": "Encaminhamento de Caso",
+    "This case has already been sent to ":"Este caso já foi enviado para ",
+    "Case forwarded to ":"Caso encaminhado para ",
     /**
      * New records
      */
