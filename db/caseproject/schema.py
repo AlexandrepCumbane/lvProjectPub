@@ -171,16 +171,22 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
         }
 
     def resolve_total_lvform_referall_records(root, info):
-        return {
-            "dcount":
-            ForwardCaseToFocalpoint.objects.filter(
-                lvform__is_deleted=False).count()
-        }
+     
+        d2 = ForwardCaseToFocalpoint.objects.select_related('lvform').all().exclude(is_deleted=True).count()
 
+        return {
+            "dcount": d2
+        }
+# ! revise this method
     def resolve_total_lvform_not_referall_records(root, info):
         d1 = LvForm.objects.all().exclude(is_deleted=True).count()
-        d2 =  ForwardCaseToFocalpoint.objects.filter(lvform__is_deleted=False).count()
-        return {"dcount": d1 - d2}
+        d2 = ForwardCaseToFocalpoint.objects.select_related('lvform').all().exclude(is_deleted=True).count()
+        d3 = d1 - d2
+        return {
+            "dcount": d3
+            
+        }
+
 
     def resolve_total_lvform_no_feedback_records(root, info):
         return {
