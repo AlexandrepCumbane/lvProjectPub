@@ -32,20 +32,12 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
-    
-    - name: Create kubeconfig
-      run: aws eks update-kubeconfig --name linhaverde
-
-    - name: Setting KUBE_CONFIG environment variable
-      run: |
-        echo "KUBE_CONFIG=$(base64 -w 0 -i $HOME/.kube/config)" >> $GITHUB_ENV
-        echo '${{ env.KUBE_CONFIG }}'
       
     - name: Deploy
       uses: WyriHaximus/github-action-helm3@v2
       with:
         exec: |
-          echo '${{ env.KUBE_CONFIG }}' | base64 -d > ${KUBECONFIG}
-          echo '${{ env.KUBE_CONFIG }}' | base64 -d
+          aws eks update-kubeconfig --name linhaverde
+          cat $HOME/.kube/config
           helm ls
-        kubeconfig: echo '${{ env.KUBE_CONFIG }}' | base64 -d
+        kubeconfig: $HOME/.kube/config
