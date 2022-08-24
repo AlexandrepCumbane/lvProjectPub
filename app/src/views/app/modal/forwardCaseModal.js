@@ -171,9 +171,9 @@ class Create extends React.Component {
           </ModalHeader>
 
           <ModalBody>
-            <div>
+            {/* <div>
               {this.renderFieldAlert()}
-            </div>
+            </div> */}
             {this.renderForm()}
             </ModalBody>
 
