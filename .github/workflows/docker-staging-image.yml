@@ -38,14 +38,13 @@ jobs:
 
     - name: Setting KUBE_CONFIG environment variable
       run: |
-        export KUBE_CONFIG=$(base64 -w 0 -i $HOME/.kube/config)
-        echo "::set-env name=KUBE_CONFIG::$KUBE_CONFIG"
+        echo "KUBE_CONFIG=$(base64 -w 0 -i $HOME/.kube/config)" >> $GITHUB_ENV
       
     - name: Deploy
       uses: WyriHaximus/github-action-helm3@v2
       with:
         exec: |
-          echo $KUBE_CONFIG | base64 -d
+          echo ${{ env.KUBE_CONFIG }} | base64 -d
           cat $HOME/.kube/config
           helm ls
-        kubeconfig: (echo $KUBE_CONFIG | base64 -d)
+        kubeconfig: (echo ${{ env.KUBE_CONFIG }} | base64 -d)
