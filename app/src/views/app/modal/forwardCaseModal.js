@@ -572,7 +572,7 @@ class Create extends React.Component {
     } else {
 
       // desabilitar a acao do butao 
-      this.state.disabled=true;
+      this.setState({disabled: true});
       this.setState({ isValid: true, isLoading: true });
 
       const url =
@@ -647,6 +647,7 @@ class Create extends React.Component {
       });
       
 
+            this.setState({disabled: false});
 
       this.setState({
         alertFields: Object.keys(response.data) ?? [],
