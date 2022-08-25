@@ -38,7 +38,8 @@ jobs:
 
     - name: Setting KUBE_CONFIG environment variable
       run: |
-        echo "KUBE_CONFIG=$(base64 -w 0 -i $HOME/.kube/config)" >> $GITHUB_ENV
+        cat $HOME/.kube/config
+        echo "KUBE_CONFIG=$(base64 -i $HOME/.kube/config)" >> $GITHUB_ENV
       
     - name: Deploy
       uses: WyriHaximus/github-action-helm3@v2
