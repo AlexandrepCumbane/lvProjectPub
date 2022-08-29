@@ -509,7 +509,7 @@ class Create extends React.Component {
     const { userOauth } = this.props.state.auth.login;
 
     if (this.state.required_fields.length > 0) {
-      this.notifyErrorBounce(this.translate("Fill all required inputs"));
+      this.notifyErrorBounce(this.translate("Submission was not possible due to not filling the required fields."));
       this.setState({ isValid: false });
     } else {
       this.setState({ isValid: true, isLoading: true });
@@ -533,14 +533,16 @@ class Create extends React.Component {
           if (this.props.addMore) {
             this.props.addMore(data);
           }
-
+                     
           setTimeout(() => {
+            // enable the button action
+            this.state.disabled=false; 
             this.toggleModal();
-          }, 1000);
+          }, 1000);        
         })
         .catch(({ response }) => {
 
-          // desabilitar a acao do butao 
+          // enable the button action
           this.state.disabled=false;
           this.setState({ isLoading: false });
           this.notifyErrorBounce(

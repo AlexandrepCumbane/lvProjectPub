@@ -32,8 +32,8 @@ export const handleForm = (dispatch, payload) =>
     }
 
     if (hasPer) {
-      if (payload.has_params) url = `${url}&limit=50`;
-      else if (!payload.next) url = `${url}/?limit=50`;
+      if (payload.has_params) url = `${url}&limit=160`;
+      else if (!payload.next) url = `${url}/?limit=160`;
       axios
         .get(`${url}`, {
           headers: {

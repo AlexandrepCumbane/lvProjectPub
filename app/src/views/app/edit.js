@@ -1145,7 +1145,7 @@ class Edit extends Component {
           console.log("Errror", Object.keys(response.data))
 
 
-          this.notifyErrorBounce("Failed to save Object.");
+          this.notifyErrorBounce(this.translate(`Unable to save case edit`));
           this.setState({
             alertFields: Object.keys(response.data) ?? [],
             alertData: response.data,

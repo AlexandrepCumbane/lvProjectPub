@@ -30,10 +30,107 @@ import CreateModal from "./create";
 class Edit extends React.Component {
   static contextType = IntlContext;
   translate = this.context.translate;
-  notifySuccessBounce = (id = "") =>
-    toast.success(this.translate(`Transaction completed successfuly.`), {
-      transition: Bounce,
-    });
+  /**
+   * Success alert function - shows an alert with success background
+   * @returns
+   */
+   notifySuccessBounce = () =>{
+    switch (this.props.page) {
+      case "customuser":
+        //
+        toast.success(this.translate(`User updated successfully`), 
+        {
+          transition: Bounce,
+        });
+  
+        break;
+      case "lvform":
+  
+        toast.success(this.translate(`Case updated successfully`), 
+        {
+          transition: Bounce,
+        });
+  
+        break;
+      case "clusteragency":
+  
+        toast.success(this.translate(`clusteragency  updated successfully`), 
+        {
+          transition: Bounce,
+        });
+  
+        break;
+      case "clusterregion":
+  
+        toast.success(this.translate(`clusterregion  updated successfully`), 
+        {
+          transition: Bounce,
+        });
+      
+        break;
+      
+        case "clustersector":
+  
+        toast.success(this.translate(`clustersector  updated successfully`), 
+        {
+          transition: Bounce,
+        });
+      
+        break;
+        case "subcategoryissue":
+  
+          toast.success(this.translate(`subcategory issue  updated successfully`), 
+          {
+            transition: Bounce,
+          });
+        
+          break;
+          case "subcategory":
+  
+            toast.success(this.translate(`subcategory  updated successfully`), 
+            {
+              transition: Bounce,
+            });
+          
+            break;  
+          case "casetipology":
+  
+            toast.success(this.translate(`case typology  updated successfully`), 
+            {
+              transition: Bounce,
+            });
+          
+            break;
+          case"location":
+            toast.success(this.translate(`location  updated successfully`), 
+            {
+              transition: Bounce,
+            });
+            break; 
+          case "locationclassification":
+            toast.success(this.translate(`location classification  updated successfully`), 
+            {
+              transition: Bounce,
+            });
+            break; 
+          case "district":
+            toast.success(this.translate(`district updated successfully`), 
+            {
+              transition: Bounce,
+            });
+            break;
+          case "province":
+            toast.success(this.translate(`province updated successfully`), 
+            {
+              transition: Bounce,
+            });
+            break;
+      default:
+  
+  
+    }
+  
+    }
 
     toastId = null;
     /**
@@ -649,13 +746,13 @@ class Edit extends React.Component {
   handleSubmit = () => {
     const { userOauth } = this.props.state.auth.login;
     if (this.state.required_fields.length > 0) {
-      this.notifyErrorBounce(this.translate("Fill all required inputs"));
+      this.notifyErrorBounce(this.translate("Submission was not possible due to not filling the required fields."));
       this.setState({ isValid: false });
     } else {
 
       // block button action
       this.setState({disabled: true});
-
+      console.log(this.props.page)
       this.setState({ isValid: true, isLoading: true });
       const url = this.props.page === "customuser" ? "user" : this.props.page;
       axios

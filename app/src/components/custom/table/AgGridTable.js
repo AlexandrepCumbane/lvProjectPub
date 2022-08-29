@@ -430,7 +430,7 @@ class AggridTable extends React.Component {
 
   renderFilters = () => {
     let element = (
-      <div className="d-flex flex-row">
+      <div className={`data-list thumb-view"`}>
         <div>
           <InputGroup className="rounded-0 mb-1">
             <InputGroupAddon
@@ -650,7 +650,9 @@ class AggridTable extends React.Component {
 
                     <div>
                       {this.props.userRole === "manager" ||
-                      this.props.userRole === "focalpoint" ? (
+                      this.props.userRole === "focalpoint" ||
+                      this.props.userRole === "partner" ?
+                       (
                         <>
                           <Button.Ripple
                             id="download"

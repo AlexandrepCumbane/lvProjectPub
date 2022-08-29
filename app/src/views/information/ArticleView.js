@@ -717,7 +717,7 @@ class Edit extends Component {
       })
       .catch((error) => {
         this.setState({ isProcessing: false });
-        this.notifyErrorBounce("Unable to complete transaction.");
+        this.notifyErrorBounce(this.translate(`Unable to complete transaction.`));
       });
   };
 
@@ -760,7 +760,7 @@ class Edit extends Component {
           this.setState({blockSubmit: false});
           this.setState({disabled: false});
           this.setState({ isProcessing: false });
-          this.notifyErrorBounce("Unable to complete transaction.");
+          this.notifyErrorBounce(this.translate(`Unable to complete transaction.`));
         });
     } else {
       this.setState({ edit_status: true });

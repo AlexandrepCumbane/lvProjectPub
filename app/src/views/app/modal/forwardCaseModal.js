@@ -34,10 +34,16 @@ class Create extends React.Component {
     toast.success(this.translate(`Transaction completed successfuly!`), {
       transition: Bounce,
     });
+  notifySuccess = (success) =>
+  toast.success(success, {
+    transition: Bounce,
+    autoClose: 12000,
+  });
 
   notifyErrorBounce = (error) =>
     toast.error(error, {
       transition: Bounce,
+      autoClose: 12000,
     });
 
   multipleSelect = (list) =>
@@ -165,9 +171,9 @@ class Create extends React.Component {
           </ModalHeader>
 
           <ModalBody>
-            <div>
+            {/* <div>
               {this.renderFieldAlert()}
-            </div>
+            </div> */}
             {this.renderForm()}
             </ModalBody>
 
@@ -561,12 +567,12 @@ class Create extends React.Component {
     const { userOauth } = this.props.state.auth.login;
 
     if (this.state.required_fields.length > 0) {
-      this.notifyErrorBounce(this.translate("Fill all required inputs"));
+      this.notifyErrorBounce(this.translate("Submission was not possible due to not filling the required fields."));
       this.setState({ isValid: false });
     } else {
 
       // desabilitar a acao do butao 
-      this.state.disabled=true;
+      this.setState({disabled: true});
       this.setState({ isValid: true, isLoading: true });
 
       const url =
@@ -575,8 +581,7 @@ class Create extends React.Component {
           ? `/users/0/${this.props.page}`
           : `${this.props.page}s/`;
 
-      const failedCases = [];
-    
+    const failedCases = [];
     this.state.forms.forEach((form, idx, array) => {
       console.log(form)
 
@@ -584,20 +589,34 @@ class Create extends React.Component {
       const focal_points = form.get("focalpoint_id").split(',');
 
       focal_points.forEach((focal_point_id, idx, array) => {
+        // set focalpoint_id 
         form.set("focalpoint_id", focal_point_id);
+       
+        // new form data do add set values
+        const formData = new FormData();
+        
+        // get values 
+        for (let [key, val] of form.entries()) 
+        {
+          // add setter values on form data
+          formData.append(key,val);
+        }
 
+        // send promise
         axios
-          .post(url, form, {
+          .post(url, formData, {
             headers: {
               Authorization: `Bearer ${userOauth.access_token}`,
             },
           })
           .then(({ data }) => {
-              // if(this.state.forms.slice(-1)) 
+            console.log(data);
+            this.notifySuccess(this.translate(`Case forwarded to `)+data.focalpoint_label)
+
               if (idx === array.length - 1){ 
                   // console.log("Last callback call at index " + idx + " with value "  ); 
                       
-                  this.notifySuccessBounce(data.id);
+                  // this.notifySuccessBounce(data.id);
                   this.setState({ isLoading: false });
 
                   this.filterNotificationAction(data);
@@ -607,7 +626,13 @@ class Create extends React.Component {
               }
           })
           .catch(({ response }) => {
+            console.log(response.data[0].focalpoint_label)
             failedCases.push({"id": form.get("lvform_id"), "response": response});
+            this.notifyErrorBounce(
+              this.translate(
+                response.data?.description ?? `This case has already been sent to `
+              )+ response.data[0].focalpoint_label
+            );
           });
         });
       });
@@ -621,11 +646,8 @@ class Create extends React.Component {
         const failedString = response.data;        
       });
       
-      this.notifyErrorBounce(
-        this.translate(
-          response.data?.description ?? "Some records were not saved as they have already been assigned to the selected user(s)."
-        )
-      );
+
+            this.setState({disabled: false});
 
       this.setState({
         alertFields: Object.keys(response.data) ?? [],
