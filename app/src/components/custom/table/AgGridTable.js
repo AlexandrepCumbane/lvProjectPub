@@ -16,6 +16,7 @@ import "../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../assets/scss/pages/users.scss";
 import "../../../assets/scss/pages/data-list.scss";
 import ArticleView from "../../../views/information/ArticleView";
+import { getFilterComponent } from "./filterComponent";
 import CasesCard from "./CasesCard";
 
 class AggridTable extends React.Component {
