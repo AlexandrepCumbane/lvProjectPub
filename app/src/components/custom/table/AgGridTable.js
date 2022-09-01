@@ -16,7 +16,6 @@ import "../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../assets/scss/pages/users.scss";
 import "../../../assets/scss/pages/data-list.scss";
 import ArticleView from "../../../views/information/ArticleView";
-import { getFilterComponent } from "./filterComponent";
 import CasesCard from "./CasesCard";
 
 class AggridTable extends React.Component {
@@ -370,88 +369,6 @@ class AggridTable extends React.Component {
 
     if (!this.props.loading || !this.props.loading)
       document.querySelector("#selectedRows").innerHTML = selectedCount ?? 0;
-  };
-
-  renderFilters = () => {
-    let element = (
-      <div className="d-flex flex-row">
-        <div>
-          <InputGroup className="rounded-0 mb-1">
-            <InputGroupAddon
-              className="rounded-0 text-primary"
-              color="primary"
-              addonType="prepend"
-            >
-              <InputGroupText className={`rounded-0`}>
-                {this.translate("From")}
-              </InputGroupText>
-            </InputGroupAddon>
-            <Input
-              className={`rounded-0 start-date`}
-              value={this.state.start}
-              onChange={(e) => this.setState({ start: e.target.value })}
-              type="date"
-            />
-          </InputGroup>
-        </div>
-        <div>
-          <InputGroup className="rounded-0 mb-1">
-            <InputGroupAddon className="rounded-0" addonType="prepend">
-              <InputGroupText className="rounded-0">
-                {this.translate("To")}
-              </InputGroupText>
-            </InputGroupAddon>
-            <Input
-              className="rounded-0 end-date"
-              value={this.state.end}
-              onChange={(e) => this.setState({ end: e.target.value })}
-              type="date"
-            />
-          </InputGroup>
-        </div>
-        <div>
-          <Button.Ripple
-            className="btn-icon rounded-0 py-1"
-            color="primary"
-            onClick={() => {
-              if (this.state.end !== "" && this.state.start !== "")
-                this.props.requestParams(
-                  `${this.state.start} 00:00:00`,
-                  `${this.state.end} 23:59:59`
-                );
-            }}
-          >
-            <Search size={18} color="white" />
-          </Button.Ripple>
-          <Button.Ripple
-            className="btn-icon rounded-0 py-1"
-            color="danger"
-            onClick={() => {
-              this.setState({ end: "", start: "" });
-              this.props.requestMore(false);
-            }}
-          >
-            <X size={18} color="white" />
-          </Button.Ripple>
-        </div>
-      </div>
-    );
-
-    if (this.props.tableType === "customuser") {
-      element = <></>;
-    }
-    if (!this.state.filters) {
-      element = <></>;
-    }
-
-    if (
-      this.props.userRole === "operator" &&
-      this.props.tableType === "lvform"
-    ) {
-      element = <></>;
-    }
-
-    return element;
   };
 
   render() {
