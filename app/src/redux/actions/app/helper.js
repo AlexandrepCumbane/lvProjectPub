@@ -58,23 +58,23 @@ export const handleForm = (dispatch, payload) =>
 
         let limit = 1500;
         if (timeLength > 2 && timeLength < 4) {
-          limit = 3000;
-          if (payload.has_params) url = `${url}&limit=${limit}`;
-          else if (!payload.next) url = `${url}/?limit=${limit}`;
-        } else if (timeLength < 6) {
           limit = 6000;
           if (payload.has_params) url = `${url}&limit=${limit}`;
           else if (!payload.next) url = `${url}/?limit=${limit}`;
-        } else if (timeLength < 8) {
+        } else if (timeLength < 6) {
           limit = 12000;
           if (payload.has_params) url = `${url}&limit=${limit}`;
           else if (!payload.next) url = `${url}/?limit=${limit}`;
-        } else if (timeLength < 10) {
+        } else if (timeLength < 8) {
           limit = 18000;
           if (payload.has_params) url = `${url}&limit=${limit}`;
           else if (!payload.next) url = `${url}/?limit=${limit}`;
-        } else if (timeLength >= 10) {
+        } else if (timeLength < 10) {
           limit = 24000;
+          if (payload.has_params) url = `${url}&limit=${limit}`;
+          else if (!payload.next) url = `${url}/?limit=${limit}`;
+        } else if (timeLength >= 10) {
+          limit = 30000;
           if (payload.has_params) url = `${url}&limit=${limit}`;
           else if (!payload.next) url = `${url}/?limit=${limit}`;
         }
