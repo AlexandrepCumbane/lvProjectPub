@@ -433,7 +433,6 @@ class AggridTable extends React.Component {
           gridApi={this.gridApi}
           props={this.props}
           filterSize={this.filterSize}
-          renderLoading={this.renderLoading}
           setState={this.setState.bind(this)}
           translateFrom={this.translate("From")}
           translateTo={this.translate("To")}
@@ -441,6 +440,7 @@ class AggridTable extends React.Component {
           onSelectionChanged={this.onSelectionChanged}
           onColumnMoved={this.onColumnMoved}
           onGridReady={this.onGridReady}
+          forwardSelectedCases={this.forwardSelectedCases}
           onPaginationChanged={this.onPaginationChanged}
           updateSearchQuery={this.updateSearchQuery}
           requestNode={this.requestNode}
