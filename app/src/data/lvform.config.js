@@ -1923,6 +1923,9 @@ export const sent_to_focalpoint = {
       type: "string",
       "wq:ForeignKey": "clustersector",
       children: "cluster_agency",
+      bind: {
+        required: true,
+      },
     },
     {
       name: "cluster_agency",
@@ -1931,6 +1934,9 @@ export const sent_to_focalpoint = {
       children: "cluster_region",
       "wq:ForeignKey": "cluster_agency",
       has_parent: true,
+      bind: {
+        required: true,
+      },
     },
     {
       name: "cluster_region",
@@ -1939,6 +1945,9 @@ export const sent_to_focalpoint = {
       has_parent: true,
       children: "focalpoints",
       "wq:ForeignKey": "cluster_region",
+      bind: {
+        required: true,
+      },
     },
     {
       name: "focalpoint",
@@ -1950,6 +1959,7 @@ export const sent_to_focalpoint = {
       type: "string",
       "wq:ForeignKey": "focalpoints",
       has_parent: true,
+      
     },
     {
       name: "created_by",

@@ -65,13 +65,19 @@ class Create extends React.Component {
     alertFields: [],
     alertData: {},
     disabled: false,
+    f1:"",
+    f2:"",
+    f3:"",
+    f4:"",
   };
   componentDidMount() {
     this.props.requestDropodowns(); // Request dropdown lists and place in a map
+    this.props.lvform.forEach((item) => {
+      this.addToRequired(item);
+    });
 
     this.updateState("lvform_id", this.props.lvform_id);
     let formsdata= []
-
     // Handle single forward modal
     if(Array.isArray(this.props.lvform)){
       this.props.lvform.forEach((form)=>{
@@ -284,7 +290,8 @@ class Create extends React.Component {
         if (field["wq:ForeignKey"]) {
           res = (
             <Col md="12" key={field.name}>
-              <Label>{this.translate(field.label)}</Label>
+                 {this.renderLabel(field)}
+              <Label></Label>
 
               <FormGroup className="form-label-group position-relative has-icon-left">
                 { field.name === "focalpoint" &&
@@ -294,6 +301,11 @@ class Create extends React.Component {
                     isMulti
                     onChange={(e) => {
                       this.updateState(`${field.name}_id`, e);
+                     if(e){
+                      this.setState({
+                        f1:e[0].value
+                      })
+                     }
                     }}
                     components={this.animatedComponents}
                     options={this.multipleSelect(
@@ -327,7 +339,8 @@ class Create extends React.Component {
         } else {
           res = (
             <Col md="12" key={field.name}>
-              <Label>{this.translate(field.label)}</Label>
+              {this.renderLabel(field)}
+              <Label></Label>
 
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
@@ -440,6 +453,61 @@ class Create extends React.Component {
     return this.props.app_reducer.dropdowns[field_name] ?? [];
   };
 
+   /**
+   * Render a input label verifying it's required bind value and filled value
+   * @param {*} field
+   * @returns
+   */
+    renderLabel = (field) => {
+      if (
+        (!this.state.isValid &&
+          this.state.required_fields_labels.includes(field.label)) ||
+        (!this.state.isValid &&
+          this.state.required_fields.includes(`${field.name}_id`))
+      ) {
+        return (
+          <Label className="text-danger">
+            <strong>* {this.translate(field.label)}</strong>
+          </Label>
+     );
+    } else {
+      if (field.bind !== undefined) {
+        if (field.bind.required === true) {
+          this.addToRequired(field)
+          if (this.state.required_fields_labels.includes(field.label))
+            return (
+              <Label className="text-danger">
+                <strong> * {this.translate(field.label)}</strong>
+              </Label>
+            );
+          else {
+            console.log('vamos');
+
+            return (
+              
+              <Label className="text-danger">
+                <strong>* {this.translate(field.label)}</strong>
+
+              </Label>
+            );
+          }
+        } else {
+          return (
+            <Label>
+              <strong> {this.translate(field.label)}</strong>
+            </Label>
+          );
+        }
+      } else {
+        return (
+          <Label>
+            <strong> {this.translate(field.label)}</strong>
+          </Label>
+        );
+      }
+    }
+  };
+
   /**
    * Add all fields and add the required fields into an array
    * @param {*} field
@@ -449,13 +517,18 @@ class Create extends React.Component {
 
     if (field.bind !== undefined) {
       if (field.bind.required === true && index <= 0) {
+
         if (field.type === "string") {
           this.state.required_fields.push(`${field.name}_id`);
-        } else this.state.required_fields.push(field.name);
-        this.state.required_fields_labels.push(field.label);
-      }
+        } else { this.state.required_fields.push(field.name);
+
+      } 
+    } else {
+      this.state.required_fields_labels.push(field.label);
+      this.state.required_fields.push(field.name);
     }
   }
+}
 
   /**
    * Remove field from required array if is the value is not null
@@ -559,8 +632,7 @@ class Create extends React.Component {
    */
   handleSubmit = () => {
     const { userOauth } = this.props.state.auth.login;
-
-    if (this.state.required_fields.length > 0) {
+    if (this.state.f1 === "") {
       this.notifyErrorBounce(this.translate("Fill all required inputs"));
       this.setState({ isValid: false });
     } else {
@@ -617,6 +689,8 @@ class Create extends React.Component {
               showAlert: true
             })
           });
+          this.setState({disabled: false});
+          this.setState({isLoading: false});
         });
       });
 

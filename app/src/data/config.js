@@ -1158,6 +1158,9 @@ export default {
           type: "string",
           "wq:ForeignKey": "clustersector",
           children: "cluster_agency",
+          bind: {
+            required: true,
+          },
         },
         {
           name: "cluster_agency",
@@ -1165,6 +1168,9 @@ export default {
           type: "string",
           children: "cluster_region",
           "wq:ForeignKey": "cluster_agency",
+          bind: {
+            required: true,
+          },
           has_parent: true,
         },
         {
@@ -1173,6 +1179,9 @@ export default {
           type: "string",
           has_parent: true,
           children: "focalpoints",
+          bind: {
+            required: true,
+          },
           "wq:ForeignKey": "cluster_region",
         },
         {
@@ -1185,6 +1194,9 @@ export default {
           type: "string",
           "wq:ForeignKey": "focalpoints",
           has_parent: true,
+          bind: {
+            required: true,
+          },
         },
       ],
       verbose_name: "forward case to focalpoint",
