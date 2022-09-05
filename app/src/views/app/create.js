@@ -732,6 +732,8 @@ class Create extends React.Component {
           this.notifySuccessBounce(data.id);
           
           setTimeout(() => {
+            // enable the button action
+            this.state.disabled=false; 
             history.push({
               pathname: `/${this.props.url}`, 
               state: { updateList: true }   // Maybe the same can be achieved with: this.setState({ updateList: true });
@@ -740,7 +742,7 @@ class Create extends React.Component {
         })
         .catch(({ response }) => {
 
-          // block button action
+          // enable the button action
           this.setState({blockSubmit: false})
           this.setState({disabled: false});
           
