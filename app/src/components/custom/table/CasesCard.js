@@ -33,9 +33,7 @@ import Loading from "../../UI/atoms/Loading";
 
 function CasesCard({
   rowData,
-  currenPageSize,
-  start,
-  end,
+  forwardSelectedCases,
 
   state,
 
@@ -44,7 +42,6 @@ function CasesCard({
   gridApi,
   props,
   filterSize,
-  renderLoading,
 
   translateFrom,
   translateTo,
@@ -160,7 +157,7 @@ function CasesCard({
                           id="forward"
                           className="btn-icon"
                           color="flat-primary rounded-0"
-                          onClick={() => this.forwardSelectedCases()}
+                          onClick={() => forwardSelectedCases()}
                         >
                           <ArrowRightCircle size={16} />
                         </Button.Ripple>
