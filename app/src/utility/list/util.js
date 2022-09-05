@@ -220,15 +220,15 @@ export const getFieldWith = (field_name) => {
       break;
 
     case "cluster_sector":
-      width = 300;
+      width = 150;
       break;
 
     case "cluster_agency":
-      width = 300;
+      width = 150;
       break;
 
     case "cluster_region":
-      width = 300;
+      width = 150;
       break;
 
     case "name":
@@ -245,7 +245,7 @@ export const getFieldWith = (field_name) => {
       break;
 
     case "lvform":
-      width = 150;
+      width = 230;
       break;
 
     case "response":
@@ -271,6 +271,10 @@ export const getFieldWith = (field_name) => {
     case "first_name":
       width = 200;
       break;
+
+    case "focalpoint":
+    width = 250;
+    break;
 
     case "last_name":
       width = 200;
