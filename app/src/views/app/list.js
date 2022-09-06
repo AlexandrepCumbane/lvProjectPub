@@ -263,7 +263,7 @@ class List extends Component {
    * @param {*} end
    * @returns
    */
-  requestParams = (start, end) => {
+  requestParams = (start, end, timeLength) => {
     this.setState({
       data: this.props.app_reducer[this.props.path]?.list ?? [],
       show: true,
@@ -276,8 +276,7 @@ class List extends Component {
         name: this.props.name ?? this.props.path,
         next: false,
         has_params: true,
-        start,
-        end,
+        timeLength,
       })
       .then(() => {
         this.setState({
