@@ -754,6 +754,8 @@ class Create extends React.Component {
             showAlert: true
           })
         });
+        this.setState({disabled: false});
+        this.setState({isLoading: false});
     }
   };
 
