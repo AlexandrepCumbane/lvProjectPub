@@ -206,7 +206,7 @@ class Create extends React.Component {
     return (
       <Row>
         <Col md="12">
-          {this.state.isValid && this.state.f1 === "" ? (
+          {this.state.isValid && this.state.f1 ===! "" ? (
             <></>
           ) : (
             <Alert color="danger" className="square">
