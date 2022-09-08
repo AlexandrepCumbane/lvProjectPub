@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 
 import {
@@ -110,9 +110,32 @@ function CasesCard({
                 onChangeEnd={(e) => setState({ end: e.target.value })}
                 handleSubmit={() => {
                   if (state.end !== "" && state.start !== "") {
+                    const startDate = (x) => {
+                      const date = new Date(x);
+
+                      const days = date.getDate();
+                      const month = date.getMonth() + 1;
+                      const year = date.getFullYear();
+
+                      return days + month * 30 + year * 12 * 30;
+                    };
+                    const endDate = (x) => {
+                      const date = new Date(x);
+
+                      const days = date.getDate();
+                      const month = date.getMonth() + 1;
+                      const year = date.getFullYear();
+
+                      return days + month * 30 + year * 12 * 30;
+                    };
+
+                    const timeLength =
+                      Math.abs(endDate(state.end) - startDate(state.start)) /
+                      30;
                     props.requestParams(
                       `${state.start} 00:00:00`,
-                      `${state.end} 23:59:59`
+                      `${state.end} 23:59:59`,
+                      timeLength
                     );
                   }
                 }}

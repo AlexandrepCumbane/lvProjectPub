@@ -33,55 +33,75 @@ export const handleForm = (dispatch, payload) =>
     }
 
     if (hasPer) {
-      if (payload.end && payload.start) {
-        const start = (x) => {
-          const date = new Date(x);
-
-          const days = date.getDate();
-          const month = date.getMonth() + 1;
-          const year = date.getFullYear();
-
-          return days + month * 30 + year * 12 * 30;
-        };
-        const end = (x) => {
-          const date = new Date(x);
-
-          const days = date.getDate();
-          const month = date.getMonth() + 1;
-          const year = date.getFullYear();
-
-          return days + month * 30 + year * 12 * 30;
-        };
-
-        const timeLength =
-          Math.abs(end(payload.end) - start(payload.start)) / 30;
-
-        let limit = 1500;
-        if (timeLength > 2 && timeLength < 4) {
-          limit = 6000;
-          if (payload.has_params) url = `${url}&limit=${limit}`;
-          else if (!payload.next) url = `${url}/?limit=${limit}`;
-        } else if (timeLength < 6) {
-          limit = 12000;
-          if (payload.has_params) url = `${url}&limit=${limit}`;
-          else if (!payload.next) url = `${url}/?limit=${limit}`;
-        } else if (timeLength < 8) {
-          limit = 18000;
-          if (payload.has_params) url = `${url}&limit=${limit}`;
-          else if (!payload.next) url = `${url}/?limit=${limit}`;
-        } else if (timeLength < 10) {
-          limit = 24000;
-          if (payload.has_params) url = `${url}&limit=${limit}`;
-          else if (!payload.next) url = `${url}/?limit=${limit}`;
-        } else if (timeLength >= 10) {
-          limit = 30000;
-          if (payload.has_params) url = `${url}&limit=${limit}`;
-          else if (!payload.next) url = `${url}/?limit=${limit}`;
-        }
-      } else if (!payload.start || !payload.end) {
-        if (payload.has_params) url = `${url}&limit=160`;
-        else if (!payload.next) url = `${url}/?limit=160`;
+      let limit = 160;
+      if (payload.timeLength > 2 && payload.timeLength < 4) {
+        limit = 6000;
+        if (payload.has_params) url = `${url}&limit=${limit}`;
+        else if (!payload.next) url = `${url}/?limit=${limit}`;
+      } else if (payload.timeLength < 6) {
+        limit = 12000;
+        if (payload.has_params) url = `${url}&limit=${limit}`;
+        else if (!payload.next) url = `${url}/?limit=${limit}`;
+      } else if (payload.timeLength < 8) {
+        limit = 18000;
+        if (payload.has_params) url = `${url}&limit=${limit}`;
+        else if (!payload.next) url = `${url}/?limit=${limit}`;
+      } else if (payload.timeLength < 10) {
+        limit = 24000;
+        if (payload.has_params) url = `${url}&limit=${limit}`;
+        else if (!payload.next) url = `${url}/?limit=${limit}`;
+      } else if (payload.timeLength >= 10) {
+        limit = 30000;
+        if (payload.has_params) url = `${url}&limit=${limit}`;
+        else if (!payload.next) url = `${url}/?limit=${limit}`;
+      } else {
+        if (payload.has_params) url = `${url}&limit=${limit}`;
+        else if (!payload.next) url = `${url}/?limit=${limit}`;
       }
+
+      axios
+        .get(`${url}`, {
+          headers: {
+            Authorization: `Bearer ${userOauth?.access_token}`,
+          },
+        })
+        .then(({ data }) => {
+          let value = data;
+          value["list"] = appList.concat(data.list);
+          console.log("Value: ", value);
+          dispatch({
+            type: "FORM_SUCCESS",
+            data: {
+              key: payload.name,
+              value,
+              next: data.next,
+            },
+            success: true,
+            failed: false,
+            loading: false,
+          });
+          resolve();
+        })
+        .catch(({ response }) => {
+          let error = "";
+          if (
+            response?.data?.detail ===
+            "Invalid Authorization header. Unable to verify bearer token"
+          ) {
+            error = "session";
+          } else {
+            error = response?.data?.detail;
+          }
+          dispatch({
+            type: "FORM_FAILED",
+            failed: true,
+            success: false,
+            loading: false,
+            error,
+          });
+          resolve();
+        });
+
       axios
         .get(`${url}`, {
           headers: {
