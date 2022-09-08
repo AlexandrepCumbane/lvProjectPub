@@ -4,6 +4,7 @@ import graphene
 from graphene.types.objecttype import ObjectType
 from graphene.types.scalars import String
 from graphene_django import DjangoObjectType
+from django.db.models import Exists, OuterRef
 
 import lv_form.schema
 
@@ -166,24 +167,28 @@ class Query(lv_form.schema.Query, graphene.ObjectType):
         }
 
     def resolve_total_lvform_with_feedback_records(root, info):
-        return {
-            "dcount": CaseComment.objects.all().count()
-        }
-
-    def resolve_total_lvform_referall_records(root, info):
-     
-        d2 = ForwardCaseToFocalpoint.objects.select_related('lvform').all().exclude(is_deleted=True).count()
-
+        d1 = list(dict.fromkeys(CaseComment.objects.values_list('lvform')))
+        d2 = len(d1)
         return {
             "dcount": d2
         }
-# ! revise this method
+
+    def resolve_total_lvform_referall_records(root, info):
+        d4 = list(dict.fromkeys(ForwardCaseToFocalpoint.objects.values_list('lvform')))
+        print(d4)
+        print(len(d4))
+
+        return {
+            "dcount": len(d4)
+        }
+
     def resolve_total_lvform_not_referall_records(root, info):
         d1 = LvForm.objects.all().exclude(is_deleted=True).count()
-        d2 = ForwardCaseToFocalpoint.objects.select_related('lvform').all().exclude(is_deleted=True).count()
-        d3 = d1 - d2
+        d4 =list(dict.fromkeys(ForwardCaseToFocalpoint.objects.values_list('lvform')))
+        r = len(d4)
+        
         return {
-            "dcount": d3
+            "dcount": d1 - r
             
         }
 
