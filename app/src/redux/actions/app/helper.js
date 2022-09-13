@@ -20,6 +20,7 @@ export const handleForm = (dispatch, payload) =>
     let appList = [];
 
     let url = `/${payload.url}`;
+
     if (payload.next) {
       const postData = appState.app.app_reducer[payload.name];
 
@@ -32,8 +33,32 @@ export const handleForm = (dispatch, payload) =>
     }
 
     if (hasPer) {
-      if (payload.has_params) url = `${url}&limit=160`;
-      else if (!payload.next) url = `${url}/?limit=160`;
+      let limit = 160;
+      if (payload.timeLength > 2 && payload.timeLength < 4) {
+        limit = 6000;
+        if (payload.has_params) url = `${url}&limit=${limit}`;
+        else if (!payload.next) url = `${url}/?limit=${limit}`;
+      } else if (payload.timeLength < 6) {
+        limit = 12000;
+        if (payload.has_params) url = `${url}&limit=${limit}`;
+        else if (!payload.next) url = `${url}/?limit=${limit}`;
+      } else if (payload.timeLength < 8) {
+        limit = 18000;
+        if (payload.has_params) url = `${url}&limit=${limit}`;
+        else if (!payload.next) url = `${url}/?limit=${limit}`;
+      } else if (payload.timeLength < 10) {
+        limit = 24000;
+        if (payload.has_params) url = `${url}&limit=${limit}`;
+        else if (!payload.next) url = `${url}/?limit=${limit}`;
+      } else if (payload.timeLength >= 10) {
+        limit = 30000;
+        if (payload.has_params) url = `${url}&limit=${limit}`;
+        else if (!payload.next) url = `${url}/?limit=${limit}`;
+      } else {
+        if (payload.has_params) url = `${url}&limit=${limit}`;
+        else if (!payload.next) url = `${url}/?limit=${limit}`;
+      }
+
       axios
         .get(`${url}`, {
           headers: {
@@ -43,6 +68,50 @@ export const handleForm = (dispatch, payload) =>
         .then(({ data }) => {
           let value = data;
           value["list"] = appList.concat(data.list);
+          console.log("Value: ", value);
+          dispatch({
+            type: "FORM_SUCCESS",
+            data: {
+              key: payload.name,
+              value,
+              next: data.next,
+            },
+            success: true,
+            failed: false,
+            loading: false,
+          });
+          resolve();
+        })
+        .catch(({ response }) => {
+          let error = "";
+          if (
+            response?.data?.detail ===
+            "Invalid Authorization header. Unable to verify bearer token"
+          ) {
+            error = "session";
+          } else {
+            error = response?.data?.detail;
+          }
+          dispatch({
+            type: "FORM_FAILED",
+            failed: true,
+            success: false,
+            loading: false,
+            error,
+          });
+          resolve();
+        });
+
+      axios
+        .get(`${url}`, {
+          headers: {
+            Authorization: `Bearer ${userOauth?.access_token}`,
+          },
+        })
+        .then(({ data }) => {
+          let value = data;
+          value["list"] = appList.concat(data.list);
+          console.log("Value: ", value);
           dispatch({
             type: "FORM_SUCCESS",
             data: {
@@ -155,7 +224,7 @@ export const handleDropdowns = (dispatch) =>
 export const updateIndex = (dispatch, payload) => {
   const appState = store.getState();
   let appList = appState.app.app_reducer[payload.name].list;
-  console.log(payload)
+  console.log(payload);
   appList[payload.index] = payload;
 
   dispatch({
@@ -172,7 +241,7 @@ export const addCase = (dispatch, payload) =>
     const appState = store.getState();
 
     const { userOauth } = appState.auth.login;
-    console.log(payload)
+    console.log(payload);
     let appList = appState.app.app_reducer[payload.name].list;
 
     axios
@@ -187,7 +256,7 @@ export const addCase = (dispatch, payload) =>
         const index = appList.length;
 
         appList[index] = value;
-        console.log(appList)
+        console.log(appList);
         dispatch({
           type: "INDEX_SUCCESS",
           data: {

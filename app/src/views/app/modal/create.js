@@ -533,14 +533,16 @@ class Create extends React.Component {
           if (this.props.addMore) {
             this.props.addMore(data);
           }
-
+                     
           setTimeout(() => {
+            // enable the button action
+            this.state.disabled=false; 
             this.toggleModal();
-          }, 1000);
+          }, 1000);        
         })
         .catch(({ response }) => {
 
-          // desabilitar a acao do butao 
+          // enable the button action
           this.state.disabled=false;
           this.setState({ isLoading: false });
           this.notifyErrorBounce(
@@ -555,6 +557,8 @@ class Create extends React.Component {
             showAlert: true
           })
         });
+        this.setState({disabled: false});
+        this.setState({isLoading: false});
     }
   };
 

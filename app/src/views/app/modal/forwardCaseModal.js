@@ -37,12 +37,13 @@ class Create extends React.Component {
   notifySuccess = (success) =>
   toast.success(success, {
     transition: Bounce,
-    autoClose: false,
+    autoClose: 12000,
   });
 
   notifyErrorBounce = (error) =>
     toast.error(error, {
       transition: Bounce,
+      autoClose: 12000,
     });
 
   multipleSelect = (list) =>
@@ -70,13 +71,19 @@ class Create extends React.Component {
     alertFields: [],
     alertData: {},
     disabled: false,
+    f1:"",
+    f2:"",
+    f3:"",
+    f4:"",
   };
   componentDidMount() {
     this.props.requestDropodowns(); // Request dropdown lists and place in a map
+    this.props.lvform.forEach((item) => {
+      this.addToRequired(item);
+    });
 
     this.updateState("lvform_id", this.props.lvform_id);
     let formsdata= []
-
     // Handle single forward modal
     if(Array.isArray(this.props.lvform)){
       this.props.lvform.forEach((form)=>{
@@ -170,9 +177,9 @@ class Create extends React.Component {
           </ModalHeader>
 
           <ModalBody>
-            <div>
+            {/* <div>
               {this.renderFieldAlert()}
-            </div>
+            </div> */}
             {this.renderForm()}
             </ModalBody>
 
@@ -205,7 +212,7 @@ class Create extends React.Component {
     return (
       <Row>
         <Col md="12">
-          {this.state.isValid && this.state.required_fields.length === 0 ? (
+          {this.state.isValid && this.state.f1 === "" ? (
             <></>
           ) : (
             <Alert color="danger" className="square">
@@ -289,7 +296,8 @@ class Create extends React.Component {
         if (field["wq:ForeignKey"]) {
           res = (
             <Col md="12" key={field.name}>
-              <Label>{this.translate(field.label)}</Label>
+                 {this.renderLabel(field)}
+              <Label></Label>
 
               <FormGroup className="form-label-group position-relative has-icon-left">
                 { field.name === "focalpoint" &&
@@ -299,6 +307,11 @@ class Create extends React.Component {
                     isMulti
                     onChange={(e) => {
                       this.updateState(`${field.name}_id`, e);
+                     if(e){
+                      this.setState({
+                        f1:e[0].value
+                      })
+                     }
                     }}
                     components={this.animatedComponents}
                     options={this.multipleSelect(
@@ -332,7 +345,8 @@ class Create extends React.Component {
         } else {
           res = (
             <Col md="12" key={field.name}>
-              <Label>{this.translate(field.label)}</Label>
+              {this.renderLabel(field)}
+              <Label></Label>
 
               <FormGroup className="form-label-group position-relative has-icon-left">
                 <Input
@@ -445,6 +459,61 @@ class Create extends React.Component {
     return this.props.app_reducer.dropdowns[field_name] ?? [];
   };
 
+   /**
+   * Render a input label verifying it's required bind value and filled value
+   * @param {*} field
+   * @returns
+   */
+    renderLabel = (field) => {
+      if (
+        (!this.state.isValid &&
+          this.state.required_fields_labels.includes(field.label)) ||
+        (!this.state.isValid &&
+          this.state.required_fields.includes(`${field.name}_id`))
+      ) {
+        return (
+          <Label className="text-danger">
+            <strong>* {this.translate(field.label)}</strong>
+          </Label>
+     );
+    } else {
+      if (field.bind !== undefined) {
+        if (field.bind.required === true) {
+          this.addToRequired(field)
+          if (this.state.required_fields_labels.includes(field.label))
+            return (
+              <Label className="text-danger">
+                <strong> * {this.translate(field.label)}</strong>
+              </Label>
+            );
+          else {
+            console.log('vamos');
+
+            return (
+              
+              <Label className="text-danger">
+                <strong>* {this.translate(field.label)}</strong>
+
+              </Label>
+            );
+          }
+        } else {
+          return (
+            <Label>
+              <strong> {this.translate(field.label)}</strong>
+            </Label>
+          );
+        }
+      } else {
+        return (
+          <Label>
+            <strong> {this.translate(field.label)}</strong>
+          </Label>
+        );
+      }
+    }
+  };
+
   /**
    * Add all fields and add the required fields into an array
    * @param {*} field
@@ -454,13 +523,18 @@ class Create extends React.Component {
 
     if (field.bind !== undefined) {
       if (field.bind.required === true && index <= 0) {
+
         if (field.type === "string") {
           this.state.required_fields.push(`${field.name}_id`);
-        } else this.state.required_fields.push(field.name);
-        this.state.required_fields_labels.push(field.label);
-      }
+        } else { this.state.required_fields.push(field.name);
+
+      } 
+    } else {
+      this.state.required_fields_labels.push(field.label);
+      this.state.required_fields.push(field.name);
     }
   }
+}
 
   /**
    * Remove field from required array if is the value is not null
@@ -564,14 +638,13 @@ class Create extends React.Component {
    */
   handleSubmit = () => {
     const { userOauth } = this.props.state.auth.login;
-
-    if (this.state.required_fields.length > 0) {
+    if (this.state.f1 === "") {
       this.notifyErrorBounce(this.translate("Submission was not possible due to not filling the required fields."));
       this.setState({ isValid: false });
     } else {
 
       // desabilitar a acao do butao 
-      this.state.disabled=true;
+      this.setState({disabled: true});
       this.setState({ isValid: true, isLoading: true });
 
       const url =
@@ -609,8 +682,8 @@ class Create extends React.Component {
             },
           })
           .then(({ data }) => {
-
-            this.notifySuccess(this.translate(`Forwarded to:`)+`${data.focalpoint_label}`)
+            console.log(data);
+            this.notifySuccess(this.translate(`Case forwarded to `)+data.focalpoint_label)
 
               if (idx === array.length - 1){ 
                   // console.log("Last callback call at index " + idx + " with value "  ); 
@@ -625,31 +698,24 @@ class Create extends React.Component {
               }
           })
           .catch(({ response }) => {
+            console.log(response.data[0].focalpoint_label)
             failedCases.push({"id": form.get("lvform_id"), "response": response});
             this.notifyErrorBounce(
               this.translate(
-                response.data?.description ?? "Some records were not saved as they have already been assigned to the selected user(s)."
-              )
+                response.data?.description ?? `This case has already been sent to `
+              )+ response.data[0].focalpoint_label
             );
+            this.setState({disabled: false});
+
+            this.setState({
+              alertFields: Object.keys(response.data) ?? [],
+              alertData: response.data,
+              showAlert: true
+            })
           });
+          this.setState({disabled: false});
+          this.setState({isLoading: false});
         });
-      });
-
-      this.setState({ isLoading: false });
-      
-      // Make an array to store all cases with error and store their IDs
-      const response = {data: "Record duplication"}
-      // list of failed:
-      failedCases.forEach(element => {
-        const failedString = response.data;        
-      });
-      
-
-
-      this.setState({
-        alertFields: Object.keys(response.data) ?? [],
-        alertData: response.data ?? "Already assigned",
-        showAlert: true
       });
 
                   // desabilitar a acao do butao 

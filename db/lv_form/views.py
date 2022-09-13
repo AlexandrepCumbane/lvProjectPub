@@ -39,11 +39,13 @@ class ForwardCaseToFocalpointViewSet(ModelViewSet):
     def create(self, request, *args, **kwargs):
 
         payload_data = request.data
+        qs =ForwardCaseToFocalpoint.objects.filter(focalpoint__id=payload_data['focalpoint_id'],lvform__id=payload_data['lvform_id'])
+        data1 = ForwardCaseToFocalpointSerializer(qs,many=True).data
 
         if (ForwardCaseToFocalpoint.objects.filter(
                 focalpoint__id=payload_data['focalpoint_id'],
                 lvform__id=payload_data['lvform_id'])):
-            return Response({"description": "Record duplication error"},
+            return Response(data1,
                             status=status.HTTP_400_BAD_REQUEST)
         else:
             case_serializer = self.serializer_class(

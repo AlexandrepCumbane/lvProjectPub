@@ -73,7 +73,7 @@ class List extends Component {
       recordId: 0,
       message: "Do you want to delete that record?",
       requestMoreInterval: null,
-      requestMoreWaiting: false
+      requestMoreWaiting: false,
     };
   }
 
@@ -82,7 +82,8 @@ class List extends Component {
   componentDidMount() {
     this.formatFields();
 
-    const updateList = this.props.location.state && this.props.location.state.updateList;
+    const updateList =
+      this.props.location.state && this.props.location.state.updateList;
 
     if (
       !this.props.app_reducer[this.props.path]?.list.length ||
@@ -135,11 +136,11 @@ class List extends Component {
             breadCrumbItems={
               this.props.hasNew
                 ? [
-                  {
-                    name: this.translate("Add New"),
-                    link: `${this.props.path}s/new`,
-                  },
-                ]
+                    {
+                      name: this.translate("Add New"),
+                      link: `${this.props.path}s/new`,
+                    },
+                  ]
                 : []
             }
             breadCrumbTitle={this.state.pageTitle}
@@ -167,6 +168,7 @@ class List extends Component {
               // ref={this.setChild}
               requestData={this.requestMore}
               requestParams={this.requestParams}
+              // requestParams={this.requestFilteredData}
               requestMoreFiltered={this.requestMoreFiltered}
               requestMore={this.requestMore}
               loading={this.state.isLoading}
@@ -220,12 +222,12 @@ class List extends Component {
           page: this.props.path,
           pageTitle: `${this.props.title}`,
           isLoading: this.state.requestMoreInterval !== null,
-          requestMoreWaiting:false
+          requestMoreWaiting: false,
         });
 
         if (this.props.app_reducer.error === "session") {
-          this.notifyErrorBounce(this.translate(
-            `Your session has expired, please login again!`)
+          this.notifyErrorBounce(
+            this.translate(`Your session has expired, please login again!`)
           );
         }
 
@@ -261,22 +263,22 @@ class List extends Component {
    * @param {*} end
    * @returns
    */
-  requestParams = (start, end) => {
+  requestParams = (start, end, timeLength) => {
     this.setState({
       data: this.props.app_reducer[this.props.path]?.list ?? [],
       show: true,
       isLoading: true,
     });
+
     return this.props
       .requestForm({
         url: `${this.props.url}/?start=${start}&end=${end}`,
         name: this.props.name ?? this.props.path,
         next: false,
         has_params: true,
+        timeLength,
       })
       .then(() => {
-
-
         this.setState({
           data:
             this.props.app_reducer[this.props.name ?? this.props.path]?.list ??
@@ -286,10 +288,9 @@ class List extends Component {
           requestMoreWaiting: false,
         });
 
-        const requestMoreInterval = setInterval(this.requestMoreFiltered, 3500);
+        const requestMoreInterval = setInterval(this.requestMoreFiltered, 1);
 
         this.setState({ requestMoreInterval });
-
 
         if (this.props.app_reducer[this.props.name ?? this.props.path]?.next)
           return true;
@@ -297,28 +298,23 @@ class List extends Component {
       });
   };
 
-
-  requestMoreFiltered = () => {
-
+  requestMoreFiltered = async () => {
     let page = this.props.app_reducer[this.props.name ?? this.props.path]?.page;
-    let pages = this.props.app_reducer[this.props.name ?? this.props.path]?.pages;
+    let pages =
+      this.props.app_reducer[this.props.name ?? this.props.path]?.pages;
 
     if (this.state.requestMoreWaiting) {
       return;
     }
 
     if (pages === page) {
-
       clearInterval(this.state.requestMoreInterval);
       this.setState({ requestMoreInterval: null, isLoading: false });
       return;
     }
 
-
-    this.requestMore();
-
-
-  }
+    await this.requestMore();
+  };
 
   /**
    * Delete method - deletes the record based on the recordId state prop
@@ -345,7 +341,9 @@ class List extends Component {
         this.notifySuccessBounce(data.id);
       })
       .catch((error) => {
-        this.notifyErrorBounce(this.translate(`Unable to complete transaction.`));
+        this.notifyErrorBounce(
+          this.translate(`Unable to complete transaction.`)
+        );
       });
   };
 
@@ -355,7 +353,7 @@ class List extends Component {
    */
   getSpecificields = () => {
     let form = [];
-console.log(form);
+    console.log(form);
     const { userRole } = this.props;
     if (this.props.path === "lvform") {
       switch (userRole) {
@@ -548,10 +546,10 @@ console.log(form);
           filter: "customFilter",
           editable: false,
           valueGetter: ({ data }) => {
-            if ( item.name === "text" ){
-              // Here we clean the html on article/Base de Conhecimentos view 
-              var htmlString = data[`${item.name}`]
-              var plainString = htmlString.replace(/<[^>]+>/g, '');
+            if (item.name === "text") {
+              // Here we clean the html on article/Base de Conhecimentos view
+              var htmlString = data[`${item.name}`];
+              var plainString = htmlString.replace(/<[^>]+>/g, "");
               return this.translate(plainString);
             }
             if (
@@ -562,11 +560,15 @@ console.log(form);
               return this.translate("Null");
             }
             // If it is a case Comment field, we handle it here
-            if ( item.label === "Comments" ) {
-                return data[`${item.name}`].map((comment, index) => `${comment.id} - ${comment.feedback} - ${comment.created_by_label}`).join('; \n');
-                
+            if (item.label === "Comments") {
+              return data[`${item.name}`]
+                .map(
+                  (comment, index) =>
+                    `${comment.id} - ${comment.feedback} - ${comment.created_by_label}`
+                )
+                .join("; \n");
             }
-            console.log(`${item.name}`)
+            console.log(`${item.name}`);
 
             return this.translate(data[`${item.name}`]);
           },
@@ -650,13 +652,18 @@ console.log(form);
                   resizable: true,
                   valueGetter: ({ data }) => {
                     // If it is a case Comment field, we handle it here
-                    if ( item.label === "Comments" ) {
-                      return data["callcase"][`${item.name}`].map((comment, index) => `${comment.id} - ${comment.feedback} - ${comment.created_by_label}`).join('; \n');
+                    if (item.label === "Comments") {
+                      return data["callcase"][`${item.name}`]
+                        .map(
+                          (comment, index) =>
+                            `${comment.id} - ${comment.feedback} - ${comment.created_by_label}`
+                        )
+                        .join("; \n");
                     }
                     return this.translate(
                       data["callcase"][`${item.name}_label`] ??
-                      data["callcase"][`${item.name}`] ??
-                      "Null"
+                        data["callcase"][`${item.name}`] ??
+                        "Null"
                     );
                   },
                 };
