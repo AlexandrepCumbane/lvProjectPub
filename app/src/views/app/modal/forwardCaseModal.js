@@ -78,10 +78,6 @@ class Create extends React.Component {
   };
   componentDidMount() {
     this.props.requestDropodowns(); // Request dropdown lists and place in a map
-    this.props.lvform.forEach((item) => {
-      this.addToRequired(item);
-    });
-
     this.updateState("lvform_id", this.props.lvform_id);
     let formsdata= []
     // Handle single forward modal
@@ -212,7 +208,7 @@ class Create extends React.Component {
     return (
       <Row>
         <Col md="12">
-          {this.state.isValid && this.state.f1 === "" ? (
+          {this.state.isValid && this.state.f1 ===! "" ? (
             <></>
           ) : (
             <Alert color="danger" className="square">
