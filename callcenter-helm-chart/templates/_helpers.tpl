@@ -71,7 +71,7 @@ Set redis host
 */}}
 {{- define "redis.host" -}}
 {{- if .Values.redis.enabled -}}
-{{- template "redis.fullname" . -}}-redis-master
+{{- template "redis.fullname" . -}}-master-0
 {{- else -}}
 {{- .Values.redis.host | quote -}}
 {{- end -}}
@@ -82,7 +82,7 @@ Set redis url
 */}}
 {{- define "redis.url" -}}
 {{- if .Values.redis.enabled -}}
-redis://:{{ .Values.redis.auth.password }}@{{- template "redis.fullname" . -}}:{{- template "redis.port" . -}}/0
+redis://{{- template "redis.host" . -}}:{{- template "redis.port" . -}}/0
 {{- end -}}
 {{- end -}}
 

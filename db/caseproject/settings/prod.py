@@ -200,12 +200,17 @@ OIDC_AUTH = {
     'BEARER_AUTH_HEADER_PREFIX': 'Bearer',
 }
 
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         "LOCATION": os.getenv('REDIS_URL'),
-#         "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-#         }
-#     }
-# }
+CACHES_ENABLED = env.bool("CACHES_ENABLED", False)
+
+if CACHES_ENABLED:
+    REDIS_URL = os.getenv('REDIS_URL')
+
+    CACHES = {
+        "default": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": os.getenv('REDIS_URL'),
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            }
+        }
+    }
