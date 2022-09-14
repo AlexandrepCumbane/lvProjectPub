@@ -71,6 +71,7 @@ class Create extends React.Component {
     alertFields: [],
     alertData: {},
     disabled: false,
+    isLoading: false,
     f1:"",
     f2:"",
     f3:"",
@@ -78,6 +79,7 @@ class Create extends React.Component {
   };
   componentDidMount() {
     this.props.requestDropodowns(); // Request dropdown lists and place in a map
+
     this.updateState("lvform_id", this.props.lvform_id);
     let formsdata= []
     // Handle single forward modal
@@ -198,7 +200,6 @@ class Create extends React.Component {
       </>
     );
   }
-
   /**
    * Action and helper functions
    */
@@ -208,7 +209,7 @@ class Create extends React.Component {
     return (
       <Row>
         <Col md="12">
-          {this.state.isValid && this.state.f1 ===! "" ? (
+          {this.state.isValid && this.state.f1 !== "" ? (
             <></>
           ) : (
             <Alert color="danger" className="square">
@@ -685,7 +686,6 @@ class Create extends React.Component {
                   // console.log("Last callback call at index " + idx + " with value "  ); 
                       
                   // this.notifySuccessBounce(data.id);
-                  this.setState({ isLoading: false });
 
                   this.filterNotificationAction(data);
                   if (this.props.addMore) {
@@ -702,6 +702,7 @@ class Create extends React.Component {
               )+ response.data[0].focalpoint_label
             );
             this.setState({disabled: false});
+            this.setState({isLoading: false});
 
             this.setState({
               alertFields: Object.keys(response.data) ?? [],

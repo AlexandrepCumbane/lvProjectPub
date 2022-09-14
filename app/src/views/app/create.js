@@ -29,6 +29,7 @@ import {
   CustomInput,
   Input,
   Label,
+  Spinner,
 } from "reactstrap";
 import { Check } from "react-feather";
 
@@ -54,6 +55,7 @@ class Create extends React.Component {
     alertData: {},
     blockSubmit: false,
     disabled: false,
+    isLoading: false
     };
 
   componentDidMount() {
@@ -127,6 +129,11 @@ class Create extends React.Component {
               type="submit"
               onClick={(e) => this.handleSubmit()}
             >
+            {this.state.isLoading ? (
+                <Spinner className="mr-1" color="white" size="sm" type="grow" />
+              ) : (
+                <></>
+              )}
               {this.translate("Submit")}
             </Button.Ripple>
           </div>
@@ -716,12 +723,9 @@ class Create extends React.Component {
 
       // block button action
       this.setState({disabled: true});
+      this.setState({ isLoading: true });
       const url = this.props.path === "customuser" ? "user" : this.props.path;
       
-      if(!this.state.blockSubmit){
-        // block button action
-        this.setState({blockSubmit : true});
-      }
       axios
         .post(`${url}s.json`, this.state.form, {
           headers: {
@@ -729,11 +733,14 @@ class Create extends React.Component {
           },
         })
         .then(({ data }) => {
+
+          this.setState({disabled: true});
+          this.setState({ isLoading: true });
+
           this.notifySuccessBounce(data.id);
           
           setTimeout(() => {
             // enable the button action
-            this.state.disabled=false; 
             history.push({
               pathname: `/${this.props.url}`, 
               state: { updateList: true }   // Maybe the same can be achieved with: this.setState({ updateList: true });
