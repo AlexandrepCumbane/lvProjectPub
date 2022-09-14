@@ -71,7 +71,7 @@ Set redis host
 */}}
 {{- define "redis.host" -}}
 {{- if .Values.redis.enabled -}}
-{{- template "redis.fullname" . -}}-master-0
+{{- template "redis.fullname" . -}}-master
 {{- else -}}
 {{- .Values.redis.host | quote -}}
 {{- end -}}
