@@ -1,5 +1,5 @@
 tag=1.0.3
-tag_staging=1.0.6.6
+tag_staging=1.0.6.7
 organization=roboboinc
 image=linhaverde
 helm_dir=callcenter-helm-chart
