@@ -17,9 +17,7 @@ import { IntlContext } from "../../i18n/provider";
 import { history } from "../../history";
 import "../../assets/scss/pages/authentication.scss";
 
-
 class Welcome extends React.Component {
-
   static contextType = IntlContext;
 
   state = {
@@ -63,13 +61,10 @@ class Welcome extends React.Component {
 
   updateToken = () => {
     this.authService.renewToken().then(() => {
-      this.authService
-        .getUser()
-        .then((res) => {
-          this.context.initSocket(res.access_token);
-          this.props.requestUpdateUser(res) 
-          }
-        );
+      this.authService.getUser().then((res) => {
+        this.context.initSocket(res.access_token);
+        this.props.requestUpdateUser(res);
+      });
     });
   };
 

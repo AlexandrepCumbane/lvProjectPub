@@ -1,44 +1,12 @@
 import React from "react";
-import { AgGridReact } from "ag-grid-react";
-import { connect } from "react-redux";
+
 // import { AllCommunityModules } from '@ag-grid-community/all-modules';
 
 import classnames from "classnames";
-import {
-  Edit,
-  ChevronDown,
-  List,
-  Delete,
-  X,
-  Filter,
-  RefreshCw,
-  Columns,
-  DownloadCloud,
-  ArrowRightCircle
-} from "react-feather";
-import { ContextLayout } from "../../../utility/context/Layout";
-import {
-  Button,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  UncontrolledTooltip,
-} from "reactstrap";
-import { Search } from "react-feather";
+import { Edit, List, Delete } from "react-feather";
+import { Button } from "reactstrap";
 
-import {
-  Card,
-  CardBody,
-  UncontrolledDropdown,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle,
-  Spinner,
-} from "reactstrap";
-
-import Modal from "../../../views/app/modal/forwardCaseModal";
-import ListModal from "../../../views/app/modal/list";
+import { UncontrolledDropdown, DropdownToggle, Spinner } from "reactstrap";
 
 import CaseEdit from "../../../views/app/edit";
 import ModalEdit from "../../../views/app/modal/edit";
@@ -48,7 +16,7 @@ import "../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../assets/scss/pages/users.scss";
 import "../../../assets/scss/pages/data-list.scss";
 import ArticleView from "../../../views/information/ArticleView";
-import { getFilterComponent } from "./filterComponent";
+import CasesCard from "./CasesCard";
 
 class AggridTable extends React.Component {
   static contextType = IntlContext;
@@ -73,9 +41,7 @@ class AggridTable extends React.Component {
     editCase: false,
     showTable: false,
     hasRequestedMore: false,
-    defaultColDef: {
-
-    },
+    defaultColDef: {},
 
     // modules: AllCommunityModules,
     showArticleView: false,
@@ -286,29 +252,6 @@ class AggridTable extends React.Component {
     return true;
   }
 
-  renderLoading = () => {
-    let res = (
-      <div className="mb-1">
-        <Spinner color="warning" type="grow" size="sm" />
-        <strong className="ml-1">Loading...</strong>
-      </div>
-    );
-
-    if (!this.props.loading)
-      res = (
-        <div className="mb-1">
-          <UncontrolledDropdown className="p-1 ag-dropdown-no-border">
-            <DropdownToggle tag="div">
-              <strong>
-                <span id="selectedRows">0</span>
-              </strong>
-            </DropdownToggle>
-          </UncontrolledDropdown>
-        </div>
-      );
-    return res;
-  };
-
   onColumnMoved(name, params) {
     var columnState = JSON.stringify(params.columnApi.getColumnState());
     localStorage.setItem(name, columnState);
@@ -428,88 +371,6 @@ class AggridTable extends React.Component {
       document.querySelector("#selectedRows").innerHTML = selectedCount ?? 0;
   };
 
-  renderFilters = () => {
-    let element = (
-      <div className={`data-list thumb-view"`}>
-        <div>
-          <InputGroup className="rounded-0 mb-1">
-            <InputGroupAddon
-              className="rounded-0 text-primary"
-              color="primary"
-              addonType="prepend"
-            >
-              <InputGroupText className={`rounded-0`}>
-                {this.translate("From")}
-              </InputGroupText>
-            </InputGroupAddon>
-            <Input
-              className={`rounded-0 start-date`}
-              value={this.state.start}
-              onChange={(e) => this.setState({ start: e.target.value })}
-              type="date"
-            />
-          </InputGroup>
-        </div>
-        <div>
-          <InputGroup className="rounded-0 mb-1">
-            <InputGroupAddon className="rounded-0" addonType="prepend">
-              <InputGroupText className="rounded-0">
-                {this.translate("To")}
-              </InputGroupText>
-            </InputGroupAddon>
-            <Input
-              className="rounded-0 end-date"
-              value={this.state.end}
-              onChange={(e) => this.setState({ end: e.target.value })}
-              type="date"
-            />
-          </InputGroup>
-        </div>
-        <div>
-          <Button.Ripple
-            className="btn-icon rounded-0 py-1"
-            color="primary"
-            onClick={() => {
-              if (this.state.end !== "" && this.state.start !== "")
-                this.props.requestParams(
-                  `${this.state.start} 00:00:00`,
-                  `${this.state.end} 23:59:59`
-                );
-            }}
-          >
-            <Search size={18} color="white" />
-          </Button.Ripple>
-          <Button.Ripple
-            className="btn-icon rounded-0 py-1"
-            color="danger"
-            onClick={() => {
-              this.setState({ end: "", start: "" });
-              this.props.requestMore(false);
-            }}
-          >
-            <X size={18} color="white" />
-          </Button.Ripple>
-        </div>
-      </div>
-    );
-
-    if (this.props.tableType === "customuser") {
-      element = <></>;
-    }
-    if (!this.state.filters) {
-      element = <></>;
-    }
-
-    if (
-      this.props.userRole === "operator" &&
-      this.props.tableType === "lvform"
-    ) {
-      element = <></>;
-    }
-
-    return element;
-  };
-
   render() {
     const {
       rowData,
@@ -519,6 +380,7 @@ class AggridTable extends React.Component {
       modalForm,
       showArticleView,
     } = this.state;
+
     return (
       <React.Fragment>
         <div className={`data-list thumb-view"`}>
@@ -565,245 +427,24 @@ class AggridTable extends React.Component {
             onClick={() => this.handleSidebar(!this.state.showSidebar, true)}
           />
         </div>
-        <Card className="overflow-hidden agGrid-card rounded-0">
-          <CardBody className="py-0">
-            {this.state.rowData === null ? null : (
-              <div className="ag-theme-material w-100 my-2 ag-grid-table">
-                <div className="d-flex flex-row justify-content-between align-items-center">
-                  <div className="d-flex flex-row align-items-center">
-                    <div className="mb-1 mr-2">
-                      <UncontrolledDropdown className="p-1 ag-dropdown">
-                        <DropdownToggle tag="div">
-                          {this.gridApi
-                            ? this.state.currenPageSize
-                            : "" * this.state.getPageSize -
-                              (this.state.getPageSize - 1)}{" "}
-                          -{" "}
-                          {this.props.data.length -
-                            this.state.currenPageSize * this.state.getPageSize >
-                          0
-                            ? this.state.currenPageSize * this.state.getPageSize
-                            : this.props.data.length}{" "}
-                          of {this.props.data.length}
-                          <ChevronDown className="ml-50" size={15} />
-                        </DropdownToggle>
-                        <DropdownMenu right>
-                          <DropdownItem
-                            tag="div"
-                            onClick={() => this.filterSize(20)}
-                          >
-                            20
-                          </DropdownItem>
-                          <DropdownItem
-                            tag="div"
-                            onClick={() => this.filterSize(50)}
-                          >
-                            50
-                          </DropdownItem>
-                          <DropdownItem
-                            tag="div"
-                            onClick={() => this.filterSize(100)}
-                          >
-                            100
-                          </DropdownItem>
-                          <DropdownItem
-                            tag="div"
-                            onClick={() => this.filterSize(150)}
-                          >
-                            150
-                          </DropdownItem>
-                          <DropdownItem
-                            tag="div"
-                            onClick={() => this.filterSize(250)}
-                          >
-                            250
-                          </DropdownItem>
-                          <DropdownItem
-                            tag="div"
-                            onClick={() => this.filterSize(500)}
-                          >
-                            500
-                          </DropdownItem>
-                          <DropdownItem
-                            tag="div"
-                            onClick={() => this.filterSize(1000)}
-                          >
-                            1000
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    </div>
-                    {this.renderLoading()}
-                  </div>
-                  {this.renderFilters()}
-
-                  <div className="d-flex flex-row justify-content-between mb-1">
-                    <div className="table-input mr-1">
-                      <Input
-                        placeholder={`${this.translate("Search")}...`}
-                        className="rounded-0"
-                        onChange={(e) => this.updateSearchQuery(e.target.value)}
-                        value={this.state.value}
-                        onBlur={(e) => this.requestNode(e.target.value)}
-                      />
-                    </div>
-
-                    <div>
-                      {this.props.userRole === "manager" ||
-                      this.props.userRole === "focalpoint" ||
-                      this.props.userRole === "partner" ?
-                       (
-                        <>
-                          <Button.Ripple
-                            id="download"
-                            className="btn-icon"
-                            color="flat-primary rounded-0"
-                            onClick={() =>
-                              this.gridApi.exportDataAsCsv({
-                                onlySelected: true,
-                                allColumns: true,
-                              })
-                            }
-                          >
-                            <DownloadCloud size={16} />
-                          </Button.Ripple>
-                          <UncontrolledTooltip
-                            placement="top"
-                            target="download"
-                          >
-                            {this.translate("Export Selected")}
-                          </UncontrolledTooltip>
-                          { this.props.tableType === "lvform" &&
-                          
-                          <Button.Ripple
-                            id="forward"
-                            className="btn-icon"
-                            color="flat-primary rounded-0"
-                            onClick={() =>
-                              this.forwardSelectedCases()
-                            }
-                          >
-                            <ArrowRightCircle size={16} />
-                          </Button.Ripple>
-                          }
-                          { this.props.tableType === "lvform" &&
-                          <UncontrolledTooltip
-                            placement="top"
-                            target="forward"
-                          >
-                            {this.translate("Referral to")}
-                          </UncontrolledTooltip>
-                          }
-                          {this.state.openModal ? (<Modal
-                                  title={this.translate(`Send to Focal Point`)}
-                                  page="forwardcasetofocalpoint"
-                                  label={this.translate("Send")}
-                                  lvform_id={this.state.forwardCaseData["id"]}
-                                  lvform={this.state.forwardCaseData}
-                                />) : (
-                                <></>
-                                )}
-                        </>
-                      ) : (
-                        <></>
-                      )}
-                      <Button.Ripple
-                        id="date-filter"
-                        onClick={() => {
-                          this.setState({
-                            filters: !this.state.filters,
-                          });
-                        }}
-                        className="btn-icon rounded-0"
-                        color="flat-primary"
-                      >
-                        <Filter size={16} />
-                      </Button.Ripple>
-                      <Button.Ripple
-                        id="refresh-list"
-                        className="btn-icon rounded-0"
-                        color="flat-primary"
-                        onClick={() => this.props.requestMore(false)}
-                      >
-                        <RefreshCw size={16} />
-                      </Button.Ripple>
-                      <Button.Ripple
-                        id="unset-column"
-                        onClick={() => {
-                          this.setState({
-                            columnDefs: this.props.columnDefs,
-                            showTable: false,
-                          });
-
-                          this.gridApi.setColumnDefs(this.props.columnDefs);
-                          localStorage.removeItem(this.props.tableType);
-
-                          window.location.reload(1);
-                        }}
-                        className="btn-icon"
-                        color="flat-primary rounded-0"
-                      >
-                        <Columns size={16} />
-                      </Button.Ripple>
-
-                      <UncontrolledTooltip placement="top" target="date-filter">
-                        {this.translate("Date range filters")}
-                      </UncontrolledTooltip>
-                      <UncontrolledTooltip
-                        placement="top"
-                        target="refresh-list"
-                      >
-                        {this.translate("Update list")}
-                      </UncontrolledTooltip>
-                      <UncontrolledTooltip
-                        placement="top"
-                        target="unset-column"
-                      >
-                        {this.translate("Restore Columns")}
-                      </UncontrolledTooltip>
-                    </div>
-                  </div>
-                </div>
-                {this.state.showTable ? (
-                  <ContextLayout.Consumer>
-                    {(context) => (
-                      <AgGridReact
-                        rowSelection="multiple"
-                        defaultColDef={this.state.columnDefs}
-                        columnDefs={this.state.columnDefs}
-                        rowData={rowData}
-                        onGridReady={(params) =>
-                          this.onGridReady(this.props.tableType, params)
-                        }
-                        colResizeDefault={"shift"}
-                        animateRows={true}
-                        floatingFilter={true}
-                        pagination={true}
-                        paginationPageSize={this.state.paginationPageSize}
-                        pivotPanelShow="always"
-                        translate={this.translate}
-                        enableRtl={context.state.direction === "rtl"}
-                        onColumnMoved={(params) =>
-                          this.onColumnMoved(this.props.tableType, params)
-                        }
-                        // modules={this.state.modules}
-                        getRowNodeId={this.state.getRowNodeId}
-                        onPaginationChanged={() => this.onPaginationChanged()}
-                        onSelectionChanged={this.onSelectionChanged.bind(this)}
-                        components={{
-                          customFilter: getFilterComponent(),
-                        }}
-                        dropdowns={this.props.dropdowns}
-                      />
-                    )}
-                  </ContextLayout.Consumer>
-                ) : (
-                  <Spinner size="lg" />
-                )}
-              </div>
-            )}
-          </CardBody>
-        </Card>
+        <CasesCard
+          rowData={rowData}
+          state={this.state}
+          gridApi={this.gridApi}
+          props={this.props}
+          filterSize={this.filterSize}
+          setState={this.setState.bind(this)}
+          translateFrom={this.translate("From")}
+          translateTo={this.translate("To")}
+          translate={this.translate}
+          onSelectionChanged={this.onSelectionChanged}
+          onColumnMoved={this.onColumnMoved}
+          onGridReady={this.onGridReady}
+          forwardSelectedCases={this.forwardSelectedCases}
+          onPaginationChanged={this.onPaginationChanged}
+          updateSearchQuery={this.updateSearchQuery}
+          requestNode={this.requestNode}
+        />
       </React.Fragment>
     );
   }
@@ -812,20 +453,23 @@ class AggridTable extends React.Component {
    * Forwarding to Inctitutions Action and helper functions
    */
   forwardSelectedCases = () => {
-    console.log('You clicked to select forward cases.');
+    console.log("You clicked to select forward cases.");
     let selectedNodes = this.gridApi.getSelectedNodes();
-    let selectedData = selectedNodes.map(node => node.data);
+    let selectedData = selectedNodes.map((node) => node.data);
     // alert(`Selected Nodes:\n${JSON.stringify(selectedData)}`);
     // console.log("The state of openModal is = " + this.state.openModal);
-    this.setState({
-      openModal: !this.state.openModal,
-      showModal: true,
-      forwardCaseData: selectedData, 
-      modal_form: "forwardinginstitution",
-    }, () => {
-      // console.log("The state of openModal is = ");
-      // console.log(this.state.forwardCaseData);
-    });
+    this.setState(
+      {
+        openModal: !this.state.openModal,
+        showModal: true,
+        forwardCaseData: selectedData,
+        modal_form: "forwardinginstitution",
+      },
+      () => {
+        // console.log("The state of openModal is = ");
+        // console.log(this.state.forwardCaseData);
+      }
+    );
 
     return selectedData;
   };
