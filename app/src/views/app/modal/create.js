@@ -526,8 +526,11 @@ class Create extends React.Component {
           },
         })
         .then(({ data }) => {
+
+          this.setState({disabled: true});
+          this.setState({ isLoading: true });
+
           this.notifySuccessBounce(data.id);
-          this.setState({ isLoading: false });
 
           this.filterNotificationAction(data);
           if (this.props.addMore) {
@@ -535,8 +538,6 @@ class Create extends React.Component {
           }
                      
           setTimeout(() => {
-            // enable the button action
-            this.state.disabled=false; 
             this.toggleModal();
           }, 1000);        
         })
