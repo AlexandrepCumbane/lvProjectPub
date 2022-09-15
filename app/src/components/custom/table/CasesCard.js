@@ -157,7 +157,8 @@ function CasesCard({
                 <div>
                   {props.userRole === "manager" ||
                   props.userRole === "focalpoint" ||
-                  props.userRole === "partner" ? (
+                  props.userRole === "partner" ||
+                  props.userRole === "operator" ? (
                     <>
                       <Button.Ripple
                         id="download"

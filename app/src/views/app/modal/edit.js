@@ -161,6 +161,7 @@ class Edit extends React.Component {
     alertFields: [],
     alertData: {},
     disabled: false,
+    isLoading: false,
   };
 
   componentDidMount() {
@@ -727,6 +728,8 @@ class Edit extends React.Component {
         },
       })
       .then(({ data }) => {
+        this.setState({disabled: true});
+        this.setState({ isLoading: true });
         this.notifySuccessBounce(data.id);
 
         if (this.props.requestData) this.props.requestData(false);
@@ -736,6 +739,7 @@ class Edit extends React.Component {
       })
       .catch((error) => {
         this.setState({ isLoading: false });
+        this.setState({disabled: false});
         this.notifyErrorBounce(this.translate("Transaction process failed"));
       });
   };
@@ -763,6 +767,8 @@ class Edit extends React.Component {
           },
         })
         .then(({ data }) => {
+          this.setState({disabled: true});
+          this.setState({ isLoading: true });
           this.notifySuccessBounce(data.id);
 
           if (this.props.requestData) this.props.requestData(false);
