@@ -1126,6 +1126,8 @@ class Edit extends Component {
           },
         })
         .then(({ data }) => {
+          this.setState({disabled: true});
+          this.setState({isProcessing: true});
           this.notifySuccessBounce(data.id);
 
           let payload = data;
