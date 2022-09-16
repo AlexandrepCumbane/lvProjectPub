@@ -1,5 +1,5 @@
 tag=1.0.3
-tag_staging=1.0.6.8
+tag_staging=1.0.6.7
 organization=roboboinc
 image=linhaverde
 helm_dir=callcenter-helm-chart
@@ -50,6 +50,9 @@ helmx-staging-dryrun:
 compose-start:
 	docker-compose up --remove-orphans $(options)
 
+compose-start-recreate:
+	docker-compose up --remove-orphans --force-recreate --build $(options)
+
 compose-stop:
 	docker-compose down --remove-orphans $(options)
 
@@ -76,3 +79,15 @@ devspace-dev:
 
 aws-kubeconfig:
 	aws eks update-kubeconfig --name linhaverde --region eu-west-1 --profile wfp
+
+publish-frontend:
+	docker-compose exec frontend yarn  
+	docker-compose exec frontend yarn build
+	aws s3 sync app/build/ s3://vulavula1458.co.mz --profile wfp
+	aws cloudfront create-invalidation --distribution-id E2L9NWMRKCT11T --paths "/" --profile wfp
+
+publish-frontend-staging:
+	docker-compose exec frontend yarn  
+	docker-compose exec frontend yarn build
+	aws s3 sync app/build/ s3://staging.linha1458.moz.wfp.org --profile wfp
+	aws cloudfront create-invalidation --distribution-id E1C66NRLMEV1RM --paths "/" --profile wfp
