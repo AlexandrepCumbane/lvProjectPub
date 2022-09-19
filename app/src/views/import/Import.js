@@ -338,16 +338,15 @@ function Uploader(props) {
 
     let kObject = {};
 
-    console.log(kObject)
+    console.log(kObject);
 
     entries.forEach((key) => {
-
       // Specific known keys matching
       if (
         handleMapKey(key[0]) === "provincia" ||
         handleMapKey(key[0]) === "distrito" ||
         handleMapKey(key[0]) === "localidade" ||
-        handleMapKey(key[0]) === "gender" 
+        handleMapKey(key[0]) === "gender"
       ) {
         const field = form.filter(
           (item) => item.name === handleMapKey(key[0])
@@ -355,22 +354,18 @@ function Uploader(props) {
 
         // Handle parsing of select one for gender field
 
-        if (
-          field &&
-          field.name === "gender" &&
-          field.type === "select one" 
-        ) {
-            switch (item[key[0]]){
-              case 'Male':
-                kObject[`${handleMapKey(key[0])}`] = "male";
-                break;
-              case 'Female':
-                kObject[`${handleMapKey(key[0])}`] = "female";
-                break;
-              default:
-                console.log(`Handle gender with ${item[key[0]]}`);
-                kObject[`${handleMapKey(key[0])}`] = "other";
-            }
+        if (field && field.name === "gender" && field.type === "select one") {
+          switch (item[key[0]]) {
+            case "Male":
+              kObject[`${handleMapKey(key[0])}`] = "male";
+              break;
+            case "Female":
+              kObject[`${handleMapKey(key[0])}`] = "female";
+              break;
+            default:
+              console.log(`Handle gender with ${item[key[0]]}`);
+              kObject[`${handleMapKey(key[0])}`] = "other";
+          }
         }
 
         if (field && field.type === "string" && field["wq:ForeignKey"]) {
@@ -480,11 +475,11 @@ function Uploader(props) {
   const { getRootProps, getInputProps } = useDropzone({
     accept: ".xlsx, .xls, .csv",
     onDrop: (acceptedFiles) => {
-      console.log(getRootProps,getInputProps)
+      console.log(getRootProps, getInputProps);
       var reader = new FileReader();
       reader.onload = function () {
         var fileData = reader.result;
-        console.log(fileData)
+        console.log(fileData);
         var wb = XLSX.read(fileData, { type: "binary" });
         wb.SheetNames.forEach(function (sheetName) {
           var rowObj = XLSX.utils.sheet_to_row_object_array(
@@ -503,10 +498,24 @@ function Uploader(props) {
       }
     },
   });
+
+  const handleFileUpload = (e) => {
+    let file = e.target.files[0];
+
+    props.setState({ uploaded_file: file });
+  };
+
   return (
+    // <section className="pb-1">
+    //   <div {...getRootProps({ className: "dropzone py-3 flex-column" })}>
+    //     <input {...getInputProps()} />
+    //     <DownloadCloud className="text-light" size={50} />
+    //     <h4 className="mb-0 mt-2">Drop Excel File or Browse</h4>
+    //   </div>
+    // </section>
     <section className="pb-1">
       <div {...getRootProps({ className: "dropzone py-3 flex-column" })}>
-        <input {...getInputProps()} />
+        <input type="file" name="file" onChange={(e) => handleFileUpload(e)} />
         <DownloadCloud className="text-light" size={50} />
         <h4 className="mb-0 mt-2">Drop Excel File or Browse</h4>
       </div>
@@ -524,6 +533,7 @@ class Import extends React.Component {
     value: "",
     name: "",
     uploading: false,
+    uploaded_file: null,
   };
 
   componentDidMount() {
@@ -575,8 +585,14 @@ class Import extends React.Component {
 
     this.setState({ uploading: true });
     let form = new FormData();
-    form.append("data", JSON.stringify(this.state.tableData));
-    console.log(this.state.tableData)
+    // form.append("data", JSON.stringify(this.state.tableData));
+    form.append("data", this.state.uploaded_file);
+
+    console.log(this.state.tableData);
+    for (const value of form.values()) {
+      console.log("Hii tena: ", value);
+    }
+
     axios
       .post(`lvforms/0/import_cases.json/`, this.state.tableData, {
         headers: {
@@ -588,7 +604,7 @@ class Import extends React.Component {
         this.setState({ uploading: false });
         this.notifySuccessBounce("");
         setTimeout(() => {
-          history.push('/lvforms');
+          history.push("/lvforms");
         }, 1000);
       })
       .catch((error) => {
@@ -639,6 +655,8 @@ class Import extends React.Component {
                   <Col sm="12">
                     <Uploader
                       getTableData={this.getTableData}
+                      uploaded_file={this.state.uploaded_file}
+                      setState={this.setState.bind(this)}
                       {...this.props}
                     />
                   </Col>
@@ -646,7 +664,7 @@ class Import extends React.Component {
               </CardBody>
             </Card>
           </Col>
-          {this.state.tableData.length ? (
+          {this.state.uploaded_file ? (
             <Col sm="12">
               <Card className="rounded-0">
                 <CardHeader className="justify-content-between flex-wrap rounded-0">
