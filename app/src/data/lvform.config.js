@@ -607,6 +607,12 @@ export const manager = {
       type: "int",
     },
     {
+      name: "id",
+      label: "id",
+      hint: "id",
+      type: "int",
+    },
+    {
       name: "datetime_created",
       label: "Created at",
       hint: "Created at",
