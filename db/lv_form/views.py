@@ -216,9 +216,19 @@ class LvFormViewSet(ModelViewSet):
 
     @action(detail=True, methods=['post'])
     def import_cases(self, request, *args, **kwargs):
-        template_cases = request.data
-        map_case_fields(template_cases)
-        return Response(status=status.HTTP_201_CREATED)
+        person_resource = PersonResource()
+        dataset = Dataset()
+        new_books = request.FILES
+        print(new_books)
+        # imported_data = dataset.load(new_books.read().decode(), format='json')
+        # result = person_resource.import_data(dataset, dry_run=True)
+        # print(result)
+        # print(imported_data)
+        # print(result.has_errors())
+        # person_resource.import_data(dataset, dry_run=False)
+        # if not result.has_errors():
+        #     person_resource.import_data(dataset, dry_run=False)
+        return Response("ok", status=status.HTTP_201_CREATED)
 
 
 class TaskViewSet(ModelViewSet):

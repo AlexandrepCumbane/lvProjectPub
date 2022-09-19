@@ -436,7 +436,8 @@ function Uploader(props) {
               return item.label === key[1];
             });
 
-            if (val?.length > 0)
+            console.log(`${handleMapKey(key[0])}_id`)
+            if (val.length > 0)
               kObject[`${handleMapKey(key[0])}_id`] = val[0].id;
             else kObject[`${handleMapKey(key[0])}_id`] = "";
 
@@ -480,7 +481,9 @@ function Uploader(props) {
   const { getRootProps, getInputProps } = useDropzone({
     accept: ".xlsx, .xls, .csv",
     onDrop: (acceptedFiles) => {
-      console.log(getRootProps,getInputProps)
+      console.log(acceptedFiles)
+      // console.log(getRootProps,getInputProps)
+      window.file = acceptedFiles
       var reader = new FileReader();
       reader.onload = function () {
         var fileData = reader.result;
@@ -506,7 +509,7 @@ function Uploader(props) {
   return (
     <section className="pb-1">
       <div {...getRootProps({ className: "dropzone py-3 flex-column" })}>
-        <input {...getInputProps()} />
+        <input {...getInputProps()} input type="file"/>
         <DownloadCloud className="text-light" size={50} />
         <h4 className="mb-0 mt-2">Drop Excel File or Browse</h4>
       </div>
@@ -572,15 +575,16 @@ class Import extends React.Component {
    */
   handleSubmit = () => {
     const { userOauth } = this.props.state.auth.login;
-
+     {console.log(window.file)}
     this.setState({ uploading: true });
+    // console.log(this.state.acceptedFiles)
     let form = new FormData();
-    form.append("data", JSON.stringify(this.state.tableData));
+    form.append("data", window.file);
     console.log(this.state.tableData)
     axios
-      .post(`lvforms/0/import_cases.json/`, this.state.tableData, {
+      .post(`lvforms/0/import_cases.json/`,form, {
         headers: {
-          Authorization: `Bearer ${userOauth.access_token}`,
+                    Authorization: `Bearer ${userOauth.access_token}`,
           "Content-type": "application/json",
         },
       })
