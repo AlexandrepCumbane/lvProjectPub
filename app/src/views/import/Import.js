@@ -338,7 +338,7 @@ function Uploader(props) {
 
     let kObject = {};
 
-    console.log(kObject);
+    console.log(kObject)
 
     entries.forEach((key) => {
       // Specific known keys matching
@@ -346,7 +346,7 @@ function Uploader(props) {
         handleMapKey(key[0]) === "provincia" ||
         handleMapKey(key[0]) === "distrito" ||
         handleMapKey(key[0]) === "localidade" ||
-        handleMapKey(key[0]) === "gender"
+        handleMapKey(key[0]) === "gender" 
       ) {
         const field = form.filter(
           (item) => item.name === handleMapKey(key[0])
@@ -354,18 +354,22 @@ function Uploader(props) {
 
         // Handle parsing of select one for gender field
 
-        if (field && field.name === "gender" && field.type === "select one") {
-          switch (item[key[0]]) {
-            case "Male":
-              kObject[`${handleMapKey(key[0])}`] = "male";
-              break;
-            case "Female":
-              kObject[`${handleMapKey(key[0])}`] = "female";
-              break;
-            default:
-              console.log(`Handle gender with ${item[key[0]]}`);
-              kObject[`${handleMapKey(key[0])}`] = "other";
-          }
+        if (
+          field &&
+          field.name === "gender" &&
+          field.type === "select one" 
+        ) {
+            switch (item[key[0]]){
+              case 'Male':
+                kObject[`${handleMapKey(key[0])}`] = "male";
+                break;
+              case 'Female':
+                kObject[`${handleMapKey(key[0])}`] = "female";
+                break;
+              default:
+                console.log(`Handle gender with ${item[key[0]]}`);
+                kObject[`${handleMapKey(key[0])}`] = "other";
+            }
         }
 
         if (field && field.type === "string" && field["wq:ForeignKey"]) {
@@ -431,8 +435,7 @@ function Uploader(props) {
               return item.label === key[1];
             });
 
-            console.log(`${handleMapKey(key[0])}_id`)
-            if (val.length > 0)
+            if (val?.length > 0)
               kObject[`${handleMapKey(key[0])}_id`] = val[0].id;
             else kObject[`${handleMapKey(key[0])}_id`] = "";
 
@@ -476,11 +479,11 @@ function Uploader(props) {
   const { getRootProps, getInputProps } = useDropzone({
     accept: ".xlsx, .xls, .csv",
     onDrop: (acceptedFiles) => {
-      console.log(getRootProps, getInputProps);
+      // console.log(getRootProps,getInputProps)
       var reader = new FileReader();
       reader.onload = function () {
         var fileData = reader.result;
-        console.log(fileData);
+        console.log(fileData)
         var wb = XLSX.read(fileData, { type: "binary" });
         wb.SheetNames.forEach(function (sheetName) {
           var rowObj = XLSX.utils.sheet_to_row_object_array(
@@ -499,24 +502,15 @@ function Uploader(props) {
       }
     },
   });
-
-  const handleFileUpload = (e) => {
+ const handleFileUpload = (e) => {
     let file = e.target.files[0];
-
-    props.setState({ uploaded_file: file });
+    console.log(file);
+    props.setState({uploaded_file: file})
   };
-
   return (
-    // <section className="pb-1">
-    //   <div {...getRootProps({ className: "dropzone py-3 flex-column" })}>
-    //     <input {...getInputProps()} />
-    //     <DownloadCloud className="text-light" size={50} />
-    //     <h4 className="mb-0 mt-2">Drop Excel File or Browse</h4>
-    //   </div>
-    // </section>
     <section className="pb-1">
-      <div {...getRootProps({ className: "dropzone py-3 flex-column" })}>
-        <input type="file" name="file" onChange={(e) => handleFileUpload(e)} />
+      <div {...getRootProps({ className: "dropzone py-3 flex-column", onChange: e =>handleFileUpload(e) })}>
+        <input {...getInputProps()} />
         <DownloadCloud className="text-light" size={50} />
         <h4 className="mb-0 mt-2">Drop Excel File or Browse</h4>
       </div>
@@ -583,22 +577,15 @@ class Import extends React.Component {
    */
   handleSubmit = () => {
     const { userOauth } = this.props.state.auth.login;
-     {console.log(window.file)}
+
     this.setState({ uploading: true });
-    // console.log(this.state.acceptedFiles)
     let form = new FormData();
-    // form.append("data", JSON.stringify(this.state.tableData));
     form.append("data", this.state.uploaded_file);
-
-    console.log(this.state.tableData);
-    for (const value of form.values()) {
-      console.log("Hii tena: ", value);
-    }
-
+    // console.log(this.state.tableData)
     axios
-      .post(`lvforms/0/import_cases.json/`,form, {
+      .post(`lvforms/0/import_cases.json/`, form, {
         headers: {
-                    Authorization: `Bearer ${userOauth.access_token}`,
+          Authorization: `Bearer ${userOauth.access_token}`,
           "Content-type": "application/json",
         },
       })
@@ -606,7 +593,7 @@ class Import extends React.Component {
         this.setState({ uploading: false });
         this.notifySuccessBounce("");
         setTimeout(() => {
-          history.push("/lvforms");
+          history.push('/lvforms');
         }, 1000);
       })
       .catch((error) => {
@@ -657,16 +644,16 @@ class Import extends React.Component {
                   <Col sm="12">
                     <Uploader
                       getTableData={this.getTableData}
-                      uploaded_file={this.state.uploaded_file}
-                      setState={this.setState.bind(this)}
                       {...this.props}
+                      uploaded_file={this.state.uploaded_file}
+                     setState={this.setState.bind(this)}
                     />
                   </Col>
                 </Row>
               </CardBody>
             </Card>
           </Col>
-          {this.state.uploaded_file ? (
+          {this.state.tableData.length ? (
             <Col sm="12">
               <Card className="rounded-0">
                 <CardHeader className="justify-content-between flex-wrap rounded-0">
