@@ -213,22 +213,20 @@ class LvFormViewSet(ModelViewSet):
         instance = self.queryset.get(case_number=request.GET['case_number'])
         serializer = self.serializer_class(instance)
         return Response(serializer.data)
-
+    #!TODO: implement django import export data
     @action(detail=True, methods=['post'])
     def import_cases(self, request, *args, **kwargs):
-        person_resource = PersonResource()
+        
+        lvform_resource = PersonResource() 
         dataset = Dataset()
-        new_books = request.FILES
-        print(new_books)
-        # imported_data = dataset.load(new_books.read().decode(), format='json')
-        # result = person_resource.import_data(dataset, dry_run=True)
-        # print(result)
-        # print(imported_data)
-        # print(result.has_errors())
-        # person_resource.import_data(dataset, dry_run=False)
-        # if not result.has_errors():
-        #     person_resource.import_data(dataset, dry_run=False)
-        return Response("ok", status=status.HTTP_201_CREATED)
+        new_lvform = request.FILES.get('data')
+        
+        dataset.load(new_lvform.read().decode(), format='csv')
+        result = lvform_resource.import_data(dataset, dry_run=True)
+        
+        if not result.has_errors():
+            lvform_resource.import_data(dataset, dry_run=False)
+            return Response("ok", status=status.HTTP_201_CREATED)
 
 
 class TaskViewSet(ModelViewSet):
