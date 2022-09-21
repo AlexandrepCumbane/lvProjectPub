@@ -689,6 +689,17 @@ export const sent_to_focalpoint = {
         "wq:ForeignKey": "lvform",
       },
       {
+        name: "focalpoint",
+        label: "Focal Point",
+        bind: {
+          required: true,
+        },
+        hint: "User",
+        type: "string",
+        "wq:ForeignKey": "focalpoints",
+        has_parent: true,
+      },
+      {
         name: "datetime_created",
         label: "Sent at",
         hint: "Created at",
@@ -716,17 +727,6 @@ export const sent_to_focalpoint = {
         has_parent: true,
         children: "focalpoints",
         "wq:ForeignKey": "cluster_region",
-      },
-      {
-        name: "focalpoint",
-        label: "Focal Point",
-        bind: {
-          required: true,
-        },
-        hint: "User",
-        type: "string",
-        "wq:ForeignKey": "focalpoints",
-        has_parent: true,
       },
       {
         name: "created_by",
