@@ -3,8 +3,8 @@ kind: Service
 metadata:
   name: lv-kubernetes-service
   annotations:
-    # Note that the backend talks over HTTP.
-    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+    # the backend instances are HTTP/HTTPS/TCP so let Nginx do that
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp"
     # TODO: Fill in with the ARN of your certificate.
     service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:eu-west-1:319863724664:certificate/3e987844-32f5-4c56-a2df-6f1225e0512d
     # Only run SSL on the port named "https" below.
@@ -12,6 +12,8 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: "/ht"
     service.beta.kubernetes.io/aws-load-balancer-healthcheck-interval: "30"
     service.beta.kubernetes.io/aws-load-balancer-healthcheck-timeout: "10"
+    # Increase the ELB idle timeout to avoid issues with WebSockets or Server-Sent Events.
+    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '3600'
 spec:
   selector:
     release: linhaverde-production-chart
