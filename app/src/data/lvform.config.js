@@ -1272,7 +1272,7 @@ export const manager = {
     },
     {
       name: "month",
-      label: "Month",
+      label: "month",
       hint: "Other number",
       type: "string",
     },
