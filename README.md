@@ -51,3 +51,7 @@ This project template is also useful as an example of how to build a web app wit
 [React]: https://reactjs.org/
 [Django REST Framework]: http://www.django-rest-framework.org
 [installable PWA]: https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Installable_PWAs
+
+
+-- Added health check 
+From https://django-health-check.readthedocs.io/en/latest/readme.html 

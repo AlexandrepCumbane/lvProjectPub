@@ -27,7 +27,9 @@ DATABASES["default"]["ATOMIC_REQUESTS"] = True
 # STORAGES
 # ------------------------------------------------------------------------------
 # https://django-storages.readthedocs.io/en/latest/#installation
-INSTALLED_APPS += ["storages"]  # noqa F405
+INSTALLED_APPS += ["storages",     
+                   "health_check.contrib.s3boto3_storage",     # requires boto3 and S3BotoStorage backend
+                    ]  # noqa F405
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
 AWS_ACCESS_KEY_ID = env("DJANGO_AWS_ACCESS_KEY_ID")
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
@@ -153,7 +155,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [(os.getenv('REDIS_HOST'), os.getenv('REDIS_PORT'))],
+            "hosts": [os.getenv('REDIS_URL')],
         },
     },
 }
@@ -197,3 +199,18 @@ OIDC_AUTH = {
     # (Optional) Token prefix in Bearer authorization header (default 'Bearer')
     'BEARER_AUTH_HEADER_PREFIX': 'Bearer',
 }
+
+CACHES_ENABLED = env.bool("CACHES_ENABLED", False)
+
+if CACHES_ENABLED:
+    REDIS_URL = os.getenv('REDIS_URL')
+
+    CACHES = {
+        "default": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": os.getenv('REDIS_URL'),
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            }
+        }
+    }

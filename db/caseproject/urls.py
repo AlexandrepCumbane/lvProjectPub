@@ -49,6 +49,7 @@ urlpatterns = [
     path('', include(rest.router.urls)), 
     path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True))),
     path('chat/', include('chat.urls')),
+    path('ht/', include('health_check.urls')),
 ]
 
 if settings.ADMIN_ENABLED:

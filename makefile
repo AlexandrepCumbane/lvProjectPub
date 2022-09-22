@@ -1,8 +1,10 @@
-tag=latest
+tag=1.0.3
+tag_staging=1.0.6.7
 organization=roboboinc
 image=linhaverde
 helm_dir=callcenter-helm-chart
-helm_app=lv
+helm_app=linhaverde
+helm_app_staging=lv
 
 build:
     docker build --force-rm $(options) -t $(image):$(tag) .
@@ -25,6 +27,11 @@ push:
 	docker tag $(image):$(tag) $(organization)/$(image):$(tag)
 	docker push $(organization)/$(image):$(tag)
 
+push-staging:
+	docker build --force-rm $(options) -t $(image):$(tag_staging) .
+	docker tag $(image):$(tag_staging) $(organization)/$(image):$(tag_staging)
+	docker push $(organization)/$(image):$(tag_staging)
+
 helmx:
 	cd $(helm_dir) && \
 	echo  "Running Helm command from " $(helm_dir) && \
@@ -33,15 +40,18 @@ helmx:
 helmx-staging:
 	cd $(helm_dir) && \
 	echo  "Running Helm command from " $(helm_dir) && \
-	helm upgrade --install --force --set=image.tag=$(tag) --values=./staging-values.yaml $(helm_app)-staging-chart . 
+	helm upgrade --install --force --set=image.tag=$(tag_staging) --values=./staging-values.yaml $(helm_app_staging)-staging-chart . 
 
 helmx-staging-dryrun:
 	cd $(helm_dir) && \
 	echo  "Running Helm command from " $(helm_dir) && \
-	helm upgrade --install --dry-run --debug --set=image.tag=$(tag) --values=./staging-values.yaml $(helm_app)-staging-chart . 
+	helm upgrade --install --dry-run --debug --set=image.tag=$(tag) --values=./staging-values.yaml $(helm_app_staging)-staging-chart . 
 
 compose-start:
 	docker-compose up --remove-orphans $(options)
+
+compose-start-recreate:
+	docker-compose up --remove-orphans --force-recreate --build $(options)
 
 compose-stop:
 	docker-compose down --remove-orphans $(options)
@@ -69,3 +79,15 @@ devspace-dev:
 
 aws-kubeconfig:
 	aws eks update-kubeconfig --name linhaverde --region eu-west-1 --profile wfp
+
+publish-frontend:
+	docker-compose exec frontend yarn  
+	docker-compose exec frontend yarn build
+	aws s3 sync app/build/ s3://vulavula1458.co.mz --profile wfp
+	aws cloudfront create-invalidation --distribution-id E2L9NWMRKCT11T --paths "/" --profile wfp
+
+publish-frontend-staging:
+	docker-compose exec frontend yarn  
+	docker-compose exec frontend yarn build
+	aws s3 sync app/build/ s3://staging.linha1458.moz.wfp.org --profile wfp
+	aws cloudfront create-invalidation --distribution-id E1C66NRLMEV1RM --paths "/" --profile wfp
