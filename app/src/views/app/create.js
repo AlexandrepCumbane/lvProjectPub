@@ -738,9 +738,15 @@ class Create extends React.Component {
           this.setState({ isLoading: true });
 
           this.notifySuccessBounce(data.id);
-          document.location.reload(true);
-          }
-        )
+          
+          setTimeout(() => {
+            // enable the button action
+            history.push({
+              pathname: `/${this.props.url}`, 
+              state: { updateList: true }   // Maybe the same can be achieved with: this.setState({ updateList: true });
+            });
+          }, 1000);
+        })
         .catch(({ response }) => {
 
           // enable the button action
@@ -758,32 +764,6 @@ class Create extends React.Component {
         this.setState({disabled: false});
         this.setState({isLoading: false});
     }
-    setTimeout(()=>{
-      if (this.props.path === "locations/new") {
-        history.push({
-          pathname: "/location"
-        });
-      }
-    }, 1000)
-
-    setTimeout(()=>{
-      if (this.props.path === "subcategoryissues/new") {
-        history.push({
-          pathname: "/subcategoryissue"
-        });
-      }
-    }, 1000)
-
-    setTimeout(() => {
-      // enable the button action
-      history.push({
-        pathname: `/${this.props.url}`, 
-        state: { updateList: true } 
-        
-          // Maybe the same can be achieved with: this.setState({ updateList: true });
-      });
-    }, 1000);
-  
   };
 
   animatedComponents = makeAnimated();
