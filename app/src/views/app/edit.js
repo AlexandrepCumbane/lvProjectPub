@@ -225,9 +225,13 @@ class Edit extends Component {
    * @param {*} field_name
    * @returns
    */
-  checkboxValue = (field_name) => {
+   checkboxValue = (field_name) => {
     const { form } = this.state;
-    return form.get(field_name) === "true";
+    if (form.get(field_name) === "true") {
+      console.log(form.get(field_name))
+      return true;
+    }
+    return false;
   };
 
   /**
