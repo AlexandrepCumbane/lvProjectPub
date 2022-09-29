@@ -14,26 +14,6 @@ x-database-variables: &database-variables
   DB_USER: postgres
   DB_PASS: postgres
 
-x-app-variables-env: &app-variables-env
-  DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
-  DATABASE_URL: ${DATABASE_URL}
-  ALLOWED_HOSTS: ("*",)
-  DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
-
-x-app-variables-local: &app-variables-local
-  <<: *database-variables
-  DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
-  ALLOWED_HOSTS: ("*",)
-  DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
-  CHOKIDAR_USEPOLLING: "true"
-  REACT_APP_API_URL: "http://localhost:8000/"
-  REACT_APP_CIAM_CLIENT_ID: t3NLjBPCUPfUfOFKaPz7PROwC1sa
-  REACT_APP_CIAM_STS_AUTH: https://ciam.auth.wfp.org/oauth2/oidcdiscovery/
-  REACT_APP_CIAM_ROOT_API: https://ciam.auth.wfp.org/oauth2/oidcdiscovery/api/
-  REACT_APP_PUBLIC_URL: http://localhost:3000
-  REACT_APP_WS_URL: ws://127.0.0.1:8000/
-
-
 x-app-variables: &app-variables
   <<: *database-variables
   POSTGRES_HOST: postgres
@@ -50,7 +30,8 @@ services:
     # image: roboboinc/linhaverde
     command: python db/manage.py migrate
     volumes: *service-volumes
-    environment: *app-variables-local
+    env_file:
+      - .env
     depends_on:
       - db
   frontend:
@@ -64,11 +45,14 @@ services:
     ports:
       - "3000:3000"
     stdin_open: true
-    environment: *app-variables-local
+    env_file:
+      - .env
     depends_on:
       - db_migrate
       - redis
       - web
+    networks:
+      - web_network
   web:
     build: .
     # image: roboboinc/linhaverde
@@ -83,12 +67,19 @@ services:
     volumes: *service-volumes
     ports:
       - "8000:8000"
-    environment: *app-variables-local
+    # environment: *app-variables-local
+    env_file:
+      - .env
     depends_on:
       - db_migrate
       - redis
+      - db
+    networks:
+      - db_network
+      - web_network
   redis:
     image: redis:alpine
+
   # celery:
   #   restart: always
   #   build:
@@ -103,3 +94,9 @@ services:
 
 # volumes:
 #   - db-data:/var/lib/postgresql/data
+
+networks:
+  db_network:
+    driver: bridge
+  web_network:
+    driver: bridge
