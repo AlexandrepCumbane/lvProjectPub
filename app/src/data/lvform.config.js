@@ -586,7 +586,8 @@ export const operator = {
       label: "Comments",
       hint: "Comments",
       // "wq:ForeignKey": "casecomment",
-      list: true,
+      "wq:ForeignKey": "lvform",
+      // list: true,
       type: "string",
       depends_on: "consent_pi",
     },
@@ -758,7 +759,7 @@ export const manager = {
       ],
       type: "select one",
     },
-  
+
     {
       name: "category",
       label: "Case category",
@@ -1970,7 +1971,6 @@ export const sent_to_focalpoint = {
       type: "string",
       "wq:ForeignKey": "focalpoints",
       has_parent: true,
-      
     },
     {
       name: "created_by",

@@ -390,7 +390,7 @@ class List extends Component {
    */
   formatFields = () => {
     let colm = this.getSpecificields();
-    console.log(colm);
+    console.log("Colm: ", colm);
     const form = colm.length > 0 ? colm : config.pages[this.props.path].form;
 
     let columnDefs = form.map((item, index) => {
@@ -399,7 +399,8 @@ class List extends Component {
         item.name === "contact" ||
         item.name === "file" ||
         item.name === "other_contact" //||
-        // item.name === "casecomment_set"  // TO-DO: Validate if we need to keep it in the list or simply the exported file
+        // item.name === "casecomment_set"
+        // TO-DO: Validate if we need to keep it in the list or simply the exported file
       ) {
         return {
           headerName: this.translate(item.label),
@@ -407,6 +408,42 @@ class List extends Component {
           resizable: true,
           hide: true,
           width: getFieldWith(item.name),
+        };
+      }
+      if (item.name === "casecomment_set") {
+        return {
+          headerName: this.translate(item.label),
+          field: this.translate(`${item.name}_label`),
+          width: getFieldWith(item.name),
+          editable: false,
+          resizable: true,
+          filter: "customFilter",
+          valueGetter: ({ data }) => {
+            return this.translate(
+              data[`${item.name}`]
+                .map(
+                  (comment, index) =>
+                    `${comment.id} - ${comment.feedback} - ${comment.created_by_label}`
+                )
+                .join("; \n") ?? "Null"
+            );
+          },
+        };
+      }
+
+      if (
+        // item.type === "datetime"
+        // ||
+        item.name === "datetime_created"
+      ) {
+        console.log("Item: ", item.label);
+        return {
+          headerName: this.translate(item.label),
+          field: `callcase.${item.name}_label`,
+          width: getFieldWith(item.name),
+          editable: false,
+          filter: "customFilter",
+          resizable: true,
         };
       }
 
@@ -490,7 +527,7 @@ class List extends Component {
         if (item.type === "datetime") {
           return {
             headerName: this.translate(item.label),
-            field: `${item.name}_label`,
+            field: `${item.name}`,
             width: getFieldWith(item.name),
             editable: false,
             filter: "customFilter",
@@ -568,7 +605,6 @@ class List extends Component {
                 )
                 .join("; \n");
             }
-            console.log(`${item.name}`);
 
             return this.translate(data[`${item.name}`]);
           },
