@@ -738,18 +738,6 @@ export const sent_to_focalpoint = {
         "wq:ForeignKey": "cluster_region",
       },
       {
-        name: "focalpoint",
-        label: "Focal Point",
-        bind: {
-          required: true,
-        },
-        hint: "User",
-        type: "string",
-        "wq:ForeignKey": "focalpoints",
-        has_parent: true,
-   
-      },
-      {
         name: "created_by",
         label: "Forwarded by",
         type: "string",

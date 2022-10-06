@@ -103,10 +103,10 @@ export const renderPriority = (props, data) => {
  * @param {*} data
  * @returns
  */
- export const commentCase = (props, data) => {
+export const commentCase = (props, data) => {
   let color = "white";
   if (props.path === "lvform") {
-    if (Object.keys(data.casecomment_set).length!==0) {
+    if (Object.keys(data.casecomment_set).length !== 0) {
       color = "success";
     } else {
       color = "danger";
@@ -138,7 +138,7 @@ export const renderStatus = (props, data, label) => {
     }
   } else {
     if (data.callcase) {
-      console.log(data.callcase)
+      console.log(data.callcase);
       if (data["callcase"].is_closed) {
         color = "success";
       } else {
@@ -211,7 +211,7 @@ export const renderStatus = (props, data, label) => {
 export const getFieldWith = (field_name) => {
   let width = 100;
   switch (field_name) {
-    case "case_number": 
+    case "case_number":
       width = 230;
       break;
 
@@ -238,7 +238,6 @@ export const getFieldWith = (field_name) => {
     case "age":
       width = 120;
       break;
-
 
     case "title":
       width = 300;
@@ -273,8 +272,8 @@ export const getFieldWith = (field_name) => {
       break;
 
     case "focalpoint":
-    width = 250;
-    break;
+      width = 250;
+      break;
 
     case "last_name":
       width = 200;
@@ -309,9 +308,9 @@ export const getFieldWith = (field_name) => {
       width = 150;
       break;
     case "subcategory_issue":
-        width = 150;
-        break;
-    
+      width = 150;
+      break;
+
     default:
       width = 180;
     // break;

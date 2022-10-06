@@ -390,7 +390,7 @@ class List extends Component {
    */
   formatFields = () => {
     let colm = this.getSpecificields();
-    console.log(colm);
+    console.log("Colm: ", colm);
     const form = colm.length > 0 ? colm : config.pages[this.props.path].form;
 
     let columnDefs = form.map((item, index) => {
@@ -399,16 +399,54 @@ class List extends Component {
         item.name === "contact" ||
         item.name === "file" ||
         item.name === "other_contact" //||
-        // item.name === "casecomment_set"  // TO-DO: Validate if we need to keep it in the list or simply the exported file
+        // item.name === "casecomment_set"
+        // TO-DO: Validate if we need to keep it in the list or simply the exported file
       ) {
         return {
           headerName: this.translate(item.label),
           field: `${item.name}`,
+          filter: true,
           resizable: true,
           hide: true,
           width: getFieldWith(item.name),
         };
       }
+      if (item.name === "casecomment_set") {
+        return {
+          headerName: this.translate(item.label),
+          field: this.translate(`${item.name}_label`),
+          width: getFieldWith(item.name),
+          editable: false,
+          resizable: true,
+          filter: true,
+          valueGetter: ({ data }) => {
+            return this.translate(
+              data[`${item.name}`]
+                .map(
+                  (comment, index) =>
+                    `${comment.id} - ${comment.feedback} - ${comment.created_by_label}`
+                )
+                .join("; \n") ?? "Null"
+            );
+          },
+        };
+      }
+
+      // if (
+      //   // item.type === "datetime"
+      //   // ||
+      //   item.name === "datetime_created"
+      // ) {
+      //   console.log("Item: ", item.label);
+      //   return {
+      //     headerName: this.translate(item.label),
+      //     field: `callcase.${item.name}_label`,
+      //     width: getFieldWith(item.name),
+      //     editable: false,
+      //     filter: "customFilter",
+      //     resizable: true,
+      //   };
+      // }
 
       if (
         item.type === "select one" ||
@@ -421,7 +459,7 @@ class List extends Component {
             width: getFieldWith(item.name),
             editable: false,
             resizable: true,
-            filter: "customFilter",
+            filter: true,
             checkboxSelection: true,
             headerCheckboxSelection: true,
             cellRendererFramework: ({ data }) => {
@@ -440,7 +478,7 @@ class List extends Component {
               width: getFieldWith(item.name),
               editable: false,
               resizable: true,
-              filter: "customFilter",
+              filter: true,
               valueGetter: ({ data }) => {
                 if (item.name === "groups")
                   return this.translate(data["groups_label"][0] ?? "Null");
@@ -461,7 +499,7 @@ class List extends Component {
               field: `${item.name}_label`,
               width: getFieldWith(item.name),
               editable: false,
-              filter: "customFilter",
+              filter: true,
               resizable: true,
               valueGetter: ({ data }) => {
                 if (item.name === "groups")
@@ -479,7 +517,7 @@ class List extends Component {
             field: `${item.name}_label`,
             width: getFieldWith(item.name),
             editable: false,
-            filter: "customFilter",
+            filter: true,
             resizable: true,
             valueGetter: ({ data }) =>
               data[`${item.name}`]?.length ??
@@ -493,7 +531,7 @@ class List extends Component {
             field: `${item.name}_label`,
             width: getFieldWith(item.name),
             editable: false,
-            filter: "customFilter",
+            filter: true,
             resizable: true,
           };
         }
@@ -503,7 +541,7 @@ class List extends Component {
             field: `${item.name}_label`,
             width: getFieldWith(item.name),
             editable: false,
-            filter: "customFilter",
+            filter: true,
             resizable: true,
             cellRendererFramework: ({ data }) => {
               return (
@@ -524,7 +562,7 @@ class List extends Component {
             field: `${item.name}`,
             width: getFieldWith(item.name),
             editable: false,
-            filter: "customFilter",
+            filter: true,
             resizable: true,
             checkboxSelection: true,
             headerCheckboxSelection: true,
@@ -543,7 +581,7 @@ class List extends Component {
           field: this.translate(`${item.name}`),
           width: getFieldWith(item.name),
           resizable: true,
-          filter: "customFilter",
+          filter: true,
           editable: false,
           valueGetter: ({ data }) => {
             if (item.name === "text") {
@@ -568,7 +606,6 @@ class List extends Component {
                 )
                 .join("; \n");
             }
-            console.log(`${item.name}`);
 
             return this.translate(data[`${item.name}`]);
           },
@@ -593,6 +630,7 @@ class List extends Component {
               headerName: this.translate(item.label),
               field: `callcase.${item.name}`,
               resizable: true,
+              filter: true,
               hide: true,
               width: getFieldWith(item.name),
             };
@@ -609,7 +647,7 @@ class List extends Component {
                 width: getFieldWith(item.name),
                 editable: false,
                 resizable: true,
-                filter: "customFilter",
+                filter: true,
                 checkboxSelection: true,
                 headerCheckboxSelection: true,
                 cellRendererFramework: ({ data }) => {
@@ -628,7 +666,7 @@ class List extends Component {
                   width: getFieldWith(item.name),
                   editable: false,
                   resizable: true,
-                  filter: "customFilter",
+                  filter: true,
                   valueGetter: ({ data }) => {
                     return this.translate(
                       data["callcase"][`${item.name}_label`] ?? "Null"
@@ -648,7 +686,7 @@ class List extends Component {
                   field: `${item.name}_label`,
                   width: getFieldWith(item.name),
                   editable: false,
-                  filter: "customFilter",
+                  filter: true,
                   resizable: true,
                   valueGetter: ({ data }) => {
                     // If it is a case Comment field, we handle it here
@@ -672,10 +710,10 @@ class List extends Component {
             if (item.type === "datetime") {
               return {
                 headerName: this.translate(item.label),
-                field: `callcase.${item.name}_label`,
+                field: `${item.name}_label`,
                 width: getFieldWith(item.name),
                 editable: false,
-                filter: "customFilter",
+                filter: true,
                 resizable: true,
               };
             }
@@ -685,7 +723,7 @@ class List extends Component {
                 field: `callcase.${item.name}_label`,
                 width: getFieldWith(item.name),
                 editable: false,
-                filter: "customFilter",
+                filter: true,
                 resizable: true,
                 cellRendererFramework: ({ data }) => {
                   return (
@@ -706,7 +744,7 @@ class List extends Component {
                 field: `callcase.${item.name}`,
                 width: getFieldWith(item.name),
                 editable: false,
-                filter: "customFilter",
+                filter: true,
                 resizable: true,
                 checkboxSelection: true,
                 headerCheckboxSelection: true,
@@ -725,7 +763,7 @@ class List extends Component {
               field: this.translate(`callcase.${item.name}`),
               width: getFieldWith(item.name),
               resizable: true,
-              filter: "customFilter",
+              filter: true,
               editable: false,
               valueGetter: ({ data }) => {
                 if (

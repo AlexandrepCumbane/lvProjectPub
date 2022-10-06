@@ -89,7 +89,7 @@ class AggridTable extends React.Component {
 
                     if (this.props.tableType === "lvform") {
                       this.setState({ editCase: true });
-                      // this.setState({ showSidebar: true, editCase: true });
+                      this.setState({ showSidebar: true, editCase: true });
                       this.props.handleShowCaseSidebar(params.data);
                     }
                     if (this.props.tableType === "article") {
@@ -103,6 +103,7 @@ class AggridTable extends React.Component {
                         showSidebar: true,
                         selectedData: params.data.callcase,
                       });
+                      this.props.handleShowCaseSidebar(params.data);
                     }
                     if (this.props.tableType === "calls") {
                       this.setState({ showCallSidebar: true });

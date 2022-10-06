@@ -77,7 +77,7 @@ export function getFilterComponent() {
 
     el.addEventListener(
       "click",
-      function () {
+      () => {
         that.filterValues = []; // remove all selected values on filtervalues state
 
         for (var index in checkboxes) {
@@ -93,6 +93,8 @@ export function getFilterComponent() {
               1
             );
         }
+
+        console.log("Okay", that.filterValues);
 
         if (el.checked) {
           that.filterValues = values;
