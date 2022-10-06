@@ -405,6 +405,7 @@ class List extends Component {
         return {
           headerName: this.translate(item.label),
           field: `${item.name}`,
+          filter: "customFilter",
           resizable: true,
           hide: true,
           width: getFieldWith(item.name),
@@ -431,21 +432,21 @@ class List extends Component {
         };
       }
 
-      if (
-        // item.type === "datetime"
-        // ||
-        item.name === "datetime_created"
-      ) {
-        console.log("Item: ", item.label);
-        return {
-          headerName: this.translate(item.label),
-          field: `callcase.${item.name}_label`,
-          width: getFieldWith(item.name),
-          editable: false,
-          filter: "customFilter",
-          resizable: true,
-        };
-      }
+      // if (
+      //   // item.type === "datetime"
+      //   // ||
+      //   item.name === "datetime_created"
+      // ) {
+      //   console.log("Item: ", item.label);
+      //   return {
+      //     headerName: this.translate(item.label),
+      //     field: `callcase.${item.name}_label`,
+      //     width: getFieldWith(item.name),
+      //     editable: false,
+      //     filter: "customFilter",
+      //     resizable: true,
+      //   };
+      // }
 
       if (
         item.type === "select one" ||
@@ -527,7 +528,7 @@ class List extends Component {
         if (item.type === "datetime") {
           return {
             headerName: this.translate(item.label),
-            field: `${item.name}`,
+            field: `${item.name}_label`,
             width: getFieldWith(item.name),
             editable: false,
             filter: "customFilter",
@@ -629,6 +630,7 @@ class List extends Component {
               headerName: this.translate(item.label),
               field: `callcase.${item.name}`,
               resizable: true,
+              filter: "customFilter",
               hide: true,
               width: getFieldWith(item.name),
             };
@@ -708,7 +710,7 @@ class List extends Component {
             if (item.type === "datetime") {
               return {
                 headerName: this.translate(item.label),
-                field: `callcase.${item.name}_label`,
+                field: `${item.name}_label`,
                 width: getFieldWith(item.name),
                 editable: false,
                 filter: "customFilter",
