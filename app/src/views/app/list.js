@@ -405,7 +405,7 @@ class List extends Component {
         return {
           headerName: this.translate(item.label),
           field: `${item.name}`,
-          filter: "customFilter",
+          filter: true,
           resizable: true,
           hide: true,
           width: getFieldWith(item.name),
@@ -418,7 +418,7 @@ class List extends Component {
           width: getFieldWith(item.name),
           editable: false,
           resizable: true,
-          filter: "customFilter",
+          filter: true,
           valueGetter: ({ data }) => {
             return this.translate(
               data[`${item.name}`]
@@ -459,7 +459,7 @@ class List extends Component {
             width: getFieldWith(item.name),
             editable: false,
             resizable: true,
-            filter: "customFilter",
+            filter: true,
             checkboxSelection: true,
             headerCheckboxSelection: true,
             cellRendererFramework: ({ data }) => {
@@ -478,7 +478,7 @@ class List extends Component {
               width: getFieldWith(item.name),
               editable: false,
               resizable: true,
-              filter: "customFilter",
+              filter: true,
               valueGetter: ({ data }) => {
                 if (item.name === "groups")
                   return this.translate(data["groups_label"][0] ?? "Null");
@@ -499,7 +499,7 @@ class List extends Component {
               field: `${item.name}_label`,
               width: getFieldWith(item.name),
               editable: false,
-              filter: "customFilter",
+              filter: true,
               resizable: true,
               valueGetter: ({ data }) => {
                 if (item.name === "groups")
@@ -517,7 +517,7 @@ class List extends Component {
             field: `${item.name}_label`,
             width: getFieldWith(item.name),
             editable: false,
-            filter: "customFilter",
+            filter: true,
             resizable: true,
             valueGetter: ({ data }) =>
               data[`${item.name}`]?.length ??
@@ -531,7 +531,7 @@ class List extends Component {
             field: `${item.name}_label`,
             width: getFieldWith(item.name),
             editable: false,
-            filter: "customFilter",
+            filter: true,
             resizable: true,
           };
         }
@@ -541,7 +541,7 @@ class List extends Component {
             field: `${item.name}_label`,
             width: getFieldWith(item.name),
             editable: false,
-            filter: "customFilter",
+            filter: true,
             resizable: true,
             cellRendererFramework: ({ data }) => {
               return (
@@ -562,7 +562,7 @@ class List extends Component {
             field: `${item.name}`,
             width: getFieldWith(item.name),
             editable: false,
-            filter: "customFilter",
+            filter: true,
             resizable: true,
             checkboxSelection: true,
             headerCheckboxSelection: true,
@@ -581,7 +581,7 @@ class List extends Component {
           field: this.translate(`${item.name}`),
           width: getFieldWith(item.name),
           resizable: true,
-          filter: "customFilter",
+          filter: true,
           editable: false,
           valueGetter: ({ data }) => {
             if (item.name === "text") {
@@ -630,7 +630,7 @@ class List extends Component {
               headerName: this.translate(item.label),
               field: `callcase.${item.name}`,
               resizable: true,
-              filter: "customFilter",
+              filter: true,
               hide: true,
               width: getFieldWith(item.name),
             };
@@ -647,7 +647,7 @@ class List extends Component {
                 width: getFieldWith(item.name),
                 editable: false,
                 resizable: true,
-                filter: "customFilter",
+                filter: true,
                 checkboxSelection: true,
                 headerCheckboxSelection: true,
                 cellRendererFramework: ({ data }) => {
@@ -666,7 +666,7 @@ class List extends Component {
                   width: getFieldWith(item.name),
                   editable: false,
                   resizable: true,
-                  filter: "customFilter",
+                  filter: true,
                   valueGetter: ({ data }) => {
                     return this.translate(
                       data["callcase"][`${item.name}_label`] ?? "Null"
@@ -686,7 +686,7 @@ class List extends Component {
                   field: `${item.name}_label`,
                   width: getFieldWith(item.name),
                   editable: false,
-                  filter: "customFilter",
+                  filter: true,
                   resizable: true,
                   valueGetter: ({ data }) => {
                     // If it is a case Comment field, we handle it here
@@ -713,7 +713,7 @@ class List extends Component {
                 field: `${item.name}_label`,
                 width: getFieldWith(item.name),
                 editable: false,
-                filter: "customFilter",
+                filter: true,
                 resizable: true,
               };
             }
@@ -723,7 +723,7 @@ class List extends Component {
                 field: `callcase.${item.name}_label`,
                 width: getFieldWith(item.name),
                 editable: false,
-                filter: "customFilter",
+                filter: true,
                 resizable: true,
                 cellRendererFramework: ({ data }) => {
                   return (
@@ -744,7 +744,7 @@ class List extends Component {
                 field: `callcase.${item.name}`,
                 width: getFieldWith(item.name),
                 editable: false,
-                filter: "customFilter",
+                filter: true,
                 resizable: true,
                 checkboxSelection: true,
                 headerCheckboxSelection: true,
@@ -763,7 +763,7 @@ class List extends Component {
               field: this.translate(`callcase.${item.name}`),
               width: getFieldWith(item.name),
               resizable: true,
-              filter: "customFilter",
+              filter: true,
               editable: false,
               valueGetter: ({ data }) => {
                 if (
