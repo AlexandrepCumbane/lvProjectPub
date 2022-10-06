@@ -603,24 +603,30 @@ export const manager = {
   form: [
     {
       name: "case_number",
-      label: "Case Number",
+      label: "case_number",
       hint: "Case number",
       type: "int",
     },
     {
+      name: "id",
+      label: "id",
+      hint: "id",
+      type: "int",
+    },
+    {
       name: "datetime_created",
-      label: "Created at",
+      label: "datetime_created",
       hint: "Created at",
       type: "datetime",
     },
     {
       name: "response",
-      label: "Response",
+      label: "response",
       type: "string",
     },
     {
       name: "provincia",
-      label: "Province",
+      label: "provincia",
       bind: {
         required: true,
       },
@@ -630,7 +636,7 @@ export const manager = {
     },
     {
       name: "distrito",
-      label: "District",
+      label: "distrito",
       bind: {
         required: true,
       },
@@ -642,7 +648,7 @@ export const manager = {
     },
     {
       name: "localidade",
-      label: "Locality",
+      label: "localidade",
       hint: "Locality",
       type: "string",
       "wq:ForeignKey": "location",
@@ -650,21 +656,21 @@ export const manager = {
     },
     {
       name: "community",
-      label: "Community",
+      label: "community",
       hint: "Community",
       "wq:length": 255,
       type: "string",
     },
     {
       name: "distribution_point",
-      label: "Distribution Point",
+      label: "distribution_point",
       hint: "Distribution Point",
       "wq:length": 255,
       type: "string",
     },
     {
       name: "location_type",
-      label: "Accommodation or resettlement centre",
+      label: "location_type",
       hint: "Accommodation or resettlement centre",
       choices: [
         {
@@ -684,7 +690,7 @@ export const manager = {
     },
     {
       name: "ressetlement_name",
-      label: "Resettlement name",
+      label: "ressetlement_name",
       hint: "Resettlement name",
       "wq:length": 255,
       type: "string",
@@ -762,7 +768,7 @@ export const manager = {
 
     {
       name: "category",
-      label: "Case category",
+      label: "category",
       bind: {
         required: true,
       },
@@ -772,12 +778,12 @@ export const manager = {
     },
     {
       name: "othercategory",
-      label: "Other category",
+      label: "othercategory",
       type: "string",
     },
     {
       name: "subcategory",
-      label: "Sub-category",
+      label: "subcategory",
       bind: {
         required: true,
       },
@@ -788,14 +794,14 @@ export const manager = {
     },
     {
       name: "subcategory_issue",
-      label: "Sub-category issue",
+      label: "subcategory_issue",
       type: "string",
       "wq:ForeignKey": "subcategoryissue",
       has_parent: true,
     },
     {
       name: "individual_commiting_malpractice",
-      label: "LBL_Individual committing malpractice",
+      label: "individual_commiting_malpractice",
       hint: "LBL_Individual committing malpractice",
       choices: [
         {
@@ -866,7 +872,7 @@ export const manager = {
     },
     {
       name: "call_notes",
-      label: "Call Notes",
+      label: "call_notes",
       bind: {
         required: true,
       },
@@ -874,7 +880,7 @@ export const manager = {
     },
     {
       name: "case_priority",
-      label: "Case Priority",
+      label: "case_priority",
       bind: {
         required: true,
       },
@@ -896,7 +902,7 @@ export const manager = {
     },
     {
       name: "contact_group",
-      label: "Who is contacting",
+      label: "contact_group",
       choices: [
         {
           name: "1",
@@ -927,7 +933,7 @@ export const manager = {
     },
     {
       name: "consent_pi",
-      label: "Consent Pi",
+      label: "consent_pi",
       choices: [
         {
           name: true,
@@ -943,7 +949,7 @@ export const manager = {
     },
     {
       name: "consent_share_pi",
-      label: "Consent Share Pi",
+      label: "consent_share_pi",
       choices: [
         {
           name: true,
@@ -960,7 +966,7 @@ export const manager = {
     },
     {
       name: "fullname",
-      label: "Full Name",
+      label: "fullname",
       hint: "Full Name",
       "wq:length": 255,
       type: "string",
@@ -975,7 +981,7 @@ export const manager = {
     },
     {
       name: "gender",
-      label: "Gender",
+      label: "gender",
       bind: {
         required: true,
       },
@@ -998,7 +1004,7 @@ export const manager = {
     },
     {
       name: "age_group",
-      label: "Age",
+      label: "age_group",
       hint: "Age",
       bind: {
         required: true,
@@ -1025,7 +1031,7 @@ export const manager = {
     },
     {
       name: "transfermod",
-      label: "Transfer modality",
+      label: "transfermod",
       hint: "Transfer modality",
       choices: [
         {
@@ -1066,13 +1072,13 @@ export const manager = {
 
     {
       name: "call_solution",
-      label: "Call Solution",
+      label: "call_Solution",
       type: "text",
     },
 
     {
       name: "is_closed",
-      label: "Is Closed",
+      label: "is_closed",
       choices: [
         {
           name: true,
@@ -1088,7 +1094,7 @@ export const manager = {
     },
     {
       name: "case_close_category",
-      label: "Case Close Category",
+      label: "case_close_category",
       choices: [
         {
           name: "1",
@@ -1104,7 +1110,7 @@ export const manager = {
     },
     {
       name: "means_of_communication",
-      label: "How did they contact us?",
+      label: "means_of_communication",
       hint: "How did they contact us?",
       choices: [
         {
@@ -1144,7 +1150,7 @@ export const manager = {
     },
     {
       name: "how_knows_lv",
-      label: "How did you hear about linha verde?",
+      label: "how_knows_lv",
       hint: "How did you hear about linha verde?",
       choices: [
         {
@@ -1176,7 +1182,7 @@ export const manager = {
     },
     {
       name: "how_callback",
-      label: "How would you like to be contacted?",
+      label: "how_callback",
       hint: "How would you like to be contacted?",
       choices: [
         {
@@ -1192,13 +1198,13 @@ export const manager = {
     },
     {
       name: "other_contact",
-      label: "Other number",
+      label: "other_contact",
       hint: "Other number",
       type: "int",
     },
     {
       name: "call_feedback",
-      label: "How do you feel you issue was managed during this call?",
+      label: "call_feedback",
       hint: "How do you feel you issue was managed during this call? ",
       choices: [
         {
@@ -1226,7 +1232,7 @@ export const manager = {
     },
     {
       name: "callback_required",
-      label: "Callback Required",
+      label: "callback_required",
       choices: [
         {
           name: true,
@@ -1242,7 +1248,7 @@ export const manager = {
     },
     {
       name: "unavailable_contact",
-      label: "Unavailable Contact",
+      label: "unavailable_contact",
       choices: [
         {
           name: true,
@@ -1258,7 +1264,7 @@ export const manager = {
     },
     {
       name: "created_by",
-      label: "Created by",
+      label: "created_by",
       bind: {
         required: true,
       },
@@ -1267,7 +1273,7 @@ export const manager = {
     },
     {
       name: "month",
-      label: "Month",
+      label: "month",
       hint: "Other number",
       type: "string",
     },

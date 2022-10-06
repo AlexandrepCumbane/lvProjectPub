@@ -40,7 +40,9 @@ function Uploader(props) {
       case "Numero do Caso":
         mappedKey = "case_number";
         break;
-
+      case "id":
+        mappedKey = "id";
+        break;
       case "Provincia":
         mappedKey = "provincia";
         break;
@@ -336,8 +338,9 @@ function Uploader(props) {
 
     let kObject = {};
 
-    entries.forEach((key) => {
+    console.log(kObject)
 
+    entries.forEach((key) => {
       // Specific known keys matching
       if (
         handleMapKey(key[0]) === "provincia" ||
@@ -394,7 +397,7 @@ function Uploader(props) {
               field["wq:ForeignKey"]
             ]?.filter((item) => item.label === ks[0][0]);
 
-            if (val.length > 0)
+            if (val?.length > 0)
               kObject[`${handleMapKey(key[0])}_id`] = val[0].id;
             else kObject[`${handleMapKey(key[0])}_id`] = "";
 
@@ -476,9 +479,11 @@ function Uploader(props) {
   const { getRootProps, getInputProps } = useDropzone({
     accept: ".xlsx, .xls, .csv",
     onDrop: (acceptedFiles) => {
+      // console.log(getRootProps,getInputProps)
       var reader = new FileReader();
       reader.onload = function () {
         var fileData = reader.result;
+        console.log(fileData)
         var wb = XLSX.read(fileData, { type: "binary" });
         wb.SheetNames.forEach(function (sheetName) {
           var rowObj = XLSX.utils.sheet_to_row_object_array(
@@ -497,9 +502,14 @@ function Uploader(props) {
       }
     },
   });
+ const handleFileUpload = (e) => {
+    let file = e.target.files[0];
+    console.log(file);
+    props.setState({uploaded_file: file})
+  };
   return (
     <section className="pb-1">
-      <div {...getRootProps({ className: "dropzone py-3 flex-column" })}>
+      <div {...getRootProps({ className: "dropzone py-3 flex-column", onChange: e =>handleFileUpload(e) })}>
         <input {...getInputProps()} />
         <DownloadCloud className="text-light" size={50} />
         <h4 className="mb-0 mt-2">Drop Excel File or Browse</h4>
@@ -518,6 +528,7 @@ class Import extends React.Component {
     value: "",
     name: "",
     uploading: false,
+    uploaded_file: null,
   };
 
   componentDidMount() {
@@ -569,9 +580,10 @@ class Import extends React.Component {
 
     this.setState({ uploading: true });
     let form = new FormData();
-    form.append("data", JSON.stringify(this.state.tableData));
+    form.append("data", this.state.uploaded_file);
+    // console.log(this.state.tableData)
     axios
-      .post(`lvforms/0/import_cases.json/`, this.state.tableData, {
+      .post(`lvforms/0/import_cases.json/`, form, {
         headers: {
           Authorization: `Bearer ${userOauth.access_token}`,
           "Content-type": "application/json",
@@ -633,6 +645,8 @@ class Import extends React.Component {
                     <Uploader
                       getTableData={this.getTableData}
                       {...this.props}
+                      uploaded_file={this.state.uploaded_file}
+                     setState={this.setState.bind(this)}
                     />
                   </Col>
                 </Row>

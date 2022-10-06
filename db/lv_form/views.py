@@ -3,6 +3,8 @@ from rest_framework import status
 from django.utils import timezone
 from rest_framework.decorators import action
 from wq.db.rest.views import ModelViewSet
+from tablib import Dataset
+from .resources import PersonResource
 
 from accounts.serializer import CustomUserFullSerializer
 from .models import ForwardCaseToFocalpoint, ForwardingInstitution, LvForm, Task
@@ -213,12 +215,20 @@ class LvFormViewSet(ModelViewSet):
         instance = self.queryset.get(case_number=request.GET['case_number'])
         serializer = self.serializer_class(instance)
         return Response(serializer.data)
-
+    #!TODO: implement django import export data
     @action(detail=True, methods=['post'])
     def import_cases(self, request, *args, **kwargs):
-        template_cases = request.data
-        map_case_fields(template_cases)
-        return Response(status=status.HTTP_201_CREATED)
+        
+        lvform_resource = PersonResource() 
+        dataset = Dataset()
+        new_lvform = request.FILES.get('data')
+        
+        dataset.load(new_lvform.read().decode(), format='csv')
+        result = lvform_resource.import_data(dataset, dry_run=True)
+        
+        if not result.has_errors():
+            lvform_resource.import_data(dataset, dry_run=False)
+            return Response("ok", status=status.HTTP_201_CREATED)
 
 
 class TaskViewSet(ModelViewSet):

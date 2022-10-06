@@ -195,6 +195,12 @@ export default {
       list: true,
       form: [
         {
+          name: "id",
+          label: "id",
+          hint: "id",
+          type: "int", 
+        },
+        {
           name: "case_number",
           label: "Case Number",
           hint: "Case number",
